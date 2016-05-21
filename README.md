@@ -1,6 +1,6 @@
 # googleway
 
-Decodes the `overview_polyline` that's generated from the [google maps directions api](https://developers.google.com/maps/documentation/directions/start#sample-request).
+Single function, `decodepl()` that decodes the `overview_polyline` that's generated from the [google maps directions api](https://developers.google.com/maps/documentation/directions/start#sample-request).
 
 ## Example
 
