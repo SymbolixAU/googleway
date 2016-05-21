@@ -9,7 +9,7 @@ using namespace std;
 // ------------------------------------------------------
 
 // [[Rcpp::export]]
-DataFrame rcpp_decode( std::string encoded ) {
+DataFrame rcpp_decodepl( std::string encoded ) {
 
   int len = encoded.size();
   int index = 0;
@@ -43,7 +43,6 @@ DataFrame rcpp_decode( std::string encoded ) {
 
     pointsLat.push_back(lat * (float)1e-5);
     pointsLon.push_back(lng * (float)1e-5);
-
   }
 
   return DataFrame::create(Named("lat") = pointsLat,

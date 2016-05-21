@@ -7,10 +7,9 @@ Decodes the `overview_polyline` that's generated from the [google maps direction
 ```
 
 ## polyline joining the capital cities of Australian states
-
 pl <- "nnseFmpzsZgalNytrXetrG}krKsaif@kivIccvzAvvqfClp~uBlymzA~ocQ}_}iCthxo@srst@"
     
-df_polyline <- decode(pl)
+df_polyline <- decodepl(pl)
 head(df_polyline); tail(df_polyline)
 #         lat      lon
 # 1 -37.78808 144.9756
