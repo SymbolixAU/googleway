@@ -9,7 +9,7 @@ using namespace std;
 // ------------------------------------------------------
 
 // [[Rcpp::export]]
-List rcpp_decode( std::string encoded ) {
+DataFrame rcpp_decode( std::string encoded ) {
 
   int len = encoded.size();
   int index = 0;
@@ -46,6 +46,6 @@ List rcpp_decode( std::string encoded ) {
 
   }
 
-  return List::create(Named("lat") = pointsLat,
-                      Named("lon") = pointsLon);
+  return DataFrame::create(Named("lat") = pointsLat,
+                           Named("lon") = pointsLon);
 }

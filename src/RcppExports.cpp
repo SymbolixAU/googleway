@@ -6,7 +6,7 @@
 using namespace Rcpp;
 
 // rcpp_decode
-List rcpp_decode(std::string encoded);
+DataFrame rcpp_decode(std::string encoded);
 RcppExport SEXP googleway_rcpp_decode(SEXP encodedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
