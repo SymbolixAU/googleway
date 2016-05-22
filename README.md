@@ -24,6 +24,13 @@ df_polyline
 
 ```
 
+## Installation
+
+```
+## not yet on CRAN. 
+## install via github
+devtools::install_github("SymbolixAU/googleway")
+```
 
 
 
