@@ -5,7 +5,7 @@ Version: 0.1
 Date: 2016-05-20
 Author: D Cooley
 Maintainer: D Cooley <dcooley@symbolix.com.au>
-Description: Decodes a polyline that's generated from [google's directions api](https://developers.google.com/maps/documentation/directions/)
+Description: Decodes a polyline that's generated from google's directions api (https://developers.google.com/maps/documentation/directions/).
 License: Apache License 2.0
 LazyData: TRUE
 Imports:
