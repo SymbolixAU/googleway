@@ -6,9 +6,9 @@ using namespace std;
 // C++ implementation of the google api polyline decoder
 // https://developers.google.com/maps/documentation/utilities/polylineutility
 //
-// This code is adapted from an Open Frameworks implementation:
+// This code is adapted from an Open Frameworks implementation
+// and used in this package with the permission of the author:
 // https://github.com/paulobarcelos/ofxGooglePolyline
-// Used here with permission of the author
 //
 // ------------------------------------------------------
 

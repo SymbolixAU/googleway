@@ -12,10 +12,16 @@
 #' @export
 decodepl <- function(encoded){
 
-  if(class(encoded) != "character" | is.vector(encoded))
-    stop("encoded must be a single string (and not a vector of strings)")
+  if(class(encoded) != "character" | length(encoded) != 1)
+    stop("encoded must be a string (with length == 1)")
 
-  rcpp_decodepl(encoded)
+  tryCatch({
+    rcpp_decodepl(encoded)
+  },
+  error = function(cond){
+    message("The encoded string could not be decoded. \nYou can manually check the encoded line at https://developers.google.com/maps/documentation/utilities/polylineutility \nIf the line can successfully be manually decoded, please file an issue: https://github.com/SymbolixAU/googleway/issues ")
+  })
+
 }
 
 
