@@ -11,6 +11,10 @@
 #' df_polyline <- decodepl(pl)
 #' @export
 decodepl <- function(encoded){
+
+  if(class(encoded) != "character" | is.vector(encoded))
+    stop("encoded must be a single string (and not a vector of strings)")
+
   rcpp_decodepl(encoded)
 }
 
