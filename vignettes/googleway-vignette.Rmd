@@ -2,7 +2,9 @@
 title: "Googleway Vignette"
 author: "D Cooley"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    fig_caption: yes
 vignette: >
   %\VignetteIndexEntry{Googleway Vignette}
   %\VignetteEngine{knitr::rmarkdown}
@@ -11,9 +13,22 @@ vignette: >
 
 ## Google Directions API
 
-[Google Maps](http://www.google.com/maps) allows users to find directions between locations.
+[**Google Maps**](http://www.google.com/maps) allows users to find directions between locations.
 
-The [Google Directions API](https://developers.google.com/maps/documentation/directions/)
+The [**Google Maps Directions API**](https://developers.google.com/maps/documentation/directions/) is a service that calculates directions between locations. An output of which is an encoded polyline.
+
+The **googleway** package decodes this polyline into a `data.frame` of latitude and longitude coordinates that represent all the waypoints of the directions.
+
+
+## Examples
+
+Searching Google Maps for directions from Melbourne to Sydney generates the route:
+
+![Melbourne to Sydney](./img/melbourne_to_sydney.png)
+
+
+
+
 
 
 Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
