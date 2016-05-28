@@ -7,11 +7,11 @@ head(df)
 
 ## ------------------------------------------------------------------------
 
-library(leaflet)
-
-leaflet(df) %>%
-  addTiles() %>%
-  addPolylines(lat = ~lat, lng = ~lon)
+# library(leaflet)
+# 
+# leaflet(df) %>%
+#   addTiles() %>%
+#   addPolylines(lat = ~lat, lng = ~lon)
 
 
 
