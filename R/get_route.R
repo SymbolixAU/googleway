@@ -29,16 +29,16 @@
 #' @export
 get_route <- function(origin,
                      destination,
-                     mode = "driving",
+                     mode = c('driving','walking','bicycling'),
                      key = NULL,
-                     output_format = "data.frame"){
+                     output_format = c('data.frame', 'JSON')){
 
   ## parameter check
   if(is.null(key))
     stop("A Valid Google Developers API key is required")
 
-  if(!tolower(mode) %in% c("driving","walking", "bicycling"))
-    stop("Mode must be either 'driving', 'waking' or 'bicycling'")
+  mode <- match.arg(mode)
+  output_format <- match.arg(output_format)
 
   origin <- fun_check(origin, "Origin")
   destination <- fun_check(destination, "Destination")

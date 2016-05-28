@@ -6,7 +6,26 @@ Functions to retreive routes from [Google Maps Directions API](https://developer
 
 `decode_pl()` decodes polyilnes that are generated from the API call.
 
-## Example
+## Examples
+
+### get_route
+
+```
+## return data.frame of route
+df <- get_route(origin = "Flinders Street Station, Melbourne",
+                destination = "MCG, Melbourne",
+                mode = "driving",
+                key = "valid_api_key",
+                output_format = "data.frame")
+                
+## return JSON of route
+js <- get_route(origin = "Flinders Street Station, Melbourne",
+                destination = "MCG, Melbourne",
+                mode = "driving",
+                key = "valid_api_key",
+                output_format = "JSON")
+
+```
 
 ```
 
