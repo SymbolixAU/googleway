@@ -1,4 +1,7 @@
+
 # googleway
+
+[![Build Status](https://travis-ci.org/symbolixau/googleway.svg?branch=master)](https://travis-ci.org/symbolixau/googleway)
 
 Functions to retreive routes from [Google Maps Directions API](https://developers.google.com/maps/documentation/directions/start#sample-request), and to decode the polylines received from the API call.
 
