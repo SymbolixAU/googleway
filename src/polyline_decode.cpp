@@ -13,7 +13,7 @@ using namespace std;
 // ------------------------------------------------------
 
 // [[Rcpp::export]]
-DataFrame rcpp_decodepl( std::string encoded ) {
+DataFrame rcpp_decode_pl( std::string encoded ) {
 
   int len = encoded.size();
   int index = 0;

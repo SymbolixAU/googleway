@@ -5,14 +5,14 @@
 
 using namespace Rcpp;
 
-// rcpp_decodepl
-DataFrame rcpp_decodepl(std::string encoded);
-RcppExport SEXP googleway_rcpp_decodepl(SEXP encodedSEXP) {
+// rcpp_decode_pl
+DataFrame rcpp_decode_pl(std::string encoded);
+RcppExport SEXP googleway_rcpp_decode_pl(SEXP encodedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< std::string >::type encoded(encodedSEXP);
-    __result = Rcpp::wrap(rcpp_decodepl(encoded));
+    __result = Rcpp::wrap(rcpp_decode_pl(encoded));
     return __result;
 END_RCPP
 }

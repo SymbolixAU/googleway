@@ -9,7 +9,9 @@ Description: Decodes a polyline of waypoints generated from google's directions 
 License: Apache License 2.0
 LazyData: TRUE
 Imports:
-    Rcpp (>= 0.12.5)
+    Rcpp (>= 0.12.5),
+    jsonlite,
+    curl
 LinkingTo: Rcpp
 RoxygenNote: 5.0.1
 BugReports: https://github.com/SymbolixAU/googleway/issues
