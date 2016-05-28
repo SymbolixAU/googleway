@@ -4,8 +4,8 @@
 \alias{get_route}
 \title{GetRoute}
 \usage{
-get_route(origin, destination, mode = c("driving", "walking", "bicycling"),
-  key = NULL, output_format = c("data.frame", "JSON"))
+get_route(origin, destination, mode = c("driving", "walking", "bicycling",
+  "transit"), key = NULL, output_format = c("data.frame", "JSON"))
 }
 \arguments{
 \item{origin}{numeric Vector of lat/lon coordinates, or an address string}

@@ -29,7 +29,7 @@
 #' @export
 get_route <- function(origin,
                      destination,
-                     mode = c('driving','walking','bicycling'),
+                     mode = c('driving','walking','bicycling','transit'),
                      key = NULL,
                      output_format = c('data.frame', 'JSON')){
 

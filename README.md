@@ -22,14 +22,14 @@ Functions to retreive routes from [Google Maps Directions API](https://developer
 df <- get_route(origin = "Flinders Street Station, Melbourne",
                 destination = "MCG, Melbourne",
                 mode = "driving",
-                key = "valid_api_key",
+                key = "<valid_api_key>",
                 output_format = "data.frame")
                 
 ## return JSON of route
 js <- get_route(origin = "Flinders Street Station, Melbourne",
                 destination = "MCG, Melbourne",
                 mode = "driving",
-                key = "valid_api_key",
+                key = "<valid_api_key>",
                 output_format = "JSON")
 
 ```
