@@ -4,5 +4,8 @@ language: R
 sudo: false
 cache: packages
 
+r_github_packages:
+  - SymbolixAU/googleway
+
 after_success:
   - Rscript -e 'covr::codecov(type = "all")'
