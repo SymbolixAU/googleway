@@ -45,4 +45,24 @@ test_that("incorrect output throws warning",{
 
 })
 
+test_that("origin is lat/lon", {
+
+  expect_error(get_route(origin = c(144.9668636),
+                         destination = c(-37.81659, 144.9841),
+                         mode = "driving",
+                         key = "abc"),
+               "Origin must be either a numeric vector of lat/lon coordinates, or an address string")
+
+})
+
+test_that("Destination is lat/lon", {
+
+  expect_error(get_route(origin = c(-37.8179746, 144.9668636),
+                         destination = c(-37.81659),
+                         mode = "driving",
+                         key = "abc"),
+               "Destination must be either a numeric vector of lat/lon coordinates, or an address string")
+
+})
+
 
