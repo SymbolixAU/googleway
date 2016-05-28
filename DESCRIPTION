@@ -1,10 +1,10 @@
 Package: googleway
 Type: Package
 Title: Decodes Polyline Generated From Google Directions API
-Version: 0.1
+Version: 0.2.0
 Date: 2016-05-20
 Authors@R: c(
-    person("David", "Cooley", , "dcooley@symbolix.com.au", c("aut", "cre", "cph"))
+    person("David", "Cooley", , "dcooley@symbolix.com.au", c("aut", "cre"))
     )
 Maintainer: D Cooley <dcooley@symbolix.com.au>
 Description: Decodes a polyline of waypoints generated from google's directions api (https://developers.google.com/maps/documentation/directions/).
