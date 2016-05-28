@@ -9,6 +9,12 @@ test_that("polyline decoded correctly", {
 
 })
 
-
-
+test_that("error message for invalid encoded type", {
+  pl <- c("a","b")
+  expect_error(decode_pl(pl),
+               "encoded must be a string of length 1")
+   pl <- 123
+   expect_error(decode_pl(pl),
+                "encoded must be a string of length 1")
+})
 
