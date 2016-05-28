@@ -1,11 +1,11 @@
 Package: googleway
 Type: Package
-Title: Functions To Retreive Routes From Google Directions API And Decode Encoded Polylines
+Title: Functions To Retrieve Routes from Google Directions API and Decode Encoded Polylines
 Version: 0.2.0
 Date: 2016-05-20
 Author: David Cooley
 Maintainer: David Cooley <dcooley@symbolix.com.au>
-Description: Retreives routes and decodes polylines generated from google's directions api (https://developers.google.com/maps/documentation/directions/).
+Description: Retrieves routes and decodes polylines generated from Google's directions API (https://developers.google.com/maps/documentation/directions/).
 License: Apache License 2.0
 LazyData: TRUE
 Depends: R (>= 3.0.0)
