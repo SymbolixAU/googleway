@@ -1,6 +1,10 @@
 # googleway
 
-Single function, `decodepl()` that decodes the `overview_polyline` that's generated from the [google maps directions api](https://developers.google.com/maps/documentation/directions/start#sample-request).
+Functions to retreive routes from [Google Maps Directions API](https://developers.google.com/maps/documentation/directions/start#sample-request), and to decode the polylines received from the API call.
+
+`get_route()` retrieves route information from Google Maps.
+
+`decode_pl()` decodes polyilnes that are generated from the API call.
 
 ## Example
 
