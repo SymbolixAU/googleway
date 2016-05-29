@@ -1,6 +1,6 @@
 Package: googleway
 Type: Package
-Title: Functions To Retrieve Routes from Google Directions API and Decode Encoded Polylines
+Title: Functions to Retrieve Routes from Google Directions API and Decode Encoded Polylines
 Version: 0.2.0
 Date: 2016-05-20
 Author: David Cooley
