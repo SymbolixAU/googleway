@@ -8,6 +8,7 @@ Maintainer: David Cooley <dcooley@symbolix.com.au>
 Description: Retrieves routes and decodes polylines generated from Google's directions API (https://developers.google.com/maps/documentation/directions/).
 License: Apache License 2.0
 LazyData: TRUE
+Depends: R (>= 3.0.0)
 Imports:
     Rcpp (>= 0.12.5),
     jsonlite (>= 0.9.20),
