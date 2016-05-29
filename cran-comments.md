@@ -1,5 +1,8 @@
 
-First submission of googleway
+Resubmission of googleway. In this version I have:
+
+* Identified the author of the c++ code in the DESCRIPTION
+* Removed redundant 'Functions to' from package title
 
 ## Test Environments
 
