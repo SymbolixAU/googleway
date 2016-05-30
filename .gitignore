@@ -2,7 +2,10 @@
 .Rhistory
 .RData
 .Ruserdata
+*.so
+*.o
 src/*.o
 src/*.so
 src/*.dll
 inst/doc
+.DS_Store
