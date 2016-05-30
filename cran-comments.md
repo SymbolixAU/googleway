@@ -1,5 +1,10 @@
 
-Resubmission of googleway. In this version I have:
+Resubmission (2) of googleway. In this version I have:
+
+* Removed mis-spelled 'Maintanier' field from DESCRIPTION
+
+
+Resubmission (1) of googleway. In this version I have:
 
 * Identified the author of the c++ code in the DESCRIPTION
 * Removed redundant 'Functions to' from package title

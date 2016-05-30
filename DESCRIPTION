@@ -7,7 +7,6 @@ Authors@R: c(
     person("David", "Cooley", ,"dcooley@symbolix.com.au", role = c("aut", "cre")),
     person("Paulo", "Barcelos", role = "ctb", comment = "Author of c++ decode_pl")
     )
-Maintanier: David Cooley <dcooley@symbolix.com.au>
 Description: Retrieves routes and decodes polylines generated from Google's directions API (https://developers.google.com/maps/documentation/directions/).
 License: Apache License 2.0
 LazyData: TRUE
