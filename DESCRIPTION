@@ -1,7 +1,7 @@
 Package: googleway
 Type: Package
 Title: Retrieve Routes from Google Directions API and Decode Encoded Polylines
-Version: 0.2.0
+Version: 0.2.0.9000
 Date: 2016-05-20
 Authors@R: c(
     person("David", "Cooley", ,"dcooley@symbolix.com.au", role = c("aut", "cre")),
