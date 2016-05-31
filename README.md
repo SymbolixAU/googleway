@@ -7,7 +7,7 @@
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/googleway)](http://cran.r-project.org/web/packages/googleway/index.html)
 [![Github Stars](https://img.shields.io/github/stars/SymbolixAU/googleway.svg?style=social&label=Github)](https://github.com/SymbolixAU/googleway)
 
-Functions to retreive routes from [Google Maps Directions API](https://developers.google.com/maps/documentation/directions/start#sample-request), and to decode the polylines received from the API call.
+Functions to retrieve routes from [Google Maps Directions API](https://developers.google.com/maps/documentation/directions/start#sample-request), and to decode the polylines received from the API call.
 
 `get_route()` retrieves route information from Google Maps.
 
@@ -57,8 +57,10 @@ df_polyline
 ## Installation
 
 ```
-## not yet on CRAN. 
-## install via github
+## install release version from CRAN
+install.packages("googleway")
+
+## install development version via github
 devtools::install_github("SymbolixAU/googleway")
 ```
 
