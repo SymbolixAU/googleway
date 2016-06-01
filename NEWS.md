@@ -3,7 +3,10 @@
 
 Development version
 
-* `get_route` accepts `alternatives` argument for displaying alternative routes
+New arguments for `get_route()` 
+
+* `alternatives` argument for displaying alternative routes
+* `avoid` - tolls, highways, ferries, indoors
 
 ## Version 0.2.0
 
