@@ -62,6 +62,7 @@ install.packages("googleway")
 
 ## install development version via github
 devtools::install_github("SymbolixAU/googleway")
+
 ```
 
 

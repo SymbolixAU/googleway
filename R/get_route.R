@@ -7,6 +7,7 @@
 #' @param origin numeric Vector of lat/lon coordinates, or an address string
 #' @param destination numeric Vector of lat/lon coordinates, or an address string
 #' @param mode string. One of 'driving', 'walking' or 'bicycling'
+#' @param alternatives logical If set to true, specifies that the Directions service may provide more than one route alternative in the response
 #' @param key string A valid Google Developers Directions API key
 #' @param output_format string Either 'data.frame' or 'JSON'
 #' @return Either data.frame or JSON string of the route between origin and destination
@@ -30,6 +31,7 @@
 get_route <- function(origin,
                      destination,
                      mode = c('driving','walking','bicycling','transit'),
+                     alternatives = FALSE,
                      key = NULL,
                      output_format = c('data.frame', 'JSON')){
 
