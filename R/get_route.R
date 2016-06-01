@@ -8,6 +8,7 @@
 #' @param destination numeric Vector of lat/lon coordinates, or an address string
 #' @param mode string. One of 'driving', 'walking' or 'bicycling'
 #' @param alternatives logical If set to true, specifies that the Directions service may provide more than one route alternative in the response
+#' @param avoid character Vector stating which features should be avoided. One of 'tolls', 'highways', 'ferries' or 'indoor'
 #' @param key string A valid Google Developers Directions API key
 #' @param output_format string Either 'data.frame' or 'JSON'
 #' @return Either data.frame or JSON string of the route between origin and destination
@@ -32,6 +33,7 @@ get_route <- function(origin,
                      destination,
                      mode = c('driving','walking','bicycling','transit'),
                      alternatives = c(FALSE, TRUE),
+                     avoid = NULL,
                      key = NULL,
                      output_format = c('data.frame', 'JSON')){
 
@@ -41,6 +43,16 @@ get_route <- function(origin,
 
   mode <- match.arg(mode)
   output_format <- match.arg(output_format)
+
+  if(!all(tolower(avoid) %in% c("tolls","highways","ferries","indoor")) & !is.null(avoid)){
+    stop("avoid must be one of tolls, highways, ferries or indoor")
+  }else{
+    if(length(avoid) > 1){
+      avoid <- paste0(tolower(avoid), collapse = "+")
+    }else{
+      avoid <- tolower(avoid)
+      }
+  }
 
   if(!is.logical(alternatives))
     stop("alternatives must be logical - TRUE or FALSE")
@@ -53,6 +65,7 @@ get_route <- function(origin,
                     "origin=", origin,
                     "&destination=", destination,
                     "&alternatives=", tolower(alternatives),
+                    "&avoid=", avoid,
                     "&mode=", tolower(mode),
                     "&key=", key)
 
