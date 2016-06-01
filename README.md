@@ -9,6 +9,8 @@
 
 Functions to retrieve routes from [Google Maps Directions API](https://developers.google.com/maps/documentation/directions/start#sample-request), and to decode the polylines received from the API call.
 
+See [News](https://github.com/SymbolixAU/googleway/blob/master/NEWS.md) for latest updates
+
 `get_route()` retrieves route information from Google Maps.
 
 `decode_pl()` decodes polyilnes that are generated from the API call.
