@@ -31,7 +31,7 @@
 get_route <- function(origin,
                      destination,
                      mode = c('driving','walking','bicycling','transit'),
-                     alternatives = FALSE,
+                     alternatives = c(FALSE, TRUE),
                      key = NULL,
                      output_format = c('data.frame', 'JSON')){
 
@@ -42,13 +42,17 @@ get_route <- function(origin,
   mode <- match.arg(mode)
   output_format <- match.arg(output_format)
 
-  origin <- fun_check(origin, "Origin")
-  destination <- fun_check(destination, "Destination")
+  if(!is.logical(alternatives))
+    stop("alternatives must be logical - TRUE or FALSE")
+
+  origin <- fun_check_location(origin, "Origin")
+  destination <- fun_check_location(destination, "Destination")
 
   ## construct url
   map_url <- paste0("https://maps.googleapis.com/maps/api/directions/json?",
                     "origin=", origin,
                     "&destination=", destination,
+                    "&alternatives=", tolower(alternatives),
                     "&mode=", tolower(mode),
                     "&key=", key)
 
@@ -64,7 +68,7 @@ get_route <- function(origin,
 }
 
 
-fun_check <- function(loc, type){
+fun_check_location <- function(loc, type){
   if(is.numeric(loc) & length(loc) == 2){
     loc <- paste0(loc, collapse = ",")
   }else if(is.character(loc) & length(loc) == 1){

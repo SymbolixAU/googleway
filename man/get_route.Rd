@@ -5,7 +5,8 @@
 \title{GetRoute}
 \usage{
 get_route(origin, destination, mode = c("driving", "walking", "bicycling",
-  "transit"), key = NULL, output_format = c("data.frame", "JSON"))
+  "transit"), alternatives = c(FALSE, TRUE), key = NULL,
+  output_format = c("data.frame", "JSON"))
 }
 \arguments{
 \item{origin}{numeric Vector of lat/lon coordinates, or an address string}
@@ -13,6 +14,8 @@ get_route(origin, destination, mode = c("driving", "walking", "bicycling",
 \item{destination}{numeric Vector of lat/lon coordinates, or an address string}
 
 \item{mode}{string. One of 'driving', 'walking' or 'bicycling'}
+
+\item{alternatives}{logical If set to true, specifies that the Directions service may provide more than one route alternative in the response}
 
 \item{key}{string A valid Google Developers Directions API key}
 
