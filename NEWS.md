@@ -3,7 +3,7 @@
 
 Development version
 
-
+* `get_route` accepts `alternatives` argument for displaying alternative routes
 
 ## Version 0.2.0
 
