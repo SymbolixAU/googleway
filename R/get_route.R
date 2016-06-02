@@ -65,8 +65,11 @@ get_route <- function(origin,
   if(!is.null(departure_time) & !inherits(departure_time, "POSIXct"))
     stop("departure_time must be a POSIXct object")
 
-  if(!is.null(departure_time) & departure_time < Sys.time())
-    stop("departure_time must be in the future or now (Sys.time())")
+  if(!is.null(departure_time)){
+    if(departure_time < Sys.time()){
+      stop("departure_time must be in the future or now (Sys.time())")
+    }
+  }
 
   if(!is.logical(alternatives))
     stop("alternatives must be logical - TRUE or FALSE")
