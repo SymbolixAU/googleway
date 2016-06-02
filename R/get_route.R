@@ -7,8 +7,11 @@
 #' @param origin numeric Vector of lat/lon coordinates, or an address string
 #' @param destination numeric Vector of lat/lon coordinates, or an address string
 #' @param mode string. One of 'driving', 'walking' or 'bicycling'
+#' @param departure_time POSIXct. Specifies the desired time of departure. Must be in the future (i.e. greater than \code{sys.time()}). If no value is specified it defaults to \code{Sys.time()}
 #' @param alternatives logical If set to true, specifies that the Directions service may provide more than one route alternative in the response
 #' @param avoid character Vector stating which features should be avoided. One of 'tolls', 'highways', 'ferries' or 'indoor'
+#' @param units string metric or imperial. Note: Only affects the text displayed within the distance field. The values are always in metric
+#' @param traffic_model string One of 'best_guess', 'pessimistic' or 'optimistic'. Only valid with a departure time
 #' @param key string A valid Google Developers Directions API key
 #' @param output_format string Either 'data.frame' or 'JSON'
 #' @return Either data.frame or JSON string of the route between origin and destination
@@ -32,8 +35,11 @@
 get_route <- function(origin,
                      destination,
                      mode = c('driving','walking','bicycling','transit'),
+                     departure_time = NULL,
                      alternatives = c(FALSE, TRUE),
                      avoid = NULL,
+                     units = c("metric", "imperial"),
+                     traffic_model = NULL,
                      key = NULL,
                      output_format = c('data.frame', 'JSON')){
 
@@ -43,6 +49,8 @@ get_route <- function(origin,
 
   mode <- match.arg(mode)
   output_format <- match.arg(output_format)
+  units <- match.arg(units)
+  traffic_model <- match.arg(traffic_model)
 
   if(!all(tolower(avoid) %in% c("tolls","highways","ferries","indoor")) & !is.null(avoid)){
     stop("avoid must be one of tolls, highways, ferries or indoor")
@@ -54,18 +62,30 @@ get_route <- function(origin,
       }
   }
 
+  if(!is.null(departure_time) & !inherits(departure_time, "POSIXct"))
+    stop("departure_time must be a POSIXct object")
+
+  if(!is.null(departure_time) & departure_time < Sys.time())
+    stop("departure_time must be in the future or now (Sys.time())")
+
   if(!is.logical(alternatives))
     stop("alternatives must be logical - TRUE or FALSE")
 
+  if(!is.null(traffic_model) & is.null(departure_time))
+    stop("traffic_model is only accepted with a valid departure_time")
+
   origin <- fun_check_location(origin, "Origin")
   destination <- fun_check_location(destination, "Destination")
+  departure_time <- ifelse(is.null(departure_time), as.integer(Sys.time()), as.integer(departure_time))
 
   ## construct url
   map_url <- paste0("https://maps.googleapis.com/maps/api/directions/json?",
                     "origin=", origin,
                     "&destination=", destination,
+                    "&departure_time=", departure_time,
                     "&alternatives=", tolower(alternatives),
                     "&avoid=", avoid,
+                    "&units=", tolower(units),
                     "&mode=", tolower(mode),
                     "&key=", key)
 

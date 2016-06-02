@@ -5,8 +5,9 @@
 \title{GetRoute}
 \usage{
 get_route(origin, destination, mode = c("driving", "walking", "bicycling",
-  "transit"), alternatives = c(FALSE, TRUE), avoid = NULL, key = NULL,
-  output_format = c("data.frame", "JSON"))
+  "transit"), departure_time = NULL, alternatives = c(FALSE, TRUE),
+  avoid = NULL, units = c("metric", "imperial"), traffic_model = NULL,
+  key = NULL, output_format = c("data.frame", "JSON"))
 }
 \arguments{
 \item{origin}{numeric Vector of lat/lon coordinates, or an address string}
@@ -15,9 +16,15 @@ get_route(origin, destination, mode = c("driving", "walking", "bicycling",
 
 \item{mode}{string. One of 'driving', 'walking' or 'bicycling'}
 
+\item{departure_time}{POSIXct. Specifies the desired time of departure. Must be in the future (i.e. greater than \code{sys.time()}). If no value is specified it defaults to \code{Sys.time()}}
+
 \item{alternatives}{logical If set to true, specifies that the Directions service may provide more than one route alternative in the response}
 
 \item{avoid}{character Vector stating which features should be avoided. One of 'tolls', 'highways', 'ferries' or 'indoor'}
+
+\item{units}{string metric or imperial. Note: Only affects the text displayed within the distance field. The values are always in metric}
+
+\item{traffic_model}{string One of 'best_guess', 'pessimistic' or 'optimistic'. Only valid with a departure time}
 
 \item{key}{string A valid Google Developers Directions API key}
 
