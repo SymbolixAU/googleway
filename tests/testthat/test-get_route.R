@@ -65,4 +65,23 @@ test_that("Destination is lat/lon", {
 
 })
 
+test_that("Avoid is a valid type", {
 
+  expect_error(get_route(origin = c(-37.8179746, 144.9668636),
+                         destination = c(-37.81659, 144.9841),
+                         avoid = "dont avoid",
+                         key = "abc",
+                         output_format = "data.frame"),
+               "avoid must be one of tolls, highways, ferries or indoor")
+})
+
+test_that("Departure time is not in the past",{
+
+  expect_error(get_route(origin = c(-37.8179746, 144.9668636),
+                         destination = c(-37.81659, 144.9841),
+                         departure_time = as.POSIXct("2015-01-01"),
+                         key = "abc",
+                         output_format = "data.frame"),
+               "departure_time must be in the future or now \\(Sys.time\\())")
+
+})
