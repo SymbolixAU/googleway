@@ -6,8 +6,9 @@
 #' @importFrom curl curl
 #' @param origin numeric Vector of lat/lon coordinates, or an address string
 #' @param destination numeric Vector of lat/lon coordinates, or an address string
-#' @param mode string. One of 'driving', 'walking' or 'bicycling'
+#' @param mode string. One of 'driving', 'walking', 'bicycling' or 'transit'.
 #' @param departure_time POSIXct. Specifies the desired time of departure. Must be in the future (i.e. greater than \code{sys.time()}). If no value is specified it defaults to \code{Sys.time()}
+#' @param waypoints list of waypoints, expressed as either a \code{vector} of lat/lon coordinates, or a \code{string} address to be geocoded. For details, see examples. Only available for transit, walking or bicycling modes.
 #' @param alternatives logical If set to true, specifies that the Directions service may provide more than one route alternative in the response
 #' @param avoid character Vector stating which features should be avoided. One of 'tolls', 'highways', 'ferries' or 'indoor'
 #' @param units string metric or imperial. Note: Only affects the text displayed within the distance field. The values are always in metric
@@ -30,13 +31,29 @@
 #'          mode = "walking",
 #'          key = "<your valid api key>")
 #'
+#'
+#'get_route(origin = "Melbourne Airport, Australia",
+#'          destination = "Portsea, Melbourne, Australia",
+#'          departure_time = as.POSIXct("2016-06-08 07:00:00"),
+#'          waypoints = list(c(-37.81659, 144.9841),
+#'                            "Ringwood, Victoria"),
+#'          mode = "driving",
+#'          alternatives = FALSE,
+#'          avoid = c("TOLLS", "highways"),
+#'          units = "imperial",
+#'          key = "<your valid api key>",
+#'          output_format = "data.frame")
+#'
+#'
+#'
 #' }
 #' @export
 get_route <- function(origin,
                      destination,
                      mode = c('driving','walking','bicycling','transit'),
                      departure_time = NULL,
-                     alternatives = c(FALSE, TRUE),
+                     waypoints = NULL,
+                     alternatives = FALSE,
                      avoid = NULL,
                      units = c("metric", "imperial"),
                      traffic_model = NULL,
@@ -52,6 +69,7 @@ get_route <- function(origin,
   units <- match.arg(units)
   traffic_model <- match.arg(traffic_model)
 
+  ## check avoid is valid
   if(!all(tolower(avoid) %in% c("tolls","highways","ferries","indoor")) & !is.null(avoid)){
     stop("avoid must be one of tolls, highways, ferries or indoor")
   }else{
@@ -62,6 +80,7 @@ get_route <- function(origin,
       }
   }
 
+  ## check departure time is valid
   if(!is.null(departure_time) & !inherits(departure_time, "POSIXct"))
     stop("departure_time must be a POSIXct object")
 
@@ -71,26 +90,47 @@ get_route <- function(origin,
     }
   }
 
+  ## check alternatives is valid
   if(!is.logical(alternatives))
     stop("alternatives must be logical - TRUE or FALSE")
 
+  ## check traffic model is valid
   if(!is.null(traffic_model) & is.null(departure_time))
     stop("traffic_model is only accepted with a valid departure_time")
 
+  ## check origin/destinations are valid
   origin <- fun_check_location(origin, "Origin")
   destination <- fun_check_location(destination, "Destination")
+
+  ## check departure time is valid
   departure_time <- ifelse(is.null(departure_time), as.integer(Sys.time()), as.integer(departure_time))
+
+  ## check waypoints are valid
+  if(!is.null(waypoints) & !mode %in% c("driving", "walking","bicycling"))
+    stop("waypoints are only valid for driving, walking or bicycling modes")
+
+  if(!is.null(waypoints) & class(waypoints) != "list")
+    stop("waypoints must be a list")
+
+  if(!is.null(waypoints)){
+    ## construct waypoint string
+    waypoints <- paste0(sapply(waypoints, function(x) fun_check_location(x, "waypoint element")), collapse = "|")
+  }
 
   ## construct url
   map_url <- paste0("https://maps.googleapis.com/maps/api/directions/json?",
                     "origin=", origin,
                     "&destination=", destination,
+                    "&waypoints=", waypoints,
                     "&departure_time=", departure_time,
                     "&alternatives=", tolower(alternatives),
                     "&avoid=", avoid,
                     "&units=", tolower(units),
                     "&mode=", tolower(mode),
                     "&key=", key)
+
+  if(length(map_url) > 1)
+    stop("invalid map_url")
 
   if(output_format == "data.frame"){
     out <- jsonlite::fromJSON(map_url)

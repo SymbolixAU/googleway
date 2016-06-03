@@ -5,18 +5,21 @@
 \title{GetRoute}
 \usage{
 get_route(origin, destination, mode = c("driving", "walking", "bicycling",
-  "transit"), departure_time = NULL, alternatives = c(FALSE, TRUE),
-  avoid = NULL, units = c("metric", "imperial"), traffic_model = NULL,
-  key = NULL, output_format = c("data.frame", "JSON"))
+  "transit"), departure_time = NULL, waypoints = NULL,
+  alternatives = FALSE, avoid = NULL, units = c("metric", "imperial"),
+  traffic_model = NULL, key = NULL, output_format = c("data.frame",
+  "JSON"))
 }
 \arguments{
 \item{origin}{numeric Vector of lat/lon coordinates, or an address string}
 
 \item{destination}{numeric Vector of lat/lon coordinates, or an address string}
 
-\item{mode}{string. One of 'driving', 'walking' or 'bicycling'}
+\item{mode}{string. One of 'driving', 'walking', 'bicycling' or 'transit'.}
 
 \item{departure_time}{POSIXct. Specifies the desired time of departure. Must be in the future (i.e. greater than \code{sys.time()}). If no value is specified it defaults to \code{Sys.time()}}
+
+\item{waypoints}{list of waypoints, expressed as either a \code{vector} of lat/lon coordinates, or a \code{string} address to be geocoded. For details, see examples. Only available for transit, walking or bicycling modes.}
 
 \item{alternatives}{logical If set to true, specifies that the Directions service may provide more than one route alternative in the response}
 
@@ -50,6 +53,21 @@ get_route(origin = "Flinders Street Station, Melbourne",
          destination = "MCG, Melbourne",
          mode = "walking",
          key = "<your valid api key>")
+
+
+get_route(origin = "Melbourne Airport, Australia",
+         destination = "Portsea, Melbourne, Australia",
+         departure_time = as.POSIXct("2016-06-08 07:00:00"),
+         waypoints = list(c(-37.81659, 144.9841),
+                           "Ringwood, Victoria"),
+         mode = "driving",
+         alternatives = FALSE,
+         avoid = c("TOLLS", "highways"),
+         units = "imperial",
+         key = "<your valid api key>",
+         output_format = "data.frame")
+
+
 
 }
 }

@@ -85,3 +85,32 @@ test_that("Departure time is not in the past",{
                "departure_time must not be in the past")
 
 })
+
+test_that("waypoints only valid for certain modes",{
+
+  expect_error(get_route(origin = "Melbourne Airport",
+              destination = "Sorrento",
+              waypoints = list(c(-37.81659, 144.9841),
+                                "Ringwood, Victoria"),
+              key = key),
+              "waypoints are only valid for driving, walking or bicycling modes")
+
+})
+
+test_that("waypoints are a list",{
+
+  expect_error(get_route(origin = "Melbourne Airport",
+                         destination = "Sorrento",
+                         waypoints = c(-37.81659, 144.9841),
+                         key = key),
+               "waypoints must be a list")
+})
+
+test_that("map url is a single string",{
+
+  expect_error(get_route(origin = "Melbourne Airport",
+                         destination = "Sorrento",
+                         alternatives = c(FALSE, TRUE),
+                         key = key),
+               "invalid map_url")
+})
