@@ -82,6 +82,6 @@ test_that("Departure time is not in the past",{
                          departure_time = as.POSIXct("2015-01-01"),
                          key = "abc",
                          output_format = "data.frame"),
-               "departure_time must be in the future or now \\(Sys.time\\())")
+               "departure_time must not be in the past")
 
 })

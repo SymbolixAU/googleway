@@ -67,7 +67,7 @@ get_route <- function(origin,
 
   if(!is.null(departure_time)){
     if(departure_time < Sys.time()){
-      stop("departure_time must be in the future or now (Sys.time())")
+      stop("departure_time must not be in the past")
     }
   }
 
