@@ -204,7 +204,7 @@ get_route <- function(origin,
     stop("language must be a single character vector or string")
 
   ## region check
-  if(!is.null(region) & (class(region) != "character" | length(region) > 1 | nchar(region) != 2))
+  if(!is.null(region) & (class(region) != "character" | length(region) > 1))
      stop("region must be a two-character string")
 
   ## construct url
