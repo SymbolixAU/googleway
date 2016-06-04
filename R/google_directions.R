@@ -4,7 +4,6 @@
 #'
 #' @importFrom jsonlite fromJSON
 #' @importFrom curl curl
-#' @aliases get_route
 #' @param origin numeric Vector of lat/lon coordinates, or an address string
 #' @param destination numeric Vector of lat/lon coordinates, or an address string
 #' @param mode string. One of 'driving', 'walking', 'bicycling' or 'transit'.
