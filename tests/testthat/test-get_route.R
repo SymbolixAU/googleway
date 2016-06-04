@@ -30,7 +30,7 @@ test_that("incorrect mode throws error", {
                          mode = "non-mode",
                          key = "abc",
                          output_format = "data.frame"),
-               "'arg' should be one of \"driving\", \"walking\", \"bicycling\"")
+               "'arg' should be one of “driving”, “walking”, “bicycling”, “transit”")
 
 })
 
@@ -41,7 +41,7 @@ test_that("incorrect output throws warning",{
                          mode = "driving",
                          key = "abc",
                          output_format = "non-output"),
-               "'arg' should be one of \"data.frame\", \"JSON\"")
+               "'arg' should be one of “data.frame”, “JSON”")
 
 })
 
@@ -92,9 +92,9 @@ test_that("waypoints only valid for certain modes",{
               destination = "Sorrento",
               waypoints = list(c(-37.81659, 144.9841),
                                 "Ringwood, Victoria"),
+              mode = "transit",
               key = "abc"),
               "waypoints are only valid for driving, walking or bicycling modes")
-
 })
 
 test_that("waypoints are a list",{
