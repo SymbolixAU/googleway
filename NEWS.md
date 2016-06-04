@@ -1,5 +1,5 @@
 
-## Version 0.2.0.9000 - Dev
+## Version 0.3.0 - Development version on github
 
 Development version
 
@@ -7,7 +7,7 @@ Development version
 
 `get_route()` is now deprecated. Use `google_directions()` instead.
 
-New arguments for `get_route()` 
+New arguments for `get_route()` , closes [#1](https://github.com/SymbolixAU/googleway/issues/1)
 
 * `waypoints`
 * `departure_time` 
