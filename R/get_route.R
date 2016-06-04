@@ -8,11 +8,12 @@
 #' @param destination numeric Vector of lat/lon coordinates, or an address string
 #' @param mode string. One of 'driving', 'walking', 'bicycling' or 'transit'.
 #' @param departure_time POSIXct. Specifies the desired time of departure. Must be in the future (i.e. greater than \code{sys.time()}). If no value is specified it defaults to \code{Sys.time()}
-#' @param waypoints list of waypoints, expressed as either a \code{vector} of lat/lon coordinates, or a \code{string} address to be geocoded. For details, see examples. Only available for transit, walking or bicycling modes.
+#' @param waypoints list of waypoints, expressed as either a \code{vector} of lat/lon coordinates, or a \code{string} address to be geocoded. Only available for transit, walking or bicycling modes. Name the list element 'via' to avoid including a stopover for a waypoint. See \link{https://developers.google.com/maps/documentation/directions/intro#Waypoints} for details
 #' @param alternatives logical If set to true, specifies that the Directions service may provide more than one route alternative in the response
 #' @param avoid character Vector stating which features should be avoided. One of 'tolls', 'highways', 'ferries' or 'indoor'
 #' @param units string metric or imperial. Note: Only affects the text displayed within the distance field. The values are always in metric
 #' @param traffic_model string One of 'best_guess', 'pessimistic' or 'optimistic'. Only valid with a departure time
+#' @param transit_mode vector of strings, either 'bus', 'subway', 'train', 'tram' or 'rail'. Only vaid where \code{mode = 'transit'}. Note that 'rail' is equivalent to \code{transit_mode=c("train", "tram", "subway")}
 #' @param key string A valid Google Developers Directions API key
 #' @param output_format string Either 'data.frame' or 'JSON'
 #' @return Either data.frame or JSON string of the route between origin and destination
@@ -36,7 +37,7 @@
 #'          destination = "Portsea, Melbourne, Australia",
 #'          departure_time = as.POSIXct("2016-06-08 07:00:00"),
 #'          waypoints = list(c(-37.81659, 144.9841),
-#'                            "Ringwood, Victoria"),
+#'                            via = "Ringwood, Victoria"),
 #'          mode = "driving",
 #'          alternatives = FALSE,
 #'          avoid = c("TOLLS", "highways"),
@@ -57,6 +58,7 @@ get_route <- function(origin,
                      avoid = NULL,
                      units = c("metric", "imperial"),
                      traffic_model = NULL,
+                     transit_mode = NULL,
                      key = NULL,
                      output_format = c('data.frame', 'JSON')){
 
@@ -68,6 +70,14 @@ get_route <- function(origin,
   output_format <- match.arg(output_format)
   units <- match.arg(units)
   traffic_model <- match.arg(traffic_model)
+
+  ## transit_mode is only valid where mode = transit
+  if(!is.null(transit_mode) & mode != "transit"){
+    warning("You have specified a transit_mode, but are not using mode = 'transit'. Therefore this argument will be ignored")
+    transit_mode <- NULL
+  }else if(!is.null(transit_mode) & mode == "transit"){
+    transit_mode <- match.arg(transit_mode, choices = c("bus","subway","train","tram","rail"))
+  }
 
   ## check avoid is valid
   if(!all(tolower(avoid) %in% c("tolls","highways","ferries","indoor")) & !is.null(avoid)){
@@ -112,10 +122,27 @@ get_route <- function(origin,
   if(!is.null(waypoints) & class(waypoints) != "list")
     stop("waypoints must be a list")
 
+  if(!is.null(waypoints) & !all(names(lst) %in% c("", "via")))
+    stop("'via' is the only valid name for a waypoint element")
+
   if(!is.null(waypoints)){
     ## construct waypoint string
-    waypoints <- paste0(sapply(waypoints, function(x) fun_check_location(x, "waypoint element")), collapse = "|")
+    # waypoints <- paste0(lapply(waypoints, function(x) fun_check_waypoints(x)), collapse = "|")
+
+    waypoints <- sapply(1:length(waypoints), function(x) {
+      if(length(names(waypoints)) > 0){
+        if(names(waypoints)[x] == "via"){
+          paste0("via:", fun_check_location(waypoints[[x]]))
+        }else{
+          fun_check_location(waypoints[[x]])
+        }
+      }else{
+        fun_check_location(waypoints[[x]])
+      }
+    })
+    waypoints <- paste0(waypoints, collapse = "|")
   }
+
 
   ## construct url
   map_url <- paste0("https://maps.googleapis.com/maps/api/directions/json?",
@@ -127,6 +154,7 @@ get_route <- function(origin,
                     "&avoid=", avoid,
                     "&units=", tolower(units),
                     "&mode=", tolower(mode),
+                    "&transit_mode=", transit_mode,
                     "&key=", key)
 
   if(length(map_url) > 1)
@@ -152,4 +180,7 @@ fun_check_location <- function(loc, type){
   }else{
     stop(paste0(type, " must be either a numeric vector of lat/lon coordinates, or an address string"))
   }
+  return(loc)
 }
+
+

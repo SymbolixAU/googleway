@@ -92,7 +92,7 @@ test_that("waypoints only valid for certain modes",{
               destination = "Sorrento",
               waypoints = list(c(-37.81659, 144.9841),
                                 "Ringwood, Victoria"),
-              key = key),
+              key = "abc"),
               "waypoints are only valid for driving, walking or bicycling modes")
 
 })
@@ -102,7 +102,7 @@ test_that("waypoints are a list",{
   expect_error(get_route(origin = "Melbourne Airport",
                          destination = "Sorrento",
                          waypoints = c(-37.81659, 144.9841),
-                         key = key),
+                         key = "abc"),
                "waypoints must be a list")
 })
 
@@ -111,6 +111,28 @@ test_that("map url is a single string",{
   expect_error(get_route(origin = "Melbourne Airport",
                          destination = "Sorrento",
                          alternatives = c(FALSE, TRUE),
-                         key = key),
+                         key = "abc"),
                "invalid map_url")
 })
+
+
+test_that("transit_mode issues warning when mode != transit",{
+
+  expect_warning(get_route(origin = "Melbourne Airport, Australia",
+                           destination = "Portsea, Melbourne, Australia",
+                           departure_time = as.POSIXct("2016-06-08 07:00:00"),
+                           waypoints = list(via = c(-37.81659, 144.9841),
+                                            via = "Ringwood, Victoria"),
+                           transit_mode = "bus",
+                           key = "abc"),
+                 "You have specified a transit_mode, but are not using mode = 'transit'. Therefore this argument will be ignored")
+
+})
+
+
+
+
+
+
+
+

@@ -7,8 +7,8 @@
 get_route(origin, destination, mode = c("driving", "walking", "bicycling",
   "transit"), departure_time = NULL, waypoints = NULL,
   alternatives = FALSE, avoid = NULL, units = c("metric", "imperial"),
-  traffic_model = NULL, key = NULL, output_format = c("data.frame",
-  "JSON"))
+  traffic_model = NULL, transit_mode = NULL, key = NULL,
+  output_format = c("data.frame", "JSON"))
 }
 \arguments{
 \item{origin}{numeric Vector of lat/lon coordinates, or an address string}
@@ -19,7 +19,7 @@ get_route(origin, destination, mode = c("driving", "walking", "bicycling",
 
 \item{departure_time}{POSIXct. Specifies the desired time of departure. Must be in the future (i.e. greater than \code{sys.time()}). If no value is specified it defaults to \code{Sys.time()}}
 
-\item{waypoints}{list of waypoints, expressed as either a \code{vector} of lat/lon coordinates, or a \code{string} address to be geocoded. For details, see examples. Only available for transit, walking or bicycling modes.}
+\item{waypoints}{list of waypoints, expressed as either a \code{vector} of lat/lon coordinates, or a \code{string} address to be geocoded. Only available for transit, walking or bicycling modes. Name the list element 'via' to avoid including a stopover for a waypoint. See \link{https://developers.google.com/maps/documentation/directions/intro#Waypoints} for details}
 
 \item{alternatives}{logical If set to true, specifies that the Directions service may provide more than one route alternative in the response}
 
@@ -28,6 +28,8 @@ get_route(origin, destination, mode = c("driving", "walking", "bicycling",
 \item{units}{string metric or imperial. Note: Only affects the text displayed within the distance field. The values are always in metric}
 
 \item{traffic_model}{string One of 'best_guess', 'pessimistic' or 'optimistic'. Only valid with a departure time}
+
+\item{transit_mode}{vector of strings, either 'bus', 'subway', 'train', 'tram' or 'rail'. Only vaid where \code{mode = 'transit'}. Note that 'rail' is equivalent to \code{transit_mode=c("train", "tram", "subway")}}
 
 \item{key}{string A valid Google Developers Directions API key}
 
@@ -59,7 +61,7 @@ get_route(origin = "Melbourne Airport, Australia",
          destination = "Portsea, Melbourne, Australia",
          departure_time = as.POSIXct("2016-06-08 07:00:00"),
          waypoints = list(c(-37.81659, 144.9841),
-                           "Ringwood, Victoria"),
+                           via = "Ringwood, Victoria"),
          mode = "driving",
          alternatives = FALSE,
          avoid = c("TOLLS", "highways"),
