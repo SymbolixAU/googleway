@@ -122,7 +122,7 @@ get_route <- function(origin,
   if(!is.null(waypoints) & class(waypoints) != "list")
     stop("waypoints must be a list")
 
-  if(!is.null(waypoints) & !all(names(lst) %in% c("", "via")))
+  if(!is.null(waypoints) & !all(names(waypoints) %in% c("", "via")))
     stop("'via' is the only valid name for a waypoint element")
 
   if(!is.null(waypoints)){
