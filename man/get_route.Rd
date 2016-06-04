@@ -19,7 +19,7 @@ get_route(origin, destination, mode = c("driving", "walking", "bicycling",
 
 \item{departure_time}{POSIXct. Specifies the desired time of departure. Must be in the future (i.e. greater than \code{sys.time()}). If no value is specified it defaults to \code{Sys.time()}}
 
-\item{waypoints}{list of waypoints, expressed as either a \code{vector} of lat/lon coordinates, or a \code{string} address to be geocoded. Only available for transit, walking or bicycling modes. Name the list element 'via' to avoid including a stopover for a waypoint. See \link{https://developers.google.com/maps/documentation/directions/intro#Waypoints} for details}
+\item{waypoints}{list of waypoints, expressed as either a \code{vector} of lat/lon coordinates, or a \code{string} address to be geocoded. Only available for transit, walking or bicycling modes. Name the list element 'via' to avoid including a stopover for a waypoint. See \url{https://developers.google.com/maps/documentation/directions/intro#Waypoints} for details}
 
 \item{alternatives}{logical If set to true, specifies that the Directions service may provide more than one route alternative in the response}
 
