@@ -5,9 +5,10 @@
 \title{GetRoute}
 \usage{
 get_route(origin, destination, mode = c("driving", "walking", "bicycling",
-  "transit"), departure_time = NULL, waypoints = NULL,
-  alternatives = FALSE, avoid = NULL, units = c("metric", "imperial"),
-  traffic_model = NULL, transit_mode = NULL, key = NULL,
+  "transit"), departure_time = NULL, arrival_time = NULL,
+  waypoints = NULL, alternatives = FALSE, avoid = NULL,
+  units = c("metric", "imperial"), traffic_model = NULL,
+  transit_mode = NULL, transit_routing_preference = NULL, key = NULL,
   output_format = c("data.frame", "JSON"))
 }
 \arguments{
@@ -18,6 +19,8 @@ get_route(origin, destination, mode = c("driving", "walking", "bicycling",
 \item{mode}{string. One of 'driving', 'walking', 'bicycling' or 'transit'.}
 
 \item{departure_time}{POSIXct. Specifies the desired time of departure. Must be in the future (i.e. greater than \code{sys.time()}). If no value is specified it defaults to \code{Sys.time()}}
+
+\item{arrival_time}{POSIXct. Specifies teh desired time of arrival. Note you can only specify one of \code{arrival_time} or \code{departure_time}, not both. If both are supplied, \code{departure_time} will be used.}
 
 \item{waypoints}{list of waypoints, expressed as either a \code{vector} of lat/lon coordinates, or a \code{string} address to be geocoded. Only available for transit, walking or bicycling modes. Name the list element 'via' to avoid including a stopover for a waypoint. See \url{https://developers.google.com/maps/documentation/directions/intro#Waypoints} for details}
 
@@ -30,6 +33,8 @@ get_route(origin, destination, mode = c("driving", "walking", "bicycling",
 \item{traffic_model}{string One of 'best_guess', 'pessimistic' or 'optimistic'. Only valid with a departure time}
 
 \item{transit_mode}{vector of strings, either 'bus', 'subway', 'train', 'tram' or 'rail'. Only vaid where \code{mode = 'transit'}. Note that 'rail' is equivalent to \code{transit_mode=c("train", "tram", "subway")}}
+
+\item{transit_routing_preference}{vector strings one of 'less_walking' and 'fewer_transfers'. specifies preferences for transit routes. Only valid for transit directions.}
 
 \item{key}{string A valid Google Developers Directions API key}
 
@@ -69,6 +74,15 @@ get_route(origin = "Melbourne Airport, Australia",
          key = "<your valid api key>",
          output_format = "data.frame")
 
+## using bus and less walking
+get_route(origin = "Melbourne Airport, Australia",
+         destination = "Portsea, Melbourne, Australia",
+         departure_time = as.POSIXct("2016-06-08 07:00:00"),
+         mode = "transit",
+         transit_mode = "bus",
+         transit_routing_preference = "less_walking",
+         key = "<your valid api key>",
+         output_format = "JSON")
 
 
 }

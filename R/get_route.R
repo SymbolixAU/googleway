@@ -8,12 +8,14 @@
 #' @param destination numeric Vector of lat/lon coordinates, or an address string
 #' @param mode string. One of 'driving', 'walking', 'bicycling' or 'transit'.
 #' @param departure_time POSIXct. Specifies the desired time of departure. Must be in the future (i.e. greater than \code{sys.time()}). If no value is specified it defaults to \code{Sys.time()}
+#' @param arrival_time POSIXct. Specifies teh desired time of arrival. Note you can only specify one of \code{arrival_time} or \code{departure_time}, not both. If both are supplied, \code{departure_time} will be used.
 #' @param waypoints list of waypoints, expressed as either a \code{vector} of lat/lon coordinates, or a \code{string} address to be geocoded. Only available for transit, walking or bicycling modes. Name the list element 'via' to avoid including a stopover for a waypoint. See \url{https://developers.google.com/maps/documentation/directions/intro#Waypoints} for details
 #' @param alternatives logical If set to true, specifies that the Directions service may provide more than one route alternative in the response
 #' @param avoid character Vector stating which features should be avoided. One of 'tolls', 'highways', 'ferries' or 'indoor'
 #' @param units string metric or imperial. Note: Only affects the text displayed within the distance field. The values are always in metric
 #' @param traffic_model string One of 'best_guess', 'pessimistic' or 'optimistic'. Only valid with a departure time
 #' @param transit_mode vector of strings, either 'bus', 'subway', 'train', 'tram' or 'rail'. Only vaid where \code{mode = 'transit'}. Note that 'rail' is equivalent to \code{transit_mode=c("train", "tram", "subway")}
+#' @param transit_routing_preference vector strings one of 'less_walking' and 'fewer_transfers'. specifies preferences for transit routes. Only valid for transit directions.
 #' @param key string A valid Google Developers Directions API key
 #' @param output_format string Either 'data.frame' or 'JSON'
 #' @return Either data.frame or JSON string of the route between origin and destination
@@ -45,7 +47,25 @@
 #'          key = "<your valid api key>",
 #'          output_format = "data.frame")
 #'
+#' ## using bus and less walking
+#' get_route(origin = "Melbourne Airport, Australia",
+#'          destination = "Portsea, Melbourne, Australia",
+#'          departure_time = as.POSIXct("2016-06-08 07:00:00"),
+#'          mode = "transit",
+#'          transit_mode = "bus",
+#'          transit_routing_preference = "less_walking",
+#'          key = "<your valid api key>",
+#'          output_format = "JSON")
 #'
+#' ## using arrival time
+#' get_route(origin = "Melbourne Airport, Australia",
+#'          destination = "Portsea, Melbourne, Australia",
+#'          arrival_time = as.POSIXct("2016-06-08 16:00:00", tz = "Australia/Melbourne),
+#'          mode = "transit",
+#'          transit_mode = "bus",
+#'          transit_routing_preference = "less_walking",
+#'          key = "<your valid api key>",
+#'          output_format = "JSON")
 #'
 #' }
 #' @export
@@ -53,12 +73,14 @@ get_route <- function(origin,
                      destination,
                      mode = c('driving','walking','bicycling','transit'),
                      departure_time = NULL,
+                     arrival_time = NULL,
                      waypoints = NULL,
                      alternatives = FALSE,
                      avoid = NULL,
                      units = c("metric", "imperial"),
                      traffic_model = NULL,
                      transit_mode = NULL,
+                     transit_routing_preference = NULL,
                      key = NULL,
                      output_format = c('data.frame', 'JSON')){
 
@@ -77,6 +99,15 @@ get_route <- function(origin,
     transit_mode <- NULL
   }else if(!is.null(transit_mode) & mode == "transit"){
     transit_mode <- match.arg(transit_mode, choices = c("bus","subway","train","tram","rail"))
+  }
+
+  ## transit_routing_preference only valid where mode == transit
+  if(!is.null(transit_routing_preference) & mode != "transit"){
+    warning("You have specified a transit_routing_preference, but are not using mode = 'transit'. Therefore this argument will be ignored")
+    transit_routing_preference <- NULL
+  }else if(!is.null(transit_routing_preference) & mode == "transit"){
+    transit_routing_preference <- match.arg(transit_routing_preference, choices = c("less_walking","fewer_transfers"))
+    transit_routing_preference <- paste0(transit_routing_preference, collapse = "|")
   }
 
   ## check avoid is valid
@@ -100,6 +131,15 @@ get_route <- function(origin,
     }
   }
 
+  ## check arrival time is valid
+  if(!is.null(arrival_time) & !inherits(arrival_time, "POSIXct"))
+     stop("arrival_time must be a POSIXct object")
+
+  if(!is.null(arrival_time) & !is.null(departure_time)){
+    warning("you have supplied both an arrival_time and a departure_time - only one is allowed. The arrival_time will be ignored")
+    arrival_time <- NULL
+  }
+
   ## check alternatives is valid
   if(!is.logical(alternatives))
     stop("alternatives must be logical - TRUE or FALSE")
@@ -114,6 +154,7 @@ get_route <- function(origin,
 
   ## check departure time is valid
   departure_time <- ifelse(is.null(departure_time), as.integer(Sys.time()), as.integer(departure_time))
+  arrival_time <- as.integer(arrival_time)
 
   ## check waypoints are valid
   if(!is.null(waypoints) & !mode %in% c("driving", "walking","bicycling"))
@@ -150,11 +191,13 @@ get_route <- function(origin,
                     "&destination=", destination,
                     "&waypoints=", waypoints,
                     "&departure_time=", departure_time,
+                    "&arrival_time=", arrival_time,
                     "&alternatives=", tolower(alternatives),
                     "&avoid=", avoid,
                     "&units=", tolower(units),
                     "&mode=", tolower(mode),
                     "&transit_mode=", transit_mode,
+                    "&transit_routing_preference=", transit_routing_preference,
                     "&key=", key)
 
   if(length(map_url) > 1)
