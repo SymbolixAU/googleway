@@ -51,7 +51,7 @@ google_distance <- function(origins,
                             key = NULL,
                             output_format = c('data.frame', 'JSON')){
 
-  retrieve_data(base_url = "https://maps.googleapis.com/maps/api/distancematrix/json?",
+  directions_data(base_url = "https://maps.googleapis.com/maps/api/distancematrix/json?",
                 information_type = "distance",
                 origin = origins,
                 destination = destinations,

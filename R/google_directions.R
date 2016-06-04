@@ -99,7 +99,7 @@ google_directions <- function(origin,
                               key = NULL,
                               output_format = c('data.frame', 'JSON')){
 
-  retrieve_data(base_url = "https://maps.googleapis.com/maps/api/directions/json?",
+  directions_data(base_url = "https://maps.googleapis.com/maps/api/directions/json?",
                 information_type = "directions",
                 origin,
                 destination,

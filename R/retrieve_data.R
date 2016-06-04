@@ -1,5 +1,5 @@
 
-retrieve_data <- function(base_url,
+directions_data <- function(base_url,
                           information_type = c("directions","distance"),
                           origin,
                           destination,

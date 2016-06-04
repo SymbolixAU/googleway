@@ -3,6 +3,8 @@
 
 Development version
 
+`google_geocode()` implemented. Returns a lat/lon encoding of a given address
+
 `google_distance()` implemented. Returns a distance matrix from Google Distance API call.
 
 `get_route()` is now deprecated. Use `google_directions()` instead.
