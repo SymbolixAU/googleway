@@ -159,6 +159,13 @@ directions_data <- function(base_url,
   if(length(map_url) > 1)
     stop("invalid map_url")
 
+  return(fun_download_data(map_url, output_format))
+
+}
+
+
+fun_download_data <- function(map_url, output_format){
+
   if(output_format == "data.frame"){
     out <- jsonlite::fromJSON(map_url)
   }else if(output_format == "JSON"){
@@ -168,8 +175,8 @@ directions_data <- function(base_url,
     close(con)   ## readLines closes a connection, but does not destroy it
   }
   return(out)
-
 }
+
 
 fun_check_multiple_locations <- function(loc, type){
   loc <- sapply(1:length(loc), function(x) {
@@ -189,4 +196,12 @@ fun_check_location <- function(loc, type){
   return(loc)
 }
 
+fun_check_address <- function(address){
+  if(is.character(address) & length(address) == 1){
+    address <- gsub(" ", "+", address)
+  }else{
+    stop("address must be a string of length 1")
+  }
+  return(address)
+}
 

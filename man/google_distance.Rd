@@ -45,7 +45,7 @@ google_distance(origins, destinations, mode = c("driving", "walking",
 \item{output_format}{string Either 'data.frame' or 'JSON'}
 }
 \value{
-Either data.frame or JSON string of the route between origin and destination
+Either data.frame or JSON string of the distance between origins and destinations
 }
 \description{
 The Google Maps Distance Matrix API is a service that provides travel distance and time for a matrix of origins and destinations, based on the recommended route between start and end points.

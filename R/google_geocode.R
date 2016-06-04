@@ -8,6 +8,7 @@
 #' @param region string Specifies the region code, specified as a ccTLD ("top-level domain"). See region basing for details \url{https://developers.google.com/maps/documentation/directions/intro#RegionBiasing}
 #' @param key string A valid Google Developers Directions API key
 #' @param output_format string Either 'data.frame' or 'JSON'
+#' @return Either data.frame or JSON string of the geocoded address
 #' @examples
 #' \dontrun{
 #' df <- google_geocode(address = "MCG, Melbourne, Australia",
@@ -70,23 +71,6 @@ google_geocode <- function(address,
   if(length(map_url) > 1)
     stop("invalid map_url")
 
-  if(output_format == "data.frame"){
-    out <- jsonlite::fromJSON(map_url)
-  }else if(output_format == "JSON"){
-    # out <- readLines(curl::curl(map_url))
-    con <- curl::curl(map_url)
-    out <- readLines(con)
-    close(con)   ## readLines closes a connection, but does not destroy it
-  }
-  return(out)
+  return(fun_download_data(map_url, output_format))
 
-}
-
-fun_check_address <- function(address){
-  if(is.character(address) & length(address) == 1){
-    address <- gsub(" ", "+", address)
-  }else{
-    stop("address must be a string of length 1")
-  }
-  return(address)
 }

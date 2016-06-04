@@ -20,7 +20,7 @@
 #' @param region string Specifies the region code, specified as a ccTLD ("top-level domain"). See region basing for details \url{https://developers.google.com/maps/documentation/directions/intro#RegionBiasing}
 #' @param key string A valid Google Developers Directions API key
 #' @param output_format string Either 'data.frame' or 'JSON'
-#' @return Either data.frame or JSON string of the route between origin and destination
+#' @return Either data.frame or JSON string of the distance between origins and destinations
 #' @examples
 #' \dontrun{
 #' google_distance(origins = list(c("Melbourne Airport, Australia"),
