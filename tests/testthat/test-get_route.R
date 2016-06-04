@@ -1,6 +1,4 @@
-# library(testthat)
-# library(googleway)
-context("get route")
+context("google directions")
 
 ## api keys are not included in the package
 ## and so can't be tested
@@ -8,11 +6,11 @@ skip_api_key <- function() {
   skip("key not available")
 }
 
-test_that("get_route returns data.frame", {
+test_that("google_directions returns data.frame", {
   ## skip this test
   skip_api_key()
 
-  df <- get_route(origin = c(-37.8179746, 144.9668636),
+  df <- google_directions(origin = c(-37.8179746, 144.9668636),
                   destination = c(-37.81659, 144.9841),
                   mode = "walking",
                   key = key,
@@ -25,7 +23,7 @@ test_that("get_route returns data.frame", {
 
 # test_that("incorrect mode throws error", {
 #
-#   expect_error(get_route(origin = c(-37.8179746, 144.9668636),
+#   expect_error(google_directions(origin = c(-37.8179746, 144.9668636),
 #                          destination = c(-37.81659, 144.9841),
 #                          mode = "non-mode",
 #                          key = "abc",
@@ -36,7 +34,7 @@ test_that("get_route returns data.frame", {
 #
 # test_that("incorrect output throws warning",{
 #
-#   expect_error(get_route(origin = c(-37.8179746, 144.9668636),
+#   expect_error(google_directions(origin = c(-37.8179746, 144.9668636),
 #                          destination = c(-37.81659, 144.9841),
 #                          mode = "driving",
 #                          key = "abc",
@@ -47,7 +45,7 @@ test_that("get_route returns data.frame", {
 
 test_that("origin is lat/lon", {
 
-  expect_error(get_route(origin = c(144.9668636),
+  expect_error(google_directions(origin = c(144.9668636),
                          destination = c(-37.81659, 144.9841),
                          mode = "driving",
                          key = "abc"),
@@ -57,7 +55,7 @@ test_that("origin is lat/lon", {
 
 test_that("Destination is lat/lon", {
 
-  expect_error(get_route(origin = c(-37.8179746, 144.9668636),
+  expect_error(google_directions(origin = c(-37.8179746, 144.9668636),
                          destination = c(-37.81659),
                          mode = "driving",
                          key = "abc"),
@@ -67,7 +65,7 @@ test_that("Destination is lat/lon", {
 
 test_that("Avoid is a valid type", {
 
-  expect_error(get_route(origin = c(-37.8179746, 144.9668636),
+  expect_error(google_directions(origin = c(-37.8179746, 144.9668636),
                          destination = c(-37.81659, 144.9841),
                          avoid = "dont avoid",
                          key = "abc",
@@ -77,7 +75,7 @@ test_that("Avoid is a valid type", {
 
 test_that("Departure time is not in the past",{
 
-  expect_error(get_route(origin = c(-37.8179746, 144.9668636),
+  expect_error(google_directions(origin = c(-37.8179746, 144.9668636),
                          destination = c(-37.81659, 144.9841),
                          departure_time = as.POSIXct("2015-01-01"),
                          key = "abc",
@@ -88,7 +86,7 @@ test_that("Departure time is not in the past",{
 
 test_that("waypoints only valid for certain modes",{
 
-  expect_error(get_route(origin = "Melbourne Airport",
+  expect_error(google_directions(origin = "Melbourne Airport",
               destination = "Sorrento",
               waypoints = list(c(-37.81659, 144.9841),
                                 "Ringwood, Victoria"),
@@ -99,7 +97,7 @@ test_that("waypoints only valid for certain modes",{
 
 test_that("waypoints are a list",{
 
-  expect_error(get_route(origin = "Melbourne Airport",
+  expect_error(google_directions(origin = "Melbourne Airport",
                          destination = "Sorrento",
                          waypoints = c(-37.81659, 144.9841),
                          key = "abc"),
@@ -108,7 +106,7 @@ test_that("waypoints are a list",{
 
 test_that("map url is a single string",{
 
-  expect_error(get_route(origin = "Melbourne Airport",
+  expect_error(google_directions(origin = "Melbourne Airport",
                          destination = "Sorrento",
                          alternatives = c(FALSE, TRUE),
                          key = "abc"),
@@ -118,7 +116,7 @@ test_that("map url is a single string",{
 
 test_that("transit_mode issues warning when mode != transit",{
 
-  expect_warning(get_route(origin = "Melbourne Airport, Australia",
+  expect_warning(google_directions(origin = "Melbourne Airport, Australia",
                            destination = "Portsea, Melbourne, Australia",
                            departure_time = as.POSIXct("2016-06-08 07:00:00"),
                            waypoints = list(via = c(-37.81659, 144.9841),

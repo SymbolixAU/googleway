@@ -1,5 +1,3 @@
-# library(testthat)
-# library(googleway)
 context("decode pl")
 
 test_that("polyline decoded correctly", {

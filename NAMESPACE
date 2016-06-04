@@ -2,6 +2,8 @@
 
 export(decode_pl)
 export(get_route)
+export(google_directions)
+export(google_distance)
 importFrom(Rcpp,evalCpp)
 importFrom(curl,curl)
 importFrom(jsonlite,fromJSON)

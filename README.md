@@ -11,24 +11,26 @@ Functions to retrieve routes from [Google Maps Directions API](https://developer
 
 See [News](https://github.com/SymbolixAU/googleway/blob/master/NEWS.md) for latest updates
 
-`get_route()` retrieves route information from Google Maps.
+`google_directions()` retrieves directions information from Google Maps Directions API.
 
-`decode_pl()` decodes polyilnes that are generated from the API call.
+`google_distance()` retrieves distance matrix from Google Maps Distance API.
+
+`decode_pl()` decodes polyilnes that are generated from google directions API call.
 
 ## Examples
 
-### get_route
+### google_directions
 
 ```
 ## return data.frame of route
-df <- get_route(origin = "Flinders Street Station, Melbourne",
+df <- google_directions(origin = "Flinders Street Station, Melbourne",
                 destination = "MCG, Melbourne",
                 mode = "driving",
                 key = "<valid_api_key>",
                 output_format = "data.frame")
                 
 ## return JSON of route
-js <- get_route(origin = "Flinders Street Station, Melbourne",
+js <- google_directions(origin = "Flinders Street Station, Melbourne",
                 destination = "MCG, Melbourne",
                 mode = "driving",
                 key = "<valid_api_key>",
