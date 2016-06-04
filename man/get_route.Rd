@@ -8,8 +8,8 @@ get_route(origin, destination, mode = c("driving", "walking", "bicycling",
   "transit"), departure_time = NULL, arrival_time = NULL,
   waypoints = NULL, alternatives = FALSE, avoid = NULL,
   units = c("metric", "imperial"), traffic_model = NULL,
-  transit_mode = NULL, transit_routing_preference = NULL, key = NULL,
-  output_format = c("data.frame", "JSON"))
+  transit_mode = NULL, transit_routing_preference = NULL, language = NULL,
+  region = NULL, key = NULL, output_format = c("data.frame", "JSON"))
 }
 \arguments{
 \item{origin}{numeric Vector of lat/lon coordinates, or an address string}
@@ -36,6 +36,10 @@ get_route(origin, destination, mode = c("driving", "walking", "bicycling",
 
 \item{transit_routing_preference}{vector strings one of 'less_walking' and 'fewer_transfers'. specifies preferences for transit routes. Only valid for transit directions.}
 
+\item{language}{string specifies the language in which to return the results. See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis} If no langauge is supplied, the service will attempt to use the language of the domain from which the request was sent}
+
+\item{region}{string Specifies the region code, specified as a ccTLD ("top-level domain"). See region basing for details \url{https://developers.google.com/maps/documentation/directions/intro#RegionBiasing}}
+
 \item{key}{string A valid Google Developers Directions API key}
 
 \item{output_format}{string Either 'data.frame' or 'JSON'}
@@ -45,46 +49,5 @@ Either data.frame or JSON string of the route between origin and destination
 }
 \description{
 Uses Google Maps Directions API to search for the route between an origin and destination.
-}
-\examples{
-\dontrun{
-## using lat/long coordinates
-get_route(origin = c(-37.8179746, 144.9668636),
-          destination = c(-37.81659, 144.9841),
-          mode = "walking",
-          key = "<your valid api key>")
-
-
-## using address string
-get_route(origin = "Flinders Street Station, Melbourne",
-         destination = "MCG, Melbourne",
-         mode = "walking",
-         key = "<your valid api key>")
-
-
-get_route(origin = "Melbourne Airport, Australia",
-         destination = "Portsea, Melbourne, Australia",
-         departure_time = as.POSIXct("2016-06-08 07:00:00"),
-         waypoints = list(c(-37.81659, 144.9841),
-                           via = "Ringwood, Victoria"),
-         mode = "driving",
-         alternatives = FALSE,
-         avoid = c("TOLLS", "highways"),
-         units = "imperial",
-         key = "<your valid api key>",
-         output_format = "data.frame")
-
-## using bus and less walking
-get_route(origin = "Melbourne Airport, Australia",
-         destination = "Portsea, Melbourne, Australia",
-         departure_time = as.POSIXct("2016-06-08 07:00:00"),
-         mode = "transit",
-         transit_mode = "bus",
-         transit_routing_preference = "less_walking",
-         key = "<your valid api key>",
-         output_format = "JSON")
-
-
-}
 }
 

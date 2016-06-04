@@ -16,6 +16,8 @@
 #' @param traffic_model string One of 'best_guess', 'pessimistic' or 'optimistic'. Only valid with a departure time
 #' @param transit_mode vector of strings, either 'bus', 'subway', 'train', 'tram' or 'rail'. Only vaid where \code{mode = 'transit'}. Note that 'rail' is equivalent to \code{transit_mode=c("train", "tram", "subway")}
 #' @param transit_routing_preference vector strings one of 'less_walking' and 'fewer_transfers'. specifies preferences for transit routes. Only valid for transit directions.
+#' @param language string specifies the language in which to return the results. See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis} If no langauge is supplied, the service will attempt to use the language of the domain from which the request was sent
+#' @param region string Specifies the region code, specified as a ccTLD ("top-level domain"). See region basing for details \url{https://developers.google.com/maps/documentation/directions/intro#RegionBiasing}
 #' @param key string A valid Google Developers Directions API key
 #' @param output_format string Either 'data.frame' or 'JSON'
 #' @return Either data.frame or JSON string of the route between origin and destination
@@ -67,6 +69,17 @@
 #'          key = "<your valid api key>",
 #'          output_format = "JSON")
 #'
+#' ## return results in French
+#' get_route(origin = "Melbourne Airport, Australia",
+#'          destination = "Portsea, Melbourne, Australia",
+#'          arrival_time = as.POSIXct("2016-06-08 16:00:00", tz = "Australia/Melbourne"),
+#'          mode = "transit",
+#'          transit_mode = "bus",
+#'          transit_routing_preference = "less_walking",
+#'          language = "fr",
+#'          key = key,
+#'          output_format = "JSON")
+#'
 #' }
 #' @export
 get_route <- function(origin,
@@ -81,6 +94,8 @@ get_route <- function(origin,
                      traffic_model = NULL,
                      transit_mode = NULL,
                      transit_routing_preference = NULL,
+                     language = NULL,
+                     region = NULL,
                      key = NULL,
                      output_format = c('data.frame', 'JSON')){
 
@@ -184,6 +199,13 @@ get_route <- function(origin,
     waypoints <- paste0(waypoints, collapse = "|")
   }
 
+  ## language check
+  if(!is.null(language) & (class(language) != "character" | length(language) > 1))
+    stop("language must be a single character vector or string")
+
+  ## region check
+  if(!is.null(region) & (class(region) != "character" | length(region) > 1 | nchar(region) != 2))
+     stop("region must be a two-character string")
 
   ## construct url
   map_url <- paste0("https://maps.googleapis.com/maps/api/directions/json?",
@@ -198,6 +220,8 @@ get_route <- function(origin,
                     "&mode=", tolower(mode),
                     "&transit_mode=", transit_mode,
                     "&transit_routing_preference=", transit_routing_preference,
+                    "&language=", tolower(language),
+                    "&region=", tolower(region),
                     "&key=", key)
 
   if(length(map_url) > 1)
