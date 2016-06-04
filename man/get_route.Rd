@@ -11,6 +11,42 @@ get_route(origin, destination, mode = c("driving", "walking", "bicycling",
   transit_mode = NULL, transit_routing_preference = NULL, language = NULL,
   region = NULL, key = NULL, output_format = c("data.frame", "JSON"))
 }
+\arguments{
+\item{origin}{numeric Vector of lat/lon coordinates, or an address string}
+
+\item{destination}{numeric Vector of lat/lon coordinates, or an address string}
+
+\item{mode}{string. One of 'driving', 'walking', 'bicycling' or 'transit'.}
+
+\item{departure_time}{POSIXct. Specifies the desired time of departure. Must be in the future (i.e. greater than \code{sys.time()}). If no value is specified it defaults to \code{Sys.time()}}
+
+\item{arrival_time}{POSIXct. Specifies teh desired time of arrival. Note you can only specify one of \code{arrival_time} or \code{departure_time}, not both. If both are supplied, \code{departure_time} will be used.}
+
+\item{waypoints}{list of waypoints, expressed as either a \code{vector} of lat/lon coordinates, or a \code{string} address to be geocoded. Only available for transit, walking or bicycling modes. Name the list element 'via' to avoid including a stopover for a waypoint. See \url{https://developers.google.com/maps/documentation/directions/intro#Waypoints} for details}
+
+\item{alternatives}{logical If set to true, specifies that the Directions service may provide more than one route alternative in the response}
+
+\item{avoid}{character Vector stating which features should be avoided. One of 'tolls', 'highways', 'ferries' or 'indoor'}
+
+\item{units}{string metric or imperial. Note: Only affects the text displayed within the distance field. The values are always in metric}
+
+\item{traffic_model}{string One of 'best_guess', 'pessimistic' or 'optimistic'. Only valid with a departure time}
+
+\item{transit_mode}{vector of strings, either 'bus', 'subway', 'train', 'tram' or 'rail'. Only vaid where \code{mode = 'transit'}. Note that 'rail' is equivalent to \code{transit_mode=c("train", "tram", "subway")}}
+
+\item{transit_routing_preference}{vector strings one of 'less_walking' and 'fewer_transfers'. specifies preferences for transit routes. Only valid for transit directions.}
+
+\item{language}{string specifies the language in which to return the results. See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis} If no langauge is supplied, the service will attempt to use the language of the domain from which the request was sent}
+
+\item{region}{string Specifies the region code, specified as a ccTLD ("top-level domain"). See region basing for details \url{https://developers.google.com/maps/documentation/directions/intro#RegionBiasing}}
+
+\item{key}{string A valid Google Developers Directions API key}
+
+\item{output_format}{string Either 'data.frame' or 'JSON'}
+}
+\value{
+Either data.frame or JSON string of the route between origin and destination
+}
 \description{
 This function is deprecated. Please use \link{google_directions}
 }
