@@ -20,7 +20,7 @@ directions_data <- function(base_url,
                             transit_routing_preference = NULL,
                             language = NULL,
                             region = NULL,
-                            key = NULL,
+                            key,
                             output_format = c('data.frame', 'JSON')){
 
   ## parameter check

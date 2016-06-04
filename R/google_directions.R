@@ -96,7 +96,7 @@ google_directions <- function(origin,
                               transit_routing_preference = NULL,
                               language = NULL,
                               region = NULL,
-                              key = NULL,
+                              key,
                               output_format = c('data.frame', 'JSON')){
 
   directions_data(base_url = "https://maps.googleapis.com/maps/api/directions/json?",

@@ -32,7 +32,7 @@
 #' @export
 google_geocode <- function(address,
                            bounds = NULL,
-                           key = NULL,
+                           key,
                            language = NULL,
                            region = NULL,
                            output_format = c("data.frame","JSON")){

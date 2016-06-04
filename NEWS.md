@@ -3,6 +3,8 @@
 
 Development version
 
+`google_timezone()` implemented. Returns time offset data for locations on the surface of the earth.
+
 `google_geocode()` implemented. Returns a lat/lon encoding of a given address
 
 `google_distance()` implemented. Returns a distance matrix from Google Distance API call.
