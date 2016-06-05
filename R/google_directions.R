@@ -2,8 +2,6 @@
 #'
 #' The Google Maps Directions API is a service that calculates directions between locations. You can search for directions for several modes of transportation, including transit, driving, walking, or cycling.
 #'
-#' @importFrom jsonlite fromJSON
-#' @importFrom curl curl
 #' @param origin numeric Vector of lat/lon coordinates, or an address string
 #' @param destination numeric Vector of lat/lon coordinates, or an address string
 #' @param mode string. One of 'driving', 'walking', 'bicycling' or 'transit'.

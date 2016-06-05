@@ -1,5 +1,7 @@
 #' @useDynLib googleway
 #' @importFrom Rcpp evalCpp
+#' @importFrom jsonlite fromJSON
+#' @importFrom curl curl
 NULL
 
 

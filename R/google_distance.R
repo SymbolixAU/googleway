@@ -2,8 +2,6 @@
 #'
 #' The Google Maps Distance Matrix API is a service that provides travel distance and time for a matrix of origins and destinations, based on the recommended route between start and end points.
 #'
-#' @importFrom jsonlite fromJSON
-#' @importFrom curl curl
 #' @param origins list of unnamed elements, each element is either a numeric vector of lat/lon coordinates, or an address string
 #' @param destinations list of unnamed elements, each element is either a vector of lat/lon coordinates, or an address string
 #' @param mode string. One of 'driving', 'walking', 'bicycling' or 'transit'.

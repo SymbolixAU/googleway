@@ -19,7 +19,27 @@
 #'                  key = "<your valid api key>",
 #'                  output_format = "data.frame")
 #'
+#'
+#'
+#' ## elevation data from the MCG to the beach at Elwood (due south)
+#' df <- data.frame(lat = c(-37.81659, -37.88950),
+#'                  lon = c(144.9841, 144.9841))
+#'
+#' df <- google_elevation(df_locations = df,
+#'                        location_type = "path",
+#'                        samples = 20,
+#'                        key = key,
+#'                        output_format = "data.frame")
+#'
+#' ## plot results
+#' library(ggplot2)
+#' df_plot <- data.frame(elevation = df$results$elevation,
+#'                        location = as.integer(rownames(df$results)))
+#'
+#'ggplot(data = df_plot, aes(x = location, y = elevation)) +
+#'  geom_line()
 #' }
+#'
 #'
 #' @export
 google_elevation <- function(df_locations,
