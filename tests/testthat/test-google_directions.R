@@ -118,7 +118,7 @@ test_that("transit_mode issues warning when mode != transit",{
 
   expect_warning(google_directions(origin = "Melbourne Airport, Australia",
                            destination = "Portsea, Melbourne, Australia",
-                           departure_time = as.POSIXct("2016-06-08 07:00:00"),
+                           departure_time = Sys.time() + (24 * 60 * 60),
                            waypoints = list(via = c(-37.81659, 144.9841),
                                             via = "Ringwood, Victoria"),
                            transit_mode = "bus",
@@ -128,7 +128,16 @@ test_that("transit_mode issues warning when mode != transit",{
 })
 
 
+test_that("warning when both arrival and departure times supplied", {
 
+  expect_warning(google_directions(origin = "Melbourne Airport, Australia",
+                                   destination = "Portsea, Melbourne, Australia",
+                                   departure_time = Sys.time() + (24 * 60 * 60),
+                                   arrival_time = Sys.time() + (24 * 60 * 60),
+                                   key = "abc"),
+                 "you have supplied both an arrival_time and a departure_time - only one is allowed. The arrival_time will be ignored")
+
+})
 
 
 

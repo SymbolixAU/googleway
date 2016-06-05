@@ -102,7 +102,7 @@ directions_data <- function(base_url,
     origin <- fun_check_location(origin, "Origin")
     destination <- fun_check_location(destination, "Destination")
   }else if(information_type == "distance"){
-    origin <- fun_check_multiple_locations(origin, "Origins elements ")
+    origin <- fun_check_multiple_locations(origin, "Origins elements")
     destination <- fun_check_multiple_locations(destination, "Destinations elements")
   }
 
