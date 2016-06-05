@@ -4,14 +4,37 @@
 \alias{google_elevation}
 \title{Google elevation}
 \usage{
-google_elevation(locations, key, output_format = c("data.frame", "JSON"))
+google_elevation(df_locations, location_type = c("individual", "path"),
+  samples = NULL, key, output_format = c("data.frame", "JSON"))
 }
 \arguments{
+\item{df_locations}{data.frame of with two columns called 'lat' and 'lon' (or 'latitude' / 'longitude') used as the locations}
+
+\item{location_type}{string Specifies the results to be returned as individual locations or as a path. One of 'individual' or 'path'. If 'path', the data.frame df_locations must contain at least two rows. The order of the path is determined by the order of the rows.}
+
 \item{key}{string A valid Google Developers Directions API key}
 
 \item{output_format}{string Either 'data.frame' or 'JSON'}
 }
+\value{
+Either data.frame or JSON string of the elevation data
+}
 \description{
 The Google Maps Elevation API provides elevation data for all locations on the surface of the earth, including depth locations on the ocean floor (which return negative values).
+}
+\details{
+You can specify the locations in one of two ways. Either as a set of single locations, or as a path (a series of connected locations).
+}
+\examples{
+\dontrun{
+
+## elevation data for the MCG in Melbourne
+location <- c(-37.81659, 144.9841)
+google_elevation(locations = location,
+                 key = "<your valid api key>",
+                 output_format = "data.frame")
+
+}
+
 }
 

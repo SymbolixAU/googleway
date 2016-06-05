@@ -2,7 +2,11 @@
 #'
 #' The Google Maps Elevation API provides elevation data for all locations on the surface of the earth, including depth locations on the ocean floor (which return negative values).
 #'
-#' @param locations
+#' You can specify the locations in one of two ways. Either as a set of single locations, or as a path (a series of connected locations).
+#'
+#' @param df_locations data.frame of with two columns called 'lat' and 'lon' (or 'latitude' / 'longitude') used as the locations
+#' @param location_type string Specifies the results to be returned as individual locations or as a path. One of 'individual' or 'path'. If 'path', the data.frame df_locations must contain at least two rows. The order of the path is determined by the order of the rows.
+#' @samples integer required if \code{location_type == "path"}. Specifies the number of sample points along a path for which to return elevation data. The samples parameter divides the given path into an ordered set of equidistant points along the path.
 #' @param key string A valid Google Developers Directions API key
 #' @param output_format string Either 'data.frame' or 'JSON'
 #' @return Either data.frame or JSON string of the elevation data
@@ -18,29 +22,50 @@
 #' }
 #'
 #' @export
-google_elevation <- function(locations,
+google_elevation <- function(df_locations,
+                             location_type = c("individual","path"),
+                             samples = NULL,
                              key,
                              output_format = c("data.frame","JSON")
                              ){
 
-  ## locations can be a single lat/lon pair,
-  ## or a data.frame of lat/lon pairs.
-
   ## check location
-  if(!is.numeric(location))
-    stop("location must be a vector of a pair of latitude and longitude coordinates")
+  ## does df_locations have correct columns
+  if(!inherits(df_locations, "data.frame"))
+    stop("df_locations should be a data.frame containing at least two columns of lat and lon coordianates")
 
-  if(!length(location) == 2)
-    stop("location must be a vector of a pair of latitude and longitude coordinates")
+  df <- as.data.frame(df_locations)
+  lat <- which(tolower(names(df)) %in% c("lat","latitude"))[1]
+  lon <- which(tolower(names(df)) %in% c("lon","longitude"))[1]
 
-  locations <- paste0(location, collapse = ",")
+  if(any(is.na(lat), is.na(lon)))
+    stop("data.frame of locations must contain the columns lat/latitude and lon/longitude")
+
+  locations <- paste0(df[, lat], ",", df[, lon], collapse = "|")
+
+  ## check location_type
+  location_type <- match.arg(location_type)
 
   ## check output format
   output_format <- match.arg(output_format)
 
+  ## check samples
+  samples <- as.integer(samples)
+
+  if(location_type == "path" & !is.integer(samples)){
+    warning("samples has not been specified. 3 will be used")
+    samples <- 3
+  }else if(location_type != "path"){
+    samples <- NULL
+  }
+
+  location_string <- switch(location_type,
+                            "individual" = "&locations=",
+                            "path" = "&path=")
 
   map_url <- paste0("https://maps.googleapis.com/maps/api/elevation/json?",
-                    "&locations=", locations,
+                    location_string, locations,
+                    "&samples=",samples,
                     "&key=",key)
 
   return(fun_download_data(map_url, output_format))

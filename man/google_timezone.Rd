@@ -18,6 +18,9 @@ google_timezone(location, timestamp = Sys.time(), language = NULL,
 
 \item{key}{string A valid Google Developers Directions API key}
 }
+\value{
+Either data.frame or JSON string of the timezone
+}
 \description{
 The Google Maps Time Zone API provides time offset data for locations on the surface of the earth. You request the time zone information for a specific latitude/longitude pair and date
 }
