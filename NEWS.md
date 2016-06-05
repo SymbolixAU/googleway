@@ -1,5 +1,8 @@
 
+The next release will be version 1.0.0 and will remove the `get_route()` funciton. In its place will be `google_directions()`.
+
 ## Version 0.3.0 - Development version on github
+
 
 Development version
 

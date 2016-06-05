@@ -5,7 +5,17 @@
 #' @param locations
 #' @param key string A valid Google Developers Directions API key
 #' @param output_format string Either 'data.frame' or 'JSON'
+#' @return Either data.frame or JSON string of the elevation data
+#' @examples
+#' \dontrun{
 #'
+#' ## elevation data for the MCG in Melbourne
+#' location <- c(-37.81659, 144.9841)
+#' google_elevation(locations = location,
+#'                  key = "<your valid api key>",
+#'                  output_format = "data.frame")
+#'
+#' }
 #'
 #' @export
 google_elevation <- function(locations,

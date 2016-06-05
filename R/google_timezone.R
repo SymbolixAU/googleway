@@ -7,6 +7,7 @@
 #' @param language string specifies the language in which to return the results. See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis} If no langauge is supplied, the service will attempt to use the language of the domain from which the request was sent
 #' @param key string A valid Google Developers Directions API key
 #' @param output_format string Either 'data.frame' or 'JSON'
+#' @return Either data.frame or JSON string of the timezone
 #' @examples
 #' \dontrun{
 #' google_timezone(location = c(-37.81659, 144.9841),
