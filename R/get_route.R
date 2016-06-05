@@ -4,6 +4,6 @@
 #' @export
 get_route <- function(){
 
-  stop("get_route() is deprecated and has been removed. \nUse google_directions() instead.")
+  stop("get_route() is deprecated and has been removed. Use google_directions() instead.")
 
 }

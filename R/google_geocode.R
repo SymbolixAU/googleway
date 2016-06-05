@@ -45,7 +45,7 @@ google_geocode <- function(address,
   address <- fun_check_address(address)
 
   ## bounds check
-  if(!is.null(bounds) & (!class(bounds) == "list" | !all(sapply(bounds, class) == "numeric")))
+  if(!is.null(bounds) & (!class(bounds) == "list" | !all(sapply(bounds, class) == "numeric") | length(bounds) != 2))
     stop("bounds must be a list of length 2, each item being a vector of lat/lon coordinate pairs")
 
   if(!all(sapply(bounds, length) == 2))
