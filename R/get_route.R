@@ -2,7 +2,7 @@
 #'
 #' This function is deprecated. Please use \link{google_directions}
 #' @export
-get_route <- function(){
+get_route <- function(...){
 
   stop("get_route() is deprecated and has been removed. Use google_directions() instead.")
 

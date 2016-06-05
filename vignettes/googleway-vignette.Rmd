@@ -11,6 +11,18 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+Googleway provides access to 5 Google Maps APIs through the specified functions
+
+* [**Directions**](https://developers.google.com/maps/documentation/directions/start) - `google_directions()`
+* [**Distance Matrix**](https://developers.google.com/maps/documentation/distance-matrix/) - `google_distance()`
+* [**Elevation**](https://developers.google.com/maps/documentation/elevation/start) - `google_elevation()`
+* [**Time zone**](https://developers.google.com/maps/documentation/timezone/start) - `google_timezone()`
+* [**Geocoding**](https://developers.google.com/maps/documentation/geocoding/start) - `google_geocode()`
+
+As well as a function for decoding encoded location data, `decode_pl()`
+
+To use this package you need a valid **API KEY** for the API you wish to use.
+
 ## Google Directions API
 
 [**Google Maps**](http://www.google.com/maps) allows users to find directions between locations.
@@ -30,7 +42,7 @@ The same query using the developers API generates the data in JSON
 
 ![Melbourne to Sydney JSON](./img/melbourne_to_sydney_json.png)
 
-This result can be returned using the `get_route()` function. 
+This result can be returned using the `google_directions()` function. 
 
 Note you can return the output as **JSON** or a **data.frame**.
 
@@ -38,11 +50,11 @@ Note you can return the output as **JSON** or a **data.frame**.
 library(googleway)
 
 ## you will need a valid Google Directions Developers API key
-df <- get_route(origin = "Melbourne, Australia",
-                destination = "Sydney, Australia",
-                key = key,
-                mode = "driving",
-                output_format = "data.frame")
+df <- google_directions(origin = "Melbourne, Australia",
+                        destination = "Sydney, Australia",
+                        key = key,
+                        mode = "driving",
+                        output_format = "data.frame")
 ```
 
 The data used to draw the route is the **overview_polyline**

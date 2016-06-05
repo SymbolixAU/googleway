@@ -4,7 +4,7 @@
 \alias{get_route}
 \title{GetRoute}
 \usage{
-get_route()
+get_route(...)
 }
 \description{
 This function is deprecated. Please use \link{google_directions}
