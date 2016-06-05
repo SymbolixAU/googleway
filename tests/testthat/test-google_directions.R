@@ -1,4 +1,4 @@
-context("google directions")
+context("Google directions")
 
 ## api keys are not included in the package
 ## and so can't be tested

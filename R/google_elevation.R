@@ -70,13 +70,14 @@ google_elevation <- function(df_locations,
   output_format <- match.arg(output_format)
 
   ## check samples
-  samples <- as.integer(samples)
 
-  if(location_type == "path" & !is.integer(samples)){
+  if(location_type == "path" & !is.numeric(samples)){
     warning("samples has not been specified. 3 will be used")
     samples <- 3
   }else if(location_type != "path"){
     samples <- NULL
+  }else if(!is.integer(samples)){
+    samples <- as.integer(samples)
   }
 
   location_string <- switch(location_type,
