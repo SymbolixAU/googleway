@@ -6,6 +6,9 @@
 \usage{
 get_route(...)
 }
+\arguments{
+\item{...}{arguments passed to google_directions. Legacy - so taht old 'get_route() calls will still enter this function.}
+}
 \description{
 This function is deprecated. Please use \link{google_directions}
 }
