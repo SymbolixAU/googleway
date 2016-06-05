@@ -3,6 +3,8 @@
 
 Development version
 
+`google_elevation()` implemented. Returns elevation data for locations
+
 `google_timezone()` implemented. Returns time offset data for locations on the surface of the earth.
 
 `google_geocode()` implemented. Returns a lat/lon encoding of a given address

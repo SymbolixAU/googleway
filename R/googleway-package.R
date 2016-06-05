@@ -191,7 +191,6 @@ fun_check_multiple_locations <- function(loc, type){
 }
 
 
-
 fun_check_location <- function(loc, type){
   if(is.numeric(loc) & length(loc) == 2){
     loc <- paste0(loc, collapse = ",")

@@ -4,7 +4,7 @@
 \alias{google_geocode}
 \title{Google geocoding}
 \usage{
-google_geocode(address, bounds = NULL, key = NULL, language = NULL,
+google_geocode(address, bounds = NULL, key, language = NULL,
   region = NULL, output_format = c("data.frame", "JSON"))
 }
 \arguments{

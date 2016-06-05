@@ -4,13 +4,15 @@
 \alias{google_timezone}
 \title{Google timezone}
 \usage{
-google_timezone(location, timestamp = Sys.time(),
-  output_format = c("data.frame", "JSON"), key = NULL)
+google_timezone(location, timestamp = Sys.time(), language = NULL,
+  output_format = c("data.frame", "JSON"), key)
 }
 \arguments{
 \item{location}{vector of lat/lon pair}
 
 \item{timestamp}{POSIXct The Google Maps Time Zone API uses the timestamp to determine whether or not Daylight Savings should be applied. Will default to the current system time}
+
+\item{language}{string specifies the language in which to return the results. See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis} If no langauge is supplied, the service will attempt to use the language of the domain from which the request was sent}
 
 \item{output_format}{string Either 'data.frame' or 'JSON'}
 
@@ -18,5 +20,14 @@ google_timezone(location, timestamp = Sys.time(),
 }
 \description{
 The Google Maps Time Zone API provides time offset data for locations on the surface of the earth. You request the time zone information for a specific latitude/longitude pair and date
+}
+\examples{
+\dontrun{
+google_timezone(location = c(-37.81659, 144.9841),
+               timestamp = as.POSIXct("2016-06-05"),
+               output_format = "data.frame",
+               key = key)
+}
+
 }
 

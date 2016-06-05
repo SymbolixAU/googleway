@@ -9,7 +9,7 @@ google_directions(origin, destination, mode = c("driving", "walking",
   waypoints = NULL, alternatives = FALSE, avoid = NULL,
   units = c("metric", "imperial"), traffic_model = NULL,
   transit_mode = NULL, transit_routing_preference = NULL, language = NULL,
-  region = NULL, key = NULL, output_format = c("data.frame", "JSON"))
+  region = NULL, key, output_format = c("data.frame", "JSON"))
 }
 \arguments{
 \item{origin}{numeric Vector of lat/lon coordinates, or an address string}
