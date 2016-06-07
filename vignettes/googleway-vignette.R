@@ -5,13 +5,3 @@ library(googleway)
 df <- decode_pl(polyline)
 head(df)
 
-## ------------------------------------------------------------------------
-
-# library(leaflet)
-# 
-# leaflet(df) %>%
-#   addTiles() %>%
-#   addPolylines(lat = ~lat, lng = ~lon)
-
-
-

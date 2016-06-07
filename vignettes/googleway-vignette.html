@@ -12,7 +12,7 @@
 
 <meta name="author" content="D Cooley" />
 
-<meta name="date" content="2016-06-05" />
+<meta name="date" content="2016-06-07" />
 
 <title>Googleway Vignette</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Googleway Vignette</h1>
 <h4 class="author"><em>D Cooley</em></h4>
-<h4 class="date"><em>2016-06-05</em></h4>
+<h4 class="date"><em>2016-06-07</em></h4>
 
 
 
@@ -83,12 +83,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="https://developers.google.com/maps/documentation/geocoding/start"><strong>Geocoding</strong></a> - <code>google_geocode()</code></li>
 </ul>
 <p>As well as a function for decoding encoded location data, <code>decode_pl()</code></p>
-<p>To use this package you need a valid <strong>API KEY</strong> for the API you wish to use.</p>
+<p>To use this package you need a valid <strong>API KEY</strong> for the API you wish to use. Note that the same API key can be used for all the functions, but you need to register it with each API first.</p>
 <div id="google-directions-api" class="section level2">
 <h2>Google Directions API</h2>
 <p><a href="http://www.google.com/maps"><strong>Google Maps</strong></a> allows users to find directions between locations.</p>
-<p>The <a href="https://developers.google.com/maps/documentation/directions/"><strong>Google Maps Directions API</strong></a> is a service available to developers that calculates directions between locations, and outputs the data as <strong>JSON</strong>.</p>
-<p>The <strong>googleway</strong> package allows R users to find a route between two locations, and decode the ‘polyline’ sections of the outputs, into a <code>data.frame</code> of latitude and longitude coordinates that represent all the waypoints of the directions.</p>
+<p>The <a href="https://developers.google.com/maps/documentation/directions/"><strong>Google Maps Directions API</strong></a> is a service available to developers that calculates directions between locations.</p>
+<p>To access this API through googleway use the <code>google_directions()</code> function.</p>
 </div>
 <div id="example" class="section level2">
 <h2>Example</h2>
@@ -133,11 +133,82 @@ df &lt;-<span class="st"> </span><span class="kw">decode_pl</span>(polyline)
 ## 4 -37.74520 144.9341
 ## 5 -37.73494 144.9270
 ## 6 -37.73554 144.9023</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># library(leaflet)</span>
-<span class="co"># </span>
-<span class="co"># leaflet(df) %&gt;%</span>
-<span class="co">#   addTiles() %&gt;%</span>
-<span class="co">#   addPolylines(lat = ~lat, lng = ~lon)</span></code></pre></div>
+</div>
+<div id="google-distance-api" class="section level2">
+<h2>Google Distance API</h2>
+<p>The <a href="https://developers.google.com/maps/documentation/distance-matrix/intro"><strong>Google Maps Distance API</strong></a> is a service that provides travel distance and time for a matrix of origins and destinations.</p>
+<p>To access this API through googleway use the <code>google_distance()</code> function.</p>
+</div>
+<div id="example-1" class="section level2">
+<h2>Example</h2>
+<p>Finding the distances between Melbourne Airport, the MCG, a set of coordinates (-37.81659, 144.9841), to Portsea, Melbourne.</p>
+<pre><code>df &lt;- google_distance(origins = list(c(&quot;Melbourne Airport, Australia&quot;),
+                                     c(&quot;MCG, Melbourne, Australia&quot;),
+                                     c(-37.81659, 144.9841)),
+                      destinations = c(&quot;Portsea, Melbourne, Australia&quot;),
+                      key = key,
+                      output_format = &quot;data.frame&quot;)
+
+head(df)
+$destination_addresses
+[1] &quot;Melbourne Rd, Victoria, Australia&quot;
+
+$origin_addresses
+[1] &quot;Melbourne Airport (MEL), Departure Dr, Melbourne Airport VIC 3045, Australia&quot;
+[2] &quot;Jolimont Station, Wellington Cres, East Melbourne VIC 3002, Australia&quot;       
+[3] &quot;176 Wellington Parade, East Melbourne VIC 3002, Australia&quot;                   
+
+$rows
+                                                        elements
+1 130 km, 129501, 1 hour 38 mins, 5853, 1 hour 36 mins, 5770, OK
+2 104 km, 104393, 1 hour 20 mins, 4819, 1 hour 20 mins, 4792, OK
+3 104 km, 104350, 1 hour 20 mins, 4814, 1 hour 20 mins, 4788, OK
+
+$status
+[1] &quot;OK&quot;
+</code></pre>
+</div>
+<div id="google-elevation-api" class="section level2">
+<h2>Google Elevation API</h2>
+<p>The <a href="https://developers.google.com/maps/documentation/elevation/start"><strong>Google Maps Elevation API</strong></a> provides elevation data for all locations on the surface of the earth, including depth locations on the ocean floor (which return negative values).</p>
+<p>To access this API through googleway use the <code>google_elevation()</code> function.</p>
+</div>
+<div id="example-2" class="section level2">
+<h2>Example</h2>
+<p>Finding the elevation of 20 points between the MCG, Melbourne and the beach at Elwood, Melbourne</p>
+<pre><code>df &lt;- google_elevation(df_locations = data.frame(lat = c(-37.81659, -37.88950),
+                                                 lon = c(144.9841, 144.9841)),
+                       location_type = &quot;path&quot;,
+                       samples = 20,
+                       key = key,
+                       output_format = &quot;data.frame&quot;)
+                       
+$results
+    elevation location.lat location.lng resolution
+1  20.8899250    -37.81659     144.9841   9.543952
+2   7.8955822    -37.82043     144.9841   9.543952
+3   8.4334993    -37.82426     144.9841   9.543952
+4   5.4820895    -37.82810     144.9841   9.543952
+5  33.5920677    -37.83194     144.9841   9.543952
+6  30.4819584    -37.83578     144.9841   9.543952
+7  15.0097895    -37.83961     144.9841   9.543952
+8  10.9842978    -37.84345     144.9841   9.543952
+9  13.8762951    -37.84729     144.9841   9.543952
+10 13.4834013    -37.85113     144.9841   9.543952
+11 13.3473139    -37.85496     144.9841   9.543952
+12 24.9176636    -37.85880     144.9841   9.543952
+13 16.7720604    -37.86264     144.9841   9.543952
+14  5.8330226    -37.86648     144.9841   9.543952
+15 10.7889471    -37.87031     144.9841   9.543952
+16  6.9589133    -37.87415     144.9841   9.543952
+17  3.9915009    -37.87799     144.9841   9.543952
+18  5.3637657    -37.88183     144.9841   9.543952
+19  7.1594319    -37.88566     144.9841   9.543952
+20  0.6697893    -37.88950     144.9841   9.543952
+
+$status
+[1] &quot;OK&quot;
+</code></pre>
 </div>
 
 
