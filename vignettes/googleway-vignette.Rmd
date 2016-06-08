@@ -60,7 +60,7 @@ The data used to draw the route is the **overview_polyline**
 
 ![Melbourne to Sydney polyline](./img/melbourne_to_sydney_polyline.png)
 
-whichc is located in `df$routes$overview_polyline$points`. 
+which is located in `df$routes$overview_polyline$points`. 
 
 ```
 df$routes$overview_polyline$points
@@ -167,9 +167,75 @@ $status
 
 ```
 
+## Google Timezone API
+
+The [**Google Maps Time zone API**](https://developers.google.com/maps/documentation/timezone/start) provides time offset data for locations on the surface of the earth. You request the time zone information for a specific latitude/longitude pair and date. The API returns the name of that time zone, the time offset from UTC, and the daylight savings offset
+
+To access this API through googleway use the `google_timezone()` function.
 
 
+### Example
 
+Finding the timezone of the MCG in Melbourne
+
+```
+google_timezone(location = c(-37.81659, 144.9841), 
+                timestamp = as.POSIXct("2016-06-05"),
+                output_format = "JSON", 
+                key = key)
+                
+[1] "{"                                                         
+[2] "   \"dstOffset\" : 0,"                                     
+[3] "   \"rawOffset\" : 36000,"                                 
+[4] "   \"status\" : \"OK\","                                   
+[5] "   \"timeZoneId\" : \"Australia/Hobart\","                 
+[6] "   \"timeZoneName\" : \"Australian Eastern Standard Time\""
+[7] "}"
+
+```
+
+
+## Google Geocode API
+
+The [**Google Maps Geocoding API**](https://developers.google.com/maps/documentation/geocoding/start) is a service that provides geocoding and reverse geocoding of addresses.
+
+To access this API through googleway use the `google_geocode()` function.
+
+
+### Example
+
+Finding the location details for Flinders Street Station, Melbourne
+
+```
+An unbound search for Flinders Street Station returns 6 options.
+df <- google_geocode(address = "Flinders Street Station",
+                     key = key,
+                     output_format = "data.frame")
+
+df$results$formatted_address
+[1] "Flinders Street Railway Station, Flinders St, Melbourne VIC 3000, Australia"
+[2] "Flinders St Station, Melbourne VIC 3000, Australia"                         
+[3] "Flinders Street Station, Melbourne VIC 3000, Australia"                     
+[4] "Flinders Street, Rye VIC 3941, Australia"                                   
+[5] "Station Rd, Victoria, Australia"                                            
+[6] "Station Rd, Albion Park Rail NSW 2527, Australia" 
+
+## using a bounded search limits the results
+
+bounds <- list(c(-37.81962,144.9657),
+               c(-37.81692, 144.9684))
+
+df <- google_geocode(address = "Flinders Street Station",
+                     bounds = bounds,
+                     key = key,
+                     output_format = "data.frame")
+
+df$results$formatted_address
+[1] "Flinders Street Railway Station, Flinders St, Melbourne VIC 3000, Australia"
+[2] "Flinders Street Station, Melbourne VIC 3000, Australia"                     
+[3] "Flinders St Station, Melbourne VIC 3000, Australia"
+
+```
 
 
 

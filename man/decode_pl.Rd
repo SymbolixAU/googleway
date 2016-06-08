@@ -21,5 +21,6 @@ Decodes a polyline that's generated from google's directions api \url{https://de
 pl <- "nnseFmpzsZgalNytrXetrG}krKsaif@kivIccvzAvvqfClp~uBlymzA~ocQ}_}iCthxo@srst@"
 
 df_polyline <- decode_pl(pl)
+df_polyline
 }
 

@@ -10,6 +10,7 @@
 #' pl <- "nnseFmpzsZgalNytrXetrG}krKsaif@kivIccvzAvvqfClp~uBlymzA~ocQ}_}iCthxo@srst@"
 #'
 #' df_polyline <- decode_pl(pl)
+#' df_polyline
 #' @export
 decode_pl <- function(encoded){
 
