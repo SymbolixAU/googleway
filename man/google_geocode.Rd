@@ -19,9 +19,9 @@ google_geocode(address, bounds = NULL, key, language = NULL,
 
 \item{region}{string Specifies the region code, specified as a ccTLD ("top-level domain"). See region basing for details \url{https://developers.google.com/maps/documentation/directions/intro#RegionBiasing}}
 
-\item{output_format}{string Either 'data.frame' or 'JSON'}
+\item{components}{data.frame of two columns, component and value. Restricts the results to a specific area. One or more of "route","locality","administrative_area","postal_code","country"}
 
-\item{component}{data.frame of two columns, component and value. Restricts the results to a specific area. One or more of "route","locality","administrative_area","postal_code","country"}
+\item{output_format}{string Either 'data.frame' or 'JSON'}
 }
 \value{
 Either data.frame or JSON string of the geocoded address

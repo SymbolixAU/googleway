@@ -98,7 +98,18 @@ test_that("components is a data.frame with the correct columns",{
 
 })
 
+test_that("component types are valid",{
 
+  components <- data.frame(component = c("country_code"),
+                           value = c("AU"))
+
+  expect_error(google_geocode(address = "Flinders Street Station",
+                              key = "abc",
+                              components = components,
+                              output_format = "data.frame"),
+  "valid components are 'route', 'locality', 'administrative_area' and 'country'")
+
+})
 
 
 

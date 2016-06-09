@@ -64,7 +64,6 @@ google_reverse_geocode <- function(location,
   if(!is.null(language) & (class(language) != "character" | length(language) > 1))
     stop("language must be a single character vector or string")
 
-
   map_url <- paste0("https://maps.googleapis.com/maps/api/geocode/json?",
                     "&latlng=", location,
                     "&location_type=", location_type,

@@ -7,7 +7,7 @@
 #' @param language string specifies the language in which to return the results. See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis} If no langauge is supplied, the service will attempt to use the language of the domain from which the request was sent
 #' @param region string Specifies the region code, specified as a ccTLD ("top-level domain"). See region basing for details \url{https://developers.google.com/maps/documentation/directions/intro#RegionBiasing}
 #' @param key string A valid Google Developers Directions API key
-#' @param component data.frame of two columns, component and value. Restricts the results to a specific area. One or more of "route","locality","administrative_area","postal_code","country"
+#' @param components data.frame of two columns, component and value. Restricts the results to a specific area. One or more of "route","locality","administrative_area","postal_code","country"
 #' @param output_format string Either 'data.frame' or 'JSON'
 #' @return Either data.frame or JSON string of the geocoded address
 #' @examples
@@ -76,12 +76,11 @@ google_geocode <- function(address,
   if(!inherits(components, "data.frame") | !sum(names(components) %in% c("component","value")) == 2)
     stop("components must be a data.frame with two columns named 'component' and 'value'")
 
-  components = paste0(apply(components, 1, function(x) paste0(x, collapse = ":")), collapse = "|")
-
-
   ## error on misspelled components
-  if(!all(df$components))
-  c("route","locality","administrative_area","postal_code","country")
+  if(!any(as.character(components$components) %in% c("route","locality","administrative_area","postal_code","country")))
+    stop("valid components are 'route', 'locality', 'administrative_area' and 'country'")
+
+  components = paste0(apply(components, 1, function(x) paste0(x, collapse = ":")), collapse = "|")
 
   map_url <- paste0("https://maps.googleapis.com/maps/api/geocode/json?",
                     "&address=", tolower(address),
