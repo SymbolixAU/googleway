@@ -55,10 +55,13 @@ google_elevation <- function(df_locations,
     stop("df_locations should be a data.frame containing at least two columns of lat and lon coordianates")
 
   df <- as.data.frame(df_locations)
-  lat <- which(tolower(names(df)) %in% c("lat","latitude"))[1]
-  lon <- which(tolower(names(df)) %in% c("lon","longitude"))[1]
+  if(sum(tolower(names(df)) %in% c("lat","latitude")) > 1 | sum(tolower(names(df)) %in% c("lon","longitude")) > 1)
+    stop("Multiple possible lat/lon columns detected. Only use one column for lat/latitude and one column for lon/longitude coordinates")
 
-  if(any(is.na(lat), is.na(lon)))
+  lat <- which(tolower(names(df)) %in% c("lat","latitude"))
+  lon <- which(tolower(names(df)) %in% c("lon","longitude"))
+
+  if(any(is.na(lat), is.na(lon), length(lat)==0, length(lon) == 0))
     stop("data.frame of locations must contain the columns lat/latitude and lon/longitude")
 
   locations <- paste0(df[, lat], ",", df[, lon], collapse = "|")
