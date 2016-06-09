@@ -74,13 +74,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<p>Googleway provides access to 5 Google Maps APIs through the specified functions</p>
+<p>Googleway provides access to 6 Google Maps APIs through the specified functions</p>
 <ul>
 <li><a href="https://developers.google.com/maps/documentation/directions/start"><strong>Directions</strong></a> - <code>google_directions()</code></li>
 <li><a href="https://developers.google.com/maps/documentation/distance-matrix/"><strong>Distance Matrix</strong></a> - <code>google_distance()</code></li>
 <li><a href="https://developers.google.com/maps/documentation/elevation/start"><strong>Elevation</strong></a> - <code>google_elevation()</code></li>
 <li><a href="https://developers.google.com/maps/documentation/timezone/start"><strong>Time zone</strong></a> - <code>google_timezone()</code></li>
 <li><a href="https://developers.google.com/maps/documentation/geocoding/start"><strong>Geocoding</strong></a> - <code>google_geocode()</code></li>
+<li><a href="https://developers.google.com/maps/documentation/geocoding/intro#ReverseGeocoding"><strong>Reverse Geocoding</strong></a> - <code>google_reverse_geocode()</code></li>
 </ul>
 <p>As well as a function for decoding encoded location data, <code>decode_pl()</code></p>
 <p>To use this package you need a valid <strong>API KEY</strong> for the API you wish to use. Note that the same API key can be used for all the functions, but you need to register it with each API first.</p>
@@ -266,6 +267,40 @@ df$results$formatted_address
 [1] &quot;Flinders Street Railway Station, Flinders St, Melbourne VIC 3000, Australia&quot;
 [2] &quot;Flinders Street Station, Melbourne VIC 3000, Australia&quot;                     
 [3] &quot;Flinders St Station, Melbourne VIC 3000, Australia&quot;
+</code></pre>
+</div>
+</div>
+<div id="google-reverse-geocode-api" class="section level2">
+<h2>Google Reverse Geocode API</h2>
+<p>The <a href="https://developers.google.com/maps/documentation/geocoding/intro#ReverseGeocoding"><strong>Google Maps Reverse Geocoding API</strong></a> is a services that converts geographic coordinates into a human-readable address.</p>
+<p>To access this API through googleway use the <code>google_reverse_geocode()</code> function.</p>
+<div id="example-5" class="section level3">
+<h3>Example</h3>
+<p>Finding the street address for a set of coordinates, using <code>result_type</code> and <code>location_type</code> as bounding parameters</p>
+<pre><code>df &lt;- google_reverse_geocode(location = c(-37.81659, 144.9841),
+                             result_type = c(&quot;street_address&quot;, &quot;postal_code&quot;),
+                             location_type = &quot;rooftop&quot;,
+                             key = key,
+                             output_format = &quot;data.frame&quot;)
+
+df$results$address_components
+[[1]]
+          long_name        short_name                                  types
+1               176               176                          street_number
+2 Wellington Parade Wellington Parade                                  route
+3    East Melbourne    East Melbourne                    locality, political
+4          Victoria               VIC administrative_area_level_1, political
+5         Australia                AU                     country, political
+6              3002              3002                            postal_code
+
+df$results$geometry
+  location.lat location.lng location_type viewport.northeast.lat viewport.northeast.lng viewport.southwest.lat
+1    -37.81608     144.9842       ROOFTOP              -37.81473               144.9855              -37.81743
+  viewport.southwest.lng
+1               144.9828
+
+
+
 </code></pre>
 </div>
 </div>

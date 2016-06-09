@@ -11,13 +11,14 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Googleway provides access to 5 Google Maps APIs through the specified functions
+Googleway provides access to 6 Google Maps APIs through the specified functions
 
 * [**Directions**](https://developers.google.com/maps/documentation/directions/start) - `google_directions()`
 * [**Distance Matrix**](https://developers.google.com/maps/documentation/distance-matrix/) - `google_distance()`
 * [**Elevation**](https://developers.google.com/maps/documentation/elevation/start) - `google_elevation()`
 * [**Time zone**](https://developers.google.com/maps/documentation/timezone/start) - `google_timezone()`
 * [**Geocoding**](https://developers.google.com/maps/documentation/geocoding/start) - `google_geocode()`
+* [**Reverse Geocoding**](https://developers.google.com/maps/documentation/geocoding/intro#ReverseGeocoding) - `google_reverse_geocode()`
 
 As well as a function for decoding encoded location data, `decode_pl()`
 
@@ -237,6 +238,46 @@ df$results$formatted_address
 
 ```
 
+
+
+## Google Reverse Geocode API
+
+The [**Google Maps Reverse Geocoding API**](https://developers.google.com/maps/documentation/geocoding/intro#ReverseGeocoding) is a services that converts geographic coordinates into a human-readable address.
+
+To access this API through googleway use the `google_reverse_geocode()` function.
+
+
+### Example
+
+Finding the street address for a set of coordinates, using `result_type` and `location_type` as bounding parameters
+
+```
+df <- google_reverse_geocode(location = c(-37.81659, 144.9841),
+                             result_type = c("street_address", "postal_code"),
+                             location_type = "rooftop",
+                             key = key,
+                             output_format = "data.frame")
+
+df$results$address_components
+[[1]]
+          long_name        short_name                                  types
+1               176               176                          street_number
+2 Wellington Parade Wellington Parade                                  route
+3    East Melbourne    East Melbourne                    locality, political
+4          Victoria               VIC administrative_area_level_1, political
+5         Australia                AU                     country, political
+6              3002              3002                            postal_code
+
+df$results$geometry
+  location.lat location.lng location_type viewport.northeast.lat viewport.northeast.lng viewport.southwest.lat
+1    -37.81608     144.9842       ROOFTOP              -37.81473               144.9855              -37.81743
+  viewport.southwest.lng
+1               144.9828
+
+
+
+
+```
 
 
 
