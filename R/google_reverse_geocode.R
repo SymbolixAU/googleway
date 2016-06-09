@@ -1,6 +1,6 @@
 #' Google reverse geocoding
 #'
-#' Geocoding is the process of converting addresses (like "1600 Amphitheatre Parkway, Mountain View, CA") into geographic coordinates (like latitude 37.423021 and longitude -122.083739), which you can use to place markers on a map, or position the map.
+#' Reverse geocoding is the process of converting geographic coordinates into a human-readable address.
 #'
 #' @param location numeric Vector of lat/lon coordinates
 #' @param result_type string vector One or more address types. See \url{https://developers.google.com/maps/documentation/geocoding/intro#Types} for list of available types.

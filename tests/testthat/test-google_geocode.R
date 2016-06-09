@@ -82,7 +82,7 @@ test_that("components is a data.frame with the correct columns",{
                            value = c("3000", "AU"))
 
   expect_error(google_geocode(address = "Flinders Street Station",
-                              key = key,
+                              key = "abc",
                               components = components,
                               output_format = "data.frame"),
                "components must be a data.frame with two columns named 'component' and 'value'")
@@ -91,7 +91,7 @@ test_that("components is a data.frame with the correct columns",{
                      value = c("3000", "AU"))
 
   expect_error(google_geocode(address = "Flinders Street Station",
-                              key = key,
+                              key = "abc",
                               components = components,
                               output_format = "data.frame"),
                "components must be a data.frame with two columns named 'component' and 'value'")

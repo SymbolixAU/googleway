@@ -6,6 +6,8 @@ The next release will be version 1.0.0 and will remove the `get_route()` funcito
 
 Development version
 
+`google_reverse_geocode()` implemented. Returns the street address of lat/lon coordinates
+
 `google_elevation()` implemented. Returns elevation data for locations
 
 `google_timezone()` implemented. Returns time offset data for locations on the surface of the earth.
