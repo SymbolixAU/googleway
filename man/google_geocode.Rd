@@ -5,7 +5,8 @@
 \title{Google geocoding}
 \usage{
 google_geocode(address, bounds = NULL, key, language = NULL,
-  region = NULL, output_format = c("data.frame", "JSON"))
+  region = NULL, components = NULL, output_format = c("data.frame",
+  "JSON"))
 }
 \arguments{
 \item{address}{string The street address that you want to geocode, in the format used by the national postal service of the country concerned}
@@ -19,6 +20,8 @@ google_geocode(address, bounds = NULL, key, language = NULL,
 \item{region}{string Specifies the region code, specified as a ccTLD ("top-level domain"). See region basing for details \url{https://developers.google.com/maps/documentation/directions/intro#RegionBiasing}}
 
 \item{output_format}{string Either 'data.frame' or 'JSON'}
+
+\item{component}{data.frame of two columns, component and value. Restricts the results to a specific area. One or more of "route","locality","administrative_area","postal_code","country"}
 }
 \value{
 Either data.frame or JSON string of the geocoded address
@@ -44,6 +47,15 @@ js <- google_geocode(address = "Winnetka",
                      bounds = bounds,
                      key = key,
                      output_format = "JSON")
+
+## using components
+components <- data.frame(component = c("postal_code", "country"),
+                         value = c("3000", "AU"))
+
+df <- google_geocode(address = "Flinders Street Station",
+                   key = key,
+                   components = components,
+                   output_format = "data.frame")
 
 }
 }

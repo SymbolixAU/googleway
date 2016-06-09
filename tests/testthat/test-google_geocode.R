@@ -75,6 +75,29 @@ test_that("region is a single string",{
 })
 
 
+test_that("components is a data.frame with the correct columns",{
+
+
+  components <- data.frame(components = c("postal_code", "country"),
+                           value = c("3000", "AU"))
+
+  expect_error(google_geocode(address = "Flinders Street Station",
+                              key = key,
+                              components = components,
+                              output_format = "data.frame"),
+               "components must be a data.frame with two columns named 'component' and 'value'")
+
+  components <- list(components = c("postal_code", "country"),
+                     value = c("3000", "AU"))
+
+  expect_error(google_geocode(address = "Flinders Street Station",
+                              key = key,
+                              components = components,
+                              output_format = "data.frame"),
+               "components must be a data.frame with two columns named 'component' and 'value'")
+
+})
+
 
 
 
