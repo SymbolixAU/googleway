@@ -16,11 +16,11 @@ Functions to retrieve routes from [Google Maps Directions API](https://developer
 
 There are **significnat changes** coming in the next release. See [News](https://github.com/SymbolixAU/googleway/blob/master/NEWS.md) for latest updates and details on the development version.
 
-## Examples v1.0.0
+## Examples v1.0.0 (development version)
 
 See [**vignettes**](https://github.com/SymbolixAU/googleway/blob/master/vignettes/googleway-vignette.Rmd) for examples
 
-## Examples v0.2.0
+## Examples v0.2.0 (CRAN release)
 
 `get_route()` retrieves route information from Google Maps.
 
