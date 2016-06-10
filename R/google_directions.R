@@ -60,7 +60,7 @@
 #' ## using arrival time
 #' google_directions(origin = "Melbourne Airport, Australia",
 #'          destination = "Portsea, Melbourne, Australia",
-#'          arrival_time = as.POSIXct("2016-06-08 16:00:00", tz = "Australia/Melbourne),
+#'          arrival_time = as.POSIXct("2016-06-08 16:00:00", tz = "Australia/Melbourne"),
 #'          mode = "transit",
 #'          transit_mode = "bus",
 #'          transit_routing_preference = "less_walking",
