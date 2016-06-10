@@ -13,6 +13,17 @@ test_that("df_locations is a data.frame",{
 
 })
 
+test_that("location errors on incorrect type",{
+
+  df <- data.frame(lat = c(-37.81659, -37.88950),
+                   lon = c(144.9841, 144.9841))
+
+  expect_error(google_elevation(df_locations = df,
+                                location_type = "route",
+                                key = "abc"),
+               "'arg' should be oneof \"individual\", \"path\"")
+
+})
 
 test_that("df_locations contains correctly named columns",{
 
@@ -40,6 +51,17 @@ test_that("df_locations only contains one of each lat/lon columns",{
                                 key = "abc",
                                 simplify = TRUE),
                "Multiple possible lat/lon columns detected. Only use one column for lat/latitude and one column for lon/longitude coordinates")
+})
+
+test_that("error when samples is not logical",{
+
+  df <- data.frame(lat = c(-37.81659, -37.88950),
+                   lon = c(144.9841, 144.9841))
+
+  expect_error(google_elevation(df_locations = df,
+                                key = "abc",
+                                simplify = "TRUE"),
+               "simplify must be logical - TRUE or FALSE")
 })
 
 test_that("warning issued when samples is NULL", {

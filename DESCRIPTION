@@ -1,13 +1,13 @@
 Package: googleway
 Type: Package
-Title: Retrieve Routes from Google Directions API and Decode Encoded Polylines
+Title: Retrieves Data from Google Maps APIs
 Version: 1.0.0
 Date: 2016-05-20
 Authors@R: c(
     person("David", "Cooley", ,"dcooley@symbolix.com.au", role = c("aut", "cre")),
     person("Paulo", "Barcelos", role = "ctb", comment = "Author of c++ decode_pl")
     )
-Description: Retrieves routes and decodes polylines generated from Google's directions API (https://developers.google.com/maps/documentation/directions/).
+Description: Retrieves data from six Google Maps APIs: directions, distances, elevation, geocode, reverse geocode and timezone. Also able to decode encoded location data.
 License: Apache License 2.0
 LazyData: TRUE
 Depends: R (>= 3.0.0)
