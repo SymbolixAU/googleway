@@ -8,13 +8,13 @@
 #' @param region string Specifies the region code, specified as a ccTLD ("top-level domain"). See region basing for details \url{https://developers.google.com/maps/documentation/directions/intro#RegionBiasing}
 #' @param key string A valid Google Developers Directions API key
 #' @param components data.frame of two columns, component and value. Restricts the results to a specific area. One or more of "route","locality","administrative_area","postal_code","country"
-#' @param output_format string Either 'data.frame' or 'JSON'
-#' @return Either data.frame or JSON string of the geocoded address
+#' @param simplify logical Inidicates if the returned JSON should be coerced into a list
+#' @return Either list or JSON string of the geocoded address
 #' @examples
 #' \dontrun{
 #' df <- google_geocode(address = "MCG, Melbourne, Australia",
 #'                      key = key,
-#'                      output_format = "data.frame")
+#'                      simplify = TRUE)
 #'
 #' df$results$geometry$location
 #'         lat      lng
@@ -27,7 +27,7 @@
 #' js <- google_geocode(address = "Winnetka",
 #'                      bounds = bounds,
 #'                      key = key,
-#'                      output_format = "JSON")
+#'                      simplify = FALSE)
 #'
 #' ## using components
 #' components <- data.frame(component = c("postal_code", "country"),
@@ -36,7 +36,7 @@
 #'df <- google_geocode(address = "Flinders Street Station",
 #'                    key = key,
 #'                    components = components,
-#'                    output_format = "data.frame")
+#'                    simplify = FALSE)
 #'
 #' }
 #' @export
@@ -46,11 +46,14 @@ google_geocode <- function(address,
                            language = NULL,
                            region = NULL,
                            components = NULL,
-                           output_format = c("data.frame","JSON")){
+                           simplify = c(TRUE, FALSE)){
 
   ## parameter check - key
   if(is.null(key))
     stop("A Valid Google Developers API key is required")
+
+  if(!is.logical(simplify))
+    stop("simplify must be either TURE or FALSE")
 
   ## address check
   address <- fun_check_address(address)
@@ -73,14 +76,16 @@ google_geocode <- function(address,
     stop("region must be a two-character string")
 
   ## components check
-  if(!inherits(components, "data.frame") | !sum(names(components) %in% c("component","value")) == 2)
-    stop("components must be a data.frame with two columns named 'component' and 'value'")
+  if(!is.null(components)){
+    if(!inherits(components, "data.frame") | !sum(names(components) %in% c("component","value")) == 2)
+      stop("components must be a data.frame with two columns named 'component' and 'value'")
 
-  ## error on misspelled components
-  if(!any(as.character(components$components) %in% c("route","locality","administrative_area","postal_code","country")))
-    stop("valid components are 'route', 'locality', 'administrative_area' and 'country'")
+    ## error on misspelled components
+    if(!any(as.character(components$components) %in% c("route","locality","administrative_area","postal_code","country")))
+      stop("valid components are 'route', 'locality', 'administrative_area' and 'country'")
 
-  components = paste0(apply(components, 1, function(x) paste0(x, collapse = ":")), collapse = "|")
+    components = paste0(apply(components, 1, function(x) paste0(x, collapse = ":")), collapse = "|")
+  }
 
   map_url <- paste0("https://maps.googleapis.com/maps/api/geocode/json?",
                     "&address=", tolower(address),
@@ -93,6 +98,6 @@ google_geocode <- function(address,
   if(length(map_url) > 1)
     stop("invalid map_url")
 
-  return(fun_download_data(map_url, output_format))
+  return(fun_download_data(map_url, simplify))
 
 }

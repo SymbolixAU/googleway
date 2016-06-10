@@ -17,8 +17,8 @@
 #' @param language string specifies the language in which to return the results. See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis} If no langauge is supplied, the service will attempt to use the language of the domain from which the request was sent
 #' @param region string Specifies the region code, specified as a ccTLD ("top-level domain"). See region basing for details \url{https://developers.google.com/maps/documentation/directions/intro#RegionBiasing}
 #' @param key string A valid Google Developers Directions API key
-#' @param output_format string Either 'data.frame' or 'JSON'
-#' @return Either data.frame or JSON string of the distance between origins and destinations
+#' @param simplify logical Inidicates if the returned JSON should be coerced into a list
+#' @return Either list or JSON string of the distance between origins and destinations
 #' @examples
 #' \dontrun{
 #' google_distance(origins = list(c("Melbourne Airport, Australia"),
@@ -26,7 +26,7 @@
 #'                              c(-37.81659, 144.9841)),
 #'                              destinations = c("Portsea, Melbourne, Australia"),
 #'                              key = "<your valid api key>",
-#'                              output_format = "JSON")
+#'                              simplify = FALSE)
 #'
 #'
 #'
@@ -47,7 +47,7 @@ google_distance <- function(origins,
                             language = NULL,
                             region = NULL,
                             key = NULL,
-                            output_format = c('data.frame', 'JSON')){
+                            simplify = c(TRUE, FALSE)){
 
   directions_data(base_url = "https://maps.googleapis.com/maps/api/distancematrix/json?",
                 information_type = "distance",
@@ -66,6 +66,6 @@ google_distance <- function(origins,
                 language,
                 region,
                 key,
-                output_format)
+                simplify)
 
 }

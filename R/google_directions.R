@@ -17,8 +17,8 @@
 #' @param language string specifies the language in which to return the results. See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis} If no langauge is supplied, the service will attempt to use the language of the domain from which the request was sent
 #' @param region string Specifies the region code, specified as a ccTLD ("top-level domain"). See region basing for details \url{https://developers.google.com/maps/documentation/directions/intro#RegionBiasing}
 #' @param key string A valid Google Developers Directions API key
-#' @param output_format string Either 'data.frame' or 'JSON'
-#' @return Either data.frame or JSON string of the route between origin and destination
+#' @param simplify logical Inidicates if the returned JSON should be coerced into a list
+#' @return Either list or JSON string of the route between origin and destination
 #' @examples
 #' \dontrun{
 #' ## using lat/long coordinates
@@ -45,7 +45,7 @@
 #'          avoid = c("TOLLS", "highways"),
 #'          units = "imperial",
 #'          key = "<your valid api key>",
-#'          output_format = "data.frame")
+#'          simplify = TRUE)
 #'
 #' ## using bus and less walking
 #' google_directions(origin = "Melbourne Airport, Australia",
@@ -55,7 +55,7 @@
 #'          transit_mode = "bus",
 #'          transit_routing_preference = "less_walking",
 #'          key = "<your valid api key>",
-#'          output_format = "JSON")
+#'          simplify = FALSE)
 #'
 #' ## using arrival time
 #' google_directions(origin = "Melbourne Airport, Australia",
@@ -65,7 +65,7 @@
 #'          transit_mode = "bus",
 #'          transit_routing_preference = "less_walking",
 #'          key = "<your valid api key>",
-#'          output_format = "JSON")
+#'          simplify = FALSE)
 #'
 #' ## return results in French
 #' google_directions(origin = "Melbourne Airport, Australia",
@@ -76,7 +76,7 @@
 #'          transit_routing_preference = "less_walking",
 #'          language = "fr",
 #'          key = key,
-#'          output_format = "JSON")
+#'          simplify = FALSE)
 #'
 #' }
 #' @export
@@ -95,7 +95,7 @@ google_directions <- function(origin,
                               language = NULL,
                               region = NULL,
                               key,
-                              output_format = c('data.frame', 'JSON')){
+                              simplify = c(TRUE, FALSE)){
 
   directions_data(base_url = "https://maps.googleapis.com/maps/api/directions/json?",
                 information_type = "directions",
@@ -114,7 +114,7 @@ google_directions <- function(origin,
                 language,
                 region,
                 key,
-                output_format)
+                simplify)
 
 }
 

@@ -6,8 +6,8 @@
 #' @param timestamp POSIXct The Google Maps Time Zone API uses the timestamp to determine whether or not Daylight Savings should be applied. Will default to the current system time
 #' @param language string specifies the language in which to return the results. See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis} If no langauge is supplied, the service will attempt to use the language of the domain from which the request was sent
 #' @param key string A valid Google Developers Directions API key
-#' @param output_format string Either 'data.frame' or 'JSON'
-#' @return Either data.frame or JSON string of the timezone
+#' @param simplify logical Inidicates if the returned JSON should be coerced into a list
+#' @return Either list or JSON string of the timezone
 #' @examples
 #' \dontrun{
 #' google_timezone(location = c(-37.81659, 144.9841),
@@ -20,7 +20,7 @@
 google_timezone <- function(location,
                             timestamp = Sys.time(),
                             language = NULL,
-                            output_format = c("data.frame","JSON"),
+                            simplify = c(TRUE, FALSE),
                             key
                             ){
 
@@ -43,8 +43,8 @@ google_timezone <- function(location,
   if(!is.null(language) & (class(language) != "character" | length(language) > 1))
     stop("language must be a single character vector or string")
 
-  ## check output format
-  output_format <- match.arg(output_format)
+  if(!is.logical(simplify))
+    stop("simplify must be either TRUE or FALSE")
 
   map_url <- paste0("https://maps.googleapis.com/maps/api/timezone/json?",
                     "&location=", location,
@@ -52,6 +52,6 @@ google_timezone <- function(location,
                     "&language=", tolower(language),
                     "&key=", key)
 
-  return(fun_download_data(map_url, output_format))
+  return(fun_download_data(map_url, simplify))
 
 }

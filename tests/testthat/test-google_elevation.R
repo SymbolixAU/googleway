@@ -5,7 +5,7 @@ test_that("df_locations is a data.frame",{
 
   expect_error(google_elevation(df_locations = c(-37.81659, -37.88950),
                    key = "abc",
-                   output_format = "data.frame"),
+                   simplify = TRUE),
                "df_locations should be a data.frame containing at least two columns of lat and lon coordianates")
 
 })
@@ -20,7 +20,7 @@ test_that("df_locations contains correctly named columns",{
                                 location_type = "path",
                                 samples = 20,
                                 key = "abc",
-                                output_format = "data.frame"),
+                                simplify = TRUE),
                "data.frame of locations must contain the columns lat/latitude and lon/longitude")
 })
 
@@ -35,7 +35,7 @@ test_that("df_locations only contains one of each lat/lon columns",{
                                 location_type = "path",
                                 samples = 20,
                                 key = "abc",
-                                output_format = "data.frame"),
+                                simplify = TRUE),
                "Multiple possible lat/lon columns detected. Only use one column for lat/latitude and one column for lon/longitude coordinates")
 })
 
@@ -48,7 +48,7 @@ test_that("warning issued when samples == NULL", {
                                 location_type = "path",
                                 samples = NULL,
                                 key = "abc",
-                                output_format = "data.frame"),
+                                simplify = TRUE),
                "samples has not been specified. 3 will be used")
 
 })

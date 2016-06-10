@@ -5,7 +5,7 @@
 \title{Google timezone}
 \usage{
 google_timezone(location, timestamp = Sys.time(), language = NULL,
-  output_format = c("data.frame", "JSON"), key)
+  simplify = c(TRUE, FALSE), key)
 }
 \arguments{
 \item{location}{vector of lat/lon pair}
@@ -14,12 +14,12 @@ google_timezone(location, timestamp = Sys.time(), language = NULL,
 
 \item{language}{string specifies the language in which to return the results. See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis} If no langauge is supplied, the service will attempt to use the language of the domain from which the request was sent}
 
-\item{output_format}{string Either 'data.frame' or 'JSON'}
+\item{simplify}{logical Inidicates if the returned JSON should be coerced into a list}
 
 \item{key}{string A valid Google Developers Directions API key}
 }
 \value{
-Either data.frame or JSON string of the timezone
+Either list or JSON string of the timezone
 }
 \description{
 The Google Maps Time Zone API provides time offset data for locations on the surface of the earth. You request the time zone information for a specific latitude/longitude pair and date

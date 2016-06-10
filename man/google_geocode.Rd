@@ -5,8 +5,7 @@
 \title{Google geocoding}
 \usage{
 google_geocode(address, bounds = NULL, key, language = NULL,
-  region = NULL, components = NULL, output_format = c("data.frame",
-  "JSON"))
+  region = NULL, components = NULL, simplify = c(TRUE, FALSE))
 }
 \arguments{
 \item{address}{string The street address that you want to geocode, in the format used by the national postal service of the country concerned}
@@ -21,10 +20,10 @@ google_geocode(address, bounds = NULL, key, language = NULL,
 
 \item{components}{data.frame of two columns, component and value. Restricts the results to a specific area. One or more of "route","locality","administrative_area","postal_code","country"}
 
-\item{output_format}{string Either 'data.frame' or 'JSON'}
+\item{simplify}{logical Inidicates if the returned JSON should be coerced into a list}
 }
 \value{
-Either data.frame or JSON string of the geocoded address
+Either list or JSON string of the geocoded address
 }
 \description{
 Geocoding is the process of converting addresses (like "1600 Amphitheatre Parkway, Mountain View, CA") into geographic coordinates (like latitude 37.423021 and longitude -122.083739), which you can use to place markers on a map, or position the map.
@@ -33,7 +32,7 @@ Geocoding is the process of converting addresses (like "1600 Amphitheatre Parkwa
 \dontrun{
 df <- google_geocode(address = "MCG, Melbourne, Australia",
                      key = key,
-                     output_format = "data.frame")
+                     simplify = TRUE)
 
 df$results$geometry$location
         lat      lng
@@ -46,7 +45,7 @@ bounds <- list(c(34.172684,-118.604794),
 js <- google_geocode(address = "Winnetka",
                      bounds = bounds,
                      key = key,
-                     output_format = "JSON")
+                     simplify = FALSE)
 
 ## using components
 components <- data.frame(component = c("postal_code", "country"),
@@ -55,7 +54,7 @@ components <- data.frame(component = c("postal_code", "country"),
 df <- google_geocode(address = "Flinders Street Station",
                    key = key,
                    components = components,
-                   output_format = "data.frame")
+                   simplify = FALSE)
 
 }
 }

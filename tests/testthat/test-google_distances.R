@@ -14,7 +14,7 @@ test_that("google_distance returns data.frame", {
                           destinations = c(-37.81659, 144.9841),
                           mode = "walking",
                           key = key,
-                          output_format = "data.frame")
+                          simplify = TRUE)
 
   expect_equal(class(df), "list")
   expect_equal(names(df), c("geocoded_waypoints","routes","status"))
@@ -49,7 +49,7 @@ test_that("Avoid is a valid type", {
                                  destinations = list(c(-37.81659, 144.9841)),
                                  avoid = "dont avoid",
                                  key = "abc",
-                                 output_format = "data.frame"),
+                                 simplify = TRUE),
                "avoid must be one of tolls, highways, ferries or indoor")
 })
 
@@ -59,7 +59,7 @@ test_that("Departure time is not in the past",{
                                destinations = list(c(-37.81659, 144.9841)),
                                  departure_time = as.POSIXct("2015-01-01"),
                                  key = "abc",
-                                 output_format = "data.frame"),
+                                 simplify = TRUE),
                "departure_time must not be in the past")
 
 })

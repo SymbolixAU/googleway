@@ -9,7 +9,7 @@ google_directions(origin, destination, mode = c("driving", "walking",
   waypoints = NULL, alternatives = FALSE, avoid = NULL,
   units = c("metric", "imperial"), traffic_model = NULL,
   transit_mode = NULL, transit_routing_preference = NULL, language = NULL,
-  region = NULL, key, output_format = c("data.frame", "JSON"))
+  region = NULL, key, simplify = c(TRUE, FALSE))
 }
 \arguments{
 \item{origin}{numeric Vector of lat/lon coordinates, or an address string}
@@ -42,10 +42,10 @@ google_directions(origin, destination, mode = c("driving", "walking",
 
 \item{key}{string A valid Google Developers Directions API key}
 
-\item{output_format}{string Either 'data.frame' or 'JSON'}
+\item{simplify}{logical Inidicates if the returned JSON should be coerced into a list}
 }
 \value{
-Either data.frame or JSON string of the route between origin and destination
+Either list or JSON string of the route between origin and destination
 }
 \description{
 The Google Maps Directions API is a service that calculates directions between locations. You can search for directions for several modes of transportation, including transit, driving, walking, or cycling.

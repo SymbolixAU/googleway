@@ -5,7 +5,7 @@
 \title{Google elevation}
 \usage{
 google_elevation(df_locations, location_type = c("individual", "path"),
-  samples = NULL, key, output_format = c("data.frame", "JSON"))
+  samples = NULL, key, simplify = c(TRUE, FALSE))
 }
 \arguments{
 \item{df_locations}{data.frame of with two columns called 'lat' and 'lon' (or 'latitude' / 'longitude') used as the locations}
@@ -16,10 +16,10 @@ google_elevation(df_locations, location_type = c("individual", "path"),
 
 \item{key}{string A valid Google Developers Directions API key}
 
-\item{output_format}{string Either 'data.frame' or 'JSON'}
+\item{simplify}{logical Inidicates if the returned JSON should be coerced into a list}
 }
 \value{
-Either data.frame or JSON string of the elevation data
+Either list or JSON string of the elevation data
 }
 \description{
 The Google Maps Elevation API provides elevation data for all locations on the surface of the earth, including depth locations on the ocean floor (which return negative values).
@@ -34,7 +34,7 @@ You can specify the locations in one of two ways. Either as a set of single loca
 location <- c(-37.81659, 144.9841)
 google_elevation(locations = location,
                  key = "<your valid api key>",
-                 output_format = "data.frame")
+                 simplify = TRUE)
 
 
 
@@ -46,7 +46,7 @@ df <- google_elevation(df_locations = df,
                        location_type = "path",
                        samples = 20,
                        key = key,
-                       output_format = "data.frame")
+                       simplify = TRUE)
 
 ## plot results
 library(ggplot2)

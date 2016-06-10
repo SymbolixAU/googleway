@@ -7,8 +7,8 @@
 #' @param location_type string vector Specifying a location type will restrict the results to this type. If multiple types are specified, the API will return all addresses that match any of the types
 #' @param language string specifies the language in which to return the results. See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis} If no langauge is supplied, the service will attempt to use the language of the domain from which the request was sent
 #' @param key string A valid Google Developers Directions API key
-#' @param output_format string Either 'data.frame' or 'JSON'
-#' @return Either data.frame or JSON string of the geocoded address
+#' @param simplify logical Inidicates if the returned JSON should be coerced into a list
+#' @return Either list or JSON string of the geocoded address
 #' @examples
 #' \dontrun{
 #' ## searching for the street address for the rooftop location type
@@ -23,13 +23,14 @@ google_reverse_geocode <- function(location,
                                    location_type = NULL,
                                    language = NULL,
                                    key,
-                                   output_format = c("data.frame","JSON")){
+                                   simplify = c(TRUE, FALSE)){
 
   ## parameter check - key
   if(is.null(key))
     stop("A Valid Google Developers API key is required")
 
-  output_format <- match.arg(output_format)
+  if(!is.logical(simplify))
+    stop("simplify must be either TRUE or FALSE")
 
   ## check location
   if(!is.numeric(location))
@@ -74,6 +75,6 @@ google_reverse_geocode <- function(location,
   if(length(map_url) > 1)
     stop("invalid map_url")
 
-  return(fun_download_data(map_url, output_format))
+  return(fun_download_data(map_url, simplify))
 
 }

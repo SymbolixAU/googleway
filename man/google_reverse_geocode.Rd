@@ -5,7 +5,7 @@
 \title{Google reverse geocoding}
 \usage{
 google_reverse_geocode(location, result_type = NULL, location_type = NULL,
-  language = NULL, key, output_format = c("data.frame", "JSON"))
+  language = NULL, key, simplify = c(TRUE, FALSE))
 }
 \arguments{
 \item{location}{numeric Vector of lat/lon coordinates}
@@ -18,10 +18,10 @@ google_reverse_geocode(location, result_type = NULL, location_type = NULL,
 
 \item{key}{string A valid Google Developers Directions API key}
 
-\item{output_format}{string Either 'data.frame' or 'JSON'}
+\item{simplify}{logical Inidicates if the returned JSON should be coerced into a list}
 }
 \value{
-Either data.frame or JSON string of the geocoded address
+Either list or JSON string of the geocoded address
 }
 \description{
 Reverse geocoding is the process of converting geographic coordinates into a human-readable address.

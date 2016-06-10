@@ -23,16 +23,18 @@ directions_data <- function(base_url,
                             language = NULL,
                             region = NULL,
                             key,
-                            output_format = c('data.frame', 'JSON')){
+                            simplify = c(TRUE, FALSE)){
 
   ## parameter check
   if(is.null(key))
     stop("A Valid Google Developers API key is required")
 
   mode <- match.arg(mode)
-  output_format <- match.arg(output_format)
   units <- match.arg(units)
   traffic_model <- match.arg(traffic_model)
+
+  if(!is.logical(simplify))
+    stop("simplify must be either TRUE or FALSE")
 
   ## transit_mode is only valid where mode = transit
   if(!is.null(transit_mode) & mode != "transit"){
@@ -166,16 +168,16 @@ directions_data <- function(base_url,
   if(length(map_url) > 1)
     stop("invalid map_url")
 
-  return(fun_download_data(map_url, output_format))
+  return(fun_download_data(map_url, simplify))
 
 }
 
 
-fun_download_data <- function(map_url, output_format){
+fun_download_data <- function(map_url, simplify){
 
-  if(output_format == "data.frame"){
+  if(simplify == TRUE){
     out <- jsonlite::fromJSON(map_url)
-  }else if(output_format == "JSON"){
+  }else{
     # out <- readLines(curl::curl(map_url))
     con <- curl::curl(map_url)
     out <- readLines(con)
