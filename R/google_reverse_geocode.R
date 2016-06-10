@@ -30,7 +30,7 @@ google_reverse_geocode <- function(location,
     stop("A Valid Google Developers API key is required")
 
   if(!is.logical(simplify))
-    stop("simplify must be either TRUE or FALSE")
+    stop("simplify must be logical - TRUE or FALSE")
 
   ## check location
   if(!is.numeric(location))

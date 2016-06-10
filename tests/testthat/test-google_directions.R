@@ -32,14 +32,14 @@ test_that("incorrect mode throws error", {
 
 })
 
-test_that("incorrect output throws warning",{
+test_that("incorrect simplify throws warning",{
 
   expect_error(google_directions(origin = c(-37.8179746, 144.9668636),
                          destination = c(-37.81659, 144.9841),
                          mode = "driving",
                          key = "abc",
-                         output_format = "non-output"),
-               "'arg' should be one of \"data.frame\", \"JSON\"")
+                         simplify = "TRUE"),
+               "simplify must be logical - TRUE or FALSE")
 
 })
 

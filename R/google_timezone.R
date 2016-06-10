@@ -44,7 +44,7 @@ google_timezone <- function(location,
     stop("language must be a single character vector or string")
 
   if(!is.logical(simplify))
-    stop("simplify must be either TRUE or FALSE")
+    stop("simplify must be logical - TRUE or FALSE")
 
   map_url <- paste0("https://maps.googleapis.com/maps/api/timezone/json?",
                     "&location=", location,
