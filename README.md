@@ -16,11 +16,16 @@ Functions to retrieve routes from [Google Maps Directions API](https://developer
 
 There are **significnat changes** coming in the next release. See [News](https://github.com/SymbolixAU/googleway/blob/master/NEWS.md) for latest updates and details on the development version.
 
+## Examples v1.0.0
+
+See [**vignettes**](https://github.com/SymbolixAU/googleway/blob/master/vignettes/googleway-vignette.Rmd) for examples
+
+## Examples v0.2.0
+
 `get_route()` retrieves route information from Google Maps.
 
 `decode_pl()` decodes polyilnes that are generated from the API call.
 
-## Examples
 
 ### get_route
 

@@ -3,6 +3,8 @@ The next release will be version 1.0.0 and will remove the `get_route()` funcito
 
 ## Version 0.3.0 - Development version on github
 
+Tests and vignettes written for all functions. 
+
 
 Development version
 

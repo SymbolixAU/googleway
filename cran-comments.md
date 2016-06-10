@@ -1,13 +1,10 @@
 
-Resubmission (2) of googleway. In this version I have:
+## Release summary
 
-* Removed mis-spelled 'Maintanier' field from DESCRIPTION
+* Updates v0.2.0 to v1.0.0
+* 5 new functions
+* 1 renamed function
 
-
-Resubmission (1) of googleway. In this version I have:
-
-* Identified the author of the c++ code in the DESCRIPTION
-* Removed redundant 'Functions to' from package title
 
 ## Test Environments
 
