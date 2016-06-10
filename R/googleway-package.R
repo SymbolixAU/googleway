@@ -34,7 +34,7 @@ directions_data <- function(base_url,
   traffic_model <- match.arg(traffic_model)
 
   if(!is.logical(simplify))
-    stop("simplify must be either TRUE or FALSE")
+    stop("simplify must be logical - TRUE or FALSE")
 
   ## transit_mode is only valid where mode = transit
   if(!is.null(transit_mode) & mode != "transit"){
