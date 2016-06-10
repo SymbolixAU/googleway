@@ -9,7 +9,7 @@ google_directions(origin, destination, mode = c("driving", "walking",
   waypoints = NULL, alternatives = FALSE, avoid = NULL,
   units = c("metric", "imperial"), traffic_model = NULL,
   transit_mode = NULL, transit_routing_preference = NULL, language = NULL,
-  region = NULL, key, simplify = c(TRUE, FALSE))
+  region = NULL, key, simplify = TRUE)
 }
 \arguments{
 \item{origin}{numeric Vector of lat/lon coordinates, or an address string}
@@ -49,5 +49,66 @@ Either list or JSON string of the route between origin and destination
 }
 \description{
 The Google Maps Directions API is a service that calculates directions between locations. You can search for directions for several modes of transportation, including transit, driving, walking, or cycling.
+}
+\examples{
+\dontrun{
+## using lat/long coordinates
+google_directions(origin = c(-37.8179746, 144.9668636),
+          destination = c(-37.81659, 144.9841),
+          mode = "walking",
+          key = "<your valid api key>")
+
+
+## using address string
+google_directions(origin = "Flinders Street Station, Melbourne",
+         destination = "MCG, Melbourne",
+         mode = "walking",
+         key = "<your valid api key>")
+
+
+google_directions(origin = "Melbourne Airport, Australia",
+         destination = "Portsea, Melbourne, Australia",
+         departure_time = as.POSIXct("2016-06-08 07:00:00"),
+         waypoints = list(c(-37.81659, 144.9841),
+                           via = "Ringwood, Victoria"),
+         mode = "driving",
+         alternatives = FALSE,
+         avoid = c("TOLLS", "highways"),
+         units = "imperial",
+         key = "<your valid api key>",
+         simplify = TRUE)
+
+## using bus and less walking
+google_directions(origin = "Melbourne Airport, Australia",
+         destination = "Portsea, Melbourne, Australia",
+         departure_time = as.POSIXct("2016-06-08 07:00:00"),
+         mode = "transit",
+         transit_mode = "bus",
+         transit_routing_preference = "less_walking",
+         key = "<your valid api key>",
+         simplify = FALSE)
+
+## using arrival time
+google_directions(origin = "Melbourne Airport, Australia",
+         destination = "Portsea, Melbourne, Australia",
+         arrival_time = as.POSIXct("2016-06-08 16:00:00", tz = "Australia/Melbourne"),
+         mode = "transit",
+         transit_mode = "bus",
+         transit_routing_preference = "less_walking",
+         key = "<your valid api key>",
+         simplify = FALSE)
+
+## return results in French
+google_directions(origin = "Melbourne Airport, Australia",
+         destination = "Portsea, Melbourne, Australia",
+         arrival_time = as.POSIXct("2016-06-08 16:00:00", tz = "Australia/Melbourne"),
+         mode = "transit",
+         transit_mode = "bus",
+         transit_routing_preference = "less_walking",
+         language = "fr",
+         key = key,
+         simplify = FALSE)
+
+}
 }
 

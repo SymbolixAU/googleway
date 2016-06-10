@@ -1,4 +1,4 @@
-context("Google distance")
+ context("Google distance")
 
 ## api keys are not included in the package
 ## and so can't be tested
@@ -96,6 +96,8 @@ test_that("map url is a single string",{
 
 test_that("transit_mode issues warning when mode != transit",{
 
+  skip_api_key()
+
   expect_warning(google_distance(origins = "Melbourne Airport, Australia",
                                    destinations = "Portsea, Melbourne, Australia",
                                    departure_time = Sys.time() + (24 * 60 * 60),
@@ -109,6 +111,8 @@ test_that("transit_mode issues warning when mode != transit",{
 
 
 test_that("warning when both arrival and departure times supplied", {
+
+  skip_api_key()
 
   expect_warning(google_distance(origins = "Melbourne Airport, Australia",
                                    destinations = "Portsea, Melbourne, Australia",

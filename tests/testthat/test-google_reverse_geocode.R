@@ -1,6 +1,5 @@
 context("Google reverse_geocode")
 
-
 test_that("incorrect location throws error",{
 
   expect_error(google_reverse_geocode(location = "Flinders Street Station, Melbourne",

@@ -42,9 +42,7 @@ The same query using the developers API generates the data in JSON
 
 ![Melbourne to Sydney JSON](./img/melbourne_to_sydney_json.png)
 
-This result can be returned using the `google_directions()` function. 
-
-Note you can return the output as **JSON** or a **data.frame**.
+This result can be returned using the `google_directions()` function. By default the result will be coerced to the simplest `R` structure possible using `jsonlite::fromJSON()`. If you would like the result in JSON set `simplify = FALSE`.
 
 ```
 library(googleway)
@@ -54,7 +52,7 @@ df <- google_directions(origin = "Melbourne, Australia",
                         destination = "Sydney, Australia",
                         key = key,
                         mode = "driving",
-                        output_format = "data.frame")
+                        simplify = TRUE)
 ```
 
 The data used to draw the route is the **overview_polyline**
@@ -97,8 +95,7 @@ df <- google_distance(origins = list(c("Melbourne Airport, Australia"),
                                      c("MCG, Melbourne, Australia"),
                                      c(-37.81659, 144.9841)),
                       destinations = c("Portsea, Melbourne, Australia"),
-                      key = key,
-                      output_format = "data.frame")
+                      key = key)
 
 head(df)
 $destination_addresses
@@ -133,12 +130,12 @@ To access this API through googleway use the `google_elevation()` function.
 Finding the elevation of 20 points between the MCG, Melbourne and the beach at Elwood, Melbourne
 
 ```
-df <- google_elevation(df_locations = data.frame(lat = c(-37.81659, -37.88950),
-                                                 lon = c(144.9841, 144.9841)),
-                       location_type = "path",
-                       samples = 20,
-                       key = key,
-                       output_format = "data.frame")
+google_elevation(df_locations = data.frame(lat = c(-37.81659, -37.88950),
+                                           lon = c(144.9841, 144.9841)),
+                  location_type = "path",
+                  samples = 20,
+                  key = key,
+                  simplify = TRUE)
                        
 $results
     elevation location.lat location.lng resolution
@@ -181,9 +178,9 @@ Finding the timezone of the MCG in Melbourne
 
 ```
 google_timezone(location = c(-37.81659, 144.9841), 
-                timestamp = as.POSIXct("2016-06-05"),
-                output_format = "JSON", 
-                key = key)
+                timestamp = as.POSIXct("2016-06-05"), 
+                key = key,
+                simplify = FALSE)
                 
 [1] "{"                                                         
 [2] "   \"dstOffset\" : 0,"                                     
@@ -211,7 +208,7 @@ Finding the location details for Flinders Street Station, Melbourne
 An unbound search for Flinders Street Station returns 6 options.
 df <- google_geocode(address = "Flinders Street Station",
                      key = key,
-                     output_format = "data.frame")
+                     simplify = TRUE)
 
 df$results$formatted_address
 [1] "Flinders Street Railway Station, Flinders St, Melbourne VIC 3000, Australia"
@@ -229,7 +226,7 @@ bounds <- list(c(-37.81962,144.9657),
 df <- google_geocode(address = "Flinders Street Station",
                      bounds = bounds,
                      key = key,
-                     output_format = "data.frame")
+                     simplify = TRUE)
 
 df$results$formatted_address
 [1] "Flinders Street Railway Station, Flinders St, Melbourne VIC 3000, Australia"
@@ -256,7 +253,7 @@ df <- google_reverse_geocode(location = c(-37.81659, 144.9841),
                              result_type = c("street_address", "postal_code"),
                              location_type = "rooftop",
                              key = key,
-                             output_format = "data.frame")
+                             simplify = TRUE)
 
 df$results$address_components
 [[1]]

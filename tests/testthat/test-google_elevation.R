@@ -1,5 +1,8 @@
 context("Google elevation")
 
+skip_api_key <- function() {
+  skip("key not available")
+}
 
 test_that("df_locations is a data.frame",{
 
@@ -39,7 +42,10 @@ test_that("df_locations only contains one of each lat/lon columns",{
                "Multiple possible lat/lon columns detected. Only use one column for lat/latitude and one column for lon/longitude coordinates")
 })
 
-test_that("warning issued when samples == NULL", {
+test_that("warning issued when samples is NULL", {
+
+  ## skip this test
+  skip_api_key()
 
   df <- data.frame(lat = c(-37.81659, -37.88950),
                    lon = c(144.9841, 144.9841))
@@ -50,12 +56,7 @@ test_that("warning issued when samples == NULL", {
                                 key = "abc",
                                 simplify = TRUE),
                "samples has not been specified. 3 will be used")
-
 })
-
-
-
-
 
 
 

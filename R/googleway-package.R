@@ -23,7 +23,7 @@ directions_data <- function(base_url,
                             language = NULL,
                             region = NULL,
                             key,
-                            simplify = c(TRUE, FALSE)){
+                            simplify = TRUE){
 
   ## parameter check
   if(is.null(key))

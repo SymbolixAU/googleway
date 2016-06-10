@@ -5,7 +5,7 @@
 \title{Google elevation}
 \usage{
 google_elevation(df_locations, location_type = c("individual", "path"),
-  samples = NULL, key, simplify = c(TRUE, FALSE))
+  samples = NULL, key, simplify = TRUE)
 }
 \arguments{
 \item{df_locations}{data.frame of with two columns called 'lat' and 'lon' (or 'latitude' / 'longitude') used as the locations}

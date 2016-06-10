@@ -47,7 +47,7 @@ google_distance <- function(origins,
                             language = NULL,
                             region = NULL,
                             key = NULL,
-                            simplify = c(TRUE, FALSE)){
+                            simplify = TRUE){
 
   directions_data(base_url = "https://maps.googleapis.com/maps/api/distancematrix/json?",
                 information_type = "distance",

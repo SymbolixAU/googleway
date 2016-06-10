@@ -9,7 +9,7 @@ google_distance(origins, destinations, mode = c("driving", "walking",
   waypoints = NULL, alternatives = FALSE, avoid = NULL,
   units = c("metric", "imperial"), traffic_model = NULL,
   transit_mode = NULL, transit_routing_preference = NULL, language = NULL,
-  region = NULL, key = NULL, simplify = c(TRUE, FALSE))
+  region = NULL, key = NULL, simplify = TRUE)
 }
 \arguments{
 \item{origins}{list of unnamed elements, each element is either a numeric vector of lat/lon coordinates, or an address string}

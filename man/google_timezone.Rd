@@ -5,7 +5,7 @@
 \title{Google timezone}
 \usage{
 google_timezone(location, timestamp = Sys.time(), language = NULL,
-  simplify = c(TRUE, FALSE), key)
+  simplify = TRUE, key)
 }
 \arguments{
 \item{location}{vector of lat/lon pair}

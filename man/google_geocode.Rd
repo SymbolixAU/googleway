@@ -5,7 +5,7 @@
 \title{Google geocoding}
 \usage{
 google_geocode(address, bounds = NULL, key, language = NULL,
-  region = NULL, components = NULL, simplify = c(TRUE, FALSE))
+  region = NULL, components = NULL, simplify = TRUE)
 }
 \arguments{
 \item{address}{string The street address that you want to geocode, in the format used by the national postal service of the country concerned}

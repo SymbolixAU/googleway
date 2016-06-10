@@ -46,7 +46,7 @@ google_elevation <- function(df_locations,
                              location_type = c("individual","path"),
                              samples = NULL,
                              key,
-                             simplify = c(TRUE, FALSE)
+                             simplify = TRUE
                              ){
 
   ## check location

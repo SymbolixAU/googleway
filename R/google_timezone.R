@@ -20,7 +20,7 @@
 google_timezone <- function(location,
                             timestamp = Sys.time(),
                             language = NULL,
-                            simplify = c(TRUE, FALSE),
+                            simplify = TRUE,
                             key
                             ){
 

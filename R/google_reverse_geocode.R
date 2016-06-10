@@ -23,7 +23,7 @@ google_reverse_geocode <- function(location,
                                    location_type = NULL,
                                    language = NULL,
                                    key,
-                                   simplify = c(TRUE, FALSE)){
+                                   simplify = TRUE){
 
   ## parameter check - key
   if(is.null(key))

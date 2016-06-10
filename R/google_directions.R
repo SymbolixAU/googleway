@@ -95,7 +95,7 @@ google_directions <- function(origin,
                               language = NULL,
                               region = NULL,
                               key,
-                              simplify = c(TRUE, FALSE)){
+                              simplify = TRUE){
 
   directions_data(base_url = "https://maps.googleapis.com/maps/api/directions/json?",
                 information_type = "directions",

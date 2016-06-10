@@ -46,7 +46,7 @@ google_geocode <- function(address,
                            language = NULL,
                            region = NULL,
                            components = NULL,
-                           simplify = c(TRUE, FALSE)){
+                           simplify = TRUE){
 
   ## parameter check - key
   if(is.null(key))
