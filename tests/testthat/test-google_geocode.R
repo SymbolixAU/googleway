@@ -107,7 +107,7 @@ test_that("component types are valid",{
                               key = "abc",
                               components = components,
                               simplify = TRUE),
-  "valid components are 'route', 'locality', 'administrative_area' and 'country'")
+  "valid components are 'route', 'locality', 'postal_code', 'administrative_area' and 'country'")
 
 })
 
