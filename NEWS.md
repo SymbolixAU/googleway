@@ -1,22 +1,19 @@
 
-The next release will be version 1.0.0 and will remove the `get_route()` funciton. In its place will be `google_directions()`.
+## Version 1.0.0
 
-## Version 0.3.0 - Development version on github
+Deprecated the `get_route()` funciton. In its place is `google_directions()`.
 
-Tests and vignettes written for all functions. 
+New functions:
 
+`google_reverse_geocode()` Returns the street address of lat/lon coordinates
 
-Development version
+`google_elevation()` Returns elevation data for locations
 
-`google_reverse_geocode()` implemented. Returns the street address of lat/lon coordinates
+`google_timezone()` Returns time offset data for locations on the surface of the earth.
 
-`google_elevation()` implemented. Returns elevation data for locations
+`google_geocode()` Returns a lat/lon encoding of a given address
 
-`google_timezone()` implemented. Returns time offset data for locations on the surface of the earth.
-
-`google_geocode()` implemented. Returns a lat/lon encoding of a given address
-
-`google_distance()` implemented. Returns a distance matrix from Google Distance API call.
+`google_distance()` Returns a distance matrix from Google Distance API call.
 
 `get_route()` is now deprecated. Use `google_directions()` instead.
 
@@ -25,10 +22,10 @@ New arguments for `get_route()` , closes [#1](https://github.com/SymbolixAU/goog
 * `waypoints`
 * `departure_time` 
 * `arrival_time`
-* `alternatives` argument for displaying alternative routes
-* `avoid` - tolls, highways, ferries, indoors
-* `traffic_model` - best_guess, optimistic, pessimistic
-* `units` - metric or imperial (only the displayed text - value field is always metric)
+* `alternatives` 
+* `avoid`
+* `traffic_model`
+* `units`
 * `mode`
 * `transit_mode`
 * `transit_routing_preference`
