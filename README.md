@@ -7,12 +7,11 @@
 [![Build Status](https://travis-ci.org/SymbolixAU/googleway.svg?branch=master)](https://travis-ci.org/SymbolixAU/googleway)
 [![Coverage Status](https://codecov.io/github/SymbolixAU/googleway/coverage.svg?branch=master)](https://codecov.io/github/SymbolixAU/googleway?branch=master)
 
-
 Functions to access [Google Maps API](https://developers.google.com/maps/)
 
-Version 1.0.0 has **significnat changes** compared to the previous release. See [News](https://github.com/SymbolixAU/googleway/blob/master/NEWS.md) for a list of changes.
-
 ## v1.0.0
+
+Version 1.0.0 has **significnat changes** compared to the previous release. See [News](https://github.com/SymbolixAU/googleway/blob/master/NEWS.md) for a list of changes.
 
 See [**vignettes**](https://github.com/SymbolixAU/googleway/blob/master/vignettes/googleway-vignette.Rmd) for instructions and examples.
 
