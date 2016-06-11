@@ -31,7 +31,7 @@ Geocoding is the process of converting addresses (like "1600 Amphitheatre Parkwa
 \examples{
 \dontrun{
 df <- google_geocode(address = "MCG, Melbourne, Australia",
-                     key = key,
+                     key = "<your valid api key>",
                      simplify = TRUE)
 
 df$results$geometry$location
@@ -44,7 +44,7 @@ bounds <- list(c(34.172684,-118.604794),
 
 js <- google_geocode(address = "Winnetka",
                      bounds = bounds,
-                     key = key,
+                     key = "<your valid api key>",
                      simplify = FALSE)
 
 ## using components
@@ -52,7 +52,7 @@ components <- data.frame(component = c("postal_code", "country"),
                          value = c("3000", "AU"))
 
 df <- google_geocode(address = "Flinders Street Station",
-                   key = key,
+                   key = "<your valid api key>",
                    components = components,
                    simplify = FALSE)
 
