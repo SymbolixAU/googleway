@@ -1,7 +1,6 @@
 
 # googleway
 
-**CRAN Release**
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/googleway)](http://cran.r-project.org/package=googleway)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/googleway)](http://cran.r-project.org/web/packages/googleway/index.html)
 [![Github Stars](https://img.shields.io/github/stars/SymbolixAU/googleway.svg?style=social&label=Github)](https://github.com/SymbolixAU/googleway)
