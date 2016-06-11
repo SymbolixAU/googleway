@@ -15,7 +15,7 @@
 #' google_reverse_geocode(location = c(-37.81659, 144.9841),
 #'                        result_type = c("street_address"),
 #'                        location_type = "rooftop",
-#'                        key = key)
+#'                        key = "<your valid api key>")
 #' }
 #' @export
 google_reverse_geocode <- function(location,

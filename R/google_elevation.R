@@ -14,8 +14,10 @@
 #' \dontrun{
 #'
 #' ## elevation data for the MCG in Melbourne
-#' location <- c(-37.81659, 144.9841)
-#' google_elevation(locations = location,
+#' df <- data.frame(lat = -37.81659,
+#'                  lon = 144.9841)
+#'
+#' google_elevation(df_locations = df,
 #'                  key = "<your valid api key>",
 #'                  simplify = TRUE)
 #'
@@ -28,7 +30,7 @@
 #' df <- google_elevation(df_locations = df,
 #'                        location_type = "path",
 #'                        samples = 20,
-#'                        key = key,
+#'                        key = "<your valid api key>",
 #'                        simplify = TRUE)
 #'
 #' ## plot results

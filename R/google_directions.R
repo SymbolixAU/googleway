@@ -37,7 +37,7 @@
 #'
 #'google_directions(origin = "Melbourne Airport, Australia",
 #'          destination = "Portsea, Melbourne, Australia",
-#'          departure_time = as.POSIXct("2016-06-08 07:00:00"),
+#'          departure_time =  Sys.time() + (24 * 60 * 60),
 #'          waypoints = list(c(-37.81659, 144.9841),
 #'                            via = "Ringwood, Victoria"),
 #'          mode = "driving",
@@ -50,7 +50,7 @@
 #' ## using bus and less walking
 #' google_directions(origin = "Melbourne Airport, Australia",
 #'          destination = "Portsea, Melbourne, Australia",
-#'          departure_time = as.POSIXct("2016-06-08 07:00:00"),
+#'          departure_time =  Sys.time() + (24 * 60 * 60),
 #'          mode = "transit",
 #'          transit_mode = "bus",
 #'          transit_routing_preference = "less_walking",
@@ -60,7 +60,7 @@
 #' ## using arrival time
 #' google_directions(origin = "Melbourne Airport, Australia",
 #'          destination = "Portsea, Melbourne, Australia",
-#'          arrival_time = as.POSIXct("2016-06-08 16:00:00", tz = "Australia/Melbourne"),
+#'          arrival_time =  Sys.time() + (24 * 60 * 60),
 #'          mode = "transit",
 #'          transit_mode = "bus",
 #'          transit_routing_preference = "less_walking",
@@ -70,7 +70,7 @@
 #' ## return results in French
 #' google_directions(origin = "Melbourne Airport, Australia",
 #'          destination = "Portsea, Melbourne, Australia",
-#'          arrival_time = as.POSIXct("2016-06-08 16:00:00", tz = "Australia/Melbourne"),
+#'          arrival_time =  Sys.time() + (24 * 60 * 60),
 #'          mode = "transit",
 #'          transit_mode = "bus",
 #'          transit_routing_preference = "less_walking",

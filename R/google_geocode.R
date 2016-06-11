@@ -13,7 +13,7 @@
 #' @examples
 #' \dontrun{
 #' df <- google_geocode(address = "MCG, Melbourne, Australia",
-#'                      key = key,
+#'                      key = "<your valid api key>",
 #'                      simplify = TRUE)
 #'
 #' df$results$geometry$location
@@ -26,7 +26,7 @@
 #'
 #' js <- google_geocode(address = "Winnetka",
 #'                      bounds = bounds,
-#'                      key = key,
+#'                      key = "<your valid api key>",
 #'                      simplify = FALSE)
 #'
 #' ## using components
@@ -34,7 +34,7 @@
 #'                          value = c("3000", "AU"))
 #'
 #'df <- google_geocode(address = "Flinders Street Station",
-#'                    key = key,
+#'                    key = "<your valid api key>",
 #'                    components = components,
 #'                    simplify = FALSE)
 #'
@@ -81,8 +81,8 @@ google_geocode <- function(address,
       stop("components must be a data.frame with two columns named 'component' and 'value'")
 
     ## error on misspelled components
-    if(!any(as.character(components$components) %in% c("route","locality","administrative_area","postal_code","country")))
-      stop("valid components are 'route', 'locality', 'administrative_area' and 'country'")
+    if(!any(as.character(components$component) %in% c("route","locality","administrative_area","postal_code","country")))
+      stop("valid components are 'route', 'locality', 'postal_code', 'administrative_area' and 'country'")
 
     components = paste0(apply(components, 1, function(x) paste0(x, collapse = ":")), collapse = "|")
   }
