@@ -1,9 +1,9 @@
 
 ## Version 1.1.0 (development)
 
-
-
-* **Fixed** Documentation for `key`s in each function.
+* Waypoint list elements must be named ('stop' or 'via') - closes [#12](https://github.com/SymbolixAU/googleway/issues/12)
+* Error handling around downloading data - part of [#13](https://github.com/SymbolixAU/googleway/issues/13)
+* **Fixed** Documentation for `key`s in each function - closes [#10](https://github.com/SymbolixAU/googleway/issues/10)
 
 
 ## Version 1.0.0
