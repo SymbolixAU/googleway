@@ -7,7 +7,7 @@
 #' @param mode string. One of 'driving', 'walking', 'bicycling' or 'transit'.
 #' @param departure_time POSIXct. Specifies the desired time of departure. Must be in the future (i.e. greater than \code{sys.time()}). If no value is specified it defaults to \code{Sys.time()}
 #' @param arrival_time POSIXct. Specifies teh desired time of arrival. Note you can only specify one of \code{arrival_time} or \code{departure_time}, not both. If both are supplied, \code{departure_time} will be used.
-#' @param waypoints list of waypoints, expressed as either a \code{vector} of lat/lon coordinates, or a \code{string} address to be geocoded. Only available for transit, walking or bicycling modes. Name the list element 'via' to avoid including a stopover for a waypoint. See \url{https://developers.google.com/maps/documentation/directions/intro#Waypoints} for details
+#' @param waypoints list of waypoints, expressed as either a \code{vector} of lat/lon coordinates, or a \code{string} address to be geocoded. Only available for transit, walking or bicycling modes. List elements must be named either 'stop' or 'via', where 'stop' is used to indicate a stopover for a waypoint, and 'via' will not stop at the waypoint. See \url{https://developers.google.com/maps/documentation/directions/intro#Waypoints} for details
 #' @param alternatives logical If set to true, specifies that the Directions service may provide more than one route alternative in the response
 #' @param avoid character Vector stating which features should be avoided. One of 'tolls', 'highways', 'ferries' or 'indoor'
 #' @param units string metric or imperial. Note: Only affects the text displayed within the distance field. The values are always in metric

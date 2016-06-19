@@ -88,8 +88,8 @@ test_that("waypoints only valid for certain modes",{
 
   expect_error(google_directions(origin = "Melbourne Airport",
               destination = "Sorrento",
-              waypoints = list(c(-37.81659, 144.9841),
-                                "Ringwood, Victoria"),
+              waypoints = list(via = c(-37.81659, 144.9841),
+                                via = "Ringwood, Victoria"),
               mode = "transit",
               key = "abc"),
               "waypoints are only valid for driving, walking or bicycling modes")
@@ -129,6 +129,17 @@ test_that("transit_mode issues warning when mode != transit",{
 
 })
 
+
+test_that("waypoints are correctly named", {
+
+  expect_error(google_directions(origin = "Melbourne Airport, Australia",
+                                 destination = "Portsea, Melbourne, Australia",
+                                 waypoints = list(c(-37.81659, 144.9841),
+                                                  via = "Ringwood, Victoria"),
+                                 key = "abc"),
+               "waypoint list elements must be named either 'via' or 'stop'")
+
+})
 
 test_that("warning when both arrival and departure times supplied", {
 

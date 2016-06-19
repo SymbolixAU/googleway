@@ -1,4 +1,11 @@
 
+## Version 1.1.0 (development)
+
+
+
+* **Fixed** Documentation for `key`s in each function.
+
+
 ## Version 1.0.0
 
 Deprecated the `get_route()` funciton. In its place is `google_directions()`.

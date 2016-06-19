@@ -119,8 +119,8 @@ directions_data <- function(base_url,
   if(!is.null(waypoints) & class(waypoints) != "list")
     stop("waypoints must be a list")
 
-  if(!is.null(waypoints) & !all(names(waypoints) %in% c("", "via")))
-    stop("'via' is the only valid name for a waypoint element")
+  if(!is.null(waypoints) & !all(names(waypoints) %in% c("stop", "via")))
+    stop("waypoint list elements must be named either 'via' or 'stop'")
 
   if(!is.null(waypoints)){
     ## construct waypoint string
@@ -131,6 +131,7 @@ directions_data <- function(base_url,
         if(names(waypoints)[x] == "via"){
           paste0("via:", fun_check_location(waypoints[[x]]))
         }else{
+          ## 'stop' is the default in google, and the 'stop' identifier is not needed
           fun_check_location(waypoints[[x]])
         }
       }else{
