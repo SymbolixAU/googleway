@@ -187,11 +187,12 @@ fun_download_data <- function(map_url, simplify){
     con <- curl::curl(map_url)
     tryCatch({
       out <- readLines(con)
+      close(con)
     },
     error = function(cond){
+      close(con)
       cat("There was an error downloading results. Please manually check this URL is valid, and if so issue a bug report citing this URL (note: your API key has been removed, so you will need to add that back in) \n\n", gsub("key=.*","",map_url))
     })
-    close(con)   ## readLines closes a connection, but does not destroy it
   }
   return(out)
 }
