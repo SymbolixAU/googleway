@@ -1,7 +1,7 @@
 Package: googleway
 Type: Package
 Title: Retrieves Data from Google Maps APIs
-Version: 1.0.0
+Version: 1.1.0
 Date: 2016-06-11
 Authors@R: c(
     person("David", "Cooley", ,"dcooley@symbolix.com.au", role = c("aut", "cre")),
