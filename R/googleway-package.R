@@ -176,12 +176,21 @@ directions_data <- function(base_url,
 
 fun_download_data <- function(map_url, simplify){
 
+  ## check for a valid connection
+  if(curl::has_internet() == FALSE)
+    stop("Can not retrieve results. No valid internet connection (tested using curl::has_internet() )")
+
   if(simplify == TRUE){
     out <- jsonlite::fromJSON(map_url)
   }else{
     # out <- readLines(curl::curl(map_url))
     con <- curl::curl(map_url)
-    out <- readLines(con)
+    tryCatch({
+      out <- readLines(con)
+    },
+    error = function(cond){
+      cat("There was an error downloading results. Please manually check this URL is valid, and if so issue a bug report citing this URL (note: your API key has been removed, so you will need to add that back in) \n\n", gsub("key=.*","",map_url))
+    })
     close(con)   ## readLines closes a connection, but does not destroy it
   }
   return(out)
