@@ -11,7 +11,7 @@ Functions to access [Google Maps API](https://developers.google.com/maps/)
 
 ## v1.0.0 - CRAN release
 
-Version 1.0.0 has **significnat changes** compared to the previous release. See [News](https://github.com/SymbolixAU/googleway/blob/master/NEWS.md) for a list of changes.
+Version 1.0.0 has **significant changes** compared to the previous release. See [News](https://github.com/SymbolixAU/googleway/blob/master/NEWS.md) for a list of changes.
 
 See [**vignettes**](https://github.com/SymbolixAU/googleway/blob/master/vignettes/googleway-vignette.Rmd) for instructions and examples.
 
