@@ -31,7 +31,7 @@ directions_data <- function(base_url,
 
   mode <- match.arg(mode)
   units <- match.arg(units)
-  traffic_model <- match.arg(traffic_model)
+  # traffic_model <- match.arg(traffic_model)
 
   if(!is.logical(simplify))
     stop("simplify must be logical - TRUE or FALSE")
@@ -90,6 +90,10 @@ directions_data <- function(base_url,
   ## check traffic model is valid
   if(!is.null(traffic_model) & is.null(departure_time))
     stop("traffic_model is only accepted with a valid departure_time")
+
+  if(!is.null(traffic_model)){
+    traffic_model <- match.arg(traffic_model, choices = c("best_guess", "pessimistic","optimistic"))
+  }
 
   ## check origin/destinations are valid
   origin_code <- switch(information_type,
