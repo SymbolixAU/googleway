@@ -5,7 +5,7 @@ test_that("google_directions returns data.frame", {
   skip_on_cran()
   skip_on_travis()
 
-  key <- read.dcf(file = "./.googleAPI", fields = c("GOOGLE_API_KEY"))
+  key <- read.dcf(file = "~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
 
   df <- google_directions(origin = c(-37.8179746, 144.9668636),
                   destination = c(-37.81659, 144.9841),
@@ -18,16 +18,16 @@ test_that("google_directions returns data.frame", {
   expect_equal(length(df[[1]]), 3)
 })
 
-# test_that("incorrect mode throws error", {
-#
-#   expect_error(google_directions(origin = c(-37.8179746, 144.9668636),
-#                          destination = c(-37.81659, 144.9841),
-#                          mode = "non-mode",
-#                          key = "abc",
-#                          simplify = TRUE),
-#                "'arg' should be one of \"driving\", \"walking\", \"bicycling\", \"transit\"")
-#
-# })
+test_that("incorrect mode throws error", {
+  skip("incorrect error string in match.arg")
+  expect_error(google_directions(origin = c(-37.8179746, 144.9668636),
+                         destination = c(-37.81659, 144.9841),
+                         mode = "non-mode",
+                         key = "abc",
+                         simplify = TRUE),
+               "'arg' should be one of \"driving\", \"walking\", \"bicycling\", \"transit\"")
+
+})
 
 test_that("incorrect simplify throws warning",{
 
@@ -116,7 +116,7 @@ test_that("transit_mode issues warning when mode != transit",{
   skip_on_cran()
   skip_on_travis()
 
-  key <- read.dcf(file = "./.googleAPI", fields = c("GOOGLE_API_KEY"))
+  key <- read.dcf(file = "~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
 
   expect_warning(google_directions(origin = "Melbourne Airport, Australia",
                            destination = "Portsea, Melbourne, Australia",
@@ -143,11 +143,10 @@ test_that("waypoints are correctly named", {
 
 test_that("warning when both arrival and departure times supplied", {
 
-  ## skip this test
   skip_on_cran()
   skip_on_travis()
 
-  key <- read.dcf(file = "./.googleAPI", fields = c("GOOGLE_API_KEY"))
+  key <- read.dcf(file = "~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
 
   expect_warning(google_directions(origin = "Melbourne Airport, Australia",
                                    destination = "Portsea, Melbourne, Australia",
@@ -157,4 +156,63 @@ test_that("warning when both arrival and departure times supplied", {
                  "you have supplied both an arrival_time and a departure_time - only one is allowed. The arrival_time will be ignored")
 
 })
+
+test_that("transit mode warning",{
+
+  skip_on_cran()
+  skip_on_travis()
+
+  key <- read.dcf(file = "~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
+
+  expect_warning(google_directions(origin = "Melbourne Airport, Australia",
+                                   destination = "Portsea, Melbourne, Australia",
+                                   transit_mode = "train",
+                                   key = key),
+                 "You have specified a transit_mode, but are not using mode = 'transit'. Therefore this argument will be ignored")
+})
+
+test_that("transit mode choices are valid",{
+
+  skip("incorrect error string in match.arg")
+
+  expect_error(google_directions(origin = "Melbourne Airport, Australia",
+                                 destination = "Portsea, Melbourne, Australia",
+                                 mode = "transit",
+                                 transit_mode = "transit_mode",
+                                 key = "abc"),
+               "'arg' should be one of \"bus\", \"subway\", \"train\", \"tram\", \"rail\"")
+
+
+})
+
+test_that("transit_routing_preferences issues warning", {
+
+  skip_on_cran()
+  skip_on_travis()
+
+  key <- read.dcf(file = "~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
+
+  expect_warning(google_directions(origin = "Melbourne Airport, Australia",
+                                   destination = "Portsea, Melbourne, Australia",
+                                   transit_routing_preference = "less_walking",
+                                   key = key),
+                 "You have specified a transit_routing_preference, but are not using mode = 'transit'. Therefore this argument will be ignored")
+
+})
+
+
+test_that("valid routing preferences", {
+
+  skip("incorrect error string in match.arg")
+
+  expect_warning(google_directions(origin = "Melbourne Airport, Australia",
+                                   destination = "Portsea, Melbourne, Australia",
+                                   mode = "transit",
+                                   transit_mode = "train",
+                                   transit_routing_preference = "hills are yum",
+                                   key = "abc"),
+                 "'arg' should be one of \"less_walking\", \"fewer_transfers\"")
+
+})
+
 

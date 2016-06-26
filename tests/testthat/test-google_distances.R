@@ -4,19 +4,17 @@ test_that("google_distance returns data.frame", {
 
   skip_on_cran()
   skip_on_travis()
-  key <- read.dcf("./.googleAPI", fields = c("GOOGLE_API_KEY"))
+  key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
 
-  df <- google_distance(origins = c(-37.8179746, 144.9668636),
-                          destinations = c(-37.81659, 144.9841),
-                          mode = "walking",
-                          key = key,
-                          simplify = TRUE)
+  df <- google_distance(origins = list(c(-37.8179746, 144.9668636)),
+                        destinations = list(c(-37.81659, 144.9841)),
+                        mode = "walking",
+                        key = key,
+                        simplify = TRUE)
 
   expect_equal(class(df), "list")
-  expect_equal(names(df), c("geocoded_waypoints","routes","status"))
-  expect_equal(length(df[[1]]), 3)
+  expect_equal(names(df), c("destination_addresses","origin_addresses","rows","status"))
 })
-
 
 
 test_that("origins are lat/lon", {
@@ -94,7 +92,7 @@ test_that("transit_mode issues warning when mode != transit",{
 
   skip_on_cran()
   skip_on_travis()
-  key <- read.dcf("./.googleAPI", fields = c("GOOGLE_API_KEY"))
+  key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
 
   expect_warning(google_distance(origins = "Melbourne Airport, Australia",
                                    destinations = "Portsea, Melbourne, Australia",
@@ -112,7 +110,7 @@ test_that("warning when both arrival and departure times supplied", {
 
   skip_on_cran()
   skip_on_travis()
-  key <- read.dcf("./.googleAPI", fields = c("GOOGLE_API_KEY"))
+  key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
 
   expect_warning(google_distance(origins = "Melbourne Airport, Australia",
                                    destinations = "Portsea, Melbourne, Australia",

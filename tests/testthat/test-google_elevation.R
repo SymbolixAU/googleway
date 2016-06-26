@@ -9,17 +9,19 @@ test_that("df_locations is a data.frame",{
 
 })
 
-# test_that("location errors on incorrect type",{
-#
-#   df <- data.frame(lat = c(-37.81659, -37.88950),
-#                    lon = c(144.9841, 144.9841))
-#
-#   expect_error(google_elevation(df_locations = df,
-#                                 location_type = "route",
-#                                 key = "abc"),
-#                "'arg' should be oneof \"individual\", \"path\"")
-#
-# })
+test_that("location errors on incorrect type",{
+
+  skip("incorrect error string in match.arg")
+
+  df <- data.frame(lat = c(-37.81659, -37.88950),
+                   lon = c(144.9841, 144.9841))
+
+  expect_error(google_elevation(df_locations = df,
+                                location_type = "route",
+                                key = "abc"),
+               "'arg' should be oneof \"individual\", \"path\"")
+
+})
 
 test_that("df_locations contains correctly named columns",{
 
@@ -65,7 +67,7 @@ test_that("warning issued when samples is NULL", {
   ## skip this test
   skip_on_cran()
   skip_on_travis()
-  key <- read.dcf("./.googleAPI", fields = c("GOOGLE_API_KEY"))
+  key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
 
   df <- data.frame(lat = c(-37.81659, -37.88950),
                    lon = c(144.9841, 144.9841))

@@ -60,7 +60,7 @@ test_that("Timezone Australia/Hobart is returned",{
 
   skip_on_cran()
   skip_on_travis()
-  key <- read.dcf("./.googleAPI", fields = c("GOOGLE_API_KEY"))
+  key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
 
   expect_equal(google_timezone(location = c(-37.81659, 144.9841),
                                timestamp = as.POSIXct("2016-06-05"),
