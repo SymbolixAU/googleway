@@ -67,7 +67,9 @@ test_that("error when samples is not logical",{
 test_that("warning issued when samples is NULL", {
 
   ## skip this test
-  skip_api_key()
+  skip_on_cran()
+  skip_on_travis()
+  key <- read.dcf("./.googleAPI", fields = c("GOOGLE_API_KEY"))
 
   df <- data.frame(lat = c(-37.81659, -37.88950),
                    lon = c(144.9841, 144.9841))
@@ -75,7 +77,7 @@ test_that("warning issued when samples is NULL", {
   expect_warning(google_elevation(df_locations = df,
                                 location_type = "path",
                                 samples = NULL,
-                                key = "abc",
+                                key = key,
                                 simplify = TRUE),
                "samples has not been specified. 3 will be used")
 })
