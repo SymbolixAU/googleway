@@ -22,7 +22,7 @@ google_directions(origin, destination, mode = c("driving", "walking",
 
 \item{arrival_time}{POSIXct. Specifies the desired time of arrival. Note you can only specify one of \code{arrival_time} or \code{departure_time}, not both. If both are supplied, \code{departure_time} will be used.}
 
-\item{waypoints}{list of waypoints, expressed as either a \code{vector} of lat/lon coordinates, or a \code{string} address to be geocoded. Only available for transit, walking or bicycling modes. Name the list element 'via' to avoid including a stopover for a waypoint. See \url{https://developers.google.com/maps/documentation/directions/intro#Waypoints} for details}
+\item{waypoints}{list of waypoints, expressed as either a \code{vector} of lat/lon coordinates, or a \code{string} address to be geocoded. Only available for transit, walking or bicycling modes. List elements must be named either 'stop' or 'via', where 'stop' is used to indicate a stopover for a waypoint, and 'via' will not stop at the waypoint. See \url{https://developers.google.com/maps/documentation/directions/intro#Waypoints} for details}
 
 \item{alternatives}{logical If set to true, specifies that the Directions service may provide more than one route alternative in the response}
 

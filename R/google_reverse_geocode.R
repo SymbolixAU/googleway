@@ -72,9 +72,6 @@ google_reverse_geocode <- function(location,
                     "&result_type=", tolower(result_type),
                     "&key=", key)
 
-  if(length(map_url) > 1)
-    stop("invalid map_url")
-
   return(fun_download_data(map_url, simplify))
 
 }

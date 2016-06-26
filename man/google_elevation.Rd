@@ -14,7 +14,7 @@ google_elevation(df_locations, location_type = c("individual", "path"),
 
 \item{samples}{integer required if \code{location_type == "path"}. Specifies the number of sample points along a path for which to return elevation data. The samples parameter divides the given path into an ordered set of equidistant points along the path.}
 
-\item{key}{string A valid Google Developers Directions API key}
+\item{key}{string A valid Google Developers Elevation API key}
 
 \item{simplify}{logical Inidicates if the returned JSON should be coerced into a list}
 }

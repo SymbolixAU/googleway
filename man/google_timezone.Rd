@@ -16,7 +16,7 @@ google_timezone(location, timestamp = Sys.time(), language = NULL,
 
 \item{simplify}{logical Inidicates if the returned JSON should be coerced into a list}
 
-\item{key}{string A valid Google Developers Directions API key}
+\item{key}{string A valid Google Developers Timezone API key}
 }
 \value{
 Either list or JSON string of the timezone

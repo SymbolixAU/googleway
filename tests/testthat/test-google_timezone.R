@@ -71,6 +71,15 @@ test_that("Timezone Australia/Hobart is returned",{
   })
 
 
+test_that("invalid map url", {
+  expect_error(google_timezone(location = c(-37.81659, 144.9841),
+                               timestamp = c(as.POSIXct("2016-06-05"), as.POSIXct("2016-06-06")),
+                               simplify = TRUE,
+                               key = "abc"),
+               "invalid map_url")
+})
+
+
 
 
 

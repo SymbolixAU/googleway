@@ -16,7 +16,7 @@ google_reverse_geocode(location, result_type = NULL, location_type = NULL,
 
 \item{language}{string specifies the language in which to return the results. See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis} If no langauge is supplied, the service will attempt to use the language of the domain from which the request was sent}
 
-\item{key}{string A valid Google Developers Directions API key}
+\item{key}{string A valid Google Developers Geocode API key}
 
 \item{simplify}{logical Inidicates if the returned JSON should be coerced into a list}
 }

@@ -12,7 +12,7 @@ google_geocode(address, bounds = NULL, key, language = NULL,
 
 \item{bounds}{list of two, each element is a vector of lat/lon coordinates representing the south-west and north-east bounding box}
 
-\item{key}{string A valid Google Developers Directions API key}
+\item{key}{string A valid Google Developers Geocode API key}
 
 \item{language}{string specifies the language in which to return the results. See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis} If no langauge is supplied, the service will attempt to use the language of the domain from which the request was sent}
 

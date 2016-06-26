@@ -1,9 +1,5 @@
 context("Google elevation")
 
-skip_api_key <- function() {
-  skip("key not available")
-}
-
 test_that("df_locations is a data.frame",{
 
   expect_error(google_elevation(df_locations = c(-37.81659, -37.88950),
@@ -75,13 +71,12 @@ test_that("warning issued when samples is NULL", {
                    lon = c(144.9841, 144.9841))
 
   expect_warning(google_elevation(df_locations = df,
-                                location_type = "path",
-                                samples = NULL,
-                                key = key,
-                                simplify = TRUE),
-               "samples has not been specified. 3 will be used")
+                                  location_type = "path",
+                                  samples = NULL,
+                                  key = key,
+                                  simplify = TRUE),
+                 "samples has not been specified. 3 will be used")
 })
-
 
 
 

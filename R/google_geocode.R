@@ -95,9 +95,6 @@ google_geocode <- function(address,
                     "&components=", tolower(components),
                     "&key=", key)
 
-  if(length(map_url) > 1)
-    stop("invalid map_url")
-
   return(fun_download_data(map_url, simplify))
 
 }

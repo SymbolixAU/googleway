@@ -5,7 +5,8 @@
 NULL
 
 
-
+## build notes
+# --use-valgrind
 directions_data <- function(base_url,
                             information_type = c("directions","distance"),
                             origin,
@@ -179,6 +180,10 @@ directions_data <- function(base_url,
 
 
 fun_download_data <- function(map_url, simplify){
+
+  ## check map_url is valid
+  if(length(map_url) > 1)
+    stop("invalid map_url")
 
   ## check for a valid connection
   if(curl::has_internet() == FALSE)

@@ -1,14 +1,11 @@
 context("Google directions")
 
-## api keys are not included in the package
-## and so can't be tested
-skip_api_key <- function() {
-  skip("key not available")
-}
-
 test_that("google_directions returns data.frame", {
-  ## skip this test
-  skip_api_key()
+
+  skip_on_cran()
+  skip_on_travis()
+
+  key <- read.dcf(file = "./.googleAPI", fields = c("GOOGLE_API_KEY"))
 
   df <- google_directions(origin = c(-37.8179746, 144.9668636),
                   destination = c(-37.81659, 144.9841),
@@ -116,7 +113,10 @@ test_that("map url is a single string",{
 
 test_that("transit_mode issues warning when mode != transit",{
 
-  skip_api_key()
+  skip_on_cran()
+  skip_on_travis()
+
+  key <- read.dcf(file = "./.googleAPI", fields = c("GOOGLE_API_KEY"))
 
   expect_warning(google_directions(origin = "Melbourne Airport, Australia",
                            destination = "Portsea, Melbourne, Australia",
@@ -124,7 +124,7 @@ test_that("transit_mode issues warning when mode != transit",{
                            waypoints = list(via = c(-37.81659, 144.9841),
                                             via = "Ringwood, Victoria"),
                            transit_mode = "bus",
-                           key = "abc"),
+                           key = key),
                  "You have specified a transit_mode, but are not using mode = 'transit'. Therefore this argument will be ignored")
 
 })
@@ -144,13 +144,16 @@ test_that("waypoints are correctly named", {
 test_that("warning when both arrival and departure times supplied", {
 
   ## skip this test
-  skip_api_key()
+  skip_on_cran()
+  skip_on_travis()
+
+  key <- read.dcf(file = "./.googleAPI", fields = c("GOOGLE_API_KEY"))
 
   expect_warning(google_directions(origin = "Melbourne Airport, Australia",
                                    destination = "Portsea, Melbourne, Australia",
                                    departure_time = Sys.time() + (24 * 60 * 60),
                                    arrival_time = Sys.time() + (24 * 60 * 60),
-                                   key = "abc"),
+                                   key = key),
                  "you have supplied both an arrival_time and a departure_time - only one is allowed. The arrival_time will be ignored")
 
 })
