@@ -141,22 +141,6 @@ test_that("waypoints are correctly named", {
 
 })
 
-test_that("warning when both arrival and departure times supplied", {
-
-  skip_on_cran()
-  skip_on_travis()
-
-  key <- read.dcf(file = "~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
-
-  expect_warning(google_directions(origin = "Melbourne Airport, Australia",
-                                   destination = "Portsea, Melbourne, Australia",
-                                   departure_time = Sys.time() + (24 * 60 * 60),
-                                   arrival_time = Sys.time() + (24 * 60 * 60),
-                                   key = key),
-                 "you have supplied both an arrival_time and a departure_time - only one is allowed. The arrival_time will be ignored")
-
-})
-
 
 
 
