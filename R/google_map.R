@@ -23,14 +23,17 @@ google_map <- function(message, width = NULL, height = NULL) {
   )
 }
 
-#' @export
-google_map_html <- function(id, style, class, key, ...){
-  key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
-  src_url <- paste0("https://maps.googleapis.com/maps/api/js?key=", key, "&callback=initMap")
-  list(tags$script(src=src_url),
-       tags$link(rel="stylesheet", href="./inst/htmlwidgets/lib/map_style.css")
-  )
-}
+#' #' @export
+#' google_map_html <- function(id, style, class, key, ...){
+#'   key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
+#'   src_url <- paste0("https://maps.googleapis.com/maps/api/js?key=", key, "&callback=initMap")
+#'   list(tags$head(tags$style(HTML('#map {
+#'                                   width: 100%;
+#'                                   height: 400px;
+#'                                   }'))),
+#'        tags$script(src=src_url))
+#'        #tags$link(rel="stylesheet", href="./inst/htmlwidgets/lib/map_style.css")
+#' }
 
 #' Shiny bindings for google_map
 #'
