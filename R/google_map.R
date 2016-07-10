@@ -15,7 +15,6 @@ google_map <- function(width = NULL, height = NULL, key = NULL) {
     key = key
   )
 
-  print(x)
 
   # create widget
   htmlwidgets::createWidget(
@@ -28,10 +27,9 @@ google_map <- function(width = NULL, height = NULL, key = NULL) {
 }
 
 #' @export
-google_map_html <- function(id, style, class, ...){
+google_map_html <- function(id, style, class,...){
 
   key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
-  # key <- x$key
 
   list(tags$head(tags$style("#map { width: 100%; height: 400px; }")),
        tags$div(id = "map"),
