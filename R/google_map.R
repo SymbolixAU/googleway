@@ -6,12 +6,16 @@
 #' @import htmltools
 #'
 #' @export
-google_map <- function(message, width = NULL, height = NULL) {
+google_map <- function(width = NULL, height = NULL, key = NULL) {
+
+  # key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
 
   # forward options using x
   x = list(
-    message = message
+    key = key
   )
+
+  print(x)
 
   # create widget
   htmlwidgets::createWidget(
@@ -24,16 +28,17 @@ google_map <- function(message, width = NULL, height = NULL) {
 }
 
 #' @export
-google_map_html <- function(id, style, class, key, ...){
+google_map_html <- function(id, style, class, ...){
 
   key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
+  # key <- x$key
 
   list(tags$head(tags$style("#map { width: 100%; height: 400px; }")),
        tags$div(id = "map"),
        tags$script("function initMap() {
               var mapDiv = document.getElementById('map');
               var map = new google.maps.Map(mapDiv, {
-              center: {lat: 44.540, lng: -78.546},
+              center: {lat: -37.8, lng: 145},
               zoom: 8
               });
               }"),
