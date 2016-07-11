@@ -1,8 +1,8 @@
 
-# dependencies:
-#  - name:
-#    version:
-#    src:
-#    script:
-#    stylesheet:
+dependencies:
+  - name: map.js
+    version: 1.0.0
+    src: "htmlwidgets/lib"
+    script: map.js
+    stylesheet: map_style.css
 

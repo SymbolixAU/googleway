@@ -14,14 +14,9 @@ HTMLWidgets.widget({
         // TODO: code to render the widget, e.g.
         //el.innerText = x.message;
 
-        function initMap() {
-          var mapDiv = document.getElementById('map');
-          var map = new google.maps.Map(mapDiv, {
-              center: {lat: 44.540, lng: -78.546},
-              zoom: 8
-          });
-        }
-
+        // mutate the DOM to include the <script> google api call </script>
+        //document.getElementById("map").innerHTML = ;
+        el.innerHTML = x.key;
       },
 
       resize: function(width, height) {

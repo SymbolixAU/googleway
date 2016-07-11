@@ -4,7 +4,7 @@
 \alias{google_map}
 \title{Google map}
 \usage{
-google_map(width = NULL, height = NULL, key = NULL)
+google_map(width = NULL, height = NULL, key)
 }
 \description{
 Generates a google map
