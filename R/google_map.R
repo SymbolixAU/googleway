@@ -6,7 +6,7 @@
 #' @import htmltools
 #'
 #' @export
-google_map <- function(width = NULL, height = NULL, key = NULL) {
+google_map <- function(width = NULL, height = NULL, key) {
 
   # key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
 
@@ -27,9 +27,10 @@ google_map <- function(width = NULL, height = NULL, key = NULL) {
 }
 
 #' @export
-google_map_html <- function(id, style, class,...){
+google_map_html <- function(x = x, id = id, style = style, class = class,...){
 
-  key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
+  # key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
+  key <- x$x$key
 
   list(tags$head(tags$style("#map { width: 100%; height: 400px; }")),
        tags$div(id = "map"),
@@ -45,7 +46,6 @@ google_map_html <- function(id, style, class,...){
                          src="https://maps.googleapis.com/maps/api/js?key=%s&callback=initMap">
                    </script>', key)))
   )
-
 }
 
 #' Shiny bindings for google_map
