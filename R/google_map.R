@@ -10,13 +10,15 @@ google_map <- function(width = NULL, height = NULL, key) {
 
   # key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
 
-  key <- sprintf('async defer src="https://maps.googleapis.com/maps/api/js?key=%s&callback=initMap">', key)
+  # key <- sprintf('async defer src="https://maps.googleapis.com/maps/api/js?key=%s&callback=initMap"', key)
+  # key <- sprintf('https://maps.googleapis.com/maps/api/js?key=%s&callback=initMap', key)
 
   # forward options using x
   x = list(
     key = key
   )
 
+  print(x)
 
   # create widget
   htmlwidgets::createWidget(
@@ -28,27 +30,19 @@ google_map <- function(width = NULL, height = NULL, key) {
   )
 }
 
-#' @export
-google_map_html <- function(id = id, style = style, class = class,...){
-
-  # key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
-
-  list(tags$head(tags$style("#map { width: 100%; height: 400px; }")),
-       tags$div(id = "map"),
-       tags$body(tags$script(id = "map_script"))
-       # tags$script("function initMap() {
-       #        var mapDiv = document.getElementById('map');
-       #        var map = new google.maps.Map(mapDiv, {
-       #        center: {lat: -37.8, lng: 145},
-       #        zoom: 8
-       #        });
-       #        }"),
-#         tags$body(HTML(sprintf('
-# 									 <script async defer
-#                          src="https://maps.googleapis.com/maps/api/js?key=%s&callback=initMap">
-#                    </script>', key)))
-  )
-}
+# google_map_html <- function(id = id, style = style, class = class,...){
+#
+#   # key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
+#
+#   tagList(tags$head(id = id, style = style, class = class),
+#           tags$head(tags$style("#map { width: 100%; height: 400px; }")),
+#           tags$div(id = "map")
+#           )
+# #         tags$body(HTML(sprintf('
+# # 									 <script async defer
+# #                          src="https://maps.googleapis.com/maps/api/js?key=%s&callback=initMap">
+# #                    </script>', key)))
+# }
 
 #' Shiny bindings for google_map
 #'
