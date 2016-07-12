@@ -15,8 +15,12 @@ HTMLWidgets.widget({
         //el.innerText = x.message;
 
         // mutate the DOM to include the <script> google api call </script>
-        //document.getElementById("map").innerHTML = ;
-        el.innerHTML = x.key;
+        var map_el = document.getElementById("map_script");
+        map_el.content = x.key;
+        //document.getElementById("map_script").innerHTML = x.key;
+        //el.innerHTML = x.key;
+
+
       },
 
       resize: function(width, height) {
