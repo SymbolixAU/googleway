@@ -11,13 +11,10 @@ HTMLWidgets.widget({
 
       renderValue: function(x) {
 
-      el.innerHTML = "<div id='map'></div><script>initMap();</script><script>window.onload = loadScript('" + x.key + "');</script>"
+      //el.innerHTML = "<script>initMap();</script>"
+      //el.innerHTML = "<div id='map'></div><script>initMap();</script>"
 
-      //el.innerHTML = "<p>" + x.key + "</p>"
-
-      //initMap();
-      //loadScript(x.key);
-
+      //<script>window.onload = loadScript('" + x.key + "');</script>"
       },
       resize: function(width, height) {
         // TODO: code to re-render the widget with a new size
