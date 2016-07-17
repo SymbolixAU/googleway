@@ -1,6 +1,7 @@
 
 ## Version 1.1.0 (development)
 
+* `google_place_autocomplete()` implemented to 'autcomplete' place names - closes [#23](https://github.com/SymbolixAU/googleway/issues/23)
 * `google_place_details()` implemented to retrieve more details about a specific place - closes [#22](https://github.com/SymbolixAU/googleway/issues/22)
 * `google_places()` implemented to retrieve information from Google Places API - closes [#21](https://github.com/SymbolixAU/googleway/issues/21)
 * `traffic_model` arguments correctly defined - closes [#16](https://github.com/SymbolixAU/googleway/issues/16)
