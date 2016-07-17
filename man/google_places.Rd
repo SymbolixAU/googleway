@@ -6,24 +6,28 @@
 \usage{
 google_places(search_string = NULL, location = NULL, radius = NULL,
   rankby = c("prominence", "distance", "location"), keyword = NULL,
-  name = NULL, key)
+  language = NULL, name = NULL, type = NULL, simplify = TRUE, key)
 }
 \arguments{
-\item{search_string}{string A search term representing a place for which to search. If blank, the \code{location} argument must be used.}
+\item{search_string}{\code{string} A search term representing a place for which to search. If blank, the \code{location} argument must be used.}
 
-\item{location}{numeric vector of latitude/longitude coordinates around which to retrieve place information. If blank, the \code{search_string} argument must be used. If used in absence of a \code{search_string}, If used in conjunction with \code{search_string} it represents the latitude/longitude around which to retrieve place information, and must be used in conjunction with \code{radius}.}
+\item{location}{\code{numeric} vector of latitude/longitude coordinates around which to retrieve place information. If blank, the \code{search_string} argument must be used. If used in absence of a \code{search_string}, If used in conjunction with \code{search_string} it represents the latitude/longitude around which to retrieve place information, and must be used in conjunction with \code{radius}.}
 
-\item{radius}{numeric Defines the distance (in meters) within which to return place results. The maximum allowed radius is 50,000 meters. Note that radius must not be included if \code{rankby="distance"} is specified.}
+\item{radius}{\code{numeric} Defines the distance (in meters) within which to return place results. The maximum allowed radius is 50,000 meters. Note that radius must not be included if \code{rankby="distance"} is specified.}
 
-\item{rankby}{string Specifies the order in which results are listed. Possible values are \code{"prominence"}, \code{"distance"} or \code{"location"}. If \code{rankby = distance}, then one of \code{keyword}, \code{name} or \code{type} must be specified}
+\item{rankby}{\code{string} Specifies the order in which results are listed. Possible values are \code{"prominence"}, \code{"distance"} or \code{"location"}. If \code{rankby = distance}, then one of \code{keyword}, \code{name} or \code{type} must be specified}
 
-\item{keyword}{string A term to be matched against all content that Google has indexed for this place, including but not limited to name, type, and address, as well as customer reviews and other third-party content.}
+\item{keyword}{\code{string} A term to be matched against all content that Google has indexed for this place, including but not limited to name, type, and address, as well as customer reviews and other third-party content.}
 
-\item{name}{string One or more terms to be matched against the names of places. Results will be restricted to those containing the passed \code{name} values. Note that a place may have additional names associated with it, beyond its listed name. The API will try to match the passed name value against all of these names. As a result, places may be returned in the results whose listed names do not match the search term, but whose associated names do.}
+\item{language}{\code{string} The language code, indicating in which language the results should be returned, if possible. Searches are also biased to the selected language; results in the selected language may be given a higher ranking. See the list of supported languages and their codes \link{https://developers.google.com/maps/faq#languagesupport}}
 
-\item{key}{string A valid Google Developers Places API key}
+\item{name}{\code{string} One or more terms to be matched against the names of places. Ignored when used with a \code{search_string}. Results will be restricted to those containing the passed \code{name} values. Note that a place may have additional names associated with it, beyond its listed name. The API will try to match the passed name value against all of these names. As a result, places may be returned in the results whose listed names do not match the search term, but whose associated names do.}
 
-\item{type}{string Restricts the results to places matching the specified type. Only one type may be specified (if more than one type is provided, all types following the first entry are ignored). For a list of valid types, please visit \link{https://developers.google.com/places/supported_types}}
+\item{type}{\code{string} Restricts the results to places matching the specified type. Only one type may be specified (if more than one type is provided, all types following the first entry are ignored). For a list of valid types, please visit \link{https://developers.google.com/places/supported_types}}
+
+\item{simplify}{logical Inidicates if the returned JSON should be coerced into a list}
+
+\item{key}{\code{string} A valid Google Developers Places API key}
 }
 \description{
 The Google Places API Web Service allows you to query for place information on a variety of categories, such as: establishments, prominent points of interest, geographic locations, and more.
