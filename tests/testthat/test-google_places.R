@@ -21,6 +21,13 @@ test_that("location is a numeric vector",{
 
 })
 
+test_that("radar is logical",{
+
+  expect_error(google_places(search_string = "Restaurants in Melbourne, Australia",
+                             radar = "yes"),
+               "radar must be logical")
+
+})
 
 test_that("radius is a > 0 & <= 50000",{
 
@@ -65,7 +72,41 @@ test_that("name used with search string issues warning",{
 })
 
 
+test_that("rankby used with search_string is ignored", {
+
+  skip_on_cran()
+  skip_on_travis()
+
+  key <- read.dcf(file = "~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
+
+  expect_warning(google_places(search_string = "Restaurangs in Melbourne, Australia",
+                               rankby = "prominence",
+                               key = key),
+                 "The 'rankby' argument is ignored when using a 'search_string'")
+
+})
+
+test_that("price_range is valid",{
+
+  expect_error(google_places(search_string = "Restaurants in Melbourne, Australia",
+                             price_range = 3),
+               "price_range must be a numeric vector of length 2")
+
+  expect_error(google_places(search_string = "Restaurants in Melbourne, Australia",
+                             price_range = c("0", "4")),
+               "price_range must be a numeric vector of length 2")
+
+  expect_error(google_places(search_string = "Restaurants in Melbourne, Australia",
+                             price_range = c(0, 5)),
+               "price_range must be between 0 and 4 inclusive")
+
+})
 
 
+test_that("page_token is valid",{
 
+  expect_error(google_places(search_string = "Restaurants in Melbourne, Australia",
+                             page_token = TRUE),
+               "page_token must be a string of length 1")
+})
 
