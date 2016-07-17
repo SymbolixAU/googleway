@@ -1,8 +1,8 @@
 
 ## Version 1.1.0 (development)
 
-* `google_place_details()` implemented to retrieve more details about a specific place
-* `google_places()` implemented to retrieve information from Google Places API
+* `google_place_details()` implemented to retrieve more details about a specific place - closes [#22](https://github.com/SymbolixAU/googleway/issues/22)
+* `google_places()` implemented to retrieve information from Google Places API - closes [#21](https://github.com/SymbolixAU/googleway/issues/21)
 * `traffic_model` arguments correctly defined - closes [#16](https://github.com/SymbolixAU/googleway/issues/16)
 * Waypoint list elements must be named ('stop' or 'via') - closes [#12](https://github.com/SymbolixAU/googleway/issues/12)
 * Error handling around downloading data - part of [#13](https://github.com/SymbolixAU/googleway/issues/13)

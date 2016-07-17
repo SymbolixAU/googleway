@@ -26,7 +26,7 @@ google_places(search_string = NULL, location = NULL, radar = FALSE,
 
 \item{name}{\code{string} \code{vector} One or more terms to be matched against the names of places. Ignored when used with a \code{search_string}. Results will be restricted to those containing the passed \code{name} values. Note that a place may have additional names associated with it, beyond its listed name. The API will try to match the passed name value against all of these names. As a result, places may be returned in the results whose listed names do not match the search term, but whose associated names do.}
 
-\item{place_type}{\code{string} Restricts the results to places matching the specified type. Only one type may be specified (if more than one type is provided, all types following the first entry are ignored). For a list of valid types, please visit \url{https://developers.google.com/places/supported_types}}
+\item{place_type}{\code{string} Restricts the results to places matching the specified type. Only one type may be specified. For a list of valid types, please visit \url{https://developers.google.com/places/supported_types}}
 
 \item{price_range}{\code{numeric} \code{vector} Specifying the minimum and maximum price ranges. Values range between 0 (most affordable) and 4 (most expensive)}
 
