@@ -140,6 +140,11 @@ google_places <- function(search_string = NULL,
       stop("you have specified rankby to be 'distance', so you must provide one of 'keyword','name' or 'place_type'")
   }
 
+  ## language check
+  if(!is.null(language) & (class(language) != "character" | length(language) > 1))
+    stop("language must be a single character vector or string")
+
+
   ## warning if name used with search_string
   if(!is.null(search_string) & !is.null(name))
     warning("The 'name' argument is ignored when using a 'search_string'")
