@@ -11,6 +11,8 @@ google_place_autocomplete(place_input, location = NULL, radius = NULL,
 \arguments{
 \item{place_input}{\code{string} The text string on which to search. The Place Autocomplete service will return candidate matches based on this string and order results based on their perceived relevance.}
 
+\item{location}{\code{numeric} vector of latitude/longitude coordinates (in that order). he point around which you wish to retrieve place information}
+
 \item{radius}{\code{numeric} The distance (in meters) within which to return place results. Note that setting a radius biases results to the indicated area, but may not fully restrict results to the specified area}
 
 \item{language}{\code{string} The language code, indicating in which language the results should be returned, if possible. Searches are also biased to the selected language; results in the selected language may be given a higher ranking. See the list of supported languages and their codes \url{https://developers.google.com/maps/faq#languagesupport}}
@@ -22,8 +24,6 @@ google_place_autocomplete(place_input, location = NULL, radius = NULL,
 \item{simplify}{\code{logical} Inidicates if the returned JSON should be coerced into a list}
 
 \item{key}{\code{string} A valid Google Developers Places API key}
-
-\item{locatin}{\code{numeric} vector of latitude/longitude coordinates (in that order). he point around which you wish to retrieve place information}
 }
 \description{
 The Place Autocomplete service is a web service that returns place predictions in response to an HTTP request. The request specifies a textual search string and optional geographic bounds. The service can be used to provide autocomplete functionality for text-based geographic searches, by returning places such as businesses, addresses and points of interest as a user types.
@@ -35,7 +35,7 @@ The Place Autocomplete service is a web service that returns place predictions i
 google_place_autocomplete("Maha Restaurant", key = key)
 
 ## search for 'Maha' Restaurant, exclusively in Australia
-google_place_autocomplete("maha Restaurant", component = "au")
+google_place_autocomplete("maha Restaurant", component = "au", key = key)
 
 }
 }
