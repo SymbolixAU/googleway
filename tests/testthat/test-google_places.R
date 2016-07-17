@@ -29,30 +29,54 @@ test_that("radar is logical",{
 
 })
 
-test_that("radius is a > 0 & <= 50000",{
+test_that("radius is numeric > 0 & <= 50000",{
 
   expect_error(google_places(search_string = "Restaurants in Melbourne, Australia",
                              radius = -1),
-               "Radius must be positivie, and less than or equal to 50,000")
+               "radius must be numeric between 0 and 50000")
 
   expect_error(google_places(search_string = "Restaurants in Melbourne, Australia",
                              radius = 100000),
-               "Radius must be positivie, and less than or equal to 50,000")
-})
-
-test_that("rankby != distance when radius is supplied",{
+               "radius must be numeric between 0 and 50000")
 
   expect_error(google_places(search_string = "Restaurants in Melbourne, Australia",
-                             radius = 200,
-                             rankby="distance"),
-               "'rankby' can not be 'distance' when a radius is supplied")
+                             radius = "20000"))
 })
 
-test_that("keyword, name or type specified when rankby == 'distance'", {
+test_that("radius is supplied when location search",{
+
+  expect_error(google_places(location = c(-37.817839,144.9673254)),
+               "you must specify a radius if only using a 'location' search, and rankby is not equal to 'distance'")
+
+})
+
+test_that("radius is not used when rankby == distance",{
+
+  expect_error(google_places(location = c(-37.817839,144.9673254),
+                             radius = 200,
+                             rankby="distance"),
+               "radius can not be supplied if rankby == 'distance'")
+})
+
+test_that("rankby ignored when search_string", {
+
+  skip_on_cran()
+  skip_on_travis()
+
+  key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_API_KEY")
+  expect_warning(google_places(search_string = "Restaurants in Melbourne, Australia",
+                               radius = 200,
+                               rankby="prominence",
+                               key = key),
+                 "The 'rankby' argument is ignored when using a 'search_string'")
+
+})
+
+test_that("keyword, name or place_type specified when rankby == 'distance'", {
 
   expect_error(google_places(search_string = "Restaurangs in Melbourne, Australia",
                              rankby = "distance"),
-               "you have specified rankby to be 'distance', so you must provide one of 'keyword','name' or 'type'")
+               "you have specified rankby to be 'distance', so you must provide one of 'keyword','name' or 'place_type'")
 
 })
 
@@ -102,6 +126,13 @@ test_that("price_range is valid",{
 
 })
 
+test_that("open_now is logical", {
+
+  expect_error(google_places(search_string = "Restaurants in Melbourne, Australia",
+                             open_now = "TRUE"),
+               "open_now must be logical of length 1")
+
+})
 
 test_that("page_token is valid",{
 
