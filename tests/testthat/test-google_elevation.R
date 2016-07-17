@@ -8,21 +8,21 @@ test_that("df_locations is a data.frame",{
                "df_locations should be a data.frame containing at least two columns of lat and lon coordianates")
 
 })
-
-test_that("location errors on incorrect type",{
-
-  skip("incorrect error string in match.arg")
-
-  df <- data.frame(lat = c(-37.81659, -37.88950),
-                   lon = c(144.9841, 144.9841))
-
-  expect_error(google_elevation(df_locations = df,
-                                location_type = "route",
-                                key = "abc"),
-               "'arg' should be oneof \"individual\", \"path\"")
-
-})
-
+#
+# test_that("location errors on incorrect type",{
+#
+#   skip("incorrect error string in match.arg")
+#
+#   df <- data.frame(lat = c(-37.81659, -37.88950),
+#                    lon = c(144.9841, 144.9841))
+#
+#   expect_error(google_elevation(df_locations = df,
+#                                 location_type = "route",
+#                                 key = "abc"),
+#                "'arg' should be oneof \"individual\", \"path\"")
+#
+# })
+#
 test_that("df_locations contains correctly named columns",{
 
   df <- data.frame(lats = c(-37.81659, -37.88950),
@@ -61,24 +61,24 @@ test_that("error when samples is not logical",{
                                 simplify = "TRUE"),
                "simplify must be logical - TRUE or FALSE")
 })
-
-test_that("warning issued when samples is NULL", {
-
-  ## skip this test
-  skip_on_cran()
-  skip_on_travis()
-  key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
-
-  df <- data.frame(lat = c(-37.81659, -37.88950),
-                   lon = c(144.9841, 144.9841))
-
-  expect_warning(google_elevation(df_locations = df,
-                                  location_type = "path",
-                                  samples = NULL,
-                                  key = key,
-                                  simplify = TRUE),
-                 "samples has not been specified. 3 will be used")
-})
-
+#
+# test_that("warning issued when samples is NULL", {
+#
+#   ## skip this test
+#   skip_on_cran()
+#   skip_on_travis()
+#   key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
+#
+#   df <- data.frame(lat = c(-37.81659, -37.88950),
+#                    lon = c(144.9841, 144.9841))
+#
+#   expect_warning(google_elevation(df_locations = df,
+#                                   location_type = "path",
+#                                   samples = NULL,
+#                                   key = key,
+#                                   simplify = TRUE),
+#                  "samples has not been specified. 3 will be used")
+# })
+#
 
 
