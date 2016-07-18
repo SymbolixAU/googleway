@@ -15,12 +15,12 @@ Adds the Google Maps API key to a map object
 \examples{
 \dontrun{
 
-map <- google_map()
+map <- google_map(location = c(-37.9, 144.5), zoom = 12)
 map <- map_key(map, key)
 
 ## using piples
 library(magrittr)
-google_map() \%>\% map_key(key)
+google_map(location = c(-37.9, 144.5), zoom = 12)  \%>\% map_key(key)
 
 }
 }

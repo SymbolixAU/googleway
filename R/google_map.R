@@ -4,25 +4,40 @@
 #'
 #' @import htmlwidgets
 #' @import htmltools
+#' @param location \code{numeric} vector of latitude/longitude (in that order) coordinates for the initial starting position of the mape
+#' @param zoom \code{numeric} integer representing the zoom level of the map (0 is fully zoomed out)
 #' @examples
 #' \dontrun{
 #'
-#' map <- google_map()
+#' map <- google_map(location = c(-37.9, 144.5), zoom = 12)
 #' map <- map_key(map, key)
 #'
 #' ## using pipes
 #' library(magrittr)
-#' google_map() %>% map_key(key)
+#' google_map(location = c(-37.9, 144.5), zoom = 12)  %>% map_key(key)
 #'
 #' }
 #'
 #' @export
-google_map <- function(width = NULL, height = NULL, padding = 0) {
+google_map <- function(data = NULL,
+                       location = NULL,
+                       zoom = NULL,
+                       width = NULL,
+                       height = NULL,
+                       padding = 0) {
 
   # key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
+  if(is.null(location))
+    location <- c(-37.9, 144.5)
+
+  if(is.null(zoom))
+    zoom <- 8
 
   # forward options using x
   x = list(
+    lat = location[1],
+    lon = location[2],
+    zoom = zoom
   )
 
   # create widget
@@ -50,12 +65,12 @@ google_map <- function(width = NULL, height = NULL, padding = 0) {
 #' @examples
 #' \dontrun{
 #'
-#' map <- google_map()
+#' map <- google_map(location = c(-37.9, 144.5), zoom = 12)
 #' map <- map_key(map, key)
 #'
 #' ## using piples
 #' library(magrittr)
-#' google_map() %>% map_key(key)
+#' google_map(location = c(-37.9, 144.5), zoom = 12)  %>% map_key(key)
 #'
 #' }
 #' @export
@@ -92,8 +107,8 @@ google_key_dependency <- function(key) {
 google_map_html <- function(id = id, style = style, class = class,...){
 
   list(tags$div(id = id, style = style, class = class,
-                tags$div(id = "map"),
-                tags$script("initMap();")
+                tags$div(id = "map")
+                # tags$script("initMap(-37.9, 4);")
                 )
        )
 }

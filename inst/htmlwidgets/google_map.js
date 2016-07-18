@@ -11,6 +11,8 @@ HTMLWidgets.widget({
 
       renderValue: function(x) {
 
+        initMap(x.lat, x.lon, x.zoom);
+
       //el.innerHTML = "<script>initMap();</script>"
       //el.innerHTML = "<div id='map'></div><script>initMap();</script>"
 
