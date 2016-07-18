@@ -4,7 +4,7 @@
 \alias{map_key}
 \title{Map key}
 \usage{
-map_key(key)
+map_key(map, key)
 }
 \arguments{
 \item{key}{\code{string} a valid Google Maps API key}

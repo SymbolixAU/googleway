@@ -8,7 +8,7 @@
 #' \dontrun{
 #'
 #' map <- google_map()
-#' map$dependencies <- map_key(key)
+#' map <- map_key(map, key)
 #'
 #' }
 #'
@@ -47,11 +47,13 @@ google_map <- function(width = NULL, height = NULL, padding = 0) {
 #' \dontrun{
 #'
 #' map <- google_map()
-#' map$dependencies <- map_key(key)
+#' map <- map_key(map, key)
 #'
 #' }
 #' @export
-map_key <- function(key){
+map_key <- function(map, key){
+
+  map$dependencies <- c(map$dependencies,
   list(
     htmltools::htmlDependency(
       name = "googleway",
@@ -60,7 +62,8 @@ map_key <- function(key){
       head = paste0('<script src="https://maps.googleapis.com/maps/api/js?key=', key, '"></script>'),
       all_files = FALSE
     )
-  )
+  ))
+  return(map)
 }
 
 
