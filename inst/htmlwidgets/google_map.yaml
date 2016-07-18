@@ -1,0 +1,11 @@
+
+dependencies:
+  - name: map.js
+    version: 1.0.0
+    src: "htmlwidgets/lib"
+    script: map.js
+    stylesheet: map_style.css
+  - name: loadMap.js
+    version: 1.0.0
+    src: "htmlwidgets/lib"
+    script: loadMap.js
