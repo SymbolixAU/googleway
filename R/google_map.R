@@ -10,6 +10,10 @@
 #' map <- google_map()
 #' map <- map_key(map, key)
 #'
+#' ## using pipes
+#' library(magrittr)
+#' google_map() %>% map_key(key)
+#'
 #' }
 #'
 #' @export
@@ -48,6 +52,10 @@ google_map <- function(width = NULL, height = NULL, padding = 0) {
 #'
 #' map <- google_map()
 #' map <- map_key(map, key)
+#'
+#' ## using piples
+#' library(magrittr)
+#' google_map() %>% map_key(key)
 #'
 #' }
 #' @export

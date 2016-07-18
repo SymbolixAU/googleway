@@ -16,7 +16,11 @@ Adds the Google Maps API key to a map object
 \dontrun{
 
 map <- google_map()
-map$dependencies <- map_key(key)
+map <- map_key(map, key)
+
+## using piples
+library(magrittr)
+google_map() \%>\% map_key(key)
 
 }
 }

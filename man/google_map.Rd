@@ -13,7 +13,11 @@ Generates a google map object. Will only work with a valid key (see \link{map_ke
 \dontrun{
 
 map <- google_map()
-map$dependencies <- map_key(key)
+map <- map_key(map, key)
+
+## using pipes
+library(magrittr)
+google_map() \%>\% map_key(key)
 
 }
 

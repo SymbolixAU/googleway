@@ -4,7 +4,7 @@ function loadScript(GOOGLE_MAP_KEY) {
     script.type = 'text/javascript';
     script.src = 'https://maps.googleapis.com/maps/api/js?' +
     'key=' + GOOGLE_MAP_KEY;
-    document.head.appendChild(script);
+    document.body.appendChild(script);
 }
 */
 //+ '&callback=initMap'
