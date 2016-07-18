@@ -1,34 +1,33 @@
 #' Google map
 #'
-#' Generates a google map
+#' Generates a google map object. Will only work with a valid key (see \link{map_key})
 #'
 #' @import htmlwidgets
 #' @import htmltools
+#' @examples
+#' \dontrun{
+#'
+#' map <- google_map()
+#' map$dependencies <- map_key(key)
+#'
+#' }
 #'
 #' @export
 google_map <- function(width = NULL, height = NULL, padding = 0) {
 
   # key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
 
-  # key <- sprintf('async defer src="https://maps.googleapis.com/maps/api/js?key=%s&callback=initMap"', key)
-  # key <- sprintf('https://maps.googleapis.com/maps/api/js?key=%s&callback=initMap', key)
-
   # forward options using x
   x = list(
-
   )
-
-
-  # # print(x)
-  # map_key(key)
 
   # create widget
   htmlwidgets::createWidget(
     name = 'google_map',
     x,
     package = 'googleway',
-
-    width = width, height = height,
+    width = width,
+    height = height,
 
     sizingPolicy = htmlwidgets::sizingPolicy(
       defaultWidth = '100%',
@@ -39,34 +38,45 @@ google_map <- function(width = NULL, height = NULL, padding = 0) {
   )
 }
 
-# #' @export
-# add_google_key <- function(map, key) {
-#   print(str(map))
-#   print(str(map$dependencies))
-# #  print(google_dependency(key))
-#   map$dependencies <- google_dependency(key)
-# }
-
+#' Map key
+#'
+#' Adds the Google Maps API key to a map object
+#'
+#' @param key \code{string} a valid Google Maps API key
+#' @examples
+#' \dontrun{
+#'
+#' map <- google_map()
+#' map$dependencies <- map_key(key)
+#'
+#' }
 #' @export
+map_key <- function(key){
+  list(
+    htmltools::htmlDependency(
+      name = "googleway",
+      version = "9999",
+      src=".",
+      head = paste0('<script src="https://maps.googleapis.com/maps/api/js?key=', key, '"></script>'),
+      all_files = FALSE
+    )
+  )
+}
+
+
 google_key_dependency <- function(key) {
 
   list(
     htmltools::htmlDependency(
-      name = "abcxyz",
+      name = "googleway",
       version = "9999",
       src=".",
       head = paste0('<script src="https://maps.googleapis.com/maps/api/js?key=', key, '"></script>'),
-      # script = c(href=paste0("https://maps.googleapis.com/maps/api/js?key=", key)),
-      # head = paste0('<script src="https://maps.googleapis.com/maps/api/js?key=', key, '"</script>'),
-      # head = htmltools::tags$script(src = paste0('https://maps.googleapis.com/maps/api/js?key=', key)),
       all_files = FALSE
-      # src = c(href=paste0("https://maps.googleapis.com/maps/api")),
-      # script = paste0("js?key=", key)
-      # src = c(href=paste0("https://maps.googleapis.com/maps/api/js?key=", key))
-      # script = c(href=paste0("https://maps.googleapis.com/maps/api/js?key=", key))
     )
   )
 }
+
 
 google_map_html <- function(id = id, style = style, class = class,...){
 
