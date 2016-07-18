@@ -47,6 +47,7 @@ google_map <- function(width = NULL, height = NULL, padding = 0) {
 #   map$dependencies <- google_dependency(key)
 # }
 
+#' @export
 google_key_dependency <- function(key) {
 
   list(
@@ -54,6 +55,7 @@ google_key_dependency <- function(key) {
       name = "abcxyz",
       version = "9999",
       src=".",
+      head = paste0('<script src="https://maps.googleapis.com/maps/api/js?key=', key, '"></script>'),
       # script = c(href=paste0("https://maps.googleapis.com/maps/api/js?key=", key)),
       # head = paste0('<script src="https://maps.googleapis.com/maps/api/js?key=', key, '"</script>'),
       # head = htmltools::tags$script(src = paste0('https://maps.googleapis.com/maps/api/js?key=', key)),
