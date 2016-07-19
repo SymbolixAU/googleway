@@ -4,8 +4,9 @@
 #'
 #' @import htmlwidgets
 #' @import htmltools
-#' @param location \code{numeric} vector of latitude/longitude (in that order) coordinates for the initial starting position of the mape
-#' @param zoom \code{numeric} integer representing the zoom level of the map (0 is fully zoomed out)
+#' @param location numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the mape
+#' @param zoom numeric integer representing the zoom level of the map (0 is fully zoomed out)
+#' @param timeout numeric miliseconds to allow map to load. Used in absence of a 'callback' function. See Details.
 #' @examples
 #' \dontrun{
 #'
@@ -18,13 +19,18 @@
 #'
 #' }
 #'
+#' @details
+#'
+#' \code{timeout} is used to replace the javascript callback function in the Google Maps API.
+#'
 #' @export
 google_map <- function(data = NULL,
                        location = NULL,
                        zoom = NULL,
                        width = NULL,
                        height = NULL,
-                       padding = 0) {
+                       padding = 0,
+                       timeout = 100) {
 
   # key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
   if(is.null(location))
@@ -38,7 +44,8 @@ google_map <- function(data = NULL,
     data = data,
     lat = location[1],
     lon = location[2],
-    zoom = zoom
+    zoom = zoom,
+    timeout = timeout
   )
 
   # create widget

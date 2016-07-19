@@ -19,8 +19,16 @@ HTMLWidgets.widget({
               center: {lat: x.lat, lng: x.lon},
               zoom: x.zoom
             });
+        //example marker
+        /*
+        var marker = new google.maps.Marker({
+          position: {lat: x.lat, lng: x.lon},
+          map: map,
+          title: 'Hello World!'
+        });
+        */
+      }, x.timeout);
 
-        }, 1000);
 
 
       },

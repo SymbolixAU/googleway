@@ -5,15 +5,20 @@
 \title{Google map}
 \usage{
 google_map(data = NULL, location = NULL, zoom = NULL, width = NULL,
-  height = NULL, padding = 0)
+  height = NULL, padding = 0, timeout = 100)
 }
 \arguments{
-\item{location}{\code{numeric} vector of latitude/longitude (in that order) coordinates for the initial starting position of the mape}
+\item{location}{numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the mape}
 
-\item{zoom}{\code{numeric} integer representing the zoom level of the map (0 is fully zoomed out)}
+\item{zoom}{numeric integer representing the zoom level of the map (0 is fully zoomed out)}
+
+\item{timeout}{numeric miliseconds to allow map to load. Used in absence of a 'callback' function. See Details.}
 }
 \description{
 Generates a google map object. Will only work with a valid key (see \link{map_key})
+}
+\details{
+\code{timeout} is used to replace the javascript callback function in the Google Maps API.
 }
 \examples{
 \dontrun{
