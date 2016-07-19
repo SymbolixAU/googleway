@@ -35,6 +35,7 @@ google_map <- function(data = NULL,
 
   # forward options using x
   x = list(
+    data = data,
     lat = location[1],
     lon = location[2],
     zoom = zoom
@@ -104,14 +105,14 @@ google_key_dependency <- function(key) {
 }
 
 
-google_map_html <- function(id = id, style = style, class = class,...){
-
-  list(tags$div(id = id, style = style, class = class,
-                tags$div(id = "map")
-                # tags$script("initMap(-37.9, 4);")
-                )
-       )
-}
+# google_map_html <- function(id = id, style = style, class = class,...){
+#
+#   list(tags$div(id = id, style = style, class = class,
+#                 tags$div(id = "map")
+#                 # tags$script("initMap();")
+#                 )
+#        )
+# }
 
 #' Shiny bindings for google_map
 #'
