@@ -91,29 +91,6 @@ map_key <- function(map, key){
 }
 
 
-google_key_dependency <- function(key) {
-
-  list(
-    htmltools::htmlDependency(
-      name = "googleway",
-      version = "9999",
-      src=".",
-      head = paste0('<script src="https://maps.googleapis.com/maps/api/js?key=', key, '"></script>'),
-      all_files = FALSE
-    )
-  )
-}
-
-
-# google_map_html <- function(id = id, style = style, class = class,...){
-#
-#   list(tags$div(id = id, style = style, class = class,
-#                 tags$div(id = "map")
-#                 # tags$script("initMap();")
-#                 )
-#        )
-# }
-
 #' Shiny bindings for google_map
 #'
 #' Output and render functions for using google_map within Shiny
