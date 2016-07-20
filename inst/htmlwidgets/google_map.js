@@ -32,5 +32,15 @@ HTMLWidgets.widget({
   }
 });
 
+addMarker = function(lat, lon){
+  var latlon = new google.map.LatLng(lat, lon);
 
-//TODO: try standard HTML code with separate JS functions
+  var marker = new google.maps.Marker({
+    position: latlong,
+    draggable: false,
+    map: map
+  });
+};
+
+
+

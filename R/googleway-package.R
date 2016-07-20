@@ -2,6 +2,8 @@
 #' @importFrom Rcpp evalCpp
 #' @importFrom jsonlite fromJSON
 #' @importFrom curl curl
+#' @import htmlwidgets
+#' @import htmltools
 NULL
 
 

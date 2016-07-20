@@ -2,8 +2,6 @@
 #'
 #' Generates a google map object. Will only work with a valid key (see \link{map_key})
 #'
-#' @import htmlwidgets
-#' @import htmltools
 #' @param location \code{numeric} vector of latitude/longitude (in that order) coordinates for the initial starting position of the mape
 #' @param zoom \code{numeric} integer representing the zoom level of the map (0 is fully zoomed out)
 #' @examples
@@ -26,7 +24,7 @@ google_map <- function(data = NULL,
                        height = NULL,
                        padding = 0) {
 
-  # key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
+  # key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_MAP_KEY"))
   if(is.null(location))
     location <- c(-37.9, 144.5)
 
