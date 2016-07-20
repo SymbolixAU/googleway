@@ -2,8 +2,9 @@
 #'
 #' Generates a google map object. Will only work with a valid key (see \link{map_key})
 #'
-#' @param location \code{numeric} vector of latitude/longitude (in that order) coordinates for the initial starting position of the mape
-#' @param zoom \code{numeric} integer representing the zoom level of the map (0 is fully zoomed out)
+#' @param key A valid Google Maps API key
+#' @param location numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the mape
+#' @param zoom numeric integer representing the zoom level of the map (0 is fully zoomed out)
 #' @examples
 #' \dontrun{
 #'
@@ -17,7 +18,8 @@
 #' }
 #'
 #' @export
-google_map <- function(data = NULL,
+google_map <- function(key,
+                       data = NULL,
                        location = NULL,
                        zoom = NULL,
                        width = NULL,
@@ -40,7 +42,7 @@ google_map <- function(data = NULL,
   )
 
   # create widget
-  htmlwidgets::createWidget(
+  googlemap <- htmlwidgets::createWidget(
     name = 'google_map',
     x,
     package = 'googleway',
@@ -54,42 +56,20 @@ google_map <- function(data = NULL,
       browser.fill = TRUE
     )
   )
+
+  googlemap$dependencies <- c(map$dependencies,
+                              list(
+                                htmltools::htmlDependency(
+                                  name = "googleway",
+                                  version = "9999",
+                                  src=".",
+                                  head = paste0('<script src="https://maps.googleapis.com/maps/api/js?key=', key, '"></script>'),
+                                  all_files = FALSE
+                                  )
+                                )
+                              )
+  return(googlemap)
 }
-
-#' Map key
-#'
-#' Adds the Google Maps API key to a map object
-#'
-#' @param key \code{string} a valid Google Maps API key
-#' @examples
-#' \dontrun{
-#'
-#' map <- google_map(location = c(-37.9, 144.5), zoom = 12)
-#' map <- map_key(map, key)
-#'
-#' ## using piples
-#' library(magrittr)
-#' google_map(location = c(-37.9, 144.5), zoom = 12)  %>% map_key(key)
-#'
-#' }
-#' @export
-map_key <- function(map, key){
-
-  map$dependencies <- c(map$dependencies,
-  list(
-    htmltools::htmlDependency(
-      name = "googleway",
-      version = "9999",
-      src=".",
-      head = paste0('<script src="https://maps.googleapis.com/maps/api/js?key=', key, '"></script>'),
-      all_files = FALSE
-    )
-  ))
-  return(map)
-}
-
-
-
 
 #' Shiny bindings for google_map
 #'

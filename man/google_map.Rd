@@ -4,13 +4,15 @@
 \alias{google_map}
 \title{Google map}
 \usage{
-google_map(data = NULL, location = NULL, zoom = NULL, width = NULL,
+google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
   height = NULL, padding = 0)
 }
 \arguments{
-\item{location}{\code{numeric} vector of latitude/longitude (in that order) coordinates for the initial starting position of the mape}
+\item{key}{A valid Google Maps API key}
 
-\item{zoom}{\code{numeric} integer representing the zoom level of the map (0 is fully zoomed out)}
+\item{location}{numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the mape}
+
+\item{zoom}{numeric integer representing the zoom level of the map (0 is fully zoomed out)}
 }
 \description{
 Generates a google map object. Will only work with a valid key (see \link{map_key})
