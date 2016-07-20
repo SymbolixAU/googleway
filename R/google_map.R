@@ -89,6 +89,8 @@ map_key <- function(map, key){
 }
 
 
+
+
 #' Shiny bindings for google_map
 #'
 #' Output and render functions for using google_map within Shiny

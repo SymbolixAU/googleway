@@ -5,9 +5,6 @@
 #' @export
 add_markers <- function(map){
 
-  ## add markers to a map object
-
-
 }
 
 

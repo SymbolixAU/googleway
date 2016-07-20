@@ -11,6 +11,12 @@ HTMLWidgets.widget({
 
       renderValue: function(x) {
 
+        //x.data = HTMLWidgets.dataframeToD3(x.data);
+
+        var locations = [ [ 'hello marker', -37.89, 144],
+                          [ 'oh, hi', -37.99, 144.5]
+                        ];
+
         // to replicate the async callback
         setTimeout(function() {
           var mapDiv = document.getElementById(el.id);
@@ -19,9 +25,21 @@ HTMLWidgets.widget({
               center: {lat: x.lat, lng: x.lon},
               zoom: x.zoom
             });
+            /*
+            var latlon = new google.maps.LatLng(locations[1], locations[2]);
+            //var latlon = {lat: -37.9, lng: 144.9};
+            var marker = new google.maps.Marker({
+              position: latlon,
+              draggable: false,
+              map: map
+            });
+            */
+            var i;
+            for (i = 0; i < locations.length; i ++) {
+             addMarker(i, map, locations[i][1], locations[i][2], locations[i][0]);
+            }
 
         }, 1000);
-
 
       },
       resize: function(width, height) {
@@ -32,15 +50,19 @@ HTMLWidgets.widget({
   }
 });
 
-addMarker = function(lat, lon){
-  var latlon = new google.map.LatLng(lat, lon);
+
+function addMarker(i, map, lat, lon, title){
+
+  var latlon = new google.maps.LatLng(lat, lon);
 
   var marker = new google.maps.Marker({
-    position: latlong,
+    position: latlon,
     draggable: false,
     map: map
   });
-};
+
+
+}
 
 
 
