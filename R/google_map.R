@@ -1,6 +1,6 @@
 #' Google map
 #'
-#' Generates a google map object. Will only work with a valid key (see \link{map_key})
+#' Generates a google map object. Will only work with a valid key
 #'
 #' @param key A valid Google Maps API key
 #' @param location numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the mape
@@ -8,13 +8,7 @@
 #' @examples
 #' \dontrun{
 #'
-#' map <- google_map(location = c(-37.9, 144.5), zoom = 12)
-#' map <- map_key(map, key)
-#'
-#' ## using pipes
-#' library(magrittr)
-#' google_map(location = c(-37.9, 144.5), zoom = 12)  %>% map_key(key)
-#'
+#' google_map(key = key, location = c(-37.9, 144.5), zoom = 12)
 #' }
 #'
 #' @export
@@ -53,11 +47,11 @@ google_map <- function(key,
       defaultWidth = '100%',
       defaultHeight = 400,
       padding = padding,
-      browser.fill = TRUE
+      browser.fill = FALSE
     )
   )
 
-  googlemap$dependencies <- c(map$dependencies,
+  googlemap$dependencies <- c(googlemap$dependencies,
                               list(
                                 htmltools::htmlDependency(
                                   name = "googleway",

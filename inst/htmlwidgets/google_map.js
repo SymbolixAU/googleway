@@ -11,11 +11,15 @@ HTMLWidgets.widget({
 
       renderValue: function(x) {
 
-        //x.data = HTMLWidgets.dataframeToD3(x.data);
-
+        locations = HTMLWidgets.dataframeToD3(x.data);
+        /*
         var locations = [ [ 'hello marker', -37.89, 144],
                           [ 'oh, hi', -37.99, 144.5]
                         ];
+        */
+        //console.log(data);
+        //console.log(locations);
+        //console.log(locations[0].lat);
 
         // to replicate the async callback
         setTimeout(function() {
@@ -36,7 +40,7 @@ HTMLWidgets.widget({
             */
             var i;
             for (i = 0; i < locations.length; i ++) {
-             addMarker(i, map, locations[i][1], locations[i][2], locations[i][0]);
+             addMarker(i, map, locations[i].lat, locations[i].lon, locations[i].desc);
             }
 
         }, 1000);

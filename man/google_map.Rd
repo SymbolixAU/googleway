@@ -15,18 +15,12 @@ google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
 \item{zoom}{numeric integer representing the zoom level of the map (0 is fully zoomed out)}
 }
 \description{
-Generates a google map object. Will only work with a valid key (see \link{map_key})
+Generates a google map object. Will only work with a valid key
 }
 \examples{
 \dontrun{
 
-map <- google_map(location = c(-37.9, 144.5), zoom = 12)
-map <- map_key(map, key)
-
-## using pipes
-library(magrittr)
-google_map(location = c(-37.9, 144.5), zoom = 12)  \%>\% map_key(key)
-
+google_map(key = key, location = c(-37.9, 144.5), zoom = 12)
 }
 
 }
