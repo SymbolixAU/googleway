@@ -4,8 +4,8 @@
 \alias{google_map}
 \title{Google map}
 \usage{
-google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
-  height = NULL, padding = 0)
+google_map(key, markers = NULL, polyline = NULL, location = NULL,
+  zoom = NULL, width = NULL, height = NULL, padding = 0)
 }
 \arguments{
 \item{key}{A valid Google Maps API key}

@@ -11,52 +11,77 @@ HTMLWidgets.widget({
 
       renderValue: function(x) {
 
-        locations = HTMLWidgets.dataframeToD3(x.data);
-        /*
-        var locations = [ [ 'hello marker', -37.89, 144],
-                          [ 'oh, hi', -37.99, 144.5]
-                        ];
-        */
-        //console.log(data);
-        //console.log(locations);
-        //console.log(locations[0].lat);
+        markers = HTMLWidgets.dataframeToD3(x.markers);
+
+        //if a list of polyline data.frames were provided, need to iterate
+        //through them
+        //otherwise, just a single call to add the data.frame
+        var polyline = [];
+        var polyFlag;
+        // http://stackoverflow.com/questions/2647867/how-to-determine-if-variable-is-undefined-or-null/2647888#2647888
+        // and the edit history of accepted answer
+        if(x.polyline.length == null){
+          polyline = HTMLWidgets.dataframeToD3(x.polyline);
+          polyFlag = 'single';
+        }else{
+          var i;
+          for (i = 0; i < x.polyline.length; i++) {
+            polyline[i] = HTMLWidgets.dataframeToD3(x.polyline[i]);
+            polyFlag = 'multi';
+          }
+        }
+        console.log(polyline.length);
 
         // to replicate the async callback
-        setTimeout(function() {
+        //setTimeout(function() { call_function } , 0);
           var mapDiv = document.getElementById(el.id);
             mapDiv.className = "googlemap";
             var map = new google.maps.Map(mapDiv, {
               center: {lat: x.lat, lng: x.lon},
               zoom: x.zoom
             });
-            /*
-            var latlon = new google.maps.LatLng(locations[1], locations[2]);
-            //var latlon = {lat: -37.9, lng: 144.9};
-            var marker = new google.maps.Marker({
-              position: latlon,
-              draggable: false,
-              map: map
-            });
-            */
-            var i;
-            for (i = 0; i < locations.length; i ++) {
-             addMarker(i, map, locations[i].lat, locations[i].lon, locations[i].desc);
-            }
 
-        }, 1000);
+
+        setTimeout(function() {
+          var i;
+          for (i = 0; i < markers.length; i++) {
+            add_markers(map, markers[i].lat, markers[i].lon);
+          }
+        } , 0);
+
+        setTimeout(function() {
+          var i;
+
+          if(polyFlag == 'single'){
+            add_polyline(map, polyline);
+          }else{
+            for (i = 0; i < polyline.length; i++) {
+              add_polyline(map, polyline[i]);
+            }
+          }
+        }, 0);
 
       },
       resize: function(width, height) {
         // TODO: code to re-render the widget with a new size
-      }
-
+      },
     };
   }
 });
 
 
-function addMarker(i, map, lat, lon, title){
+function add_polyline(map, polyline){
+  var Polyline = new google.maps.Polyline({
+          path: polyline,
+          geodesic: true,
+          strokeColor: '#0088FF',
+          strokeOpacity: 0.6,
+          strokeWeight: 4,
+          map: map
+        });
+}
 
+function add_markers(map, lat, lon){
   var latlon = new google.maps.LatLng(lat, lon);
 
   var marker = new google.maps.Marker({
@@ -65,8 +90,20 @@ function addMarker(i, map, lat, lon, title){
     map: map
   });
 
-
 }
 
 
+
+/*
+methods.add_markers = function(lat, lon){
+  let df = new DataFrame()
+    .col("lat", lat)
+    .col("lon", lon);
+
+  add_markers(this, lat, lon);
+//  add_markers(this, df, (df, i) => {
+//    return L.marker([df.get(i, "lat"), df.get(i, "lon")]);
+//  });
+};
+*/
 

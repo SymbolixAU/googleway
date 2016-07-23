@@ -1,7 +1,7 @@
 #' Google map
 #'
 #' Generates a google map object. Will only work with a valid key
-#'
+#' @import jsonlite
 #' @param key A valid Google Maps API key
 #' @param location numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the mape
 #' @param zoom numeric integer representing the zoom level of the map (0 is fully zoomed out)
@@ -13,7 +13,9 @@
 #'
 #' @export
 google_map <- function(key,
-                       data = NULL,
+                       markers = NULL,
+                       polyline = NULL,
+                       #data = NULL,
                        location = NULL,
                        zoom = NULL,
                        width = NULL,
@@ -27,9 +29,11 @@ google_map <- function(key,
   if(is.null(zoom))
     zoom <- 8
 
+  if(!is.null(polyline))
+    polyline = jsonlite::toJSON(polyline)
+
   # forward options using x
   x = list(
-    data = data,
     lat = location[1],
     lon = location[2],
     zoom = zoom
@@ -64,6 +68,56 @@ google_map <- function(key,
                               )
   return(googlemap)
 }
+
+
+#' Add markers
+#'
+#' Add markers to a google map
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @param data data frame
+#' @export
+add_markers <- function(map, data){
+
+  ## TODO:
+  ## - handle mis-specified lat/lon column names
+  ## - popups
+  ## - other options - colours
+
+  ## if markers already exist, add to them, don't overwrite
+  if(!is.null(map$x$markers)){
+    ## they already exist
+    map$x$markers <- rbind(map$x$markers, data)
+  }else{
+    ## they don't exist
+    map$x$markers <- data
+  }
+  return(map)
+}
+
+#' Add polyline
+#'
+#' Add a polyline to a google map
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @param data
+#' @export
+add_polyline <- function(map, data){
+
+  ## TODO:
+  ## - handle mis-specified lat/lon column names
+  ## - other options - colours
+
+  ## if polyline already exists, add to it, don't overwrite
+  if(!is.null(map$x$polyline)){
+    ## already exist
+    map$x$polyline <- rbind(map$x$polyline, data)
+  }else{
+    map$x$polyline <- data
+  }
+  return(map)
+}
+
 
 #' Shiny bindings for google_map
 #'
