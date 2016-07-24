@@ -3,7 +3,7 @@
 #' Add markers to a google map
 #'
 #' @param map a googleway map object created from \code{google_map()}
-#' @param data data frame
+#' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
 #' @param title string specifying the column of \code{data} containing the 'title' of the markers
@@ -20,24 +20,11 @@ add_markers <- function(map,
   {
 
   ## TODO:
-  ## - handle mis-specified lat/lon column names
-  ## - popups
-  ## - other options - colours
+  ## - popups/info window
 
   ## rename the cols so the javascript functions will see them
-  if(is.null(lat)){
-    lat_col <- find_lat_column(names(data), "add_markers")
-    names(data)[names(data) == lat_col[1]] <- "lat"
-  }else{
-    names(data)[names(data) == lat] <- "lat"
-  }
-
-  if(is.null(lon)){
-    lon_col <- find_lon_column(names(data), "add_markers")
-    names(data)[names(data) == lon_col[1]] <- "lon"
-  }else{
-    names(data)[names(data) == lon] <- "lon"
-  }
+  data <- latitude_column(data, lat)
+  data <- longitude_column(data, lon)
 
   if(!is.null(title))
     names(data)[names(data) == title] <- "title"
@@ -52,9 +39,6 @@ add_markers <- function(map,
     if(!is.logical(data$draggable))
       stop("draggable values must be logical")
   }
-
-
-
 
   ## if markers already exist, add to them, don't overwrite
   if(!is.null(map$x$markers)){
@@ -72,13 +56,21 @@ add_markers <- function(map,
 #' Add circles to a google map
 #'
 #' @param map a googleway map object created from \code{google_map()}
-#' @param data data frame
+#' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.
+#' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
+#' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
 #' @export
 add_circles <- function(map,
                         data,
                         lat = NULL,
                         lon = NULL
                         ){
+
+  ## TODO:
+  ## circle options - radius, storke, opacity, etc.
+
+  data <- latitude_column(data, lat)
+  data <- longitude_column(data, lon)
 
   ## if circles already exist, add to them, don't overwrite
   if(!is.null(map$x$circles)){
@@ -95,30 +87,31 @@ add_circles <- function(map,
 #'
 #' Adds a heatmap to a google map
 #'
-#' @param mapp
-#' @param data
+#' @param map a googleway map object created from \code{google_map()}
+#' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.
+#' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
+#' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
+#' @param weight
+#' @param option_dissipating logical Specifies whether heatmaps dissipate on zoom. By default, the radius of influence of a data point is specified by the radius option only. When dissipating is disabled, the radius option is interpreted as a radius at zoom level 0.
+#' @param option_radius numeric The radius of influence for each data point, in pixels.
+#' @param option_opacity The opacity of the heatmap, expressed as a number between 0 and 1. Defaults to 0.6.
 #' @export
 add_heatmap <- function(map,
                         data,
                         lat = NULL,
                         lon = NULL,
-                        weight = NULL){
+                        weight = NULL,
+                        option_dissipating = FALSE,
+                        # gradient = NULL,
+                        # maxIntensity = NULL,
+                        option_radius = 10,
+                        option_opacity = 0.6
+                        ){
 
 
   ## rename the cols so the javascript functions will see them
-  if(is.null(lat)){
-    lat_col <- find_lat_column(names(data), "add_heatmap")
-    names(data)[names(data) == lat_col[1]] <- "lat"
-  }else{
-    names(data)[names(data) == lat] <- "lat"
-  }
-
-  if(is.null(lon)){
-    lon_col <- find_lon_column(names(data), "add_heatmap")
-    names(data)[names(data) == lon_col[1]] <- "lon"
-  }else{
-    names(data)[names(data) == lon] <- "lon"
-  }
+  data <- latitude_column(data, lat)
+  data <- longitude_column(data, lon)
 
   ## if no heat provided, assume all == 1
   if(is.null(weight)){
@@ -135,6 +128,12 @@ add_heatmap <- function(map,
     ## they don't exist
     map$x$heatmap <- data
   }
+
+  ## sort out options
+
+  map$x$heatmap_options <- data.frame(radius = option_radius,
+                                      opacity = option_opacity,
+                                      dissapating = option_dissipating)
   return(map)
 
 }
@@ -145,14 +144,15 @@ add_heatmap <- function(map,
 #' Add a polyline to a google map
 #'
 #' @param map a googleway map object created from \code{google_map()}
-#' @param data data frame
+#' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.
 #' @export
 add_polyline <- function(map, data){
 
   ## TODO:
   ## - handle mis-specified lat/lon column names
-  ## - other options - colours
-
+  ## - other options - colours  ## rename the cols so the javascript functions will see them
+  data <- latitude_column(data, lat)
+  data <- longitude_column(data, lon)
 
   ## if polyline already exists, add to it, don't overwrite
   if(!is.null(map$x$polyline)){
@@ -165,13 +165,25 @@ add_polyline <- function(map, data){
 }
 
 
-change_name <- function(old, new){
-
+latitude_column <- function(data, lat){
+  if(is.null(lat)){
+    lat_col <- find_lat_column(names(data), "add_polyline")
+    names(data)[names(data) == lat_col[1]] <- "lat"
+  }else{
+    names(data)[names(data) == lat] <- "lat"
+  }
+  return(data)
 }
 
-
-
-
+longitude_column <- function(data, lon){
+  if(is.null(lon)){
+    lon_col <- find_lon_column(names(data), "add_polyline")
+    names(data)[names(data) == lon_col[1]] <- "lng"
+  }else{
+    names(data)[names(data) == lon] <- "lng"
+  }
+  return(data)
+}
 
 
 
@@ -252,6 +264,7 @@ find_lat_column = function(names, calling_function, stopOnFailure = TRUE) {
 
   list(lat = NA)
 }
+
 
 find_lon_column = function(names, calling_function, stopOnFailure = TRUE) {
 

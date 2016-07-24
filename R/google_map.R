@@ -1,6 +1,7 @@
 #' Google map
 #'
 #' Generates a google map object. Will only work with a valid key
+#'
 #' @import jsonlite
 #' @param key A valid Google Maps API key
 #' @param location numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the mape
@@ -22,6 +23,10 @@ google_map <- function(key,
                        height = NULL,
                        padding = 0) {
 
+  ## TODO:
+  ## centre map according to data/user location?
+  ## map styles
+
   # key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_MAP_KEY"))
   if(is.null(location))
     location <- c(-37.9, 144.5)
@@ -35,7 +40,7 @@ google_map <- function(key,
   # forward options using x
   x = list(
     lat = location[1],
-    lon = location[2],
+    lng = location[2],
     zoom = zoom
   )
 

@@ -4,7 +4,23 @@
 \alias{add_heatmap}
 \title{Add heatmap}
 \usage{
-add_heatmap(map, data, lat = NULL, lon = NULL, weight = NULL)
+add_heatmap(map, data, lat = NULL, lon = NULL, weight = NULL,
+  option_dissipating = FALSE, option_radius = 10, option_opacity = 0.6)
+}
+\arguments{
+\item{map}{a googleway map object created from \code{google_map()}}
+
+\item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.}
+
+\item{lat}{string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made}
+
+\item{lon}{string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made}
+
+\item{option_dissipating}{logical Specifies whether heatmaps dissipate on zoom. By default, the radius of influence of a data point is specified by the radius option only. When dissipating is disabled, the radius option is interpreted as a radius at zoom level 0.}
+
+\item{option_radius}{numeric The radius of influence for each data point, in pixels.}
+
+\item{option_opacity}{The opacity of the heatmap, expressed as a number between 0 and 1. Defaults to 0.6.}
 }
 \description{
 Adds a heatmap to a google map

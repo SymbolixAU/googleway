@@ -101,8 +101,7 @@
 #   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 #   output$myMap <- renderGoogle_map({
 # google_map(key = map_key) %>%
-#   add_markers(data = df) %>%
-#       add_polyline(data = list(df_line, df_line2))
+#   add_heatmap(data = df_line)
 #   })
 # }
 #
@@ -120,7 +119,7 @@
 # df_line$weight <- runif(nrow(df_line), min = 1, max = 100)
 #
 # google_map(key = map_key) %>%
-#   add_heatmap(data = df_line)
+#   add_circles(data = df_line)
 
 
 

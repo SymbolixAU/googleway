@@ -19,7 +19,7 @@ HTMLWidgets.widget({
 
             mapDiv.className = "googlemap";
             var map = new google.maps.Map(mapDiv, {
-              center: {lat: x.lat, lng: x.lon},
+              center: {lat: x.lat, lng: x.lng},
               zoom: x.zoom
             });
 
@@ -47,7 +47,7 @@ HTMLWidgets.widget({
           if(x.heatmap !== null){
 
             setTimeout(function() {
-              add_heatmap(map, x.heatmap);
+              add_heatmap(map, x.heatmap, x.heatmap_options);
             }, 0);
           }
 
@@ -62,24 +62,31 @@ HTMLWidgets.widget({
 });
 
 
-function add_heatmap(map, data_heatmap){
+function add_heatmap(map, data_heatmap, heatmap_options){
 
   heat = HTMLWidgets.dataframeToD3(data_heatmap);
-  console.log(heat);
+  heat_options = HTMLWidgets.dataframeToD3(heatmap_options);
+
   // need an array of google.maps.LatLng points
   var heatmapData = [];
 
   // turn row of the data into LatLng, and push it to the array
   for(i = 0; i < heat.length; i++){
-    heatmapData[i] = {location: new google.maps.LatLng(heat[i].lat, heat[i].lon), weight: heat[i].weight};
+    heatmapData[i] = {location: new google.maps.LatLng(heat[i].lat, heat[i].lng), weight: heat[i].weight};
   }
-  console.log(heatmapData);
 
   var heatmap = new google.maps.visualization.HeatmapLayer({
     data: heatmapData,
-    map: map
   });
-//  heatmap.setMap(map);
+
+  heatmap.setOptions({
+    radius: heat_options[0].radius,
+    opacity: heat_options[0].opacity,
+    dissipating: heat_options[0].dissipating
+  });
+  heatmap.setMap(map);
+
+
 
 }
 
@@ -89,7 +96,7 @@ function add_circles(map, data_circles){
 
     var i;
     for (i = 0; i < circles.length; i++) {
-      var latlon = new google.maps.LatLng(circles[i].lat, circles[i].lon);
+      var latlon = new google.maps.LatLng(circles[i].lat, circles[i].lng);
 
       var cityCircle = new google.maps.Circle({
             strokeColor: '#FF0000',
@@ -99,7 +106,7 @@ function add_circles(map, data_circles){
             fillOpacity: 0.35,
             map: map,
             center: latlon,
-            radius: 10000
+            radius: 100
           });
     }
 }
@@ -111,7 +118,7 @@ function add_markers(map, data_markers){
   var i;
   for (i = 0; i < markers.length; i++) {
 
-    var latlon = new google.maps.LatLng(markers[i].lat, markers[i].lon);
+    var latlon = new google.maps.LatLng(markers[i].lat, markers[i].lng);
 
     var marker = new google.maps.Marker({
       position: latlon,

@@ -10,7 +10,7 @@ add_markers(map, data, lat = NULL, lon = NULL, title = NULL,
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
-\item{data}{data frame}
+\item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.}
 
 \item{lat}{string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made}
 

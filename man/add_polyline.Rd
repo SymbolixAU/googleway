@@ -9,7 +9,7 @@ add_polyline(map, data)
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
-\item{data}{data frame}
+\item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.}
 }
 \description{
 Add a polyline to a google map
