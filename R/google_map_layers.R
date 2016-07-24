@@ -67,12 +67,85 @@ add_markers <- function(map,
   return(map)
 }
 
+#' Add circle
+#'
+#' Add circles to a google map
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @param data data frame
+#' @export
+add_circles <- function(map,
+                        data,
+                        lat = NULL,
+                        lon = NULL
+                        ){
+
+  ## if circles already exist, add to them, don't overwrite
+  if(!is.null(map$x$circles)){
+    ## they already exist
+    map$x$circles <- rbind(map$x$circles, data)
+  }else{
+    ## they don't exist
+    map$x$circles <- data
+  }
+  return(map)
+}
+
+#' Add heatmap
+#'
+#' Adds a heatmap to a google map
+#'
+#' @param mapp
+#' @param data
+#' @export
+add_heatmap <- function(map,
+                        data,
+                        lat = NULL,
+                        lon = NULL,
+                        weight = NULL){
+
+
+  ## rename the cols so the javascript functions will see them
+  if(is.null(lat)){
+    lat_col <- find_lat_column(names(data), "add_heatmap")
+    names(data)[names(data) == lat_col[1]] <- "lat"
+  }else{
+    names(data)[names(data) == lat] <- "lat"
+  }
+
+  if(is.null(lon)){
+    lon_col <- find_lon_column(names(data), "add_heatmap")
+    names(data)[names(data) == lon_col[1]] <- "lon"
+  }else{
+    names(data)[names(data) == lon] <- "lon"
+  }
+
+  ## if no heat provided, assume all == 1
+  if(is.null(weight)){
+    df$weight <- 1
+  }else{
+    names(data)[names(data) == weigth] <- "weight"
+  }
+
+  ## if heatmap already exist, add to them, don't overwrite
+  if(!is.null(map$x$heatmap)){
+    ## they already exist
+    map$x$heatmap <- rbind(map$x$heatmap, data)
+  }else{
+    ## they don't exist
+    map$x$heatmap <- data
+  }
+  return(map)
+
+}
+
+
 #' Add polyline
 #'
 #' Add a polyline to a google map
 #'
 #' @param map a googleway map object created from \code{google_map()}
-#' @param data data.frame containing at least a column each for latitude and longitude coordinates, named as any of 'lat/latitude'
+#' @param data data frame
 #' @export
 add_polyline <- function(map, data){
 
@@ -84,7 +157,7 @@ add_polyline <- function(map, data){
   ## if polyline already exists, add to it, don't overwrite
   if(!is.null(map$x$polyline)){
     ## already exist
-    map$x$polyline <- rbind(map$x$polyline, data)
+    map$x$polyline <- list(map$x$polyline, data)
   }else{
     map$x$polyline <- data
   }

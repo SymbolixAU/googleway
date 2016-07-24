@@ -30,10 +30,24 @@ HTMLWidgets.widget({
            }, 0);
           }
 
+          if(x.circles !== null){
+
+            setTimeout(function() {
+              add_circles(map, x.circles);
+            }, 0);
+          }
+
           if(x.polyline !== null){
 
             setTimeout(function() {
               add_polyline(map, x.polyline);
+            }, 0);
+          }
+
+          if(x.heatmap !== null){
+
+            setTimeout(function() {
+              add_heatmap(map, x.heatmap);
             }, 0);
           }
 
@@ -48,11 +62,46 @@ HTMLWidgets.widget({
 });
 
 
+function add_heatmap(map, data_heatmap){
+
+  heat = HTMLWidgets.dataframeToD3(data_heatmap);
+  console.log(heat);
+  // need an array of google.maps.LatLng points
+  var heatmapData = [];
+
+  // turn row of the data into LatLng, and push it to the array
+  for(i = 0; i < heat.length; i++){
+    heatmapData[i] = {location: new google.maps.LatLng(heat[i].lat, heat[i].lon), weight: heat[i].weight};
+  }
+  console.log(heatmapData);
+
+  var heatmap = new google.maps.visualization.HeatmapLayer({
+    data: heatmapData,
+    map: map
+  });
+//  heatmap.setMap(map);
+
+}
+
 function add_circles(map, data_circles){
 
     circles = HTMLWidgets.dataframeToD3(data_circles);
 
+    var i;
+    for (i = 0; i < circles.length; i++) {
+      var latlon = new google.maps.LatLng(circles[i].lat, circles[i].lon);
 
+      var cityCircle = new google.maps.Circle({
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#FF0000',
+            fillOpacity: 0.35,
+            map: map,
+            center: latlon,
+            radius: 10000
+          });
+    }
 }
 
 function add_markers(map, data_markers){

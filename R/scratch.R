@@ -107,17 +107,20 @@
 # }
 #
 # shinyApp(ui, server)
-
-# df <- data.frame(desc = c("Melbourne", "Melbourne Again"),
-#                  lat = c(-37.9, -38),
-#                  lon = c(144.9, 145.1),
-#                  opacity = c(0.3, 0.9))
 #
 # google_map(key = map_key) %>%
-#   add_markers(data = df,
-#               title = "desc",
-#               opacity = "opacity")
+#   add_circles(data = df)
+#
 
+# df <- data.frame(desc = c("Melbourne", "Melbourne Again"),
+#                  lat = c(-37.9, -38, -37.9, -38, -37.9, -37.9),
+#                  lon = c(144.9, 145.1, 144.9, 144.9, 144.9, 144.9),
+#                  weight = c(1, 200, 5, 3, 3, 3000))
+#
+# df_line$weight <- runif(nrow(df_line), min = 1, max = 100)
+#
+# google_map(key = map_key) %>%
+#   add_heatmap(data = df_line)
 
 
 

@@ -61,7 +61,7 @@ google_map <- function(key,
                                   name = "googleway",
                                   version = "9999",
                                   src=".",
-                                  head = paste0('<script src="https://maps.googleapis.com/maps/api/js?key=', key, '"></script>'),
+                                  head = paste0('<script src="https://maps.googleapis.com/maps/api/js?key=', key, '&libraries=visualization"></script>'),
                                   all_files = FALSE
                                   )
                                 )
