@@ -4,6 +4,7 @@
 \alias{google_map}
 \title{Google map}
 \usage{
+<<<<<<< HEAD
 google_map(data = NULL, location = NULL, zoom = NULL, width = NULL,
   height = NULL, padding = 0, timeout = 100)
 }
@@ -13,9 +14,26 @@ google_map(data = NULL, location = NULL, zoom = NULL, width = NULL,
 \item{zoom}{numeric integer representing the zoom level of the map (0 is fully zoomed out)}
 
 \item{timeout}{numeric miliseconds to allow map to load. Used in absence of a 'callback' function. See Details.}
+=======
+google_map(key, location = NULL, zoom = NULL, width = NULL,
+  height = NULL, padding = 0)
+}
+\arguments{
+\item{key}{A valid Google Maps API key}
+
+\item{location}{numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the map}
+
+\item{zoom}{numeric integer representing the zoom level of the map (0 is fully zoomed out)}
+
+\item{width}{desc}
+
+\item{height}{desc}
+
+\item{padding}{desc}
+>>>>>>> map
 }
 \description{
-Generates a google map object. Will only work with a valid key (see \link{map_key})
+Generates a google map object. Will only work with a valid key
 }
 \details{
 \code{timeout} is used to replace the javascript callback function in the Google Maps API.
@@ -23,13 +41,7 @@ Generates a google map object. Will only work with a valid key (see \link{map_ke
 \examples{
 \dontrun{
 
-map <- google_map(location = c(-37.9, 144.5), zoom = 12)
-map <- map_key(map, key)
-
-## using pipes
-library(magrittr)
-google_map(location = c(-37.9, 144.5), zoom = 12)  \%>\% map_key(key)
-
+google_map(key = key, location = c(-37.9, 144.5), zoom = 12)
 }
 
 }

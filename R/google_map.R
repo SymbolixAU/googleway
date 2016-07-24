@@ -1,22 +1,21 @@
 #' Google map
 #'
-#' Generates a google map object. Will only work with a valid key (see \link{map_key})
+#' Generates a google map object. Will only work with a valid key
 #'
+#' @import jsonlite
 #' @import htmlwidgets
 #' @import htmltools
-#' @param location numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the mape
+#'
+#' @param key A valid Google Maps API key
+#' @param location numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the map
 #' @param zoom numeric integer representing the zoom level of the map (0 is fully zoomed out)
-#' @param timeout numeric miliseconds to allow map to load. Used in absence of a 'callback' function. See Details.
+#' @param width desc
+#' @param height desc
+#' @param padding desc
 #' @examples
 #' \dontrun{
 #'
-#' map <- google_map(location = c(-37.9, 144.5), zoom = 12)
-#' map <- map_key(map, key)
-#'
-#' ## using pipes
-#' library(magrittr)
-#' google_map(location = c(-37.9, 144.5), zoom = 12)  %>% map_key(key)
-#'
+#' google_map(key = key, location = c(-37.9, 144.5), zoom = 12)
 #' }
 #'
 #' @details
@@ -24,7 +23,7 @@
 #' \code{timeout} is used to replace the javascript callback function in the Google Maps API.
 #'
 #' @export
-google_map <- function(data = NULL,
+google_map <- function(key,
                        location = NULL,
                        zoom = NULL,
                        width = NULL,
@@ -32,7 +31,12 @@ google_map <- function(data = NULL,
                        padding = 0,
                        timeout = 100) {
 
-  # key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
+  ## TODO:
+  ## centre map according to data/user location?
+  ## map styles
+  ## pass data into google_map, and use in the other map_layer() functions
+
+  # key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_MAP_KEY"))
   if(is.null(location))
     location <- c(-37.9, 144.5)
 
@@ -41,15 +45,19 @@ google_map <- function(data = NULL,
 
   # forward options using x
   x = list(
-    data = data,
     lat = location[1],
+<<<<<<< HEAD
     lon = location[2],
     zoom = zoom,
     timeout = timeout
+=======
+    lng = location[2],
+    zoom = zoom
+>>>>>>> map
   )
 
   # create widget
-  htmlwidgets::createWidget(
+  googlemap <- htmlwidgets::createWidget(
     name = 'google_map',
     x,
     package = 'googleway',
@@ -60,42 +68,25 @@ google_map <- function(data = NULL,
       defaultWidth = '100%',
       defaultHeight = 400,
       padding = padding,
-      browser.fill = TRUE
+      browser.fill = FALSE
     )
   )
+
+  googlemap$dependencies <- c(googlemap$dependencies,
+                              list(
+                                htmltools::htmlDependency(
+                                  name = "googleway",
+                                  version = "9999",
+                                  src=".",
+                                  head = paste0('<script src="https://maps.googleapis.com/maps/api/js?key=', key, '&libraries=visualization"></script>'),
+                                  all_files = FALSE
+                                  )
+                                )
+                              )
+
+  return(googlemap)
 }
 
-#' Map key
-#'
-#' Adds the Google Maps API key to a map object
-#'
-#' @param key \code{string} a valid Google Maps API key
-#' @examples
-#' \dontrun{
-#'
-#' map <- google_map(location = c(-37.9, 144.5), zoom = 12)
-#' map <- map_key(map, key)
-#'
-#' ## using piples
-#' library(magrittr)
-#' google_map(location = c(-37.9, 144.5), zoom = 12)  %>% map_key(key)
-#'
-#' }
-#' @export
-map_key <- function(map, key){
-
-  map$dependencies <- c(map$dependencies,
-  list(
-    htmltools::htmlDependency(
-      name = "googleway",
-      version = "9999",
-      src=".",
-      head = paste0('<script src="https://maps.googleapis.com/maps/api/js?key=', key, '"></script>'),
-      all_files = FALSE
-    )
-  ))
-  return(map)
-}
 
 
 #' Shiny bindings for google_map
