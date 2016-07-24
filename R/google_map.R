@@ -3,6 +3,9 @@
 #' Generates a google map object. Will only work with a valid key
 #'
 #' @import jsonlite
+#' @import htmlwidgets
+#' @import htmltools
+#'
 #' @param key A valid Google Maps API key
 #' @param location numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the mape
 #' @param zoom numeric integer representing the zoom level of the map (0 is fully zoomed out)
