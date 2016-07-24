@@ -119,7 +119,8 @@
 # df_line$weight <- runif(nrow(df_line), min = 1, max = 100)
 #
 # google_map(key = map_key) %>%
-#   add_circles(data = df_line)
+#   add_heatmap(data = df_line)
+
 
 
 

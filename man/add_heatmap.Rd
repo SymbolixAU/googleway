@@ -16,6 +16,8 @@ add_heatmap(map, data, lat = NULL, lon = NULL, weight = NULL,
 
 \item{lon}{string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made}
 
+\item{weight}{string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.}
+
 \item{option_dissipating}{logical Specifies whether heatmaps dissipate on zoom. By default, the radius of influence of a data point is specified by the radius option only. When dissipating is disabled, the radius option is interpreted as a radius at zoom level 0.}
 
 \item{option_radius}{numeric The radius of influence for each data point, in pixels.}

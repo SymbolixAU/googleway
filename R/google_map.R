@@ -7,8 +7,11 @@
 #' @import htmltools
 #'
 #' @param key A valid Google Maps API key
-#' @param location numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the mape
+#' @param location numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the map
 #' @param zoom numeric integer representing the zoom level of the map (0 is fully zoomed out)
+#' @param width desc
+#' @param height desc
+#' @param padding desc
 #' @examples
 #' \dontrun{
 #'
@@ -17,9 +20,6 @@
 #'
 #' @export
 google_map <- function(key,
-                       markers = NULL,
-                       polyline = NULL,
-                       #data = NULL,
                        location = NULL,
                        zoom = NULL,
                        width = NULL,
@@ -29,6 +29,7 @@ google_map <- function(key,
   ## TODO:
   ## centre map according to data/user location?
   ## map styles
+  ## pass data into google_map, and use in the other map_layer() functions
 
   # key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_MAP_KEY"))
   if(is.null(location))
@@ -36,9 +37,6 @@ google_map <- function(key,
 
   if(is.null(zoom))
     zoom <- 8
-
-  if(!is.null(polyline))
-    polyline = jsonlite::toJSON(polyline)
 
   # forward options using x
   x = list(
