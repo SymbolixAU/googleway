@@ -66,57 +66,10 @@ google_map <- function(key,
                                   )
                                 )
                               )
+
   return(googlemap)
 }
 
-
-#' Add markers
-#'
-#' Add markers to a google map
-#'
-#' @param map a googleway map object created from \code{google_map()}
-#' @param data data frame
-#' @export
-add_markers <- function(map, data){
-
-  ## TODO:
-  ## - handle mis-specified lat/lon column names
-  ## - popups
-  ## - other options - colours
-
-  ## if markers already exist, add to them, don't overwrite
-  if(!is.null(map$x$markers)){
-    ## they already exist
-    map$x$markers <- rbind(map$x$markers, data)
-  }else{
-    ## they don't exist
-    map$x$markers <- data
-  }
-  return(map)
-}
-
-#' Add polyline
-#'
-#' Add a polyline to a google map
-#'
-#' @param map a googleway map object created from \code{google_map()}
-#' @param data
-#' @export
-add_polyline <- function(map, data){
-
-  ## TODO:
-  ## - handle mis-specified lat/lon column names
-  ## - other options - colours
-
-  ## if polyline already exists, add to it, don't overwrite
-  if(!is.null(map$x$polyline)){
-    ## already exist
-    map$x$polyline <- rbind(map$x$polyline, data)
-  }else{
-    map$x$polyline <- data
-  }
-  return(map)
-}
 
 
 #' Shiny bindings for google_map

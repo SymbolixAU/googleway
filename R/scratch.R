@@ -68,8 +68,59 @@
 #
 # google_map(key = map_key) %>%
 #   add_markers(data = df) %>%
-#   add_markers(data = df2) %>%
 #   add_polyline(data = list(df_line, df_line2))
+#
+# library(shiny)
+# runApp(list(
+#   ui = fluidPage(google_mapOutput("myMap")),
+#
+#   server = function(input, output){
+#
+#     map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#
+#     output$myMap <- renderGoogle_map({
+#
+#       google_map(key = map_key)
+#
+#     })
+#   }
+# ))
+#
+
+# library(shinydashboard)
+#
+# ui <- dashboardPage(
+#   dashboardHeader(),
+#   dashboardSidebar(),
+#   dashboardBody(
+#     google_mapOutput("myMap")
+#   )
+# )
+#
+# server <- function(input, output){
+#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#   output$myMap <- renderGoogle_map({
+# google_map(key = map_key) %>%
+#   add_markers(data = df) %>%
+#       add_polyline(data = list(df_line, df_line2))
+#   })
+# }
+#
+# shinyApp(ui, server)
+
+# df <- data.frame(desc = c("Melbourne", "Melbourne Again"),
+#                  lat = c(-37.9, -38),
+#                  lon = c(144.9, 145.1),
+#                  opacity = c(0.3, 0.9))
+#
+# google_map(key = map_key) %>%
+#   add_markers(data = df,
+#               title = "desc",
+#               opacity = "opacity")
+
+
+
+
 
 
 

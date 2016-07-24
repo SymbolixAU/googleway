@@ -1,3 +1,107 @@
+#' Add markers
+#'
+#' Add markers to a google map
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @param data data frame
+#' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
+#' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
+#' @param title string specifying the column of \code{data} containing the 'title' of the markers
+#' @param draggable string specifying the column of \code{data} defining if the marker is 'draggable' (either TRUE or FALSE)
+#' @param opacity string specifying the column of \code{data} defining the 'opacity' of the maker. Values must be between 0 and 1 (inclusive)
+#' @export
+add_markers <- function(map,
+                        data,
+                        lat = NULL,
+                        lon = NULL,
+                        title = NULL,
+                        draggable = NULL,
+                        opacity = NULL)
+  {
+
+  ## TODO:
+  ## - handle mis-specified lat/lon column names
+  ## - popups
+  ## - other options - colours
+
+  ## rename the cols so the javascript functions will see them
+  if(is.null(lat)){
+    lat_col <- find_lat_column(names(data), "add_markers")
+    names(data)[names(data) == lat_col[1]] <- "lat"
+  }else{
+    names(data)[names(data) == lat] <- "lat"
+  }
+
+  if(is.null(lon)){
+    lon_col <- find_lon_column(names(data), "add_markers")
+    names(data)[names(data) == lon_col[1]] <- "lon"
+  }else{
+    names(data)[names(data) == lon] <- "lon"
+  }
+
+  if(!is.null(title))
+    names(data)[names(data) == title] <- "title"
+
+  if(!is.null(opacity)){
+    names(data)[names(data) == opacity] <- "opacity"
+    if(any(data$opacity < 0) | any(data$opacity > 1))
+      stop("opacity values must be between 0 and 1")
+  }
+  if(!is.null(draggable)){
+    names(data)[names(data) == draggable] <- "draggable"
+    if(!is.logical(data$draggable))
+      stop("draggable values must be logical")
+  }
+
+
+
+
+  ## if markers already exist, add to them, don't overwrite
+  if(!is.null(map$x$markers)){
+    ## they already exist
+    map$x$markers <- rbind(map$x$markers, data)
+  }else{
+    ## they don't exist
+    map$x$markers <- data
+  }
+  return(map)
+}
+
+#' Add polyline
+#'
+#' Add a polyline to a google map
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @param data data.frame containing at least a column each for latitude and longitude coordinates, named as any of 'lat/latitude'
+#' @export
+add_polyline <- function(map, data){
+
+  ## TODO:
+  ## - handle mis-specified lat/lon column names
+  ## - other options - colours
+
+
+  ## if polyline already exists, add to it, don't overwrite
+  if(!is.null(map$x$polyline)){
+    ## already exist
+    map$x$polyline <- rbind(map$x$polyline, data)
+  }else{
+    map$x$polyline <- data
+  }
+  return(map)
+}
+
+
+change_name <- function(old, new){
+
+}
+
+
+
+
+
+
+
 #' This is taken directly from Rstudio/leaflet. I would like to make use of some of the functions
 #'
 #'
@@ -57,26 +161,44 @@
 #'   )
 #' }
 #'
-#' guessLatLongCols = function(names, stopOnFailure = TRUE) {
-#'
-#'   lats = names[grep("^(lat|latitude)$", names, ignore.case = TRUE)]
-#'   lons = names[grep("^(lon|lng|long|longitude)$", names, ignore.case = TRUE)]
-#'
-#'   if (length(lats) == 1 && length(lons) == 1) {
-#'     if (length(names) > 2) {
-#'       message("Assuming '", lons, "' and '", lats,
-#'               "' are latitude and longitude, respectively")
-#'     }
-#'     ## passes
-#'     return(list(lat = lats, lon = lons))
-#'   }
-#'
-#'   if (stopOnFailure) {
-#'     stop("Couldn't infer latitude/longitude columns")
-#'   }
-#'
-#'   list(lat = NA, lon = NA)
-#' }
+find_lat_column = function(names, calling_function, stopOnFailure = TRUE) {
+
+  lats = names[grep("^(lat|lats|latitude|latitudes)$", names, ignore.case = TRUE)]
+
+  if (length(lats) == 1) {
+    if (length(names) > 1) {
+      message("Assuming '", lats, " is the latitude column")
+    }
+    ## passes
+    return(list(lat = lats))
+  }
+
+  if (stopOnFailure) {
+    stop(paste0("Couldn't infer latitude column for ", calling_function))
+  }
+
+  list(lat = NA)
+}
+
+find_lon_column = function(names, calling_function, stopOnFailure = TRUE) {
+
+  lons = names[grep("^(lon|lons|lng|lngs|long|longs|longitude|latitudes)$", names, ignore.case = TRUE)]
+
+  if (length(lons) == 1) {
+    if (length(names) > 1) {
+      message("Assuming '", lons, " is the longitude column")
+    }
+    ## passes
+    return(list(lon = lons))
+  }
+
+  if (stopOnFailure) {
+    stop(paste0("Couldn't infer latitude/longitude columns for ", calling_function))
+  }
+
+  list(lon = NA)
+}
+
 #'
 #'
 #' resolveFormula = function(f, data) {
