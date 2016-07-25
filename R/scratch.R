@@ -94,6 +94,7 @@
 #   dashboardHeader(),
 #   dashboardSidebar(),
 #   dashboardBody(
+#     leafletOutput("leaf_map"),
 #     google_mapOutput("myMap")
 #   )
 # )
@@ -103,6 +104,10 @@
 #
 #   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 #
+#   output$leaf_map <- renderLeaflet({
+#     leaflet() %>%
+#       addTiles()
+#   })
 #   output$myMap <- renderGoogle_map({
 #     google_map(key = map_key) %>%
 #      add_heatmap(data = df_line)
@@ -125,11 +130,5 @@
 #
 # google_map(key = map_key) %>%
 #   add_heatmap(data = df_line)
-
-
-
-
-
-
 
 
