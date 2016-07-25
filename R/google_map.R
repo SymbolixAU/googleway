@@ -46,14 +46,8 @@ google_map <- function(key,
   # forward options using x
   x = list(
     lat = location[1],
-<<<<<<< HEAD
-    lon = location[2],
-    zoom = zoom,
-    timeout = timeout
-=======
     lng = location[2],
     zoom = zoom
->>>>>>> map
   )
 
   # create widget

@@ -4,19 +4,8 @@
 \alias{google_map}
 \title{Google map}
 \usage{
-<<<<<<< HEAD
-google_map(data = NULL, location = NULL, zoom = NULL, width = NULL,
-  height = NULL, padding = 0, timeout = 100)
-}
-\arguments{
-\item{location}{numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the mape}
-
-\item{zoom}{numeric integer representing the zoom level of the map (0 is fully zoomed out)}
-
-\item{timeout}{numeric miliseconds to allow map to load. Used in absence of a 'callback' function. See Details.}
-=======
 google_map(key, location = NULL, zoom = NULL, width = NULL,
-  height = NULL, padding = 0)
+  height = NULL, padding = 0, timeout = 100)
 }
 \arguments{
 \item{key}{A valid Google Maps API key}
@@ -30,7 +19,6 @@ google_map(key, location = NULL, zoom = NULL, width = NULL,
 \item{height}{desc}
 
 \item{padding}{desc}
->>>>>>> map
 }
 \description{
 Generates a google map object. Will only work with a valid key

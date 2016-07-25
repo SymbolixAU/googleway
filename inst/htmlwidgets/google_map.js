@@ -15,25 +15,18 @@ HTMLWidgets.widget({
         //setTimeout(function() { call_function } , 0);
         window.onload = function() {
 
+          //console.log("loading");
+
           var mapDiv = document.getElementById(el.id);
 
             mapDiv.className = "googlemap";
+
             var map = new google.maps.Map(mapDiv, {
               center: {lat: x.lat, lng: x.lng},
               zoom: x.zoom
             });
-        //example marker
-        /*
-        var marker = new google.maps.Marker({
-          position: {lat: x.lat, lng: x.lon},
-          map: map,
-          title: 'Hello World!'
-        });
-        */
-      }, x.timeout);
 
-<<<<<<< HEAD
-=======
+
           if(x.markers !== null){
 
             setTimeout(function() {
@@ -49,7 +42,6 @@ HTMLWidgets.widget({
           }
 
           if(x.polyline !== null){
->>>>>>> map
 
             setTimeout(function() {
               add_polyline(map, x.polyline);
@@ -81,6 +73,9 @@ function add_heatmap(map, data_heatmap, heatmap_options){
 
   // need an array of google.maps.LatLng points
   var heatmapData = [];
+  console.log("heatmap");
+  console.log(heat);
+  console.log(heat_options);
 
   // turn row of the data into LatLng, and push it to the array
   for(i = 0; i < heat.length; i++){
@@ -97,9 +92,6 @@ function add_heatmap(map, data_heatmap, heatmap_options){
     dissipating: heat_options[0].dissipating
   });
   heatmap.setMap(map);
-
-
-
 }
 
 function add_circles(map, data_circles){

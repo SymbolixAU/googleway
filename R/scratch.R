@@ -88,7 +88,8 @@
 #
 
 # library(shinydashboard)
-#
+# library(shiny)
+# library(magrittr)
 # ui <- dashboardPage(
 #   dashboardHeader(),
 #   dashboardSidebar(),
@@ -97,15 +98,19 @@
 #   )
 # )
 #
+#
 # server <- function(input, output){
+#
 #   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#
 #   output$myMap <- renderGoogle_map({
-# google_map(key = map_key) %>%
-#   add_heatmap(data = df_line)
+#     google_map(key = map_key) %>%
+#      add_heatmap(data = df_line)
 #   })
 # }
 #
 # shinyApp(ui, server)
+
 #
 # google_map(key = map_key) %>%
 #   add_circles(data = df)
