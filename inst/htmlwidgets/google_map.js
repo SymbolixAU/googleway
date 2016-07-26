@@ -11,11 +11,9 @@ HTMLWidgets.widget({
 
       renderValue: function(x) {
 
-        // to replicate the async callback
+        //to replicate the async callback
         //setTimeout(function() { call_function } , 0);
         window.onload = function() {
-
-          //console.log("loading");
 
           var mapDiv = document.getElementById(el.id);
 
@@ -25,7 +23,6 @@ HTMLWidgets.widget({
               center: {lat: x.lat, lng: x.lng},
               zoom: x.zoom
             });
-
 
           if(x.markers !== null){
 
@@ -102,7 +99,7 @@ function add_circles(map, data_circles){
     for (i = 0; i < circles.length; i++) {
       var latlon = new google.maps.LatLng(circles[i].lat, circles[i].lng);
 
-      var cityCircle = new google.maps.Circle({
+      var circle = new google.maps.Circle({
             strokeColor: '#FF0000',
             strokeOpacity: 0.8,
             strokeWeight: 2,
@@ -112,6 +109,7 @@ function add_circles(map, data_circles){
             center: latlon,
             radius: 100
           });
+      circle.setMap(map);
     }
 }
 
@@ -129,8 +127,8 @@ function add_markers(map, data_markers){
       draggable: markers[i].draggable,
       opacity: markers[i].opacity,
       title: markers[i].title,
-      map: map
     });
+    marker.setMap(map);
   }
 }
 
@@ -138,8 +136,7 @@ function add_markers(map, data_markers){
 function add_polyline(map, data_polyline){
 
         //if a list of polyline data.frames were provided, need to iterate
-        //through them
-        //otherwise, just a single call to add the data.frame
+        //through them, otherwise, just a single call to add the data.frame
         var polyline = [];
         var i;
         // http://stackoverflow.com/a/2647888/5977215
@@ -166,20 +163,3 @@ function add_polyline(map, data_polyline){
                 });
         }
 }
-
-
-
-
-/*
-methods.add_markers = function(lat, lon){
-  let df = new DataFrame()
-    .col("lat", lat)
-    .col("lon", lon);
-
-  add_markers(this, lat, lon);
-//  add_markers(this, df, (df, i) => {
-//    return L.marker([df.get(i, "lat"), df.get(i, "lon")]);
-//  });
-};
-*/
-
