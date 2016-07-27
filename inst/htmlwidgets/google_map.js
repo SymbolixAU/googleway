@@ -63,6 +63,30 @@ HTMLWidgets.widget({
   }
 });
 
+/*
+if (HTMLWidgets.shinyMode) {
+  Shiny.addCustomMessageHandler("googlemap-calls", function(data) {
+    let id = data.id;
+    let el = document.getElementById(id);
+    let map = el ? $(el).data("googlemap") : null;
+    if (!map) {
+      log("Couldn't find map with id " + id);
+      return;
+    }
+
+    for (let i = 0; i < data.calls.length; i++) {
+      let call = data.calls[i];
+      if (call.dependencies) {
+        Shiny.renderDependencies(call.dependencies);
+      }
+      if (methods[call.method])
+        methods[call.method].apply(map, call.args);
+      else
+        log("Unknown method " + call.method);
+    }
+  });
+}
+*/
 
 function add_heatmap(map, data_heatmap, heatmap_options){
 
