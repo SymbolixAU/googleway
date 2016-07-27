@@ -11,12 +11,14 @@ HTMLWidgets.widget({
 
       renderValue: function(x) {
 
+        console.log("renderValue");
         //to replicate the async callback
         //setTimeout(function() { call_function } , 0);
+
         window.onload = function() {
-
+          console.log('onload');
           var mapDiv = document.getElementById(el.id);
-
+            console.log('mapDiv');
             mapDiv.className = "googlemap";
 
             var map = new google.maps.Map(mapDiv, {
@@ -24,6 +26,7 @@ HTMLWidgets.widget({
               zoom: x.zoom
             });
 
+            console.log('layers');
           if(x.markers !== null){
 
             setTimeout(function() {
@@ -51,9 +54,7 @@ HTMLWidgets.widget({
               add_heatmap(map, x.heatmap, x.heatmap_options);
             }, 0);
           }
-
         };
-
       },
       resize: function(width, height) {
         // TODO: code to re-render the widget with a new size
