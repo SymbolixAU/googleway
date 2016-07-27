@@ -115,7 +115,7 @@ add_heatmap <- function(map,
 
   ## if no heat provided, assume all == 1
   if(is.null(weight)){
-    df$weight <- 1
+    data$weight <- 1
   }else{
     names(data)[names(data) == weight] <- "weight"
   }

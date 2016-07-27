@@ -10,10 +10,12 @@ HTMLWidgets.widget({
     return {
 
       renderValue: function(x) {
-
+        console.log('renderValue');
         // to replicate the async callback
         //setTimeout(function() { call_function } , 0);
         window.onload = function() {
+
+          console.log('onload');
 
           var mapDiv = document.getElementById(el.id);
 
