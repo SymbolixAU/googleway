@@ -10,23 +10,25 @@ HTMLWidgets.widget({
     return {
 
       renderValue: function(x) {
+        window.onload = function() {
 
         console.log("renderValue");
         //to replicate the async callback
         //setTimeout(function() { call_function } , 0);
 
-        window.onload = function() {
+
           console.log('onload');
           var mapDiv = document.getElementById(el.id);
-            console.log('mapDiv');
-            mapDiv.className = "googlemap";
 
-            var map = new google.maps.Map(mapDiv, {
-              center: {lat: x.lat, lng: x.lng},
-              zoom: x.zoom
-            });
+          console.log('mapDiv');
+          mapDiv.className = "googlemap";
 
-            console.log('layers');
+          var map = new google.maps.Map(mapDiv, {
+            center: {lat: x.lat, lng: x.lng},
+            zoom: x.zoom
+          });
+
+          console.log('layers');
           if(x.markers !== null){
 
             setTimeout(function() {
@@ -56,15 +58,17 @@ HTMLWidgets.widget({
           }
         };
       },
+
       resize: function(width, height) {
         // TODO: code to re-render the widget with a new size
       },
+
     };
   }
 });
 
-/*
 if (HTMLWidgets.shinyMode) {
+  console.log("custom handler");
   Shiny.addCustomMessageHandler("googlemap-calls", function(data) {
     let id = data.id;
     let el = document.getElementById(id);
@@ -79,14 +83,13 @@ if (HTMLWidgets.shinyMode) {
       if (call.dependencies) {
         Shiny.renderDependencies(call.dependencies);
       }
-      if (methods[call.method])
-        methods[call.method].apply(map, call.args);
+      if (functions[call.function])
+        functions[call.function].apply(map, call.args);
       else
-        log("Unknown method " + call.method);
+        log("Unknown function " + call.function);
     }
   });
 }
-*/
 
 function add_heatmap(map, data_heatmap, heatmap_options){
 
