@@ -10,17 +10,18 @@ HTMLWidgets.widget({
     return {
 
       renderValue: function(x) {
+        console.log("renderValue");
+
         window.onload = function() {
 
-        console.log("renderValue");
+          console.log('onload');
+
         //to replicate the async callback
         //setTimeout(function() { call_function } , 0);
 
-
-          console.log('onload');
           var mapDiv = document.getElementById(el.id);
-
           console.log('mapDiv');
+
           mapDiv.className = "googlemap";
 
           var map = new google.maps.Map(mapDiv, {
