@@ -123,7 +123,8 @@
 #     print(nrow(df))
 #
 #     google_map(key = map_key) %>%
-#        add_markers(data = df)
+#        add_markers(data = df) %>%
+#       add_heatmap(data = df)
 #
 #   })
 # }

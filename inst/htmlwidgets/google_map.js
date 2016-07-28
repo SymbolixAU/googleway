@@ -11,15 +11,12 @@ HTMLWidgets.widget({
 
       renderValue: function(x) {
 
-
-        //window.onload = function() {
-
-          //to replicate the async callback
-          //setTimeout(function() { call_function } , 0);
-
           var mapDiv = document.getElementById(el.id);
           mapDiv.className = "googlemap";
 
+          // use setInterval to check if the map can be loaded
+          // the map is dependant on the Google Maps JS resource
+          // - usually implemented via callback
           var checkExists = setInterval(function(){
 
             var map = new google.maps.Map(mapDiv, {
@@ -63,7 +60,6 @@ HTMLWidgets.widget({
               }, 0);
             }
           }, 100);
-        //};
       },
       resize: function(width, height) {
         // TODO: code to re-render the widget with a new size
