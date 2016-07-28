@@ -1,3 +1,34 @@
+#' Google map update
+#'
+#' update a map in a shiny app
+#'
+#' @param mapId
+#' @export
+google_map_update <- function(map_id,
+                              session = shiny::getDefaultReactiveDomain(),
+                              data = NULL,
+                              deferUntilFlush = TRUE) {
+
+  if (is.null(session)) {
+    stop("google_map_update must be called from the server function of a Shiny app")
+  }
+
+  structure(
+    list(
+      session = session,
+      id = map_id,
+      x = structure(
+        list(),
+        google_map_data = data
+      ),
+      deferUntilFlush = deferUntilFlush,
+      dependencies = NULL
+    ),
+    class = "google_map_update"
+  )
+}
+
+
 #' # This will be very similar to Leaflet for now, while I figure out what's going on.
 #'
 #'
