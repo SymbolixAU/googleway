@@ -66,17 +66,19 @@ google_map <- function(key,
     )
   )
 
-  googlemap$dependencies <- c(googlemap$dependencies,
-                              list(
-                                htmltools::htmlDependency(
-                                  name = "googleway",
-                                  version = "9999",
-                                  src=".",
-                                  head = paste0('<script src="https://maps.googleapis.com/maps/api/js?key=', key, '&libraries=visualization"></script>'),
-                                  all_files = FALSE
-                                  )
-                                )
-                              )
+  googlemap$dependencies <- c(
+    googlemap$dependencies,
+    list(
+      htmltools::htmlDependency(
+        name = "googleway",
+        version = "9999",
+        src=".",
+        head = paste0('<script src="https://maps.googleapis.com/maps/api/js?key=',
+                      key, '&libraries=visualization"></script>'),
+        all_files = FALSE
+        )
+      )
+    )
 
   return(googlemap)
 }
@@ -101,7 +103,11 @@ google_map <- function(key,
 #'
 #' @export
 google_mapOutput <- function(outputId, width = '100%', height = '400px'){
-  htmlwidgets::shinyWidgetOutput(outputId, 'google_map', width, height, package = 'googleway')
+  htmlwidgets::shinyWidgetOutput(outputId,
+                                 'google_map',
+                                 width,
+                                 height,
+                                 package = 'googleway')
 }
 
 #' @rdname google_map-shiny

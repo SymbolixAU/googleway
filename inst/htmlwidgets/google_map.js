@@ -10,56 +10,61 @@ HTMLWidgets.widget({
     return {
 
       renderValue: function(x) {
-        console.log("renderValue");
 
-        window.onload = function() {
 
-          console.log('onload');
+        //window.onload = function() {
 
-        //to replicate the async callback
-        //setTimeout(function() { call_function } , 0);
+          //to replicate the async callback
+          //setTimeout(function() { call_function } , 0);
 
           var mapDiv = document.getElementById(el.id);
-          console.log('mapDiv');
-
           mapDiv.className = "googlemap";
 
-          var map = new google.maps.Map(mapDiv, {
-            center: {lat: x.lat, lng: x.lng},
-            zoom: x.zoom
-          });
+          var checkExists = setInterval(function(){
 
-          console.log('layers');
-          if(x.markers !== null){
+            var map = new google.maps.Map(mapDiv, {
+              center: {lat: x.lat, lng: x.lng},
+              zoom: x.zoom
+            });
 
-            setTimeout(function() {
-              add_markers(map, x.markers);
-           }, 0);
-          }
+            if (google !== 'undefined'){
+              console.log("exists");
+              clearInterval(checkExists);
+            }else{
+              console.log("does not exist!");
+            }
 
-          if(x.circles !== null){
+            console.log('layers');
+            if(x.markers !== null){
 
-            setTimeout(function() {
-              add_circles(map, x.circles);
-            }, 0);
-          }
+              setTimeout(function() {
+                add_markers(map, x.markers);
+             }, 0);
+            }
 
-          if(x.polyline !== null){
+            if(x.circles !== null){
 
-            setTimeout(function() {
-              add_polyline(map, x.polyline);
-            }, 0);
-          }
+              setTimeout(function() {
+                add_circles(map, x.circles);
+              }, 0);
+            }
 
-          if(x.heatmap !== null){
+            if(x.polyline !== null){
 
-            setTimeout(function() {
-              add_heatmap(map, x.heatmap, x.heatmap_options);
-            }, 0);
-          }
-        };
+              setTimeout(function() {
+                add_polyline(map, x.polyline);
+              }, 0);
+            }
+
+            if(x.heatmap !== null){
+
+              setTimeout(function() {
+                add_heatmap(map, x.heatmap, x.heatmap_options);
+              }, 0);
+            }
+          }, 100);
+        //};
       },
-
       resize: function(width, height) {
         // TODO: code to re-render the widget with a new size
       },
