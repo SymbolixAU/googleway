@@ -40,15 +40,18 @@ add_markers <- function(map,
       stop("draggable values must be logical")
   }
 
-  ## if markers already exist, add to them, don't overwrite
-  if(!is.null(map$x$markers)){
-    ## they already exist
-    map$x$markers <- rbind(map$x$markers, data)
-  }else{
-    ## they don't exist
-    map$x$markers <- data
-  }
-  return(map)
+  res <- invoke_method(map, data, 'add_markers', data$lat, data$lng)
+  print(str(res))
+  return(res)
+  # ## if markers already exist, add to them, don't overwrite
+  # if(!is.null(map$x$markers)){
+  #   ## they already exist
+  #   map$x$markers <- rbind(map$x$markers, data)
+  # }else{
+  #   ## they don't exist
+  #   map$x$markers <- data
+  # }
+  # return(map)
 }
 
 #' Add circle
@@ -291,8 +294,6 @@ find_lon_column = function(names, calling_function, stopOnFailure = TRUE) {
 # resolveFormula = function(f, data) {
 #   if (!inherits(f, 'formula')) return(f)
 #   if (length(f) != 2L) stop("Unexpected two-sided formula: ", deparse(f))
-#   print(data)
-#   print(f)
 #   doResolveFormula(data, f)
 # }
 #
