@@ -1,34 +1,4 @@
 # map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
-# df <- data.frame(desc = c("Melbourne", "Melbourne Again"),
-#                  lat = c(-37.9, -38),
-#                  lon = c(144.9, 145.1))
-#
-# map <- google_map(key = key)
-# map <- googleway:::add_markers(map, data = df)
-#
-# map <- google_map(key = map_key, markers = df)
-
-# df2 <- data.frame(desc = c("Melbourne", "Melbourne Again"),
-#                  lat = c(-38.1, -39),
-#                  lon = c(144.3, 144.1))
-#
-# map$x$markers <- df
-
-# map <- google_map(key = map_key)
-#
-# map <- googleway:::add_markers(map, df)
-
-# library(magrittr)
-#
-# map <- google_map(key = map_key) %>%
-#   add_markers(data = df) %>%
-#   add_markers(data = df2)
-#
-#
-# map <- google_map(key = map_key)
-# map <- add_markers(map = map, data = df)
-
-
 
 # key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_API_KEY")
 #

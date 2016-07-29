@@ -75,11 +75,9 @@ if (HTMLWidgets.shinyMode) {
   Shiny.addCustomMessageHandler("googlemap-calls", function(data) {
     var id = data.id;
     var el = document.getElementById(id);
-    console.log(data);
     //var map = el ? $(el).data("googlemap") : null;
     //var map = el ? (0, jquery.default)(el).data("goglemap-map") : null;
     var map = el;
-    console.log(map);
     if (!map) {
       console.log("Couldn't find map with id " + id);
       return;
@@ -87,17 +85,44 @@ if (HTMLWidgets.shinyMode) {
 
     for (let i = 0; i < data.calls.length; i++) {
 
-      let call = data.calls[i];
+      var call = data.calls[i];
       if (call.dependencies) {
         Shiny.renderDependencies(call.dependencies);
       }
-      if (functions[call.method])
-        functions[call.method].apply(map, call.args);
+
+      console.log("call.agrgs");
+      console.log(call.args);
+
+      if (window[call.method])
+        window[call.method].apply(map, call.args);
       else
         console.log("Unknown function " + call.method);
     }
   });
 }
+
+
+function add_markers(map, data_markers){
+  console.log("add_markers");
+  console.log("data_markers");
+  console.log(data_markers);
+  markers = HTMLWidgets.dataframeToD3(data_markers);
+
+  var i;
+  for (i = 0; i < markers.length; i++) {
+
+    var latlon = new google.maps.LatLng(markers[i].lat, markers[i].lng);
+
+    var marker = new google.maps.Marker({
+      position: latlon,
+      draggable: markers[i].draggable,
+      opacity: markers[i].opacity,
+      title: markers[i].title,
+    });
+    marker.setMap(map);
+  }
+}
+
 
 function add_heatmap(map, data_heatmap, heatmap_options){
   console.log("add_heatmap");
@@ -106,9 +131,6 @@ function add_heatmap(map, data_heatmap, heatmap_options){
 
   // need an array of google.maps.LatLng points
   var heatmapData = [];
-  console.log("heatmap");
-  console.log(heat);
-  console.log(heat_options);
 
   // turn row of the data into LatLng, and push it to the array
   for(i = 0; i < heat.length; i++){
@@ -147,25 +169,6 @@ function add_circles(map, data_circles){
           });
       circle.setMap(map);
     }
-}
-
-function add_markers(map, data_markers){
-  console.log("add_markers");
-  markers = HTMLWidgets.dataframeToD3(data_markers);
-
-  var i;
-  for (i = 0; i < markers.length; i++) {
-
-    var latlon = new google.maps.LatLng(markers[i].lat, markers[i].lng);
-
-    var marker = new google.maps.Marker({
-      position: latlon,
-      draggable: markers[i].draggable,
-      opacity: markers[i].opacity,
-      title: markers[i].title,
-    });
-    marker.setMap(map);
-  }
 }
 
 
