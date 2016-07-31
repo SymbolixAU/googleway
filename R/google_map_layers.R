@@ -40,9 +40,6 @@ add_markers <- function(map,
       stop("draggable values must be logical")
   }
 
-  # res <- invoke_method(map, data, 'add_markers', data$lat, data$lng)
-  # print(str(res))
-  # return(res)
   invoke_method(map, data, 'add_markers', data$lat, data$lng)
   # ## if markers already exist, add to them, don't overwrite
   # if(!is.null(map$x$markers)){
@@ -54,6 +51,18 @@ add_markers <- function(map,
   # }
   # return(map)
 }
+
+
+#' clear markers
+#'
+#' clears markers from map
+#'
+#' @param map googleway map object
+#' @export
+clear_markers <- function(map){
+  invoke_method(map, data = NULL, 'clear_markers')
+}
+
 
 #' Add circle
 #'

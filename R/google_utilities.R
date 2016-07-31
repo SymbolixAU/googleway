@@ -39,11 +39,11 @@ google_map_update <- function(map_id,
 #'
 #' @param map a map object, as returned from \code{\link{google_map}}
 #' @param funcName the name of the function that the user called that caused
-#'   this \code{dispatch} call; for error message purposes
+#'   this \code{google_dispatch} call; for error message purposes
 #' @param google_map an action to be performed if the map is from
 #'   \code{\link{google_map}}
 #'
-#' @return \code{dispatch} returns the value of \code{google_map} or
+#' @return \code{google_dispatch} returns the value of \code{google_map} or
 #' or an error. \code{invokeMethod} returns the
 #' \code{map} object that was passed in, possibly modified.
 #'
@@ -66,12 +66,10 @@ google_dispatch = function(map,
 #'   \code{...}
 #' @param method the name of the JavaScript method to invoke
 #' @param ... unnamed arguments to be passed to the JavaScript method
-#' @rdname dispatch
+#' @rdname google_dispatch
 #' @export
 invoke_method = function(map, data, method, ...) {
   args = evalFormula(list(...), data)
-
-  print(str(args))
 
   google_dispatch(map,
            method,

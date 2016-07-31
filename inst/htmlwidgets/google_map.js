@@ -10,6 +10,9 @@ HTMLWidgets.widget({
     return {
       renderValue: function(x) {
 
+          // global map objects
+          window.googleMarkers = [];
+
           var mapDiv = document.getElementById(el.id);
           mapDiv.className = "googlemap";
 
@@ -124,7 +127,6 @@ function add_markers(map, lat, lng){
     //var latlon = new google.maps.LatLng(-38, 144);
     //var thisMap = document.getElementById(map.id);
 
-
     var marker = new google.maps.Marker({
       position: latlon
       //draggable: markers[i].draggable,
@@ -132,15 +134,19 @@ function add_markers(map, lat, lng){
       //title: markers[i].title,
       //map: window.map
     });
+
+    window.googleMarkers.push(marker);
     //marker.setMap(thisMap);
     marker.setMap(window.map);
   }
 }
 
-function clear_markers(map){
-
-
-
+function clear_markers(){
+  //TODO
+  // how does this know the 'map' to remove them from?
+  for (i = 0; i < window.googleMarkers.length; i++){
+    window.googleMarkers[i].setMap(null);
+  }
 }
 
 function add_heatmap(map, data_heatmap, heatmap_options){

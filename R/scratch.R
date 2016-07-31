@@ -125,9 +125,11 @@
 #
 #     df <- df_line[df_line$weight >= (input$slider - 1), ]
 #
-#     googleway:::google_map_update(map_id = "myMap") %>%
-#       add_markers(data = df) %>%
-#        add_heatmap(data = df)
+#     google_map_update(map_id = "myMap") %>%
+#       clear_markers() %>%
+#       add_markers(data = df)
+#     # %>%
+#     #    add_heatmap(data = df)
 #
 #   })
 # }
