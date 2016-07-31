@@ -71,8 +71,7 @@ google_dispatch = function(map,
 invoke_method = function(map, data, method, ...) {
   args = evalFormula(list(...), data)
 
-  print(str(data))
-  print(method)
+  print(str(args))
 
   google_dispatch(map,
            method,

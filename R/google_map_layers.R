@@ -40,9 +40,10 @@ add_markers <- function(map,
       stop("draggable values must be logical")
   }
 
-  res <- invoke_method(map, data, 'add_markers', data$lat, data$lng)
-  print(str(res))
-  return(res)
+  # res <- invoke_method(map, data, 'add_markers', data$lat, data$lng)
+  # print(str(res))
+  # return(res)
+  invoke_method(map, data, 'add_markers', data$lat, data$lng)
   # ## if markers already exist, add to them, don't overwrite
   # if(!is.null(map$x$markers)){
   #   ## they already exist

@@ -8,7 +8,6 @@ HTMLWidgets.widget({
     // TODO: define shared variables for this instance
 
     return {
-
       renderValue: function(x) {
 
           var mapDiv = document.getElementById(el.id);
@@ -19,10 +18,22 @@ HTMLWidgets.widget({
           // - usually implemented via callback
           var checkExists = setInterval(function(){
 
-            var map = new google.maps.Map(mapDiv, {
+            window.map = new google.maps.Map(mapDiv, {
               center: {lat: x.lat, lng: x.lng},
               zoom: x.zoom
             });
+            /*
+            var latlon = new google.maps.LatLng(x.lat, x.lng);
+            var marker = new google.maps.Marker({
+              position: latlon,
+              //draggable: markers[i].draggable,
+              //opacity: markers[i].opacity,
+              //title: markers[i].title,
+              map: window.map
+            });
+            //marker.setMap(thisMap);
+            //marker.setMap(window.map);
+            */
 
             if (google !== 'undefined'){
               console.log("exists");
@@ -73,6 +84,7 @@ HTMLWidgets.widget({
 if (HTMLWidgets.shinyMode) {
 
   Shiny.addCustomMessageHandler("googlemap-calls", function(data) {
+
     var id = data.id;
     var el = document.getElementById(id);
     //var map = el ? $(el).data("googlemap") : null;
@@ -86,12 +98,13 @@ if (HTMLWidgets.shinyMode) {
     for (let i = 0; i < data.calls.length; i++) {
 
       var call = data.calls[i];
+
+      //push the mapId inot the call.args
+      call.args.unshift(map);
+
       if (call.dependencies) {
         Shiny.renderDependencies(call.dependencies);
       }
-
-      console.log("call.agrgs");
-      console.log(call.args);
 
       if (window[call.method])
         window[call.method].apply(map, call.args);
@@ -102,27 +115,33 @@ if (HTMLWidgets.shinyMode) {
 }
 
 
-function add_markers(map, data_markers){
-  console.log("add_markers");
-  console.log("data_markers");
-  console.log(data_markers);
-  markers = HTMLWidgets.dataframeToD3(data_markers);
+function add_markers(map, lat, lng){
 
   var i;
-  for (i = 0; i < markers.length; i++) {
+  for (i = 0; i < lat.length; i++) {
 
-    var latlon = new google.maps.LatLng(markers[i].lat, markers[i].lng);
+    var latlon = new google.maps.LatLng(lat[i], lng[i]);
+    //var latlon = new google.maps.LatLng(-38, 144);
+    //var thisMap = document.getElementById(map.id);
+
 
     var marker = new google.maps.Marker({
-      position: latlon,
-      draggable: markers[i].draggable,
-      opacity: markers[i].opacity,
-      title: markers[i].title,
+      position: latlon
+      //draggable: markers[i].draggable,
+      //opacity: markers[i].opacity,
+      //title: markers[i].title,
+      //map: window.map
     });
-    marker.setMap(map);
+    //marker.setMap(thisMap);
+    marker.setMap(window.map);
   }
 }
 
+function clear_markers(map){
+
+
+
+}
 
 function add_heatmap(map, data_heatmap, heatmap_options){
   console.log("add_heatmap");
