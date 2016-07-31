@@ -12,6 +12,7 @@ HTMLWidgets.widget({
 
           // global map objects
           window.googleMarkers = [];
+          window.heatmapLayer = [];
 
           var mapDiv = document.getElementById(el.id);
           mapDiv.className = "googlemap";
@@ -25,55 +26,32 @@ HTMLWidgets.widget({
               center: {lat: x.lat, lng: x.lng},
               zoom: x.zoom
             });
-            /*
-            var latlon = new google.maps.LatLng(x.lat, x.lng);
-            var marker = new google.maps.Marker({
-              position: latlon,
-              //draggable: markers[i].draggable,
-              //opacity: markers[i].opacity,
-              //title: markers[i].title,
-              map: window.map
-            });
-            //marker.setMap(thisMap);
-            //marker.setMap(window.map);
-            */
 
             if (google !== 'undefined'){
               console.log("exists");
               clearInterval(checkExists);
+
+              // call initial layers
+              for(i = 0; i < x.calls.length; i++){
+
+                //TODO
+                // why do i use window.map here, but just 'map' in in
+                // addCustomMessageHandler ?
+
+                //push the mapId inot the call.args
+                x.calls[i].args.unshift(window.map);
+
+                if (window[x.calls[i].functions])
+                  window[x.calls[i].functions].apply(map, x.calls[i].args);
+                else
+                  console.log("Unknown function " + x.calls[i]);
+              }
+
+
             }else{
               console.log("does not exist!");
             }
-            /*
-            console.log('layers');
-            if(x.markers !== null){
 
-              setTimeout(function() {
-                add_markers(map, x.markers);
-             }, 0);
-            }
-
-            if(x.circles !== null){
-
-              setTimeout(function() {
-                add_circles(map, x.circles);
-              }, 0);
-            }
-
-            if(x.polyline !== null){
-
-              setTimeout(function() {
-                add_polyline(map, x.polyline);
-              }, 0);
-            }
-
-            if(x.heatmap !== null){
-
-              setTimeout(function() {
-                add_heatmap(map, x.heatmap, x.heatmap_options);
-              }, 0);
-            }
-            */
           }, 100);
       },
       resize: function(width, height) {
@@ -135,6 +113,10 @@ function add_markers(map, lat, lng){
       //map: window.map
     });
 
+    //TODO
+    // clear window.googleMarkers if it was initialised in the first
+    // shiny::renderGoogle_map call?
+
     window.googleMarkers.push(marker);
     //marker.setMap(thisMap);
     marker.setMap(window.map);
@@ -149,30 +131,46 @@ function clear_markers(){
   }
 }
 
-function add_heatmap(map, data_heatmap, heatmap_options){
-  console.log("add_heatmap");
-  heat = HTMLWidgets.dataframeToD3(data_heatmap);
-  heat_options = HTMLWidgets.dataframeToD3(heatmap_options);
+
+function add_heatmap(map, lat, lng){
+
+  //heat = HTMLWidgets.dataframeToD3(data_heatmap);
+  //heat_options = HTMLWidgets.dataframeToD3(heatmap_options);
 
   // need an array of google.maps.LatLng points
   var heatmapData = [];
-
+  var i;
   // turn row of the data into LatLng, and push it to the array
-  for(i = 0; i < heat.length; i++){
-    heatmapData[i] = {location: new google.maps.LatLng(heat[i].lat, heat[i].lng), weight: heat[i].weight};
+  for(i = 0; i < lat.length; i++){
+    heatmapData[i] = {
+      location: new google.maps.LatLng(lat[i], lng[i])
+      //weight: heat[i].weight
+    };
   }
 
   var heatmap = new google.maps.visualization.HeatmapLayer({
     data: heatmapData,
   });
 
-  heatmap.setOptions({
-    radius: heat_options[0].radius,
-    opacity: heat_options[0].opacity,
-    dissipating: heat_options[0].dissipating
-  });
-  heatmap.setMap(map);
+  window.heatmapLayer = heatmap;
+
+  //heatmap.setOptions({
+  //  radius: heat_options[0].radius,
+  //  opacity: heat_options[0].opacity,
+  //  dissipating: heat_options[0].dissipating
+  //});
+  heatmap.setMap(window.map);
 }
+
+function clear_heatmap(){
+
+  //TODO
+  // can the transition be smooth?
+  // http://stackoverflow.com/a/13479758/5977215
+  window.heatmapLayer.setMap(null);
+}
+
+/*
 
 function add_circles(map, data_circles){
   console.log("add_circles");
@@ -227,3 +225,4 @@ function add_polyline(map, data_polyline){
           });
   }
 }
+*/

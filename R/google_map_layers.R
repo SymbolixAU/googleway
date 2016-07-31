@@ -22,9 +22,10 @@ add_markers <- function(map,
   ## TODO:
   ## - popups/info window
 
+
   ## rename the cols so the javascript functions will see them
-  data <- latitude_column(data, lat)
-  data <- longitude_column(data, lon)
+  data <- latitude_column(data, lat, 'add_markers')
+  data <- longitude_column(data, lon, 'add_markers')
 
   if(!is.null(title))
     names(data)[names(data) == title] <- "title"
@@ -82,8 +83,8 @@ add_circles <- function(map,
   ## TODO:
   ## circle options - radius, storke, opacity, etc.
 
-  data <- latitude_column(data, lat)
-  data <- longitude_column(data, lon)
+  data <- latitude_column(data, lat, 'add_circles')
+  data <- longitude_column(data, lon, 'add_circles')
 
   ## if circles already exist, add to them, don't overwrite
   if(!is.null(map$x$circles)){
@@ -123,8 +124,8 @@ add_heatmap <- function(map,
 
 
   ## rename the cols so the javascript functions will see them
-  data <- latitude_column(data, lat)
-  data <- longitude_column(data, lon)
+  data <- latitude_column(data, lat, 'add_heatmap')
+  data <- longitude_column(data, lon, 'add_heatmap')
 
   ## if no heat provided, assume all == 1
   if(is.null(weight)){
@@ -133,23 +134,34 @@ add_heatmap <- function(map,
     names(data)[names(data) == weight] <- "weight"
   }
 
-  ## if heatmap already exist, add to them, don't overwrite
-  if(!is.null(map$x$heatmap)){
-    ## they already exist
-    map$x$heatmap <- rbind(map$x$heatmap, data)
-  }else{
-    ## they don't exist
-    map$x$heatmap <- data
-  }
+  invoke_method(map, data, 'add_heatmap', data$lat, data$lng)
 
-  ## sort out options
-  map$x$heatmap_options <- data.frame(radius = option_radius,
-                                      opacity = option_opacity,
-                                      dissapating = option_dissipating)
-  return(map)
+  # ## if heatmap already exist, add to them, don't overwrite
+  # if(!is.null(map$x$heatmap)){
+  #   ## they already exist
+  #   map$x$heatmap <- rbind(map$x$heatmap, data)
+  # }else{
+  #   ## they don't exist
+  #   map$x$heatmap <- data
+  # }
+  #
+  # ## sort out options
+  # map$x$heatmap_options <- data.frame(radius = option_radius,
+  #                                     opacity = option_opacity,
+  #                                     dissapating = option_dissipating)
+  # return(map)
 
 }
 
+#' clear heatmap
+#'
+#' clears heatmap from map
+#'
+#' @param map googleway map object
+#' @export
+clear_heatmap <- function(map){
+  invoke_method(map, data = NULL, 'clear_heatmap')
+}
 
 #' Add polyline
 #'
@@ -182,9 +194,9 @@ add_polyline <- function(map,
 }
 
 
-latitude_column <- function(data, lat){
+latitude_column <- function(data, lat, calling_function){
   if(is.null(lat)){
-    lat_col <- find_lat_column(names(data), "add_polyline")
+    lat_col <- find_lat_column(names(data), calling_function)
     names(data)[names(data) == lat_col[1]] <- "lat"
   }else{
     names(data)[names(data) == lat] <- "lat"
@@ -192,9 +204,9 @@ latitude_column <- function(data, lat){
   return(data)
 }
 
-longitude_column <- function(data, lon){
+longitude_column <- function(data, lon, calling_function){
   if(is.null(lon)){
-    lon_col <- find_lon_column(names(data), "add_polyline")
+    lon_col <- find_lon_column(names(data), calling_function)
     names(data)[names(data) == lon_col[1]] <- "lng"
   }else{
     names(data)[names(data) == lon] <- "lng"
