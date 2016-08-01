@@ -143,4 +143,12 @@ doResolveFormula.data.frame = function(data, f) {
   eval(f[[2]], data, environment(f))
 }
 
+check_for_columns <- function(df, cols){
+
+  ## check to see if the specified columns exist
+  if(!all(cols %in% names(df)))
+    stop(paste0("Could not find columns: "
+                , paste0(cols[!cols %in% names(df)], collapse = ", ")
+                , " in the data"))
+}
 

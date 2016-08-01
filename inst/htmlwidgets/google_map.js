@@ -17,42 +17,76 @@ HTMLWidgets.widget({
           var mapDiv = document.getElementById(el.id);
           mapDiv.className = "googlemap";
 
-          // use setInterval to check if the map can be loaded
-          // the map is dependant on the Google Maps JS resource
-          // - usually implemented via callback
-          var checkExists = setInterval(function(){
+          if (HTMLWidgets.shinyMode){
 
-            window.map = new google.maps.Map(mapDiv, {
-              center: {lat: x.lat, lng: x.lng},
-              zoom: x.zoom
-            });
+            // use setInterval to check if the map can be loaded
+            // the map is dependant on the Google Maps JS resource
+            // - usually implemented via callback
+            var checkExists = setInterval(function(){
 
-            if (google !== 'undefined'){
-              console.log("exists");
-              clearInterval(checkExists);
+              window.map = new google.maps.Map(mapDiv, {
+                center: {lat: x.lat, lng: x.lng},
+                zoom: x.zoom
+              });
 
-              // call initial layers
-              for(i = 0; i < x.calls.length; i++){
+              if (google !== 'undefined'){
+                console.log("exists");
+                clearInterval(checkExists);
 
-                //TODO
-                // why do i use window.map here, but just 'map' in in
-                // addCustomMessageHandler ?
+                // call initial layers
+                for(i = 0; i < x.calls.length; i++){
 
-                //push the mapId inot the call.args
-                x.calls[i].args.unshift(window.map);
+                  //TODO
+                  // why do I use window.map here, but just 'map' in in
+                  // addCustomMessageHandler ?
 
-                if (window[x.calls[i].functions])
-                  window[x.calls[i].functions].apply(map, x.calls[i].args);
-                else
-                  console.log("Unknown function " + x.calls[i]);
+                  //push the mapId inot the call.args
+                  x.calls[i].args.unshift(window.map);
+
+                  if (window[x.calls[i].functions])
+                    window[x.calls[i].functions].apply(map, x.calls[i].args);
+                  else
+                    console.log("Unknown function " + x.calls[i]);
+                }
+
+
+              }else{
+                console.log("does not exist!");
               }
 
+            }, 100);
 
-            }else{
-              console.log("does not exist!");
-            }
+          }else{
+            window.onload = function() {
+              var mapDiv = document.getElementById(el.id);
 
-          }, 100);
+              mapDiv.className = "googlemap";
+
+             window.map = new google.maps.Map(mapDiv, {
+               center: {lat: x.lat, lng: x.lng},
+                zoom: x.zoom
+              });
+
+              // call initial layers
+                for(i = 0; i < x.calls.length; i++){
+
+                  //TODO
+                  // why do I use window.map here, but just 'map' in in
+                  // addCustomMessageHandler ?
+
+                  //push the mapId inot the call.args
+                  x.calls[i].args.unshift(window.map);
+
+                  if (window[x.calls[i].functions])
+                    window[x.calls[i].functions].apply(map, x.calls[i].args);
+                  else
+                    console.log("Unknown function " + x.calls[i]);
+                }
+
+            };
+            //}, 2000);
+          }
+
       },
       resize: function(width, height) {
         // TODO: code to re-render the widget with a new size
@@ -87,6 +121,9 @@ if (HTMLWidgets.shinyMode) {
         Shiny.renderDependencies(call.dependencies);
       }
 
+      console.log('call args');
+      console.log(call.args);
+
       if (window[call.method])
         window[call.method].apply(map, call.args);
       else
@@ -96,8 +133,9 @@ if (HTMLWidgets.shinyMode) {
 }
 
 
-function add_markers(map, lat, lng){
-
+function add_markers(map, lat, lng, title, opacity, draggable, label){
+  console.log(label);
+  console.log(title);
   var i;
   for (i = 0; i < lat.length; i++) {
 
@@ -106,10 +144,11 @@ function add_markers(map, lat, lng){
     //var thisMap = document.getElementById(map.id);
 
     var marker = new google.maps.Marker({
-      position: latlon
-      //draggable: markers[i].draggable,
-      //opacity: markers[i].opacity,
-      //title: markers[i].title,
+      position: latlon,
+      draggable: draggable[i],
+      opacity: opacity[i],
+      title: title[i],
+      label: label[i]
       //map: window.map
     });
 

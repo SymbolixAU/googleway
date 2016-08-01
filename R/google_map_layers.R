@@ -16,32 +16,55 @@ add_markers <- function(map,
                         lon = NULL,
                         title = NULL,
                         draggable = NULL,
-                        opacity = NULL)
+                        opacity = NULL,
+                        label = NULL)
   {
 
   ## TODO:
   ## - popups/info window
+  ## - if a feature column (draggable/opacity, etc) is specified, but the
+  ## data is null/incorrect
 
 
   ## rename the cols so the javascript functions will see them
   data <- latitude_column(data, lat, 'add_markers')
   data <- longitude_column(data, lon, 'add_markers')
 
-  if(!is.null(title))
-    names(data)[names(data) == title] <- "title"
+  ## check columns
+  check_for_columns(data, c(title, draggable, opacity))
 
+  if(!is.null(title)){
+    names(data)[names(data) == title] <- "title"
+  }else{
+    data$title <- NA
+  }
   if(!is.null(opacity)){
     names(data)[names(data) == opacity] <- "opacity"
     if(any(data$opacity < 0) | any(data$opacity > 1))
       stop("opacity values must be between 0 and 1")
+  }else{
+    data$opacity <- NA
   }
+
   if(!is.null(draggable)){
     names(data)[names(data) == draggable] <- "draggable"
     if(!is.logical(data$draggable))
       stop("draggable values must be logical")
+  }else{
+    data$draggable <- NA
   }
 
-  invoke_method(map, data, 'add_markers', data$lat, data$lng)
+  if(!is.null(label)){
+    names(data)[names(data) == label] <- "label"
+  }else{
+    data$label <- NA
+  }
+
+  ## TODO:
+  ## pass other arguments in as an object into javascript?
+  ## that way, they can be NULL and ignored on the other side.
+  invoke_method(map, data, 'add_markers', data$lat, data$lng, data$title,
+                data$opacity, data$draggable, data$label)
   # ## if markers already exist, add to them, don't overwrite
   # if(!is.null(map$x$markers)){
   #   ## they already exist
@@ -52,7 +75,6 @@ add_markers <- function(map,
   # }
   # return(map)
 }
-
 
 #' clear markers
 #'
@@ -220,9 +242,9 @@ find_lat_column = function(names, calling_function, stopOnFailure = TRUE) {
   lats = names[grep("^(lat|lats|latitude|latitudes)$", names, ignore.case = TRUE)]
 
   if (length(lats) == 1) {
-    if (length(names) > 1) {
-      message("Assuming '", lats, " is the latitude column")
-    }
+    # if (length(names) > 1) {
+    #   message("Assuming '", lats, " is the latitude column")
+    # }
     ## passes
     return(list(lat = lats))
   }
@@ -240,9 +262,9 @@ find_lon_column = function(names, calling_function, stopOnFailure = TRUE) {
   lons = names[grep("^(lon|lons|lng|lngs|long|longs|longitude|latitudes)$", names, ignore.case = TRUE)]
 
   if (length(lons) == 1) {
-    if (length(names) > 1) {
-      message("Assuming '", lons, " is the longitude column")
-    }
+    # if (length(names) > 1) {
+    #   message("Assuming '", lons, " is the longitude column")
+    # }
     ## passes
     return(list(lon = lons))
   }
