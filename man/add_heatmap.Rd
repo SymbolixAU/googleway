@@ -5,7 +5,7 @@
 \title{Add heatmap}
 \usage{
 add_heatmap(map, data, lat = NULL, lon = NULL, weight = NULL,
-  option_dissipating = FALSE, option_radius = 10, option_opacity = 0.6)
+  option_dissipating = FALSE, option_radius = 10)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}

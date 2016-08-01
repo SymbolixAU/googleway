@@ -4,7 +4,7 @@
 \alias{add_circles}
 \title{Add circle}
 \usage{
-add_circles(map, data, lat = NULL, lon = NULL)
+add_circles(map, data, lat = NULL, lon = NULL, radius = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -14,6 +14,8 @@ add_circles(map, data, lat = NULL, lon = NULL)
 \item{lat}{string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made}
 
 \item{lon}{string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made}
+
+\item{radius}{string specifying the column of \code{data} containing the 'radius' of each circle}
 }
 \description{
 Add circles to a google map

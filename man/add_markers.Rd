@@ -5,7 +5,7 @@
 \title{Add markers}
 \usage{
 add_markers(map, data, lat = NULL, lon = NULL, title = NULL,
-  draggable = NULL, opacity = NULL)
+  draggable = NULL, opacity = NULL, label = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -21,6 +21,8 @@ add_markers(map, data, lat = NULL, lon = NULL, title = NULL,
 \item{draggable}{string specifying the column of \code{data} defining if the marker is 'draggable' (either TRUE or FALSE)}
 
 \item{opacity}{string specifying the column of \code{data} defining the 'opacity' of the maker. Values must be between 0 and 1 (inclusive)}
+
+\item{label}{string specifying the column of \code{data} defining the character to appear in the centre of the marker. Values will be coerced to strings, and only the first character will be used.}
 }
 \description{
 Add markers to a google map

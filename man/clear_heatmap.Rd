@@ -10,6 +10,6 @@ clear_heatmap(map)
 \item{map}{googleway map object}
 }
 \description{
-clears heatmap from map
+clears heatmap layer from map
 }
 

@@ -13,6 +13,7 @@ HTMLWidgets.widget({
           // global map objects
           window.googleMarkers = [];
           window.heatmapLayer = [];
+          window.trafficLayer = [];
 
           var mapDiv = document.getElementById(el.id);
           mapDiv.className = "googlemap";
@@ -121,9 +122,6 @@ if (HTMLWidgets.shinyMode) {
         Shiny.renderDependencies(call.dependencies);
       }
 
-      console.log('call args');
-      console.log(call.args);
-
       if (window[call.method])
         window[call.method].apply(map, call.args);
       else
@@ -134,8 +132,7 @@ if (HTMLWidgets.shinyMode) {
 
 
 function add_markers(map, lat, lng, title, opacity, draggable, label){
-  console.log(label);
-  console.log(title);
+
   var i;
   for (i = 0; i < lat.length; i++) {
 
@@ -171,10 +168,10 @@ function clear_markers(){
 }
 
 
-function add_heatmap(map, lat, lng){
-
+function add_heatmap(map, lat, lng, weight, heatmap_options){
+  console.log(weight);
   //heat = HTMLWidgets.dataframeToD3(data_heatmap);
-  //heat_options = HTMLWidgets.dataframeToD3(heatmap_options);
+  heat_options = HTMLWidgets.dataframeToD3(heatmap_options);
 
   // need an array of google.maps.LatLng points
   var heatmapData = [];
@@ -182,8 +179,8 @@ function add_heatmap(map, lat, lng){
   // turn row of the data into LatLng, and push it to the array
   for(i = 0; i < lat.length; i++){
     heatmapData[i] = {
-      location: new google.maps.LatLng(lat[i], lng[i])
-      //weight: heat[i].weight
+      location: new google.maps.LatLng(lat[i], lng[i]),
+      weight: weight[i]
     };
   }
 
@@ -191,13 +188,14 @@ function add_heatmap(map, lat, lng){
     data: heatmapData,
   });
 
-  window.heatmapLayer = heatmap;
-
   //heatmap.setOptions({
   //  radius: heat_options[0].radius,
   //  opacity: heat_options[0].opacity,
   //  dissipating: heat_options[0].dissipating
   //});
+
+  window.heatmapLayer = heatmap;
+
   heatmap.setMap(window.map);
 }
 
@@ -209,15 +207,24 @@ function clear_heatmap(){
   window.heatmapLayer.setMap(null);
 }
 
-/*
+function add_traffic(map){
+  var traffic = new google.maps.TrafficLayer();
+  window.trafficLayer = traffic;
+  traffic.setMap(map);
+}
 
-function add_circles(map, data_circles){
-  console.log("add_circles");
-    circles = HTMLWidgets.dataframeToD3(data_circles);
+function clear_traffic(){
+  console.log('clear traffic');
+  window.trafficLayer.setMap(null);
+}
+
+function add_circles(map, lat, lng, radius){
+
+    //circles = HTMLWidgets.dataframeToD3(data_circles);
 
     var i;
-    for (i = 0; i < circles.length; i++) {
-      var latlon = new google.maps.LatLng(circles[i].lat, circles[i].lng);
+    for (i = 0; i < lat.length; i++) {
+      var latlon = new google.maps.LatLng(lat[i], lng[i]);
 
       var circle = new google.maps.Circle({
             strokeColor: '#FF0000',
@@ -227,12 +234,13 @@ function add_circles(map, data_circles){
             fillOpacity: 0.35,
             map: map,
             center: latlon,
-            radius: 100
+            radius: radius[i]
           });
       circle.setMap(map);
     }
 }
 
+/*
 
 function add_polyline(map, data_polyline){
   console.log("add_polyline");

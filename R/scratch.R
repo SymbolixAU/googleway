@@ -8,9 +8,9 @@
 #   dashboardHeader(),
 #   dashboardSidebar(),
 #   dashboardBody(
-#     #leafletOutput("leaf_map"),
 #     sliderInput(inputId = "slider", label = "heat",
 #                 min = 0, max = 100, value = 50),
+#     actionButton(inputId = "traffic", label = "traffic"),
 #     google_mapOutput("myMap")
 #   )
 # )
@@ -23,16 +23,15 @@
 #   df_line <- decode_pl(pl)
 #   set.seed(123)
 #   df_line$weight <- runif(nrow(df_line), min = 1, max = 100)
+#   # df_line$weight <- row.names(df_line)
 #   df_line$opacity <- 0.2
 #
-#   # output$leaf_map <- renderLeaflet({
-#   #   leaflet() %>%
-#   #     addTiles()
-#   # })
 #   output$myMap <- renderGoogle_map({
-    # google_map(key = map_key) %>%
-    #   add_markers(data = df_line, opacity = "opacity")
-    #   # add_heatmap(data = df_line)
+#
+#     google_map(key = map_key) %>%
+#      add_heatmap(data = df_line) %>%
+#         add_traffic()
+#
 #   })
 #
 #   observe({
@@ -41,11 +40,17 @@
 #
 #     google_map_update(map_id = "myMap") %>%
 #       clear_heatmap() %>%
-#       #clear_markers() %>%
-#       #add_markers(data = df)
 #       add_heatmap(data = df)
-#
 #   })
+#
+#   observe({
+#     if(input$traffic){
+#       print('traffic button')
+#       google_map_update(map_id = 'myMap') %>%
+#         clear_traffic()
+#     }
+#   })
+#
 # }
 #
 # shinyApp(ui, server)

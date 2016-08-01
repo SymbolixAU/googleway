@@ -152,3 +152,8 @@ check_for_columns <- function(df, cols){
                 , " in the data"))
 }
 
+correct_columns <- function(df, cols){
+  ## set any null columns to NA, so Google Maps uses the default
+  df[, setdiff(cols, names(df))] <- NA
+  return(df)
+}

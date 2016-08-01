@@ -9,6 +9,7 @@
 #' @param title string specifying the column of \code{data} containing the 'title' of the markers
 #' @param draggable string specifying the column of \code{data} defining if the marker is 'draggable' (either TRUE or FALSE)
 #' @param opacity string specifying the column of \code{data} defining the 'opacity' of the maker. Values must be between 0 and 1 (inclusive)
+#' @param label string specifying the column of \code{data} defining the character to appear in the centre of the marker. Values will be coerced to strings, and only the first character will be used.
 #' @export
 add_markers <- function(map,
                         data,
@@ -25,7 +26,6 @@ add_markers <- function(map,
   ## - if a feature column (draggable/opacity, etc) is specified, but the
   ## data is null/incorrect
 
-
   ## rename the cols so the javascript functions will see them
   data <- latitude_column(data, lat, 'add_markers')
   data <- longitude_column(data, lon, 'add_markers')
@@ -34,46 +34,37 @@ add_markers <- function(map,
   check_for_columns(data, c(title, draggable, opacity))
 
   if(!is.null(title)){
-    names(data)[names(data) == title] <- "title"
-  }else{
-    data$title <- NA
+  #   names(data)[names(data) == title] <- "title"
+    ## must be character
+    data[, title] <- as.character(data[, title])
   }
+
   if(!is.null(opacity)){
-    names(data)[names(data) == opacity] <- "opacity"
+    # names(data)[names(data) == opacity] <- "opacity"
     if(any(data$opacity < 0) | any(data$opacity > 1))
       stop("opacity values must be between 0 and 1")
-  }else{
-    data$opacity <- NA
   }
 
   if(!is.null(draggable)){
-    names(data)[names(data) == draggable] <- "draggable"
+    #names(data)[names(data) == draggable] <- "draggable"
     if(!is.logical(data$draggable))
       stop("draggable values must be logical")
-  }else{
-    data$draggable <- NA
   }
 
   if(!is.null(label)){
-    names(data)[names(data) == label] <- "label"
-  }else{
-    data$label <- NA
+    #names(data)[names(data) == label] <- "label"
+    ## must be a string
+    data[, label] <- as.character(data[, label])
   }
+
+  data <- correct_columns(data, c(title, opacity, draggable, label))
+  print(head(data))
 
   ## TODO:
   ## pass other arguments in as an object into javascript?
   ## that way, they can be NULL and ignored on the other side.
-  invoke_method(map, data, 'add_markers', data$lat, data$lng, data$title,
-                data$opacity, data$draggable, data$label)
-  # ## if markers already exist, add to them, don't overwrite
-  # if(!is.null(map$x$markers)){
-  #   ## they already exist
-  #   map$x$markers <- rbind(map$x$markers, data)
-  # }else{
-  #   ## they don't exist
-  #   map$x$markers <- data
-  # }
-  # return(map)
+  invoke_method(map, data, 'add_markers', data$lat, data$lng, data[, title],
+                data[, opacity], data[, draggable], data[, label])
 }
 
 #' clear markers
@@ -95,11 +86,13 @@ clear_markers <- function(map){
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
+#' @param radius string specifying the column of \code{data} containing the 'radius' of each circle
 #' @export
 add_circles <- function(map,
                         data,
                         lat = NULL,
-                        lon = NULL
+                        lon = NULL,
+                        radius = NULL
                         ){
 
   ## TODO:
@@ -108,15 +101,18 @@ add_circles <- function(map,
   data <- latitude_column(data, lat, 'add_circles')
   data <- longitude_column(data, lon, 'add_circles')
 
-  ## if circles already exist, add to them, don't overwrite
-  if(!is.null(map$x$circles)){
-    ## they already exist
-    map$x$circles <- rbind(map$x$circles, data)
-  }else{
-    ## they don't exist
-    map$x$circles <- data
+  ## check columns
+  check_for_columns(data, c(radius))
+
+  if(!is.null(radius)){
+    if(!is.numeric(data[, radius]))
+      stop("radius must be numeric")
   }
-  return(map)
+
+  correct_columns(data, c(radius))
+
+  invoke_method(map, data, 'add_circles', data$lat, data$lng, data[, radius])
+
 }
 
 #' Add heatmap
@@ -140,8 +136,8 @@ add_heatmap <- function(map,
                         option_dissipating = FALSE,
                         # gradient = NULL,
                         # maxIntensity = NULL,
-                        option_radius = 10,
-                        option_opacity = 0.6
+                        option_radius = 10
+                        # option_opacity = 0.6
                         ){
 
 
@@ -149,41 +145,50 @@ add_heatmap <- function(map,
   data <- latitude_column(data, lat, 'add_heatmap')
   data <- longitude_column(data, lon, 'add_heatmap')
 
+  ## check columns
+  check_for_columns(data, c(weight))
+
   ## if no heat provided, assume all == 1
-  if(is.null(weight)){
+  if(is.null(weight))
     data$weight <- 1
-  }else{
-    names(data)[names(data) == weight] <- "weight"
-  }
 
-  invoke_method(map, data, 'add_heatmap', data$lat, data$lng)
+  correct_columns(data, c(weight))
 
-  # ## if heatmap already exist, add to them, don't overwrite
-  # if(!is.null(map$x$heatmap)){
-  #   ## they already exist
-  #   map$x$heatmap <- rbind(map$x$heatmap, data)
-  # }else{
-  #   ## they don't exist
-  #   map$x$heatmap <- data
-  # }
-  #
-  # ## sort out options
-  # map$x$heatmap_options <- data.frame(radius = option_radius,
-  #                                     opacity = option_opacity,
-  #                                     dissapating = option_dissipating)
-  # return(map)
+  heatmap_options <- data.frame(dissipating = option_dissipating,
+                                radius = option_radius)
 
+  invoke_method(map, data, 'add_heatmap', data$lat, data$lng, data[, weight],
+                heatmap_options)
 }
 
 #' clear heatmap
 #'
-#' clears heatmap from map
+#' clears heatmap layer from map
 #'
 #' @param map googleway map object
 #' @export
 clear_heatmap <- function(map){
   invoke_method(map, data = NULL, 'clear_heatmap')
 }
+
+#' Add Traffic
+#'
+#' Adds traffic information to a map
+#' @param map a googleway map object created from \code{google_map()}
+#' @export
+add_traffic <- function(map){
+  invoke_method(map, data = NULL, 'add_traffic')
+}
+
+#' Clear traffic
+#'
+#' Clears traffic layer from map
+#' @param map a googleway map object
+#' @export
+clear_traffic <- function(map){
+  invoke_method(map, data = NULL, 'clear_traffic')
+}
+
 
 #' Add polyline
 #'
