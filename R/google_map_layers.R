@@ -58,7 +58,6 @@ add_markers <- function(map,
   }
 
   data <- correct_columns(data, c(title, opacity, draggable, label))
-  print(head(data))
 
   ## TODO:
   ## pass other arguments in as an object into javascript?
@@ -167,6 +166,9 @@ add_heatmap <- function(map,
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.
+#' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
+#' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
+#' @param weight string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.
 #' @export
 update_heatmap <- function(map, data, lat = NULL, lon = NULL, weight = NULL){
 
@@ -190,7 +192,7 @@ update_heatmap <- function(map, data, lat = NULL, lon = NULL, weight = NULL){
 
 #' clear heatmap
 #'
-#' clears heatmap layer from map
+#' Clears a heatmap layer from a map
 #'
 #' @param map googleway map object
 #' @export
@@ -200,7 +202,8 @@ clear_heatmap <- function(map){
 
 #' Add Traffic
 #'
-#' Adds traffic information to a map
+#' Adds live traffic information to a googleway map object
+#'
 #' @param map a googleway map object created from \code{google_map()}
 #' @export
 add_traffic <- function(map){

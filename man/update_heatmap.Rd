@@ -10,6 +10,12 @@ update_heatmap(map, data, lat = NULL, lon = NULL, weight = NULL)
 \item{map}{a googleway map object created from \code{google_map()}}
 
 \item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.}
+
+\item{lat}{string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made}
+
+\item{lon}{string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made}
+
+\item{weight}{string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.}
 }
 \description{
 updates a heatmap layer

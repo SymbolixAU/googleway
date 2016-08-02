@@ -41,7 +41,7 @@
 #
 #     google_map_update(map_id = "myMap") %>%
 #       #clear_heatmap() %>%
-#       googleway:::update_heatmap(data = df)
+#       update_heatmap(data = df)
 #   })
 #
 #   observe({

@@ -184,10 +184,8 @@ function add_heatmap(map_id, lat, lng, weight, heatmap_options){
 
   // store in MVC array
   window[map_id + 'googleHeatmapLayerMVC'] = new google.maps.MVCArray(heatmapData);
-  console.log(window[map_id + 'googleHeatmapLayer']);
 
   var heatmap = new google.maps.visualization.HeatmapLayer({
-    //data: heatmapData,
     data: window[map_id + 'googleHeatmapLayerMVC']
   });
 

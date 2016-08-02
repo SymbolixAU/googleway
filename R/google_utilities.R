@@ -1,9 +1,9 @@
 #' Google map update
 #'
-#' update a map in a shiny app
+#' Update a map in a shiny app. Use this function whenever the map needs to respond to reactive content.
 #'
-#' @param map_id
-#' @param session
+#' @param map_id string The output ID of the map in a shiny application
+#' @param session the Shiny session object to which the map belongs; usually the default value will suffice
 #' @param data
 #' @param deferUntilFlush
 #' @export
