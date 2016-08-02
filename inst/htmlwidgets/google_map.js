@@ -201,14 +201,10 @@ function add_heatmap(map_id, lat, lng, weight, heatmap_options){
   heatmap.setMap(window[map_id + 'map']);
 }
 
-function update_heatmap(map_id, lat, lng){
+function update_heatmap(map_id, lat, lng, weight){
 
   // update the heatmap array
-  // - need to know which elements to remove before adding some in..?
-  //
-  //window[map_id + 'googleHeatmapLayerMVC'] = window[map_id + 'googleHeatmapLayerMVC'].filter( function( el ) {
-  //   return !toRemove.includes( el );
-  //});
+  window[map_id + 'googleHeatmapLayerMVC'].clear();
 
   var heatmapData = [];
   var i;
@@ -218,20 +214,13 @@ function update_heatmap(map_id, lat, lng){
       location: new google.maps.LatLng(lat[i], lng[i]),
       weight: weight[i]
     };
+  window[map_id + 'googleHeatmapLayerMVC'].push(heatmapData[i]);
   }
-
-  var newArray = new google.maps.MVCArray(heatmapData);
-
-  window[map_id + 'googleHeatmapLayerMVC'] = $(newArray).not(window[map_id + 'googleHeatmapLayerMVC']).get();
 
 }
 
 
 function clear_heatmap(map_id){
-
-  //TODO
-  // can the transition be smooth?
-  // http://stackoverflow.com/a/13479758/5977215
   window[map_id + 'googleHeatmapLayer'].setMap(null);
 }
 

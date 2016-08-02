@@ -168,13 +168,22 @@ add_heatmap <- function(map,
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.
 #' @export
-update_heatmap <- function(map, data, lat = NULL, lon = NULL){
+update_heatmap <- function(map, data, lat = NULL, lon = NULL, weight = NULL){
 
   ## rename the cols so the javascript functions will see them
   data <- latitude_column(data, lat, 'update_heatmap')
   data <- longitude_column(data, lon, 'update_heatmap')
 
-  invoke_method(map, data, 'update_heatmap', data$lat, data$lng)
+  ## check columns
+  check_for_columns(data, c(weight))
+
+  ## if no heat provided, assume all == 1
+  if(is.null(weight))
+    data$weight <- 1
+
+  correct_columns(data, c(weight))
+
+  invoke_method(map, data, 'update_heatmap', data$lat, data$lng, data$weight)
 
 }
 
