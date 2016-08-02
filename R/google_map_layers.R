@@ -161,6 +161,24 @@ add_heatmap <- function(map,
                 heatmap_options)
 }
 
+#' update heatmap
+#'
+#' updates a heatmap layer
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.
+#' @export
+update_heatmap <- function(map, data, lat = NULL, lon = NULL){
+
+  ## rename the cols so the javascript functions will see them
+  data <- latitude_column(data, lat, 'update_heatmap')
+  data <- longitude_column(data, lon, 'update_heatmap')
+
+  invoke_method(map, data, 'update_heatmap', data$lat, data$lng)
+
+}
+
+
 #' clear heatmap
 #'
 #' clears heatmap layer from map

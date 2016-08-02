@@ -11,9 +11,13 @@ HTMLWidgets.widget({
       renderValue: function(x) {
 
           // global map objects
-          window.googleMarkers = [];
-          window.heatmapLayer = [];
-          window.trafficLayer = [];
+          console.log("el.id");
+          console.log(el.id);
+          console.log(el);
+          window[el.id + 'googleMarkers'] = [];
+          window[el.id + 'googleHeatmapLayer'] = [];
+          window[el.id + 'googleHeatmapLayerMVC'] = [];
+          window[el.id + 'googleTrafficLayer'] = [];
 
           var mapDiv = document.getElementById(el.id);
           mapDiv.className = "googlemap";
@@ -25,10 +29,13 @@ HTMLWidgets.widget({
             // - usually implemented via callback
             var checkExists = setInterval(function(){
 
-              window.map = new google.maps.Map(mapDiv, {
+              var map = new google.maps.Map(mapDiv, {
                 center: {lat: x.lat, lng: x.lng},
                 zoom: x.zoom
               });
+
+              //global map object
+              window[el.id + 'map'] = map;
 
               if (google !== 'undefined'){
                 console.log("exists");
@@ -41,15 +48,14 @@ HTMLWidgets.widget({
                   // why do I use window.map here, but just 'map' in in
                   // addCustomMessageHandler ?
 
-                  //push the mapId inot the call.args
-                  x.calls[i].args.unshift(window.map);
+                  //push the map_id inot the call.args
+                  x.calls[i].args.unshift(el.id);
 
                   if (window[x.calls[i].functions])
-                    window[x.calls[i].functions].apply(map, x.calls[i].args);
+                    window[x.calls[i].functions].apply(window[el.id + 'map'], x.calls[i].args);
                   else
                     console.log("Unknown function " + x.calls[i]);
                 }
-
 
               }else{
                 console.log("does not exist!");
@@ -63,26 +69,27 @@ HTMLWidgets.widget({
 
               mapDiv.className = "googlemap";
 
-             window.map = new google.maps.Map(mapDiv, {
+             var map = new google.maps.Map(mapDiv, {
                center: {lat: x.lat, lng: x.lng},
                 zoom: x.zoom
               });
 
+              window[el.id + 'map'] = map;
+              console.log('map');
+
               // call initial layers
-                for(i = 0; i < x.calls.length; i++){
+              for(i = 0; i < x.calls.length; i++){
 
-                  //TODO
-                  // why do I use window.map here, but just 'map' in in
-                  // addCustomMessageHandler ?
+                //push the map_id into the call.args
+                x.calls[i].args.unshift(el.id);
+                console.log('x calls');
+                console.log(x.calls);
 
-                  //push the mapId inot the call.args
-                  x.calls[i].args.unshift(window.map);
-
-                  if (window[x.calls[i].functions])
-                    window[x.calls[i].functions].apply(map, x.calls[i].args);
-                  else
-                    console.log("Unknown function " + x.calls[i]);
-                }
+                if (window[x.calls[i].functions])
+                  window[x.calls[i].functions].apply(window[el.id + 'map'], x.calls[i].args);
+                else
+                  console.log("Unknown function " + x.calls[i]);
+              }
 
             };
             //}, 2000);
@@ -101,10 +108,8 @@ if (HTMLWidgets.shinyMode) {
 
   Shiny.addCustomMessageHandler("googlemap-calls", function(data) {
 
-    var id = data.id;
+    var id = data.id;   // the div id of the map
     var el = document.getElementById(id);
-    //var map = el ? $(el).data("googlemap") : null;
-    //var map = el ? (0, jquery.default)(el).data("goglemap-map") : null;
     var map = el;
     if (!map) {
       console.log("Couldn't find map with id " + id);
@@ -116,14 +121,14 @@ if (HTMLWidgets.shinyMode) {
       var call = data.calls[i];
 
       //push the mapId inot the call.args
-      call.args.unshift(map);
+      call.args.unshift(id);
 
       if (call.dependencies) {
         Shiny.renderDependencies(call.dependencies);
       }
 
       if (window[call.method])
-        window[call.method].apply(map, call.args);
+        window[call.method].apply(window[id + 'map'], call.args);
       else
         console.log("Unknown function " + call.method);
     }
@@ -131,14 +136,12 @@ if (HTMLWidgets.shinyMode) {
 }
 
 
-function add_markers(map, lat, lng, title, opacity, draggable, label){
+function add_markers(map_id, lat, lng, title, opacity, draggable, label){
 
   var i;
   for (i = 0; i < lat.length; i++) {
 
     var latlon = new google.maps.LatLng(lat[i], lng[i]);
-    //var latlon = new google.maps.LatLng(-38, 144);
-    //var thisMap = document.getElementById(map.id);
 
     var marker = new google.maps.Marker({
       position: latlon,
@@ -146,30 +149,25 @@ function add_markers(map, lat, lng, title, opacity, draggable, label){
       opacity: opacity[i],
       title: title[i],
       label: label[i]
-      //map: window.map
     });
 
-    //TODO
-    // clear window.googleMarkers if it was initialised in the first
-    // shiny::renderGoogle_map call?
-
-    window.googleMarkers.push(marker);
-    //marker.setMap(thisMap);
-    marker.setMap(window.map);
+    window[map_id + 'googleMarkers'].push(marker);
+    marker.setMap(window[map_id + 'map']);
   }
 }
 
-function clear_markers(){
-  //TODO
-  // how does this know the 'map' to remove them from?
-  for (i = 0; i < window.googleMarkers.length; i++){
-    window.googleMarkers[i].setMap(null);
+function clear_markers(map_id){
+
+  // the markers know which map they're on
+  // http://stackoverflow.com/questions/7961522/removing-a-marker-in-google-maps-api-v3
+  for (i = 0; i < window[map_id + 'googleMarkers'].length; i++){
+    window[map_id + 'googleMarkers'][i].setMap(null);
   }
 }
 
 
-function add_heatmap(map, lat, lng, weight, heatmap_options){
-  console.log(weight);
+function add_heatmap(map_id, lat, lng, weight, heatmap_options){
+
   //heat = HTMLWidgets.dataframeToD3(data_heatmap);
   heat_options = HTMLWidgets.dataframeToD3(heatmap_options);
 
@@ -184,8 +182,13 @@ function add_heatmap(map, lat, lng, weight, heatmap_options){
     };
   }
 
+  // store in MVC array
+  window[map_id + 'googleHeatmapLayerMVC'] = new google.maps.MVCArray(heatmapData);
+  console.log(window[map_id + 'googleHeatmapLayer']);
+
   var heatmap = new google.maps.visualization.HeatmapLayer({
-    data: heatmapData,
+    //data: heatmapData,
+    data: window[map_id + 'googleHeatmapLayerMVC']
   });
 
   //heatmap.setOptions({
@@ -194,31 +197,56 @@ function add_heatmap(map, lat, lng, weight, heatmap_options){
   //  dissipating: heat_options[0].dissipating
   //});
 
-  window.heatmapLayer = heatmap;
-
-  heatmap.setMap(window.map);
+  window[map_id + 'googleHeatmapLayer'] = heatmap;
+  heatmap.setMap(window[map_id + 'map']);
 }
 
-function clear_heatmap(){
+function update_heatmap(map_id, lat, lng){
+
+  // update the heatmap array
+  // - need to know which elements to remove before adding some in..?
+  //
+  //window[map_id + 'googleHeatmapLayerMVC'] = window[map_id + 'googleHeatmapLayerMVC'].filter( function( el ) {
+  //   return !toRemove.includes( el );
+  //});
+
+  var heatmapData = [];
+  var i;
+  // turn row of the data into LatLng, and push it to the array
+  for(i = 0; i < lat.length; i++){
+    heatmapData[i] = {
+      location: new google.maps.LatLng(lat[i], lng[i]),
+      weight: weight[i]
+    };
+  }
+
+  var newArray = new google.maps.MVCArray(heatmapData);
+
+  window[map_id + 'googleHeatmapLayerMVC'] = $(newArray).not(window[map_id + 'googleHeatmapLayerMVC']).get();
+
+}
+
+
+function clear_heatmap(map_id){
 
   //TODO
   // can the transition be smooth?
   // http://stackoverflow.com/a/13479758/5977215
-  window.heatmapLayer.setMap(null);
+  window[map_id + 'googleHeatmapLayer'].setMap(null);
 }
 
-function add_traffic(map){
+function add_traffic(map_id){
+
   var traffic = new google.maps.TrafficLayer();
-  window.trafficLayer = traffic;
-  traffic.setMap(map);
+  window[map_id + 'googleTrafficLayer'] = traffic;
+  traffic.setMap(window[map_id + 'map']);
 }
 
-function clear_traffic(){
-  console.log('clear traffic');
-  window.trafficLayer.setMap(null);
+function clear_traffic(map_id){
+  window[map_id + 'googleTrafficLayer'].setMap(null);
 }
 
-function add_circles(map, lat, lng, radius){
+function add_circles(map_id, lat, lng, radius){
 
     //circles = HTMLWidgets.dataframeToD3(data_circles);
 

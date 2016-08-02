@@ -26,10 +26,11 @@
 #   # df_line$weight <- row.names(df_line)
 #   df_line$opacity <- 0.2
 #
-#   output$myMap <- renderGoogle_map({
+#    output$myMap <- renderGoogle_map({
 #
 #     google_map(key = map_key) %>%
-#      add_heatmap(data = df_line) %>%
+#       #add_markers(data = df_line)
+#       add_heatmap(data = df_line) %>%
 #         add_traffic()
 #
 #   })
@@ -39,15 +40,20 @@
 #     df <- df_line[df_line$weight >= (input$slider - 1), ]
 #
 #     google_map_update(map_id = "myMap") %>%
-#       clear_heatmap() %>%
-#       add_heatmap(data = df)
+#       #clear_heatmap() %>%
+#       googleway:::update_heatmap(data = df)
 #   })
 #
 #   observe({
 #     if(input$traffic){
-#       print('traffic button')
-#       google_map_update(map_id = 'myMap') %>%
-#         clear_traffic()
+#
+#       if(as.numeric(input$traffic) %% 2 == 0){
+#         google_map_update(map_id = 'myMap') %>%
+#           add_traffic()
+#       }else{
+#         google_map_update(map_id = 'myMap') %>%
+#           clear_traffic()
+#       }
 #     }
 #   })
 #
