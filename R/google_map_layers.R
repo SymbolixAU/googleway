@@ -27,8 +27,11 @@ add_markers <- function(map,
   ## data is null/incorrect
 
   ## rename the cols so the javascript functions will see them
-  data <- latitude_column(data, lat, 'add_markers')
-  data <- longitude_column(data, lon, 'add_markers')
+  if(is.null(lat))
+    data <- latitude_column(data, lat, 'add_markers')
+
+  if(is.null(lon))
+    data <- longitude_column(data, lon, 'add_markers')
 
   ## check columns
   check_for_columns(data, c(title, draggable, opacity))
@@ -97,8 +100,11 @@ add_circles <- function(map,
   ## TODO:
   ## circle options - radius, storke, opacity, etc.
 
-  data <- latitude_column(data, lat, 'add_circles')
-  data <- longitude_column(data, lon, 'add_circles')
+  if(is.null(lat))
+    data <- latitude_column(data, lat, 'add_circles')
+
+  if(is.null(lon))
+    data <- longitude_column(data, lon, 'add_circles')
 
   ## check columns
   check_for_columns(data, c(radius))
@@ -113,6 +119,18 @@ add_circles <- function(map,
   invoke_method(map, data, 'add_circles', data$lat, data$lng, data[, radius])
 
 }
+
+
+#' clear markers
+#'
+#' clears markers from map
+#'
+#' @param map googleway map object
+#' @export
+clear_markers <- function(map){
+  invoke_method(map, data = NULL, 'clear_circles')
+}
+
 
 #' Add heatmap
 #'
@@ -135,14 +153,17 @@ add_heatmap <- function(map,
                         option_dissipating = FALSE,
                         # gradient = NULL,
                         # maxIntensity = NULL,
-                        option_radius = 10
-                        # option_opacity = 0.6
+                        option_radius = 10,
+                        option_opacity = 0.6
                         ){
 
 
   ## rename the cols so the javascript functions will see them
-  data <- latitude_column(data, lat, 'add_heatmap')
-  data <- longitude_column(data, lon, 'add_heatmap')
+  if(is.null(lat))
+    data <- latitude_column(data, lat, 'add_heatmap')
+
+  if(is.null(lon))
+    data <- longitude_column(data, lon, 'add_heatmap')
 
   ## check columns
   check_for_columns(data, c(weight))
@@ -151,10 +172,22 @@ add_heatmap <- function(map,
   if(is.null(weight))
     data$weight <- 1
 
+  if(!is.null(option_opacity))
+    if(!is.numeric(option_opacity) | (option_opacity < 0 | option_opacity > 1))
+      stop("option_opacity must be a numeric between 0 and 1")
+
+  if(!is.null(option_radius))
+    if(!is.numeric(option_radius))
+      stop("option_radus must be numeric")
+
+  ## Defaults
+  # https://developers.google.com/maps/documentation/javascript/reference#HeatmapLayerOptions
+
   correct_columns(data, c(weight))
 
   heatmap_options <- data.frame(dissipating = option_dissipating,
-                                radius = option_radius)
+                                radius = option_radius,
+                                opacity = option_opacity)
 
   invoke_method(map, data, 'add_heatmap', data$lat, data$lng, data[, weight],
                 heatmap_options)
@@ -177,8 +210,11 @@ update_heatmap <- function(map,
                            data = get_map_data(map)){
 
   ## rename the cols so the javascript functions will see them
-  data <- latitude_column(data, lat, 'update_heatmap')
-  data <- longitude_column(data, lon, 'update_heatmap')
+  if(is.null(lat))
+    data <- latitude_column(data, lat, 'update_heatmap')
+
+  if(is.null(lon))
+    data <- longitude_column(data, lon, 'update_heatmap')
 
   ## check columns
   check_for_columns(data, c(weight))
@@ -241,8 +277,11 @@ add_polyline <- function(map,
   ## TODO:
   ## - handle mis-specified lat/lon column names
   ## - other options - colours  ## rename the cols so the javascript functions will see them
-  data <- latitude_column(data, lat)
-  data <- longitude_column(data, lon)
+  if(is.null(lat))
+    data <- latitude_column(data, lat, 'add_polyline')
+
+  if(is.null(lon))
+    data <- longitude_column(data, lon, 'add_polyline')
 
   ## if polyline already exists, add to it, don't overwrite
   if(!is.null(map$x$polyline)){
@@ -298,7 +337,7 @@ find_lat_column = function(names, calling_function, stopOnFailure = TRUE) {
 
 find_lon_column = function(names, calling_function, stopOnFailure = TRUE) {
 
-  lons = names[grep("^(lon|lons|lng|lngs|long|longs|longitude|latitudes)$", names, ignore.case = TRUE)]
+  lons = names[grep("^(lon|lons|lng|lngs|long|longs|longitude|longitudes)$", names, ignore.case = TRUE)]
 
   if (length(lons) == 1) {
     # if (length(names) > 1) {
@@ -309,92 +348,9 @@ find_lon_column = function(names, calling_function, stopOnFailure = TRUE) {
   }
 
   if (stopOnFailure) {
-    stop(paste0("Couldn't infer latitude/longitude columns for ", calling_function))
+    stop(paste0("Couldn't infer longitude columns for ", calling_function))
   }
 
   list(lon = NA)
 }
 
-
-# This is taken directly from Rstudio/leaflet. I would like to make use of some of the functions
-#
-#
-#
-# add_markers <- function(map, data, lat = NULL, lon = NULL){
-#
-#   pts = derivePoints(data, lat, lon, missing(lat), missing(lon), "add_markers")
-#
-#   invokeMethod(
-#     map, data, 'add_markers', pts$lat, pts$lon
-#   )
-# }
-#
-#
-#
-# derivePoints = function(data, lat, lon, missingLat, missingLon, funcName) {
-#   if (missingLat || missingLon) {
-#     if (is.null(data)) {
-#       stop("Point data not found; please provide ", funcName,
-#            " with data and/or lat/lon arguments")
-#     }
-#
-#     pts = pointData(data)
-#     ## pases
-#     if (is.null(lon)) lon = pts$lon
-#     if (is.null(lat)) lat = pts$lat
-#   }
-#
-#   lat = resolveFormula(lat, data)
-#   lon = resolveFormula(lon, data)
-#
-#   if (is.null(lon) && is.null(lat)) {
-#     stop(funcName, " requires non-NULL longitude/latitude values")
-#   } else if (is.null(lon)) {
-#     stop(funcName, " requires non-NULL longitude values")
-#   } else if (is.null(lat)) {
-#     stop(funcName, " requires non-NULL latitude values")
-#   }
-#
-#   data.frame(lat = lat, lon = lon)
-# }
-#
-# pointData = function(obj) {
-#   UseMethod("pointData")
-# }
-#
-#
-# pointData.data.frame = function(obj) {
-#   cols = guessLatLongCols(names(obj))
-#   ## passes
-#   data.frame(
-#     lat = obj[[cols$lat]],
-#     lon = obj[[cols$lon]]
-#   )
-# }
-#
-#
-#
-# resolveFormula = function(f, data) {
-#   if (!inherits(f, 'formula')) return(f)
-#   if (length(f) != 2L) stop("Unexpected two-sided formula: ", deparse(f))
-#   doResolveFormula(data, f)
-# }
-#
-# doResolveFormula = function(data, f) {
-#   UseMethod("doResolveFormula")
-# }
-#
-# doResolveFormula.data.frame = function(data, f) {
-#   eval(f[[2]], data, environment(f))
-# }
-#
-#
-# evalFormula = function(list, data) {
-#   evalAll = function(x) {
-#     if (is.list(x)) {
-#       structure(lapply(x, evalAll), class = class(x))
-#     } else resolveFormula(x, data)
-#   }
-#   evalAll(list)
-# }
-#

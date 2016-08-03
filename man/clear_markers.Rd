@@ -5,11 +5,17 @@
 \title{clear markers}
 \usage{
 clear_markers(map)
+
+clear_markers(map)
 }
 \arguments{
 \item{map}{googleway map object}
+
+\item{map}{googleway map object}
 }
 \description{
+clears markers from map
+
 clears markers from map
 }
 

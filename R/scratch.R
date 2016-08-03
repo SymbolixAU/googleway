@@ -29,9 +29,11 @@
 #    output$myMap <- renderGoogle_map({
 #
 #     google_map(key = map_key, data = df_line) %>%
-#       add_markers() %>%
-#       add_heatmap(data = df_line) %>%
-#       add_traffic()
+#       add_circles()
+#
+#       # add_markers() %>%
+#       # add_heatmap(data = df_line) %>%
+#       # add_traffic()
 #
 #   })
 #
@@ -60,5 +62,5 @@
 # }
 #
 # shinyApp(ui, server)
-
-
+#
+#

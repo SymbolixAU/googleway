@@ -10,6 +10,6 @@ add_traffic(map)
 \item{map}{a googleway map object created from \code{google_map()}}
 }
 \description{
-Adds traffic information to a map
+Adds live traffic information to a googleway map object
 }
 

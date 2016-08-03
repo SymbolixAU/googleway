@@ -7,7 +7,12 @@
 google_map_update(map_id, session = shiny::getDefaultReactiveDomain(),
   data = NULL, deferUntilFlush = TRUE)
 }
+\arguments{
+\item{map_id}{string The output ID of the map in a shiny application}
+
+\item{session}{the Shiny session object to which the map belongs; usually the default value will suffice}
+}
 \description{
-update a map in a shiny app
+Update a map in a shiny app. Use this function whenever the map needs to respond to reactive content.
 }
 

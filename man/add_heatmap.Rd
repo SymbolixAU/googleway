@@ -4,19 +4,20 @@
 \alias{add_heatmap}
 \title{Add heatmap}
 \usage{
-add_heatmap(map, data, lat = NULL, lon = NULL, weight = NULL,
-  option_dissipating = FALSE, option_radius = 10)
+add_heatmap(map, lat = NULL, lon = NULL, weight = NULL,
+  data = get_map_data(map), option_dissipating = FALSE,
+  option_radius = 10, option_opacity = 0.6)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
-
-\item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.}
 
 \item{lat}{string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made}
 
 \item{lon}{string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made}
 
 \item{weight}{string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.}
+
+\item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.}
 
 \item{option_dissipating}{logical Specifies whether heatmaps dissipate on zoom. By default, the radius of influence of a data point is specified by the radius option only. When dissipating is disabled, the radius option is interpreted as a radius at zoom level 0.}
 

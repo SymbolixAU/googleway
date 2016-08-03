@@ -4,18 +4,19 @@
 \alias{update_heatmap}
 \title{update heatmap}
 \usage{
-update_heatmap(map, data, lat = NULL, lon = NULL, weight = NULL)
+update_heatmap(map, lat = NULL, lon = NULL, weight = NULL,
+  data = get_map_data(map))
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
-
-\item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.}
 
 \item{lat}{string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made}
 
 \item{lon}{string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made}
 
 \item{weight}{string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.}
+
+\item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.}
 }
 \description{
 updates a heatmap layer

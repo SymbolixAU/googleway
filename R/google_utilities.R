@@ -116,6 +116,9 @@ invoke_remote = function(map, method, args = list()) {
 }
 
 
+### ----------
+## taken from Rstudio::leaflet package
+
 # Evaluate list members that are formulae, using the map data as the environment
 # (if provided, otherwise the formula environment)
 evalFormula = function(list, data) {
