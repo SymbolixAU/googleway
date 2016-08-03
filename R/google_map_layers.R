@@ -63,8 +63,10 @@ add_markers <- function(map,
   data <- correct_columns(data, c(title, opacity, draggable, label))
 
   ## TODO:
-  ## pass other arguments in as an object into javascript?
+  ## - pass other arguments in as an object into javascript?
   ## that way, they can be NULL and ignored on the other side.
+  ## - maker options - colour, etc
+
   invoke_method(map, data, 'add_markers', data$lat, data$lng, data[, title],
                 data[, opacity], data[, draggable], data[, label])
 }

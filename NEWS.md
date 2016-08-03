@@ -1,6 +1,12 @@
 
 ## Version 1.1.0 (development)
 
+* `optimise_waypoints` argument included for `google_directions()`
+* `add_circles()` adds circles to a google map
+* `add_traffic()` adds live traffic information to a google map
+* `add_heatmap()` adds a heatmap layer to a google map
+* `add_markers()` adds markers to a google map
+* `google_map()` implemented to plot a google map 
 * `google_place_autocomplete()` implemented to 'autcomplete' place names - closes [#23](https://github.com/SymbolixAU/googleway/issues/23)
 * `google_place_details()` implemented to retrieve more details about a specific place - closes [#22](https://github.com/SymbolixAU/googleway/issues/22)
 * `google_places()` implemented to retrieve information from Google Places API - closes [#21](https://github.com/SymbolixAU/googleway/issues/21)
