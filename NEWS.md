@@ -1,6 +1,8 @@
 
 ## Version 1.1.0 (development)
 
+* `add_bicycling()` adds a bicycling layer
+* `add_transit()` adds a transit layer
 * `optimise_waypoints` argument included for `google_directions()`
 * `add_circles()` adds circles to a google map
 * `add_traffic()` adds live traffic information to a google map

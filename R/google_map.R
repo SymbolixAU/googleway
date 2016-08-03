@@ -12,6 +12,7 @@
 #' @param width desc
 #' @param height desc
 #' @param padding desc
+#' @param styles JSON string representation of a valid Google Maps Style Array.
 #' @examples
 #' \dontrun{
 #'
@@ -29,6 +30,10 @@
 #'  add_heatmap() %>%
 #'  add_traffic()
 #'
+#' ## style map using 'paper' style
+#' style <- '[{"featureType":"administrative","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"all","stylers":[{"visibility":"simplified"},{"hue":"#0066ff"},{"saturation":74},{"lightness":100}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"off"},{"weight":0.6},{"saturation":-85},{"lightness":61}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"on"}]},{"featureType":"road.arterial","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road.local","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"water","elementType":"all","stylers":[{"visibility":"simplified"},{"color":"#5f94ff"},{"lightness":26},{"gamma":5.86}]}]'
+#'
+#' google_map(key = map_key, styles = style)
 #'
 #' }
 #'
@@ -40,7 +45,8 @@ google_map <- function(key,
                        zoom = NULL,
                        width = NULL,
                        height = NULL,
-                       padding = 0) {
+                       padding = 0,
+                       styles = NULL) {
 
   ## TODO:
   ## centre map according to data/user location?
@@ -58,7 +64,8 @@ google_map <- function(key,
   x = list(
     lat = location[1],
     lng = location[2],
-    zoom = zoom
+    zoom = zoom,
+    styles = styles
   )
 
   # create widget

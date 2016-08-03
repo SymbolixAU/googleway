@@ -11,9 +11,7 @@ HTMLWidgets.widget({
       renderValue: function(x) {
 
           // global map objects
-          console.log("el.id");
-          console.log(el.id);
-          console.log(el);
+          console.log(x.styles);
           window[el.id + 'googleMarkers'] = [];
           window[el.id + 'googleHeatmapLayer'] = [];
           window[el.id + 'googleHeatmapLayerMVC'] = [];
@@ -32,7 +30,8 @@ HTMLWidgets.widget({
 
               var map = new google.maps.Map(mapDiv, {
                 center: {lat: x.lat, lng: x.lng},
-                zoom: x.zoom
+                zoom: x.zoom,
+                styles: JSON.parse(x.styles)
               });
 
               //global map object
@@ -45,11 +44,7 @@ HTMLWidgets.widget({
                 // call initial layers
                 for(i = 0; i < x.calls.length; i++){
 
-                  //TODO
-                  // why do I use window.map here, but just 'map' in in
-                  // addCustomMessageHandler ?
-
-                  //push the map_id inot the call.args
+                  //push the map_id into the call.args
                   x.calls[i].args.unshift(el.id);
 
                   if (window[x.calls[i].functions])
@@ -70,12 +65,15 @@ HTMLWidgets.widget({
 
               mapDiv.className = "googlemap";
 
-             var map = new google.maps.Map(mapDiv, {
-               center: {lat: x.lat, lng: x.lng},
-                zoom: x.zoom
-              });
+              console.log(x.styles);
 
-              window[el.id + 'map'] = map;
+               var map = new google.maps.Map(mapDiv, {
+                 center: {lat: x.lat, lng: x.lng},
+                 zoom: x.zoom,
+                 styles: JSON.parse(x.styles)
+                });
+
+                window[el.id + 'map'] = map;
 
               // call initial layers
               for(i = 0; i < x.calls.length; i++){
