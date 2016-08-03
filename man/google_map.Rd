@@ -5,7 +5,7 @@
 \title{Google map}
 \usage{
 google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
-  height = NULL, padding = 0, timeout = 100)
+  height = NULL, padding = 0)
 }
 \arguments{
 \item{key}{A valid Google Maps API key}
@@ -23,14 +23,26 @@ google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
 \description{
 Generates a google map object. Will only work with a valid key
 }
-\details{
-\code{timeout} is used to replace the javascript callback function in the Google Maps API.
-}
 \examples{
 \dontrun{
 
-google_map(key = key, location = c(-37.9, 144.5), zoom = 12)
+df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
+-37.8191299438477, -37.8187675476074, -37.8186187744141, -37.8181076049805
+), lon = c(144.968612670898, 144.968414306641, 144.968139648438,
+144.967971801758, 144.967864990234, 144.967636108398), weight = c(31.5698964400217,
+97.1629025738221, 58.9051092562731, 76.3215389118996, 37.8982300488278,
+77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
+"lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
+
+library(magrittr)
+google_map(key = map_key, data = df_line) \%>\%
+ add_markers() \%>\%
+ add_heatmap() \%>\%
+ add_traffic()
+
+
 }
+
 
 }
 
