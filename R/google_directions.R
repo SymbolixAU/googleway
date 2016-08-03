@@ -8,6 +8,7 @@
 #' @param departure_time POSIXct. Specifies the desired time of departure. Must be in the future (i.e. greater than \code{sys.time()}). If no value is specified it defaults to \code{Sys.time()}
 #' @param arrival_time POSIXct. Specifies the desired time of arrival. Note you can only specify one of \code{arrival_time} or \code{departure_time}, not both. If both are supplied, \code{departure_time} will be used.
 #' @param waypoints list of waypoints, expressed as either a \code{vector} of lat/lon coordinates, or a \code{string} address to be geocoded. Only available for transit, walking or bicycling modes. List elements must be named either 'stop' or 'via', where 'stop' is used to indicate a stopover for a waypoint, and 'via' will not stop at the waypoint. See \url{https://developers.google.com/maps/documentation/directions/intro#Waypoints} for details
+#' @param optimise_waypoints boolean allow the Directions service to optimize the provided route by rearranging the waypoints in a more efficient order. (This optimization is an application of the Travelling Salesman Problem.) Travel time is the primary factor which is optimized, but other factors such as distance, number of turns and many more may be taken into account when deciding which route is the most efficient. All waypoints must be stopovers for the Directions service to optimize their route.
 #' @param alternatives logical If set to true, specifies that the Directions service may provide more than one route alternative in the response
 #' @param avoid character Vector stating which features should be avoided. One of 'tolls', 'highways', 'ferries' or 'indoor'
 #' @param units string metric or imperial. Note: Only affects the text displayed within the distance field. The values are always in metric
@@ -86,6 +87,7 @@ google_directions <- function(origin,
                               departure_time = NULL,
                               arrival_time = NULL,
                               waypoints = NULL,
+                              optimise_waypoints = FALSE,
                               alternatives = FALSE,
                               avoid = NULL,
                               units = c("metric", "imperial"),
@@ -105,6 +107,7 @@ google_directions <- function(origin,
                 departure_time,
                 arrival_time,
                 waypoints,
+                optimise_waypoints,
                 alternatives,
                 avoid,
                 units,

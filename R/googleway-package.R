@@ -15,6 +15,7 @@ directions_data <- function(base_url,
                             departure_time = NULL,
                             arrival_time = NULL,
                             waypoints = NULL,
+                            optimise_waypoints = FALSE,
                             alternatives = FALSE,
                             avoid = NULL,
                             units = c("metric", "imperial"),
@@ -127,6 +128,12 @@ directions_data <- function(base_url,
   if(!is.null(waypoints) & !all(names(waypoints) %in% c("stop", "via")))
     stop("waypoint list elements must be named either 'via' or 'stop'")
 
+  ## check if waypoints should be optimised, and thefore only use 'stop' as a valid waypoint
+  if(optimise_waypoints == TRUE){
+    if(any(names(waypoints) %in% c("via")))
+      stop("waypoints can only be optimised for stopovers. Each waypoint in the list must be named as stop")
+  }
+
   if(!is.null(waypoints)){
     ## construct waypoint string
     # waypoints <- paste0(lapply(waypoints, function(x) fun_check_waypoints(x)), collapse = "|")
@@ -143,7 +150,11 @@ directions_data <- function(base_url,
         fun_check_location(waypoints[[x]])
       }
     })
-    waypoints <- paste0(waypoints, collapse = "|")
+    if(optimise_waypoints == TRUE){
+      waypoints <- paste0("optimize:true|", paste0(waypoints, collapse = "|"))
+    }else{
+      waypoints <- paste0(waypoints, collapse = "|")
+    }
   }
 
   ## language check
