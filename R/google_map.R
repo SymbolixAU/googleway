@@ -24,6 +24,7 @@
 #'
 #' @export
 google_map <- function(key,
+                       data = NULL,
                        location = NULL,
                        zoom = NULL,
                        width = NULL,
@@ -53,7 +54,10 @@ google_map <- function(key,
   # create widget
   googlemap <- htmlwidgets::createWidget(
     name = 'google_map',
-    x,
+    x = structure(
+      x,
+      google_map_data = data
+    ),
     package = 'googleway',
     width = width,
     height = height,
@@ -83,7 +87,9 @@ google_map <- function(key,
   return(googlemap)
 }
 
-
+get_map_data = function(map){
+  attr(map$x, "google_map_data", exact = TRUE)
+}
 
 #' Shiny bindings for google_map
 #'

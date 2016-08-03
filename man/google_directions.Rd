@@ -6,8 +6,8 @@
 \usage{
 google_directions(origin, destination, mode = c("driving", "walking",
   "bicycling", "transit"), departure_time = NULL, arrival_time = NULL,
-  waypoints = NULL, alternatives = FALSE, avoid = NULL,
-  units = c("metric", "imperial"), traffic_model = NULL,
+  waypoints = NULL, optimise_waypoints = FALSE, alternatives = FALSE,
+  avoid = NULL, units = c("metric", "imperial"), traffic_model = NULL,
   transit_mode = NULL, transit_routing_preference = NULL, language = NULL,
   region = NULL, key, simplify = TRUE)
 }
@@ -23,6 +23,8 @@ google_directions(origin, destination, mode = c("driving", "walking",
 \item{arrival_time}{POSIXct. Specifies the desired time of arrival. Note you can only specify one of \code{arrival_time} or \code{departure_time}, not both. If both are supplied, \code{departure_time} will be used.}
 
 \item{waypoints}{list of waypoints, expressed as either a \code{vector} of lat/lon coordinates, or a \code{string} address to be geocoded. Only available for transit, walking or bicycling modes. List elements must be named either 'stop' or 'via', where 'stop' is used to indicate a stopover for a waypoint, and 'via' will not stop at the waypoint. See \url{https://developers.google.com/maps/documentation/directions/intro#Waypoints} for details}
+
+\item{optimise_waypoints}{boolean allow the Directions service to optimize the provided route by rearranging the waypoints in a more efficient order. (This optimization is an application of the Travelling Salesman Problem.) Travel time is the primary factor which is optimized, but other factors such as distance, number of turns and many more may be taken into account when deciding which route is the most efficient. All waypoints must be stopovers for the Directions service to optimize their route.}
 
 \item{alternatives}{logical If set to true, specifies that the Directions service may provide more than one route alternative in the response}
 

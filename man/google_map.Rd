@@ -4,7 +4,7 @@
 \alias{google_map}
 \title{Google map}
 \usage{
-google_map(key, location = NULL, zoom = NULL, width = NULL,
+google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
   height = NULL, padding = 0, timeout = 100)
 }
 \arguments{
