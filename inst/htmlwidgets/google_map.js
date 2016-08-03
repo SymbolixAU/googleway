@@ -75,15 +75,12 @@ HTMLWidgets.widget({
               });
 
               window[el.id + 'map'] = map;
-              console.log('map');
 
               // call initial layers
               for(i = 0; i < x.calls.length; i++){
 
                 //push the map_id into the call.args
                 x.calls[i].args.unshift(el.id);
-                console.log('x calls');
-                console.log(x.calls);
 
                 if (window[x.calls[i].functions])
                   window[x.calls[i].functions].apply(window[el.id + 'map'], x.calls[i].args);
@@ -137,6 +134,9 @@ if (HTMLWidgets.shinyMode) {
 
 
 function add_markers(map_id, lat, lng, title, opacity, draggable, label){
+  console.log('add_markers');
+  console.log(map_id);
+  console.log(lat);
 
   var i;
   for (i = 0; i < lat.length; i++) {

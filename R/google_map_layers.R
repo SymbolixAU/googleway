@@ -12,13 +12,13 @@
 #' @param label string specifying the column of \code{data} defining the character to appear in the centre of the marker. Values will be coerced to strings, and only the first character will be used.
 #' @export
 add_markers <- function(map,
-                        data,
                         lat = NULL,
                         lon = NULL,
                         title = NULL,
                         draggable = NULL,
                         opacity = NULL,
-                        label = NULL)
+                        label = NULL,
+                        data = get_map_data(map))
   {
 
   ## TODO:
@@ -88,10 +88,10 @@ clear_markers <- function(map){
 #' @param radius string specifying the column of \code{data} containing the 'radius' of each circle
 #' @export
 add_circles <- function(map,
-                        data,
                         lat = NULL,
                         lon = NULL,
-                        radius = NULL
+                        radius = NULL,
+                        data = get_map_data(map)
                         ){
 
   ## TODO:
@@ -128,10 +128,10 @@ add_circles <- function(map,
 #' @param option_opacity The opacity of the heatmap, expressed as a number between 0 and 1. Defaults to 0.6.
 #' @export
 add_heatmap <- function(map,
-                        data,
                         lat = NULL,
                         lon = NULL,
                         weight = NULL,
+                        data = get_map_data(map),
                         option_dissipating = FALSE,
                         # gradient = NULL,
                         # maxIntensity = NULL,
@@ -170,7 +170,11 @@ add_heatmap <- function(map,
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
 #' @param weight string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.
 #' @export
-update_heatmap <- function(map, data, lat = NULL, lon = NULL, weight = NULL){
+update_heatmap <- function(map,
+                           lat = NULL,
+                           lon = NULL,
+                           weight = NULL,
+                           data = get_map_data(map)){
 
   ## rename the cols so the javascript functions will see them
   data <- latitude_column(data, lat, 'update_heatmap')
@@ -230,9 +234,9 @@ clear_traffic <- function(map){
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
 #' @export
 add_polyline <- function(map,
-                         data,
                          lat = NULL,
-                         lon = NULL){
+                         lon = NULL,
+                         data = get_map_data(map)){
 
   ## TODO:
   ## - handle mis-specified lat/lon column names
