@@ -24,7 +24,7 @@ HTMLWidgets.widget({
           if(x.place_search === true){
             // create a place DOM element
             window[el.id + 'googlePlaceSearch'] = document.createElement("input");
-            // <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+            // <input id="pac-input" class="controls" type="text" placeholder="Search place">
             window[el.id + 'googlePlaceSearch'].setAttribute('id', 'pac-input');
             window[el.id + 'googlePlaceSearch'].setAttribute('class', 'controls');
             window[el.id + 'googlePlaceSearch'].setAttribute('type', 'text');
