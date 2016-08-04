@@ -50,6 +50,7 @@ google_map <- function(key,
 
   ## TODO:
   ## centre map according to data/user location?
+  ## other default location than Melbourne?
   ## map styles
   ## pass data into google_map, and use in the other map_layer() functions
 

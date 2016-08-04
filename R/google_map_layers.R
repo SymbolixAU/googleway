@@ -242,6 +242,9 @@ clear_heatmap <- function(map){
   invoke_method(map, data = NULL, 'clear_heatmap')
 }
 
+## TODO
+## - handle multiple layer calls? bicycling AND transit?
+
 #' Add Traffic
 #'
 #' Adds live traffic information to a googleway map object
