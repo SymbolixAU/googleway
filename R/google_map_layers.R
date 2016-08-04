@@ -267,7 +267,7 @@ clear_traffic <- function(map){
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @export
-add_traffic <- function(map){
+add_transit <- function(map){
   invoke_method(map, data = NULL, 'add_transit')
 }
 
@@ -276,7 +276,7 @@ add_traffic <- function(map){
 #' Clears transit layer from map
 #' @param map a googleway map object
 #' @export
-clear_traffic <- function(map){
+clear_transit <- function(map){
   invoke_method(map, data = NULL, 'clear_transit')
 }
 
