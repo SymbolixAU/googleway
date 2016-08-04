@@ -13,6 +13,7 @@
 #' @param height desc
 #' @param padding desc
 #' @param styles JSON string representation of a valid Google Maps Style Array.
+#' @param place_search desc
 #' @examples
 #' \dontrun{
 #'
@@ -46,7 +47,8 @@ google_map <- function(key,
                        width = NULL,
                        height = NULL,
                        padding = 0,
-                       styles = NULL) {
+                       styles = NULL,
+                       place_search = FALSE) {
 
   ## TODO:
   ## centre map according to data/user location?
@@ -66,7 +68,8 @@ google_map <- function(key,
     lat = location[1],
     lng = location[2],
     zoom = zoom,
-    styles = styles
+    styles = styles,
+    place_search = place_search
   )
 
   # create widget
@@ -88,6 +91,14 @@ google_map <- function(key,
     )
   )
 
+  if(place_search == TRUE){
+    header <- paste0('<script src="https://maps.googleapis.com/maps/api/js?key=',
+                     key, '&libraries=visualization,places"></script>')
+  }else{
+    header <- paste0('<script src="https://maps.googleapis.com/maps/api/js?key=',
+                     key, '&libraries=visualization"></script>')
+  }
+  header_script <-
   googlemap$dependencies <- c(
     googlemap$dependencies,
     list(
@@ -95,8 +106,7 @@ google_map <- function(key,
         name = "googleway",
         version = "9999",
         src=".",
-        head = paste0('<script src="https://maps.googleapis.com/maps/api/js?key=',
-                      key, '&libraries=visualization"></script>'),
+        head = header,
         all_files = FALSE
         )
       )

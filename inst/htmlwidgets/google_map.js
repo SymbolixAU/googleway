@@ -18,6 +18,19 @@ HTMLWidgets.widget({
           window[el.id + 'googleBicyclingLayer'] = [];
           window[el.id + 'googleTransitLayer'] = [];
           window[el.id + 'googleCircles'] = [];
+          window[el.id + 'googleSearchBox'] = [];
+          window[el.id + 'googlePlaceMarkers'] = [];
+
+          if(x.place_search === true){
+            // create a place DOM element
+            window[el.id + 'googlePlaceSearch'] = document.createElement("input");
+            // <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+            window[el.id + 'googlePlaceSearch'].setAttribute('id', 'pac-input');
+            window[el.id + 'googlePlaceSearch'].setAttribute('class', 'controls');
+            window[el.id + 'googlePlaceSearch'].setAttribute('type', 'text');
+            window[el.id + 'googlePlaceSearch'].setAttribute('placeholder', 'Search Box');
+            document.body.appendChild(window[el.id + 'googlePlaceSearch']);
+          }
 
           var mapDiv = document.getElementById(el.id);
           mapDiv.className = "googlemap";
@@ -41,6 +54,14 @@ HTMLWidgets.widget({
               if (google !== 'undefined'){
                 console.log("exists");
                 clearInterval(checkExists);
+
+                // if places
+                if(x.place_search === true){
+                  console.log('move place search');
+                  var input = document.getElementById('pac-input');
+                  window[el.id + 'googleSearchBox'] = new google.maps.places.SearchBox(input);
+                  window[el.id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+                }
 
                 // call initial layers
                 for(i = 0; i < x.calls.length; i++){
@@ -75,20 +96,81 @@ HTMLWidgets.widget({
 
                 window[el.id + 'map'] = map;
 
-              // call initial layers
-              for(i = 0; i < x.calls.length; i++){
+                // if places
+                if(x.place_search === true){
+                  var input = document.getElementById('pac-input');
+                  window[el.id + 'googleSearchBox'] = new google.maps.places.SearchBox(input);
+                  window[el.id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-                //push the map_id into the call.args
-                x.calls[i].args.unshift(el.id);
+                  // Bias the SearchBox results towards current map's viewport.
+                  window[el.id + 'map'].addListener('bounds_changed', function() {
+                    window[el.id + 'googleSearchBox'].setBounds(window[el.id + 'map'].getBounds());
+                  });
 
-                if (window[x.calls[i].functions])
-                  window[x.calls[i].functions].apply(window[el.id + 'map'], x.calls[i].args);
-                else
-                  console.log("Unknown function " + x.calls[i]);
-              }
+                  var markers = [];
+                  // Listen for the event fired when the user selects a prediction and retrieve
+                  // more details for that place.
+                  window[el.id + 'googleSearchBox'].addListener('places_changed', function() {
+                    var places = window[el.id + 'googleSearchBox'].getPlaces();
 
+                    if (places.length == 0) {
+                      return;
+                    }
+
+                    // Clear out the old markers.
+                    window[el.id + 'googlePlaceMarkers'].forEach(function(marker) {
+                      marker.setMap(null);
+                    });
+                    window[el.id + 'googlePlaceMarkers'] = [];
+
+                    // For each place, get the icon, name and location.
+                    var bounds = new google.maps.LatLngBounds();
+                    places.forEach(function(place) {
+                      if (!place.geometry) {
+                        console.log("Returned place contains no geometry");
+                        return;
+                      }
+                      var icon = {
+                        url: place.icon,
+                        size: new google.maps.Size(71, 71),
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(17, 34),
+                        scaledSize: new google.maps.Size(25, 25)
+                      };
+
+                      // Create a marker for each place.
+                      window[el.id + 'googlePlaceMarkers'].push(new google.maps.Marker({
+                        map: window[el.id + 'map'],
+                        icon: icon,
+                        title: place.name,
+                        position: place.geometry.location
+                      }));
+
+                      if (place.geometry.viewport) {
+                        // Only geocodes have viewport.
+                        bounds.union(place.geometry.viewport);
+                      } else {
+                        bounds.extend(place.geometry.location);
+                      }
+                    });
+                    window[el.id + 'map'].fitBounds(bounds);
+                  });
+
+
+                }
+
+                // call initial layers
+                for(i = 0; i < x.calls.length; i++){
+
+                  //push the map_id into the call.args
+                  x.calls[i].args.unshift(el.id);
+
+                  if (window[x.calls[i].functions])
+                    window[x.calls[i].functions].apply(window[el.id + 'map'], x.calls[i].args);
+                  else
+                    console.log("Unknown function " + x.calls[i]);
+                }
             };
-            //}, 2000);
           }
 
       },
@@ -267,7 +349,7 @@ function add_circles(map_id, lat, lng, radius){
             fillColor: '#FF0000',
             fillOpacity: 0.35,
             center: latlon,
-            radius: 100
+            radius: radius[i]
           });
 
       window[map_id + 'googleCircles'].push(circle);
