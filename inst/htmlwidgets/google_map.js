@@ -11,11 +11,12 @@ HTMLWidgets.widget({
       renderValue: function(x) {
 
           // global map objects
-          console.log(x.styles);
           window[el.id + 'googleMarkers'] = [];
           window[el.id + 'googleHeatmapLayer'] = [];
           window[el.id + 'googleHeatmapLayerMVC'] = [];
           window[el.id + 'googleTrafficLayer'] = [];
+          window[el.id + 'googleBicyclingLayer'] = [];
+          window[el.id + 'googleTransitLayer'] = [];
           window[el.id + 'googleCircles'] = [];
 
           var mapDiv = document.getElementById(el.id);
@@ -60,12 +61,11 @@ HTMLWidgets.widget({
             }, 100);
 
           }else{
+
             window.onload = function() {
               var mapDiv = document.getElementById(el.id);
 
               mapDiv.className = "googlemap";
-
-              console.log(x.styles);
 
                var map = new google.maps.Map(mapDiv, {
                  center: {lat: x.lat, lng: x.lng},
@@ -229,8 +229,31 @@ function clear_traffic(map_id){
   window[map_id + 'googleTrafficLayer'].setMap(null);
 }
 
+function add_bicycling(map_id){
+
+  var bicycle = new google.maps.BicycleLayer();
+  window[map_id + 'googleBicyclingLayer'] = bicycle;
+  bicycle.setMap(window[map_id + 'map']);
+}
+
+function clear_bicycling(map_id){
+  window[map_id + 'googleBicyclingLayer'].setMap(null);
+}
+
+function add_transit(map_id){
+
+  var transit = new google.maps.TransitLayer();
+  window[map_id + 'googleTransitLayer'] = transit;
+  transit.setMap(window[map_id + 'map']);
+}
+
+function clear_transit(map_id){
+  window[map_id + 'googleTransitLayer'].setMap(null);
+}
+
+
 function add_circles(map_id, lat, lng, radius){
-  console.log('add_circles');
+
     //circles = HTMLWidgets.dataframeToD3(data_circles);
 
     var i;

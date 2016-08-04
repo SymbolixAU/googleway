@@ -5,11 +5,17 @@
 \title{Add Traffic}
 \usage{
 add_traffic(map)
+
+add_traffic(map)
 }
 \arguments{
+\item{map}{a googleway map object created from \code{google_map()}}
+
 \item{map}{a googleway map object created from \code{google_map()}}
 }
 \description{
 Adds live traffic information to a googleway map object
+
+Adds public transport information to a googleway map object
 }
 

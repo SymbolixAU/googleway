@@ -261,6 +261,46 @@ clear_traffic <- function(map){
   invoke_method(map, data = NULL, 'clear_traffic')
 }
 
+#' Add transit
+#'
+#' Adds public transport information to a googleway map object
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @export
+add_traffic <- function(map){
+  invoke_method(map, data = NULL, 'add_transit')
+}
+
+#' Clear transit
+#'
+#' Clears transit layer from map
+#' @param map a googleway map object
+#' @export
+clear_traffic <- function(map){
+  invoke_method(map, data = NULL, 'clear_transit')
+}
+
+#' Add bicycling
+#'
+#' Adds bicycle route information to a googleway map object
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @export
+add_bicycling <- function(map){
+  invoke_method(map, data = NULL, 'add_bicycling')
+}
+
+#' Clear bicycling
+#'
+#' Clears bicycle route layer from map
+#' @param map a googleway map object
+#' @export
+clear_bicycling <- function(map){
+  invoke_method(map, data = NULL, 'clear_bicycling')
+}
+
+
+
 
 #' Add polyline
 #'

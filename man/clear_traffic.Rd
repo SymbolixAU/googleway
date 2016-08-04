@@ -5,11 +5,17 @@
 \title{Clear traffic}
 \usage{
 clear_traffic(map)
+
+clear_traffic(map)
 }
 \arguments{
+\item{map}{a googleway map object}
+
 \item{map}{a googleway map object}
 }
 \description{
 Clears traffic layer from map
+
+Clears transit layer from map
 }
 
