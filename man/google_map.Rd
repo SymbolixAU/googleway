@@ -5,7 +5,7 @@
 \title{Google map}
 \usage{
 google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
-  height = NULL, padding = 0, styles = NULL)
+  height = NULL, padding = 0, styles = NULL, place_search = FALSE)
 }
 \arguments{
 \item{key}{A valid Google Maps API key}
@@ -21,6 +21,8 @@ google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
 \item{padding}{desc}
 
 \item{styles}{JSON string representation of a valid Google Maps Style Array.}
+
+\item{place_search}{desc}
 }
 \description{
 Generates a google map object. Will only work with a valid key
