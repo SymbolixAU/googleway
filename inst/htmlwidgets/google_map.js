@@ -11,15 +11,21 @@ HTMLWidgets.widget({
       renderValue: function(x) {
 
           // global map objects
+          // - display elements
           window[el.id + 'googleMarkers'] = [];
           window[el.id + 'googleHeatmapLayer'] = [];
           window[el.id + 'googleHeatmapLayerMVC'] = [];
+          window[el.id + 'googleCircles'] = [];
+          window[el.id + 'googlePolyline'] = [];
+
+
+          // visualisation layers
           window[el.id + 'googleTrafficLayer'] = [];
           window[el.id + 'googleBicyclingLayer'] = [];
           window[el.id + 'googleTransitLayer'] = [];
-          window[el.id + 'googleCircles'] = [];
           window[el.id + 'googleSearchBox'] = [];
           window[el.id + 'googlePlaceMarkers'] = [];
+
 
           if(x.place_search === true){
             // create a place DOM element
@@ -55,7 +61,7 @@ HTMLWidgets.widget({
                 console.log("exists");
                 clearInterval(checkExists);
 
-                initialise_maps(el, x);
+                initialise_map(el, x);
 
               }else{
                 console.log("does not exist!");
@@ -77,7 +83,7 @@ HTMLWidgets.widget({
 
               window[el.id + 'map'] = map;
 
-              initialise_maps(el, x);
+              initialise_map(el, x);
             };
           }
 
@@ -144,6 +150,7 @@ function add_markers(map_id, lat, lng, title, opacity, draggable, label){
 }
 
 function clear_markers(map_id){
+  console.log("clear markers");
 
   // the markers know which map they're on
   // http://stackoverflow.com/questions/7961522/removing-a-marker-in-google-maps-api-v3
@@ -182,6 +189,8 @@ function add_heatmap(map_id, lat, lng, weight, heatmap_options){
   //  dissipating: heat_options[0].dissipating
   });
 
+  // fill the heatmap variable with the MVC array of heatmap data
+  // when the MVC array is updated, the layer is also updated
   window[map_id + 'googleHeatmapLayer'] = heatmap;
   heatmap.setMap(window[map_id + 'map']);
 }
@@ -201,13 +210,12 @@ function update_heatmap(map_id, lat, lng, weight){
     };
   window[map_id + 'googleHeatmapLayerMVC'].push(heatmapData[i]);
   }
-
 }
-
 
 function clear_heatmap(map_id){
   window[map_id + 'googleHeatmapLayer'].setMap(null);
 }
+
 
 function add_traffic(map_id){
 
@@ -243,20 +251,19 @@ function clear_transit(map_id){
 }
 
 
-function add_circles(map_id, lat, lng, radius){
+function add_circles(map_id, lat, lng, radius, stroke_colour, stroke_opacity, stroke_weight, fill_colour, fill_opacity){
 
     //circles = HTMLWidgets.dataframeToD3(data_circles);
-
     var i;
     for (i = 0; i < lat.length; i++) {
       var latlon = new google.maps.LatLng(lat[i], lng[i]);
 
       var circle = new google.maps.Circle({
-            strokeColor: '#FF0000',
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: '#FF0000',
-            fillOpacity: 0.35,
+            strokeColor: stroke_colour[i],
+            strokeOpacity: stroke_opacity[i],
+            strokeWeight: stroke_weight[i],
+            fillColor: fill_colour[i],
+            fillOpacity: fill_opacity[i],
             center: latlon,
             radius: radius[i]
           });
@@ -271,8 +278,8 @@ function clear_circles(map_id){
   window[map_id + 'googleCircles'].setMap(null);
 }
 
-/*
 function add_polyline(map, data_polyline){
+
   console.log("add_polyline");
   //if a list of polyline data.frames were provided, need to iterate
   //through them, otherwise, just a single call to add the data.frame
@@ -289,6 +296,7 @@ function add_polyline(map, data_polyline){
       add_lines(map, polyline[i]);
     }
   }
+
   function add_lines(map, polyline){
     var Polyline = new google.maps.Polyline({
             path: polyline,
@@ -300,10 +308,10 @@ function add_polyline(map, data_polyline){
           });
   }
 }
-*/
 
 
-function initialise_maps(el, x) {
+
+function initialise_map(el, x) {
 
   // if places
   if(x.place_search === true){

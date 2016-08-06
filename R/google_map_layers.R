@@ -26,49 +26,49 @@ add_markers <- function(map,
   ## - if a feature column (draggable/opacity, etc) is specified, but the
   ## data is null/incorrect
 
-  ## rename the cols so the javascript functions will see them
   if(is.null(lat))
     data <- latitude_column(data, lat, 'add_markers')
 
   if(is.null(lon))
     data <- longitude_column(data, lon, 'add_markers')
 
-  ## check columns
-  check_for_columns(data, c(title, draggable, opacity))
-
-  if(!is.null(title)){
-    #   names(data)[names(data) == title] <- "title"
-    ## must be character
-    data[, title] <- as.character(data[, title])
-  }
-
-  if(!is.null(opacity)){
-    # names(data)[names(data) == opacity] <- "opacity"
-    if(any(data$opacity < 0) | any(data$opacity > 1))
-      stop("opacity values must be between 0 and 1")
-  }
-
-  if(!is.null(draggable)){
-    #names(data)[names(data) == draggable] <- "draggable"
-    if(!is.logical(data$draggable))
-      stop("draggable values must be logical")
-  }
-
-  if(!is.null(label)){
-    #names(data)[names(data) == label] <- "label"
-    ## must be a string
-    data[, label] <- as.character(data[, label])
-  }
-
-  data <- correct_columns(data, c(title, opacity, draggable, label))
-
   ## TODO:
   ## - pass other arguments in as an object into javascript?
   ## that way, they can be NULL and ignored on the other side.
   ## - maker options - colour, etc
 
-  invoke_method(map, data, 'add_markers', data$lat, data$lng, data[, title],
-                data[, opacity], data[, draggable], data[, label])
+  ## check columns
+  cols <- list(title, draggable, opacity, label)
+  col_names <- list('title', 'draggable', 'opacity', 'label')
+  allowed_nulls <- c('title', 'draggable', 'opacity', 'label')
+  lst <- correct_columns(data, cols, col_names, allowed_nulls)
+
+  data <- lst$df
+  cols <- lst$cols
+
+  if(!is.null(title)){
+    data[, title] <- as.character(data[, title])
+  }
+
+  if(!is.null(draggable)){
+    if(!is.logical(data$draggable))
+      stop("draggable values must be logical")
+  }
+
+  if(!is.null(label)){
+    ## must be a string
+    data[, label] <- as.character(data[, label])
+  }
+
+  check_opacities(data, cols = unique(c(cols$opacity)))
+
+  invoke_method(map, data, 'add_markers',
+                data$lat,
+                data$lon,
+                data[, cols$title],
+                data[, cols$opacity],
+                data[, cols$draggable],
+                data[, cols$label])
 }
 
 #' clear markers
@@ -90,17 +90,24 @@ clear_markers <- function(map){
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
-#' @param radius string specifying the column of \code{data} containing the 'radius' of each circle
+#' @param radius either a string specifying the column of \code{data} containing the 'radius' of each circle, OR a numeric value specifying the radius of all the circles
+#' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, Or a valid hexadecimal numeric HTML style to be applied to all the circles
+#' @param stroke_opacity desc -- value between 0 and 1
+#' @param stroke_weight desc -- width of pixels in line
+#' @param fill_colour desc -- Colours should be indicated in hexadecimal numeric HTML style.
+#' @param fill_opacity desc -- value between 0 and 1
 #' @export
 add_circles <- function(map,
                         lat = NULL,
                         lon = NULL,
-                        radius = NULL,
+                        radius = 100,
+                        stroke_colour = '#FF0000',
+                        stroke_opacity = 0.8,
+                        stroke_weight = 2,
+                        fill_colour = '#FF0000',
+                        fill_opacity = 0.35,
                         data = get_map_data(map)
 ){
-
-  ## TODO:
-  ## circle options - radius, storke, opacity, etc.
 
   if(is.null(lat))
     data <- latitude_column(data, lat, 'add_circles')
@@ -109,19 +116,27 @@ add_circles <- function(map,
     data <- longitude_column(data, lon, 'add_circles')
 
   ## check columns
-  check_for_columns(data, c(radius))
+  cols <- list(radius, stroke_colour, stroke_opacity, stroke_weight, fill_colour, fill_opacity)
+  col_names <- list("radius", "stroke_colour", "stroke_opacity", "stroke_weight", "fill_colour", "fill_opacity")
+  allowed_nulls <- c()
+  lst <- correct_columns(data, cols, col_names, allowed_nulls)
 
-  if(!is.null(radius)){
-    if(!is.numeric(data[, radius]))
-      stop("radius must be numeric")
-  }
+  data <- lst$df
+  cols <- lst$cols
 
-  correct_columns(data, c(radius))
+  check_hex_colours(data, cols = unique(c(cols$stroke_colour, cols$fill_colour)))
+  check_opacities(data, cols = unique(c(cols$stroke_opacity, cols$fill_opacity)))
 
-  invoke_method(map, data, 'add_circles', data$lat, data$lng, data[, radius])
-
+  invoke_method(map, data, 'add_circles',
+                data$lat,
+                data$lon,
+                data[, cols$radius],
+                data[, cols$stroke_colour],
+                data[, cols$stroke_opacity],
+                data[, cols$stroke_weight],
+                data[, cols$fill_colour],
+                data[, cols$fill_opacity])
 }
-
 
 #' clear markers
 #'
@@ -130,7 +145,7 @@ add_circles <- function(map,
 #' @param map googleway map object
 #' @export
 clear_markers <- function(map){
-  invoke_method(map, data = NULL, 'clear_circles')
+  invoke_method(map, data = NULL, 'clear_markers')
 }
 
 
@@ -150,7 +165,7 @@ clear_markers <- function(map){
 add_heatmap <- function(map,
                         lat = NULL,
                         lon = NULL,
-                        weight = NULL,
+                        weight = 0.6,
                         data = get_map_data(map),
                         option_dissipating = FALSE,
                         # gradient = NULL,
@@ -167,13 +182,7 @@ add_heatmap <- function(map,
   if(is.null(lon))
     data <- longitude_column(data, lon, 'add_heatmap')
 
-  ## check columns
-  check_for_columns(data, c(weight))
-
-  ## if no heat provided, assume all == 1
-  if(is.null(weight))
-    data$weight <- 1
-
+  ## Heatmap Options
   if(!is.null(option_opacity))
     if(!is.numeric(option_opacity) | (option_opacity < 0 | option_opacity > 1))
       stop("option_opacity must be a numeric between 0 and 1")
@@ -185,15 +194,28 @@ add_heatmap <- function(map,
   ## Defaults
   # https://developers.google.com/maps/documentation/javascript/reference#HeatmapLayerOptions
 
-  correct_columns(data, c(weight))
+
+  ## check columns
+  cols <- list(weight)
+  col_names <- list("weight")
+  allowed_nulls <- c()
+  lst <- correct_columns(data, cols, col_names, allowed_nulls)
+
+  data <- lst$df
+  cols <- lst$cols
 
   heatmap_options <- data.frame(dissipating = option_dissipating,
                                 radius = option_radius,
                                 opacity = option_opacity)
 
-  invoke_method(map, data, 'add_heatmap', data$lat, data$lng, data[, weight],
-                heatmap_options)
+  invoke_method(map, data, 'add_heatmap',
+                data$lat,
+                data$lon,
+                data[, cols$weight],
+                heatmap_options
+                )
 }
+
 
 #' update heatmap
 #'
@@ -208,7 +230,7 @@ add_heatmap <- function(map,
 update_heatmap <- function(map,
                            lat = NULL,
                            lon = NULL,
-                           weight = NULL,
+                           weight = 0.6,
                            data = get_map_data(map)){
 
   ## rename the cols so the javascript functions will see them
@@ -219,15 +241,19 @@ update_heatmap <- function(map,
     data <- longitude_column(data, lon, 'update_heatmap')
 
   ## check columns
-  check_for_columns(data, c(weight))
+  cols <- list(weight)
+  col_names <- list("weight")
+  allowed_nulls <- c()
+  lst <- correct_columns(data, cols, col_names, allowed_nulls)
 
-  ## if no heat provided, assume all == 1
-  if(is.null(weight))
-    data$weight <- 1
+  data <- lst$df
+  cols <- lst$cols
 
-  correct_columns(data, c(weight))
-
-  invoke_method(map, data, 'update_heatmap', data$lat, data$lng, data$weight)
+  invoke_method(map, data, 'update_heatmap',
+                data$lat,
+                data$lon,
+                data[, cols$weight]
+                )
 
 }
 
@@ -315,86 +341,33 @@ clear_bicycling <- function(map){
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
 #' @export
 add_polyline <- function(map,
-                         lat = NULL,
-                         lon = NULL,
-                         data = get_map_data(map)){
-
-  ## TODO:
-  ## - handle mis-specified lat/lon column names
-  ## - other options - colours  ## rename the cols so the javascript functions will see them
-  if(is.null(lat))
-    data <- latitude_column(data, lat, 'add_polyline')
-
-  if(is.null(lon))
-    data <- longitude_column(data, lon, 'add_polyline')
-
-  ## if polyline already exists, add to it, don't overwrite
-  if(!is.null(map$x$polyline)){
-    ## already exist
-    map$x$polyline <- list(map$x$polyline, data)
-  }else{
-    map$x$polyline <- data
-  }
-  return(map)
+                        lat = NULL,
+                        lon = NULL,
+                        data = get_map_data(map)){
+#   ## TODO:
+#   ## polylines can be a list of data.frames with lat/lon columns
+#   ## or a shape file
+#   ## - other options - colours  ## rename the cols so the javascript functions will see them
+#   if(is.null(lat))
+#     data <- latitude_column(data, lat, 'add_polyline')
+#
+#   if(is.null(lon))
+#     data <- longitude_column(data, lon, 'add_polyline')
+#
+#   ## check columns
+#   cols <- list()
+#   col_names <- list()
+#   allowed_nulls <- c()
+#   lst <- correct_columns(data, cols, col_names, allowed_nulls)
+#
+#   data <- lst$df
+#   cols <- lst$cols
+#
+#   invoke_method(map, data, 'add_polyline',
+#                 data$lat,
+#                 data$lon
+#                 )
+#
 }
 
 
-latitude_column <- function(data, lat, calling_function){
-  if(is.null(lat)){
-    lat_col <- find_lat_column(names(data), calling_function)
-    names(data)[names(data) == lat_col[1]] <- "lat"
-  }else{
-    names(data)[names(data) == lat] <- "lat"
-  }
-  return(data)
-}
-
-longitude_column <- function(data, lon, calling_function){
-  if(is.null(lon)){
-    lon_col <- find_lon_column(names(data), calling_function)
-    names(data)[names(data) == lon_col[1]] <- "lng"
-  }else{
-    names(data)[names(data) == lon] <- "lng"
-  }
-  return(data)
-}
-
-
-find_lat_column = function(names, calling_function, stopOnFailure = TRUE) {
-
-  lats = names[grep("^(lat|lats|latitude|latitudes)$", names, ignore.case = TRUE)]
-
-  if (length(lats) == 1) {
-    # if (length(names) > 1) {
-    #   message("Assuming '", lats, " is the latitude column")
-    # }
-    ## passes
-    return(list(lat = lats))
-  }
-
-  if (stopOnFailure) {
-    stop(paste0("Couldn't infer latitude column for ", calling_function))
-  }
-
-  list(lat = NA)
-}
-
-
-find_lon_column = function(names, calling_function, stopOnFailure = TRUE) {
-
-  lons = names[grep("^(lon|lons|lng|lngs|long|longs|longitude|longitudes)$", names, ignore.case = TRUE)]
-
-  if (length(lons) == 1) {
-    # if (length(names) > 1) {
-    #   message("Assuming '", lons, " is the longitude column")
-    # }
-    ## passes
-    return(list(lon = lons))
-  }
-
-  if (stopOnFailure) {
-    stop(paste0("Couldn't infer longitude columns for ", calling_function))
-  }
-
-  list(lon = NA)
-}
