@@ -7,7 +7,7 @@
 clear_bicycling(map)
 }
 \arguments{
-\item{map}{a googleway map object}
+\item{map}{a googleway map object created from \code{google_map()}}
 }
 \description{
 Clears bicycle route layer from map

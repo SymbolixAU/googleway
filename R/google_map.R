@@ -1,19 +1,20 @@
 #' Google map
 #'
-#' Generates a google map object. Will only work with a valid key
+#' Generates a google map object
 #'
-#' @import jsonlite
 #' @import htmlwidgets
 #' @import htmltools
+#' @import shiny
 #'
 #' @param key A valid Google Maps API key
-#' @param location numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the map
+#' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.
+#' @param location numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the map. If null, the map will default to Melbourne, Australia.
 #' @param zoom numeric integer representing the zoom level of the map (0 is fully zoomed out)
-#' @param width desc
-#' @param height desc
-#' @param padding desc
+#' @param width the width of the map
+#' @param height the height of the map
+#' @param padding the padding of the map
 #' @param styles JSON string representation of a valid Google Maps Style Array.
-#' @param place_search desc
+#' @param search_box \code{boolean} indicating if a search box should be placed on the map
 #' @examples
 #' \dontrun{
 #'
@@ -31,9 +32,11 @@
 #'  add_heatmap() %>%
 #'  add_traffic()
 #'
-#' ## style map using 'paper' style
-#' style <- '[{"featureType":"administrative","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"all","stylers":[{"visibility":"simplified"},{"hue":"#0066ff"},{"saturation":74},{"lightness":100}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"off"},{"weight":0.6},{"saturation":-85},{"lightness":61}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"on"}]},{"featureType":"road.arterial","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road.local","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"water","elementType":"all","stylers":[{"visibility":"simplified"},{"color":"#5f94ff"},{"lightness":26},{"gamma":5.86}]}]'
-#'
+#' ## style map using 'cobalt simplified' style
+#' style <- '[{"featureType":"all","elementType":"all","stylers":[{"invert_lightness":true},
+#' {"saturation":10},{"lightness":30},{"gamma":0.5},{"hue":"#435158"}]},
+#' {"featureType":"road.arterial","elementType":"all","stylers":[{"visibility":"simplified"}]},
+#' {"featureType":"transit.station","elementType":"labels.text","stylers":[{"visibility":"off"}]}]'
 #' google_map(key = map_key, styles = style)
 #'
 #' }
@@ -48,7 +51,7 @@ google_map <- function(key,
                        height = NULL,
                        padding = 0,
                        styles = NULL,
-                       place_search = FALSE) {
+                       search_box = FALSE) {
 
   ## TODO:
   ## centre map according to data/user location?
@@ -58,7 +61,7 @@ google_map <- function(key,
 
   # key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_MAP_KEY"))
   if(is.null(location))
-    location <- c(-37.9, 144.5)
+    location <- c(-37.9, 144.5)  ## Melbourne, Australia
 
   if(is.null(zoom))
     zoom <- 8
@@ -69,7 +72,7 @@ google_map <- function(key,
     lng = location[2],
     zoom = zoom,
     styles = styles,
-    place_search = place_search
+    search_box = search_box
   )
 
   # create widget
@@ -91,14 +94,14 @@ google_map <- function(key,
     )
   )
 
-  if(place_search == TRUE){
+  if(search_box == TRUE){
     header <- paste0('<script src="https://maps.googleapis.com/maps/api/js?key=',
                      key, '&libraries=visualization,places"></script>')
   }else{
     header <- paste0('<script src="https://maps.googleapis.com/maps/api/js?key=',
                      key, '&libraries=visualization"></script>')
   }
-  header_script <-
+
   googlemap$dependencies <- c(
     googlemap$dependencies,
     list(

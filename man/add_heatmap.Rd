@@ -4,7 +4,7 @@
 \alias{add_heatmap}
 \title{Add heatmap}
 \usage{
-add_heatmap(map, lat = NULL, lon = NULL, weight = NULL,
+add_heatmap(map, lat = NULL, lon = NULL, weight = 0.6,
   data = get_map_data(map), option_dissipating = FALSE,
   option_radius = 10, option_opacity = 0.6)
 }
@@ -17,7 +17,7 @@ add_heatmap(map, lat = NULL, lon = NULL, weight = NULL,
 
 \item{weight}{string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.}
 
-\item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.}
+\item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.}
 
 \item{option_dissipating}{logical Specifies whether heatmaps dissipate on zoom. By default, the radius of influence of a data point is specified by the radius option only. When dissipating is disabled, the radius option is interpreted as a radius at zoom level 0.}
 
@@ -27,5 +27,22 @@ add_heatmap(map, lat = NULL, lon = NULL, weight = NULL,
 }
 \description{
 Adds a heatmap to a google map
+}
+\examples{
+\dontrun{
+
+#' df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
+-37.8191299438477, -37.8187675476074, -37.8186187744141, -37.8181076049805
+), lon = c(144.968612670898, 144.968414306641, 144.968139648438,
+144.967971801758, 144.967864990234, 144.967636108398), weight = c(31.5698964400217,
+97.1629025738221, 58.9051092562731, 76.3215389118996, 37.8982300488278,
+77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
+"lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
+
+library(magrittr)
+google_map(key = map_key, data = df_line) \%>\%
+ add_heatmap(lat = "lat", lon = "lon", weight = "weight")
+
+ }
 }
 

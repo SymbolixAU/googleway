@@ -9,7 +9,7 @@
 #   dashboardSidebar(),
 #   dashboardBody(
 #     sliderInput(inputId = "slider", label = "heat",
-#                 min = 0, max = 100, value = 50),
+#                 min = 0, max = 100, value = 50, animate = T),
 #     actionButton(inputId = "traffic", label = "traffic"),
 #     box(width = 10,
 #         height = 600,
@@ -32,34 +32,35 @@
 #    output$myMap <- renderGoogle_map({
 #
 #     google_map(key = map_key, data = df_line, place_search = T) %>%
-#       add_markers(lat = "laty", lon = "lony")
+#       add_heatmap(lat = "laty", lon = "lony", weight = "weight") %>%
+#        add_traffic()
 #
 #   })
 #
 #   observe({
 #
 #     df <- df_line[df_line$weight >= (input$slider - 1), ]
-#     print(nrow(df))
 #
 #     google_map_update(map_id = "myMap") %>%
-#       clear_markers() %>%
-#       add_markers(data = df, lat = "laty", lon = "lony")
+#       update_heatmap(data = df, lat = "laty", lon = "lony", weight = "weight")
+#       #clear_markers() %>%
+#       #add_markers(data = df, lat = "laty", lon = "lony")
 #
 #       # update_heatmap(data = df)
 #   })
 #
-#   # observe({
-#   #   if(input$traffic){
-#   #
-#   #     if(as.numeric(input$traffic) %% 2 == 0){
-#   #       google_map_update(map_id = 'myMap') %>%
-#   #         add_traffic()
-#   #     }else{
-#   #       google_map_update(map_id = 'myMap') %>%
-#   #         clear_traffic()
-#   #     }
-#   #   }
-#   # })
+#   observe({
+#     if(input$traffic){
+#
+#       if(as.numeric(input$traffic) %% 2 == 0){
+#         google_map_update(map_id = 'myMap') %>%
+#           add_traffic()
+#       }else{
+#         google_map_update(map_id = 'myMap') %>%
+#           clear_traffic()
+#       }
+#     }
+#   })
 #
 # }
 #

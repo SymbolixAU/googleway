@@ -7,7 +7,7 @@
 clear_traffic(map)
 }
 \arguments{
-\item{map}{a googleway map object}
+\item{map}{a googleway map object created from \code{google_map()}}
 }
 \description{
 Clears traffic layer from map

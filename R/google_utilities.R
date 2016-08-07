@@ -4,8 +4,8 @@
 #'
 #' @param map_id string The output ID of the map in a shiny application
 #' @param session the Shiny session object to which the map belongs; usually the default value will suffice
-#' @param data
-#' @param deferUntilFlush
+#' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.
+#' @param deferUntilFlush indicates whether actions performed against this instance should be carried out right away, or whether they should be held until after the next time all of the outputs are updated; defaults to TRUE
 #' @export
 google_map_update <- function(map_id,
                               session = shiny::getDefaultReactiveDomain(),
@@ -32,9 +32,10 @@ google_map_update <- function(map_id,
 }
 
 
-# This will be very similar to Leaflet for now, while I figure out what's going on.
+# These functions will be very similar to Leaflet
 
-
+#' Google dispatch
+#'
 #' Extension points for plugins
 #'
 #' @param map a map object, as returned from \code{\link{google_map}}
@@ -42,6 +43,8 @@ google_map_update <- function(map_id,
 #'   this \code{google_dispatch} call; for error message purposes
 #' @param google_map an action to be performed if the map is from
 #'   \code{\link{google_map}}
+#' @param google_map_update an action to be performed if the map is from
+#'   \code{\link{google_map_update}}
 #'
 #' @return \code{google_dispatch} returns the value of \code{google_map} or
 #' or an error. \code{invokeMethod} returns the
@@ -50,13 +53,13 @@ google_map_update <- function(map_id,
 #' @export
 google_dispatch = function(map,
                            funcName,
-                           googlemap = stop(paste(funcName, "requires a map update object")),
-                           googlemap_update = stop(paste(funcName, "does not support map udpate objects"))
+                           google_map = stop(paste(funcName, "requires a map update object")),
+                           google_map_update = stop(paste(funcName, "does not support map udpate objects"))
 ) {
   if (inherits(map, "google_map"))
-    return(googlemap)
+    return(google_map)
   else if (inherits(map, "google_map_update"))
-    return(googlemap_update)
+    return(google_map_update)
   else
     stop("Invalid map parameter")
 }
@@ -73,7 +76,7 @@ invoke_method = function(map, data, method, ...) {
 
   google_dispatch(map,
                   method,
-                  googlemap = {
+                  google_map = {
                     x = map$x$calls
                     if (is.null(x)) x = list()
                     n = length(x)
@@ -81,7 +84,7 @@ invoke_method = function(map, data, method, ...) {
                     map$x$calls = x
                     map
                   },
-                  googlemap_update = {
+                  google_map_update = {
                     invoke_remote(map, method, args)
                   }
   )
@@ -207,7 +210,7 @@ correct_columns <- function(df, cols, col_names, allowed_nulls = c()){
   }
 
   ## all correct columns have been created
-  cols <- setNames(cols, col_names)
+  cols <- stats::setNames(cols, col_names)
 
   return(list(df = df, cols = cols))
 }

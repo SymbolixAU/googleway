@@ -3,10 +3,10 @@
 \name{google_dispatch}
 \alias{google_dispatch}
 \alias{invoke_method}
-\title{Extension points for plugins}
+\title{Google dispatch}
 \usage{
-google_dispatch(map, funcName, googlemap = stop(paste(funcName,
-  "requires a map update object")), googlemap_update = stop(paste(funcName,
+google_dispatch(map, funcName, google_map = stop(paste(funcName,
+  "requires a map update object")), google_map_update = stop(paste(funcName,
   "does not support map udpate objects")))
 
 invoke_method(map, data, method, ...)
@@ -17,15 +17,18 @@ invoke_method(map, data, method, ...)
 \item{funcName}{the name of the function that the user called that caused
 this \code{google_dispatch} call; for error message purposes}
 
+\item{google_map}{an action to be performed if the map is from
+\code{\link{google_map}}}
+
+\item{google_map_update}{an action to be performed if the map is from
+\code{\link{google_map_update}}}
+
 \item{data}{a data object that will be used when evaluating formulas in
 \code{...}}
 
 \item{method}{the name of the JavaScript method to invoke}
 
 \item{...}{unnamed arguments to be passed to the JavaScript method}
-
-\item{google_map}{an action to be performed if the map is from
-\code{\link{google_map}}}
 }
 \value{
 \code{google_dispatch} returns the value of \code{google_map} or

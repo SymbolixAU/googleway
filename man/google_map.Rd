@@ -5,27 +5,29 @@
 \title{Google map}
 \usage{
 google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
-  height = NULL, padding = 0, styles = NULL, place_search = FALSE)
+  height = NULL, padding = 0, styles = NULL, search_box = FALSE)
 }
 \arguments{
 \item{key}{A valid Google Maps API key}
 
-\item{location}{numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the map}
+\item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.}
+
+\item{location}{numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the map. If null, the map will default to Melbourne, Australia.}
 
 \item{zoom}{numeric integer representing the zoom level of the map (0 is fully zoomed out)}
 
-\item{width}{desc}
+\item{width}{the width of the map}
 
-\item{height}{desc}
+\item{height}{the height of the map}
 
-\item{padding}{desc}
+\item{padding}{the padding of the map}
 
 \item{styles}{JSON string representation of a valid Google Maps Style Array.}
 
-\item{place_search}{desc}
+\item{search_box}{\code{boolean} indicating if a search box should be placed on the map}
 }
 \description{
-Generates a google map object. Will only work with a valid key
+Generates a google map object
 }
 \examples{
 \dontrun{
@@ -44,9 +46,11 @@ google_map(key = map_key, data = df_line) \%>\%
  add_heatmap() \%>\%
  add_traffic()
 
-## style map using 'paper' style
-style <- '[{"featureType":"administrative","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"all","stylers":[{"visibility":"simplified"},{"hue":"#0066ff"},{"saturation":74},{"lightness":100}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"off"},{"weight":0.6},{"saturation":-85},{"lightness":61}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"on"}]},{"featureType":"road.arterial","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road.local","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"water","elementType":"all","stylers":[{"visibility":"simplified"},{"color":"#5f94ff"},{"lightness":26},{"gamma":5.86}]}]'
-
+## style map using 'cobalt simplified' style
+style <- '[{"featureType":"all","elementType":"all","stylers":[{"invert_lightness":true},
+{"saturation":10},{"lightness":30},{"gamma":0.5},{"hue":"#435158"}]},
+{"featureType":"road.arterial","elementType":"all","stylers":[{"visibility":"simplified"}]},
+{"featureType":"transit.station","elementType":"labels.text","stylers":[{"visibility":"off"}]}]'
 google_map(key = map_key, styles = style)
 
 }

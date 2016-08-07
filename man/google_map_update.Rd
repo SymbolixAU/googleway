@@ -11,6 +11,10 @@ google_map_update(map_id, session = shiny::getDefaultReactiveDomain(),
 \item{map_id}{string The output ID of the map in a shiny application}
 
 \item{session}{the Shiny session object to which the map belongs; usually the default value will suffice}
+
+\item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.}
+
+\item{deferUntilFlush}{indicates whether actions performed against this instance should be carried out right away, or whether they should be held until after the next time all of the outputs are updated; defaults to TRUE}
 }
 \description{
 Update a map in a shiny app. Use this function whenever the map needs to respond to reactive content.

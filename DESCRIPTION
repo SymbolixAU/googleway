@@ -17,7 +17,8 @@ Imports:
     jsonlite (>= 0.9.20),
     curl,
     htmlwidgets,
-    htmltools
+    htmltools,
+    shiny
 LinkingTo: Rcpp
 RoxygenNote: 5.0.1
 BugReports: https://github.com/SymbolixAU/googleway/issues
