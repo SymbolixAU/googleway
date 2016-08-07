@@ -83,8 +83,6 @@ add_markers <- function(map,
   }
 
   check_opacities(data, cols = unique(c(cols$opacity)))
-  print(data)
-  print(cols)
   invoke_method(map, data, 'add_markers',
                 data[, lat],
                 data[, lon],
@@ -322,7 +320,7 @@ update_heatmap <- function(map,
 
   data <- lst$df
   cols <- lst$cols
-  print(data)
+
   invoke_method(map, data, 'update_heatmap',
                 data[, lat],
                 data[, lon],
