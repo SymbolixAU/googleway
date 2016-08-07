@@ -82,7 +82,6 @@ HTMLWidgets.widget({
               });
 
               window[el.id + 'map'] = map;
-
               initialise_map(el, x);
             };
           }
@@ -131,6 +130,14 @@ if (HTMLWidgets.shinyMode) {
 
 function add_markers(map_id, lat, lng, title, opacity, draggable, label){
 
+  lat = [].concat(lat);
+  lng = [].concat(lng);
+  title = [].concat(title);
+  opacity = [].concat(opacity);
+  draggable = [].concat(draggable);
+  label = [].concat(label);
+  console.log(title);
+
   var i;
   for (i = 0; i < lat.length; i++) {
 
@@ -161,6 +168,10 @@ function clear_markers(map_id){
 
 
 function add_heatmap(map_id, lat, lng, weight, heatmap_options){
+
+  lat = [].concat(lat);
+  lng = [].concat(lng);
+  weight = [].concat(weight);
 
   //heat = HTMLWidgets.dataframeToD3(data_heatmap);
   heat_options = HTMLWidgets.dataframeToD3(heatmap_options);
@@ -196,6 +207,10 @@ function add_heatmap(map_id, lat, lng, weight, heatmap_options){
 }
 
 function update_heatmap(map_id, lat, lng, weight){
+
+  lat = [].concat(lat);
+  lng = [].concat(lng);
+  weight = [].concat(weight);
 
   // update the heatmap array
   window[map_id + 'googleHeatmapLayerMVC'].clear();
@@ -253,20 +268,29 @@ function clear_transit(map_id){
 
 function add_circles(map_id, lat, lng, radius, stroke_colour, stroke_opacity, stroke_weight, fill_colour, fill_opacity){
 
-    //circles = HTMLWidgets.dataframeToD3(data_circles);
-    var i;
-    for (i = 0; i < lat.length; i++) {
-      var latlon = new google.maps.LatLng(lat[i], lng[i]);
+  lat = [].concat(lat);
+  lng = [].concat(lng);
+  radius = [].concat(radius);
+  stroke_colour = [].concat(stroke_colour);
+  stroke_opacity = [].concat(stroke_opacity);
+  stroke_weight = [].concat(stroke_weight);
+  fill_colour = [].concat(fill_colour);
+  fill_opacity = [].concat(fill_opacity);
 
-      var circle = new google.maps.Circle({
-            strokeColor: stroke_colour[i],
-            strokeOpacity: stroke_opacity[i],
-            strokeWeight: stroke_weight[i],
-            fillColor: fill_colour[i],
-            fillOpacity: fill_opacity[i],
-            center: latlon,
-            radius: radius[i]
-          });
+  //circles = HTMLWidgets.dataframeToD3(data_circles);
+  var i;
+  for (i = 0; i < lat.length; i++) {
+    var latlon = new google.maps.LatLng(lat[i], lng[i]);
+
+    var circle = new google.maps.Circle({
+          strokeColor: stroke_colour[i],
+          strokeOpacity: stroke_opacity[i],
+          strokeWeight: stroke_weight[i],
+          fillColor: fill_colour[i],
+          fillOpacity: fill_opacity[i],
+          center: latlon,
+          radius: radius[i]
+        });
 
       window[map_id + 'googleCircles'].push(circle);
       circle.setMap(window[map_id + 'map']);

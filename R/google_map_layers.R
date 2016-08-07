@@ -42,6 +42,8 @@ add_markers <- function(map,
   ## - if a feature column (draggable/opacity, etc) is specified, but the
   ## data is null/incorrect
 
+  data <- as.data.frame(data)
+
   if(is.null(lat)){
     data <- latitude_column(data, lat, 'add_markers')
     lat <- "lat"
@@ -81,7 +83,8 @@ add_markers <- function(map,
   }
 
   check_opacities(data, cols = unique(c(cols$opacity)))
-
+  print(data)
+  print(cols)
   invoke_method(map, data, 'add_markers',
                 data[, lat],
                 data[, lon],
@@ -143,6 +146,8 @@ add_circles <- function(map,
                         stroke_weight = 2,
                         fill_colour = '#FF0000',
                         fill_opacity = 0.35){
+
+  data <- as.data.frame(data)
 
   if(is.null(lat)){
     data <- latitude_column(data, lat, 'add_circles')
@@ -232,6 +237,8 @@ add_heatmap <- function(map,
   ## - gradient
   ## - max intensity
 
+  data <- as.data.frame(data)
+
   ## rename the cols so the javascript functions will see them
   if(is.null(lat)){
     data <- latitude_column(data, lat, 'add_heatmap')
@@ -294,6 +301,8 @@ update_heatmap <- function(map,
                            lon = NULL,
                            weight = 0.6){
 
+  data <- as.data.frame(data)
+
   ## rename the cols so the javascript functions will see them
   if(is.null(lat)){
     data <- latitude_column(data, lat, 'update_heatmap')
@@ -313,7 +322,7 @@ update_heatmap <- function(map,
 
   data <- lst$df
   cols <- lst$cols
-
+  print(data)
   invoke_method(map, data, 'update_heatmap',
                 data[, lat],
                 data[, lon],

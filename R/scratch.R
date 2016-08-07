@@ -29,16 +29,15 @@
 # df_line$weight <- runif(nrow(df_line), min = 1, max = 100)
 # # df_line$weight <- row.names(df_line)
 # df_line$opacity <- 0.2
+# setDT(df_line)
+# setnames(df_line, "lat", "laty")
 #
 #    output$myMap <- renderGoogle_map({
 #
-#
-# dt_timetable_train <- readRDS("~/Documents/Data/dt_timetable_train.rds")
-#
-    # google_map(key = map_key, data = dt_timetable_train[1], search_box = F) %>%
-    #   add_markers(lat = "stop_lat", lon = "stop_lon")
-#
-#
+#     print(df_line[1, ])
+#     google_map(key = map_key, data = df_line[1,], search_box = F) %>%
+#       add_markers(lat = "laty", title = "opacity") %>%
+#       add_heatmap(weight = "weight", lat = "laty")
 #
 #   })
 #
@@ -46,8 +45,8 @@
 #
 #     df <- df_line[df_line$weight >= (input$slider - 1), ]
 #
-#     google_map_update(map_id = "myMap") %>%
-#       update_heatmap(data = df, lat = "laty", lon = "lony", weight = "weight")
+#     #google_map_update(map_id = "myMap") %>%
+#      # update_heatmap()
 #       #clear_markers() %>%
 #       #add_markers(data = df, lat = "laty", lon = "lony")
 #
