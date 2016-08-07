@@ -3,6 +3,7 @@
 # library(magrittr)
 # library(leaflet)
 # library(googleway)
+# library(data.table)
 #
 # ui <- dashboardPage(
 #   dashboardHeader(),
@@ -31,9 +32,13 @@
 #
 #    output$myMap <- renderGoogle_map({
 #
-#     google_map(key = map_key, data = df_line, place_search = T) %>%
-#       add_heatmap(lat = "laty", lon = "lony", weight = "weight") %>%
-#        add_traffic()
+#
+# dt_timetable_train <- readRDS("~/Documents/Data/dt_timetable_train.rds")
+#
+    # google_map(key = map_key, data = dt_timetable_train[1], search_box = F) %>%
+    #   add_markers(lat = "stop_lat", lon = "stop_lon")
+#
+#
 #
 #   })
 #

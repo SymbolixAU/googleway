@@ -42,11 +42,15 @@ add_markers <- function(map,
   ## - if a feature column (draggable/opacity, etc) is specified, but the
   ## data is null/incorrect
 
-  if(is.null(lat))
+  if(is.null(lat)){
     data <- latitude_column(data, lat, 'add_markers')
+    lat <- "lat"
+  }
 
-  if(is.null(lon))
+  if(is.null(lon)){
     data <- longitude_column(data, lon, 'add_markers')
+    lon <- "lng"
+  }
 
   ## TODO:
   ## - pass other arguments in as an object into javascript?
@@ -79,8 +83,8 @@ add_markers <- function(map,
   check_opacities(data, cols = unique(c(cols$opacity)))
 
   invoke_method(map, data, 'add_markers',
-                data$lat,
-                data$lon,
+                data[, lat],
+                data[, lon],
                 data[, cols$title],
                 data[, cols$opacity],
                 data[, cols$draggable],
@@ -140,11 +144,15 @@ add_circles <- function(map,
                         fill_colour = '#FF0000',
                         fill_opacity = 0.35){
 
-  if(is.null(lat))
+  if(is.null(lat)){
     data <- latitude_column(data, lat, 'add_circles')
+    lat <- "lat"
+  }
 
-  if(is.null(lon))
+  if(is.null(lon)){
     data <- longitude_column(data, lon, 'add_circles')
+    lon <- "lng"
+  }
 
   ## check columns
   cols <- list(radius, stroke_colour, stroke_opacity, stroke_weight, fill_colour, fill_opacity)
@@ -159,8 +167,8 @@ add_circles <- function(map,
   check_opacities(data, cols = unique(c(cols$stroke_opacity, cols$fill_opacity)))
 
   invoke_method(map, data, 'add_circles',
-                data$lat,
-                data$lon,
+                data[, lat],
+                data[, lon],
                 data[, cols$radius],
                 data[, cols$stroke_colour],
                 data[, cols$stroke_opacity],
@@ -225,11 +233,15 @@ add_heatmap <- function(map,
   ## - max intensity
 
   ## rename the cols so the javascript functions will see them
-  if(is.null(lat))
+  if(is.null(lat)){
     data <- latitude_column(data, lat, 'add_heatmap')
+    lat <- "lat"
+  }
 
-  if(is.null(lon))
+  if(is.null(lon)){
     data <- longitude_column(data, lon, 'add_heatmap')
+    lon <- "lng"
+  }
 
   ## Heatmap Options
   if(!is.null(option_opacity))
@@ -258,8 +270,8 @@ add_heatmap <- function(map,
                                 opacity = option_opacity)
 
   invoke_method(map, data, 'add_heatmap',
-                data$lat,
-                data$lon,
+                data[, lat],
+                data[, lon],
                 data[, cols$weight],
                 heatmap_options
                 )
@@ -283,11 +295,15 @@ update_heatmap <- function(map,
                            weight = 0.6){
 
   ## rename the cols so the javascript functions will see them
-  if(is.null(lat))
+  if(is.null(lat)){
     data <- latitude_column(data, lat, 'update_heatmap')
+    lat <- "lat"
+  }
 
-  if(is.null(lon))
+  if(is.null(lon)){
     data <- longitude_column(data, lon, 'update_heatmap')
+    lon <- "lng"
+  }
 
   ## check columns
   cols <- list(weight)
@@ -299,8 +315,8 @@ update_heatmap <- function(map,
   cols <- lst$cols
 
   invoke_method(map, data, 'update_heatmap',
-                data$lat,
-                data$lon,
+                data[, lat],
+                data[, lon],
                 data[, cols$weight]
                 )
 
