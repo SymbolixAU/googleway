@@ -18,6 +18,7 @@
 #' @param region string Specifies the region code, specified as a ccTLD ("top-level domain"). See region basing for details \url{https://developers.google.com/maps/documentation/directions/intro#RegionBiasing}
 #' @param key string A valid Google Developers Distance API key
 #' @param simplify logical Inidicates if the returned JSON should be coerced into a list
+#' @param curl_proxy a curl proxy object
 #' @return Either list or JSON string of the distance between origins and destinations
 #' @examples
 #' \dontrun{
@@ -47,7 +48,8 @@ google_distance <- function(origins,
                             language = NULL,
                             region = NULL,
                             key,
-                            simplify = TRUE){
+                            simplify = TRUE,
+                            curl_proxy = NULL){
 
   directions_data(base_url = "https://maps.googleapis.com/maps/api/distancematrix/json?",
                 information_type = "distance",
@@ -67,6 +69,7 @@ google_distance <- function(origins,
                 language,
                 region,
                 key,
-                simplify)
+                simplify,
+                curl_proxy)
 
 }

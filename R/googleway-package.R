@@ -25,7 +25,8 @@ directions_data <- function(base_url,
                             language = NULL,
                             region = NULL,
                             key,
-                            simplify = TRUE){
+                            simplify = TRUE,
+                            curl_proxy = NULL){
 
   ## parameter check
   if(is.null(key))
@@ -185,12 +186,12 @@ directions_data <- function(base_url,
   if(length(map_url) > 1)
     stop("invalid map_url")
 
-  return(fun_download_data(map_url, simplify))
+  return(fun_download_data(map_url, simplify, curl_proxy))
 
 }
 
 
-fun_download_data <- function(map_url, simplify){
+fun_download_data <- function(map_url, simplify, curl_proxy = NULL){
 
   ## check map_url is valid
   if(length(map_url) > 1)
@@ -199,6 +200,14 @@ fun_download_data <- function(map_url, simplify){
   ## check for a valid connection
   if(curl::has_internet() == FALSE)
     stop("Can not retrieve results. No valid internet connection (tested using curl::has_internet() )")
+
+  ## if a proxy has been passed in, use it
+  if(!is.null(curl_proxy)){
+    con <- curl_proxy(map_url)
+    out <- readLines(con)
+    close(con)
+    return(out)
+  }
 
   if(simplify == TRUE){
     out <- jsonlite::fromJSON(map_url)

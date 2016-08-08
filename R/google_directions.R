@@ -19,6 +19,7 @@
 #' @param region string Specifies the region code, specified as a ccTLD ("top-level domain"). See region basing for details \url{https://developers.google.com/maps/documentation/directions/intro#RegionBiasing}
 #' @param key string A valid Google Developers Directions API key
 #' @param simplify logical Inidicates if the returned JSON should be coerced into a list
+#' @param curl_proxy a curl proxy object
 #' @return Either list or JSON string of the route between origin and destination
 #' @examples
 #' \dontrun{
@@ -97,7 +98,8 @@ google_directions <- function(origin,
                               language = NULL,
                               region = NULL,
                               key,
-                              simplify = TRUE){
+                              simplify = TRUE,
+                              curl_proxy = NULL){
 
   directions_data(base_url = "https://maps.googleapis.com/maps/api/directions/json?",
                 information_type = "directions",
@@ -117,7 +119,8 @@ google_directions <- function(origin,
                 language,
                 region,
                 key,
-                simplify)
+                simplify,
+                curl_proxy)
 
 }
 
