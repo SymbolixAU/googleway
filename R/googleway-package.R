@@ -206,6 +206,9 @@ fun_download_data <- function(map_url, simplify, curl_proxy = NULL){
     con <- curl_proxy(map_url)
     out <- readLines(con)
     close(con)
+    if(simplify == TRUE){
+      out <- jsonlite::fromJSON(out)
+    }
     return(out)
   }
 
