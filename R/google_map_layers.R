@@ -234,6 +234,9 @@ add_heatmap <- function(map,
   ## TODO
   ## - gradient
   ## - max intensity
+  ## - allow columns to be used for other options
+  ## -- e.g., allow a column called 'opacity' to be used as a 'title'
+  ## -- rather than 'correct' it
 
   data <- as.data.frame(data)
 
