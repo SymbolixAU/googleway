@@ -128,7 +128,7 @@ if (HTMLWidgets.shinyMode) {
 }
 
 
-function add_markers(map_id, lat, lng, title, opacity, draggable, label){
+function add_markers(map_id, lat, lng, title, opacity, draggable, label, info_window){
 
   lat = [].concat(lat);
   lng = [].concat(lng);
@@ -136,12 +136,14 @@ function add_markers(map_id, lat, lng, title, opacity, draggable, label){
   opacity = [].concat(opacity);
   draggable = [].concat(draggable);
   label = [].concat(label);
-  console.log(title);
+  info_window = [].concat(info_window);
+  console.log(info_window);
 
   var i;
   for (i = 0; i < lat.length; i++) {
 
     var latlon = new google.maps.LatLng(lat[i], lng[i]);
+
 
     var marker = new google.maps.Marker({
       position: latlon,
@@ -150,6 +152,17 @@ function add_markers(map_id, lat, lng, title, opacity, draggable, label){
       title: title[i],
       label: label[i]
     });
+
+    if(info_window[i] !== 'undefined'){
+      var infowindow = new google.maps.InfoWindow({
+        content: info_window[i]
+      });
+
+      marker.addListener('click', function() {
+          infowindow.open(window[map_id + 'map'], marker);
+        });
+    }
+
 
     window[map_id + 'googleMarkers'].push(marker);
     marker.setMap(window[map_id + 'map']);

@@ -10,6 +10,7 @@
 #' @param draggable string specifying the column of \code{data} defining if the marker is 'draggable' (either TRUE or FALSE)
 #' @param opacity string specifying the column of \code{data} defining the 'opacity' of the maker. Values must be between 0 and 1 (inclusive).
 #' @param label string specifying the column of \code{data} defining the character to appear in the centre of the marker. Values will be coerced to strings, and only the first character will be used.
+#' @param info_window string specifying the column of \code{data} containing the text to appear in a pop-up info window above a marker
 #' @examples
 #' \dontrun{
 #'
@@ -34,7 +35,8 @@ add_markers <- function(map,
                         title = NULL,
                         draggable = NULL,
                         opacity = NULL,
-                        label = NULL)
+                        label = NULL,
+                        info_window = NULL)
 {
 
   ## TODO:
@@ -60,9 +62,9 @@ add_markers <- function(map,
   ## - maker options - colour, etc
 
   ## check columns
-  cols <- list(title, draggable, opacity, label)
-  col_names <- list('title', 'draggable', 'opacity', 'label')
-  allowed_nulls <- c('title', 'draggable', 'opacity', 'label')
+  cols <- list(title, draggable, opacity, label, info_window)
+  col_names <- list('title', 'draggable', 'opacity', 'label', 'info_window')
+  allowed_nulls <- c('title', 'draggable', 'opacity', 'label', 'info_window')
   lst <- correct_columns(data, cols, col_names, allowed_nulls)
 
   data <- lst$df
@@ -82,14 +84,21 @@ add_markers <- function(map,
     data[, label] <- as.character(data[, label])
   }
 
+  if(!is.null(info_window)){
+    ## must be a string
+    data[, info_window] <- as.character(data[, info_window])
+  }
+
   check_opacities(data, cols = unique(c(cols$opacity)))
+
   invoke_method(map, data, 'add_markers',
                 data[, lat],
                 data[, lon],
                 data[, cols$title],
                 data[, cols$opacity],
                 data[, cols$draggable],
-                data[, cols$label])
+                data[, cols$label],
+                data[, cols$info_window])
 }
 
 #' clear markers
