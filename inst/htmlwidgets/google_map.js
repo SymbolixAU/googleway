@@ -18,6 +18,7 @@ HTMLWidgets.widget({
           window[el.id + 'googleCircles'] = [];
           window[el.id + 'googlePolyline'] = [];
 
+          window[el.id + 'googleBounds'] = [];
 
           // visualisation layers
           window[el.id + 'googleTrafficLayer'] = [];
@@ -137,13 +138,13 @@ function add_markers(map_id, lat, lng, title, opacity, draggable, label, info_wi
   draggable = [].concat(draggable);
   label = [].concat(label);
   info_window = [].concat(info_window);
-  console.log(info_window);
 
   var i;
+  var bounds = new google.maps.LatLngBounds();
+
   for (i = 0; i < lat.length; i++) {
 
     var latlon = new google.maps.LatLng(lat[i], lng[i]);
-
 
     var marker = new google.maps.Marker({
       position: latlon,
@@ -163,14 +164,16 @@ function add_markers(map_id, lat, lng, title, opacity, draggable, label, info_wi
         });
     }
 
-
+    bounds.extend(latlon);
     window[map_id + 'googleMarkers'].push(marker);
     marker.setMap(window[map_id + 'map']);
   }
+
+  window[map_id + 'googleBounds'].push(bounds);
+  window[map_id + 'map'].fitBounds(bounds);
 }
 
 function clear_markers(map_id){
-  console.log("clear markers");
 
   // the markers know which map they're on
   // http://stackoverflow.com/questions/7961522/removing-a-marker-in-google-maps-api-v3

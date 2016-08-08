@@ -8,7 +8,7 @@
 #'
 #' @param key A valid Google Maps API key
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.
-#' @param location numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the map. If null, the map will default to Melbourne, Australia.
+#' @param location numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the map. The map will automatically set the location and zoom if markers are supplied through \link{add_markers}. If null, the map will default to Melbourne, Australia.
 #' @param zoom numeric integer representing the zoom level of the map (0 is fully zoomed out)
 #' @param width the width of the map
 #' @param height the height of the map

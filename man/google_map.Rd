@@ -12,7 +12,7 @@ google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
 
 \item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.}
 
-\item{location}{numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the map. If null, the map will default to Melbourne, Australia.}
+\item{location}{numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the map. The map will automatically set the location and zoom if markers are supplied through \link{add_markers}. If null, the map will default to Melbourne, Australia.}
 
 \item{zoom}{numeric integer representing the zoom level of the map (0 is fully zoomed out)}
 
