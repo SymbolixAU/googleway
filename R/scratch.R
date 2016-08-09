@@ -29,13 +29,13 @@
 # df_line$weight <- runif(nrow(df_line), min = 1, max = 100)
 # # df_line$weight <- row.names(df_line)
 # df_line$opacity <- 0.2
-# df_line$info <- paste0("<p><b>", df_line$weight, "</b></p>")
+# df_line$info <- paste0("<p><b>", df_line$weight, "</b></p><p>", df_line$weight, "</p>")
 # setDT(df_line)
 #
 #    output$myMap <- renderGoogle_map({
 #
     # google_map(key = map_key, data = df_line, search_box = F) %>%
-    #   add_markers(info_window = "weight")
+    #   add_markers(info_window = "info")
 #
 #   })
 #

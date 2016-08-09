@@ -129,16 +129,15 @@ if (HTMLWidgets.shinyMode) {
 }
 
 
-function add_markers(map_id, lat, lng, title, opacity, draggable, label){
+function add_markers(map_id, lat, lng, title, opacity, draggable, label, info_window){
 
-  //info_window
   lat = [].concat(lat);
   lng = [].concat(lng);
   title = [].concat(title);
   opacity = [].concat(opacity);
   draggable = [].concat(draggable);
   label = [].concat(label);
-  //info_window = [].concat(info_window);
+  info_window = [].concat(info_window);
 
   //console.log(info_window);
 
@@ -156,17 +155,30 @@ function add_markers(map_id, lat, lng, title, opacity, draggable, label){
       title: title[i],
       label: label[i]
     });
-    /*
-    if(info_window[i] !== 'undefined'){
-      var infowindow = new google.maps.InfoWindow({
+
+    if(info_window[i]){
+
+      marker.infowindow = new google.maps.InfoWindow({
         content: info_window[i]
       });
 
-      marker.addListener('click', function() {
-          infowindow.open(window[map_id + 'map'], marker);
-        });
+      google.maps.event.addListener(marker, 'click', function() {
+        this.infowindow.open(window[map_id + 'map'], this);
+      });
+
+      //var infowindow = new google.maps.InfoWindow({
+      //  content: info_window[i]
+      //});
+
+      //google.maps.event.addListener(marker, 'click', function () {
+      //  infowindow.setContent(infowindow);
+      //  infowindow.open(window[map_id + 'map'], marker);
+      //});
+
+      //marker.addListener('click', function() {
+      //    infowindow.open(window[map_id + 'map'], marker);
+      //});
     }
-    */
 
     bounds.extend(latlon);
     window[map_id + 'googleMarkers'].push(marker);
@@ -176,6 +188,7 @@ function add_markers(map_id, lat, lng, title, opacity, draggable, label){
   window[map_id + 'googleBounds'].push(bounds);
   window[map_id + 'map'].fitBounds(bounds);
 }
+
 
 function clear_markers(map_id){
 
