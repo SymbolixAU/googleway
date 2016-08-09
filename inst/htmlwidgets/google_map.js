@@ -129,15 +129,18 @@ if (HTMLWidgets.shinyMode) {
 }
 
 
-function add_markers(map_id, lat, lng, title, opacity, draggable, label, info_window){
+function add_markers(map_id, lat, lng, title, opacity, draggable, label){
 
+  //info_window
   lat = [].concat(lat);
   lng = [].concat(lng);
   title = [].concat(title);
   opacity = [].concat(opacity);
   draggable = [].concat(draggable);
   label = [].concat(label);
-  info_window = [].concat(info_window);
+  //info_window = [].concat(info_window);
+
+  //console.log(info_window);
 
   var i;
   var bounds = new google.maps.LatLngBounds();
@@ -153,7 +156,7 @@ function add_markers(map_id, lat, lng, title, opacity, draggable, label, info_wi
       title: title[i],
       label: label[i]
     });
-
+    /*
     if(info_window[i] !== 'undefined'){
       var infowindow = new google.maps.InfoWindow({
         content: info_window[i]
@@ -163,6 +166,7 @@ function add_markers(map_id, lat, lng, title, opacity, draggable, label, info_wi
           infowindow.open(window[map_id + 'map'], marker);
         });
     }
+    */
 
     bounds.extend(latlon);
     window[map_id + 'googleMarkers'].push(marker);
