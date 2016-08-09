@@ -9,7 +9,7 @@ google_distance(origins, destinations, mode = c("driving", "walking",
   waypoints = NULL, alternatives = FALSE, avoid = NULL,
   units = c("metric", "imperial"), traffic_model = NULL,
   transit_mode = NULL, transit_routing_preference = NULL, language = NULL,
-  region = NULL, key, simplify = TRUE)
+  region = NULL, key, simplify = TRUE, curl_proxy = NULL)
 }
 \arguments{
 \item{origins}{list of unnamed elements, each element is either a numeric vector of lat/lon coordinates, or an address string}
@@ -43,6 +43,8 @@ google_distance(origins, destinations, mode = c("driving", "walking",
 \item{key}{string A valid Google Developers Distance API key}
 
 \item{simplify}{logical Inidicates if the returned JSON should be coerced into a list}
+
+\item{curl_proxy}{a curl proxy object}
 }
 \value{
 Either list or JSON string of the distance between origins and destinations

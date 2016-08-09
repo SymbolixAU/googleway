@@ -66,7 +66,10 @@ google_place_autocomplete <- function(place_input,
 
   # ## check components
   if(!is.null(components)){
-    if(!is.character(components) | length(components) > 1 | nchar(components) != 2)
+    if(!is.character(components) | length(components) > 1)
+      stop("components must be a string vector of length 1, and represent an ISO 3166-1 Alpha-2 country code")
+
+    if(nchar(components) != 2)
       stop("components must be a string vector of length 1, and represent an ISO 3166-1 Alpha-2 country code")
   }
 

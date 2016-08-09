@@ -31,13 +31,11 @@
 # df_line$opacity <- 0.2
 # df_line$info <- paste0("<p><b>", df_line$weight, "</b></p>")
 # setDT(df_line)
-
 #
 #    output$myMap <- renderGoogle_map({
 #
-#     print(df_line[1, ])
-    # google_map(key = map_key, data = df_line, search_box = F) %>%
-    #   add_markers(info_window = "weight")
+#     google_map(key = map_key, data = df_line, search_box = F) %>%
+#       add_markers(info_window = "weight")
 #
 #   })
 #
@@ -45,10 +43,10 @@
 #
 #     df <- df_line[df_line$weight >= (input$slider - 1), ]
 #
-#     #google_map_update(map_id = "myMap") %>%
+#     google_map_update(map_id = "myMap") %>%
 #      # update_heatmap()
-#       #clear_markers() %>%
-#       #add_markers(data = df, lat = "laty", lon = "lony")
+#       clear_markers() %>%
+#       add_markers(data = df, lat = "lat", lon = "lon")
 #
 #       # update_heatmap(data = df)
 #   })

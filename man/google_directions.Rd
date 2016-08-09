@@ -9,7 +9,7 @@ google_directions(origin, destination, mode = c("driving", "walking",
   waypoints = NULL, optimise_waypoints = FALSE, alternatives = FALSE,
   avoid = NULL, units = c("metric", "imperial"), traffic_model = NULL,
   transit_mode = NULL, transit_routing_preference = NULL, language = NULL,
-  region = NULL, key, simplify = TRUE)
+  region = NULL, key, simplify = TRUE, curl_proxy = NULL)
 }
 \arguments{
 \item{origin}{numeric Vector of lat/lon coordinates, or an address string}
@@ -45,6 +45,8 @@ google_directions(origin, destination, mode = c("driving", "walking",
 \item{key}{string A valid Google Developers Directions API key}
 
 \item{simplify}{logical Inidicates if the returned JSON should be coerced into a list}
+
+\item{curl_proxy}{a curl proxy object}
 }
 \value{
 Either list or JSON string of the route between origin and destination
