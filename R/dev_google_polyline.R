@@ -3,7 +3,7 @@
 #' Add a polyline to a google map
 #'
 #' @param map a googleway map object created from \code{google_map()}
-#' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
+#' @param data ordered data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
 #' @param data_options data frame  -- including, ID, (must match an 'id' field in the \code{data}), and geodesic, strokeColor, strokeOpacity, strokeWeight
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
@@ -27,6 +27,9 @@ add_polyline_dev <- function(map,
   ## single data.table/data.frame
   ## list of data.tables/data.frames
   ## sp - SpatialLines, SpatialLinesDataFrame, Lines, Line
+
+  ## check the values in id match those in data
+
 
   ## single data.frame:
   ## users specifies an 'id' column to specify a 'group' for each line
