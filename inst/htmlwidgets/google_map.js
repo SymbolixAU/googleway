@@ -335,9 +335,16 @@ function clear_circles(map_id){
   window[map_id + 'googleCircles'].setMap(null);
 }
 
-function add_polyline(map, data_polyline){
+function add_polyline(map, lat, lng, id){
 
   console.log("add_polyline");
+
+  // pass in a data.frame of lat/lons, and ids.
+  // the data.frame will contain a row for each lat/lon pair
+  // and the id will be a data.frame containing an option for each line
+
+
+
   //if a list of polyline data.frames were provided, need to iterate
   //through them, otherwise, just a single call to add the data.frame
   var polyline = [];
