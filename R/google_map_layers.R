@@ -23,7 +23,7 @@
 #' "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
 #'
 #' library(magrittr)
-#' google_map(key = map_key, data = df_line) %>%
+#' google_map(key = map_key, data = df) %>%
 #'  add_markers(lat = "lat", lon = "lon")
 #'
 #' }
