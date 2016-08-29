@@ -27,16 +27,16 @@ HTMLWidgets.widget({
           window[el.id + 'googleSearchBox'] = [];
           window[el.id + 'googlePlaceMarkers'] = [];
 
-
-          if(x.place_search === true){
+          if(x.search_box === true){
+            console.log("search box");
             // create a place DOM element
-            window[el.id + 'googlePlaceSearch'] = document.createElement("input");
+            window[el.id + 'googleSearchBox'] = document.createElement("input");
             // <input id="pac-input" class="controls" type="text" placeholder="Search place">
-            window[el.id + 'googlePlaceSearch'].setAttribute('id', 'pac-input');
-            window[el.id + 'googlePlaceSearch'].setAttribute('class', 'controls');
-            window[el.id + 'googlePlaceSearch'].setAttribute('type', 'text');
-            window[el.id + 'googlePlaceSearch'].setAttribute('placeholder', 'Search Box');
-            document.body.appendChild(window[el.id + 'googlePlaceSearch']);
+            window[el.id + 'googleSearchBox'].setAttribute('id', 'pac-input');
+            window[el.id + 'googleSearchBox'].setAttribute('class', 'controls');
+            window[el.id + 'googleSearchBox'].setAttribute('type', 'text');
+            window[el.id + 'googleSearchBox'].setAttribute('placeholder', 'Search Box');
+            document.body.appendChild(window[el.id + 'googleSearchBox']);
           }
 
           var mapDiv = document.getElementById(el.id);
@@ -371,7 +371,7 @@ function add_polyline(map, data_polyline){
 function initialise_map(el, x) {
 
   // if places
-  if(x.place_search === true){
+  if(x.search_box === true){
     var input = document.getElementById('pac-input');
     window[el.id + 'googleSearchBox'] = new google.maps.places.SearchBox(input);
     window[el.id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT].push(input);
