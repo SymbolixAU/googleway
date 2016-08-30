@@ -75,3 +75,12 @@
 # # # google_map(key = map_key, search_box = TRUE)
 # #
 # # df <- data.frame(colour = c("#123456", "#00FF00", "#00110"))
+## other available methods
+# add_markers
+# add_heatmap
+# add_circles
+# add_traffic
+# add_bicycling
+# add_transit
+
+
