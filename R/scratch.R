@@ -67,6 +67,11 @@
 # }
 #
 # shinyApp(ui, server)
-
-
-
+# library(png)
+# key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_STATIC_MAP")
+# temp_file <- tempfile()
+# map_url <- paste0("https://maps.googleapis.com/maps/api/staticmap?center=40.714728,-73.998672&zoom=12&size=400x400&key=", key)
+# download.file(map_url, temp_file, mode = "wb")
+# map <- readPNG(temp_file)
+# map
+# file.remove(temp_file)
