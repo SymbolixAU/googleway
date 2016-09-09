@@ -70,7 +70,6 @@ add_markers <- function(map,
   data <- lst$df
   cols <- lst$cols
 
-
   if(!is.null(title)){
     data[, title] <- as.character(data[, title])
   }

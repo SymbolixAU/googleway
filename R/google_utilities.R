@@ -182,31 +182,39 @@ check_for_columns <- function(df, cols){
 
 correct_columns <- function(df, cols, col_names, allowed_nulls = c()){
 
+  ## cols : the column names supplied by the user
+  ## col_names : the column names required in the javascript function
+  ## allowed_nulls : allowed null columns
+
   for(i in 1:length(col_names)){
 
     if(is.null(cols[[i]]) & !col_names[[i]] %in% allowed_nulls){
       stop(paste0(col_names[i], " can not be NULL"))
 
-    }else if(is.null(cols[[i]]) & col_names[[i]] %in% allowed_nulls){
+    }else if(is.null(cols[[i]]) & col_names[[i]] %in% allowed_nulls ){
 
-      ## create an NA column for the allowed null
-      df[, col_names[[i]]] <- NA
-      cols[[i]] <- col_names[[i]]
+      ## don't overwrite column if it's used for a different option
+      if(!col_names[[i]] %in% cols){
+
+        ## create an NA column for the allowed null
+        df[, col_names[[i]]] <- NA
+        cols[[i]] <- col_names[[i]]
+      }
 
     }else if(is.na(cols[[i]])){
-
       stop(paste0(col_names[i], " can not be NA"))
-
     }
   }
 
   for(i in 1:length(col_names)){
-    if(!cols[[i]] %in% names(df)){
-      ## the column doesn't exist
-      ## the actual column name should be col_names[i]
-      df[, col_names[[i]] ] <- cols[[i]]
-      cols[[i]] <- col_names[[i]]
-    } ## else the column exists
+    if(!is.null(cols[[i]])){
+      if(!cols[[i]] %in% names(df)){
+        ## the column doesn't exist
+        ## the actual column name should be col_names[i]
+        df[, col_names[[i]] ] <- cols[[i]]
+        cols[[i]] <- col_names[[i]]
+      } ## else the column exists
+    }
   }
 
   ## all correct columns have been created

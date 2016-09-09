@@ -29,15 +29,15 @@
 # df_line$weight <- runif(nrow(df_line), min = 1, max = 100)
 # # df_line$weight <- row.names(df_line)
 # df_line$opacity <- 0.2
-# df_line$info <- paste0("<p><b>", df_line$weight, "</b></p><p>", df_line$weight, "</p>")
-# setDT(df_line)
+# df_line$title <- paste0("<p><b>", df_line$weight, "</b></p><p>", df_line$weight, "</p>")
+# df_line$title <- sample(letters, nrow(df_line), replace = T)
+
+   # output$myMap <- renderGoogle_map({
 #
-#    output$myMap <- renderGoogle_map({
+# google_map(key = map_key, data = df_line, search_box = F) %>%
+#   add_markers(info_window = "title", title = "title")
 #
-    # google_map(key = map_key, data = df_line, search_box = F) %>%
-    #   add_markers(info_window = "info")
-#
-#   })
+#  })
 #
 #   observe({
 #
@@ -67,20 +67,6 @@
 # }
 #
 # shinyApp(ui, server)
-#
-# #
-# #
-# # # style <- '[{"featureType":"administrative","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"all","stylers":[{"visibility":"simplified"},{"hue":"#0066ff"},{"saturation":74},{"lightness":100}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"off"},{"weight":0.6},{"saturation":-85},{"lightness":61}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"on"}]},{"featureType":"road.arterial","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road.local","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"water","elementType":"all","stylers":[{"visibility":"simplified"},{"color":"#5f94ff"},{"lightness":26},{"gamma":5.86}]}]'
-# # #
-# # # google_map(key = map_key, search_box = TRUE)
-# #
-# # df <- data.frame(colour = c("#123456", "#00FF00", "#00110"))
-## other available methods
-# add_markers
-# add_heatmap
-# add_circles
-# add_traffic
-# add_bicycling
-# add_transit
+
 
 

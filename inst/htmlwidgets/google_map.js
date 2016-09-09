@@ -139,7 +139,8 @@ function add_markers(map_id, lat, lng, title, opacity, draggable, label, info_wi
   label = [].concat(label);
   info_window = [].concat(info_window);
 
-  //console.log(info_window);
+//  console.log(info_window);
+//  console.log(title);
 
   var i;
   var bounds = new google.maps.LatLngBounds();
