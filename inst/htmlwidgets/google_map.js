@@ -43,6 +43,7 @@ HTMLWidgets.widget({
           mapDiv.className = "googlemap";
 
           if (HTMLWidgets.shinyMode){
+            console.log("shiny mode");
 
             // use setInterval to check if the map can be loaded
             // the map is dependant on the Google Maps JS resource
@@ -71,7 +72,11 @@ HTMLWidgets.widget({
             }, 100);
 
           }else{
+            console.log("not shiny mode");
             window.onload = function() {
+
+              console.log("window onload");
+
               var mapDiv = document.getElementById(el.id);
 
               mapDiv.className = "googlemap";
@@ -129,8 +134,10 @@ if (HTMLWidgets.shinyMode) {
 }
 
 
-function add_markers(map_id, lat, lng, title, opacity, draggable, label, info_window){
+function add_markers(map_id, cluster, lat, lng, title, opacity, draggable,
+                      label, info_window){
 
+  cluster = cluster;
   lat = [].concat(lat);
   lng = [].concat(lng);
   title = [].concat(title);
@@ -139,9 +146,25 @@ function add_markers(map_id, lat, lng, title, opacity, draggable, label, info_wi
   label = [].concat(label);
   info_window = [].concat(info_window);
 
+  console.log(cluster);
+
 //  console.log(info_window);
 //  console.log(title);
 
+//  var len = $('script').filter(function () {
+//    return ($(this).attr('src') == '<https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js>');
+//  }).length;
+
+//  if(cluster === true){
+
+//    var script = document.createElement('script');
+//    script.type = 'text/javascript';
+//    script.src = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js';
+
+//    document.getElementsByTagName('head')[0].appendChild(script);
+//  }
+
+  var markers = [];
   var i;
   var bounds = new google.maps.LatLngBounds();
 
@@ -183,7 +206,13 @@ function add_markers(map_id, lat, lng, title, opacity, draggable, label, info_wi
 
     bounds.extend(latlon);
     window[map_id + 'googleMarkers'].push(marker);
+    markers.push(marker);
     marker.setMap(window[map_id + 'map']);
+  }
+
+  if(cluster === true){
+    var markerCluster = new MarkerClusterer(window[map_id + 'map'], markers,
+    {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
   }
 
   window[map_id + 'googleBounds'].push(bounds);
@@ -366,7 +395,6 @@ function add_polyline(map, data_polyline){
           });
   }
 }
-
 
 
 function initialise_map(el, x) {
