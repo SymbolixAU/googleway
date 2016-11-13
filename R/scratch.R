@@ -35,7 +35,7 @@
    # output$myMap <- renderGoogle_map({
 #
 # google_map(key = map_key, data = df_line, search_box = F) %>%
-#   add_markers(info_window = "title", title = "title")
+#   add_markers(info_window = "title", title = "title", cluster = T)
 #
 #  })
 #

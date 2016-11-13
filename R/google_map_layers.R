@@ -10,6 +10,7 @@
 #' @param draggable string specifying the column of \code{data} defining if the marker is 'draggable' (either TRUE or FALSE)
 #' @param opacity string specifying the column of \code{data} defining the 'opacity' of the maker. Values must be between 0 and 1 (inclusive).
 #' @param label string specifying the column of \code{data} defining the character to appear in the centre of the marker. Values will be coerced to strings, and only the first character will be used.
+#' @param cluster logical indicating if co-located markers should be clustered when the map zoomed out
 #' @param info_window string specifying the column of \code{data} containing the text to appear in a pop-up info window above a marker
 #' @examples
 #' \dontrun{
@@ -36,6 +37,7 @@ add_markers <- function(map,
                         draggable = NULL,
                         opacity = NULL,
                         label = NULL,
+                        cluster = TRUE,
                         info_window = NULL)
 {
 
@@ -55,6 +57,9 @@ add_markers <- function(map,
     data <- longitude_column(data, lon, 'add_markers')
     lon <- "lng"
   }
+
+  if(!is.logical(cluster))
+    stop("cluster must be logical")
 
   ## TODO:
   ## - pass other arguments in as an object into javascript?
@@ -91,7 +96,7 @@ add_markers <- function(map,
 
   check_opacities(data, cols = unique(c(cols$opacity)))
 
-  invoke_method(map, data, 'add_markers',
+  invoke_method(map, data, 'add_markers', cluster,
                 data[, lat],
                 data[, lon],
                 data[, cols$title],
@@ -413,8 +418,6 @@ add_bicycling <- function(map){
 clear_bicycling <- function(map){
   invoke_method(map, data = NULL, 'clear_bicycling')
 }
-
-
 
 
 #' Add polyline
