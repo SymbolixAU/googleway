@@ -37,7 +37,7 @@ add_markers <- function(map,
                         draggable = NULL,
                         opacity = NULL,
                         label = NULL,
-                        cluster = TRUE,
+                        cluster = FALSE,
                         info_window = NULL)
 {
 
