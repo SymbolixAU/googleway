@@ -409,7 +409,7 @@ function add_polyline(map, data_polyline){
 function initialise_map(el, x) {
 
   // if places
-  if(x.place_search === true){
+  if(x.search_box === true){
     var input = document.getElementById('pac-input');
     window[el.id + 'googleSearchBox'] = new google.maps.places.SearchBox(input);
     window[el.id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT].push(input);

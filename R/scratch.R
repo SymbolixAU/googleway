@@ -32,7 +32,7 @@
 # df_line$title <- paste0("<p><b>", df_line$weight, "</b></p><p>", df_line$weight, "</p>")
 # df_line$title <- sample(letters, nrow(df_line), replace = T)
 
-# output$myMap <- renderGoogle_map({
+   # output$myMap <- renderGoogle_map({
 #
 # google_map(key = map_key, data = df_line, search_box = F) %>%
 #   add_markers(info_window = "title", title = "title", cluster = T)
