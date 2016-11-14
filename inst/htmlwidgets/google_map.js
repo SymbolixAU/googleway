@@ -365,13 +365,18 @@ function clear_circles(map_id){
   window[map_id + 'googleCircles'].setMap(null);
 }
 
+//function add_polyline(map, lat, lng, id){
 function add_polyline(map, data_polyline){
 
-  console.log("add_polyline");
+  // pass in a data.frame of lat/lons, and ids.
+  // the data.frame will contain a row for each lat/lon pair
+  // and the id will be a data.frame containing an option for each line
+
   //if a list of polyline data.frames were provided, need to iterate
   //through them, otherwise, just a single call to add the data.frame
   var polyline = [];
   var i;
+
   // http://stackoverflow.com/a/2647888/5977215
   // and the edit history of accepted answer
   if(data_polyline.length == null){
@@ -380,21 +385,25 @@ function add_polyline(map, data_polyline){
   }else{
     for (i = 0; i < data_polyline.length; i++) {
       polyline[i] = HTMLWidgets.dataframeToD3(data_polyline[i]);
+      //console.log(polyline[i])
       add_lines(map, polyline[i]);
     }
   }
 
-  function add_lines(map, polyline){
+  function add_lines(map_id, polyline){
     var Polyline = new google.maps.Polyline({
             path: polyline,
             geodesic: true,
             strokeColor: '#0088FF',
             strokeOpacity: 0.6,
-            strokeWeight: 4,
-            map: map
+            strokeWeight: 4
           });
+
+          window[map_id + 'googlePolyline'].push(Polyline);
+          Polyline.setMap(window[map_id + 'map']);
   }
 }
+
 
 
 function initialise_map(el, x) {
