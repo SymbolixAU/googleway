@@ -6,7 +6,7 @@
 \usage{
 add_markers(map, data = get_map_data(map), lat = NULL, lon = NULL,
   title = NULL, draggable = NULL, opacity = NULL, label = NULL,
-  info_window = NULL)
+  cluster = FALSE, info_window = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -25,6 +25,8 @@ add_markers(map, data = get_map_data(map), lat = NULL, lon = NULL,
 
 \item{label}{string specifying the column of \code{data} defining the character to appear in the centre of the marker. Values will be coerced to strings, and only the first character will be used.}
 
+\item{cluster}{logical indicating if co-located markers should be clustered when the map zoomed out}
+
 \item{info_window}{string specifying the column of \code{data} containing the text to appear in a pop-up info window above a marker}
 }
 \description{
@@ -42,7 +44,7 @@ df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
 "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
 
 library(magrittr)
-google_map(key = map_key, data = df_line) \%>\%
+google_map(key = map_key, data = df) \%>\%
  add_markers(lat = "lat", lon = "lon")
 
 }

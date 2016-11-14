@@ -27,22 +27,23 @@ HTMLWidgets.widget({
           window[el.id + 'googleSearchBox'] = [];
           window[el.id + 'googlePlaceMarkers'] = [];
 
-
-          if(x.place_search === true){
+          if(x.search_box === true){
+            console.log("search box");
             // create a place DOM element
-            window[el.id + 'googlePlaceSearch'] = document.createElement("input");
+            window[el.id + 'googleSearchBox'] = document.createElement("input");
             // <input id="pac-input" class="controls" type="text" placeholder="Search place">
-            window[el.id + 'googlePlaceSearch'].setAttribute('id', 'pac-input');
-            window[el.id + 'googlePlaceSearch'].setAttribute('class', 'controls');
-            window[el.id + 'googlePlaceSearch'].setAttribute('type', 'text');
-            window[el.id + 'googlePlaceSearch'].setAttribute('placeholder', 'Search Box');
-            document.body.appendChild(window[el.id + 'googlePlaceSearch']);
+            window[el.id + 'googleSearchBox'].setAttribute('id', 'pac-input');
+            window[el.id + 'googleSearchBox'].setAttribute('class', 'controls');
+            window[el.id + 'googleSearchBox'].setAttribute('type', 'text');
+            window[el.id + 'googleSearchBox'].setAttribute('placeholder', 'Search Box');
+            document.body.appendChild(window[el.id + 'googleSearchBox']);
           }
 
           var mapDiv = document.getElementById(el.id);
           mapDiv.className = "googlemap";
 
           if (HTMLWidgets.shinyMode){
+            console.log("shiny mode");
 
             // use setInterval to check if the map can be loaded
             // the map is dependant on the Google Maps JS resource
@@ -71,7 +72,11 @@ HTMLWidgets.widget({
             }, 100);
 
           }else{
+            console.log("not shiny mode");
             window.onload = function() {
+
+              console.log("window onload");
+
               var mapDiv = document.getElementById(el.id);
 
               mapDiv.className = "googlemap";
@@ -129,8 +134,10 @@ if (HTMLWidgets.shinyMode) {
 }
 
 
-function add_markers(map_id, lat, lng, title, opacity, draggable, label, info_window){
+function add_markers(map_id, cluster, lat, lng, title, opacity, draggable,
+                      label, info_window){
 
+  cluster = cluster;
   lat = [].concat(lat);
   lng = [].concat(lng);
   title = [].concat(title);
@@ -139,8 +146,25 @@ function add_markers(map_id, lat, lng, title, opacity, draggable, label, info_wi
   label = [].concat(label);
   info_window = [].concat(info_window);
 
-  //console.log(info_window);
+  console.log(cluster);
 
+//  console.log(info_window);
+//  console.log(title);
+
+//  var len = $('script').filter(function () {
+//    return ($(this).attr('src') == '<https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js>');
+//  }).length;
+
+//  if(cluster === true){
+
+//    var script = document.createElement('script');
+//    script.type = 'text/javascript';
+//    script.src = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js';
+
+//    document.getElementsByTagName('head')[0].appendChild(script);
+//  }
+
+  var markers = [];
   var i;
   var bounds = new google.maps.LatLngBounds();
 
@@ -182,7 +206,13 @@ function add_markers(map_id, lat, lng, title, opacity, draggable, label, info_wi
 
     bounds.extend(latlon);
     window[map_id + 'googleMarkers'].push(marker);
+    markers.push(marker);
     marker.setMap(window[map_id + 'map']);
+  }
+
+  if(cluster === true){
+    var markerCluster = new MarkerClusterer(window[map_id + 'map'], markers,
+    {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
   }
 
   window[map_id + 'googleBounds'].push(bounds);
@@ -335,10 +365,8 @@ function clear_circles(map_id){
   window[map_id + 'googleCircles'].setMap(null);
 }
 
-function add_polyline(map, lat, lng, id){
-
-  console.log("add_polyline");
-  console.log(data_polyline);
+//function add_polyline(map, lat, lng, id){
+function add_polyline(map, data_polyline){
 
   // pass in a data.frame of lat/lons, and ids.
   // the data.frame will contain a row for each lat/lon pair
@@ -357,19 +385,22 @@ function add_polyline(map, lat, lng, id){
   }else{
     for (i = 0; i < data_polyline.length; i++) {
       polyline[i] = HTMLWidgets.dataframeToD3(data_polyline[i]);
+      //console.log(polyline[i])
       add_lines(map, polyline[i]);
     }
   }
 
-  function add_lines(map, polyline){
+  function add_lines(map_id, polyline){
     var Polyline = new google.maps.Polyline({
             path: polyline,
             geodesic: true,
             strokeColor: '#0088FF',
             strokeOpacity: 0.6,
-            strokeWeight: 4,
-            map: map
+            strokeWeight: 4
           });
+
+          window[map_id + 'googlePolyline'].push(Polyline);
+          Polyline.setMap(window[map_id + 'map']);
   }
 }
 

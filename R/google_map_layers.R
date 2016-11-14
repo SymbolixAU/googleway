@@ -10,6 +10,7 @@
 #' @param draggable string specifying the column of \code{data} defining if the marker is 'draggable' (either TRUE or FALSE)
 #' @param opacity string specifying the column of \code{data} defining the 'opacity' of the maker. Values must be between 0 and 1 (inclusive).
 #' @param label string specifying the column of \code{data} defining the character to appear in the centre of the marker. Values will be coerced to strings, and only the first character will be used.
+#' @param cluster logical indicating if co-located markers should be clustered when the map zoomed out
 #' @param info_window string specifying the column of \code{data} containing the text to appear in a pop-up info window above a marker
 #' @examples
 #' \dontrun{
@@ -23,7 +24,7 @@
 #' "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
 #'
 #' library(magrittr)
-#' google_map(key = map_key, data = df_line) %>%
+#' google_map(key = map_key, data = df) %>%
 #'  add_markers(lat = "lat", lon = "lon")
 #'
 #' }
@@ -36,6 +37,7 @@ add_markers <- function(map,
                         draggable = NULL,
                         opacity = NULL,
                         label = NULL,
+                        cluster = FALSE,
                         info_window = NULL)
 {
 
@@ -55,6 +57,9 @@ add_markers <- function(map,
     data <- longitude_column(data, lon, 'add_markers')
     lon <- "lng"
   }
+
+  if(!is.logical(cluster))
+    stop("cluster must be logical")
 
   ## TODO:
   ## - pass other arguments in as an object into javascript?
@@ -91,7 +96,7 @@ add_markers <- function(map,
 
   check_opacities(data, cols = unique(c(cols$opacity)))
 
-  invoke_method(map, data, 'add_markers',
+  invoke_method(map, data, 'add_markers', cluster,
                 data[, lat],
                 data[, lon],
                 data[, cols$title],
@@ -291,7 +296,7 @@ add_heatmap <- function(map,
                 data[, lon],
                 data[, cols$weight],
                 heatmap_options
-                )
+  )
 }
 
 
@@ -337,7 +342,7 @@ update_heatmap <- function(map,
                 data[, lat],
                 data[, lon],
                 data[, cols$weight]
-                )
+  )
 
 }
 
@@ -415,8 +420,6 @@ clear_bicycling <- function(map){
 }
 
 
-
-
 #' Add polyline
 #'
 #' Add a polyline to a google map
@@ -467,9 +470,9 @@ add_polyline <- function(map,
     data <- list(data)
   }
 
-  invoke_method(map, data, 'add_polyline',
-                data$lat,
-                data$lon
+  invoke_method(map, data, 'add_polyline', data
+               # data$lat,
+               # data$lon
                 )
 
 }
