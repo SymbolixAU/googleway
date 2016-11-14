@@ -11,6 +11,8 @@ add_polyline(map, data, group = NULL, lat = NULL, lon = NULL)
 
 \item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.}
 
+\item{group}{... placeholder...}
+
 \item{lat}{string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made}
 
 \item{lon}{string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made}

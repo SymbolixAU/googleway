@@ -34,8 +34,9 @@
 
    # output$myMap <- renderGoogle_map({
 #
-# google_map(key = map_key, data = df_line, search_box = F) %>%
-#   add_markers(info_window = "title", title = "title", cluster = T)
+# google_map(key = map_key, data = df_line, search_box = T) %>%
+#   add_markers(info_window = "title", title = "title", cluster = T) %>%
+#   googleway:::add_polyline(data = df_line)
 #
 #  })
 #
