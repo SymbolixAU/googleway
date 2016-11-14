@@ -343,12 +343,11 @@ function add_polyline(map, lat, lng, id){
   // the data.frame will contain a row for each lat/lon pair
   // and the id will be a data.frame containing an option for each line
 
-
-
   //if a list of polyline data.frames were provided, need to iterate
   //through them, otherwise, just a single call to add the data.frame
   var polyline = [];
   var i;
+
   // http://stackoverflow.com/a/2647888/5977215
   // and the edit history of accepted answer
   if(data_polyline.length == null){

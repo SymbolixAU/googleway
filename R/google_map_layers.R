@@ -427,6 +427,7 @@ clear_bicycling <- function(map){
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
 add_polyline <- function(map,
                          data,
+                         group = NULL,
                          lat = NULL,
                          lon = NULL){
   # ## TODO:
@@ -434,6 +435,10 @@ add_polyline <- function(map,
   # ## or a shape file
   # ## - other options - colours
   # ## rename the cols so the javascript functions will see them
+
+  ## First instance: use a dataframe with a grouping variable
+
+
   # if(is.null(lat))
   #   data <- latitude_column(data, lat, 'add_polyline')
   #
