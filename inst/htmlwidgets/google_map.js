@@ -338,6 +338,7 @@ function clear_circles(map_id){
 function add_polyline(map, lat, lng, id){
 
   console.log("add_polyline");
+  console.log(data_polyline);
 
   // pass in a data.frame of lat/lons, and ids.
   // the data.frame will contain a row for each lat/lon pair

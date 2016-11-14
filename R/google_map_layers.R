@@ -425,6 +425,7 @@ clear_bicycling <- function(map){
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
+#' @export
 add_polyline <- function(map,
                          data,
                          group = NULL,
@@ -433,31 +434,43 @@ add_polyline <- function(map,
   # ## TODO:
   # ## polylines can be a list of data.frames with lat/lon columns
   # ## or a shape file
+  # ## or also an encoded polyline
   # ## - other options - colours
   # ## rename the cols so the javascript functions will see them
 
   ## First instance: use a dataframe with a grouping variable
+  data <- as.data.frame(data)
 
+  if(is.null(lat)){
+    data <- latitude_column(data, lat, 'add_polyline')
+    lat <- "lat"
+  }
 
-  # if(is.null(lat))
-  #   data <- latitude_column(data, lat, 'add_polyline')
-  #
-  # if(is.null(lon))
-  #   data <- longitude_column(data, lon, 'add_polyline')
-  #
-  # ## check columns
-  # cols <- list()
-  # col_names <- list()
-  # allowed_nulls <- c()
-  # lst <- correct_columns(data, cols, col_names, allowed_nulls)
-  #
-  # data <- lst$df
-  # cols <- lst$cols
-  #
-  # invoke_method(map, data, 'add_polyline',
-  #               data$lat,
-  #               data$lon
-  #               )
+  if(is.null(lon)){
+    data <- longitude_column(data, lon, 'add_polyline')
+    lon <- "lng"
+  }
+
+  ## check columns
+  cols <- list(group)
+  col_names <- list("group")
+  allowed_nulls <- c('group')
+  lst <- correct_columns(data, cols, col_names, allowed_nulls)
+
+  data <- lst$df
+  cols <- lst$cols
+
+  ## put grouped data into a list
+  if(!is.null(group)){
+    data <- split(data, data[group])
+  }else{
+    data <- list(data)
+  }
+
+  invoke_method(map, data, 'add_polyline',
+                data$lat,
+                data$lon
+                )
 
 }
 
