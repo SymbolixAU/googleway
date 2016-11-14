@@ -4,7 +4,7 @@
 \alias{add_polyline}
 \title{Add polyline}
 \usage{
-add_polyline(map, data, lat = NULL, lon = NULL)
+add_polyline(map, data, group = NULL, lat = NULL, lon = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
