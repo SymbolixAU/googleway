@@ -426,12 +426,12 @@ clear_bicycling <- function(map){
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
-#' @param group ... placeholder...
+#' @param id ... placeholder...
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
 add_polyline <- function(map,
                          data,
-                         group = NULL,
+                         id = NULL,
                          lat = NULL,
                          lon = NULL){
   # ## TODO:
@@ -455,22 +455,34 @@ add_polyline <- function(map,
   }
 
   ## check columns
-  cols <- list(group)
-  col_names <- list("group")
-  allowed_nulls <- c('group')
+  cols <- list(id)
+  col_names <- list("id")
+  allowed_nulls <- c('id')
   lst <- correct_columns(data, cols, col_names, allowed_nulls)
 
   data <- lst$df
   cols <- lst$cols
 
-  ## put grouped data into a list
-  if(!is.null(group)){
-    data <- split(data, data[group])
+
+  ## pass into the js function with a 'group control', indicating the group_id
+  ## and the number of rows it uses
+
+  if(!is.null(id)){
+    groupControl <- setNames(data.frame(table(data['id'])), c("id","freq"))
+    groupControl$end <- cumsum(groupControl$freq)
+    groupControl$start <- groupControl$end - groupControl$freq
   }else{
-    data <- list(data)
+    groupControl <- NULL
   }
 
-  invoke_method(map, data, 'add_polyline', data
+  ## put grouped data into a list
+  # if(!is.null(group)){
+  #   data <- split(data, data[group])
+  # }else{
+  #   data <- list(data)
+  # }
+
+  invoke_method(map, data, 'add_polyline', data, groupControl
                # data$lat,
                # data$lon
                 )

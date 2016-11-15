@@ -366,7 +366,7 @@ function clear_circles(map_id){
 }
 
 //function add_polyline(map, lat, lng, id){
-function add_polyline(map, data_polyline){
+function add_polyline(map, data_polyline, groupControl){
 
   // pass in a data.frame of lat/lons, and ids.
   // the data.frame will contain a row for each lat/lon pair
@@ -374,21 +374,44 @@ function add_polyline(map, data_polyline){
 
   //if a list of polyline data.frames were provided, need to iterate
   //through them, otherwise, just a single call to add the data.frame
-  var polyline = [];
-  var i;
+//  var polyline = [ [], [] ];
+
+//  if(groupControl !== null){
+//    for(i = 0; i < groupControl['id'].length; i++){
+
+//      var polyline = [ [], [] ];
+//      var startRow = groupControl['start'][i];
+//      var endRow = groupControl['end'][i];
+//      var k = 0;
+//      console.log("startRow "+ startRow );
+//      console.log("endRow " + endRow );
+
+//      for(j = startRow; j < endRow; j++){
+
+//        polyline[0][k] = data_polyline['lat'][j];
+//        polyline[1][k] = data_polyline['lng'][j];
+//        console.log(polyline[0][k]);
+//        k++;
+//        //polyline[j] = HTMLWidgets.dataframeToD3(data_polyline[j]);
+//      }
+//      add_lines(map, polyline);
+//    }
+
+
+  }
 
   // http://stackoverflow.com/a/2647888/5977215
   // and the edit history of accepted answer
-  if(data_polyline.length == null){
-    polyline = HTMLWidgets.dataframeToD3(data_polyline);
-    add_lines(map, polyline);
-  }else{
-    for (i = 0; i < data_polyline.length; i++) {
-      polyline[i] = HTMLWidgets.dataframeToD3(data_polyline[i]);
-      //console.log(polyline[i])
-      add_lines(map, polyline[i]);
-    }
-  }
+//  if(data_polyline.length == null){
+//    polyline = HTMLWidgets.dataframeToD3(data_polyline);
+//    add_lines(map, polyline);
+//  }else{
+//    for (i = 0; i < data_polyline.length; i++) {
+//      polyline[i] = HTMLWidgets.dataframeToD3(data_polyline[i]);
+//      //console.log(polyline[i])
+//      add_lines(map, polyline[i]);
+//    }
+//  }
 
   function add_lines(map_id, polyline){
     var Polyline = new google.maps.Polyline({
