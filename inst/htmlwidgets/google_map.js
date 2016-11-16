@@ -17,6 +17,7 @@ HTMLWidgets.widget({
           window[el.id + 'googleHeatmapLayerMVC'] = [];
           window[el.id + 'googleCircles'] = [];
           window[el.id + 'googlePolyline'] = [];
+          window[el.id + 'googlePolygon'] = [];
 
           window[el.id + 'googleBounds'] = [];
 
@@ -366,7 +367,7 @@ function clear_circles(map_id){
 }
 
 //function add_polyline(map, lat, lng, id){
-function add_polyline(map, data_polyline, groupControl){
+function add_polylines(map_id, data_polyline){
 
   // pass in a data.frame of lat/lons, and ids.
   // the data.frame will contain a row for each lat/lon pair
@@ -396,9 +397,18 @@ function add_polyline(map, data_polyline, groupControl){
 //      }
 //      add_lines(map, polyline);
 //    }
+//  }
 
+  // decode and plot polylines
 
+  if(Object.keys(data_polyline).length == 1){
+    add_lines(map_id, data_polyline.polyline);
+  }else{
+    for(i = 1; i <= Object.keys(data_polyline).length; i++){
+      add_lines(map_id, data_polyline[i]);
+    }
   }
+
 
   // http://stackoverflow.com/a/2647888/5977215
   // and the edit history of accepted answer
@@ -415,7 +425,7 @@ function add_polyline(map, data_polyline, groupControl){
 
   function add_lines(map_id, polyline){
     var Polyline = new google.maps.Polyline({
-            path: polyline,
+            path: google.maps.geometry.encoding.decodePath(polyline),
             geodesic: true,
             strokeColor: '#0088FF',
             strokeOpacity: 0.6,
@@ -427,6 +437,39 @@ function add_polyline(map, data_polyline, groupControl){
   }
 }
 
+function clear_polylines(map_id){
+  window[map_id + 'googlePolyline'].setMap(null);
+}
+
+function add_polygons(map_id, data_polygon){
+
+  if(Object.keys(data_polygon).length == 1){
+
+  }else{
+    for(i = 1; i <= Object.keys(data_polygon).length; i++){
+      add_gons(map_id, data_polygon[i]);
+    }
+  }
+
+  function add_gons(map_id, polygon){
+    var Polygon = new google.maps.Polygon({
+      paths: google.maps.geometry.encoding.decodePath(polygon),
+      strokeColor: '#FF000',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.35
+    });
+
+    window[map_id + 'googlePolygon'].push(Polygon);
+    Polygon.setMap(window[map_id + 'map']);
+  }
+
+}
+
+function clear_polygons(map_id){
+  window[map_id + 'googlePolygon'].setMap(null);
+}
 
 
 function initialise_map(el, x) {

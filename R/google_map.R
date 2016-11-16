@@ -96,10 +96,10 @@ google_map <- function(key,
 
   if(search_box == TRUE){
     header <- paste0('<script src="https://maps.googleapis.com/maps/api/js?key=',
-                     key, '&libraries=visualization,places"></script>')
+                     key, '&libraries=visualization,geometry,places"></script>')
   }else{
     header <- paste0('<script src="https://maps.googleapis.com/maps/api/js?key=',
-                     key, '&libraries=visualization"></script>')
+                     key, '&libraries=visualization,geometry"></script>')
   }
 
   googlemap$dependencies <- c(

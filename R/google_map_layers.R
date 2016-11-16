@@ -429,7 +429,7 @@ clear_bicycling <- function(map){
 #' @param id ... placeholder...
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
-add_polyline <- function(map,
+add_polygon <- function(map,
                          data,
                          id = NULL,
                          lat = NULL,
@@ -466,14 +466,14 @@ add_polyline <- function(map,
 
   ## pass into the js function with a 'group control', indicating the group_id
   ## and the number of rows it uses
-
-  if(!is.null(id)){
-    groupControl <- setNames(data.frame(table(data['id'])), c("id","freq"))
-    groupControl$end <- cumsum(groupControl$freq)
-    groupControl$start <- groupControl$end - groupControl$freq
-  }else{
-    groupControl <- NULL
-  }
+#
+#   if(!is.null(id)){
+#     groupControl <- setNames(data.frame(table(data['id'])), c("id","freq"))
+#     groupControl$end <- cumsum(groupControl$freq)
+#     groupControl$start <- groupControl$end - groupControl$freq
+#   }else{
+#     groupControl <- NULL
+#   }
 
   ## put grouped data into a list
   # if(!is.null(group)){
@@ -482,11 +482,66 @@ add_polyline <- function(map,
   #   data <- list(data)
   # }
 
-  invoke_method(map, data, 'add_polyline', data, groupControl
+  if(!is.null(id)){
+    polyline <- lapply(split(data, data[id]),
+                   function(x){ gepaf::encodePolyline(x[, c("lat","lng")]) })
+  }else{
+    polyline <- list(polyline = gepaf::encodePolyline(data[, c("lat","lng")]))
+  }
+
+  invoke_method(map, data, 'add_polylines', polyline
                # data$lat,
                # data$lon
                 )
-
 }
 
+#' Add polygon
+#'
+#' Add a polygon to a google map
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
+#' @param id ... placeholder...
+#' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
+#' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
+add_polyline <- function(map,
+                         data,
+                         id = NULL,
+                         lat = NULL,
+                         lon = NULL){
 
+  ## First instance: use a dataframe with a grouping variable
+  data <- as.data.frame(data)
+
+  if(is.null(lat)){
+    data <- latitude_column(data, lat, 'add_polygon')
+    lat <- "lat"
+  }
+
+  if(is.null(lon)){
+    data <- longitude_column(data, lon, 'add_polygon')
+    lon <- "lng"
+  }
+
+  ## check columns
+  cols <- list(id)
+  col_names <- list("id")
+  allowed_nulls <- c('id')
+  lst <- correct_columns(data, cols, col_names, allowed_nulls)
+
+  data <- lst$df
+  cols <- lst$cols
+
+
+  if(!is.null(id)){
+    polygon <- lapply(split(data, data[id]),
+                   function(x){ gepaf::encodePolyline(x[, c("lat","lng")]) })
+  }else{
+    polygon <- list(polygon = gepaf::encodePolyline(data[, c("lat","lng")]))
+  }
+
+  invoke_method(map, data, 'add_polygons', polygon
+                # data$lat,
+                # data$lon
+  )
+}
