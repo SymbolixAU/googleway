@@ -419,10 +419,12 @@ function add_polylines(map_id, data_polyline){
 //  }
 
   function add_lines(map_id, polyline){
+    console.log(polyline);
     var Polyline = new google.maps.Polyline({
-            path: google.maps.geometry.encoding.decodePath(polyline),
+            path: google.maps.geometry.encoding.decodePath(polyline.polyline),
             geodesic: true,
-            strokeColor: '#0088FF',
+            //strokeColor: '#0088FF',
+            strokeColor: polyline.strokeColour,
             strokeOpacity: 0.6,
             strokeWeight: 4
           });

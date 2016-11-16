@@ -427,11 +427,13 @@ clear_bicycling <- function(map){
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
 #' @param group ... placeholder...
+#' @param group_options ... placeholder ... colours etc
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
 add_polyline <- function(map,
                          data,
                          group = NULL,
+                         group_options = NULL,
                          lat = NULL,
                          lon = NULL){
   # ## TODO:
@@ -440,6 +442,13 @@ add_polyline <- function(map,
   # ## or also an encoded polyline
   # ## - other options - colours
   # ## rename the cols so the javascript functions will see them
+
+  ## checks on group_options
+  ## - each 'group' id has a corresponding option
+  ## -- if not, use a 'default' colour
+  ##
+  ## set 'default' colous
+
 
   ## First instance: use a dataframe with a grouping variable
   data <- as.data.frame(data)
@@ -483,8 +492,18 @@ add_polyline <- function(map,
     group <- "group"
   }
 
-  polyline <- lapply(split(data, data[group]),
-                     function(x){ gepaf::encodePolyline(x[, c("lat","lng")]) })
+  # polyline <- lapply(split(data, data[group]),
+  #                    function(x){ gepaf::encodePolyline(x[, c("lat","lng")]) })
+
+  polyline <- split(data, data[group])
+  polyline <- lapply(polyline, function(x){
+    pl <- gepaf::encodePolyline(x[, c("lat","lng")])
+    i <- unique(x[, group])
+    list("polyline" = pl,
+         "group" = i,
+         "strokeColour" = group_options[group_options$group == i, "fill_colour"]
+         )
+  })
 
 
   invoke_method(map, data, 'add_polylines', polyline

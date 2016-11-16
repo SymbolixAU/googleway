@@ -105,6 +105,25 @@
 #
 #
 
+# group_options <- data.frame(group = c(1,2,3),
+#                             fill_colour = c("#00ff00","#ff00ff","#ffff00"))
+#
+# polyline <- lapply(split(df_routes, df_routes$id),
+#                    function(x){
+#                      data.frame(polyline = gepaf::encodePolyline(x[, c("lat","lon")]),
+#                                 group = unique(x['id']))
+#                    })
+#
+#
+# s <- split(df_routes, df_routes$id)
+#
+# lapply(s, function(x){
+#   ## create polyline
+#   pl <- gepaf::encodePolyline(x[, c("lat", "lon")])
+#   i <- unique(x[, 'id'])
+#   data.frame(pl = pl, id = i)
+# })
+
 
 
 
