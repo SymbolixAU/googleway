@@ -400,14 +400,9 @@ function add_polylines(map_id, data_polyline){
 //  }
 
   // decode and plot polylines
-
-  if(Object.keys(data_polyline).length == 1){
-    add_lines(map_id, data_polyline.polyline);
-  }else{
     for(i = 1; i <= Object.keys(data_polyline).length; i++){
       add_lines(map_id, data_polyline[i]);
     }
-  }
 
 
   // http://stackoverflow.com/a/2647888/5977215
@@ -443,13 +438,9 @@ function clear_polylines(map_id){
 
 function add_polygons(map_id, data_polygon){
 
-  if(Object.keys(data_polygon).length == 1){
-
-  }else{
     for(i = 1; i <= Object.keys(data_polygon).length; i++){
       add_gons(map_id, data_polygon[i]);
     }
-  }
 
   function add_gons(map_id, polygon){
     var Polygon = new google.maps.Polygon({
