@@ -45,7 +45,7 @@
 #
 # google_map(key = map_key, data = df_line, search_box = T, height = 800) %>%
 # #  add_markers(info_window = "title", title = "title", cluster = T) %>%
-#   googleway:::add_polyline(data = df_routes, id = "id")
+#   googleway:::add_polyline(data = df_routes, group = "id")
 #
 #  })
 #
@@ -104,9 +104,14 @@
 #
 #
 #
-
+#
 # group_options <- data.frame(group = c(1,2,3),
-#                             fill_colour = c("#00ff00","#ff00ff","#ffff00"))
+#                             strokeColour = c("#00ff00","#ff00ff","#ffff00"),
+#                             strokeOpacity = c(0.3, 0.2, 0.9),
+#                             strokeWeight = c(2,3,4),
+#                             fillColour = c("#00ff00","#ff00ff","#ffff00"),
+#                             fillOpacity = c(0.9, 0.5, 0.2))
+#
 #
 # polyline <- lapply(split(df_routes, df_routes$id),
 #                    function(x){

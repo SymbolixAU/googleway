@@ -4,7 +4,8 @@
 \alias{add_polygon}
 \title{Add polygon}
 \usage{
-add_polygon(map, data, group = NULL, lat = NULL, lon = NULL)
+add_polygon(map, data, group = NULL, group_options = NULL, lat = NULL,
+  lon = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -12,6 +13,8 @@ add_polygon(map, data, group = NULL, lat = NULL, lon = NULL)
 \item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.}
 
 \item{group}{... placeholder...}
+
+\item{group_options}{... placeholder...}
 
 \item{lat}{string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made}
 

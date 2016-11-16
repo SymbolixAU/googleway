@@ -449,7 +449,6 @@ add_polyline <- function(map,
   ##
   ## set 'default' colous
 
-
   ## First instance: use a dataframe with a grouping variable
   data <- as.data.frame(data)
 
@@ -495,22 +494,48 @@ add_polyline <- function(map,
   # polyline <- lapply(split(data, data[group]),
   #                    function(x){ gepaf::encodePolyline(x[, c("lat","lng")]) })
 
-  polyline <- split(data, data[group])
-  polyline <- lapply(polyline, function(x){
-    pl <- gepaf::encodePolyline(x[, c("lat","lng")])
-    i <- unique(x[, group])
-    list("polyline" = pl,
-         "group" = i,
-         "strokeColour" = group_options[group_options$group == i, "fill_colour"]
-         )
-  })
+  if(is.null(group_options)){
+    group_options <- default_group(data, group)
+  }
 
+  polyline <- construct_poly(data, group, group_options)
 
   invoke_method(map, data, 'add_polylines', polyline
                # data$lat,
                # data$lon
                 )
 }
+
+default_group <- function(data, group){
+
+  group_options <- data.frame("geodesic" = TRUE,
+                              "strokeColour" = "#0088FF",
+                              "strokeOpacity" = 0.6,
+                              "strokeWeight" = 4,
+                              "fillColour" = "#FF0000",
+                              "fillOpacity" = 0.35)
+  group_options <- cbind(group_options, "group" = unique(data[,group]))
+
+  return(group_options)
+}
+
+construct_poly <- function(data, group, group_options){
+  poly <- split(data, data[group])
+  poly <- lapply(poly, function(x){
+    pl <- gepaf::encodePolyline(x[, c("lat","lng")])
+    i <- unique(x[, group])
+    list("poly" = pl,
+         "group" = i,
+         "geodesic" = tolower(group_options[group_options$group == i, "geodesic"]),
+         "strokeColour" = group_options[group_options$group == i, "strokeColour"],
+         "strokeOpacity" = group_options[group_options$group == i, "strokeOpacity"],
+         "strokeWeight" = group_options[group_options$group == i, "strokeWeight"],
+         "fillColour" = group_options[group_options$group == i, "fillColour"],
+         "fillOpacity" = group_options[group_options$group == i, "fillOpacity"]
+    )
+  })
+}
+
 
 #' Add polygon
 #'
@@ -519,13 +544,15 @@ add_polyline <- function(map,
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
 #' @param group ... placeholder...
+#' @param group_options ... placeholder...
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
 add_polygon <- function(map,
-                         data,
-                         group = NULL,
-                         lat = NULL,
-                         lon = NULL){
+                        data,
+                        group = NULL,
+                        group_options = NULL,
+                        lat = NULL,
+                        lon = NULL){
 
   ## First instance: use a dataframe with a grouping variable
   data <- as.data.frame(data)
@@ -554,9 +581,14 @@ add_polygon <- function(map,
     group <- "group"
   }
 
+  if(is.null(group_options)){
+    group_options <- default_group(data, group)
+  }
 
-  polygon <- lapply(split(data, data[group]),
-                     function(x){ gepaf::encodePolyline(x[, c("lat","lng")]) })
+  polygon <- construct_poly(data, group, group_options)
+
+  # polygon <- lapply(split(data, data[group]),
+  #                    function(x){ gepaf::encodePolyline(x[, c("lat","lng")]) })
 
   invoke_method(map, data, 'add_polygons', polygon
                 # data$lat,

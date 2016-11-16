@@ -421,12 +421,12 @@ function add_polylines(map_id, data_polyline){
   function add_lines(map_id, polyline){
     console.log(polyline);
     var Polyline = new google.maps.Polyline({
-            path: google.maps.geometry.encoding.decodePath(polyline.polyline),
-            geodesic: true,
+            path: google.maps.geometry.encoding.decodePath(polyline.poly),
+            geodesic: polyline.geodesic,
             //strokeColor: '#0088FF',
             strokeColor: polyline.strokeColour,
-            strokeOpacity: 0.6,
-            strokeWeight: 4
+            strokeOpacity: polyline.strokeOpacity,
+            strokeWeight: polyline.strokeWeight
           });
 
           window[map_id + 'googlePolyline'].push(Polyline);
@@ -446,12 +446,12 @@ function add_polygons(map_id, data_polygon){
 
   function add_gons(map_id, polygon){
     var Polygon = new google.maps.Polygon({
-      paths: google.maps.geometry.encoding.decodePath(polygon),
-      strokeColor: '#FF000',
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillColor: '#FF0000',
-      fillOpacity: 0.35
+      paths: google.maps.geometry.encoding.decodePath(polygon.poly),
+      strokeColor: polygon.strokeColour,
+      strokeOpacity: polygon.strokeOpacity,
+      strokeWeight: polygon.strokeWeight,
+      fillColor: polygon.fillColour,
+      fillOpacity: polygon.fillOpacity
     });
 
     window[map_id + 'googlePolygon'].push(Polygon);
