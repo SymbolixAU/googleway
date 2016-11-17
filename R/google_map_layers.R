@@ -531,7 +531,7 @@ clear_polyline <- function(map){
 
 #' Add polygon
 #'
-#' Add a polygon to a google map
+#' Add a polygon to a google map.
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
@@ -544,7 +544,7 @@ clear_polyline <- function(map){
 #' @param fill_opacity num
 #' @param info_window string
 add_polygon <- function(map,
-                        data,
+                        data = get_map_data(map),
 #                        line_source = c("coords","polyline"),
                         polyline,
                         group = NULL,
@@ -559,6 +559,12 @@ add_polygon <- function(map,
 #                        lat = NULL,
 #                        lon = NULL
 ){
+
+  ## TODO
+  ## - complex polygons (i.e, with holes) using an array of arrays
+  ## -- for this, can't use encoded polyline: will need to use geoJSON
+  ## -- should accept both types as data
+  ## -- allow addition of other attributes (however, how will the user access them?)
 
   ## First instance: use a dataframe with a grouping variable
 
