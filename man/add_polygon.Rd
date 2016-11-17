@@ -4,13 +4,15 @@
 \alias{add_polygon}
 \title{Add polygon}
 \usage{
-add_polygon(map, data, group = NULL, group_options = NULL, lat = NULL,
-  lon = NULL)
+add_polygon(map, data, lineSource = c("coords", "polyline"), group = NULL,
+  group_options = NULL, lat = NULL, lon = NULL, polyline = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
 \item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.}
+
+\item{lineSource}{string specifying the type of source data for the line, one of either 'coords' (for coordinates) or 'polyline'}
 
 \item{group}{... placeholder...}
 

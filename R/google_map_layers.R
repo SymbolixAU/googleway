@@ -426,16 +426,20 @@ clear_bicycling <- function(map){
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
+#' @param lineSource string specifying the type of source data for the line, one of either 'coords' (for coordinates) or 'polyline'
 #' @param group ... placeholder...
 #' @param group_options ... placeholder ... colours etc
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
+#' @param polyline string specifying the column of \code{data} containing the 'polyline'.
 add_polyline <- function(map,
                          data,
+                         lineSource = c("coords","polyline"),
                          group = NULL,
                          group_options = NULL,
                          lat = NULL,
-                         lon = NULL){
+                         lon = NULL,
+                         polyline = NULL){
   # ## TODO:
   # ## polylines can be a list of data.frames with lat/lon columns
   # ## or a shape file
@@ -449,15 +453,21 @@ add_polyline <- function(map,
   ##
   ## set 'default' colous
 
+  lineSource <- match.arg(lineSource)
+
+  if(lineSource == "polyline" & is.null(polyline)){
+    stop("please supply the column name containing the polyline data")
+  }
+
   ## First instance: use a dataframe with a grouping variable
   data <- as.data.frame(data)
 
-  if(is.null(lat)){
+  if(is.null(lat) & lineSource == "coords"){
     data <- latitude_column(data, lat, 'add_polyline')
     lat <- "lat"
   }
 
-  if(is.null(lon)){
+  if(is.null(lon) & lineSource == "coords"){
     data <- longitude_column(data, lon, 'add_polyline')
     lon <- "lng"
   }
@@ -486,8 +496,11 @@ add_polyline <- function(map,
   #   data <- list(data)
   # }
 
-  if(is.null(group)){
+  if(is.null(group) & lineSource == "coords"){
     data$group <- 1
+    group <- "group"
+  }else if(is.null(group) & lineSource == "polyline"){
+    data$group <- 1:nrow(data)
     group <- "group"
   }
 
@@ -498,42 +511,12 @@ add_polyline <- function(map,
     group_options <- default_group(data, group)
   }
 
-  polyline <- construct_poly(data, group, group_options)
+  polyline <- construct_poly(data, group, group_options, lineSource, polyline)
 
   invoke_method(map, data, 'add_polylines', polyline
                # data$lat,
                # data$lon
                 )
-}
-
-default_group <- function(data, group){
-
-  group_options <- data.frame("geodesic" = TRUE,
-                              "strokeColour" = "#0088FF",
-                              "strokeOpacity" = 0.6,
-                              "strokeWeight" = 4,
-                              "fillColour" = "#FF0000",
-                              "fillOpacity" = 0.35)
-  group_options <- cbind(group_options, "group" = unique(data[,group]))
-
-  return(group_options)
-}
-
-construct_poly <- function(data, group, group_options){
-  poly <- split(data, data[group])
-  poly <- lapply(poly, function(x){
-    pl <- gepaf::encodePolyline(x[, c("lat","lng")])
-    i <- unique(x[, group])
-    list("poly" = pl,
-         "group" = i,
-         "geodesic" = tolower(group_options[group_options$group == i, "geodesic"]),
-         "strokeColour" = group_options[group_options$group == i, "strokeColour"],
-         "strokeOpacity" = group_options[group_options$group == i, "strokeOpacity"],
-         "strokeWeight" = group_options[group_options$group == i, "strokeWeight"],
-         "fillColour" = group_options[group_options$group == i, "fillColour"],
-         "fillOpacity" = group_options[group_options$group == i, "fillOpacity"]
-    )
-  })
 }
 
 
@@ -543,26 +526,36 @@ construct_poly <- function(data, group, group_options){
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
+#' @param lineSource string specifying the type of source data for the line, one of either 'coords' (for coordinates) or 'polyline'
 #' @param group ... placeholder...
 #' @param group_options ... placeholder...
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
 add_polygon <- function(map,
                         data,
+                        lineSource = c("coords","polyline"),
                         group = NULL,
                         group_options = NULL,
                         lat = NULL,
-                        lon = NULL){
+                        lon = NULL,
+                        polyline= NULL){
 
   ## First instance: use a dataframe with a grouping variable
+
+  lineSource <- match.arg(lineSource)
+
+  if(lineSource == "polyline" & is.null(polyline)){
+    stop("please supply the column name containing the polyline data")
+  }
+
   data <- as.data.frame(data)
 
-  if(is.null(lat)){
+  if(is.null(lat) & lineSource == "coords"){
     data <- latitude_column(data, lat, 'add_polygon')
     lat <- "lat"
   }
 
-  if(is.null(lon)){
+  if(is.null(lon) & lineSource == "coords"){
     data <- longitude_column(data, lon, 'add_polygon')
     lon <- "lng"
   }
@@ -576,8 +569,11 @@ add_polygon <- function(map,
   data <- lst$df
   cols <- lst$cols
 
-  if(is.null(group)){
+  if(is.null(group) & lineSource == "coords"){
     data$group <- 1
+    group <- "group"
+  }else if(is.null(group) & lineSource == "polyline"){
+    data$group <- 1:nrow(data)
     group <- "group"
   }
 
@@ -585,7 +581,7 @@ add_polygon <- function(map,
     group_options <- default_group(data, group)
   }
 
-  polygon <- construct_poly(data, group, group_options)
+  polygon <- construct_poly(data, group, group_options, lineSource, polyline)
 
   # polygon <- lapply(split(data, data[group]),
   #                    function(x){ gepaf::encodePolyline(x[, c("lat","lng")]) })

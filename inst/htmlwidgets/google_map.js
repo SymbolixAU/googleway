@@ -440,6 +440,8 @@ function clear_polylines(map_id){
 
 function add_polygons(map_id, data_polygon){
 
+  console.log(data_polygon);
+
     for(i = 1; i <= Object.keys(data_polygon).length; i++){
       add_gons(map_id, data_polygon[i]);
     }

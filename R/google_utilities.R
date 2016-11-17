@@ -90,6 +90,73 @@ invoke_method = function(map, data, method, ...) {
   )
 }
 
+latitude_column <- function(data, lat, calling_function){
+
+  if(is.null(lat)){
+    lat_col <- find_lat_column(names(data), calling_function)
+    names(data)[names(data) == lat_col[1]] <- "lat"
+  }else{
+    ## check the supplied latitude column exists
+    check_for_columns(data, lat)
+    # names(data)[names(data) == lat] <- "lat"
+  }
+  return(data)
+}
+
+longitude_column <- function(data, lon, calling_function){
+  if(is.null(lon)){
+    lon_col <- find_lon_column(names(data), calling_function)
+    names(data)[names(data) == lon_col[1]] <- "lng"
+  }else{
+    check_for_columns(data, lon)
+    # names(data)[names(data) == lon] <- "lng"
+  }
+  return(data)
+}
+
+find_lat_column = function(names, calling_function, stopOnFailure = TRUE) {
+
+  lats = names[grep("^(lat|lats|latitude|latitudes)$", names, ignore.case = TRUE)]
+
+  if (length(lats) == 1) {
+    # if (length(names) > 1) {
+    #   message("Assuming '", lats, " is the latitude column")
+    # }
+    ## passes
+    return(list(lat = lats))
+  }
+
+  if (stopOnFailure) {
+    stop(paste0("Couldn't infer latitude column for ", calling_function))
+  }
+
+  list(lat = NA)
+}
+
+
+find_lon_column = function(names, calling_function, stopOnFailure = TRUE) {
+
+  lons = names[grep("^(lon|lons|lng|lngs|long|longs|longitude|longitudes)$", names, ignore.case = TRUE)]
+
+  if (length(lons) == 1) {
+    # if (length(names) > 1) {
+    #   message("Assuming '", lons, " is the longitude column")
+    # }
+    ## passes
+    return(list(lon = lons))
+  }
+
+  if (stopOnFailure) {
+    stop(paste0("Couldn't infer longitude columns for ", calling_function))
+  }
+
+  list(lon = NA)
+}
+
+
+
+
+
 invoke_remote = function(map, method, args = list()) {
   if (!inherits(map, "google_map_update"))
     stop("Invalid map parameter; googlemap_update object was expected")
@@ -132,6 +199,8 @@ evalFormula = function(list, data) {
   }
   evalAll(list)
 }
+
+
 
 resolveFormula = function(f, data) {
   if (!inherits(f, 'formula')) return(f)
@@ -224,66 +293,41 @@ correct_columns <- function(df, cols, col_names, allowed_nulls = c()){
 }
 
 
-latitude_column <- function(data, lat, calling_function){
 
-  if(is.null(lat)){
-    lat_col <- find_lat_column(names(data), calling_function)
-    names(data)[names(data) == lat_col[1]] <- "lat"
-  }else{
-    ## check the supplied latitude column exists
-    check_for_columns(data, lat)
-    # names(data)[names(data) == lat] <- "lat"
-  }
-  return(data)
+default_group <- function(data, group){
+
+  group_options <- data.frame("geodesic" = TRUE,
+                              "strokeColour" = "#0000FF",
+                              "strokeOpacity" = 0.6,
+                              "strokeWeight" = 2,
+                              "fillColour" = "#FF0000",
+                              "fillOpacity" = 0.35)
+  group_options <- cbind(group_options, "group" = unique(data[,group]))
+
+  return(group_options)
 }
 
-longitude_column <- function(data, lon, calling_function){
-  if(is.null(lon)){
-    lon_col <- find_lon_column(names(data), calling_function)
-    names(data)[names(data) == lon_col[1]] <- "lng"
-  }else{
-    check_for_columns(data, lon)
-    # names(data)[names(data) == lon] <- "lng"
-  }
-  return(data)
-}
+construct_poly <- function(data, group, group_options,
+                           lineSource, polyline){
 
-
-find_lat_column = function(names, calling_function, stopOnFailure = TRUE) {
-
-  lats = names[grep("^(lat|lats|latitude|latitudes)$", names, ignore.case = TRUE)]
-
-  if (length(lats) == 1) {
-    # if (length(names) > 1) {
-    #   message("Assuming '", lats, " is the latitude column")
-    # }
-    ## passes
-    return(list(lat = lats))
-  }
-
-  if (stopOnFailure) {
-    stop(paste0("Couldn't infer latitude column for ", calling_function))
-  }
-
-  list(lat = NA)
+  poly <- split(data, data[group])
+  poly <- lapply(poly, function(x){
+    if(lineSource == "coords"){
+      pl <- gepaf::encodePolyline(x[, c("lat","lng")])
+    }else{
+      pl <- x[, polyline]
+    }
+    i <- unique(x[, group])
+    list("poly" = pl,
+         "group" = i,
+         "geodesic" = tolower(group_options[group_options$group == i, "geodesic"]),
+         "strokeColour" = group_options[group_options$group == i, "strokeColour"],
+         "strokeOpacity" = group_options[group_options$group == i, "strokeOpacity"],
+         "strokeWeight" = group_options[group_options$group == i, "strokeWeight"],
+         "fillColour" = group_options[group_options$group == i, "fillColour"],
+         "fillOpacity" = group_options[group_options$group == i, "fillOpacity"]
+    )
+  })
 }
 
 
-find_lon_column = function(names, calling_function, stopOnFailure = TRUE) {
-
-  lons = names[grep("^(lon|lons|lng|lngs|long|longs|longitude|longitudes)$", names, ignore.case = TRUE)]
-
-  if (length(lons) == 1) {
-    # if (length(names) > 1) {
-    #   message("Assuming '", lons, " is the longitude column")
-    # }
-    ## passes
-    return(list(lon = lons))
-  }
-
-  if (stopOnFailure) {
-    stop(paste0("Couldn't infer longitude columns for ", calling_function))
-  }
-
-  list(lon = NA)
-}

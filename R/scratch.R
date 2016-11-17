@@ -47,6 +47,9 @@
 # #  add_markers(info_window = "title", title = "title", cluster = T) %>%
 #   googleway:::add_polyline(data = df_routes, group = "id")
 #
+# df <- data.frame(polyline = c(pl, pl2, pl3))
+# google_map(key = map_key, data = df_line, search_box = T, height = 800) %>%
+#   googleway:::add_polyline(data = df, lineSource = "polyline", polyline = "polyline")
 #  })
 #
 #   observe({
