@@ -4,9 +4,9 @@
 \alias{add_polygon}
 \title{Add polygon}
 \usage{
-add_polygon(map, data = get_map_data(map), polyline, group = NULL,
+add_polygon(map, data = get_map_data(map), polyline,
   stroke_colour = "#0000FF", stroke_weight = 2, stroke_opacity = 0.6,
-  fill_colour = "#FF0000", fill_opacity = 0.35, info_window = NULL)
+  fill_colour = "#FF0000", fill_opacity, info_window = "test")
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -14,8 +14,6 @@ add_polygon(map, data = get_map_data(map), polyline, group = NULL,
 \item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.}
 
 \item{polyline}{string specifying the column containing the polyline}
-
-\item{group}{string}
 
 \item{stroke_colour}{hex}
 
@@ -30,6 +28,6 @@ add_polygon(map, data = get_map_data(map), polyline, group = NULL,
 \item{info_window}{string}
 }
 \description{
-Add a polygon to a google map
+Add a polygon to a google map.
 }
 

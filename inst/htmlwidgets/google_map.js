@@ -445,7 +445,7 @@ function add_polygons(map_id, data_polygon, info_window){
 
   info_window = [].concat(info_window);
 
-  for(i = 0; i < Object.keys(data_polygon).length; i++){
+  for(i = 1; i <= Object.keys(data_polygon).length; i++){
       add_gons(map_id, data_polygon[i]);
   }
 
@@ -468,7 +468,6 @@ function add_polygons(map_id, data_polygon, info_window){
     });
 
     console.log(polygon);
-    console.log(Polygon);
     // other options
     //var polyObj = {
     //  'information': polygon.infomation

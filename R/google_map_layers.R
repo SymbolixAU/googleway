@@ -134,7 +134,7 @@ clear_markers <- function(map){
 #' @examples
 #' \dontrun{
 #'
-#' #' df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
+#' df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
 #' -37.8191299438477, -37.8187675476074, -37.8186187744141, -37.8181076049805
 #' ), lon = c(144.968612670898, 144.968414306641, 144.968139648438,
 #' 144.967971801758, 144.967864990234, 144.967636108398), weight = c(31.5698964400217,
@@ -536,7 +536,6 @@ clear_polyline <- function(map){
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
 #' @param polyline string specifying the column containing the polyline
-#' @param group string
 #' @param stroke_colour hex
 #' @param stroke_weight num
 #' @param stroke_opacity num
@@ -547,13 +546,12 @@ add_polygon <- function(map,
                         data = get_map_data(map),
 #                        line_source = c("coords","polyline"),
                         polyline,
-                        group = NULL,
                         stroke_colour = "#0000FF",
                         stroke_weight = 2,
                         stroke_opacity = 0.6,
                         fill_colour = "#FF0000",
-                        fill_opacity = 0.35,
-                        info_window = NULL
+                        fill_opacity,
+                        info_window = "test"
 #                        group = NULL,
 #                        group_options = NULL,
 #                        lat = NULL,
@@ -566,6 +564,13 @@ add_polygon <- function(map,
   ## -- should accept both types as data
   ## -- allow addition of other attributes (however, how will the user access them?)
 
+  # stroke_colour = "#0000FF",
+  # stroke_weight = 2,
+  # stroke_opacity = 0.6,
+  # fill_colour = "#FF0000",
+  # fill_opacity = 0.35,
+
+
   ## First instance: use a dataframe with a grouping variable
 
   #line_source <- match.arg(line_source)
@@ -574,26 +579,20 @@ add_polygon <- function(map,
   #   stop("please supply the column name containing the polyline data")
   # }
 
-  data <- as.data.frame(data)
 
-  # if(is.null(lat) & line_source == "coords"){
-  #   data <- latitude_column(data, lat, 'add_polygon')
-  #   lat <- "lat"
-  # }
-  #
-  # if(is.null(lon) & line_source == "coords"){
-  #   data <- longitude_column(data, lon, 'add_polygon')
-  #   lon <- "lng"
-  # }
+  data <- as.data.frame(data)
 
   ## check columns
   cols <- list(stroke_colour, stroke_weight, stroke_opacity,
                fill_colour, fill_opacity, info_window)
 
+  print("cols: ")
+  print(cols)
+
   col_names <- list("stroke_colour", "stroke_weight", "stroke_opacity",
                     "fill_colour", "fill_opacity", "info_window")
-  allowed_nulls <- c("stroke_colour", "stroke_weight", "stroke_opacity",
-                     "fill_colour", "fill_opacity", "info_window")
+
+  allowed_nulls <- c()
 
   lst <- correct_columns(data, cols, col_names, allowed_nulls)
 
@@ -614,14 +613,28 @@ add_polygon <- function(map,
 
   # polygon <- construct_poly(data, group, group_options, line_source, polyline)
 
-  if(is.null(group)){
-    data$group <- 1
-    group <- "group"
-  }
+  # if(is.null(group)){
+  #   data$group <- 1
+  #   group <- "group"
+  # }
+  # if(!is.null(stroke_opacity))
+  #   data[, stroke_opacity] <- as.numeric(data[, stroke_opacity])
 
   # polygon <- split(data, seq(nrow(data)))
 
+  check_hex_colours(data, cols = unique(c(cols$stroke_colour, cols$fill_colour)))
+  check_opacities(data, cols = unique(c(cols$stroke_opacity, cols$fill_opacity)))
+
+  print("data \n")
+  print(data)
+
+  if(!is.null(fill_opacity))
+    data[, cols$fill_opacity] <- as.numeric(data[, fill_opacity])
+
   polygon <- apply(data, 1, as.list)
+
+  print("polygon \n")
+  print(polygon)
 
   # polygon <- lapply(split(data, data[group]),
   #                    function(x){ gepaf::encodePolyline(x[, c("lat","lng")]) })
@@ -629,7 +642,7 @@ add_polygon <- function(map,
   invoke_method(map, data, 'add_polygons', polygon
                 # data$lat,
                 # data$lon
-  )
+                )
 }
 
 #' Clear polygon
