@@ -540,8 +540,9 @@ clear_polyline <- function(map){
 #' @param stroke_weight num
 #' @param stroke_opacity num
 #' @param fill_colour hex
-#' @param fill_opacity num
-#' @param info_window string
+#' @param fill_opacity string specifying the column of data to use as the opacity (opacity must be a number between 0 (transparent) and 1 (opaque))
+#' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
+#' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
 add_polygon <- function(map,
                         data = get_map_data(map),
 #                        line_source = c("coords","polyline"),
@@ -551,7 +552,8 @@ add_polygon <- function(map,
                         stroke_opacity = NULL,
                         fill_colour = NULL,
                         fill_opacity = NULL,
-                        info_window = NULL
+                        info_window = NULL,
+                        mouse_over = NULL
 #                        group = NULL,
 #                        group_options = NULL,
 #                        lat = NULL,
@@ -590,6 +592,9 @@ add_polygon <- function(map,
   ## options
   if(!is.null(info_window))
     polygon[, "info_window"] <- as.character(data[, info_window])
+
+  if(!is.null(mouse_over))
+    polygon[, "mouse_over"] <- as.character(data[, mouse_over])
 
 
   # check_hex_colours(data, cols = unique(c(cols$stroke_colour, cols$fill_colour)))

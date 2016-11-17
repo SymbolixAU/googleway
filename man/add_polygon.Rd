@@ -6,7 +6,7 @@
 \usage{
 add_polygon(map, data = get_map_data(map), polyline, stroke_colour = NULL,
   stroke_weight = NULL, stroke_opacity = NULL, fill_colour = NULL,
-  fill_opacity = NULL, info_window = NULL)
+  fill_opacity = NULL, info_window = NULL, mouse_over = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -23,9 +23,11 @@ add_polygon(map, data = get_map_data(map), polyline, stroke_colour = NULL,
 
 \item{fill_colour}{hex}
 
-\item{fill_opacity}{num}
+\item{fill_opacity}{string specifying the column of data to use as the opacity (opacity must be a number between 0 (transparent) and 1 (opaque))}
 
-\item{info_window}{string}
+\item{info_window}{string specifying the column of data to display in an info window when a polygon is clicked}
+
+\item{mouse_over}{string specifying the column of data to display when the mouse rolls over the polygon}
 }
 \description{
 Add a polygon to a google map.

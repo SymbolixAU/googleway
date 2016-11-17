@@ -443,6 +443,7 @@ function add_polygons(map_id, data_polygon){
 
   console.log(data_polygon);
 
+  var infoWindow = new google.maps.InfoWindow();
   //info_window = [].concat(info_window);
 
   for(i = 0; i < Object.keys(data_polygon).length; i++){
@@ -486,6 +487,32 @@ function add_polygons(map_id, data_polygon){
         infoWindow.open(window[map_id + 'map']);
       });
     }
+
+    if(polygon.mouse_over){
+
+      Polygon.set('_mouseover', polygon.mouse_over);
+      var _fillOpacity = Polygon.get('fillOpacity');
+      console.log("mouse over fill: "+_fillOpacity);
+
+      google.maps.event.addListener(Polygon, 'mouseover', function(event){
+
+        this.setOptions({fillOpacity: 1});
+
+        infoWindow.setContent(Polygon.get('_mouseover').toString());
+
+        infoWindow.setPosition(event.latLng);
+        infoWindow.open(window[map_id + 'map']);
+
+      });
+
+      google.maps.event.addListener(Polygon, 'mouseout', function(event){
+
+        this.setOptions({fillOpacity: _fillOpacity});
+        infoWindow.close();
+      });
+
+    }
+
 
 
 //    Polygon.setOptions({  });
