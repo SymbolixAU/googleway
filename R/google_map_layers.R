@@ -686,7 +686,7 @@ add_polygon <- function(map,
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @export
-clear_polyline <- function(map){
+clear_polygon <- function(map){
   invoke_method(map, data = NULL, 'clear_polygons')
 }
 
