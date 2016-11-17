@@ -546,12 +546,12 @@ add_polygon <- function(map,
                         data = get_map_data(map),
 #                        line_source = c("coords","polyline"),
                         polyline,
-                        stroke_colour = "#0000FF",
-                        stroke_weight = 2,
-                        stroke_opacity = 0.6,
-                        fill_colour = "#FF0000",
-                        fill_opacity,
-                        info_window = "test"
+                        stroke_colour = NULL,
+                        stroke_weight = NULL,
+                        stroke_opacity = NULL,
+                        fill_colour = NULL,
+                        fill_opacity = NULL,
+                        info_window = NULL
 #                        group = NULL,
 #                        group_options = NULL,
 #                        lat = NULL,
@@ -564,11 +564,36 @@ add_polygon <- function(map,
   ## -- should accept both types as data
   ## -- allow addition of other attributes (however, how will the user access them?)
 
-  # stroke_colour = "#0000FF",
-  # stroke_weight = 2,
-  # stroke_opacity = 0.6,
-  # fill_colour = "#FF0000",
-  # fill_opacity = 0.35,
+  ## defaults
+  strokeColour = "#0000FF"
+  strokeWeight = 2
+  strokeOpacity = 0.6
+  fillColour = "#FF0000"
+  fillOpacity = 0.35
+  infoWindow = NULL
+
+  polygon <- data[, polyline, drop = FALSE]
+
+  # if(is.null(stroke_colour)){
+  #   polygon[,"stroke_colour"] <- rep(strokeColour, nrow(data))
+  # }else{
+  #   polygon[,"stroke_colour"] <- data[, stroke_colour]
+  # }
+
+  ## teh defaults are required
+  polygon[, "stroke_colour"] <- SetDefault(stroke_colour, strokeColour, data)
+  polygon[, "stroke_weight"] <- SetDefault(stroke_weight, strokeWeight, data)
+  polygon[, "stroke_opacity"] <- SetDefault(stroke_opacity, strokeOpacity, data)
+  polygon[, "fill_colour"] <- SetDefault(fill_colour, fillColour, data)
+  polygon[, "fill_opacity"] <- SetDefault(fill_opacity, fillOpacity, data)
+
+  ## options
+  if(!is.null(info_window))
+    polygon[, "info_window"] <- as.character(data[, info_window])
+
+
+  # check_hex_colours(data, cols = unique(c(cols$stroke_colour, cols$fill_colour)))
+  # check_opacities(data, cols = unique(c(cols$stroke_opacity, cols$fill_opacity)))
 
 
   ## First instance: use a dataframe with a grouping variable
@@ -580,24 +605,33 @@ add_polygon <- function(map,
   # }
 
 
-  data <- as.data.frame(data)
+#  data <- as.data.frame(data)
 
-  ## check columns
-  cols <- list(stroke_colour, stroke_weight, stroke_opacity,
-               fill_colour, fill_opacity, info_window)
+  # polygon <- data.frame(polyline = data[, polyline],
+  #                       stroke_colour = data[, stroke_colour],
+  #                       #stroke_weight = data[, stroke_weight],
+  #                       #stroke_opacity = data[, stroke_opacity],
+  #                       #fill_colour = data[, fill_colour],
+  #                       fill_opacity = data[, fill_opacity]
+  #                       #info_window = data[, info_window]
+  #                       )
 
-  print("cols: ")
-  print(cols)
-
-  col_names <- list("stroke_colour", "stroke_weight", "stroke_opacity",
-                    "fill_colour", "fill_opacity", "info_window")
-
-  allowed_nulls <- c()
-
-  lst <- correct_columns(data, cols, col_names, allowed_nulls)
-
-  data <- lst$df
-  cols <- lst$cols
+  # ## check columns
+  # cols <- list(stroke_colour, stroke_weight, stroke_opacity,
+  #              fill_colour, fill_opacity, info_window)
+  #
+  # print("cols: ")
+  # print(cols)
+  #
+  # col_names <- list("stroke_colour", "stroke_weight", "stroke_opacity",
+  #                   "fill_colour", "fill_opacity", "info_window")
+  #
+  # allowed_nulls <- c()
+  #
+  # lst <- correct_columns(data, cols, col_names, allowed_nulls)
+  #
+  # data <- lst$df
+  # cols <- lst$cols
 
   # if(is.null(group) & line_source == "coords"){
   #   data$group <- 1
@@ -622,19 +656,20 @@ add_polygon <- function(map,
 
   # polygon <- split(data, seq(nrow(data)))
 
-  check_hex_colours(data, cols = unique(c(cols$stroke_colour, cols$fill_colour)))
-  check_opacities(data, cols = unique(c(cols$stroke_opacity, cols$fill_opacity)))
+  # print("data \n")
+  # print(data)
+  #
+  # if(!is.null(fill_opacity))
+  #   data[, cols$fill_opacity] <- as.numeric(data[, fill_opacity])
 
-  print("data \n")
-  print(data)
+  polygon <- jsonlite::toJSON(polygon)
 
-  if(!is.null(fill_opacity))
-    data[, cols$fill_opacity] <- as.numeric(data[, fill_opacity])
+#  polygon <- split(polygon, seq(nrow(polygon)))
 
-  polygon <- apply(data, 1, as.list)
+  # polygon <- apply(data, 1, as.list)
 
-  print("polygon \n")
-  print(polygon)
+  # print("polygon \n")
+  # print(polygon)
 
   # polygon <- lapply(split(data, data[group]),
   #                    function(x){ gepaf::encodePolyline(x[, c("lat","lng")]) })

@@ -4,9 +4,9 @@
 \alias{add_polygon}
 \title{Add polygon}
 \usage{
-add_polygon(map, data = get_map_data(map), polyline,
-  stroke_colour = "#0000FF", stroke_weight = 2, stroke_opacity = 0.6,
-  fill_colour = "#FF0000", fill_opacity, info_window = "test")
+add_polygon(map, data = get_map_data(map), polyline, stroke_colour = NULL,
+  stroke_weight = NULL, stroke_opacity = NULL, fill_colour = NULL,
+  fill_opacity = NULL, info_window = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}

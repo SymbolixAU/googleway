@@ -439,13 +439,13 @@ function clear_polylines(map_id){
   window[map_id + 'googlePolyline'].setMap(null);
 }
 
-function add_polygons(map_id, data_polygon, info_window){
+function add_polygons(map_id, data_polygon){
 
   console.log(data_polygon);
 
-  info_window = [].concat(info_window);
+  //info_window = [].concat(info_window);
 
-  for(i = 1; i <= Object.keys(data_polygon).length; i++){
+  for(i = 0; i < Object.keys(data_polygon).length; i++){
       add_gons(map_id, data_polygon[i]);
   }
 

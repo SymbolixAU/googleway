@@ -282,7 +282,11 @@ correct_columns <- function(df, cols, col_names, allowed_nulls = c()){
         ## the actual column name should be col_names[i]
         df[, col_names[[i]] ] <- cols[[i]]
         cols[[i]] <- col_names[[i]]
-      } ## else the column exists
+      }else{
+        ## else the column exists
+        ## make sure the name is correct
+
+      }
     }
   }
 
@@ -332,4 +336,16 @@ construct_poly <- function(data, group, group_options,
   })
 }
 
+#' Set Defaults
+#'
+#' @param col column to check / add to the data
+#' @param val default value for the column
+#' @param df data to be checked/ added to
+SetDefault <- function(col, val, df){
+  if(is.null(col)){
+    return(rep(val, nrow(df)))
+  }else{
+    return(df[, col])
+  }
+}
 
