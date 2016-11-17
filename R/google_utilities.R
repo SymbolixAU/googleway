@@ -301,7 +301,8 @@ default_group <- function(data, group){
                               "strokeOpacity" = 0.6,
                               "strokeWeight" = 2,
                               "fillColour" = "#FF0000",
-                              "fillOpacity" = 0.35)
+                              "fillOpacity" = 0.35,
+                              "information" = NA)
   group_options <- cbind(group_options, "group" = unique(data[,group]))
 
   return(group_options)
@@ -325,7 +326,8 @@ construct_poly <- function(data, group, group_options,
          "strokeOpacity" = group_options[group_options$group == i, "strokeOpacity"],
          "strokeWeight" = group_options[group_options$group == i, "strokeWeight"],
          "fillColour" = group_options[group_options$group == i, "fillColour"],
-         "fillOpacity" = group_options[group_options$group == i, "fillOpacity"]
+         "fillOpacity" = group_options[group_options$group == i, "fillOpacity"],
+         "information" = group_options[group_options$group == i, "information"]
     )
   })
 }

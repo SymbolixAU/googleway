@@ -48,6 +48,7 @@
 #   googleway:::add_polyline(data = df_routes, group = "id")
 #
 # df <- data.frame(polyline = c(pl, pl2, pl3))
+# df$id <- c(1,2,3)
 # google_map(key = map_key, data = df_line, search_box = T, height = 800) %>%
 #   googleway:::add_polyline(data = df, lineSource = "polyline", polyline = "polyline")
 #  })

@@ -18,6 +18,7 @@ HTMLWidgets.widget({
           window[el.id + 'googleCircles'] = [];
           window[el.id + 'googlePolyline'] = [];
           window[el.id + 'googlePolygon'] = [];
+          window[el.id + 'googlePolygonMVC'] = [];
 
           window[el.id + 'googleBounds'] = [];
 
@@ -341,8 +342,8 @@ function add_circles(map_id, lat, lng, radius, stroke_colour, stroke_opacity, st
   fill_colour = [].concat(fill_colour);
   fill_opacity = [].concat(fill_opacity);
 
-  //circles = HTMLWidgets.dataframeToD3(data_circles);
   var i;
+
   for (i = 0; i < lat.length; i++) {
     var latlon = new google.maps.LatLng(lat[i], lng[i]);
 
@@ -419,7 +420,7 @@ function add_polylines(map_id, data_polyline){
 //  }
 
   function add_lines(map_id, polyline){
-    console.log(polyline);
+
     var Polyline = new google.maps.Polyline({
             path: google.maps.geometry.encoding.decodePath(polyline.poly),
             geodesic: polyline.geodesic,
@@ -438,29 +439,74 @@ function clear_polylines(map_id){
   window[map_id + 'googlePolyline'].setMap(null);
 }
 
-function add_polygons(map_id, data_polygon){
+function add_polygons(map_id, data_polygon, info_window){
 
   console.log(data_polygon);
 
-    for(i = 1; i <= Object.keys(data_polygon).length; i++){
+  info_window = [].concat(info_window);
+
+  for(i = 0; i < Object.keys(data_polygon).length; i++){
       add_gons(map_id, data_polygon[i]);
-    }
+  }
 
   function add_gons(map_id, polygon){
+    //https://developers.google.com/maps/documentation/javascript/reference?csw=1#PolygonOptions
     var Polygon = new google.maps.Polygon({
-      paths: google.maps.geometry.encoding.decodePath(polygon.poly),
-      strokeColor: polygon.strokeColour,
-      strokeOpacity: polygon.strokeOpacity,
-      strokeWeight: polygon.strokeWeight,
-      fillColor: polygon.fillColour,
-      fillOpacity: polygon.fillOpacity
+      paths: google.maps.geometry.encoding.decodePath(polygon.polyline),
+      strokeColor: polygon.stroke_colour,
+      strokeOpacity: polygon.stroke_opacity,
+      strokeWeight: polygon.stroke_weight,
+      fillColor: polygon.fill_colour,
+      fillOpacity: polygon.fill_opacity,
+      //_information: polygon.information
+//      clickable: true,
+//      draggable: false,
+//      editable: false,
+//      strokePosition: "CENTER",
+//      visible: true
+      //zIndex:1
     });
+
+    console.log(polygon);
+    console.log(Polygon);
+    // other options
+    //var polyObj = {
+    //  'information': polygon.infomation
+    //};
+    //console.log(polyObj);
+
+    //Polygon.meta = polyObj;
+    if(polygon.info_window){
+      Polygon.set('_information', polygon.info_window);
+
+      google.maps.event.addListener(Polygon, 'click', function(event){
+        var infoWindow = new google.maps.InfoWindow();
+        infoWindow.setContent(Polygon.get('_information'));
+
+        infoWindow.setPosition(event.latLng);
+        infoWindow.open(window[map_id + 'map']);
+      });
+    }
+
+
+//    Polygon.setOptions({  });
+
+
+//      // store in MVC array
+//    window[map_id + 'googlePolygonMVC'] = new google.maps.MVCArray();
+
+//    var heatmap = new google.maps.visualization.HeatmapLayer({
+//      data: window[map_id + 'googlePolygonMVC']
+//    });
 
     window[map_id + 'googlePolygon'].push(Polygon);
     Polygon.setMap(window[map_id + 'map']);
   }
 
 }
+
+
+
 
 function clear_polygons(map_id){
   window[map_id + 'googlePolygon'].setMap(null);

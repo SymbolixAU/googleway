@@ -4,23 +4,30 @@
 \alias{add_polygon}
 \title{Add polygon}
 \usage{
-add_polygon(map, data, lineSource = c("coords", "polyline"), group = NULL,
-  group_options = NULL, lat = NULL, lon = NULL, polyline = NULL)
+add_polygon(map, data, polyline, group = NULL, stroke_colour = "#0000FF",
+  stroke_weight = 2, stroke_opacity = 0.6, fill_colour = "#FF0000",
+  fill_opacity = 0.35, info_window = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
 \item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.}
 
-\item{lineSource}{string specifying the type of source data for the line, one of either 'coords' (for coordinates) or 'polyline'}
+\item{polyline}{string specifying the column containing the polyline}
 
-\item{group}{... placeholder...}
+\item{group}{string}
 
-\item{group_options}{... placeholder...}
+\item{stroke_colour}{hex}
 
-\item{lat}{string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made}
+\item{stroke_weight}{num}
 
-\item{lon}{string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made}
+\item{stroke_opacity}{num}
+
+\item{fill_colour}{hex}
+
+\item{fill_opacity}{num}
+
+\item{info_window}{string}
 }
 \description{
 Add a polygon to a google map

@@ -519,6 +519,15 @@ add_polyline <- function(map,
                 )
 }
 
+#' Clear polyline
+#'
+#' Clears polylines from map
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @export
+clear_polyline <- function(map){
+  invoke_method(map, data = NULL, 'clear_polyline')
+}
 
 #' Add polygon
 #'
@@ -526,62 +535,87 @@ add_polyline <- function(map,
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
-#' @param lineSource string specifying the type of source data for the line, one of either 'coords' (for coordinates) or 'polyline'
-#' @param group ... placeholder...
-#' @param group_options ... placeholder...
-#' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
-#' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
+#' @param polyline string specifying the column containing the polyline
+#' @param group string
+#' @param stroke_colour hex
+#' @param stroke_weight num
+#' @param stroke_opacity num
+#' @param fill_colour hex
+#' @param fill_opacity num
+#' @param info_window string
 add_polygon <- function(map,
                         data,
-                        lineSource = c("coords","polyline"),
+#                        line_source = c("coords","polyline"),
+                        polyline,
                         group = NULL,
-                        group_options = NULL,
-                        lat = NULL,
-                        lon = NULL,
-                        polyline= NULL){
+                        stroke_colour = "#0000FF",
+                        stroke_weight = 2,
+                        stroke_opacity = 0.6,
+                        fill_colour = "#FF0000",
+                        fill_opacity = 0.35,
+                        info_window = NULL
+#                        group = NULL,
+#                        group_options = NULL,
+#                        lat = NULL,
+#                        lon = NULL
+){
 
   ## First instance: use a dataframe with a grouping variable
 
-  lineSource <- match.arg(lineSource)
+  #line_source <- match.arg(line_source)
 
-  if(lineSource == "polyline" & is.null(polyline)){
-    stop("please supply the column name containing the polyline data")
-  }
+  # if(line_source == "polyline" & is.null(polyline)){
+  #   stop("please supply the column name containing the polyline data")
+  # }
 
   data <- as.data.frame(data)
 
-  if(is.null(lat) & lineSource == "coords"){
-    data <- latitude_column(data, lat, 'add_polygon')
-    lat <- "lat"
-  }
-
-  if(is.null(lon) & lineSource == "coords"){
-    data <- longitude_column(data, lon, 'add_polygon')
-    lon <- "lng"
-  }
+  # if(is.null(lat) & line_source == "coords"){
+  #   data <- latitude_column(data, lat, 'add_polygon')
+  #   lat <- "lat"
+  # }
+  #
+  # if(is.null(lon) & line_source == "coords"){
+  #   data <- longitude_column(data, lon, 'add_polygon')
+  #   lon <- "lng"
+  # }
 
   ## check columns
-  cols <- list(group)
-  col_names <- list("group")
-  allowed_nulls <- c('group')
+  cols <- list(stroke_colour, stroke_weight, stroke_opacity,
+               fill_colour, fill_opacity, info_window)
+
+  col_names <- list("stroke_colour", "stroke_weight", "stroke_opacity",
+                    "fill_colour", "fill_opacity", "info_window")
+  allowed_nulls <- c("stroke_colour", "stroke_weight", "stroke_opacity",
+                     "fill_colour", "fill_opacity", "info_window")
+
   lst <- correct_columns(data, cols, col_names, allowed_nulls)
 
   data <- lst$df
   cols <- lst$cols
 
-  if(is.null(group) & lineSource == "coords"){
+  # if(is.null(group) & line_source == "coords"){
+  #   data$group <- 1
+  #   group <- "group"
+  # }else if(is.null(group) & line_source == "polyline"){
+  #   data$group <- 1:nrow(data)
+  #   group <- "group"
+  # }
+
+  # if(is.null(group_options)){
+  #   group_options <- default_group(data, group)
+  # }
+
+  # polygon <- construct_poly(data, group, group_options, line_source, polyline)
+
+  if(is.null(group)){
     data$group <- 1
     group <- "group"
-  }else if(is.null(group) & lineSource == "polyline"){
-    data$group <- 1:nrow(data)
-    group <- "group"
   }
 
-  if(is.null(group_options)){
-    group_options <- default_group(data, group)
-  }
+  # polygon <- split(data, seq(nrow(data)))
 
-  polygon <- construct_poly(data, group, group_options, lineSource, polyline)
+  polygon <- apply(data, 1, as.list)
 
   # polygon <- lapply(split(data, data[group]),
   #                    function(x){ gepaf::encodePolyline(x[, c("lat","lng")]) })
@@ -591,3 +625,15 @@ add_polygon <- function(map,
                 # data$lon
   )
 }
+
+#' Clear polygon
+#'
+#' Clears polygons from map
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @export
+clear_polyline <- function(map){
+  invoke_method(map, data = NULL, 'clear_polygons')
+}
+
+
