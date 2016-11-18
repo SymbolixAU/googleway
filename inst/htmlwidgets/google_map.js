@@ -136,74 +136,37 @@ if (HTMLWidgets.shinyMode) {
 }
 
 
-function add_markers(map_id, cluster, lat, lng, title, opacity, draggable,
-                      label, info_window){
+//function add_markers(map_id, cluster, lat, lng, title, opacity, draggable,
+//                      label, info_window){
 
-  cluster = cluster;
-  lat = [].concat(lat);
-  lng = [].concat(lng);
-  title = [].concat(title);
-  opacity = [].concat(opacity);
-  draggable = [].concat(draggable);
-  label = [].concat(label);
-  info_window = [].concat(info_window);
-
-  console.log(cluster);
-
-//  console.log(info_window);
-//  console.log(title);
-
-//  var len = $('script').filter(function () {
-//    return ($(this).attr('src') == '<https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js>');
-//  }).length;
-
-//  if(cluster === true){
-
-//    var script = document.createElement('script');
-//    script.type = 'text/javascript';
-//    script.src = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js';
-
-//    document.getElementsByTagName('head')[0].appendChild(script);
-//  }
+function add_markers(map_id, data_markers, cluster){
 
   var markers = [];
   var i;
   var bounds = new google.maps.LatLngBounds();
 
-  for (i = 0; i < lat.length; i++) {
+  for (i = 0; i < Object.keys(data_markers).length; i++){
 
-    var latlon = new google.maps.LatLng(lat[i], lng[i]);
+  var latlon = new google.maps.LatLng(data_markers[i].lat, data_markers[i].lng);
 
     var marker = new google.maps.Marker({
       position: latlon,
-      draggable: draggable[i],
-      opacity: opacity[i],
-      title: title[i],
-      label: label[i]
+      draggable: data_markers[i].draggable,
+      opacity: data_markers[i].opacity,
+      title: data_markers[i].title,
+      label: data_markers[i].label
     });
 
-    if(info_window[i]){
+    if(data_markers[i].info_window){
 
       marker.infowindow = new google.maps.InfoWindow({
-        content: info_window[i]
+        content: data_markers[i].info_window
       });
 
       google.maps.event.addListener(marker, 'click', function() {
         this.infowindow.open(window[map_id + 'map'], this);
       });
 
-      //var infowindow = new google.maps.InfoWindow({
-      //  content: info_window[i]
-      //});
-
-      //google.maps.event.addListener(marker, 'click', function () {
-      //  infowindow.setContent(infowindow);
-      //  infowindow.open(window[map_id + 'map'], marker);
-      //});
-
-      //marker.addListener('click', function() {
-      //    infowindow.open(window[map_id + 'map'], marker);
-      //});
     }
 
     bounds.extend(latlon);
@@ -232,11 +195,7 @@ function clear_markers(map_id){
 }
 
 
-function add_heatmap(map_id, lat, lng, weight, heatmap_options){
-
-  lat = [].concat(lat);
-  lng = [].concat(lng);
-  weight = [].concat(weight);
+function add_heatmap(map_id, data_heatmap, heatmap_options){
 
   //heat = HTMLWidgets.dataframeToD3(data_heatmap);
   heat_options = HTMLWidgets.dataframeToD3(heatmap_options);
@@ -245,10 +204,10 @@ function add_heatmap(map_id, lat, lng, weight, heatmap_options){
   var heatmapData = [];
   var i;
   // turn row of the data into LatLng, and push it to the array
-  for(i = 0; i < lat.length; i++){
+  for(i = 0; i < Object.keys(data_heatmap).length; i++){
     heatmapData[i] = {
-      location: new google.maps.LatLng(lat[i], lng[i]),
-      weight: weight[i]
+      location: new google.maps.LatLng(data_heatmap[i].lat, data_heatmap[i].lng),
+      weight: data_heatmap[i].weight
     };
   }
 
@@ -262,7 +221,7 @@ function add_heatmap(map_id, lat, lng, weight, heatmap_options){
   heatmap.setOptions({
     radius: heat_options[0].radius,
     opacity: heat_options[0].opacity,
-  //  dissipating: heat_options[0].dissipating
+    dissipating: heat_options[0].dissipating
   });
 
   // fill the heatmap variable with the MVC array of heatmap data
@@ -271,11 +230,8 @@ function add_heatmap(map_id, lat, lng, weight, heatmap_options){
   heatmap.setMap(window[map_id + 'map']);
 }
 
-function update_heatmap(map_id, lat, lng, weight){
+function update_heatmap(map_id, data_heatmap){
 
-  lat = [].concat(lat);
-  lng = [].concat(lng);
-  weight = [].concat(weight);
 
   // update the heatmap array
   window[map_id + 'googleHeatmapLayerMVC'].clear();
@@ -283,10 +239,10 @@ function update_heatmap(map_id, lat, lng, weight){
   var heatmapData = [];
   var i;
   // turn row of the data into LatLng, and push it to the array
-  for(i = 0; i < lat.length; i++){
+  for(i = 0; i < Object.keys(data_heatmap).length; i++){
     heatmapData[i] = {
-      location: new google.maps.LatLng(lat[i], lng[i]),
-      weight: weight[i]
+      location: new google.maps.LatLng(data_heatmap[i].lat, data_heatmap[i].lng),
+      weight: data_heatmap[i].weight
     };
   window[map_id + 'googleHeatmapLayerMVC'].push(heatmapData[i]);
   }
@@ -331,30 +287,21 @@ function clear_transit(map_id){
 }
 
 
-function add_circles(map_id, lat, lng, radius, stroke_colour, stroke_opacity, stroke_weight, fill_colour, fill_opacity){
-
-  lat = [].concat(lat);
-  lng = [].concat(lng);
-  radius = [].concat(radius);
-  stroke_colour = [].concat(stroke_colour);
-  stroke_opacity = [].concat(stroke_opacity);
-  stroke_weight = [].concat(stroke_weight);
-  fill_colour = [].concat(fill_colour);
-  fill_opacity = [].concat(fill_opacity);
+function add_circles(map_id, data_circles){
 
   var i;
 
-  for (i = 0; i < lat.length; i++) {
-    var latlon = new google.maps.LatLng(lat[i], lng[i]);
+  for (i = 0; i < Object.keys(data_circles).length; i++) {
+    var latlon = new google.maps.LatLng(data_circles[i].lat, data_circles[i].lng);
 
     var circle = new google.maps.Circle({
-          strokeColor: stroke_colour[i],
-          strokeOpacity: stroke_opacity[i],
-          strokeWeight: stroke_weight[i],
-          fillColor: fill_colour[i],
-          fillOpacity: fill_opacity[i],
+          strokeColor: data_circles[i].stroke_colour,
+          strokeOpacity: data_circles[i].stroke_opacity,
+          strokeWeight: data_circles[i].stroke_weight,
+          fillColor: data_circles[i].fill_colour,
+          fillOpacity: data_circles[i].fill_opacity,
           center: latlon,
-          radius: radius[i]
+          radius: data_circles[i].radius
         });
 
       window[map_id + 'googleCircles'].push(circle);
@@ -370,54 +317,10 @@ function clear_circles(map_id){
 //function add_polyline(map, lat, lng, id){
 function add_polylines(map_id, data_polyline){
 
-  // pass in a data.frame of lat/lons, and ids.
-  // the data.frame will contain a row for each lat/lon pair
-  // and the id will be a data.frame containing an option for each line
-
-  //if a list of polyline data.frames were provided, need to iterate
-  //through them, otherwise, just a single call to add the data.frame
-//  var polyline = [ [], [] ];
-
-//  if(groupControl !== null){
-//    for(i = 0; i < groupControl['id'].length; i++){
-
-//      var polyline = [ [], [] ];
-//      var startRow = groupControl['start'][i];
-//      var endRow = groupControl['end'][i];
-//      var k = 0;
-//      console.log("startRow "+ startRow );
-//      console.log("endRow " + endRow );
-
-//      for(j = startRow; j < endRow; j++){
-
-//        polyline[0][k] = data_polyline['lat'][j];
-//        polyline[1][k] = data_polyline['lng'][j];
-//        console.log(polyline[0][k]);
-//        k++;
-//        //polyline[j] = HTMLWidgets.dataframeToD3(data_polyline[j]);
-//      }
-//      add_lines(map, polyline);
-//    }
-//  }
-
   // decode and plot polylines
     for(i = 0; i < Object.keys(data_polyline).length; i++){
       add_lines(map_id, data_polyline[i]);
     }
-
-
-  // http://stackoverflow.com/a/2647888/5977215
-  // and the edit history of accepted answer
-//  if(data_polyline.length == null){
-//    polyline = HTMLWidgets.dataframeToD3(data_polyline);
-//    add_lines(map, polyline);
-//  }else{
-//    for (i = 0; i < data_polyline.length; i++) {
-//      polyline[i] = HTMLWidgets.dataframeToD3(data_polyline[i]);
-//      //console.log(polyline[i])
-//      add_lines(map, polyline[i]);
-//    }
-//  }
 
   function add_lines(map_id, polyline){
 
@@ -521,18 +424,6 @@ function add_polygons(map_id, data_polygon){
       });
 
     }
-
-
-
-//    Polygon.setOptions({  });
-
-
-//      // store in MVC array
-//    window[map_id + 'googlePolygonMVC'] = new google.maps.MVCArray();
-
-//    var heatmap = new google.maps.visualization.HeatmapLayer({
-//      data: window[map_id + 'googlePolygonMVC']
-//    });
 
     window[map_id + 'googlePolygon'].push(Polygon);
     Polygon.setMap(window[map_id + 'map']);

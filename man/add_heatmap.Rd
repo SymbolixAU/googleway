@@ -4,7 +4,7 @@
 \alias{add_heatmap}
 \title{Add heatmap}
 \usage{
-add_heatmap(map, lat = NULL, lon = NULL, weight = 0.6,
+add_heatmap(map, lat = NULL, lon = NULL, weight = NULL,
   data = get_map_data(map), option_dissipating = FALSE,
   option_radius = 10, option_opacity = 0.6)
 }

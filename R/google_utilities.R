@@ -343,9 +343,17 @@ construct_poly <- function(data, group, group_options,
 #' @param df data to be checked/ added to
 SetDefault <- function(col, val, df){
   if(is.null(col)){
+    ## use the default value
     return(rep(val, nrow(df)))
   }else{
-    return(df[, col])
+    ## if a column has been supplied, use that,
+    ## otherwise, use the default value supplied
+    if(col %in% names(df)){
+      return(df[, col])
+    }else{
+      ## assume the value supplied is the default value
+      return(rep(col, nrow(df)))
+    }
   }
 }
 

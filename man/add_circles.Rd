@@ -5,8 +5,8 @@
 \title{Add circle}
 \usage{
 add_circles(map, data = get_map_data(map), lat = NULL, lon = NULL,
-  radius = 100, stroke_colour = "#FF0000", stroke_opacity = 0.8,
-  stroke_weight = 2, fill_colour = "#FF0000", fill_opacity = 0.35)
+  radius = NULL, stroke_colour = NULL, stroke_opacity = NULL,
+  stroke_weight = NULL, fill_colour = NULL, fill_opacity = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}

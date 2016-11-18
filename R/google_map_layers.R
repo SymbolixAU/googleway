@@ -50,60 +50,52 @@ add_markers <- function(map,
 
   if(is.null(lat)){
     data <- latitude_column(data, lat, 'add_markers')
-    lat <- "lat"
+    # lat <- "lat"
   }
 
   if(is.null(lon)){
     data <- longitude_column(data, lon, 'add_markers')
-    lon <- "lng"
+    # lon <- "lng"
   }
+
+  markers <- data.frame(lat = data[, 'lat'],
+                        lng = data[, 'lng'])
 
   if(!is.logical(cluster))
     stop("cluster must be logical")
+
+  if(!is.null(title))
+    markers[, "title"] <- as.character(data[, title])
+
+  if(!is.null(draggable))
+    markers[, 'draggable'] <- as.logical(data[, draggable])
+
+  if(!is.null(opacity))
+    markers[, 'opacity'] <- as.numeric(data[, opacity])
+
+  if(!is.null(label))
+    markers[, 'label'] <- as.character(data[, label])
+
+  if(!is.null(info_window))
+    markers[, "info_window"] <- as.character(data[, info_window])
+
 
   ## TODO:
   ## - pass other arguments in as an object into javascript?
   ## that way, they can be NULL and ignored on the other side.
   ## - maker options - colour, etc
 
-  ## check columns
-  cols <- list(title, draggable, opacity, label, info_window)
-  col_names <- list('title', 'draggable', 'opacity', 'label', 'info_window')
-  allowed_nulls <- c('title', 'draggable', 'opacity', 'label', 'info_window')
-  lst <- correct_columns(data, cols, col_names, allowed_nulls)
+  markers <- jsonlite::toJSON(markers)
 
-  data <- lst$df
-  cols <- lst$cols
-
-  if(!is.null(title)){
-    data[, title] <- as.character(data[, title])
-  }
-
-  if(!is.null(draggable)){
-    if(!is.logical(data$draggable))
-      stop("draggable values must be logical")
-  }
-
-  if(!is.null(label)){
-    ## must be a string
-    data[, label] <- as.character(data[, label])
-  }
-
-  if(!is.null(info_window)){
-    ## must be a string
-    data[, info_window] <- as.character(data[, info_window])
-  }
-
-  check_opacities(data, cols = unique(c(cols$opacity)))
-
-  invoke_method(map, data, 'add_markers', cluster,
-                data[, lat],
-                data[, lon],
-                data[, cols$title],
-                data[, cols$opacity],
-                data[, cols$draggable],
-                data[, cols$label],
-                data[, cols$info_window])
+  invoke_method(map, data, 'add_markers', markers, cluster
+                # data[, lat],
+                # data[, lon],
+                # data[, cols$title],
+                # data[, cols$opacity],
+                # data[, cols$draggable],
+                # data[, cols$label],
+                # data[, cols$info_window]
+                )
 }
 
 #' clear markers
@@ -152,14 +144,14 @@ add_circles <- function(map,
                         data = get_map_data(map),
                         lat = NULL,
                         lon = NULL,
-                        radius = 100,
-                        stroke_colour = '#FF0000',
-                        stroke_opacity = 0.8,
-                        stroke_weight = 2,
-                        fill_colour = '#FF0000',
-                        fill_opacity = 0.35){
+                        radius = NULL,
+                        stroke_colour = NULL,
+                        stroke_opacity = NULL,
+                        stroke_weight = NULL,
+                        fill_colour = NULL,
+                        fill_opacity = NULL){
 
-  data <- as.data.frame(data)
+  # data <- as.data.frame(data)
 
   if(is.null(lat)){
     data <- latitude_column(data, lat, 'add_circles')
@@ -171,27 +163,20 @@ add_circles <- function(map,
     lon <- "lng"
   }
 
-  ## check columns
-  cols <- list(radius, stroke_colour, stroke_opacity, stroke_weight, fill_colour, fill_opacity)
-  col_names <- list("radius", "stroke_colour", "stroke_opacity", "stroke_weight", "fill_colour", "fill_opacity")
-  allowed_nulls <- c()
-  lst <- correct_columns(data, cols, col_names, allowed_nulls)
+  Circles <- data.frame(lat = data[, "lat"],
+                        lng = data[, "lng"])
 
-  data <- lst$df
-  cols <- lst$cols
 
-  check_hex_colours(data, cols = unique(c(cols$stroke_colour, cols$fill_colour)))
-  check_opacities(data, cols = unique(c(cols$stroke_opacity, cols$fill_opacity)))
+  Circles[, "stroke_colour"] <- SetDefault(stroke_colour, "#FF0000", data)
+  Circles[, "stroke_weight"] <- SetDefault(stroke_weight, 2, data)
+  Circles[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.8, data)
+  Circles[, "radius"] <- SetDefault(radius, 100, data)
+  Circles[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
+  Circles[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
 
-  invoke_method(map, data, 'add_circles',
-                data[, lat],
-                data[, lon],
-                data[, cols$radius],
-                data[, cols$stroke_colour],
-                data[, cols$stroke_opacity],
-                data[, cols$stroke_weight],
-                data[, cols$fill_colour],
-                data[, cols$fill_opacity])
+  Circles <- jsonlite::toJSON(Circles)
+
+  invoke_method(map, data, 'add_circles', Circles)
 }
 
 #' clear circles
@@ -237,12 +222,12 @@ clear_circles <- function(map){
 add_heatmap <- function(map,
                         lat = NULL,
                         lon = NULL,
-                        weight = 0.6,
+                        weight = NULL,
                         data = get_map_data(map),
                         option_dissipating = FALSE,
                         option_radius = 10,
                         option_opacity = 0.6
-){
+                        ){
 
 
   ## TODO
@@ -252,18 +237,23 @@ add_heatmap <- function(map,
   ## -- e.g., allow a column called 'opacity' to be used as a 'title'
   ## -- rather than 'correct' it
 
-  data <- as.data.frame(data)
+#  data <- as.data.frame(data)
 
   ## rename the cols so the javascript functions will see them
   if(is.null(lat)){
     data <- latitude_column(data, lat, 'add_heatmap')
-    lat <- "lat"
+    # lat <- "lat"
   }
 
   if(is.null(lon)){
     data <- longitude_column(data, lon, 'add_heatmap')
-    lon <- "lng"
+    # lon <- "lng"
   }
+
+  Heatmap <- data.frame(lat = data[, "lat"],
+                        lng = data[, "lng"])
+
+  Heatmap[, "weight"] <- SetDefault(weight, 1, data)
 
   ## Heatmap Options
   if(!is.null(option_opacity))
@@ -274,28 +264,30 @@ add_heatmap <- function(map,
     if(!is.numeric(option_radius))
       stop("option_radus must be numeric")
 
+
   ## Defaults
   # https://developers.google.com/maps/documentation/javascript/reference#HeatmapLayerOptions
 
-
-  ## check columns
-  cols <- list(weight)
-  col_names <- list("weight")
-  allowed_nulls <- c()
-  lst <- correct_columns(data, cols, col_names, allowed_nulls)
-
-  data <- lst$df
-  cols <- lst$cols
-
+  # ## check columns
+  # cols <- list(weight)
+  # col_names <- list("weight")
+  # allowed_nulls <- c()
+  # lst <- correct_columns(data, cols, col_names, allowed_nulls)
+  #
+  # data <- lst$df
+  # cols <- lst$cols
+  #
   heatmap_options <- data.frame(dissipating = option_dissipating,
                                 radius = option_radius,
                                 opacity = option_opacity)
 
-  invoke_method(map, data, 'add_heatmap',
-                data[, lat],
-                data[, lon],
-                data[, cols$weight],
-                heatmap_options
+  Heatmap <- jsonlite::toJSON(Heatmap)
+
+  invoke_method(map, data, 'add_heatmap', Heatmap, heatmap_options
+                # data[, lat],
+                # data[, lon],
+                # data[, cols$weight],
+                # heatmap_options
   )
 }
 
@@ -316,32 +308,37 @@ update_heatmap <- function(map,
                            lon = NULL,
                            weight = 0.6){
 
-  data <- as.data.frame(data)
+  # data <- as.data.frame(data)
 
   ## rename the cols so the javascript functions will see them
   if(is.null(lat)){
     data <- latitude_column(data, lat, 'update_heatmap')
-    lat <- "lat"
   }
 
   if(is.null(lon)){
     data <- longitude_column(data, lon, 'update_heatmap')
-    lon <- "lng"
   }
 
-  ## check columns
-  cols <- list(weight)
-  col_names <- list("weight")
-  allowed_nulls <- c()
-  lst <- correct_columns(data, cols, col_names, allowed_nulls)
+  Heatmap <- data.frame(lat = data[, "lat"],
+                        lng = data[, "lng"])
 
-  data <- lst$df
-  cols <- lst$cols
+  Heatmap[, "weight"] <- SetDefault(weight, 1, data)
 
-  invoke_method(map, data, 'update_heatmap',
-                data[, lat],
-                data[, lon],
-                data[, cols$weight]
+  # ## check columns
+  # cols <- list(weight)
+  # col_names <- list("weight")
+  # allowed_nulls <- c()
+  # lst <- correct_columns(data, cols, col_names, allowed_nulls)
+  #
+  # data <- lst$df
+  # cols <- lst$cols
+
+  Heatmap <- jsonlite::toJSON(Heatmap)
+
+  invoke_method(map, data, 'update_heatmap', Heatmap
+                # data[, lat],
+                # data[, lon],
+                # data[, cols$weight]
   )
 
 }
@@ -455,20 +452,14 @@ add_polylines <- function(map,
   ##
   ## set 'default' colous
 
-  Geodesic = TRUE
-  StrokeColour = "#0000FF"
-  StrokeWeight = 2
-  StrokeOpacity = 0.6
-  InfoWindow = NULL
-
   polyline <- data[, polyline, drop = FALSE]
   polyline <- setNames(polyline, "polyline")
 
   ## the defaults are required
-  polyline[, "geodesic"] <- SetDefault(geodesic, Geodesic, data)
-  polyline[, "stroke_colour"] <- SetDefault(stroke_colour, StrokeColour, data)
-  polyline[, "stroke_weight"] <- SetDefault(stroke_weight, StrokeWeight, data)
-  polyline[, "stroke_opacity"] <- SetDefault(stroke_opacity, StrokeOpacity, data)
+  polyline[, "geodesic"] <- SetDefault(geodesic, TRUE, data)
+  polyline[, "stroke_colour"] <- SetDefault(stroke_colour, "#0000FF", data)
+  polyline[, "stroke_weight"] <- SetDefault(stroke_weight, 2, data)
+  polyline[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
 
   ## options
   if(!is.null(info_window))
@@ -589,13 +580,6 @@ add_polygons <- function(map,
   ## -- should accept both types as data
   ## -- allow addition of other attributes (however, how will the user access them?)
 
-  ## defaults
-  strokeColour = "#0000FF"
-  strokeWeight = 2
-  strokeOpacity = 0.6
-  fillColour = "#FF0000"
-  fillOpacity = 0.35
-  infoWindow = NULL
 
   if(!is.list(data[, polyline])){
     polygon <- data.frame(polyline = I(as.list(as.character(data[, polyline]))))
@@ -607,11 +591,11 @@ add_polygons <- function(map,
   polygon <- setNames(polygon, "polyline")
 
   ## the defaults are required
-  polygon[, "stroke_colour"] <- SetDefault(stroke_colour, strokeColour, data)
-  polygon[, "stroke_weight"] <- SetDefault(stroke_weight, strokeWeight, data)
-  polygon[, "stroke_opacity"] <- SetDefault(stroke_opacity, strokeOpacity, data)
-  polygon[, "fill_colour"] <- SetDefault(fill_colour, fillColour, data)
-  polygon[, "fill_opacity"] <- SetDefault(fill_opacity, fillOpacity, data)
+  polygon[, "stroke_colour"] <- SetDefault(stroke_colour, "#0000FF", data)
+  polygon[, "stroke_weight"] <- SetDefault(stroke_weight, 2, data)
+  polygon[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
+  polygon[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
+  polygon[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
 
   ## options
   if(!is.null(info_window))
@@ -619,8 +603,6 @@ add_polygons <- function(map,
 
   if(!is.null(mouse_over))
     polygon[, "mouse_over"] <- as.character(data[, mouse_over])
-
-
 
   polygon <- jsonlite::toJSON(polygon)
 

@@ -21,6 +21,8 @@
 # df <- data.frame(polyline = c(pl, pl2, pl3))
 #
 # google_map(key = map_key, data = df_line, search_box = T, height = 800) %>%
+#   add_markers()
+# google_map(key = map_key, data = df_line, search_box = T, height = 800) %>%
 #   googleway:::add_polygons(data = df, polyline = "polyline")
 #
 # df <- data.frame(id = 1:3,
