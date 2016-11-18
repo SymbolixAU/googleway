@@ -571,7 +571,6 @@ clear_polylines <- function(map){
 #' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
 add_polygons <- function(map,
                         data = get_map_data(map),
-#                        line_source = c("coords","polyline"),
                         polyline,
                         stroke_colour = NULL,
                         stroke_weight = NULL,
@@ -580,11 +579,7 @@ add_polygons <- function(map,
                         fill_opacity = NULL,
                         info_window = NULL,
                         mouse_over = NULL
-#                        group = NULL,
-#                        group_options = NULL,
-#                        lat = NULL,
-#                        lon = NULL
-){
+                        ){
 
   ## TODO
   ## - complex polygons (i.e, with holes) using an array of arrays
@@ -602,7 +597,13 @@ add_polygons <- function(map,
   fillOpacity = 0.35
   infoWindow = NULL
 
-  polygon <- data[, polyline, drop = FALSE]
+  if(!is.list(data[, polyline])){
+    polygon <- data.frame(polyline = I(as.list(as.character(data[, polyline]))))
+  }else{
+    polygon <- data[, polyline, drop = FALSE]
+  }
+
+#  polygon <- data[, polyline, drop = FALSE]
   polygon <- setNames(polygon, "polyline")
 
   ## the defaults are required
@@ -620,65 +621,6 @@ add_polygons <- function(map,
     polygon[, "mouse_over"] <- as.character(data[, mouse_over])
 
 
-
-  # check_hex_colours(data, cols = unique(c(cols$stroke_colour, cols$fill_colour)))
-  # check_opacities(data, cols = unique(c(cols$stroke_opacity, cols$fill_opacity)))
-
-
-  ## First instance: use a dataframe with a grouping variable
-
-  #line_source <- match.arg(line_source)
-
-  # if(line_source == "polyline" & is.null(polyline)){
-  #   stop("please supply the column name containing the polyline data")
-  # }
-
-
-  # ## check columns
-  # cols <- list(stroke_colour, stroke_weight, stroke_opacity,
-  #              fill_colour, fill_opacity, info_window)
-  #
-  # print("cols: ")
-  # print(cols)
-  #
-  # col_names <- list("stroke_colour", "stroke_weight", "stroke_opacity",
-  #                   "fill_colour", "fill_opacity", "info_window")
-  #
-  # allowed_nulls <- c()
-  #
-  # lst <- correct_columns(data, cols, col_names, allowed_nulls)
-  #
-  # data <- lst$df
-  # cols <- lst$cols
-
-  # if(is.null(group) & line_source == "coords"){
-  #   data$group <- 1
-  #   group <- "group"
-  # }else if(is.null(group) & line_source == "polyline"){
-  #   data$group <- 1:nrow(data)
-  #   group <- "group"
-  # }
-
-  # if(is.null(group_options)){
-  #   group_options <- default_group(data, group)
-  # }
-
-  # polygon <- construct_poly(data, group, group_options, line_source, polyline)
-
-  # if(is.null(group)){
-  #   data$group <- 1
-  #   group <- "group"
-  # }
-  # if(!is.null(stroke_opacity))
-  #   data[, stroke_opacity] <- as.numeric(data[, stroke_opacity])
-
-  # polygon <- split(data, seq(nrow(data)))
-
-  # print("data \n")
-  # print(data)
-  #
-  # if(!is.null(fill_opacity))
-  #   data[, cols$fill_opacity] <- as.numeric(data[, fill_opacity])
 
   polygon <- jsonlite::toJSON(polygon)
 

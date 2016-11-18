@@ -451,9 +451,16 @@ function add_polygons(map_id, data_polygon){
   }
 
   function add_gons(map_id, polygon){
+
+    console.log(polygon.polyline.length);
+    var paths = [];
+    for(j = 0; j < polygon.polyline.length; j ++){
+      paths.push(google.maps.geometry.encoding.decodePath(polygon.polyline[j]));
+    }
+
     //https://developers.google.com/maps/documentation/javascript/reference?csw=1#PolygonOptions
     var Polygon = new google.maps.Polygon({
-      paths: google.maps.geometry.encoding.decodePath(polygon.polyline),
+      paths: paths,
       strokeColor: polygon.stroke_colour,
       strokeOpacity: polygon.stroke_opacity,
       strokeWeight: polygon.stroke_weight,
@@ -480,12 +487,14 @@ function add_polygons(map_id, data_polygon){
       Polygon.set('_information', polygon.info_window);
 
       google.maps.event.addListener(Polygon, 'click', function(event){
+
         var infoWindow = new google.maps.InfoWindow();
         infoWindow.setContent(Polygon.get('_information'));
 
         infoWindow.setPosition(event.latLng);
         infoWindow.open(window[map_id + 'map']);
       });
+
     }
 
     if(polygon.mouse_over){
