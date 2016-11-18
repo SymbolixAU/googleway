@@ -310,7 +310,7 @@ function clear_traffic(map_id){
 
 function add_bicycling(map_id){
 
-  var bicycle = new google.maps.BicycleLayer();
+  var bicycle = new google.maps.BicyclingLayer();
   window[map_id + 'googleBicyclingLayer'] = bicycle;
   bicycle.setMap(window[map_id + 'map']);
 }
@@ -401,7 +401,7 @@ function add_polylines(map_id, data_polyline){
 //  }
 
   // decode and plot polylines
-    for(i = 1; i <= Object.keys(data_polyline).length; i++){
+    for(i = 0; i < Object.keys(data_polyline).length; i++){
       add_lines(map_id, data_polyline[i]);
     }
 
@@ -422,12 +422,12 @@ function add_polylines(map_id, data_polyline){
   function add_lines(map_id, polyline){
 
     var Polyline = new google.maps.Polyline({
-            path: google.maps.geometry.encoding.decodePath(polyline.poly),
+            path: google.maps.geometry.encoding.decodePath(polyline.polyline),
             geodesic: polyline.geodesic,
             //strokeColor: '#0088FF',
-            strokeColor: polyline.strokeColour,
-            strokeOpacity: polyline.strokeOpacity,
-            strokeWeight: polyline.strokeWeight
+            strokeColor: polyline.stroke_colour,
+            strokeOpacity: polyline.stroke_opacity,
+            strokeWeight: polyline.stroke_weight
           });
 
           window[map_id + 'googlePolyline'].push(Polyline);
