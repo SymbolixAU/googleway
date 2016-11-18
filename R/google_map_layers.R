@@ -424,8 +424,11 @@ clear_bicycling <- function(map){
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
 #' @param polyline string specifying the column of \code{data} containing the 'polyline'.
+#' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
+#' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
+#' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
 add_polylines <- function(map,
-                         data,
+                         data = get_map_data(map),
                          polyline,
                          geodesic = NULL,
                          info_window = NULL,
@@ -468,66 +471,6 @@ add_polylines <- function(map,
   if(!is.null(mouse_over))
     polyline[, "mouse_over"] <- as.character(data[, mouse_over])
 
-  # lineSource <- match.arg(lineSource)
-  #
-  # if(lineSource == "polyline" & is.null(polyline)){
-  #   stop("please supply the column name containing the polyline data")
-  # }
-  #
-  # ## First instance: use a dataframe with a grouping variable
-  # data <- as.data.frame(data)
-  #
-  # if(is.null(lat) & lineSource == "coords"){
-  #   data <- latitude_column(data, lat, 'add_polyline')
-  #   lat <- "lat"
-  # }
-  #
-  # if(is.null(lon) & lineSource == "coords"){
-  #   data <- longitude_column(data, lon, 'add_polyline')
-  #   lon <- "lng"
-  # }
-  #
-  # ## check columns
-  # cols <- list(group)
-  # col_names <- list("group")
-  # allowed_nulls <- c('group')
-  # lst <- correct_columns(data, cols, col_names, allowed_nulls)
-  #
-  # data <- lst$df
-  # cols <- lst$cols
-
-#   if(!is.null(id)){
-#     groupControl <- setNames(data.frame(table(data['id'])), c("id","freq"))
-#     groupControl$end <- cumsum(groupControl$freq)
-#     groupControl$start <- groupControl$end - groupControl$freq
-#   }else{
-#     groupControl <- NULL
-#   }
-
-  ## put grouped data into a list
-  # if(!is.null(group)){
-  #   data <- split(data, data[group])
-  # }else{
-  #   data <- list(data)
-  # }
-#
-#   if(is.null(group) & lineSource == "coords"){
-#     data$group <- 1
-#     group <- "group"
-#   }else if(is.null(group) & lineSource == "polyline"){
-#     data$group <- 1:nrow(data)
-#     group <- "group"
-#   }
-#
-#   # polyline <- lapply(split(data, data[group]),
-#   #                    function(x){ gepaf::encodePolyline(x[, c("lat","lng")]) })
-#
-#   if(is.null(group_options)){
-#     group_options <- default_group(data, group)
-#   }
-#
-#   polyline <- construct_poly(data, group, group_options, lineSource, polyline)
-
   polyline <- jsonlite::toJSON(polyline)
 
   invoke_method(map, data, 'add_polylines', polyline
@@ -553,11 +496,11 @@ clear_polylines <- function(map){
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
 #' @param polyline string specifying the column containing the polyline
-#' @param stroke_colour hex
-#' @param stroke_weight num
-#' @param stroke_opacity num
-#' @param fill_colour hex
-#' @param fill_opacity string specifying the column of data to use as the opacity (opacity must be a number between 0 (transparent) and 1 (opaque))
+#' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
+#' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
+#' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
+#' @param fill_colour either a string specifying the column of \code{data} containing the fill colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the cirlces
+#' @param fill_opacity either a string specifying the column of \code{data} containing the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
 #' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
 #' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
 add_polygons <- function(map,

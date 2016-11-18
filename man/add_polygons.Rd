@@ -15,15 +15,15 @@ add_polygons(map, data = get_map_data(map), polyline, stroke_colour = NULL,
 
 \item{polyline}{string specifying the column containing the polyline}
 
-\item{stroke_colour}{hex}
+\item{stroke_colour}{either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles}
 
-\item{stroke_weight}{num}
+\item{stroke_weight}{either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles}
 
-\item{stroke_opacity}{num}
+\item{stroke_opacity}{either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles}
 
-\item{fill_colour}{hex}
+\item{fill_colour}{either a string specifying the column of \code{data} containing the fill colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the cirlces}
 
-\item{fill_opacity}{string specifying the column of data to use as the opacity (opacity must be a number between 0 (transparent) and 1 (opaque))}
+\item{fill_opacity}{either a string specifying the column of \code{data} containing the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles}
 
 \item{info_window}{string specifying the column of data to display in an info window when a polygon is clicked}
 
