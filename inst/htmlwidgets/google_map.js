@@ -290,23 +290,37 @@ function clear_transit(map_id){
 function add_circles(map_id, data_circles){
 
   var i;
+  var infoWindow = new google.maps.InfoWindow();
 
   for (i = 0; i < Object.keys(data_circles).length; i++) {
-    var latlon = new google.maps.LatLng(data_circles[i].lat, data_circles[i].lng);
+    add_circle(map_id, data_circles[i]);
+  }
 
-    var circle = new google.maps.Circle({
-          strokeColor: data_circles[i].stroke_colour,
-          strokeOpacity: data_circles[i].stroke_opacity,
-          strokeWeight: data_circles[i].stroke_weight,
-          fillColor: data_circles[i].fill_colour,
-          fillOpacity: data_circles[i].fill_opacity,
-          center: latlon,
-          radius: data_circles[i].radius
-        });
+  function add_circle(map_id, circle){
 
-      window[map_id + 'googleCircles'].push(circle);
-      circle.setMap(window[map_id + 'map']);
+    var latlon = new google.maps.LatLng(circle.lat, circle.lng);
+
+    var Circle = new google.maps.Circle({
+        strokeColor: circle.stroke_colour,
+        strokeOpacity: circle.stroke_opacity,
+        strokeWeight: circle.stroke_weight,
+        fillColor: circle.fill_colour,
+        fillOpacity: circle.fill_opacity,
+        center: latlon,
+        radius: circle.radius
+      });
+
+    window[map_id + 'googleCircles'].push(Circle);
+    Circle.setMap(window[map_id + 'map']);
+
+    if(circle.info_window){
+      add_infoWindow(map_id, infoWindow, Circle, '_information', circle.info_window);
     }
+
+    if(circle.mouse_over){
+      add_mouseOver(map_id, infoWindow, Circle, "_mouse_over", circle.mouse_over);
+    }
+  }
 
 }
 
@@ -318,6 +332,8 @@ function clear_circles(map_id){
 function add_polylines(map_id, data_polyline){
 
   // decode and plot polylines
+  var infoWindow = new google.maps.InfoWindow();
+
     for(i = 0; i < Object.keys(data_polyline).length; i++){
       add_lines(map_id, data_polyline[i]);
     }
@@ -333,8 +349,17 @@ function add_polylines(map_id, data_polyline){
             strokeWeight: polyline.stroke_weight
           });
 
-          window[map_id + 'googlePolyline'].push(Polyline);
-          Polyline.setMap(window[map_id + 'map']);
+    window[map_id + 'googlePolyline'].push(Polyline);
+    Polyline.setMap(window[map_id + 'map']);
+
+    if(polyline.info_window){
+      add_infoWindow(map_id, infoWindow, Polyline, '_information', polyline.info_window);
+    }
+
+//    if(polyline.mouse_over){
+//      add_mouseOver(map_id, infoWindow, Polyline, "_mouse_over", polyline.mouse_over);
+//    }
+
   }
 }
 
@@ -347,7 +372,6 @@ function add_polygons(map_id, data_polygon){
   console.log(data_polygon);
 
   var infoWindow = new google.maps.InfoWindow();
-  //info_window = [].concat(info_window);
 
   for(i = 0; i < Object.keys(data_polygon).length; i++){
       add_gons(map_id, data_polygon[i]);
@@ -355,7 +379,6 @@ function add_polygons(map_id, data_polygon){
 
   function add_gons(map_id, polygon){
 
-    console.log(polygon.polyline.length);
     var paths = [];
     for(j = 0; j < polygon.polyline.length; j ++){
       paths.push(google.maps.geometry.encoding.decodePath(polygon.polyline[j]));
@@ -378,51 +401,12 @@ function add_polygons(map_id, data_polygon){
       //zIndex:1
     });
 
-    console.log(polygon);
-    // other options
-    //var polyObj = {
-    //  'information': polygon.infomation
-    //};
-    //console.log(polyObj);
-
-    //Polygon.meta = polyObj;
     if(polygon.info_window){
-      Polygon.set('_information', polygon.info_window);
-
-      google.maps.event.addListener(Polygon, 'click', function(event){
-
-        var infoWindow = new google.maps.InfoWindow();
-        infoWindow.setContent(Polygon.get('_information'));
-
-        infoWindow.setPosition(event.latLng);
-        infoWindow.open(window[map_id + 'map']);
-      });
-
+      add_infoWindow(map_id, infoWindow, Polygon, '_information', polygon.info_window);
     }
 
     if(polygon.mouse_over){
-
-      Polygon.set('_mouseover', polygon.mouse_over);
-      var _fillOpacity = Polygon.get('fillOpacity');
-      console.log("mouse over fill: "+_fillOpacity);
-
-      google.maps.event.addListener(Polygon, 'mouseover', function(event){
-
-        this.setOptions({fillOpacity: 1});
-
-        infoWindow.setContent(Polygon.get('_mouseover').toString());
-
-        infoWindow.setPosition(event.latLng);
-        infoWindow.open(window[map_id + 'map']);
-
-      });
-
-      google.maps.event.addListener(Polygon, 'mouseout', function(event){
-
-        this.setOptions({fillOpacity: _fillOpacity});
-        infoWindow.close();
-      });
-
+      add_mouseOver(map_id, infoWindow, Polygon, "_mouse_over", polygon.mouse_over);
     }
 
     window[map_id + 'googlePolygon'].push(Polygon);
@@ -431,12 +415,56 @@ function add_polygons(map_id, data_polygon){
 
 }
 
-
-
-
 function clear_polygons(map_id){
   window[map_id + 'googlePolygon'].setMap(null);
 }
+
+/**
+ *
+ * @param map_id
+ * @param mapObject
+ *          the object the info window is being attached to
+ * @param objectAttribute
+ *          string attribute name
+ * @param attributeValue
+ *          the value of the attribute
+ */
+function add_infoWindow(map_id, infoWindow, mapObject, objectAttribute, attributeValue){
+
+    mapObject.set(objectAttribute, attributeValue);
+
+    google.maps.event.addListener(mapObject, 'click', function(event){
+
+      var infoWindow = new google.maps.InfoWindow();
+      infoWindow.setContent(mapObject.get(objectAttribute));
+
+      infoWindow.setPosition(event.latLng);
+      infoWindow.open(window[map_id + 'map']);
+    });
+}
+
+function add_mouseOver(map_id, infoWindow, mapObject, objectAttribute, attributeValue){
+
+  mapObject.set(objectAttribute, attributeValue);
+
+  var _fillOpacity = mapObject.get('fillOpacity');
+
+  google.maps.event.addListener(mapObject, 'mouseover', function(event){
+
+    this.setOptions({fillOpacity: 1});
+    infoWindow.setContent(mapObject.get(objectAttribute).toString());
+
+    infoWindow.setPosition(event.latLng);
+    infoWindow.open(window[map_id + 'map']);
+  });
+
+  google.maps.event.addListener(mapObject, 'mouseout', function(event){
+    this.setOptions({fillOpacity: _fillOpacity});
+    infoWindow.close();
+  });
+
+}
+
 
 
 function initialise_map(el, x) {

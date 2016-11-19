@@ -5,7 +5,7 @@
 \title{update heatmap}
 \usage{
 update_heatmap(map, data = get_map_data(map), lat = NULL, lon = NULL,
-  weight = 0.6)
+  weight = 0.6, info_window = NULL, mouse_over = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -17,6 +17,10 @@ update_heatmap(map, data = get_map_data(map), lat = NULL, lon = NULL,
 \item{lon}{string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made}
 
 \item{weight}{string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.}
+
+\item{info_window}{string specifying the column of data to display in an info window when a polygon is clicked}
+
+\item{mouse_over}{string specifying the column of data to display when the mouse rolls over the polygon}
 }
 \description{
 updates a heatmap layer

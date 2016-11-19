@@ -5,21 +5,27 @@
 \title{Add polyline}
 \usage{
 add_polylines(map, data = get_map_data(map), polyline, geodesic = NULL,
-  info_window = NULL, mouse_over = NULL, stroke_colour = NULL,
-  stroke_weight = NULL, stroke_opacity = NULL)
+  stroke_colour = NULL, stroke_weight = NULL, stroke_opacity = NULL,
+  info_window = NULL, mouse_over = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
 \item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.}
 
-\item{polyline}{string specifying the column of \code{data} containing the 'polyline'.}
+\item{polyline}{string specifying the column of \code{data} containing the 'polyline'}
+
+\item{geodesic}{logical}
 
 \item{stroke_colour}{either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles}
 
 \item{stroke_weight}{either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles}
 
 \item{stroke_opacity}{either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles}
+
+\item{info_window}{string specifying the column of data to display in an info window when a polygon is clicked}
+
+\item{mouse_over}{string specifying the column of data to display when the mouse rolls over the polygon}
 }
 \description{
 Add a polyline to a google map

@@ -32,4 +32,28 @@ add_polygons(map, data = get_map_data(map), polyline, stroke_colour = NULL,
 \description{
 Add a polygon to a google map.
 }
+\examples{
+\dontrun{
+
+## polygon with a hole - Bermuda triangle
+pl_outer <- gepaf::encodePolyline(data.frame(lat = c(25.774, 18.466,32.321),
+                                            lng = c(-80.190, -66.118, -64.757)))
+
+pl_inner <- gepaf::encodePolyline(data.frame(lat = c(28.745, 29.570, 27.339),
+                                             lng = c(-70.579, -67.514, -66.668)))
+
+
+l <- list(c(pl_outer, pl_inner))
+
+df <- data.frame(polyline = rep(NA, length(l)))
+
+df$polyline <- l
+
+google_map(key = map_key, height = 800, location = c(25.774, -80.190), zoom = 3) \%>\%
+  add_polygons(data = df, polyline = "polyline", mouse_over = "polyline")
+
+
+}
+
+}
 

@@ -79,23 +79,9 @@ add_markers <- function(map,
   if(!is.null(info_window))
     markers[, "info_window"] <- as.character(data[, info_window])
 
-
-  ## TODO:
-  ## - pass other arguments in as an object into javascript?
-  ## that way, they can be NULL and ignored on the other side.
-  ## - maker options - colour, etc
-
   markers <- jsonlite::toJSON(markers)
 
-  invoke_method(map, data, 'add_markers', markers, cluster
-                # data[, lat],
-                # data[, lon],
-                # data[, cols$title],
-                # data[, cols$opacity],
-                # data[, cols$draggable],
-                # data[, cols$label],
-                # data[, cols$info_window]
-                )
+  invoke_method(map, data, 'add_markers', markers, cluster)
 }
 
 #' clear markers
@@ -149,7 +135,9 @@ add_circles <- function(map,
                         stroke_opacity = NULL,
                         stroke_weight = NULL,
                         fill_colour = NULL,
-                        fill_opacity = NULL){
+                        fill_opacity = NULL,
+                        mouse_over = NULL,
+                        info_window = NULL){
 
   # data <- as.data.frame(data)
 
@@ -173,6 +161,13 @@ add_circles <- function(map,
   Circles[, "radius"] <- SetDefault(radius, 100, data)
   Circles[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
   Circles[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
+
+  ## options
+  if(!is.null(info_window))
+    Circles[, "info_window"] <- as.character(data[, info_window])
+
+  if(!is.null(mouse_over))
+    Circles[, "mouse_over"] <- as.character(data[, mouse_over])
 
   Circles <- jsonlite::toJSON(Circles)
 
@@ -264,19 +259,6 @@ add_heatmap <- function(map,
     if(!is.numeric(option_radius))
       stop("option_radus must be numeric")
 
-
-  ## Defaults
-  # https://developers.google.com/maps/documentation/javascript/reference#HeatmapLayerOptions
-
-  # ## check columns
-  # cols <- list(weight)
-  # col_names <- list("weight")
-  # allowed_nulls <- c()
-  # lst <- correct_columns(data, cols, col_names, allowed_nulls)
-  #
-  # data <- lst$df
-  # cols <- lst$cols
-  #
   heatmap_options <- data.frame(dissipating = option_dissipating,
                                 radius = option_radius,
                                 opacity = option_opacity)
@@ -301,12 +283,16 @@ add_heatmap <- function(map,
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
 #' @param weight string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.
+#' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
+#' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
 #' @export
 update_heatmap <- function(map,
                            data = get_map_data(map),
                            lat = NULL,
                            lon = NULL,
-                           weight = 0.6){
+                           weight = 0.6,
+                           info_window = NULL,
+                           mouse_over = NULL){
 
   # data <- as.data.frame(data)
 
@@ -423,19 +409,22 @@ clear_bicycling <- function(map){
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
-#' @param polyline string specifying the column of \code{data} containing the 'polyline'.
+#' @param polyline string specifying the column of \code{data} containing the 'polyline'
+#' @param geodesic logical
 #' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
 #' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
 #' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
+#' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
+#' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
+#' @export
 add_polylines <- function(map,
                          data = get_map_data(map),
                          polyline,
                          geodesic = NULL,
-                         info_window = NULL,
-                         mouse_over = NULL,
                          stroke_colour = NULL,
                          stroke_weight = NULL,
-                         stroke_opacity = NULL
+                         stroke_opacity = NULL,
+                         mouse_over = NULL
 #                          lineSource = c("coords","polyline"),
 #                          group = NULL,
 #                          group_options = NULL,
@@ -454,6 +443,9 @@ add_polylines <- function(map,
   ## -- if not, use a 'default' colour
   ##
   ## set 'default' colous
+  if(is.null(polyline))
+    stop("please supply the column containing the polylines")
+
 
   polyline <- data[, polyline, drop = FALSE]
   polyline <- setNames(polyline, "polyline")
@@ -465,9 +457,6 @@ add_polylines <- function(map,
   polyline[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
 
   ## options
-  if(!is.null(info_window))
-    polyline[, "info_window"] <- as.character(data[, info_window])
-
   if(!is.null(mouse_over))
     polyline[, "mouse_over"] <- as.character(data[, mouse_over])
 
@@ -492,6 +481,28 @@ clear_polylines <- function(map){
 #' Add polygon
 #'
 #' Add a polygon to a google map.
+#' @examples
+#' \dontrun{
+#'
+#' ## polygon with a hole - Bermuda triangle
+#' pl_outer <- gepaf::encodePolyline(data.frame(lat = c(25.774, 18.466,32.321),
+#'                                             lng = c(-80.190, -66.118, -64.757)))
+#'
+#' pl_inner <- gepaf::encodePolyline(data.frame(lat = c(28.745, 29.570, 27.339),
+#'                                              lng = c(-70.579, -67.514, -66.668)))
+#'
+#'
+#' l <- list(c(pl_outer, pl_inner))
+#'
+#' df <- data.frame(polyline = rep(NA, length(l)))
+#'
+#' df$polyline <- l
+#'
+#' google_map(key = map_key, height = 800, location = c(25.774, -80.190), zoom = 3) %>%
+#'   add_polygons(data = df, polyline = "polyline", mouse_over = "polyline")
+#'
+#'
+#' }
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
@@ -503,6 +514,7 @@ clear_polylines <- function(map){
 #' @param fill_opacity either a string specifying the column of \code{data} containing the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
 #' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
 #' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
+#' @export
 add_polygons <- function(map,
                         data = get_map_data(map),
                         polyline,
@@ -516,13 +528,11 @@ add_polygons <- function(map,
                         ){
 
   ## TODO
-  ## - complex polygons (i.e, with holes) using an array of arrays
-  ## -- this may need to be a 'list' colum in the polygon data.frame, and then
-  ## -- the JS decoding will need to do each nested array element
-  ## -- or could use geoJSON
-  ## -- should accept both types as data
+  ## - other data foramts
+  ## -- e.g. geoJSON
   ## -- allow addition of other attributes (however, how will the user access them?)
-
+  if(is.null(polyline))
+    stop("please supply the column containing the polylines")
 
   if(!is.list(data[, polyline])){
     polygon <- data.frame(polyline = I(as.list(as.character(data[, polyline]))))
