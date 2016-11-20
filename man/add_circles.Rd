@@ -29,6 +29,10 @@ add_circles(map, data = get_map_data(map), lat = NULL, lon = NULL,
 \item{fill_colour}{either a string specifying the column of \code{data} containing the fill colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the cirlces}
 
 \item{fill_opacity}{either a string specifying the column of \code{data} containing the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles}
+
+\item{mouse_over}{string specifying the column of data to display when the mouse rolls over the polygon}
+
+\item{info_window}{string specifying the column of data to display in an info window when a polygon is clicked}
 }
 \description{
 Add circles to a google map

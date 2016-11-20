@@ -144,10 +144,11 @@ function add_markers(map_id, data_markers, cluster){
   var markers = [];
   var i;
   var bounds = new google.maps.LatLngBounds();
+  var infoWindow = new google.maps.InfoWindow();
 
   for (i = 0; i < Object.keys(data_markers).length; i++){
 
-  var latlon = new google.maps.LatLng(data_markers[i].lat, data_markers[i].lng);
+    var latlon = new google.maps.LatLng(data_markers[i].lat, data_markers[i].lng);
 
     var marker = new google.maps.Marker({
       position: latlon,
@@ -157,16 +158,24 @@ function add_markers(map_id, data_markers, cluster){
       label: data_markers[i].label
     });
 
+    console.log(marker);
+
+//    if(data_markers[i].info_window){
+
+//      marker.infowindow = new google.maps.InfoWindow({
+//        content: data_markers[i].info_window
+//      });
+
+//      google.maps.event.addListener(marker, 'click', function() {
+//        this.infowindow.open(window[map_id + 'map'], this);
+//      });
+
     if(data_markers[i].info_window){
+      add_infoWindow(map_id, infoWindow, marker, '_information', data_markers[i].info_window);
+    }
 
-      marker.infowindow = new google.maps.InfoWindow({
-        content: data_markers[i].info_window
-      });
-
-      google.maps.event.addListener(marker, 'click', function() {
-        this.infowindow.open(window[map_id + 'map'], this);
-      });
-
+    if(data_markers[i].mouse_over){
+      add_mouseOver(map_id, infoWindow, marker, "_mouse_over", data_markers[i].mouse_over);
     }
 
     bounds.extend(latlon);

@@ -6,7 +6,7 @@
 \usage{
 add_markers(map, data = get_map_data(map), lat = NULL, lon = NULL,
   title = NULL, draggable = NULL, opacity = NULL, label = NULL,
-  cluster = FALSE, info_window = NULL)
+  cluster = FALSE, info_window = NULL, mouse_over = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -27,7 +27,9 @@ add_markers(map, data = get_map_data(map), lat = NULL, lon = NULL,
 
 \item{cluster}{logical indicating if co-located markers should be clustered when the map zoomed out}
 
-\item{info_window}{string specifying the column of \code{data} containing the text to appear in a pop-up info window above a marker}
+\item{info_window}{string specifying the column of data to display in an info window when a polygon is clicked}
+
+\item{mouse_over}{string specifying the column of data to display when the mouse rolls over the polygon}
 }
 \description{
 Add markers to a google map

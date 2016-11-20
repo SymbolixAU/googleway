@@ -11,7 +11,8 @@
 #' @param opacity string specifying the column of \code{data} defining the 'opacity' of the maker. Values must be between 0 and 1 (inclusive).
 #' @param label string specifying the column of \code{data} defining the character to appear in the centre of the marker. Values will be coerced to strings, and only the first character will be used.
 #' @param cluster logical indicating if co-located markers should be clustered when the map zoomed out
-#' @param info_window string specifying the column of \code{data} containing the text to appear in a pop-up info window above a marker
+#' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
+#' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
 #' @examples
 #' \dontrun{
 #'
@@ -38,7 +39,8 @@ add_markers <- function(map,
                         opacity = NULL,
                         label = NULL,
                         cluster = FALSE,
-                        info_window = NULL)
+                        info_window = NULL,
+                        mouse_over = NULL)
 {
 
   ## TODO:
@@ -50,16 +52,16 @@ add_markers <- function(map,
 
   if(is.null(lat)){
     data <- latitude_column(data, lat, 'add_markers')
-    # lat <- "lat"
+    lat <- "lat"
   }
 
   if(is.null(lon)){
     data <- longitude_column(data, lon, 'add_markers')
-    # lon <- "lng"
+    lon <- "lng"
   }
 
-  markers <- data.frame(lat = data[, 'lat'],
-                        lng = data[, 'lng'])
+  markers <- data.frame(lat = data[, lat],
+                        lng = data[, lon])
 
   if(!is.logical(cluster))
     stop("cluster must be logical")
@@ -78,6 +80,9 @@ add_markers <- function(map,
 
   if(!is.null(info_window))
     markers[, "info_window"] <- as.character(data[, info_window])
+
+  if(!is.null(mouse_over))
+    markers[, "mouse_over"] <- as.character(data[, mouse_over])
 
   markers <- jsonlite::toJSON(markers)
 
@@ -109,6 +114,8 @@ clear_markers <- function(map){
 #' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
 #' @param fill_colour either a string specifying the column of \code{data} containing the fill colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the cirlces
 #' @param fill_opacity either a string specifying the column of \code{data} containing the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
+#' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
+#' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
 #' @examples
 #' \dontrun{
 #'
@@ -283,16 +290,12 @@ add_heatmap <- function(map,
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
 #' @param weight string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.
-#' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
-#' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
 #' @export
 update_heatmap <- function(map,
                            data = get_map_data(map),
                            lat = NULL,
                            lon = NULL,
-                           weight = 0.6,
-                           info_window = NULL,
-                           mouse_over = NULL){
+                           weight = 0.6){
 
   # data <- as.data.frame(data)
 
@@ -424,6 +427,7 @@ add_polylines <- function(map,
                          stroke_colour = NULL,
                          stroke_weight = NULL,
                          stroke_opacity = NULL,
+                         info_window = NULL,
                          mouse_over = NULL
 #                          lineSource = c("coords","polyline"),
 #                          group = NULL,
@@ -459,6 +463,10 @@ add_polylines <- function(map,
   ## options
   if(!is.null(mouse_over))
     polyline[, "mouse_over"] <- as.character(data[, mouse_over])
+
+  if(!is.null(info_window))
+    polyline[, "info_window"] <- as.character(data[, info_window])
+
 
   polyline <- jsonlite::toJSON(polyline)
 
