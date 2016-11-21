@@ -1,6 +1,9 @@
 
 ## Version 1.1.0 (development)
 
+* `mouse_over` and `info_window` available for most layers
+* `add_polygons()` adds polygons (comprised of encoded polylines)
+* `add_polylines()` adds encoded polylines
 * `add_bicycling()` adds a bicycling layer
 * `add_transit()` adds a transit layer
 * `optimise_waypoints` argument included for `google_directions()`

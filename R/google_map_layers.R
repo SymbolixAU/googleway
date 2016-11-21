@@ -158,8 +158,8 @@ add_circles <- function(map,
     lon <- "lng"
   }
 
-  Circles <- data.frame(lat = data[, "lat"],
-                        lng = data[, "lng"])
+  Circles <- data.frame(lat = data[, lat],
+                        lng = data[, lon])
 
 
   Circles[, "stroke_colour"] <- SetDefault(stroke_colour, "#FF0000", data)
@@ -227,7 +227,7 @@ add_heatmap <- function(map,
                         weight = NULL,
                         data = get_map_data(map),
                         option_dissipating = FALSE,
-                        option_radius = 10,
+                        option_radius = 1,
                         option_opacity = 0.6
                         ){
 
@@ -244,16 +244,16 @@ add_heatmap <- function(map,
   ## rename the cols so the javascript functions will see them
   if(is.null(lat)){
     data <- latitude_column(data, lat, 'add_heatmap')
-    # lat <- "lat"
+    lat <- "lat"
   }
 
   if(is.null(lon)){
     data <- longitude_column(data, lon, 'add_heatmap')
-    # lon <- "lng"
+    lon <- "lng"
   }
 
-  Heatmap <- data.frame(lat = data[, "lat"],
-                        lng = data[, "lng"])
+  Heatmap <- data.frame(lat = data[, lat],
+                        lng = data[, lon])
 
   Heatmap[, "weight"] <- SetDefault(weight, 1, data)
 
@@ -272,12 +272,7 @@ add_heatmap <- function(map,
 
   Heatmap <- jsonlite::toJSON(Heatmap)
 
-  invoke_method(map, data, 'add_heatmap', Heatmap, heatmap_options
-                # data[, lat],
-                # data[, lon],
-                # data[, cols$weight],
-                # heatmap_options
-  )
+  invoke_method(map, data, 'add_heatmap', Heatmap, heatmap_options)
 }
 
 
@@ -324,11 +319,7 @@ update_heatmap <- function(map,
 
   Heatmap <- jsonlite::toJSON(Heatmap)
 
-  invoke_method(map, data, 'update_heatmap', Heatmap
-                # data[, lat],
-                # data[, lon],
-                # data[, cols$weight]
-  )
+  invoke_method(map, data, 'update_heatmap', Heatmap)
 
 }
 
@@ -470,10 +461,7 @@ add_polylines <- function(map,
 
   polyline <- jsonlite::toJSON(polyline)
 
-  invoke_method(map, data, 'add_polylines', polyline
-                # data$lat,
-                # data$lon
-  )
+  invoke_method(map, data, 'add_polylines', polyline)
 }
 
 #' Clear polyline
@@ -567,10 +555,7 @@ add_polygons <- function(map,
 
   polygon <- jsonlite::toJSON(polygon)
 
-  invoke_method(map, data, 'add_polygons', polygon
-                # data$lat,
-                # data$lon
-                )
+  invoke_method(map, data, 'add_polygons', polygon)
 }
 
 #' Clear polygon

@@ -135,10 +135,15 @@ if (HTMLWidgets.shinyMode) {
   });
 }
 
-
-//function add_markers(map_id, cluster, lat, lng, title, opacity, draggable,
-//                      label, info_window){
-
+/**
+ * adds markers to a google map object
+ * @param map_id
+ *          the map object to which the markers will be added
+ * @param data_markers
+ *          JSON array of marker data
+ * @param cluster
+ *          logical, indicating if the markers should cluster when zoomed out
+ */
 function add_markers(map_id, data_markers, cluster){
 
   var markers = [];
@@ -157,18 +162,6 @@ function add_markers(map_id, data_markers, cluster){
       title: data_markers[i].title,
       label: data_markers[i].label
     });
-
-    console.log(marker);
-
-//    if(data_markers[i].info_window){
-
-//      marker.infowindow = new google.maps.InfoWindow({
-//        content: data_markers[i].info_window
-//      });
-
-//      google.maps.event.addListener(marker, 'click', function() {
-//        this.infowindow.open(window[map_id + 'map'], this);
-//      });
 
     if(data_markers[i].info_window){
       add_infoWindow(map_id, infoWindow, marker, '_information', data_markers[i].info_window);
@@ -193,7 +186,11 @@ function add_markers(map_id, data_markers, cluster){
   window[map_id + 'map'].fitBounds(bounds);
 }
 
-
+/**
+ * clears markes from a google map object
+ * @param map_id
+ *          the map to clear
+ */
 function clear_markers(map_id){
 
   // the markers know which map they're on
@@ -203,7 +200,15 @@ function clear_markers(map_id){
   }
 }
 
-
+/**
+ * Adds a heatmap layer to a google map object
+ * @param map_id
+ *          the map to which the heatmap will be added
+ * @param data_heatmap
+ *          JSON array of heatmap data
+ * @param heatmap_options
+ *          other options passed to the heatmap layer
+ */
 function add_heatmap(map_id, data_heatmap, heatmap_options){
 
   //heat = HTMLWidgets.dataframeToD3(data_heatmap);
