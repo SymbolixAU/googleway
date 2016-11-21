@@ -339,7 +339,9 @@ function add_circles(map_id, data_circles){
 }
 
 function clear_circles(map_id){
-  window[map_id + 'googleCircles'].setMap(null);
+  for (i = 0; i < window[map_id + 'googleCircle'].length; i++){
+    window[map_id + 'googleCircle'][i].setMap(null);
+  }
 }
 
 //function add_polyline(map, lat, lng, id){
@@ -378,7 +380,11 @@ function add_polylines(map_id, data_polyline){
 }
 
 function clear_polylines(map_id){
-  window[map_id + 'googlePolyline'].setMap(null);
+  for (i = 0; i < window[map_id + 'googlePolyline'].length; i++){
+    window[map_id + 'googlePolyline'][i].setMap(null);
+  }
+
+  //window[map_id + 'googlePolyline'].setMap(null);
 }
 
 function add_polygons(map_id, data_polygon){
@@ -430,7 +436,9 @@ function add_polygons(map_id, data_polygon){
 }
 
 function clear_polygons(map_id){
-  window[map_id + 'googlePolygon'].setMap(null);
+ for (i = 0; i < window[map_id + 'googlePolygon'].length; i++){
+    window[map_id + 'googlePolygon'][i].setMap(null);
+  }
 }
 
 /**
