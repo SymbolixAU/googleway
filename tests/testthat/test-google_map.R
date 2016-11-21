@@ -2,17 +2,31 @@ context("Google map")
 
 test_that("default options are set", {
 
-  expect_true(google_map(key = "abc")$x$zoom == 8)
-  expect_true(google_map(key = "abc")$x$lat == -37.9)
-  expect_true(google_map(key = "abc")$x$lng == 144.5)
-  expect_false(google_map(key = "abc", search_box = F)$x$search_box)
+  g <- google_map(key = "abc", location = NULL, zoom = NULL, search_box = F, styles = NULL)
+  expect_true(g$x$zoom == 8)
+  expect_true(g$x$lat == -37.9)
+  expect_true(g$x$lng == 144.5)
+  expect_false(g$x$search_box)
+  expect_null(g$x$styles)
+  expect_true(g$dependencies[[1]]$head == "<script src=\"https://maps.googleapis.com/maps/api/js?key=abc&libraries=visualization,geometry\"></script>")
+  expect_true(is.list(g$x))
+  expect_true(inherits(g, "google_map"))
 
 })
 
 
 test_that("search box is loaded", {
+  g <- google_map(key = "abc", search_box = T)
+  expect_true(g$x$search_box)
+  expect_true(g$dependencies[[1]]$head == "<script src=\"https://maps.googleapis.com/maps/api/js?key=abc&libraries=visualization,geometry,places\"></script>")
+})
 
-  expect_true(google_map(key = "abc", search_box = T)$x$search_box)
+test_that("attributes and map data is attached", {
+
+  g <- google_map(key = "abc", data = data.frame(id = 1:3, val = letters[1:3]))
+
+  expect_true(all(attributes(g$x)$names == c("lat", "lng","zoom","styles","search_box")))
+  expect_true(inherits(attributes(g$x)$google_map_data, "data.frame"))
 
 })
 
