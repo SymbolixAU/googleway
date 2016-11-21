@@ -443,7 +443,7 @@ add_polylines <- function(map,
 
 
   polyline <- data[, polyline, drop = FALSE]
-  polyline <- setNames(polyline, "polyline")
+  polyline <- stats::setNames(polyline, "polyline")
 
   ## the defaults are required
   polyline[, "geodesic"] <- SetDefault(geodesic, TRUE, data)
@@ -537,7 +537,7 @@ add_polygons <- function(map,
   }
 
 #  polygon <- data[, polyline, drop = FALSE]
-  polygon <- setNames(polygon, "polyline")
+  polygon <- stats::setNames(polygon, "polyline")
 
   ## the defaults are required
   polygon[, "stroke_colour"] <- SetDefault(stroke_colour, "#0000FF", data)

@@ -350,9 +350,9 @@ function add_polylines(map_id, data_polyline){
   // decode and plot polylines
   var infoWindow = new google.maps.InfoWindow();
 
-    for(i = 0; i < Object.keys(data_polyline).length; i++){
-      add_lines(map_id, data_polyline[i]);
-    }
+  for(i = 0; i < Object.keys(data_polyline).length; i++){
+    add_lines(map_id, data_polyline[i]);
+  }
 
   function add_lines(map_id, polyline){
 
@@ -380,16 +380,13 @@ function add_polylines(map_id, data_polyline){
 }
 
 function clear_polylines(map_id){
+
   for (i = 0; i < window[map_id + 'googlePolyline'].length; i++){
     window[map_id + 'googlePolyline'][i].setMap(null);
   }
-
-  //window[map_id + 'googlePolyline'].setMap(null);
 }
 
 function add_polygons(map_id, data_polygon){
-
-  console.log(data_polygon);
 
   var infoWindow = new google.maps.InfoWindow();
 
