@@ -89,6 +89,8 @@ HTMLWidgets.widget({
                 styles: JSON.parse(x.styles)
               });
 
+              console.log(map);
+
               window[el.id + 'map'] = map;
               initialise_map(el, x);
             };
@@ -186,14 +188,15 @@ function add_markers(map_id, data_markers, cluster){
   window[map_id + 'map'].fitBounds(bounds);
 }
 
-
-function map_style(map_id, style){
-
-  console.log(window[map_id + 'map']);
-  console.log(style);
-
-  window[map_id + 'map'].set('styles', style);
-  console.log(window[map_id + 'map']);
+/**
+ * Updates the google map with a particular style
+ * @param map_id
+ *          the map to which the style is applied
+ * @param style
+ *          style to apply (in the form of JSON)
+ */
+function update_style(map_id, style){
+  window[map_id + 'map'].set('styles', JSON.parse(style));
 }
 
 

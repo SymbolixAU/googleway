@@ -99,9 +99,18 @@ clear_markers <- function(map){
   invoke_method(map, data = NULL, 'clear_markers')
 }
 
-map_style <- function(map, data = get_map_data(data), style){
+#' Update style
+#'
+#' Updates the map with the given style
+#' @param map googleway map object
+#' @param style JSON specifying the style features to apply to the map.
+#' @export
+update_style <- function(map, style = NULL){
 
-  invoke_method(map, data, 'map_style', style)
+  if(!is.null(style))
+    jsonlite::validate(style)
+
+  invoke_method(map, data = NULL, 'update_style', style)
 
 }
 
