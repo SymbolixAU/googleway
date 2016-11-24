@@ -53,13 +53,12 @@ test_that("clear markers invoked", {
 
 test_that("update styles correctly invoked", {
 
-
   style <- "abc"
   m <- google_map(key = "abc")
 
   expect_error(update_style(m, style = T))
 
-  expect_true(update_style(m, style = "{}")$x$calls[[2]]$functions == "update_style")
+  expect_true(update_style(m, style = "{}")$x$calls[[1]]$functions == "update_style")
 
 })
 
@@ -103,6 +102,9 @@ test_that("clear markers circles", {
   expect_true(clear_circles(m)$x$calls[[2]]$functions == "clear_circles")
 
 })
+
+
+
 
 
 
