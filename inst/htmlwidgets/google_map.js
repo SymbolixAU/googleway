@@ -186,6 +186,17 @@ function add_markers(map_id, data_markers, cluster){
   window[map_id + 'map'].fitBounds(bounds);
 }
 
+
+function map_style(map_id, style){
+
+  console.log(window[map_id + 'map']);
+  console.log(style);
+
+  window[map_id + 'map'].set('styles', style);
+  console.log(window[map_id + 'map']);
+}
+
+
 /**
  * clears markes from a google map object
  * @param map_id
@@ -196,6 +207,7 @@ function clear_markers(map_id){
   // the markers know which map they're on
   // http://stackoverflow.com/questions/7961522/removing-a-marker-in-google-maps-api-v3
   for (i = 0; i < window[map_id + 'googleMarkers'].length; i++){
+    console.log("clear markers");
     window[map_id + 'googleMarkers'][i].setMap(null);
   }
 }

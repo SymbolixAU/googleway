@@ -99,6 +99,12 @@ clear_markers <- function(map){
   invoke_method(map, data = NULL, 'clear_markers')
 }
 
+map_style <- function(map, data = get_map_data(data), style){
+
+  invoke_method(map, data, 'map_style', style)
+
+}
+
 
 #' Add circle
 #'
