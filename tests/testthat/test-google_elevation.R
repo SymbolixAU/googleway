@@ -22,7 +22,7 @@ test_that("df_locations is a data.frame",{
 #                "'arg' should be oneof \"individual\", \"path\"")
 #
 # })
-#
+
 test_that("df_locations contains correctly named columns",{
 
   df <- data.frame(lats = c(-37.81659, -37.88950),
@@ -61,24 +61,32 @@ test_that("error when samples is not logical",{
                                 simplify = "TRUE"),
                "simplify must be logical - TRUE or FALSE")
 })
-#
-# test_that("warning issued when samples is NULL", {
-#
-#   ## skip this test
-#   skip_on_cran()
-#   skip_on_travis()
-#   key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
-#
-#   df <- data.frame(lat = c(-37.81659, -37.88950),
-#                    lon = c(144.9841, 144.9841))
-#
-#   expect_warning(google_elevation(df_locations = df,
-#                                   location_type = "path",
-#                                   samples = NULL,
-#                                   key = key,
-#                                   simplify = TRUE),
-#                  "samples has not been specified. 3 will be used")
-# })
-#
+
+
+test_that("warning issued when samples is NULL", {
+
+  df <- data.frame(lat = c(-37.81659, -37.88950),
+                   lon = c(144.9841, 144.9841))
+
+  expect_warning(google_elevation(df_locations = df,
+                                  location_type = "path",
+                                  samples = NULL,
+                                  key = "abc",
+                                  simplify = TRUE),
+                 "samples has not been specified. 3 will be used")
+})
+
+test_that("data is attempted to be downloaded", {
+
+  df <- data.frame(lat = c(-37.81659, -37.88950),
+                   lon = c(144.9841, 144.9841))
+
+  expect_true(google_elevation(df_locations = df,
+                               key = "abc")$error_message == "The provided API key is invalid.")
+
+
+})
+
+
 
 
