@@ -51,7 +51,7 @@ test_that("clear markers invoked", {
 
 })
 
-thest_that("update styles correctly invoked", {
+test_that("update styles correctly invoked", {
 
 
   style <- "abc"
