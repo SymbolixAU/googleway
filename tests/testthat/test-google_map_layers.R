@@ -40,5 +40,75 @@ test_that("markers correctly defined", {
 
 })
 
+test_that("clear markers invoked", {
+
+  df <- data.frame(lat = 1:4,
+                   lon = 1:4)
+
+  m <- google_map(key = "abc") %>% add_markers(data = df)
+
+  expect_true(clear_markers(m)$x$calls[[2]]$functions == "clear_markers")
+
+})
+
+thest_that("update styles correctly invoked", {
+
+
+  style <- "abc"
+  m <- google_map(key = "abc")
+
+  expect_error(update_style(m, style = T))
+
+  expect_true(update_style(m, style = "{}")$x$calls[[2]]$functions == "update_style")
+
+})
+
+
+test_that("circles correctly defined", {
+
+  m <- google_map(key = "abc")
+
+  df <- data.frame(mylat = 1:4,
+                   mylon = 1:4)
+
+  expect_error(add_circles(map = m), "Couldn't infer latitude column for add_circles")
+  expect_error(add_circles(map = m, data = df), "Couldn't infer latitude column for add_circles")
+
+  df <- data.frame(lat = 1:4,
+                   lon = 1:4,
+                   info_window = letters[1:4],
+                   mouse_over = letters[1:4])
+
+  expect_true(unique(jsonlite::fromJSON(add_circles(map = m, data = df)$x$calls[[1]]$args[[1]])$stroke_colour) == "#FF0000")
+  expect_true(unique(jsonlite::fromJSON(add_circles(map = m, data = df)$x$calls[[1]]$args[[1]])$stroke_weight) == 2)
+  expect_true(unique(jsonlite::fromJSON(add_circles(map = m, data = df)$x$calls[[1]]$args[[1]])$stroke_opacity) == 0.8)
+  expect_true(unique(jsonlite::fromJSON(add_circles(map = m, data = df)$x$calls[[1]]$args[[1]])$radius) == 100)
+  expect_true(unique(jsonlite::fromJSON(add_circles(map = m, data = df)$x$calls[[1]]$args[[1]])$fill_colour) == "#FF0000")
+  expect_true(unique(jsonlite::fromJSON(add_circles(map = m, data = df)$x$calls[[1]]$args[[1]])$fill_opacity) == 0.35)
+
+  expect_true("info_window" %in% names(jsonlite::fromJSON(add_circles(map = m, data = df, info_window = "info_window")$x$calls[[1]]$args[[1]])))
+  expect_true("mouse_over" %in% names(jsonlite::fromJSON(add_circles(map = m, data = df, mouse_over = "mouse_over")$x$calls[[1]]$args[[1]])))
+
+
+})
+
+
+test_that("clear markers circles", {
+
+  df <- data.frame(lat = 1:4,
+                   lon = 1:4)
+
+  m <- google_map(key = "abc") %>% add_circles(data = df)
+
+  expect_true(clear_circles(m)$x$calls[[2]]$functions == "clear_circles")
+
+})
+
+
+
+
+
+
+
 
 
