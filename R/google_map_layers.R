@@ -281,6 +281,10 @@ add_heatmap <- function(map,
     if(!is.numeric(option_radius))
       stop("option_radus must be numeric")
 
+  if(!is.null(option_dissipating))
+    if(!is.logical(option_dissipating))
+      stop("option_dissipating must be logical")
+
   heatmap_options <- data.frame(dissipating = option_dissipating,
                                 radius = option_radius,
                                 opacity = option_opacity)

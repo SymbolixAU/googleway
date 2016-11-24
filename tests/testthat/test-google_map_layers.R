@@ -70,7 +70,7 @@ test_that("circles correctly defined", {
   df <- data.frame(mylat = 1:4,
                    mylon = 1:4)
 
-  expect_error(add_circles(map = m), "Couldn't infer latitude column for add_circles")
+  expect_error(add_circles(map = m, data = df), "Couldn't infer latitude column for add_circles")
   expect_error(add_circles(map = m, data = df), "Couldn't infer latitude column for add_circles")
 
   df <- data.frame(lat = 1:4,
@@ -105,7 +105,39 @@ test_that("clear markers circles", {
 
 
 
+test_that("heatmap correctly defined", {
 
+  m <- google_map(key = "abc")
+
+  df <- data.frame(mylat = 1:4,
+                   mylon = 1:4)
+
+  expect_error(add_heatmap(map = m, data = df), "Couldn't infer latitude column for add_heatmap")
+  expect_error(add_heatmap(map = m, data = df), "Couldn't infer latitude column for add_heatmap")
+
+  df <- data.frame(lat = 1:4,
+                   lon = 1:4)
+
+  expect_true(add_heatmap(map = m, data = df)$x$calls[[1]]$functions == "add_heatmap")
+  expect_error(add_heatmap(map = m, data = df, option_opacity = 2))
+  expect_error(add_heatmap(map = m, data = df, option_dissipating = "yes"))
+  expect_error(add_heatmap(map = m, data = df, option_radius = "1"))
+
+  expect_true(add_heatmap(m, data = df)$x$calls[[1]]$functions == "add_heatmap")
+
+})
+
+test_that("clear heatmaps invoked correctly",{
+
+  df <- data.frame(lat = 1:4,
+                   lon = 1:4)
+
+  m <- google_map(key = "abc") %>% add_heatmap(data = df)
+
+  expect_true(update_heatmap(m, data = df)$x$calls[[2]]$functions == "update_heatmap")
+  expect_true(clear_heatmap(m)$x$calls[[2]]$functions == "clear_heatmap")
+
+})
 
 
 
