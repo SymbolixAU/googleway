@@ -139,7 +139,11 @@ test_that("clear heatmaps invoked correctly",{
 
 })
 
+test_that("traffic added", {
 
+
+
+})
 
 
 

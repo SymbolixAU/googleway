@@ -58,20 +58,14 @@ test_that("radius is not used when rankby == distance",{
                "radius can not be supplied if rankby == 'distance'")
 })
 
-# test_that("rankby ignored when search_string", {
-#
-#   skip()
-#   skip_on_cran()
-#   skip_on_travis()
-#
-#   key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_API_KEY")
-#   expect_warning(google_places(search_string = "Restaurants in Melbourne, Australia",
-#                                radius = 200,
-#                                rankby="prominence",
-#                                key = key),
-#                  "The 'rankby' argument is ignored when using a 'search_string'")
-#
-# })
+test_that("rankby ignored when search_string", {
+
+  expect_warning(google_places(search_string = "Restaurants in Melbourne, Australia",
+                               radius = 200,
+                               rankby="prominence",
+                               key = "abc"))
+
+})
 
 test_that("keyword, name or place_type specified when rankby == 'distance'", {
 
@@ -81,35 +75,23 @@ test_that("keyword, name or place_type specified when rankby == 'distance'", {
 
 })
 
-# test_that("name used with search string issues warning",{
-#
-#   skip_on_cran()
-#   skip_on_travis()
-#
-#   key <- read.dcf(file = "~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
-#
-#   expect_warning(google_places(search_string = "Restaurants in Melbourne, Australia",
-#                                name = "Maha",
-#                                key = key),
-#                  "The 'name' argument is ignored when using a 'search_string'")
-#
-# })
-#
-#
-# test_that("rankby used with search_string is ignored", {
-#
-#   skip_on_cran()
-#   skip_on_travis()
-#
-#   key <- read.dcf(file = "~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
-#
-#   expect_warning(google_places(search_string = "Restaurangs in Melbourne, Australia",
-#                                rankby = "prominence",
-#                                key = key),
-#                  "The 'rankby' argument is ignored when using a 'search_string'")
-#
-# })
-#
+test_that("name used with search string issues warning",{
+
+  expect_warning(google_places(search_string = "Restaurants in Melbourne, Australia",
+                               name = "Maha",
+                               key = "abc"))
+
+})
+
+
+test_that("rankby used with search_string is ignored", {
+
+  expect_warning(google_places(search_string = "Restaurangs in Melbourne, Australia",
+                               rankby = "prominence",
+                               key = "abc"))
+
+})
+
 test_that("price_range is valid",{
 
   expect_error(google_places(search_string = "Restaurants in Melbourne, Australia",

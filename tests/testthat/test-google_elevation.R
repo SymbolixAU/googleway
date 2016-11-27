@@ -4,24 +4,20 @@ test_that("df_locations is a data.frame",{
 
   expect_error(google_elevation(df_locations = c(-37.81659, -37.88950),
                    key = "abc",
-                   simplify = TRUE),
-               "df_locations should be a data.frame containing at least two columns of lat and lon coordianates")
+                   simplify = TRUE))
 
 })
-#
-# test_that("location errors on incorrect type",{
-#
-#   skip("incorrect error string in match.arg")
-#
-#   df <- data.frame(lat = c(-37.81659, -37.88950),
-#                    lon = c(144.9841, 144.9841))
-#
-#   expect_error(google_elevation(df_locations = df,
-#                                 location_type = "route",
-#                                 key = "abc"),
-#                "'arg' should be oneof \"individual\", \"path\"")
-#
-# })
+
+test_that("location errors on incorrect type",{
+
+  df <- data.frame(lat = c(-37.81659, -37.88950),
+                   lon = c(144.9841, 144.9841))
+
+  expect_error(google_elevation(df_locations = df,
+                                location_type = "route",
+                                key = "abc"))
+
+})
 
 test_that("df_locations contains correctly named columns",{
 
