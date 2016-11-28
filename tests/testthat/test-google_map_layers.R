@@ -139,14 +139,74 @@ test_that("clear heatmaps invoked correctly",{
 
 })
 
-test_that("traffic added", {
+test_that("layers added and removed", {
 
+  m <- google_map(key = "abc") %>% add_traffic()
+  expect_true(m$x$calls[[1]]$functions == "add_traffic")
 
+  m <- google_map(key = "abc") %>% clear_traffic()
+  expect_true(m$x$calls[[1]]$functions == "clear_traffic")
+
+  m <- google_map(key = "abc") %>% add_bicycling()
+  expect_true(m$x$calls[[1]]$functions == "add_bicycling")
+
+  m <- google_map(key = "abc") %>% clear_bicycling()
+  expect_true(m$x$calls[[1]]$functions == "clear_bicycling")
+
+  m <- google_map(key = "abc") %>% add_transit()
+  expect_true(m$x$calls[[1]]$functions == "add_transit")
+
+  m <- google_map(key = "abc") %>% clear_transit()
+  expect_true(m$x$calls[[1]]$functions == "clear_transit")
 
 })
 
 
+test_that("polylines added and removed", {
 
+  m <- google_map(key = "abc")
+  df <- data.frame(lat = 1:4,
+                  lon = 1:4,
+                  polyline = letters[1:4],
+                  info_window = letters[1:4],
+                  mouse_over = letters[1:4])
+
+  expect_error(add_polylines(m))
+
+  expect_true(unique(jsonlite::fromJSON(add_polylines(map = m, data = df, polyline = "polyline")$x$calls[[1]]$args[[1]])$geodesic) == TRUE)
+  expect_true(unique(jsonlite::fromJSON(add_polylines(map = m, data = df, polyline = "polyline")$x$calls[[1]]$args[[1]])$stroke_colour) == "#0000FF")
+  expect_true(unique(jsonlite::fromJSON(add_polylines(map = m, data = df, polyline = "polyline")$x$calls[[1]]$args[[1]])$stroke_weight) == 2)
+  expect_true(unique(jsonlite::fromJSON(add_polylines(map = m, data = df, polyline = "polyline")$x$calls[[1]]$args[[1]])$stroke_opacity) == 0.6)
+
+  expect_true("info_window" %in% names(jsonlite::fromJSON(add_polylines(map = m, data = df, polyline = "polyline", info_window = "info_window")$x$calls[[1]]$args[[1]])))
+  expect_true("mouse_over" %in% names(jsonlite::fromJSON(add_polylines(map = m, data = df, polyline = "polyline", mouse_over = "mouse_over")$x$calls[[1]]$args[[1]])))
+
+  expect_true(clear_polylines(m)$x$calls[[1]]$functions == "clear_polylines")
+
+})
+
+
+test_that("polygons added and removed", {
+
+  m <- google_map(key = "abc")
+  df <- data.frame(lat = 1:4,
+                   lon = 1:4,
+                   polyline = letters[1:4],
+                   info_window = letters[1:4],
+                   mouse_over = letters[1:4])
+
+  expect_error(add_polygons(m))
+
+  expect_true(unique(jsonlite::fromJSON(add_polygons(map = m, data = df, polyline = "polyline")$x$calls[[1]]$args[[1]])$stroke_colour) == "#0000FF")
+  expect_true(unique(jsonlite::fromJSON(add_polygons(map = m, data = df, polyline = "polyline")$x$calls[[1]]$args[[1]])$stroke_weight) == 2)
+  expect_true(unique(jsonlite::fromJSON(add_polygons(map = m, data = df, polyline = "polyline")$x$calls[[1]]$args[[1]])$stroke_opacity) == 0.6)
+
+  expect_true("info_window" %in% names(jsonlite::fromJSON(add_polygons(map = m, data = df, polyline = "polyline", info_window = "info_window")$x$calls[[1]]$args[[1]])))
+  expect_true("mouse_over" %in% names(jsonlite::fromJSON(add_polygons(map = m, data = df, polyline = "polyline", mouse_over = "mouse_over")$x$calls[[1]]$args[[1]])))
+
+  expect_true(clear_polygons(m)$x$calls[[1]]$functions == "clear_polygons")
+
+})
 
 
 
