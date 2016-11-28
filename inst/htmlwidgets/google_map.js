@@ -174,6 +174,7 @@ function add_markers(map_id, data_markers, cluster){
     }
 
     bounds.extend(latlon);
+
     window[map_id + 'googleMarkers'].push(marker);
     markers.push(marker);
     marker.setMap(window[map_id + 'map']);
