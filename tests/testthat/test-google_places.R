@@ -67,6 +67,15 @@ test_that("rankby ignored when search_string", {
 
 })
 
+test_that("place type is specified correctly", {
+
+  expect_error(google_places(search_string = "here",
+                key = "abc",
+                place_type = c("hospital", "airport")))
+
+})
+
+
 test_that("keyword, name or place_type specified when rankby == 'distance'", {
 
   expect_error(google_places(search_string = "Restaurangs in Melbourne, Australia",
@@ -122,4 +131,19 @@ test_that("page_token is valid",{
                              page_token = TRUE),
                "page_token must be a string of length 1")
 })
+
+
+test_that("radar options throws errors", {
+
+  expect_warning(google_places(radar = T, key = "abc", search_string = "here", location = c(-37, 145), radius = 1, keyword = "there"))
+  expect_error(google_places(radar = T, key = "abc", location = c(-37, 145)))
+  expect_error(google_places(radar = T, key = "abc", keyword = "here"))
+  expect_error(google_places(radar = T, key = "abc", location = c(-37, 145), keyword = "here"))
+  expect_true("html_attributions" %in% names(google_places(radar = T, key = "abc", location = c(-37, 145), keyword = "here", radius = 2)))
+
+})
+
+
+
+
 

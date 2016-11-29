@@ -60,6 +60,11 @@ test_that("components are valid", {
 
 })
 
+test_that("places autocomplete object is created", {
+
+  p <- google_place_autocomplete(place_input = "here", key = "abc")
+  expect_true("predictions" %in% names(p))
+})
 
 
 
