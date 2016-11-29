@@ -12,7 +12,7 @@ google_map_update(map_id, session = shiny::getDefaultReactiveDomain(),
 
 \item{session}{the Shiny session object to which the map belongs; usually the default value will suffice}
 
-\item{data}{data to be used in the map. See the details section for \code{\link(google_map)}}
+\item{data}{data to be used in the map. See the details section for \code{\link{(google_map)}}}
 
 \item{deferUntilFlush}{indicates whether actions performed against this instance should be carried out right away, or whether they should be held until after the next time all of the outputs are updated; defaults to TRUE}
 }
@@ -21,7 +21,6 @@ Update a Google map in a shiny app. Use this function whenever the map needs to 
 }
 \examples{
 \dontrun{
-
 
 library(shiny)
 library(magrittr)
@@ -53,9 +52,7 @@ server <- function(input, output, session){
     google_map(key = api_key)
   })
 
-  observeEvent({
-    input$markers
-  },{
+  observeEvent(input$markers,{
 
     if(input$markers \%\% 2 == 1){
       google_map_update(map_id = "map") \%>\%
@@ -64,10 +61,8 @@ server <- function(input, output, session){
       google_map_update(map_id = "map") \%>\%
         clear_markers()
     }
-
   })
-}
-
+ }
 shinyApp(ui, server)
 }
 }

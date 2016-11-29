@@ -2,15 +2,12 @@
 #'
 #' Update a Google map in a shiny app. Use this function whenever the map needs to respond to reactive content.
 #'
-#'
-#'
 #' @param map_id string The output ID of the map in a shiny application
 #' @param session the Shiny session object to which the map belongs; usually the default value will suffice
-#' @param data data to be used in the map. See the details section for \code{\link(google_map)}
+#' @param data data to be used in the map. See the details section for \code{\link{(google_map)}}
 #' @param deferUntilFlush indicates whether actions performed against this instance should be carried out right away, or whether they should be held until after the next time all of the outputs are updated; defaults to TRUE
 #' @examples
 #' \dontrun{
-#'
 #'
 #' library(shiny)
 #' library(magrittr)
@@ -42,9 +39,7 @@
 #'     google_map(key = api_key)
 #'   })
 #'
-#'   observeEvent({
-#'     input$markers
-#'   },{
+#'   observeEvent(input$markers,{
 #'
 #'     if(input$markers %% 2 == 1){
 #'       google_map_update(map_id = "map") %>%
@@ -53,10 +48,8 @@
 #'       google_map_update(map_id = "map") %>%
 #'         clear_markers()
 #'     }
-#'
 #'   })
-#' }
-#'
+#'  }
 #' shinyApp(ui, server)
 #' }
 #' @export
@@ -84,8 +77,6 @@ google_map_update <- function(map_id,
   )
 }
 
-
-# These functions will be very similar to Leaflet
 
 #' Google dispatch
 #'
@@ -239,37 +230,37 @@ invoke_remote = function(map, method, args = list()) {
 }
 
 
-### ----------
-## taken from Rstudio::leaflet package
-
-# Evaluate list members that are formulae, using the map data as the environment
-# (if provided, otherwise the formula environment)
-evalFormula = function(list, data) {
-  evalAll = function(x) {
-    if (is.list(x)) {
-      structure(lapply(x, evalAll), class = class(x))
-    } else resolveFormula(x, data)
-  }
-  evalAll(list)
-}
-
-
-
-resolveFormula = function(f, data) {
-  if (!inherits(f, 'formula')) return(f)
-  if (length(f) != 2L) stop("Unexpected two-sided formula: ", deparse(f))
-
-  doResolveFormula(data, f)
-}
-
-doResolveFormula = function(data, f) {
-  UseMethod("doResolveFormula")
-}
-
-
-doResolveFormula.data.frame = function(data, f) {
-  eval(f[[2]], data, environment(f))
-}
+# ### ----------
+# ## taken from Rstudio::leaflet package
+#
+# # Evaluate list members that are formulae, using the map data as the environment
+# # (if provided, otherwise the formula environment)
+# evalFormula = function(list, data) {
+#   evalAll = function(x) {
+#     if (is.list(x)) {
+#       structure(lapply(x, evalAll), class = class(x))
+#     } else resolveFormula(x, data)
+#   }
+#   evalAll(list)
+# }
+#
+#
+#
+# resolveFormula = function(f, data) {
+#   if (!inherits(f, 'formula')) return(f)
+#   if (length(f) != 2L) stop("Unexpected two-sided formula: ", deparse(f))
+#
+#   doResolveFormula(data, f)
+# }
+#
+# doResolveFormula = function(data, f) {
+#   UseMethod("doResolveFormula")
+# }
+#
+#
+# doResolveFormula.data.frame = function(data, f) {
+#   eval(f[[2]], data, environment(f))
+# }
 
 
 check_hex_colours <- function(df, cols){
@@ -301,93 +292,6 @@ check_for_columns <- function(df, cols){
                 , " in the data"))
 
 }
-
-# correct_columns <- function(df, cols, col_names, allowed_nulls = c()){
-#
-#   ## cols : the column names supplied by the user
-#   ## col_names : the column names required in the javascript function
-#   ## allowed_nulls : allowed null columns
-#
-#   for(i in 1:length(col_names)){
-#
-#     if(is.null(cols[[i]]) & !col_names[[i]] %in% allowed_nulls){
-#       stop(paste0(col_names[i], " can not be NULL"))
-#
-#     }else if(is.null(cols[[i]]) & col_names[[i]] %in% allowed_nulls ){
-#
-#       ## don't overwrite column if it's used for a different option
-#       if(!col_names[[i]] %in% cols){
-#
-#         ## create an NA column for the allowed null
-#         df[, col_names[[i]]] <- NA
-#         cols[[i]] <- col_names[[i]]
-#       }
-#
-#     }else if(is.na(cols[[i]])){
-#       stop(paste0(col_names[i], " can not be NA"))
-#     }
-#   }
-#
-#   for(i in 1:length(col_names)){
-#     if(!is.null(cols[[i]])){
-#       if(!cols[[i]] %in% names(df)){
-#         ## the column doesn't exist
-#         ## the actual column name should be col_names[i]
-#         df[, col_names[[i]] ] <- cols[[i]]
-#         cols[[i]] <- col_names[[i]]
-#       }else{
-#         ## else the column exists
-#         ## make sure the name is correct
-#
-#       }
-#     }
-#   }
-#
-#   ## all correct columns have been created
-#   cols <- stats::setNames(cols, col_names)
-#
-#   return(list(df = df, cols = cols))
-# }
-
-
-
-# default_group <- function(data, group){
-#
-#   group_options <- data.frame("geodesic" = TRUE,
-#                               "strokeColour" = "#0000FF",
-#                               "strokeOpacity" = 0.6,
-#                               "strokeWeight" = 2,
-#                               "fillColour" = "#FF0000",
-#                               "fillOpacity" = 0.35,
-#                               "information" = NA)
-#   group_options <- cbind(group_options, "group" = unique(data[,group]))
-#
-#   return(group_options)
-# }
-
-# construct_poly <- function(data, group, group_options,
-#                            lineSource, polyline){
-#
-#   poly <- split(data, data[group])
-#   poly <- lapply(poly, function(x){
-#     if(lineSource == "coords"){
-#       pl <- gepaf::encodePolyline(x[, c("lat","lng")])
-#     }else{
-#       pl <- x[, polyline]
-#     }
-#     i <- unique(x[, group])
-#     list("poly" = pl,
-#          "group" = i,
-#          "geodesic" = tolower(group_options[group_options$group == i, "geodesic"]),
-#          "strokeColour" = group_options[group_options$group == i, "strokeColour"],
-#          "strokeOpacity" = group_options[group_options$group == i, "strokeOpacity"],
-#          "strokeWeight" = group_options[group_options$group == i, "strokeWeight"],
-#          "fillColour" = group_options[group_options$group == i, "fillColour"],
-#          "fillOpacity" = group_options[group_options$group == i, "fillOpacity"],
-#          "information" = group_options[group_options$group == i, "information"]
-#     )
-#   })
-# }
 
 #' Set Defaults
 #'
