@@ -4,7 +4,7 @@
 #'
 #' @param map_id string The output ID of the map in a shiny application
 #' @param session the Shiny session object to which the map belongs; usually the default value will suffice
-#' @param data data to be used in the map. See the details section for \code{\link{(google_map)}}
+#' @param data data to be used in the map. See the details section for \code{\link{google_map}}
 #' @param deferUntilFlush indicates whether actions performed against this instance should be carried out right away, or whether they should be held until after the next time all of the outputs are updated; defaults to TRUE
 #' @examples
 #' \dontrun{
@@ -230,37 +230,37 @@ invoke_remote = function(map, method, args = list()) {
 }
 
 
-# ### ----------
-# ## taken from Rstudio::leaflet package
-#
-# # Evaluate list members that are formulae, using the map data as the environment
-# # (if provided, otherwise the formula environment)
-# evalFormula = function(list, data) {
-#   evalAll = function(x) {
-#     if (is.list(x)) {
-#       structure(lapply(x, evalAll), class = class(x))
-#     } else resolveFormula(x, data)
-#   }
-#   evalAll(list)
-# }
-#
-#
-#
-# resolveFormula = function(f, data) {
-#   if (!inherits(f, 'formula')) return(f)
-#   if (length(f) != 2L) stop("Unexpected two-sided formula: ", deparse(f))
-#
-#   doResolveFormula(data, f)
-# }
-#
-# doResolveFormula = function(data, f) {
-#   UseMethod("doResolveFormula")
-# }
-#
-#
-# doResolveFormula.data.frame = function(data, f) {
-#   eval(f[[2]], data, environment(f))
-# }
+### ----------
+## taken from Rstudio::leaflet package
+
+# Evaluate list members that are formulae, using the map data as the environment
+# (if provided, otherwise the formula environment)
+evalFormula = function(list, data) {
+  evalAll = function(x) {
+    if (is.list(x)) {
+      structure(lapply(x, evalAll), class = class(x))
+    } else resolveFormula(x, data)
+  }
+  evalAll(list)
+}
+
+
+
+resolveFormula = function(f, data) {
+  if (!inherits(f, 'formula')) return(f)
+  if (length(f) != 2L) stop("Unexpected two-sided formula: ", deparse(f))
+
+  doResolveFormula(data, f)
+}
+
+doResolveFormula = function(data, f) {
+  UseMethod("doResolveFormula")
+}
+
+
+doResolveFormula.data.frame = function(data, f) {
+  eval(f[[2]], data, environment(f))
+}
 
 
 check_hex_colours <- function(df, cols){
