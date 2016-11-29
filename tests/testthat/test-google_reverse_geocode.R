@@ -40,7 +40,7 @@ test_that("location type set correctly", {
 
 })
 
-test_that("reverse geocode attempted" {
+test_that("reverse geocode attempted", {
 
   expect_true(google_reverse_geocode(location = c(-37.81659, 144.9841),
                          key = "abc")$error_message == "The provided API key is invalid.")

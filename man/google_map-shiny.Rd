@@ -25,7 +25,34 @@ string and have \code{'px'} appended.}
 is useful if you want to save an expression in a variable.}
 }
 \description{
-Output and render functions for using google_map within Shiny
-applications and interactive Rmd documents.
+Output and render functions for using google_map within Shiny applications and interactive Rmd documents.
+}
+\examples{
+\dontrun{
+library(shiny)
+library(magrittr)
+
+ui <- fluidPage(google_mapOutput("map"))
+
+server <- function(input, output, session){
+
+api_key <- "your_api_key"
+
+  df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
+  -37.8191299438477, -37.8187675476074, -37.8186187744141, -37.8181076049805
+  ), lon = c(144.968612670898, 144.968414306641, 144.968139648438,
+  144.967971801758, 144.967864990234, 144.967636108398), weight = c(31.5698964400217,
+  97.1629025738221, 58.9051092562731, 76.3215389118996, 37.8982300488278,
+  77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
+  "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
+
+  output$map <- renderGoogle_map({
+    google_map(key = api_key)
+  })
+}
+
+shinyApp(ui, server)
+}
+
 }
 

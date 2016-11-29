@@ -1,11 +1,64 @@
 #' Google map update
 #'
-#' Update a map in a shiny app. Use this function whenever the map needs to respond to reactive content.
+#' Update a Google map in a shiny app. Use this function whenever the map needs to respond to reactive content.
+#'
+#'
 #'
 #' @param map_id string The output ID of the map in a shiny application
 #' @param session the Shiny session object to which the map belongs; usually the default value will suffice
-#' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.
+#' @param data data to be used in the map. See the details section for \code{\link(google_map)}
 #' @param deferUntilFlush indicates whether actions performed against this instance should be carried out right away, or whether they should be held until after the next time all of the outputs are updated; defaults to TRUE
+#' @examples
+#' \dontrun{
+#'
+#'
+#' library(shiny)
+#' library(magrittr)
+#'
+#' ui <- pageWithSidebar(
+#'   headerPanel("Toggle markers"),
+#'   sidebarPanel(
+#'     actionButton(inputId = "markers", label = "toggle markers")
+#'   ),
+#'   mainPanel(
+#'     google_mapOutput("map")
+#'   )
+#' )
+#'
+#' server <- function(input, output, session){
+#'
+#'   # api_key <- "your_api_key"
+#'
+#'   df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
+#'   -37.8191299438477, -37.8187675476074, -37.8186187744141, -37.8181076049805
+#'   ), lon = c(144.968612670898, 144.968414306641, 144.968139648438,
+#'  144.967971801758, 144.967864990234, 144.967636108398), weight = c(31.5698964400217,
+#'  97.1629025738221, 58.9051092562731, 76.3215389118996, 37.8982300488278,
+#'  77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
+#'  "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
+#'
+#'
+#'   output$map <- renderGoogle_map({
+#'     google_map(key = api_key)
+#'   })
+#'
+#'   observeEvent({
+#'     input$markers
+#'   },{
+#'
+#'     if(input$markers %% 2 == 1){
+#'       google_map_update(map_id = "map") %>%
+#'         add_markers(data = df)
+#'     }else{
+#'       google_map_update(map_id = "map") %>%
+#'         clear_markers()
+#'     }
+#'
+#'   })
+#' }
+#'
+#' shinyApp(ui, server)
+#' }
 #' @export
 google_map_update <- function(map_id,
                               session = shiny::getDefaultReactiveDomain(),

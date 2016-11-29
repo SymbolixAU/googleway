@@ -8,9 +8,9 @@ google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
   height = NULL, padding = 0, styles = NULL, search_box = FALSE)
 }
 \arguments{
-\item{key}{A valid Google Maps API key}
+\item{key}{A valid Google Maps API key. see Details}
 
-\item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude.}
+\item{data}{data to be used on the map. This will likely contain two columns for latitude and longitude, and / or encoded polylines for plotting polylines and polygons}
 
 \item{location}{numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the map. The map will automatically set the location and zoom if markers are supplied through \link{add_markers}. If null, the map will default to Melbourne, Australia.}
 
@@ -29,9 +29,17 @@ google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
 \description{
 Generates a google map object
 }
+\details{
+The data argument is only needed if you call other functions to add layers to th emap, such as \code{add_markers()} or \code{add_polylines}. However, the data argument can also be passed into those functions as well.
+
+In order to use Google Maps you need a valid Google Maps Web Javascript API key. See the Google Maps API documentation \url{https://developers.google.com/maps/}
+}
 \examples{
 \dontrun{
 
+library(magrittr)  ## for the \%>\% pipes
+
+map_key <- "your_api_key"
 df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
 -37.8191299438477, -37.8187675476074, -37.8186187744141, -37.8181076049805
 ), lon = c(144.968612670898, 144.968414306641, 144.968139648438,
