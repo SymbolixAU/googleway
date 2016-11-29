@@ -31,3 +31,16 @@ test_that("attributes and map data is attached", {
 })
 
 
+test_that("google_mapOutput created", {
+
+  g <- google_mapOutput(outputId = "map")
+  expect_true("shiny.tag.list" %in% class(g))
+  expect_true("list" %in% class(g))
+  expect_true(g[[1]]$attribs$class == "google_map html-widget html-widget-output")
+
+  g <- renderGoogle_map(expr = "abc")
+  expect_true("shiny.render.function" %in% class(g))
+  expect_true("function" %in% class(g))
+
+})
+

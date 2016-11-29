@@ -215,15 +215,13 @@ function clear_markers(map_id){
   // the markers know which map they're on
   // http://stackoverflow.com/questions/7961522/removing-a-marker-in-google-maps-api-v3
   for (i = 0; i < window[map_id + 'googleMarkers'].length; i++){
-    console.log("clear markers");
     window[map_id + 'googleMarkers'][i].setMap(null);
   }
 
   window[map_id + 'googleMarkers'] = [];
-
-  console.log("clear markers clusters");
-//  window[map_id + 'googleMarkerClusterer'].setMap(null);
-  window[map_id + 'googleMarkerClusterer'].clearMarkers();
+  if(window[map_id + 'googleMarkerClusterer']){
+    window[map_id + 'googleMarkerClusterer'].clearMarkers();
+  }
 
 }
 
@@ -271,6 +269,13 @@ function add_heatmap(map_id, data_heatmap, heatmap_options){
   heatmap.setMap(window[map_id + 'map']);
 }
 
+/**
+ * Updates the heatmap layer with new data
+ * @param map_id
+ *          the map to update
+ * @param data_heatmap
+ *          the data to put into the heatmap layer
+ */
 function update_heatmap(map_id, data_heatmap){
 
 
