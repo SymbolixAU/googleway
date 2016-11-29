@@ -13,6 +13,7 @@ HTMLWidgets.widget({
           // global map objects
           // - display elements
           window[el.id + 'googleMarkers'] = [];
+          window[el.id + 'googleMarkerClusterer'];
           window[el.id + 'googleHeatmapLayer'] = [];
           window[el.id + 'googleHeatmapLayerMVC'] = [];
           window[el.id + 'googleCircles'] = [];
@@ -181,8 +182,11 @@ function add_markers(map_id, data_markers, cluster){
   }
 
   if(cluster === true){
-    var markerCluster = new MarkerClusterer(window[map_id + 'map'], markers,
+    //var markerCluster = new MarkerClusterer(window[map_id + 'map'], markers,
+    window[map_id + 'googleMarkerClusterer'] = new MarkerClusterer(window[map_id + 'map'], markers,
     {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+
+//    window[el.id + 'googleMarkerClusterer'].push(markerCluster);
   }
 
   window[map_id + 'googleBounds'].push(bounds);
@@ -214,6 +218,13 @@ function clear_markers(map_id){
     console.log("clear markers");
     window[map_id + 'googleMarkers'][i].setMap(null);
   }
+
+  window[map_id + 'googleMarkers'] = [];
+
+  console.log("clear markers clusters");
+//  window[map_id + 'googleMarkerClusterer'].setMap(null);
+  window[map_id + 'googleMarkerClusterer'].clearMarkers();
+
 }
 
 /**
