@@ -32,7 +32,23 @@ test_that("language is one string",{
 
 })
 
+test_that("location type set correctly", {
 
+  expect_error(google_reverse_geocode(location = c(-37.81659, 144.9841),
+                                      location_type = "garden",
+                                      key = "abc"))
+
+})
+
+test_that("reverse geocode attempted" {
+
+  expect_true(google_reverse_geocode(location = c(-37.81659, 144.9841),
+                         key = "abc")$error_message == "The provided API key is invalid.")
+
+  expect_true(is.list(google_reverse_geocode(location = c(-37.81659, 144.9841),
+                                     key = "abc")$results))
+
+})
 
 
 
