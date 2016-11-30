@@ -89,11 +89,15 @@ add_markers <- function(map,
   invoke_method(map, data, 'add_markers', markers, cluster)
 }
 
-#' clear markers
+#' clear map elements
 #'
-#' clears markers from map
+#' clears elements from a map
 #'
-#' @param map googleway map object
+#' @note These operations are intended for use in conjunction with \link{google_map_update} in an interactive shiny environment
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#'
+#' @name clear
 #' @export
 clear_markers <- function(map){
   invoke_method(map, data = NULL, 'clear_markers')
@@ -102,8 +106,19 @@ clear_markers <- function(map){
 #' Update style
 #'
 #' Updates the map with the given style
-#' @param map googleway map object
-#' @param style JSON specifying the style features to apply to the map.
+#'
+#' @note This function is intended for use with \link{google_map_update} in an interactive shiny environment. You can set the style of the original map using the \code{styles} argument of \link{google_map}
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @param styles JSON string representation of a valid Google Maps Style Array. See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}
+#' @examples
+#' \dontrun{
+#'
+#' waterOnly <- '[{"featureType":"administrative","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"all","stylers":[{"visibility":"on"},{"color":"#202020"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#12608d"}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"labels.text.stroke","stylers":[{"visibility":"off"}]}]'
+#' google_map(key = "your_api_key") %>%
+#'  update_style(style = waterOnly)
+#'
+#' }
 #' @export
 update_style <- function(map, style = NULL){
 
@@ -196,11 +211,7 @@ add_circles <- function(map,
   invoke_method(map, data, 'add_circles', Circles)
 }
 
-#' clear circles
-#'
-#' clears circles from map
-#'
-#' @param map googleway map object
+#' @rdname clear
 #' @export
 clear_circles <- function(map){
   invoke_method(map, data = NULL, 'clear_circles')
@@ -311,8 +322,6 @@ update_heatmap <- function(map,
                            lon = NULL,
                            weight = 0.6){
 
-  # data <- as.data.frame(data)
-
   ## rename the cols so the javascript functions will see them
   if(is.null(lat)){
     data <- latitude_column(data, lat, 'update_heatmap')
@@ -327,15 +336,6 @@ update_heatmap <- function(map,
 
   Heatmap[, "weight"] <- SetDefault(weight, 1, data)
 
-  # ## check columns
-  # cols <- list(weight)
-  # col_names <- list("weight")
-  # allowed_nulls <- c()
-  # lst <- correct_columns(data, cols, col_names, allowed_nulls)
-  #
-  # data <- lst$df
-  # cols <- lst$cols
-
   Heatmap <- jsonlite::toJSON(Heatmap)
 
   invoke_method(map, data, 'update_heatmap', Heatmap)
@@ -343,33 +343,32 @@ update_heatmap <- function(map,
 }
 
 
-#' clear heatmap
-#'
-#' Clears a heatmap layer from a map
-#'
-#' @param map googleway map object
+#' @rdname clear
 #' @export
 clear_heatmap <- function(map){
   invoke_method(map, data = NULL, 'clear_heatmap')
 }
-
-## TODO
-## - handle multiple layer calls? bicycling AND transit?
 
 #' Add Traffic
 #'
 #' Adds live traffic information to a googleway map object
 #'
 #' @param map a googleway map object created from \code{google_map()}
+#' @examples
+#' \dontrun{
+#' library(magrittr)
+#'
+#' google_map(key = "your_api_key") %>%
+#'   add_traffic()
+#'
+#' }
 #' @export
 add_traffic <- function(map){
   invoke_method(map, data = NULL, 'add_traffic')
 }
 
-#' Clear traffic
-#'
-#' Clears traffic layer from map
-#' @param map a googleway map object created from \code{google_map()}
+
+#' @rdname clear
 #' @export
 clear_traffic <- function(map){
   invoke_method(map, data = NULL, 'clear_traffic')
@@ -380,15 +379,20 @@ clear_traffic <- function(map){
 #' Adds public transport information to a googleway map object
 #'
 #' @param map a googleway map object created from \code{google_map()}
+#' @examples
+#' \dontrun{
+#' library(magrittr)
+#'
+#' google_map(key = "your_api_key") %>%
+#'   add_transit()
+#'
+#' }
 #' @export
 add_transit <- function(map){
   invoke_method(map, data = NULL, 'add_transit')
 }
 
-#' Clear transit
-#'
-#' Clears transit layer from map
-#' @param map a googleway map object
+#' @rdname clear
 #' @export
 clear_transit <- function(map){
   invoke_method(map, data = NULL, 'clear_transit')
@@ -400,16 +404,20 @@ clear_transit <- function(map){
 #' Adds bicycle route information to a googleway map object
 #'
 #' @param map a googleway map object created from \code{google_map()}
+#' @examples
+#' \dontrun{
+#' library(magrittr)
+#'
+#' google_map(key = "your_api_key") %>%
+#'   add_bicycling()
+#'
+#' }
 #' @export
 add_bicycling <- function(map){
   invoke_method(map, data = NULL, 'add_bicycling')
 }
 
-#' Clear bicycling
-#'
-#' Clears bicycle route layer from map
-#'
-#' @param map a googleway map object created from \code{google_map()}
+#' @rdname clear
 #' @export
 clear_bicycling <- function(map){
   invoke_method(map, data = NULL, 'clear_bicycling')
@@ -422,13 +430,19 @@ clear_bicycling <- function(map){
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
-#' @param polyline string specifying the column of \code{data} containing the 'polyline'
+#' @param polyline string specifying the column of \code{data} containing the encoded 'polyline'
 #' @param geodesic logical
 #' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
 #' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
 #' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
 #' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
 #' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
+#' @examples
+#' \dontrun{
+#'
+#'
+#'
+#' }
 #' @export
 add_polylines <- function(map,
                          data = get_map_data(map),
@@ -483,11 +497,7 @@ add_polylines <- function(map,
   invoke_method(map, data, 'add_polylines', polyline)
 }
 
-#' Clear polyline
-#'
-#' Clears polylines from map
-#'
-#' @param map a googleway map object created from \code{google_map()}
+#' @rdname clear
 #' @export
 clear_polylines <- function(map){
   invoke_method(map, data = NULL, 'clear_polylines')
@@ -577,11 +587,7 @@ add_polygons <- function(map,
   invoke_method(map, data, 'add_polygons', polygon)
 }
 
-#' Clear polygon
-#'
-#' Clears polygons from map
-#'
-#' @param map a googleway map object created from \code{google_map()}
+#' @rdname clear
 #' @export
 clear_polygons <- function(map){
   invoke_method(map, data = NULL, 'clear_polygons')

@@ -2,7 +2,6 @@
 % Please edit documentation in R/decode_pl.R
 \name{decode_pl}
 \alias{decode_pl}
-\alias{googleway}
 \title{decode_pl}
 \usage{
 decode_pl(encoded)

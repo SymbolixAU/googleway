@@ -6,8 +6,6 @@
 # library(data.table)
 #
 #
-
-
 #
 # waterOnly <- '[{"featureType":"administrative","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"all","stylers":[{"visibility":"on"},{"color":"#202020"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#12608d"}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"labels.text.stroke","stylers":[{"visibility":"off"}]}]'
 # google_map(key = map_key) %>%
@@ -29,6 +27,9 @@
 # df2$id <- 2
 # df3$id <- 3
 # df_routes <- rbind(df1, df2, df3)
+#
+# df <- data.frame(polyline = pl)
+# google_map(key = map_key, data = df ) %>% add_polylines(polyline = "polyline")
 #
 # df <- data.frame(polyline = c(pl, pl2, pl3))
 #

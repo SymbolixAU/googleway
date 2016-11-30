@@ -1,7 +1,6 @@
 #' decode_pl
 #'
 #' Decodes a polyline that's generated from google's directions api \url{https://developers.google.com/maps/documentation/directions/}
-#' @aliases googleway
 #' @param encoded String. An encoded polyline
 #' @return data.frame of lat/lon coordinates
 #' @importFrom Rcpp evalCpp

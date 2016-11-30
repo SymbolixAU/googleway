@@ -10,6 +10,7 @@
 #' @import htmltools
 #' @import shiny
 #'
+#' @aliases googleway
 #' @param key A valid Google Maps API key. see Details
 #' @param data data to be used on the map. This will likely contain two columns for latitude and longitude, and / or encoded polylines for plotting polylines and polygons
 #' @param location numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the map. The map will automatically set the location and zoom if markers are supplied through \link{add_markers}. If null, the map will default to Melbourne, Australia.
@@ -17,7 +18,7 @@
 #' @param width the width of the map
 #' @param height the height of the map
 #' @param padding the padding of the map
-#' @param styles JSON string representation of a valid Google Maps Style Array.
+#' @param styles JSON string representation of a valid Google Maps Style Array. See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}
 #' @param search_box \code{boolean} indicating if a search box should be placed on the map
 #' @examples
 #' \dontrun{
