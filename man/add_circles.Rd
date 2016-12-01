@@ -7,7 +7,7 @@
 add_circles(map, data = get_map_data(map), lat = NULL, lon = NULL,
   radius = NULL, stroke_colour = NULL, stroke_opacity = NULL,
   stroke_weight = NULL, fill_colour = NULL, fill_opacity = NULL,
-  mouse_over = NULL, info_window = NULL)
+  mouse_over = NULL, mouse_over_group = NULL, info_window = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -31,6 +31,8 @@ add_circles(map, data = get_map_data(map), lat = NULL, lon = NULL,
 \item{fill_opacity}{either a string specifying the column of \code{data} containing the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles}
 
 \item{mouse_over}{string specifying the column of data to display when the mouse rolls over the polygon}
+
+\item{mouse_over_group}{string specifying the column of data specifying which groups of circles to highlight on mouseover}
 
 \item{info_window}{string specifying the column of data to display in an info window when a polygon is clicked}
 }

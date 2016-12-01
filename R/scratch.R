@@ -32,11 +32,12 @@
 # google_map(key = map_key, data = df ) %>% add_polylines(polyline = "polyline")
 #
 # df <- data.frame(polyline = c(pl, pl2, pl3))
+# df$grp <- c(1,2,1)
 #
 # google_map(key = map_key, data = df_line, search_box = T, height = 800) %>%
 #   add_markers()
 # google_map(key = map_key, data = df_line, search_box = T, height = 800) %>%
-#   googleway:::add_polygons(data = df, polyline = "polyline")
+#   googleway:::add_polygons(data = df, polyline = "polyline", mouse_over = "grp", mouse_over_group = "grp")
 #
 # df <- data.frame(id = 1:3,
 #                  val = letters[1:3])

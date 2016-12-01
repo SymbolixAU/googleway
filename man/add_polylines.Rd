@@ -6,14 +6,14 @@
 \usage{
 add_polylines(map, data = get_map_data(map), polyline, geodesic = NULL,
   stroke_colour = NULL, stroke_weight = NULL, stroke_opacity = NULL,
-  info_window = NULL, mouse_over = NULL)
+  info_window = NULL, mouse_over = NULL, mouse_over_group = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
 \item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.}
 
-\item{polyline}{string specifying the column of \code{data} containing the 'polyline'}
+\item{polyline}{string specifying the column of \code{data} containing the encoded 'polyline'}
 
 \item{geodesic}{logical}
 
@@ -26,8 +26,17 @@ add_polylines(map, data = get_map_data(map), polyline, geodesic = NULL,
 \item{info_window}{string specifying the column of data to display in an info window when a polygon is clicked}
 
 \item{mouse_over}{string specifying the column of data to display when the mouse rolls over the polygon}
+
+\item{mouse_over_group}{string specifying the column of data specifying which groups of polylines to highlight on mouseover}
 }
 \description{
 Add a polyline to a google map
+}
+\examples{
+\dontrun{
+
+
+
+}
 }
 

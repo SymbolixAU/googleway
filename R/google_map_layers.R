@@ -146,6 +146,7 @@ update_style <- function(map, style = NULL){
 #' @param fill_opacity either a string specifying the column of \code{data} containing the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
 #' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
 #' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
+#' @param mouse_over_group string specifying the column of data specifying which groups of circles to highlight on mouseover
 #' @examples
 #' \dontrun{
 #'
@@ -174,6 +175,7 @@ add_circles <- function(map,
                         fill_colour = NULL,
                         fill_opacity = NULL,
                         mouse_over = NULL,
+                        mouse_over_group = NULL,
                         info_window = NULL){
 
   # data <- as.data.frame(data)
@@ -198,6 +200,7 @@ add_circles <- function(map,
   Circles[, "radius"] <- SetDefault(radius, 100, data)
   Circles[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
   Circles[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
+  Circles[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
 
   ## options
   if(!is.null(info_window))
@@ -437,6 +440,7 @@ clear_bicycling <- function(map){
 #' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
 #' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
 #' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
+#' @param mouse_over_group string specifying the column of data specifying which groups of polylines to highlight on mouseover
 #' @examples
 #' \dontrun{
 #'
@@ -452,7 +456,8 @@ add_polylines <- function(map,
                          stroke_weight = NULL,
                          stroke_opacity = NULL,
                          info_window = NULL,
-                         mouse_over = NULL
+                         mouse_over = NULL,
+                         mouse_over_group = NULL
 #                          lineSource = c("coords","polyline"),
 #                          group = NULL,
 #                          group_options = NULL,
@@ -483,6 +488,7 @@ add_polylines <- function(map,
   polyline[, "stroke_colour"] <- SetDefault(stroke_colour, "#0000FF", data)
   polyline[, "stroke_weight"] <- SetDefault(stroke_weight, 2, data)
   polyline[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
+  polyline[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
 
   ## options
   if(!is.null(mouse_over))
@@ -539,6 +545,7 @@ clear_polylines <- function(map){
 #' @param fill_opacity either a string specifying the column of \code{data} containing the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
 #' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
 #' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
+#' @param mouse_over_group string specifying the column of data specifying which groups of polygons to highlight on mouseover
 #' @export
 add_polygons <- function(map,
                         data = get_map_data(map),
@@ -549,13 +556,15 @@ add_polygons <- function(map,
                         fill_colour = NULL,
                         fill_opacity = NULL,
                         info_window = NULL,
-                        mouse_over = NULL
+                        mouse_over = NULL,
+                        mouse_over_group = NULL
                         ){
 
   ## TODO
   ## - other data foramts
   ## -- e.g. geoJSON
   ## -- allow addition of other attributes (however, how will the user access them?)
+  ## checks for missing column names
   if(is.null(polyline))
     stop("please supply the column containing the polylines")
 
@@ -565,7 +574,6 @@ add_polygons <- function(map,
     polygon <- data[, polyline, drop = FALSE]
   }
 
-#  polygon <- data[, polyline, drop = FALSE]
   polygon <- stats::setNames(polygon, "polyline")
 
   ## the defaults are required
@@ -574,6 +582,7 @@ add_polygons <- function(map,
   polygon[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
   polygon[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
   polygon[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
+  polygon[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
 
   ## options
   if(!is.null(info_window))

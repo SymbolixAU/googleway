@@ -90,8 +90,6 @@ HTMLWidgets.widget({
                 styles: JSON.parse(x.styles)
               });
 
-              console.log(map);
-
               window[el.id + 'map'] = map;
               initialise_map(el, x);
             };
@@ -441,6 +439,8 @@ function add_polygons(map_id, data_polygon){
       strokeWeight: polygon.stroke_weight,
       fillColor: polygon.fill_colour,
       fillOpacity: polygon.fill_opacity,
+      fillOpacityHolder: polygon.fill_opacity,
+      mouseOverGroup: polygon.mouse_over_group
       //_information: polygon.information
 //      clickable: true,
 //      draggable: false,
@@ -454,7 +454,7 @@ function add_polygons(map_id, data_polygon){
       add_infoWindow(map_id, infoWindow, Polygon, '_information', polygon.info_window);
     }
 
-    if(polygon.mouse_over){
+    if(polygon.mouse_over || polygon.mouse_over_group){
       add_mouseOver(map_id, infoWindow, Polygon, "_mouse_over", polygon.mouse_over);
     }
 
@@ -498,11 +498,23 @@ function add_mouseOver(map_id, infoWindow, mapObject, objectAttribute, attribute
 
   mapObject.set(objectAttribute, attributeValue);
 
-  var _fillOpacity = mapObject.get('fillOpacity');
-
   google.maps.event.addListener(mapObject, 'mouseover', function(event){
 
-    this.setOptions({fillOpacity: 1});
+    console.log(mapObject);
+
+    if(mapObject.get("mouseOverGroup") !== "NA"){
+      // highlight all the shapes in the same group
+      for (i = 0; i < window[map_id + 'googlePolygon'].length; i++){
+        if(window[map_id + 'googlePolygon'][i].mouseOverGroup == this.mouseOverGroup){
+          window[map_id + 'googlePolygon'][i].setOptions({fillOpacity: 1});
+        }else{
+          window[map_id + 'googlePolygon'][i].setOptions({fillOpacity: 0.1});
+        }
+      }
+    }else{
+      this.setOptions({fillOpacity: 1});
+    }
+
     infoWindow.setContent(mapObject.get(objectAttribute).toString());
 
     infoWindow.setPosition(event.latLng);
@@ -510,7 +522,15 @@ function add_mouseOver(map_id, infoWindow, mapObject, objectAttribute, attribute
   });
 
   google.maps.event.addListener(mapObject, 'mouseout', function(event){
-    this.setOptions({fillOpacity: _fillOpacity});
+
+    if(mapObject.get("mouseOverGroup")){
+      // highlight all the shapes in the same group
+      for (i = 0; i < window[map_id + 'googlePolygon'].length; i++){
+        window[map_id + 'googlePolygon'][i].setOptions({fillOpacity: window[map_id + 'googlePolygon'][i].get('fillOpacityHolder')});
+      }
+    }else{
+      this.setOptions({fillOpacity: mapObject.get('fillOpacityHolder')});
+    }
     infoWindow.close();
   });
 

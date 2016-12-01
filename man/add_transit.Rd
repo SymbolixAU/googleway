@@ -12,4 +12,13 @@ add_transit(map)
 \description{
 Adds public transport information to a googleway map object
 }
+\examples{
+\dontrun{
+library(magrittr)
+
+google_map(key = "your_api_key") \%>\%
+  add_transit()
+
+}
+}
 
