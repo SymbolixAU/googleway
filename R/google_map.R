@@ -18,7 +18,7 @@
 #' @param width the width of the map
 #' @param height the height of the map
 #' @param padding the padding of the map
-#' @param styles JSON string representation of a valid Google Maps Style Array. See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}
+#' @param styles JSON string representation of a valid Google Maps styles Array. See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}
 #' @param search_box \code{boolean} indicating if a search box should be placed on the map
 #' @examples
 #' \dontrun{
@@ -64,7 +64,6 @@ google_map <- function(key,
   ## TODO:
   ## centre map according to data/user location?
   ## other default location than Melbourne?
-  ## map styles
   ## pass data into google_map, and use in the other map_layer() functions
 
   # key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_MAP_KEY"))
