@@ -208,7 +208,7 @@ google_places <- function(search_string = NULL,
                     if(!is.null(page_token)){paste0("&pagetoken=", page_token)},
                     "&key=", key)
 
-  print(map_url)
+  # print(map_url)
 
   return(fun_download_data(map_url, simplify))
 

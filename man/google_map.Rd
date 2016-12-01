@@ -23,7 +23,7 @@ google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
 
 \item{padding}{the padding of the map}
 
-\item{styles}{JSON string representation of a valid Google Maps Style Array. See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}}
+\item{styles}{JSON string representation of a valid Google Maps styles Array. See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}}
 
 \item{search_box}{\code{boolean} indicating if a search box should be placed on the map}
 }

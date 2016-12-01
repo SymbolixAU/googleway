@@ -4,25 +4,25 @@
 \alias{update_style}
 \title{Update style}
 \usage{
-update_style(map, style = NULL)
+update_style(map, styles = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
-\item{styles}{JSON string representation of a valid Google Maps Style Array. See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}}
+\item{styles}{JSON string representation of a valid Google Maps styles Array. See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}}
 }
 \description{
-Updates the map with the given style
+Updates the map with the given styles
 }
 \note{
-This function is intended for use with \link{google_map_update} in an interactive shiny environment. You can set the style of the original map using the \code{styles} argument of \link{google_map}
+This function is intended for use with \link{google_map_update} in an interactive shiny environment. You can set the styles of the original map using the \code{styles} argument of \link{google_map}
 }
 \examples{
 \dontrun{
 
 waterOnly <- '[{"featureType":"administrative","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"all","stylers":[{"visibility":"on"},{"color":"#202020"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#12608d"}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"labels.text.stroke","stylers":[{"visibility":"off"}]}]'
 google_map(key = "your_api_key") \%>\%
- update_style(style = waterOnly)
+ update_style(styles = waterOnly)
 
 }
 }
