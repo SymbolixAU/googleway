@@ -90,6 +90,12 @@ directions_data <- function(base_url,
   if(!is.logical(alternatives))
     stop("alternatives must be logical - TRUE or FALSE")
 
+  if(length(alternatives) != 1)
+    stop("alternatives must be either TRUE or FALSE")
+
+  if(!is.null(alternatives))
+    alternatives <- tolower(alternatives)
+
   ## check traffic model is valid
   if(!is.null(traffic_model) & is.null(departure_time))
     stop("traffic_model is only accepted with a valid departure_time")
@@ -99,14 +105,6 @@ directions_data <- function(base_url,
   }
 
   ## check origin/destinations are valid
-  origin_code <- switch(information_type,
-                        "directions" = "origin=",
-                        "distance" = "origins=")
-
-  destination_code <- switch(information_type,
-                             "directions" = "destination=",
-                             "distance" = "destinations=")
-
   if(information_type == "directions"){
     origin <- fun_check_location(origin, "Origin")
     destination <- fun_check_location(destination, "Destination")
@@ -162,26 +160,61 @@ directions_data <- function(base_url,
   if(!is.null(language) & (class(language) != "character" | length(language) > 1))
     stop("language must be a single character vector or string")
 
+  if(!is.null(language))
+    language <- tolower(language)
+
   ## region check
   if(!is.null(region) & (class(region) != "character" | length(region) > 1))
     stop("region must be a two-character string")
 
+  if(!is.null(region))
+    region <- tolower(region)
+
+  # origin_code <- switch(information_type,
+  #                       "directions" = "origin=",
+  #                       "distance" = "origins=")
+  #
+  # destination_code <- switch(information_type,
+  #                            "directions" = "destination=",
+  #                            "distance" = "destinations=")
+
   ## construct url
-  map_url <- paste0(base_url,
-                    origin_code, origin,
-                    "&", destination_code, destination,
-                    "&waypoints=", waypoints,
-                    "&departure_time=", departure_time,
-                    "&arrival_time=", arrival_time,
-                    "&alternatives=", tolower(alternatives),
-                    "&avoid=", avoid,
-                    "&units=", tolower(units),
-                    "&mode=", tolower(mode),
-                    "&transit_mode=", transit_mode,
-                    "&transit_routing_preference=", transit_routing_preference,
-                    "&language=", tolower(language),
-                    "&region=", tolower(region),
-                    "&key=", key)
+  if(information_type == "directions"){
+    args <- c("origin" = origin, "destination" = destination)
+
+  }else if(information_type == "distance"){
+    args <- c("origins" = origin, "destinations" = destination)
+  }
+
+  args <- c(args, "waypoints" = waypoints,
+            "departure_time" = departure_time,
+            "arrival_time" = arrival_time,
+            "alternatives" = alternatives,
+            "avoid" = avoid,
+            "units" = units,
+            "transit_mode" = transit_mode,
+            "transit_routing_preference" = transit_routing_preference,
+            "language" = language,
+            "region" = region,
+            "key" = key)
+
+  map_url <- constructURL(base_url, args)
+
+  # map_url <- paste0(base_url,
+  #                   origin_code, origin,
+  #                   "&", destination_code, destination,
+  #                   "&waypoints=", waypoints,
+  #                   "&departure_time=", departure_time,
+  #                   "&arrival_time=", arrival_time,
+  #                   "&alternatives=", tolower(alternatives),
+  #                   "&avoid=", avoid,
+  #                   "&units=", tolower(units),
+  #                   "&mode=", tolower(mode),
+  #                   "&transit_mode=", transit_mode,
+  #                   "&transit_routing_preference=", transit_routing_preference,
+  #                   "&language=", tolower(language),
+  #                   "&region=", tolower(region),
+  #                   "&key=", key)
 
   if(length(map_url) > 1)
     stop("invalid map_url")

@@ -12,7 +12,6 @@
 #' \dontrun{
 #' google_timezone(location = c(-37.81659, 144.9841),
 #'                timestamp = as.POSIXct("2016-06-05"),
-#'                output_format = "data.frame",
 #'                key = "<your valid api key>")
 #' }
 #'
@@ -34,8 +33,8 @@ google_timezone <- function(location,
   location <- paste0(location, collapse = ",")
 
   ## check timestamp
-  if(!inherits(timestamp, "POSIXct"))
-    stop("timestamp must be a POSIXct object")
+  if(!inherits(timestamp, "POSIXct") | length(timestamp) != 1)
+    stop("timestamp must be a single POSIXct object")
 
   timestamp <- as.integer(timestamp)
 
@@ -43,14 +42,18 @@ google_timezone <- function(location,
   if(!is.null(language) & (class(language) != "character" | length(language) > 1))
     stop("language must be a single character vector or string")
 
+  if(!is.null(language))
+    language <- tolower(language)
+
   if(!is.logical(simplify))
     stop("simplify must be logical - TRUE or FALSE")
 
-  map_url <- paste0("https://maps.googleapis.com/maps/api/timezone/json?",
-                    "&location=", location,
-                    "&timestamp=", timestamp,
-                    "&language=", tolower(language),
-                    "&key=", key)
+  map_url <- "https://maps.googleapis.com/maps/api/timezone/json?"
+
+  map_url <- constructURL(map_url, c("location" = location,
+                                     "timestamp" = timestamp,
+                                     "language" = language,
+                                     "key" = key))
 
   return(fun_download_data(map_url, simplify))
 

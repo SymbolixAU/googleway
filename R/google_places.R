@@ -194,21 +194,19 @@ google_places <- function(search_string = NULL,
       map_url <- paste0("https://maps.googleapis.com/maps/api/place/nearbysearch/json?")
     }
   }
-  map_url <- paste0(map_url,
-                    if(!is.null(location)){paste0("&location=", location)},
-                    if(!is.null(radius)){paste0("&radius=", radius)},
-                    if(!is.null(rankby)){paste0("&rankby=", rankby)},
-                    if(!is.null(keyword)){paste0("&keyword=", keyword)},
-                    if(!is.null(language)){paste0("&language=", language)},
-                    if(!is.null(name)){paste0("&name=", name)},
-                    if(!is.null(place_type)){paste0("&type=", place_type)},
-                    if(!is.null(price_range[1])){paste0("&minprice=", price_range[1])},
-                    if(!is.null(price_range[2])){paste0("&maxprice=", price_range[2])},
-                    if(!is.null(open_now)){paste0("&opennow=", open_now)},
-                    if(!is.null(page_token)){paste0("&pagetoken=", page_token)},
-                    "&key=", key)
 
-  # print(map_url)
+  map_url <- constructURL(map_url, c("location" = location,
+                                     "radius" = radius,
+                                     "rankby" = rankby,
+                                     "keywrod" = keyword,
+                                     "language" = language,
+                                     "name" = name,
+                                     "type" = place_type,
+                                     "minprice" = price_range[1],
+                                     "maxprice" = price_range[2],
+                                     "opennow" = open_now,
+                                     "pagetoken" = page_token,
+                                     "key" = key))
 
   return(fun_download_data(map_url, simplify))
 

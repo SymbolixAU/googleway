@@ -85,14 +85,21 @@ google_elevation <- function(df_locations,
     samples <- as.integer(samples)
   }
 
-  location_string <- switch(location_type,
-                            "individual" = "&locations=",
-                            "path" = "&path=")
+  map_url <- "https://maps.googleapis.com/maps/api/elevation/json?"
 
-  map_url <- paste0("https://maps.googleapis.com/maps/api/elevation/json?",
-                    location_string, locations,
-                    "&samples=",samples,
-                    "&key=",key)
+  ## Temporary solution:
+  if(location_type == "individual"){
+    map_url <- constructURL(map_url, c("locations" = locations,
+                                       "samples" = samples,
+                                       "key" = key))
+  }else{
+    map_url <- constructURL(map_url, c("path" = locations,
+                                       "samples" = samples,
+                                       "key" = key))
+  }
+
+
+  print(map_url)
 
   return(fun_download_data(map_url, simplify))
 }

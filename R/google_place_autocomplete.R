@@ -58,6 +58,9 @@ google_place_autocomplete <- function(place_input,
   if(!is.null(language) & (class(language) != "character" | length(language) > 1))
     stop("language must be a single character vector or string")
 
+  if(!is.null(language))
+    language <- tolower(language)
+
   ## check place type
   if(!is.null(place_type)){
     if(length(place_type) > 1 | !is.character(place_type))
@@ -73,7 +76,8 @@ google_place_autocomplete <- function(place_input,
       stop("components must be a string vector of length 1, and represent an ISO 3166-1 Alpha-2 country code")
   }
 
-  components <- paste0("country:", components)
+  if(!is.null(components))
+    components <- paste0("country:", components)
 
   # if(!is.null(components)){
   #   ## component elements must be named
@@ -88,15 +92,24 @@ google_place_autocomplete <- function(place_input,
   #   paste0(x, collapse = ":")
   # })
 
+  map_url <- "https://maps.googleapis.com/maps/api/place/autocomplete/json?"
 
-  map_url <- paste0("https://maps.googleapis.com/maps/api/place/autocomplete/json?",
-                    "&input=", place_input,
-                    "&location=", location,
-                    "&radius=", radius,
-                    "&language=", language,
-                    "&type=", place_type,
-                    "&components=", components,
-                    "&key=", key)
+  map_url <- constructURL(map_url, c("input" = place_input,
+                                     "location" = location,
+                                     "radius" = radius,
+                                     "language" = language,
+                                     "type" = place_type,
+                                     "components" = components,
+                                     "key" = key))
+
+  # map_url <- paste0("https://maps.googleapis.com/maps/api/place/autocomplete/json?",
+  #                   "&input=", place_input,
+  #                   "&location=", location,
+  #                   "&radius=", radius,
+  #                   "&language=", language,
+  #                   "&type=", place_type,
+  #                   "&components=", components,
+  #                   "&key=", key)
 
   return(fun_download_data(map_url, simplify))
 

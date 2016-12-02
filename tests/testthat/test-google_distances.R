@@ -78,48 +78,37 @@ test_that("waypoints are a list",{
                "waypoints must be a list")
 })
 
-test_that("map url is a single string",{
+test_that("alternatives either TRUE or FALSE",{
 
   expect_error(google_distance(origins = "Melbourne Airport",
                                  destinations = "Sorrento",
                                  alternatives = c(FALSE, TRUE),
-                                 key = "abc"),
-               "invalid map_url")
+                                 key = "abc"))
 })
-#
-#
-# test_that("transit_mode issues warning when mode != transit",{
-#
-#   skip_on_cran()
-#   skip_on_travis()
-#   key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
-#
-#   expect_warning(google_distance(origins = "Melbourne Airport, Australia",
-#                                    destinations = "Portsea, Melbourne, Australia",
-#                                    departure_time = Sys.time() + (24 * 60 * 60),
-#                                    waypoints = list(via = c(-37.81659, 144.9841),
-#                                                     via = "Ringwood, Victoria"),
-#                                    transit_mode = "bus",
-#                                    key = key),
-#                  "You have specified a transit_mode, but are not using mode = 'transit'. Therefore this argument will be ignored")
-#
-# })
-#
-#
-# test_that("warning when both arrival and departure times supplied", {
-#
-#   skip_on_cran()
-#   skip_on_travis()
-#   key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
-#
-#   expect_warning(google_distance(origins = "Melbourne Airport, Australia",
-#                                    destinations = "Portsea, Melbourne, Australia",
-#                                    departure_time = Sys.time() + (24 * 60 * 60),
-#                                    arrival_time = Sys.time() + (24 * 60 * 60),
-#                                    key = key),
-#                  "you have supplied both an arrival_time and a departure_time - only one is allowed. The arrival_time will be ignored")
-#
-# })
+
+test_that("transit_mode issues warning when mode != transit",{
+
+  expect_warning(google_distance(origins = "Melbourne Airport, Australia",
+                                   destinations = "Portsea, Melbourne, Australia",
+                                   departure_time = Sys.time() + (24 * 60 * 60),
+                                   waypoints = list(via = c(-37.81659, 144.9841),
+                                                    via = "Ringwood, Victoria"),
+                                   transit_mode = "bus",
+                                   key = "abc"),
+                 "You have specified a transit_mode, but are not using mode = 'transit'. Therefore this argument will be ignored")
+
+})
+
+test_that("warning when both arrival and departure times supplied", {
+
+  expect_warning(google_distance(origins = "Melbourne Airport, Australia",
+                                   destinations = "Portsea, Melbourne, Australia",
+                                   departure_time = Sys.time() + (24 * 60 * 60),
+                                   arrival_time = Sys.time() + (24 * 60 * 60),
+                                   key = "abc"),
+                 "you have supplied both an arrival_time and a departure_time - only one is allowed. The arrival_time will be ignored")
+
+})
 
 
 

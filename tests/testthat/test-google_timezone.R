@@ -23,7 +23,7 @@ test_that("timestamp is POSIXct",{
                                timestamp = "2016-06-05",
                                simplify = TRUE,
                                key = "abc"),
-               "timestamp must be a POSIXct object")
+               "timestamp must be a single POSIXct object")
 
 })
 
@@ -55,28 +55,22 @@ test_that("simplify if logical", {
                "simplify must be logical - TRUE or FALSE")
 
 })
-#
-# test_that("Timezone Australia/Hobart is returned",{
-#
-#   skip_on_cran()
-#   skip_on_travis()
-#   key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_API_KEY"))
-#
-#   expect_equal(google_timezone(location = c(-37.81659, 144.9841),
-#                                timestamp = as.POSIXct("2016-06-05"),
-#                                simplify = TRUE,
-#                                key = key)$timeZoneId,
-#                "Australia/Hobart")
-#
-#   })
-#
-#
-test_that("invalid map url", {
+
+test_that("Timezone download is attempted",{
+
+  expect_true(google_timezone(location = c(-37.81659, 144.9841),
+                               timestamp = as.POSIXct("2016-06-05"),
+                               simplify = TRUE,
+                               key = "abc")$errorMessage == "The provided API key is invalid.")
+
+  })
+
+
+test_that("invalid timestamp", {
   expect_error(google_timezone(location = c(-37.81659, 144.9841),
                                timestamp = c(as.POSIXct("2016-06-05"), as.POSIXct("2016-06-06")),
                                simplify = TRUE,
-                               key = "abc"),
-               "invalid map_url")
+                               key = "abc"))
 })
 
 

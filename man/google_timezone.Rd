@@ -28,7 +28,6 @@ The Google Maps Time Zone API provides time offset data for locations on the sur
 \dontrun{
 google_timezone(location = c(-37.81659, 144.9841),
                timestamp = as.POSIXct("2016-06-05"),
-               output_format = "data.frame",
                key = "<your valid api key>")
 }
 

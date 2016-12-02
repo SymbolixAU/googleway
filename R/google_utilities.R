@@ -314,3 +314,20 @@ SetDefault <- function(col, val, df){
   }
 }
 
+#' Construct url
+#'
+#' Constructs the relevant API url, given the arguments
+#' @param map_url string map url
+#' @param urlArgs other arguments to append to the URL string
+constructURL <- function(map_url, urlArgs){
+
+  return(paste0(map_url,
+                paste0("&",
+                       paste0(names(urlArgs)),
+                       "=",
+                       paste0(urlArgs), collapse = "")
+                )
+         )
+}
+
+

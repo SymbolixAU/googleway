@@ -57,6 +57,7 @@ google_geocode <- function(address,
 
   ## address check
   address <- fun_check_address(address)
+  addres <- tolower(address)
 
   ## bounds check
   if(!is.null(bounds) & (!class(bounds) == "list" | !all(sapply(bounds, class) == "numeric") | length(bounds) != 2))
@@ -71,9 +72,15 @@ google_geocode <- function(address,
   if(!is.null(language) & (class(language) != "character" | length(language) > 1))
     stop("language must be a single character vector or string")
 
+  if(!is.null(language))
+    language <- tolower(language)
+
   ## region check
   if(!is.null(region) & (class(region) != "character" | length(region) > 1))
     stop("region must be a two-character string")
+
+  if(!is.null(region))
+    region <- tolower(region)
 
   ## components check
   if(!is.null(components)){
@@ -85,15 +92,17 @@ google_geocode <- function(address,
       stop("valid components are 'route', 'locality', 'postal_code', 'administrative_area' and 'country'")
 
     components = paste0(apply(components, 1, function(x) paste0(x, collapse = ":")), collapse = "|")
+    components <- tolower(components)
   }
 
-  map_url <- paste0("https://maps.googleapis.com/maps/api/geocode/json?",
-                    "&address=", tolower(address),
-                    "&bounds=", bounds,
-                    "&language=", tolower(language),
-                    "&region=", tolower(region),
-                    "&components=", tolower(components),
-                    "&key=", key)
+  map_url <- "https://maps.googleapis.com/maps/api/geocode/json?"
+
+  map_url <- constructURL(map_url, c("address" = address,
+                                     "bounds" = bounds,
+                                     "language" = language,
+                                     "region" = region,
+                                     "components" = components,
+                                     "key" = key))
 
   return(fun_download_data(map_url, simplify))
 
