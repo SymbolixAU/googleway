@@ -448,6 +448,11 @@ clear_bicycling <- function(map){
 #' @examples
 #' \dontrun{
 #'
+#' library(magrittr)
+#' pl <- "pizeF_{~sZjLhAdAJLwBJkBv@wN~Bgd@x@sNjAeUR_FTkEAqBGiAQuAw@{E_C}NGwA?sANaELkDDu@LgAfAiF?g@EI?EIo@EMMKe@UQGaAM}IaA_Fg@_JaAsEc@_"
+#' df <- data.frame(polyline = pl)
+#' google_map(key = map_key) %>%
+#'   add_polylines(data = df, polyline = "polyline")
 #'
 #'
 #' }
