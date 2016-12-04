@@ -201,7 +201,7 @@ add_circles <- function(map,
   Circles[, "stroke_colour"] <- SetDefault(stroke_colour, "#FF0000", data)
   Circles[, "stroke_weight"] <- SetDefault(stroke_weight, 2, data)
   Circles[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.8, data)
-  Circles[, "radius"] <- SetDefault(radius, 100, data)
+  Circles[, "radius"] <- SetDefault(radius, 50, data)
   Circles[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
   Circles[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
   Circles[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
@@ -234,7 +234,7 @@ clear_circles <- function(map){
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
 #' @param weight string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.
-#' @param option_dissipating logical Specifies whether heatmaps dissipate on zoom. By default, the radius of influence of a data point is specified by the radius option only. When dissipating is disabled, the radius option is interpreted as a radius at zoom level 0.
+#' @param option_dissipating logical Specifies whether heatmaps dissipate on zoom. When dissipating is false the radius of influence increases with zoom level to ensure that the color intensity is preserved at any given geographic location. Defaults to false.
 #' @param option_radius numeric The radius of influence for each data point, in pixels.
 #' @param option_opacity The opacity of the heatmap, expressed as a number between 0 and 1. Defaults to 0.6.
 #' @examples
@@ -260,7 +260,7 @@ add_heatmap <- function(map,
                         weight = NULL,
                         data = get_map_data(map),
                         option_dissipating = FALSE,
-                        option_radius = 1,
+                        option_radius = 0.01,
                         option_opacity = 0.6
                         ){
 

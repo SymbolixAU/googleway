@@ -240,12 +240,17 @@ function add_heatmap(map_id, data_heatmap, heatmap_options){
   // need an array of google.maps.LatLng points
   var heatmapData = [];
   var i;
+  var bounds = new google.maps.LatLngBounds();
+
   // turn row of the data into LatLng, and push it to the array
   for(i = 0; i < Object.keys(data_heatmap).length; i++){
+    latlon = new google.maps.LatLng(data_heatmap[i].lat, data_heatmap[i].lng);
     heatmapData[i] = {
-      location: new google.maps.LatLng(data_heatmap[i].lat, data_heatmap[i].lng),
+      location: latlon,
       weight: data_heatmap[i].weight
     };
+
+    bounds.extend(latlon);
   }
 
   // store in MVC array
@@ -260,6 +265,9 @@ function add_heatmap(map_id, data_heatmap, heatmap_options){
     opacity: heat_options[0].opacity,
     dissipating: heat_options[0].dissipating
   });
+
+  window[map_id + 'googleBounds'].push(bounds);
+  window[map_id + 'map'].fitBounds(bounds);
 
   // fill the heatmap variable with the MVC array of heatmap data
   // when the MVC array is updated, the layer is also updated
@@ -284,12 +292,19 @@ function update_heatmap(map_id, data_heatmap){
   var i;
   // turn row of the data into LatLng, and push it to the array
   for(i = 0; i < Object.keys(data_heatmap).length; i++){
+    var latlon = new google.maps.LatLng(data_heatmap[i].lat, data_heatmap[i].lng);
+
     heatmapData[i] = {
-      location: new google.maps.LatLng(data_heatmap[i].lat, data_heatmap[i].lng),
+      location: latlon,
       weight: data_heatmap[i].weight
     };
   window[map_id + 'googleHeatmapLayerMVC'].push(heatmapData[i]);
+  bounds.extend(latlon);
   }
+
+  window[map_id + 'googleBounds'].push(bounds);
+  window[map_id + 'map'].fitBounds(bounds);
+
 }
 
 function clear_heatmap(map_id){
@@ -335,6 +350,7 @@ function add_circles(map_id, data_circles){
 
   var i;
   var infoWindow = new google.maps.InfoWindow();
+  var bounds = new google.maps.LatLngBounds();
 
   for (i = 0; i < Object.keys(data_circles).length; i++) {
     add_circle(map_id, data_circles[i]);
@@ -364,7 +380,12 @@ function add_circles(map_id, data_circles){
     if(circle.mouse_over){
       add_mouseOver(map_id, infoWindow, Circle, "_mouse_over", circle.mouse_over);
     }
+
+    bounds.extend(latlon);
   }
+
+  window[map_id + 'googleBounds'].push(bounds);
+  window[map_id + 'map'].fitBounds(bounds);
 
 }
 

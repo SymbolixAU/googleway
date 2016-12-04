@@ -3,7 +3,7 @@
 #' The Google Places API Web Service allows you to query for place information on a variety of categories, such as: establishments, prominent points of interest, geographic locations, and more.
 #'
 #' @param search_string \code{string} A search term representing a place for which to search. If blank, the \code{location} argument must be used.
-#' @param location \code{numeric} vector of latitude/longitude coordinates (in that order) around which to retrieve place information. If blank, the \code{search_string} argument must be used. If used in absence of a \code{search_string}, If used in conjunction with \code{search_string} it represents the latitude/longitude around which to retrieve place information, and must be used in conjunction with \code{radius}.
+#' @param location \code{numeric} vector of latitude/longitude coordinates (in that order) around which to retrieve place information. If blank, the \code{search_string} argument must be used. If used in conjunction with \code{search_string} it represents the latitude/longitude around which to retrieve place information, and must be used in conjunction with \code{radius}.
 #' @param radar \code{boolean} The Google Places API Radar Search Service allows you to search for up to 200 places at once, but with less detail than is typically returned from a Text Search (\code{search_string}) or Nearby Search (\code{location}) request. A radar search must contain a \code{location} and \code{radius}, and one of \code{keyword}, \code{name} or \code{type}. A radar search will not use a \code{search_string}
 #' @param radius \code{numeric} Defines the distance (in meters) within which to return place results. Required if only a \code{location} search is specified. The maximum allowed radius is 50,000 meters. Radius must not be included if \code{rankby="distance"} is specified. see Details.
 #' @param rankby \code{string} Specifies the order in which results are listed. Possible values are \code{"prominence"}, \code{"distance"} or \code{"location"}. If \code{rankby = distance}, then one of \code{keyword}, \code{name} or \code{place_type} must be specified. If a \code{search_string} is used then \code{rankby} is ignored
@@ -29,7 +29,7 @@
 #' @examples
 #' \dontrun{
 #'
-#' ## query Restaurants in Melbourne (will return 20 results)
+#' ## query restaurants in Melbourne (will return 20 results)
 #' res <- google_places(search_string = "Restaurants in Melbourne, Australia",
 #'                      key = key)
 #'

@@ -12,7 +12,7 @@
 
 <meta name="author" content="D Cooley" />
 
-<meta name="date" content="2016-07-07" />
+<meta name="date" content="2016-12-04" />
 
 <title>Googleway Vignette</title>
 
@@ -70,21 +70,40 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Googleway Vignette</h1>
 <h4 class="author"><em>D Cooley</em></h4>
-<h4 class="date"><em>2016-07-07</em></h4>
+<h4 class="date"><em>2016-12-04</em></h4>
 
 
 
-<p>Googleway provides access to 6 Google Maps APIs through the specified functions</p>
+<p>Googleway provides access to 7 Google Maps APIs through specified functions, and the ability to plot a Google Map overlayed with markers, circles, shapes (polygons), lines (polylines) and heatmaps. You can also overlay traffic information, transit and cycling routes.</p>
+<p>The 7 API functions are</p>
 <ul>
 <li><a href="https://developers.google.com/maps/documentation/directions/start"><strong>Directions</strong></a> - <code>google_directions()</code></li>
 <li><a href="https://developers.google.com/maps/documentation/distance-matrix/"><strong>Distance Matrix</strong></a> - <code>google_distance()</code></li>
 <li><a href="https://developers.google.com/maps/documentation/elevation/start"><strong>Elevation</strong></a> - <code>google_elevation()</code></li>
-<li><a href="https://developers.google.com/maps/documentation/timezone/start"><strong>Time zone</strong></a> - <code>google_timezone()</code></li>
 <li><a href="https://developers.google.com/maps/documentation/geocoding/start"><strong>Geocoding</strong></a> - <code>google_geocode()</code></li>
+<li><a href="https://developers.google.com/places/"><strong>Places</strong></a> - <code>google_places()</code></li>
 <li><a href="https://developers.google.com/maps/documentation/geocoding/intro#ReverseGeocoding"><strong>Reverse Geocoding</strong></a> - <code>google_reverse_geocode()</code></li>
+<li><a href="https://developers.google.com/maps/documentation/timezone/start"><strong>Time zone</strong></a> - <code>google_timezone()</code></li>
 </ul>
+<p>Plotting a Google Map uses the Javascript API, and the functions used to create a map and overlays are</p>
+<ul>
+<li><a href="https://developers.google.com/maps/documentation/javascript/"><strong>Google Map</strong></a> - <code>google_map()</code></li>
+<li><a href="https://developers.google.com/maps/documentation/javascript/markers"><strong>Markers</strong></a> - <code>add_markers()</code></li>
+<li><a href="https://developers.google.com/maps/documentation/javascript/examples/circle-simple"><strong>Circles</strong></a> - <code>add_circles()</code></li>
+<li><a href="https://developers.google.com/maps/documentation/javascript/examples/polygon-simple"><strong>Polygons</strong></a> - <code>add_polygons()</code></li>
+<li><a href="https://developers.google.com/maps/documentation/javascript/examples/polyline-simple"><strong>Lines</strong></a> - <code>add_polylines()</code></li>
+<li><a href="https://developers.google.com/maps/documentation/javascript/examples/layer-bicycling"><strong>Bicycle routes</strong></a> - <code>add_bicycling()</code></li>
+<li><a href="https://developers.google.com/maps/documentation/javascript/examples/layer-traffic"><strong>Traffic</strong></a> - <code>add_traffic()</code></li>
+<li><a href="https://developers.google.com/maps/documentation/javascript/examples/layer-transit"><strong>Transit</strong></a> - <code>add_transit()</code></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## TODO
+<span class="co"># - polygons with holes</span>
+<span class="co"># - mouse over</span>
+<span class="co"># - info window</span>
+<span class="co"># - encoding and decoding polylines</span>
+<span class="co"># </span></code></pre></div>
 <p>As well as a function for decoding encoded location data, <code>decode_pl()</code></p>
-<p>To use this package you need a valid <strong>API KEY</strong> for the API you wish to use. Note that the same API key can be used for all the functions, but you need to register it with each API first.</p>
+<p>To use this package you need a valid <strong>API KEY</strong> (<a href="https://developers.google.com/maps/documentation/javascript/">follow instructions here to get a key</a>) for the API you wish to use. Note that the same API key can be used for all the functions, but you need to register it with each API first.</p>
 <div id="google-directions-api" class="section level2">
 <h2>Google Directions API</h2>
 <p><a href="http://www.google.com/maps"><strong>Google Maps</strong></a> allows users to find directions between locations.</p>
@@ -119,7 +138,7 @@ df &lt;- google_directions(origin = &quot;Melbourne, Australia&quot;,
 <p>which is located in <code>df$routes$overview_polyline$points</code>.</p>
 <pre><code>df$routes$overview_polyline$points
 # [1] &quot;rqxeF_cxsZgr@xmCekBhMunGnWc_Ank@vBpyCqjAfbAqmBjXydAe{AoF{oEgTqjGur@ch@qfAhUuiCww@}kEtOepAtdD{dDf~BsgIuj@}tHi{C{bGg{@{rGsmG_bDbW{wCuTyiBajBytF_oAyaI}K}bEkqA{jDg^epJmbB{gC}v@i~D`@gkGmJ_kEojD_O{`FqvCetE}bGgbDm_BqpD}pEqdGiaBo{FglEg_Su~CegHw`Cm`Hv[mxFwaAisAklCuUgzAqmCalJajLqfDedHgyC_yHibCizK~Xo_DuqAojDshAeaEpg@g`Dy|DgtNswBcgDiaAgEqgBozB{jEejQ}p@ckIc~HmvFkgAsfGmjCcaJwwD}~AycCrx@skCwUqwN{yKygH}nF_qAgyOep@slIehDcmDieDkoEiuCg|LrKo~Eb}Bw{Ef^klG_AgdFqvAaxBgoDeqBwoDypEeiFkjBa|Ks}@gr@c}IkE_qEqo@syCgG{iEazAmeBmeCqvA}rCq_AixEemHszB_SisB}mEgeEenCqeDab@iwAmZg^guB}cCk_F_iAmkGsu@abDsoBylBk`Bm_CsfD{jFgrAerB{gDkw@{|EacB_jDmmAsjC{yBsyFaqFqfEi_Ei~C{yAmwFt{B{fBwKql@onBmtCq`IomFmdGueD_kDssAwsCyqDkx@e\\kwEyUstC}uAe|Ac|BakGpGkfGuc@qnDguBatBot@}kD_pBmmCkdAgkB}jBaIyoC}xAexHka@cz@ahCcfCayBqvBgtBsuDxb@yiDe{Ikt@c{DwhBydEynDojCapAq}AuAksBxPk{EgPgkJ{gA}tGsJezKbcAcdK__@uuBn_AcuGsjDwvC_|AwbE}~@wnErZ{nGr_@stEjbDakFf_@clDmKkwBbpAi_DlgA{lArLukCBukJol@w~DfCcpBwnAghCweA}{EmyAgaEbNybGeV}kCtjAq{EveBwuHlb@gyIg\\gmEhBw{G{dAmpHp_@a|MsnCcuGy~@agIe@e`KkoA}lBspBs^}sAmgIdpAumE{Y_|Oe|CioKouFwuIqnCmlDoHamBiuAgnDqp@yqIkmEqaIozAohAykDymA{uEgiE}fFehBgnCgrGmwCkiLurBkhL{jHcrGs}GkhFwpDezGgjEe_EsoBmm@g}KimLizEgbA{~DwfCwvFmhBuvBy~DsqCicBatC{z@mlCkkDoaDw_BagA}|Bii@kgCpj@}{E}b@cuJxQwkK}j@exF`UanFzM{fFumB}fCirHoTml@CoAh`A&quot;</code></pre>
-<p>Having retreived the polyline, we can now decode it</p>
+<p>Having retreived the polyline, we can decode it using <code>decode_pl()</code></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">polyline &lt;-<span class="st"> &quot;rqxeF_cxsZgr@xmCekBhMunGnWc_Ank@vBpyCqjAfbAqmBjXydAe{AoF{oEgTqjGur@ch@qfAhUuiCww@}kEtOepAtdD{dDf~BsgIuj@}tHi{C{bGg{@{rGsmG_bDbW{wCuTyiBajBytF_oAyaI}K}bEkqA{jDg^epJmbB{gC}v@i~D`@gkGmJ_kEojD_O{`FqvCetE}bGgbDm_BqpD}pEqdGiaBo{FglEg_Su~CegHw`Cm`Hv[mxFwaAisAklCuUgzAqmCalJajLqfDedHgyC_yHibCizK~Xo_DuqAojDshAeaEpg@g`Dy|DgtNswBcgDiaAgEqgBozB{jEejQ}p@ckIc~HmvFkgAsfGmjCcaJwwD}~AycCrx@skCwUqwN{yKygH}nF_qAgyOep@slIehDcmDieDkoEiuCg|LrKo~Eb}Bw{Ef^klG_AgdFqvAaxBgoDeqBwoDypEeiFkjBa|Ks}@gr@c}IkE_qEqo@syCgG{iEazAmeBmeCqvA}rCq_AixEemHszB_SisB}mEgeEenCqeDab@iwAmZg^guB}cCk_F_iAmkGsu@abDsoBylBk`Bm_CsfD{jFgrAerB{gDkw@{|EacB_jDmmAsjC{yBsyFaqFqfEi_Ei~C{yAmwFt{B{fBwKql@onBmtCq`IomFmdGueD_kDssAwsCyqDkx@e</span><span class="ch">\\</span><span class="st">kwEyUstC}uAe|Ac|BakGpGkfGuc@qnDguBatBot@}kD_pBmmCkdAgkB}jBaIyoC}xAexHka@cz@ahCcfCayBqvBgtBsuDxb@yiDe{Ikt@c{DwhBydEynDojCapAq}AuAksBxPk{EgPgkJ{gA}tGsJezKbcAcdK__@uuBn_AcuGsjDwvC_|AwbE}~@wnErZ{nGr_@stEjbDakFf_@clDmKkwBbpAi_DlgA{lArLukCBukJol@w~DfCcpBwnAghCweA}{EmyAgaEbNybGeV}kCtjAq{EveBwuHlb@gyIg</span><span class="ch">\\</span><span class="st">gmEhBw{G{dAmpHp_@a|MsnCcuGy~@agIe@e`KkoA}lBspBs^}sAmgIdpAumE{Y_|Oe|CioKouFwuIqnCmlDoHamBiuAgnDqp@yqIkmEqaIozAohAykDymA{uEgiE}fFehBgnCgrGmwCkiLurBkhL{jHcrGs}GkhFwpDezGgjEe_EsoBmm@g}KimLizEgbA{~DwfCwvFmhBuvBy~DsqCicBatC{z@mlCkkDoaDw_BagA}|Bii@kgCpj@}{E}b@cuJxQwkK}j@exF`UanFzM{fFumB}fCirHoTml@CoAh`A&quot;</span>
 
 <span class="kw">library</span>(googleway)
@@ -296,10 +315,82 @@ df$results$geometry
 1    -37.81608     144.9842       ROOFTOP              -37.81473               144.9855              -37.81743
   viewport.southwest.lng
 1               144.9828
-
-
-
 </code></pre>
+</div>
+</div>
+<div id="google-places-api" class="section level2">
+<h2>Google Places API</h2>
+<p>The <a href="https://developers.google.com/places/"><strong>Google Maps Places API</strong></a> gets data from the same database used by Google Maps and Google+ Local. Places features more than 100 million businesses and points of interest that are updated frequently through owner-verified listings and user-moderated contributions.</p>
+<p>To access this API through googleway use the <code>google_places()</code> function.</p>
+<p>There are two types of searches you can perform, <a href="https://developers.google.com/places/web-service/search"><strong>Nearby</strong> and <strong>Text</strong></a></p>
+<p>A <strong>Nearby</strong> Search lets you search for places within a specified area. You can refine your search request by supplying keywords or specifying the type of place you are searching for.</p>
+<p>A <strong>Text</strong> Search Service is a web service that returns information about a set of places based on a string — for example “pizza in New York” or “shoe stores near Ottawa” or “123 Main Street”. The service responds with a list of places matching the text string and any location bias that has been set.</p>
+<div id="example---text" class="section level3">
+<h3>Example - Text</h3>
+<p>For a <strong>text</strong> search you are requried to provide a <code>search_string</code></p>
+<p>For example, a query for “restaurantes in Melbourne”&quot; (a query will return 20 results)</p>
+<pre><code>
+res &lt;- google_places(search_string = &quot;Restaurants in Melbourne, Australia&quot;,
+                     key = key)
+
+## View the names of the returned restaurantes, and whether they are open or not
+
+cbind(res$results$name, res$results$opening_hours)
+
+                                            res$results$name open_now weekday_text
+1                                               Vue de monde     TRUE         NULL
+2                                                      ezard    FALSE         NULL
+3                                                     MoVida     TRUE         NULL
+4                           Flower Drum Restaurant Melbourne     TRUE         NULL
+5                                             The Press Club    FALSE         NULL
+6                                                       Maha     TRUE         NULL
+7                                                  Bluestone       NA         NULL
+8                                                  Chin Chin     TRUE         NULL
+9                                               Taxi Kitchen     TRUE         NULL
+10                                           Max on Hardware     TRUE         NULL
+11                                                    Attica    FALSE         NULL
+12                                       Nirankar Restaurant    FALSE         NULL
+13                                                  The Mill     TRUE         NULL
+14                                   The Left Bank Melbourne     TRUE         NULL
+15                           The Colonial Tramcar Restaurant     TRUE         NULL
+16                                      Rockpool Bar &amp; Grill     TRUE         NULL
+17 Lane Restaurant Cafe &amp; Bar - Novotel Melbourne on Collins     TRUE         NULL
+18                                          Melba Restaurant     TRUE         NULL
+19                                              CUMULUS INC.     TRUE         NULL
+20                                    radii restaurant &amp; bar    FALSE         NULL
+</code></pre>
+<p>You can view the next 20 results using the <code>next_page_token</code> that is returned as part of the initial query.</p>
+<pre><code>
+res_next &lt;- google_places(search_string = &quot;Restaurants in Melbourne, Australia&quot;,
+                          page_token = res$next_page_token,
+                          key = key)
+                          
+cbind(res_next$results$name, res_next$results$opening_hours)
+
+                     res_next$results$name open_now weekday_text
+1  Moshi Moshi Japanese Seafood Restaurant     TRUE         NULL
+2                      Grill Steak Seafood     TRUE         NULL
+3                             Conservatory     TRUE         NULL
+4                                    Sarti    FALSE         NULL
+5                                  Tsindos     TRUE         NULL
+6                 The Cerberus Beach House     TRUE         NULL
+7                   Stalactites Restaurant     TRUE         NULL
+8            Hanabishi Japanese Restaurant    FALSE         NULL
+9                          GAZI Restaurant     TRUE         NULL
+10                           Om Vegetarian    FALSE         NULL
+11                           Shark Fin Inn     TRUE         NULL
+12                           Om Vegetarian     TRUE         NULL
+13                 The Atlantic Restaurant     TRUE         NULL
+14                                  Takumi     TRUE         NULL
+15                              Pei Modern       NA         NULL
+16                 Bamboo House Restaurant     TRUE         NULL
+17                 Byblos Bar &amp; Restaurant     TRUE         NULL
+18                              Waterfront     TRUE         NULL
+19                                   No 35     TRUE         NULL
+20                        Bistro Guillaume     TRUE         NULL
+</code></pre>
+<p><strong>nearby</strong></p>
+<p><strong>all other parameter exampels</strong></p>
 </div>
 </div>
 

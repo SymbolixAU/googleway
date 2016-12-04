@@ -5,8 +5,8 @@
 \title{Add heatmap}
 \usage{
 add_heatmap(map, lat = NULL, lon = NULL, weight = NULL,
-  data = get_map_data(map), option_dissipating = FALSE, option_radius = 1,
-  option_opacity = 0.6)
+  data = get_map_data(map), option_dissipating = FALSE,
+  option_radius = 0.01, option_opacity = 0.6)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -19,7 +19,7 @@ add_heatmap(map, lat = NULL, lon = NULL, weight = NULL,
 
 \item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.}
 
-\item{option_dissipating}{logical Specifies whether heatmaps dissipate on zoom. By default, the radius of influence of a data point is specified by the radius option only. When dissipating is disabled, the radius option is interpreted as a radius at zoom level 0.}
+\item{option_dissipating}{logical Specifies whether heatmaps dissipate on zoom. When dissipating is false the radius of influence increases with zoom level to ensure that the color intensity is preserved at any given geographic location. Defaults to false.}
 
 \item{option_radius}{numeric The radius of influence for each data point, in pixels.}
 

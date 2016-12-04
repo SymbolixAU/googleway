@@ -11,18 +11,41 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Googleway provides access to 6 Google Maps APIs through the specified functions
+Googleway provides access to 7 Google Maps APIs through specified functions, and the ability to plot a Google Map overlayed with markers, circles, shapes (polygons), lines (polylines) and heatmaps. You can also overlay traffic information, transit and cycling routes.
+
+The 7 API functions are
 
 * [**Directions**](https://developers.google.com/maps/documentation/directions/start) - `google_directions()`
 * [**Distance Matrix**](https://developers.google.com/maps/documentation/distance-matrix/) - `google_distance()`
 * [**Elevation**](https://developers.google.com/maps/documentation/elevation/start) - `google_elevation()`
-* [**Time zone**](https://developers.google.com/maps/documentation/timezone/start) - `google_timezone()`
 * [**Geocoding**](https://developers.google.com/maps/documentation/geocoding/start) - `google_geocode()`
+* [**Places**](https://developers.google.com/places/) - `google_places()`
 * [**Reverse Geocoding**](https://developers.google.com/maps/documentation/geocoding/intro#ReverseGeocoding) - `google_reverse_geocode()`
+* [**Time zone**](https://developers.google.com/maps/documentation/timezone/start) - `google_timezone()`
+
+Plotting a Google Map uses the Javascript API, and the functions used to create a map and overlays are
+
+* [**Google Map**](https://developers.google.com/maps/documentation/javascript/) - `google_map()`
+* [**Markers**](https://developers.google.com/maps/documentation/javascript/markers) - `add_markers()`
+* [**Circles**](https://developers.google.com/maps/documentation/javascript/examples/circle-simple) - `add_circles()`
+* [**Polygons**](https://developers.google.com/maps/documentation/javascript/examples/polygon-simple) - `add_polygons()`
+* [**Lines**](https://developers.google.com/maps/documentation/javascript/examples/polyline-simple) - `add_polylines()`
+* [**Bicycle routes**](https://developers.google.com/maps/documentation/javascript/examples/layer-bicycling) - `add_bicycling()`
+* [**Traffic**](https://developers.google.com/maps/documentation/javascript/examples/layer-traffic) - `add_traffic()`
+* [**Transit**](https://developers.google.com/maps/documentation/javascript/examples/layer-transit) - `add_transit()`
+
+```{r todos}
+## TODO
+# - polygons with holes
+# - mouse over
+# - info window
+# - encoding and decoding polylines
+# 
+```
 
 As well as a function for decoding encoded location data, `decode_pl()`
 
-To use this package you need a valid **API KEY** for the API you wish to use. Note that the same API key can be used for all the functions, but you need to register it with each API first. 
+To use this package you need a valid **API KEY** ([follow instructions here to get a key](https://developers.google.com/maps/documentation/javascript/)) for the API you wish to use. Note that the same API key can be used for all the functions, but you need to register it with each API first. 
 
 ## Google Directions API
 
@@ -67,7 +90,7 @@ df$routes$overview_polyline$points
 ```
 
 
-Having retreived the polyline, we can now decode it
+Having retreived the polyline, we can decode it using `decode_pl()`
 
 ```{r}
 polyline <- "rqxeF_cxsZgr@xmCekBhMunGnWc_Ank@vBpyCqjAfbAqmBjXydAe{AoF{oEgTqjGur@ch@qfAhUuiCww@}kEtOepAtdD{dDf~BsgIuj@}tHi{C{bGg{@{rGsmG_bDbW{wCuTyiBajBytF_oAyaI}K}bEkqA{jDg^epJmbB{gC}v@i~D`@gkGmJ_kEojD_O{`FqvCetE}bGgbDm_BqpD}pEqdGiaBo{FglEg_Su~CegHw`Cm`Hv[mxFwaAisAklCuUgzAqmCalJajLqfDedHgyC_yHibCizK~Xo_DuqAojDshAeaEpg@g`Dy|DgtNswBcgDiaAgEqgBozB{jEejQ}p@ckIc~HmvFkgAsfGmjCcaJwwD}~AycCrx@skCwUqwN{yKygH}nF_qAgyOep@slIehDcmDieDkoEiuCg|LrKo~Eb}Bw{Ef^klG_AgdFqvAaxBgoDeqBwoDypEeiFkjBa|Ks}@gr@c}IkE_qEqo@syCgG{iEazAmeBmeCqvA}rCq_AixEemHszB_SisB}mEgeEenCqeDab@iwAmZg^guB}cCk_F_iAmkGsu@abDsoBylBk`Bm_CsfD{jFgrAerB{gDkw@{|EacB_jDmmAsjC{yBsyFaqFqfEi_Ei~C{yAmwFt{B{fBwKql@onBmtCq`IomFmdGueD_kDssAwsCyqDkx@e\\kwEyUstC}uAe|Ac|BakGpGkfGuc@qnDguBatBot@}kD_pBmmCkdAgkB}jBaIyoC}xAexHka@cz@ahCcfCayBqvBgtBsuDxb@yiDe{Ikt@c{DwhBydEynDojCapAq}AuAksBxPk{EgPgkJ{gA}tGsJezKbcAcdK__@uuBn_AcuGsjDwvC_|AwbE}~@wnErZ{nGr_@stEjbDakFf_@clDmKkwBbpAi_DlgA{lArLukCBukJol@w~DfCcpBwnAghCweA}{EmyAgaEbNybGeV}kCtjAq{EveBwuHlb@gyIg\\gmEhBw{G{dAmpHp_@a|MsnCcuGy~@agIe@e`KkoA}lBspBs^}sAmgIdpAumE{Y_|Oe|CioKouFwuIqnCmlDoHamBiuAgnDqp@yqIkmEqaIozAohAykDymA{uEgiE}fFehBgnCgrGmwCkiLurBkhL{jHcrGs}GkhFwpDezGgjEe_EsoBmm@g}KimLizEgbA{~DwfCwvFmhBuvBy~DsqCicBatC{z@mlCkkDoaDw_BagA}|Bii@kgCpj@}{E}b@cuJxQwkK}j@exF`UanFzM{fFumB}fCirHoTml@CoAh`A"
@@ -271,10 +294,100 @@ df$results$geometry
   viewport.southwest.lng
 1               144.9828
 
+```
+
+## Google Places API
+
+The [**Google Maps Places API**](https://developers.google.com/places/) gets data from the same database used by Google Maps and Google+ Local. Places features more than 100 million businesses and points of interest that are updated frequently through owner-verified listings and user-moderated contributions.
+
+To access this API through googleway use the `google_places()` function.
+
+There are two types of searches you can perform, [**Nearby** and **Text**](https://developers.google.com/places/web-service/search)
+
+A **Nearby** Search lets you search for places within a specified area. You can refine your search request by supplying keywords or specifying the type of place you are searching for.
+
+A **Text** Search Service is a web service that returns information about a set of places based on a string — for example "pizza in New York" or "shoe stores near Ottawa" or "123 Main Street". The service responds with a list of places matching the text string and any location bias that has been set.
 
 
+### Example - Text
+
+For a **text** search you are requried to provide a `search_string`
+
+For example, a query  for "restaurantes in Melbourne"" (a query will return 20 results)
 
 ```
+
+res <- google_places(search_string = "Restaurants in Melbourne, Australia",
+                     key = key)
+
+## View the names of the returned restaurantes, and whether they are open or not
+
+cbind(res$results$name, res$results$opening_hours)
+
+                                            res$results$name open_now weekday_text
+1                                               Vue de monde     TRUE         NULL
+2                                                      ezard    FALSE         NULL
+3                                                     MoVida     TRUE         NULL
+4                           Flower Drum Restaurant Melbourne     TRUE         NULL
+5                                             The Press Club    FALSE         NULL
+6                                                       Maha     TRUE         NULL
+7                                                  Bluestone       NA         NULL
+8                                                  Chin Chin     TRUE         NULL
+9                                               Taxi Kitchen     TRUE         NULL
+10                                           Max on Hardware     TRUE         NULL
+11                                                    Attica    FALSE         NULL
+12                                       Nirankar Restaurant    FALSE         NULL
+13                                                  The Mill     TRUE         NULL
+14                                   The Left Bank Melbourne     TRUE         NULL
+15                           The Colonial Tramcar Restaurant     TRUE         NULL
+16                                      Rockpool Bar & Grill     TRUE         NULL
+17 Lane Restaurant Cafe & Bar - Novotel Melbourne on Collins     TRUE         NULL
+18                                          Melba Restaurant     TRUE         NULL
+19                                              CUMULUS INC.     TRUE         NULL
+20                                    radii restaurant & bar    FALSE         NULL
+
+```
+
+You can view the next 20 results using the `next_page_token` that is returned as part of the initial query.
+
+```
+
+res_next <- google_places(search_string = "Restaurants in Melbourne, Australia",
+                          page_token = res$next_page_token,
+                          key = key)
+                          
+cbind(res_next$results$name, res_next$results$opening_hours)
+
+                     res_next$results$name open_now weekday_text
+1  Moshi Moshi Japanese Seafood Restaurant     TRUE         NULL
+2                      Grill Steak Seafood     TRUE         NULL
+3                             Conservatory     TRUE         NULL
+4                                    Sarti    FALSE         NULL
+5                                  Tsindos     TRUE         NULL
+6                 The Cerberus Beach House     TRUE         NULL
+7                   Stalactites Restaurant     TRUE         NULL
+8            Hanabishi Japanese Restaurant    FALSE         NULL
+9                          GAZI Restaurant     TRUE         NULL
+10                           Om Vegetarian    FALSE         NULL
+11                           Shark Fin Inn     TRUE         NULL
+12                           Om Vegetarian     TRUE         NULL
+13                 The Atlantic Restaurant     TRUE         NULL
+14                                  Takumi     TRUE         NULL
+15                              Pei Modern       NA         NULL
+16                 Bamboo House Restaurant     TRUE         NULL
+17                 Byblos Bar & Restaurant     TRUE         NULL
+18                              Waterfront     TRUE         NULL
+19                                   No 35     TRUE         NULL
+20                        Bistro Guillaume     TRUE         NULL
+
+```
+
+**nearby**
+
+**all other parameter exampels**
+
+
+
 
 
 

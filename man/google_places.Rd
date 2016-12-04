@@ -12,7 +12,7 @@ google_places(search_string = NULL, location = NULL, radar = FALSE,
 \arguments{
 \item{search_string}{\code{string} A search term representing a place for which to search. If blank, the \code{location} argument must be used.}
 
-\item{location}{\code{numeric} vector of latitude/longitude coordinates (in that order) around which to retrieve place information. If blank, the \code{search_string} argument must be used. If used in absence of a \code{search_string}, If used in conjunction with \code{search_string} it represents the latitude/longitude around which to retrieve place information, and must be used in conjunction with \code{radius}.}
+\item{location}{\code{numeric} vector of latitude/longitude coordinates (in that order) around which to retrieve place information. If blank, the \code{search_string} argument must be used. If used in conjunction with \code{search_string} it represents the latitude/longitude around which to retrieve place information, and must be used in conjunction with \code{radius}.}
 
 \item{radar}{\code{boolean} The Google Places API Radar Search Service allows you to search for up to 200 places at once, but with less detail than is typically returned from a Text Search (\code{search_string}) or Nearby Search (\code{location}) request. A radar search must contain a \code{location} and \code{radius}, and one of \code{keyword}, \code{name} or \code{type}. A radar search will not use a \code{search_string}}
 
@@ -51,7 +51,7 @@ You can search for places either by proximity (\code{location}) or a text string
 \examples{
 \dontrun{
 
-## query Restaurants in Melbourne (will return 20 results)
+## query restaurants in Melbourne (will return 20 results)
 res <- google_places(search_string = "Restaurants in Melbourne, Australia",
                      key = key)
 
