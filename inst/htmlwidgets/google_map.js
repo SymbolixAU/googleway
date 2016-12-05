@@ -250,7 +250,7 @@ function add_heatmap(map_id, data_heatmap, heatmap_options){
       weight: data_heatmap[i].weight
     };
 
-    bounds.extend(latlon);
+    //bounds.extend(latlon);
   }
 
   // store in MVC array
@@ -266,8 +266,8 @@ function add_heatmap(map_id, data_heatmap, heatmap_options){
     dissipating: heat_options[0].dissipating
   });
 
-  window[map_id + 'googleBounds'].push(bounds);
-  window[map_id + 'map'].fitBounds(bounds);
+//  window[map_id + 'googleBounds'].push(bounds);
+//  window[map_id + 'map'].fitBounds(bounds);
 
   // fill the heatmap variable with the MVC array of heatmap data
   // when the MVC array is updated, the layer is also updated
@@ -520,8 +520,6 @@ function add_mouseOver(map_id, infoWindow, mapObject, objectAttribute, attribute
   mapObject.set(objectAttribute, attributeValue);
 
   google.maps.event.addListener(mapObject, 'mouseover', function(event){
-
-    console.log(mapObject);
 
     if(mapObject.get("mouseOverGroup") !== "NA"){
       // highlight all the shapes in the same group

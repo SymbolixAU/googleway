@@ -18,7 +18,7 @@ add_circles(map, data = get_map_data(map), lat = NULL, lon = NULL,
 
 \item{lon}{string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made}
 
-\item{radius}{either a string specifying the column of \code{data} containing the 'radius' of each circle, OR a numeric value specifying the radius of all the circles}
+\item{radius}{either a string specifying the column of \code{data} containing the radius of each circle, OR a numeric value specifying the radius of all the circles (radius is expressed in metres)}
 
 \item{stroke_colour}{either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles}
 

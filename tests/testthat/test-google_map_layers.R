@@ -81,13 +81,12 @@ test_that("circles correctly defined", {
   expect_true(unique(jsonlite::fromJSON(add_circles(map = m, data = df)$x$calls[[1]]$args[[1]])$stroke_colour) == "#FF0000")
   expect_true(unique(jsonlite::fromJSON(add_circles(map = m, data = df)$x$calls[[1]]$args[[1]])$stroke_weight) == 2)
   expect_true(unique(jsonlite::fromJSON(add_circles(map = m, data = df)$x$calls[[1]]$args[[1]])$stroke_opacity) == 0.8)
-  expect_true(unique(jsonlite::fromJSON(add_circles(map = m, data = df)$x$calls[[1]]$args[[1]])$radius) == 100)
+  expect_true(unique(jsonlite::fromJSON(add_circles(map = m, data = df)$x$calls[[1]]$args[[1]])$radius) == 50)
   expect_true(unique(jsonlite::fromJSON(add_circles(map = m, data = df)$x$calls[[1]]$args[[1]])$fill_colour) == "#FF0000")
   expect_true(unique(jsonlite::fromJSON(add_circles(map = m, data = df)$x$calls[[1]]$args[[1]])$fill_opacity) == 0.35)
 
   expect_true("info_window" %in% names(jsonlite::fromJSON(add_circles(map = m, data = df, info_window = "info_window")$x$calls[[1]]$args[[1]])))
   expect_true("mouse_over" %in% names(jsonlite::fromJSON(add_circles(map = m, data = df, mouse_over = "mouse_over")$x$calls[[1]]$args[[1]])))
-
 
 })
 

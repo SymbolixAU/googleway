@@ -73,7 +73,7 @@
 
 
 
-# ## testing circle bounds
+## testing circle bounds
 #
 # df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
 #                              -37.8191299438477, -37.8187675476074, -37.8186187744141, -37.8181076049805
@@ -100,5 +100,9 @@
 # df$weight <- runif(nrow(df)) * 10
 # google_map(key = map_key, data = df) %>%
 #   add_heatmap(lat = "lat", lon = "lon", weight = "weight", option_radius = 0.01, option_dissipating = F)
-#
+
+
+
+
+
 
