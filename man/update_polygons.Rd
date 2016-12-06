@@ -10,6 +10,8 @@ update_polygons(map, data, id, polyline = NULL, stroke_colour = NULL,
   mouse_over_group = NULL)
 }
 \arguments{
+\item{map}{a googleway map object created from \code{google_map()}}
+
 \item{data}{data.frame containing the new values for the polygons}
 
 \item{id}{string representing the column of \code{data} containing the id values for the polygons. The id values must be present in the data supplied to \code{add_polygons} in order for the polygons to be udpated}

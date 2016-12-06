@@ -651,7 +651,6 @@ update_polygons <- function(map, data, id,
       polygonUpdate <- data[, polyline, drop = FALSE]
     }
   }
-    #polygonUpdate[, "polyline"] <- data[, polyline]
 
   polygonUpdate[, "id"] <- as.character(data[, id])
 
@@ -661,30 +660,12 @@ update_polygons <- function(map, data, id,
   polygonUpdate[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
   polygonUpdate[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
   polygonUpdate[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
-  # polygonUpdate[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
-
-
-  # if(!is.null(stroke_colour))
-  #   polygonUpdate[, "stroke_colour"] <- data[, stroke_colour]
-  #
-  # if(!is.null(stroke_weight))
-  #   polygonUpdate[, "stroke_weight"] <- data[, stroke_weight]
-  #
-  # if(!is.null(stroke_opacity))
-  #   polygonUpdate[, "stroke_opacity"] <- data[, stroke_opacity]
-  #
-  # if(!is.null(fill_colour))
-  #   polygonUpdate[, "fill_colour"] <- data[, fill_colour]
-  #
-  # if(!is.null(fill_opacity))
-  #   polygonUpdate[, "fill_opacity"] <- data[, fill_opacity]
 
   if(!is.null(info_window))
     polygonUpdate[, "info_window"] <- as.character(data[, info_window])
 
   if(!is.null(mouse_over))
     polygonUpdate[, "mouse_over"] <- as.character(data[, mouse_over])
-
 
   polygonUpdate <- jsonlite::toJSON(polygonUpdate)
 
