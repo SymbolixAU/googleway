@@ -186,7 +186,6 @@ function add_markers(map_id, data_markers, cluster){
 
 //    window[el.id + 'googleMarkerClusterer'].push(markerCluster);
   }
-
   window[map_id + 'googleBounds'].push(bounds);
   window[map_id + 'map'].fitBounds(bounds);
 }
@@ -454,6 +453,7 @@ function add_polygons(map_id, data_polygon){
 
     //https://developers.google.com/maps/documentation/javascript/reference?csw=1#PolygonOptions
     var Polygon = new google.maps.Polygon({
+      id: polygon.id,
       paths: paths,
       strokeColor: polygon.stroke_colour,
       strokeOpacity: polygon.stroke_opacity,
@@ -479,11 +479,119 @@ function add_polygons(map_id, data_polygon){
       add_mouseOver(map_id, infoWindow, Polygon, "_mouse_over", polygon.mouse_over);
     }
 
+//    console.log(Polygon);
+//    console.log(window[map_id + 'googlePolygon']);
     window[map_id + 'googlePolygon'].push(Polygon);
+
+//    console.log(window[map_id + 'googlePolygon']);
     Polygon.setMap(window[map_id + 'map']);
   }
 
 }
+
+/**
+ * Updates polygon options
+ * @param map_id
+ *          the map containing the polygons
+ * @param data_polygon
+ *          polygon data to update
+ * @param addRemove
+ *          boolean specifying if polygons should be added or removed if they are / are not included in the udpated data set
+ */
+function update_polygons(map_id, data_polygon){
+
+  // for a given polygon_id,
+  // change the options
+  var objectAttribute;
+  var attributeValue;
+  var _id;
+  var thisUpdatePolygon;
+  var currentIds = [];
+  var newIds = [];
+  var newPolygons = [];
+
+//  console.log("update polygons length: " + Object.keys(window[map_id + 'googlePolygon']).length);
+//  console.log(window[map_id + 'googlePolygon']);
+
+  for(i = 0; i < Object.keys(window[map_id + 'googlePolygon']).length; i++){
+
+    _id = window[map_id + 'googlePolygon'][i].id;
+    currentIds.push(_id);
+//    console.log("id: " + _id);
+
+    // find if there is a matching id in the new polygon data set
+    if(data_polygon.find(x => x.id === _id)){
+ //     console.log("polygon exists");
+      thisUpdatePolygon = data_polygon.find(x => x.id === _id);
+
+      //if the polygon is currently set to Null, re-put it on the map
+      if(window[map_id + 'googlePolygon'][i].getMap() === null){
+        window[map_id + 'googlePolygon'][i].setMap(window[map_id + 'map']);
+      }
+
+      // the new id exists in the current data set
+      // update the values for this polygon
+
+      //    // for each of the options in data_polygon, update the polygons
+      for(j = 0; j < Object.keys(thisUpdatePolygon).length; j++){
+
+        objectAttribute = Object.keys(thisUpdatePolygon)[j];
+        attributeValue = thisUpdatePolygon[objectAttribute];
+
+        switch(objectAttribute){
+          case "fill_colour":
+            window[map_id + 'googlePolygon'][i].setOptions({fillColor: attributeValue});
+            break;
+          case "fill_opacity":
+            window[map_id + 'googlePolygon'][i].setOptions({fillOpacity: attributeValue});
+            window[map_id + 'googlePolygon'][i].setOptions({fillOpacityHolder: attributeValue});
+            break;
+          case "stroke_color":
+            window[map_id + 'googlePolygon'][i].setOptions({strokeColor: attributeValue});
+            break;
+          case "stroke_weight":
+            window[map_id + 'googlePolygon'][i].setOptions({strokeWeight: attributeValue});
+            break;
+          case "stroke_opacity":
+            window[map_id + 'googlePolygon'][i].setOptions({strokeOpacity: attributeValue});
+            break;
+        }
+      }
+
+
+    }else{
+//      console.log("polygon does not exist");
+      // the id does not exist in the new data set
+      //if(removeMissing){
+        // remove the polygon from the map
+        // (but don't clear it from the arrray?)
+        window[map_id + 'googlePolygon'][i].setMap(null);
+      //}
+
+    }
+  }
+
+// NOTE:
+// can't add individual polygons to the map
+//  if(addExtra){
+      // find those in the new set that aren't in the current set
+//      for(var o in data_polygon){
+//        newIds.push(data_polygon[o].id);
+//      }
+
+//      let difference = newIds.filter(x => currentIds.indexOf(x) == -1);
+
+//      for(i = 0; i < difference.length; i++){
+//        newPolygons.push(data_polygon.find(x => x.id === difference[i]));
+//        window[map_id + 'googlePolygon'].find(x => x.id === difference[i]).setMap(window[map_id + 'map']);
+//      }
+//      if(Object.keys(newPolygons).length > 0){
+//        newPolygons = Object.keys(newPolygons).map(key => newPolygons[key]);
+//        add_polygons(map_id, newPolygons);
+//     }
+//    }
+}
+
 
 function clear_polygons(map_id){
  for (i = 0; i < window[map_id + 'googlePolygon'].length; i++){
@@ -527,7 +635,7 @@ function add_mouseOver(map_id, infoWindow, mapObject, objectAttribute, attribute
         if(window[map_id + 'googlePolygon'][i].mouseOverGroup == this.mouseOverGroup){
           window[map_id + 'googlePolygon'][i].setOptions({fillOpacity: 1});
         }else{
-          window[map_id + 'googlePolygon'][i].setOptions({fillOpacity: 0.1});
+          window[map_id + 'googlePolygon'][i].setOptions({fillOpacity: 0.001});
         }
       }
     }else{

@@ -4,10 +4,10 @@
 \alias{add_polygons}
 \title{Add polygon}
 \usage{
-add_polygons(map, data = get_map_data(map), polyline, stroke_colour = NULL,
-  stroke_weight = NULL, stroke_opacity = NULL, fill_colour = NULL,
-  fill_opacity = NULL, info_window = NULL, mouse_over = NULL,
-  mouse_over_group = NULL)
+add_polygons(map, data = get_map_data(map), polyline, id = NULL,
+  stroke_colour = NULL, stroke_weight = NULL, stroke_opacity = NULL,
+  fill_colour = NULL, fill_opacity = NULL, info_window = NULL,
+  mouse_over = NULL, mouse_over_group = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -15,6 +15,8 @@ add_polygons(map, data = get_map_data(map), polyline, stroke_colour = NULL,
 \item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.}
 
 \item{polyline}{string specifying the column containing the polyline}
+
+\item{id}{string specifying the column containing an identifier for a polygon. Used when calling \code{update_polygons} so that specific polygons can be updated.}
 
 \item{stroke_colour}{either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles}
 

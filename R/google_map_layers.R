@@ -547,6 +547,7 @@ clear_polylines <- function(map){
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
 #' @param polyline string specifying the column containing the polyline
+#' @param id string specifying the column containing an identifier for a polygon. Used when calling \code{update_polygons} so that specific polygons can be updated.
 #' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
 #' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
 #' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
@@ -559,6 +560,7 @@ clear_polylines <- function(map){
 add_polygons <- function(map,
                         data = get_map_data(map),
                         polyline,
+                        id = NULL,
                         stroke_colour = NULL,
                         stroke_weight = NULL,
                         stroke_opacity = NULL,
@@ -594,6 +596,9 @@ add_polygons <- function(map,
   polygon[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
 
   ## options
+  if(!is.null(id))
+    polygon[, "id"] <- as.character(data[, id])
+
   if(!is.null(info_window))
     polygon[, "info_window"] <- as.character(data[, info_window])
 
@@ -603,6 +608,88 @@ add_polygons <- function(map,
   polygon <- jsonlite::toJSON(polygon)
 
   invoke_method(map, data, 'add_polygons', polygon)
+}
+
+
+#' Update polygons
+#'
+#' Updates specific colours and opacities of specified polygons. Designed to be used in a shiny application.
+#'
+#' @note Any polygons (as specified by the \code{id} argument) that do not exist in the \code{data} passed into \code{add_polygons()} will not be added to the map. This function will only update the polygons that currently exist on the map when the function is called.
+#'
+#' @param map
+#' @param data data.frame containing the new values for the polygons
+#' @param id string representing the column of \code{data} containing the id values for the polygons. The id values must be present in the data supplied to \code{add_polygons} in order for the polygons to be udpated
+#' @param polyline string specifying the column containing the polyline. Only used if \code{add_extra} is TRUE
+#' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
+#' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
+#' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
+#' @param fill_colour either a string specifying the column of \code{data} containing the fill colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the cirlces
+#' @param fill_opacity either a string specifying the column of \code{data} containing the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
+#' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
+#' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
+#' @param mouse_over_group string specifying the column of data specifying which groups of polygons to highlight on mouseover
+#'
+#' @export
+update_polygons <- function(map, data, id,
+                            polyline = NULL,
+                            stroke_colour = NULL,
+                            stroke_weight = NULL,
+                            stroke_opacity = NULL,
+                            fill_colour = NULL,
+                            fill_opacity = NULL,
+                            info_window = NULL,
+                            mouse_over = NULL,
+                            mouse_over_group = NULL
+                            ){
+
+
+  if(!is.null(polyline)){
+    if(!is.list(data[, polyline])){
+      polygonUpdate <- data.frame(polyline = I(as.list(as.character(data[, polyline]))))
+    }else{
+      polygonUpdate <- data[, polyline, drop = FALSE]
+    }
+  }
+    #polygonUpdate[, "polyline"] <- data[, polyline]
+
+  polygonUpdate[, "id"] <- as.character(data[, id])
+
+  polygonUpdate[, "stroke_colour"] <- SetDefault(stroke_colour, "#0000FF", data)
+  polygonUpdate[, "stroke_weight"] <- SetDefault(stroke_weight, 2, data)
+  polygonUpdate[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
+  polygonUpdate[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
+  polygonUpdate[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
+  polygonUpdate[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
+  # polygonUpdate[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
+
+
+  # if(!is.null(stroke_colour))
+  #   polygonUpdate[, "stroke_colour"] <- data[, stroke_colour]
+  #
+  # if(!is.null(stroke_weight))
+  #   polygonUpdate[, "stroke_weight"] <- data[, stroke_weight]
+  #
+  # if(!is.null(stroke_opacity))
+  #   polygonUpdate[, "stroke_opacity"] <- data[, stroke_opacity]
+  #
+  # if(!is.null(fill_colour))
+  #   polygonUpdate[, "fill_colour"] <- data[, fill_colour]
+  #
+  # if(!is.null(fill_opacity))
+  #   polygonUpdate[, "fill_opacity"] <- data[, fill_opacity]
+
+  if(!is.null(info_window))
+    polygonUpdate[, "info_window"] <- as.character(data[, info_window])
+
+  if(!is.null(mouse_over))
+    polygonUpdate[, "mouse_over"] <- as.character(data[, mouse_over])
+
+
+  polygonUpdate <- jsonlite::toJSON(polygonUpdate)
+
+  invoke_method(map, data = NULL, 'update_polygons', polygonUpdate)
+
 }
 
 #' @rdname clear
