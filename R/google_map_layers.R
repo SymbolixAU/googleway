@@ -617,7 +617,7 @@ add_polygons <- function(map,
 #'
 #' @note Any polygons (as specified by the \code{id} argument) that do not exist in the \code{data} passed into \code{add_polygons()} will not be added to the map. This function will only update the polygons that currently exist on the map when the function is called.
 #'
-#' @param map
+#' @param map a googleway map object created from \code{google_map()}
 #' @param data data.frame containing the new values for the polygons
 #' @param id string representing the column of \code{data} containing the id values for the polygons. The id values must be present in the data supplied to \code{add_polygons} in order for the polygons to be udpated
 #' @param polyline string specifying the column containing the polyline. Only used if \code{add_extra} is TRUE
