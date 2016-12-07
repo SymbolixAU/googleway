@@ -102,6 +102,8 @@
 # m <- googleway:::update_polygons(map = m, data = df_update, id = "id", fill_colour = "fill_colour")
 #
 # library(shiny)
+# library(googleway)
+# library(magrittr)
 #
 # ui <- fluidPage(google_mapOutput('map'),
 #                 actionButton("btn1", label = "remove layer 1"),
@@ -131,9 +133,9 @@
 #       # google_map(key = map_key, height = 800) %>%
 #       #   add_polygons(data = df, polyline = "polyline", id = "id", fill_colour = "fill_colour")
 #
-      # google_map(key = map_key, height = 800) %>%
-      #   add_markers(df1, layer_id = "df1", cluster = T) %>%
-      #   add_markers(df2, layer_id = "df2")
+#       google_map(key = map_key, height = 800) %>%
+#         add_markers(df1, layer_id = "df1", cluster = T) %>%
+#         add_markers(df2, layer_id = "df2")
 #
 #     })
 #
@@ -169,7 +171,6 @@
 #     })
 #
 #   }
-
 # shinyApp(ui , server)
 
 
