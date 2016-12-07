@@ -145,7 +145,7 @@ if (HTMLWidgets.shinyMode) {
  * @param cluster
  *          logical, indicating if the markers should cluster when zoomed out
  */
-function add_markers(map_id, data_markers, cluster){
+function add_markers(map_id, data_markers, cluster, layer_id){
 
   var markers = [];
   var i;
@@ -161,7 +161,8 @@ function add_markers(map_id, data_markers, cluster){
       draggable: data_markers[i].draggable,
       opacity: data_markers[i].opacity,
       title: data_markers[i].title,
-      label: data_markers[i].label
+      label: data_markers[i].label,
+      layerId : data_markers[i].layer_id
     });
 
     if(data_markers[i].info_window){
@@ -181,7 +182,7 @@ function add_markers(map_id, data_markers, cluster){
 
   if(cluster === true){
     //var markerCluster = new MarkerClusterer(window[map_id + 'map'], markers,
-    window[map_id + 'googleMarkerClusterer'] = new MarkerClusterer(window[map_id + 'map'], markers,
+    window[map_id + 'googleMarkerClusterer' + layer_id] = new MarkerClusterer(window[map_id + 'map'], markers,
     {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 
 //    window[el.id + 'googleMarkerClusterer'].push(markerCluster);
@@ -207,17 +208,20 @@ function update_style(map_id, style){
  * @param map_id
  *          the map to clear
  */
-function clear_markers(map_id){
+function clear_markers(map_id, layer_id){
 
+  console.log(layer_id);
   // the markers know which map they're on
   // http://stackoverflow.com/questions/7961522/removing-a-marker-in-google-maps-api-v3
-  for (i = 0; i < window[map_id + 'googleMarkers'].length; i++){
-    window[map_id + 'googleMarkers'][i].setMap(null);
+  for (i = 0; i < window[map_id + 'googleMarkers' ].length; i++){
+    if(window[map_id + 'googleMarkers'][i].layerId === layer_id){
+      window[map_id + 'googleMarkers'][i].setMap(null);
+    }
   }
 
-  window[map_id + 'googleMarkers'] = [];
-  if(window[map_id + 'googleMarkerClusterer']){
-    window[map_id + 'googleMarkerClusterer'].clearMarkers();
+//  window[map_id + 'googleMarkers'] = [];
+  if(window[map_id + 'googleMarkerClusterer' + layer_id]){
+    window[map_id + 'googleMarkerClusterer' + layer_id].clearMarkers();
   }
 
 }

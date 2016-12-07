@@ -13,6 +13,7 @@
 #' @param cluster logical indicating if co-located markers should be clustered when the map zoomed out
 #' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
 #' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
+#' @param layer_id single value specifying an id for the marker layer.
 #' @examples
 #' \dontrun{
 #'
@@ -40,7 +41,8 @@ add_markers <- function(map,
                         label = NULL,
                         cluster = FALSE,
                         info_window = NULL,
-                        mouse_over = NULL)
+                        mouse_over = NULL,
+                        layer_id = NULL)
 {
 
   ## TODO:
@@ -62,6 +64,14 @@ add_markers <- function(map,
 
   markers <- data.frame(lat = data[, lat],
                         lng = data[, lon])
+
+  # if(is.null(layer_id))
+  #   layer_id <- "defaultLayerId"
+  if(!is.null(layer_id) & length(layer_id) != 1)
+    stop("please provide a single value for 'layer_id'")
+
+  markers[, "layer_id"] <- SetDefault(layer_id, "defaultLayerId", data)
+  layer_id <- unique(markers$layer_id)
 
   if(!is.logical(cluster))
     stop("cluster must be logical")
@@ -86,7 +96,7 @@ add_markers <- function(map,
 
   markers <- jsonlite::toJSON(markers)
 
-  invoke_method(map, data, 'add_markers', markers, cluster)
+  invoke_method(map, data, 'add_markers', markers, cluster, layer_id)
 }
 
 #' clear map elements
@@ -96,11 +106,19 @@ add_markers <- function(map,
 #' @note These operations are intended for use in conjunction with \link{google_map_update} in an interactive shiny environment
 #'
 #' @param map a googleway map object created from \code{google_map()}
+#' @param layer_id id value of the marker layer to be removed from the map
 #'
 #' @name clear
 #' @export
-clear_markers <- function(map){
-  invoke_method(map, data = NULL, 'clear_markers')
+clear_markers <- function(map, layer_id = NULL){
+
+  if(is.null(layer_id))
+    layer_id <- "defaultLayerId"
+
+  if(!is.null(layer_id) & length(layer_id) != 1)
+    stop("please provide a single value for 'layer_id'")
+
+  invoke_method(map, data = NULL, 'clear_markers', layer_id)
 }
 
 #' Update style
@@ -199,7 +217,7 @@ add_circles <- function(map,
 
 
   Circles[, "stroke_colour"] <- SetDefault(stroke_colour, "#FF0000", data)
-  Circles[, "stroke_weight"] <- SetDefault(stroke_weight, 2, data)
+  Circles[, "stroke_weight"] <- SetDefault(stroke_weight, 1, data)
   Circles[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.8, data)
   Circles[, "radius"] <- SetDefault(radius, 50, data)
   Circles[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
@@ -495,7 +513,7 @@ add_polylines <- function(map,
   ## the defaults are required
   polyline[, "geodesic"] <- SetDefault(geodesic, TRUE, data)
   polyline[, "stroke_colour"] <- SetDefault(stroke_colour, "#0000FF", data)
-  polyline[, "stroke_weight"] <- SetDefault(stroke_weight, 2, data)
+  polyline[, "stroke_weight"] <- SetDefault(stroke_weight, 1, data)
   polyline[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
   polyline[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
 
@@ -589,7 +607,7 @@ add_polygons <- function(map,
 
   ## the defaults are required
   polygon[, "stroke_colour"] <- SetDefault(stroke_colour, "#0000FF", data)
-  polygon[, "stroke_weight"] <- SetDefault(stroke_weight, 2, data)
+  polygon[, "stroke_weight"] <- SetDefault(stroke_weight, 1, data)
   polygon[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
   polygon[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
   polygon[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
@@ -655,7 +673,7 @@ update_polygons <- function(map, data, id,
   polygonUpdate[, "id"] <- as.character(data[, id])
 
   polygonUpdate[, "stroke_colour"] <- SetDefault(stroke_colour, "#0000FF", data)
-  polygonUpdate[, "stroke_weight"] <- SetDefault(stroke_weight, 2, data)
+  polygonUpdate[, "stroke_weight"] <- SetDefault(stroke_weight, 1, data)
   polygonUpdate[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
   polygonUpdate[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
   polygonUpdate[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)

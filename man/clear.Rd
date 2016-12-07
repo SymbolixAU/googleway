@@ -12,7 +12,7 @@
 \alias{clear_transit}
 \title{clear map elements}
 \usage{
-clear_markers(map)
+clear_markers(map, layer_id = NULL)
 
 clear_circles(map)
 
@@ -30,6 +30,8 @@ clear_polygons(map)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
+
+\item{layer_id}{id value of the marker layer to be removed from the map}
 }
 \description{
 clears elements from a map
