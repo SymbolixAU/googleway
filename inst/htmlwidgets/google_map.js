@@ -387,13 +387,12 @@ function add_circles(map_id, data_circles, layer_id){
       add_mouseOver(map_id, infoWindow, Circle, "_mouse_over", circle.mouse_over);
     }
 
-    bounds.extend(latlon);
-//    window[map_id + 'googleBounds'].extend(latlon);
+//    bounds.extend(latlon);
+    window[map_id + 'mapBounds'].extend(latlon);
   }
 
-//  window[map_id + 'googleBounds'].push(bounds);
-  window[map_id + 'map'].fitBounds(bounds);
-//    window[map_id + 'map'].fitBounds(window[map_id + 'googleBounds']);
+//  window[map_id + 'map'].fitBounds(bounds);
+    window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
 
 }
 
@@ -676,6 +675,9 @@ function add_mouseOver(map_id, infoWindow, mapObject, objectAttribute, attribute
 
 function initialise_map(el, x) {
 
+  // map bounds object
+  window[el.id + 'mapBounds'] = new google.maps.LatLngBounds();
+
   // if places
   if(x.search_box === true){
     var input = document.getElementById('pac-input');
@@ -705,6 +707,7 @@ function initialise_map(el, x) {
 
       // For each place, get the icon, name and location.
       var bounds = new google.maps.LatLngBounds();
+
       places.forEach(function(place) {
         if (!place.geometry) {
           console.log("Returned place contains no geometry");
