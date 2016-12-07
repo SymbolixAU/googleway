@@ -12,16 +12,17 @@ HTMLWidgets.widget({
 
           // global map objects
           // - display elements
-          window[el.id + 'googleMarkers'] = [];
-          window[el.id + 'googleMarkerClusterer'];
+//          window[el.id + 'googleMarkers'] = [];
+//          window[el.id + 'googleMarkerClusterer'];
           window[el.id + 'googleHeatmapLayer'] = [];
           window[el.id + 'googleHeatmapLayerMVC'] = [];
-          window[el.id + 'googleCircles'] = [];
+//          window[el.id + 'googleCircles'] = [];
           window[el.id + 'googlePolyline'] = [];
           window[el.id + 'googlePolygon'] = [];
           window[el.id + 'googlePolygonMVC'] = [];
 
           window[el.id + 'googleBounds'] = [];
+//          window[el.id + 'googleBounds'] = new google.maps.LatLngBounds();
 
           // visualisation layers
           window[el.id + 'googleTrafficLayer'] = [];
@@ -151,6 +152,7 @@ function add_markers(map_id, data_markers, cluster, layer_id){
   var i;
   var bounds = new google.maps.LatLngBounds();
   var infoWindow = new google.maps.InfoWindow();
+  window[map_id + 'googleMarkers' + layer_id] = [];
 
   for (i = 0; i < Object.keys(data_markers).length; i++){
 
@@ -162,7 +164,7 @@ function add_markers(map_id, data_markers, cluster, layer_id){
       opacity: data_markers[i].opacity,
       title: data_markers[i].title,
       label: data_markers[i].label,
-      layerId : data_markers[i].layer_id
+//      layerId : data_markers[i].layer_id
     });
 
     if(data_markers[i].info_window){
@@ -175,20 +177,20 @@ function add_markers(map_id, data_markers, cluster, layer_id){
 
     bounds.extend(latlon);
 
-    window[map_id + 'googleMarkers'].push(marker);
+    window[map_id + 'googleMarkers' + layer_id].push(marker);
     markers.push(marker);
     marker.setMap(window[map_id + 'map']);
   }
 
   if(cluster === true){
-    //var markerCluster = new MarkerClusterer(window[map_id + 'map'], markers,
     window[map_id + 'googleMarkerClusterer' + layer_id] = new MarkerClusterer(window[map_id + 'map'], markers,
     {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 
-//    window[el.id + 'googleMarkerClusterer'].push(markerCluster);
   }
+
   window[map_id + 'googleBounds'].push(bounds);
   window[map_id + 'map'].fitBounds(bounds);
+
 }
 
 /**
@@ -213,10 +215,10 @@ function clear_markers(map_id, layer_id){
   console.log(layer_id);
   // the markers know which map they're on
   // http://stackoverflow.com/questions/7961522/removing-a-marker-in-google-maps-api-v3
-  for (i = 0; i < window[map_id + 'googleMarkers' ].length; i++){
-    if(window[map_id + 'googleMarkers'][i].layerId === layer_id){
-      window[map_id + 'googleMarkers'][i].setMap(null);
-    }
+  for (i = 0; i < window[map_id + 'googleMarkers' + layer_id ].length; i++){
+//    if(window[map_id + 'googleMarkers' + layer_id][i].layerId === layer_id){
+      window[map_id + 'googleMarkers' + layer_id][i].setMap(null);
+//    }
   }
 
 //  window[map_id + 'googleMarkers'] = [];
@@ -349,11 +351,12 @@ function clear_transit(map_id){
 }
 
 
-function add_circles(map_id, data_circles){
+function add_circles(map_id, data_circles, layer_id){
 
   var i;
   var infoWindow = new google.maps.InfoWindow();
   var bounds = new google.maps.LatLngBounds();
+  window[map_id + 'googleCircles' + layer_id] = [];
 
   for (i = 0; i < Object.keys(data_circles).length; i++) {
     add_circle(map_id, data_circles[i]);
@@ -373,7 +376,7 @@ function add_circles(map_id, data_circles){
         radius: circle.radius
       });
 
-    window[map_id + 'googleCircles'].push(Circle);
+    window[map_id + 'googleCircles' + layer_id].push(Circle);
     Circle.setMap(window[map_id + 'map']);
 
     if(circle.info_window){
@@ -385,16 +388,18 @@ function add_circles(map_id, data_circles){
     }
 
     bounds.extend(latlon);
+//    window[map_id + 'googleBounds'].extend(latlon);
   }
 
-  window[map_id + 'googleBounds'].push(bounds);
+//  window[map_id + 'googleBounds'].push(bounds);
   window[map_id + 'map'].fitBounds(bounds);
+//    window[map_id + 'map'].fitBounds(window[map_id + 'googleBounds']);
 
 }
 
-function clear_circles(map_id){
-  for (i = 0; i < window[map_id + 'googleCircle'].length; i++){
-    window[map_id + 'googleCircle'][i].setMap(null);
+function clear_circles(map_id, layer_id){
+  for (i = 0; i < window[map_id + 'googleCircles' + layer_id].length; i++){
+    window[map_id + 'googleCircles' + layer_id][i].setMap(null);
   }
 }
 

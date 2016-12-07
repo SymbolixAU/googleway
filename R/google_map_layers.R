@@ -65,13 +65,14 @@ add_markers <- function(map,
   markers <- data.frame(lat = data[, lat],
                         lng = data[, lon])
 
-  # if(is.null(layer_id))
-  #   layer_id <- "defaultLayerId"
   if(!is.null(layer_id) & length(layer_id) != 1)
     stop("please provide a single value for 'layer_id'")
 
-  markers[, "layer_id"] <- SetDefault(layer_id, "defaultLayerId", data)
-  layer_id <- unique(markers$layer_id)
+  if(is.null(layer_id))
+    layer_id <- "defaultLayerId"
+
+  # markers[, "layer_id"] <- SetDefault(layer_id, "defaultLayerId", data)
+  # layer_id <- unique(markers$layer_id)
 
   if(!is.logical(cluster))
     stop("cluster must be logical")
@@ -169,6 +170,7 @@ update_style <- function(map, styles = NULL){
 #' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
 #' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
 #' @param mouse_over_group string specifying the column of data specifying which groups of circles to highlight on mouseover
+#' @param layer_id single value specifying an id for the marker layer.
 #' @examples
 #' \dontrun{
 #'
@@ -198,7 +200,8 @@ add_circles <- function(map,
                         fill_opacity = NULL,
                         mouse_over = NULL,
                         mouse_over_group = NULL,
-                        info_window = NULL){
+                        info_window = NULL,
+                        layer_id = NULL){
 
   # data <- as.data.frame(data)
 
@@ -211,6 +214,12 @@ add_circles <- function(map,
     data <- longitude_column(data, lon, 'add_circles')
     lon <- "lng"
   }
+
+  if(!is.null(layer_id) & length(layer_id) != 1)
+    stop("please provide a single value for 'layer_id'")
+
+  if(is.null(layer_id))
+    layer_id <- "defaultLayerId"
 
   Circles <- data.frame(lat = data[, lat],
                         lng = data[, lon])
@@ -233,13 +242,13 @@ add_circles <- function(map,
 
   Circles <- jsonlite::toJSON(Circles)
 
-  invoke_method(map, data, 'add_circles', Circles)
+  invoke_method(map, data, 'add_circles', Circles, layer_id)
 }
 
 #' @rdname clear
 #' @export
-clear_circles <- function(map){
-  invoke_method(map, data = NULL, 'clear_circles')
+clear_circles <- function(map, layer_id = NULL){
+  invoke_method(map, data = NULL, 'clear_circles', layer_id)
 }
 
 

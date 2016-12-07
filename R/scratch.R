@@ -134,8 +134,8 @@
 #       #   add_polygons(data = df, polyline = "polyline", id = "id", fill_colour = "fill_colour")
 #
 #       google_map(key = map_key, height = 800) %>%
-#         add_markers(df1, layer_id = "df1", cluster = T) %>%
-#         add_markers(df2, layer_id = "df2")
+#         add_circles(df1, layer_id = "df1") %>%
+#         add_circles(df2, layer_id = "df2")
 #
 #     })
 #
@@ -144,7 +144,7 @@
 #     },{
 #         print("layer1")
 #         google_map_update("map") %>%
-#         googleway::clear_markers(layer_id = "df1")
+#         googleway::clear_circles(layer_id = "df1")
 #
 #       # if(input$btn %% 2 == 0){
 #       #   google_map_update("map") %>%
@@ -167,7 +167,7 @@
 #     },{
 #       print("layer2")
 #       google_map_update("map") %>%
-#         googleway::clear_markers(layer_id = "df2")
+#         googleway::clear_circles(layer_id = "df2")
 #     })
 #
 #   }

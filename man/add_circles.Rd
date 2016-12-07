@@ -7,7 +7,8 @@
 add_circles(map, data = get_map_data(map), lat = NULL, lon = NULL,
   radius = NULL, stroke_colour = NULL, stroke_opacity = NULL,
   stroke_weight = NULL, fill_colour = NULL, fill_opacity = NULL,
-  mouse_over = NULL, mouse_over_group = NULL, info_window = NULL)
+  mouse_over = NULL, mouse_over_group = NULL, info_window = NULL,
+  layer_id = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -35,6 +36,8 @@ add_circles(map, data = get_map_data(map), lat = NULL, lon = NULL,
 \item{mouse_over_group}{string specifying the column of data specifying which groups of circles to highlight on mouseover}
 
 \item{info_window}{string specifying the column of data to display in an info window when a polygon is clicked}
+
+\item{layer_id}{single value specifying an id for the marker layer.}
 }
 \description{
 Add circles to a google map

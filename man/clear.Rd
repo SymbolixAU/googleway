@@ -14,7 +14,7 @@
 \usage{
 clear_markers(map, layer_id = NULL)
 
-clear_circles(map)
+clear_circles(map, layer_id = NULL)
 
 clear_heatmap(map)
 
