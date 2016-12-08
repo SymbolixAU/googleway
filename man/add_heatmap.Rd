@@ -4,12 +4,14 @@
 \alias{add_heatmap}
 \title{Add heatmap}
 \usage{
-add_heatmap(map, lat = NULL, lon = NULL, weight = NULL,
-  data = get_map_data(map), option_dissipating = FALSE,
-  option_radius = 0.01, option_opacity = 0.6)
+add_heatmap(map, data = get_map_data(map), lat = NULL, lon = NULL,
+  weight = NULL, option_dissipating = FALSE, option_radius = 0.01,
+  option_opacity = 0.6, layer_id = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
+
+\item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.}
 
 \item{lat}{string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made}
 
@@ -17,13 +19,13 @@ add_heatmap(map, lat = NULL, lon = NULL, weight = NULL,
 
 \item{weight}{string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.}
 
-\item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.}
-
 \item{option_dissipating}{logical Specifies whether heatmaps dissipate on zoom. When dissipating is false the radius of influence increases with zoom level to ensure that the color intensity is preserved at any given geographic location. Defaults to false.}
 
 \item{option_radius}{numeric The radius of influence for each data point, in pixels.}
 
 \item{option_opacity}{The opacity of the heatmap, expressed as a number between 0 and 1. Defaults to 0.6.}
+
+\item{layer_id}{single value specifying an id for the layer.}
 }
 \description{
 Adds a heatmap to a google map

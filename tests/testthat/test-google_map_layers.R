@@ -174,7 +174,7 @@ test_that("polylines added and removed", {
 
   expect_true(unique(jsonlite::fromJSON(add_polylines(map = m, data = df, polyline = "polyline")$x$calls[[1]]$args[[1]])$geodesic) == TRUE)
   expect_true(unique(jsonlite::fromJSON(add_polylines(map = m, data = df, polyline = "polyline")$x$calls[[1]]$args[[1]])$stroke_colour) == "#0000FF")
-  expect_true(unique(jsonlite::fromJSON(add_polylines(map = m, data = df, polyline = "polyline")$x$calls[[1]]$args[[1]])$stroke_weight) == 1)
+  expect_true(unique(jsonlite::fromJSON(add_polylines(map = m, data = df, polyline = "polyline")$x$calls[[1]]$args[[1]])$stroke_weight) == 2)
   expect_true(unique(jsonlite::fromJSON(add_polylines(map = m, data = df, polyline = "polyline")$x$calls[[1]]$args[[1]])$stroke_opacity) == 0.6)
 
   expect_true("info_window" %in% names(jsonlite::fromJSON(add_polylines(map = m, data = df, polyline = "polyline", info_window = "info_window")$x$calls[[1]]$args[[1]])))

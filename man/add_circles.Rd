@@ -37,7 +37,8 @@ add_circles(map, data = get_map_data(map), lat = NULL, lon = NULL,
 
 \item{info_window}{string specifying the column of data to display in an info window when a polygon is clicked}
 
-\item{layer_id}{single value specifying an id for the marker layer.}
+\item{layer_id}{single value specifying an id for the layer.
+layer.}
 }
 \description{
 Add circles to a google map

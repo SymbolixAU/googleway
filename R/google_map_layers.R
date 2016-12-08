@@ -13,7 +13,8 @@
 #' @param cluster logical indicating if co-located markers should be clustered when the map zoomed out
 #' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
 #' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
-#' @param layer_id single value specifying an id for the marker layer.
+#' @param mouse_over_group string specifying the column of data specifying which groups of circles to highlight on mouseover
+#' @param layer_id single value specifying an id for the layer.
 #' @examples
 #' \dontrun{
 #'
@@ -42,6 +43,7 @@ add_markers <- function(map,
                         cluster = FALSE,
                         info_window = NULL,
                         mouse_over = NULL,
+                        mouse_over_group = NULL,
                         layer_id = NULL)
 {
 
@@ -65,14 +67,10 @@ add_markers <- function(map,
   markers <- data.frame(lat = data[, lat],
                         lng = data[, lon])
 
-  if(!is.null(layer_id) & length(layer_id) != 1)
-    stop("please provide a single value for 'layer_id'")
+  layer_id <- LayerId(layer_id)
 
-  if(is.null(layer_id))
-    layer_id <- "defaultLayerId"
-
-  # markers[, "layer_id"] <- SetDefault(layer_id, "defaultLayerId", data)
-  # layer_id <- unique(markers$layer_id)
+  markers[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
+  markers[, "opacity"] <- SetDefault(opacity, 1, data)
 
   if(!is.logical(cluster))
     stop("cluster must be logical")
@@ -83,8 +81,8 @@ add_markers <- function(map,
   if(!is.null(draggable))
     markers[, 'draggable'] <- as.logical(data[, draggable])
 
-  if(!is.null(opacity))
-    markers[, 'opacity'] <- as.numeric(data[, opacity])
+  # if(!is.null(opacity))
+  #   markers[, 'opacity'] <- as.numeric(data[, opacity])
 
   if(!is.null(label))
     markers[, 'label'] <- as.character(data[, label])
@@ -107,17 +105,13 @@ add_markers <- function(map,
 #' @note These operations are intended for use in conjunction with \link{google_map_update} in an interactive shiny environment
 #'
 #' @param map a googleway map object created from \code{google_map()}
-#' @param layer_id id value of the marker layer to be removed from the map
+#' @param layer_id id value of the layer to be removed from the map
 #'
 #' @name clear
 #' @export
 clear_markers <- function(map, layer_id = NULL){
 
-  if(is.null(layer_id))
-    layer_id <- "defaultLayerId"
-
-  if(!is.null(layer_id) & length(layer_id) != 1)
-    stop("please provide a single value for 'layer_id'")
+  layer_id <- LayerId(layer_id)
 
   invoke_method(map, data = NULL, 'clear_markers', layer_id)
 }
@@ -170,7 +164,8 @@ update_style <- function(map, styles = NULL){
 #' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
 #' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
 #' @param mouse_over_group string specifying the column of data specifying which groups of circles to highlight on mouseover
-#' @param layer_id single value specifying an id for the marker layer.
+#' @param layer_id single value specifying an id for the layer.
+#'  layer.
 #' @examples
 #' \dontrun{
 #'
@@ -215,11 +210,7 @@ add_circles <- function(map,
     lon <- "lng"
   }
 
-  if(!is.null(layer_id) & length(layer_id) != 1)
-    stop("please provide a single value for 'layer_id'")
-
-  if(is.null(layer_id))
-    layer_id <- "defaultLayerId"
+  layer_id <- LayerId(layer_id)
 
   Circles <- data.frame(lat = data[, lat],
                         lng = data[, lon])
@@ -248,6 +239,9 @@ add_circles <- function(map,
 #' @rdname clear
 #' @export
 clear_circles <- function(map, layer_id = NULL){
+
+  layer_id <- LayerId(layer_id)
+
   invoke_method(map, data = NULL, 'clear_circles', layer_id)
 }
 
@@ -264,6 +258,7 @@ clear_circles <- function(map, layer_id = NULL){
 #' @param option_dissipating logical Specifies whether heatmaps dissipate on zoom. When dissipating is false the radius of influence increases with zoom level to ensure that the color intensity is preserved at any given geographic location. Defaults to false.
 #' @param option_radius numeric The radius of influence for each data point, in pixels.
 #' @param option_opacity The opacity of the heatmap, expressed as a number between 0 and 1. Defaults to 0.6.
+#' @param layer_id single value specifying an id for the layer.
 #' @examples
 #' \dontrun{
 #'
@@ -282,13 +277,14 @@ clear_circles <- function(map, layer_id = NULL){
 #'  }
 #' @export
 add_heatmap <- function(map,
+                        data = get_map_data(map),
                         lat = NULL,
                         lon = NULL,
                         weight = NULL,
-                        data = get_map_data(map),
                         option_dissipating = FALSE,
                         option_radius = 0.01,
-                        option_opacity = 0.6
+                        option_opacity = 0.6,
+                        layer_id = NULL
                         ){
 
 
@@ -315,6 +311,8 @@ add_heatmap <- function(map,
   Heatmap <- data.frame(lat = data[, lat],
                         lng = data[, lon])
 
+  layer_id <- LayerId(layer_id)
+
   Heatmap[, "weight"] <- SetDefault(weight, 1, data)
 
   ## Heatmap Options
@@ -336,7 +334,7 @@ add_heatmap <- function(map,
 
   Heatmap <- jsonlite::toJSON(Heatmap)
 
-  invoke_method(map, data, 'add_heatmap', Heatmap, heatmap_options)
+  invoke_method(map, data, 'add_heatmap', Heatmap, heatmap_options, layer_id)
 }
 
 
@@ -349,12 +347,14 @@ add_heatmap <- function(map,
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
 #' @param weight string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.
+#' @param layer_id single value specifying an id for the layer.
 #' @export
 update_heatmap <- function(map,
                            data = get_map_data(map),
                            lat = NULL,
                            lon = NULL,
-                           weight = 0.6){
+                           weight = 0.6,
+                           layer_id = NULL){
 
   ## rename the cols so the javascript functions will see them
   if(is.null(lat)){
@@ -364,6 +364,8 @@ update_heatmap <- function(map,
   if(is.null(lon)){
     data <- longitude_column(data, lon, 'update_heatmap')
   }
+
+  layer_id <- LayerId(layer_id)
 
   Heatmap <- data.frame(lat = data[, "lat"],
                         lng = data[, "lng"])
@@ -379,8 +381,11 @@ update_heatmap <- function(map,
 
 #' @rdname clear
 #' @export
-clear_heatmap <- function(map){
-  invoke_method(map, data = NULL, 'clear_heatmap')
+clear_heatmap <- function(map, layer_id = NULL){
+
+  layer_id <- LayerId(layer_id)
+
+  invoke_method(map, data = NULL, 'clear_heatmap', layer_id)
 }
 
 #' Add Traffic
@@ -472,6 +477,10 @@ clear_bicycling <- function(map){
 #' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
 #' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
 #' @param mouse_over_group string specifying the column of data specifying which groups of polylines to highlight on mouseover
+#' @param update_map_view logical specifying if the map should re-centre according to the polyline.
+#' @param layer_id single value specifying an id for the layer.
+#'
+#' @note using \code{update_map_view = TRUE} for multiple polylines may be slow, so it may be more appropriate to set the view of the map using the location argument of \code{google_map()}
 #' @examples
 #' \dontrun{
 #'
@@ -493,7 +502,9 @@ add_polylines <- function(map,
                          stroke_opacity = NULL,
                          info_window = NULL,
                          mouse_over = NULL,
-                         mouse_over_group = NULL
+                         mouse_over_group = NULL,
+                         update_map_view = TRUE,
+                         layer_id = NULL
 #                          lineSource = c("coords","polyline"),
 #                          group = NULL,
 #                          group_options = NULL,
@@ -515,14 +526,18 @@ add_polylines <- function(map,
   if(is.null(polyline))
     stop("please supply the column containing the polylines")
 
+  if(!is.logical(update_map_view))
+    stop("update_map_view must be TRUE or FALSE")
 
   polyline <- data[, polyline, drop = FALSE]
   polyline <- stats::setNames(polyline, "polyline")
 
+  layer_id <- LayerId(layer_id)
+
   ## the defaults are required
   polyline[, "geodesic"] <- SetDefault(geodesic, TRUE, data)
   polyline[, "stroke_colour"] <- SetDefault(stroke_colour, "#0000FF", data)
-  polyline[, "stroke_weight"] <- SetDefault(stroke_weight, 1, data)
+  polyline[, "stroke_weight"] <- SetDefault(stroke_weight, 2, data)
   polyline[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
   polyline[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
 
@@ -536,13 +551,16 @@ add_polylines <- function(map,
 
   polyline <- jsonlite::toJSON(polyline)
 
-  invoke_method(map, data, 'add_polylines', polyline)
+  invoke_method(map, data, 'add_polylines', polyline, update_map_view, layer_id)
 }
 
 #' @rdname clear
 #' @export
-clear_polylines <- function(map){
-  invoke_method(map, data = NULL, 'clear_polylines')
+clear_polylines <- function(map, layer_id = NULL){
+
+  layer_id <- LayerId(layer_id)
+
+  invoke_method(map, data = NULL, 'clear_polylines', layer_id)
 }
 
 #' Add polygon
@@ -583,6 +601,8 @@ clear_polylines <- function(map){
 #' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
 #' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
 #' @param mouse_over_group string specifying the column of data specifying which groups of polygons to highlight on mouseover
+#' @param update_map_view logical specifying if the map should re-centre according to the polyline.
+#' @param layer_id single value specifying an id for the layer.
 #' @export
 add_polygons <- function(map,
                         data = get_map_data(map),
@@ -595,7 +615,9 @@ add_polygons <- function(map,
                         fill_opacity = NULL,
                         info_window = NULL,
                         mouse_over = NULL,
-                        mouse_over_group = NULL
+                        mouse_over_group = NULL,
+                        update_map_view = TRUE,
+                        layer_id = NULL
                         ){
 
   ## TODO
@@ -606,11 +628,16 @@ add_polygons <- function(map,
   if(is.null(polyline))
     stop("please supply the column containing the polylines")
 
+  if(!is.logical(update_map_view))
+    stop("update_map_view must be TRUE or FALSE")
+
   if(!is.list(data[, polyline])){
     polygon <- data.frame(polyline = I(as.list(as.character(data[, polyline]))))
   }else{
     polygon <- data[, polyline, drop = FALSE]
   }
+
+  layer_id <- LayerId(layer_id)
 
   polygon <- stats::setNames(polygon, "polyline")
 
@@ -634,7 +661,7 @@ add_polygons <- function(map,
 
   polygon <- jsonlite::toJSON(polygon)
 
-  invoke_method(map, data, 'add_polygons', polygon)
+  invoke_method(map, data, 'add_polygons', polygon, update_map_view, layer_id)
 }
 
 
@@ -656,6 +683,7 @@ add_polygons <- function(map,
 #' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
 #' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
 #' @param mouse_over_group string specifying the column of data specifying which groups of polygons to highlight on mouseover
+#' @param layer_id single value specifying an id for the layer.
 #'
 #' @export
 update_polygons <- function(map, data, id,
@@ -667,7 +695,8 @@ update_polygons <- function(map, data, id,
                             fill_opacity = NULL,
                             info_window = NULL,
                             mouse_over = NULL,
-                            mouse_over_group = NULL
+                            mouse_over_group = NULL,
+                            layer_id = NULL
                             ){
 
 
@@ -678,6 +707,8 @@ update_polygons <- function(map, data, id,
       polygonUpdate <- data[, polyline, drop = FALSE]
     }
   }
+
+  layer_id <- LayerId(layer_id)
 
   polygonUpdate[, "id"] <- as.character(data[, id])
 
@@ -696,14 +727,17 @@ update_polygons <- function(map, data, id,
 
   polygonUpdate <- jsonlite::toJSON(polygonUpdate)
 
-  invoke_method(map, data = NULL, 'update_polygons', polygonUpdate)
+  invoke_method(map, data = NULL, 'update_polygons', polygonUpdate, layer_id)
 
 }
 
 #' @rdname clear
 #' @export
-clear_polygons <- function(map){
-  invoke_method(map, data = NULL, 'clear_polygons')
+clear_polygons <- function(map, layer_id = NULL){
+
+  layer_id <- LayerId(layer_id)
+
+  invoke_method(map, data = NULL, 'clear_polygons', layer_id)
 }
 
 

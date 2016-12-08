@@ -7,7 +7,7 @@
 update_polygons(map, data, id, polyline = NULL, stroke_colour = NULL,
   stroke_weight = NULL, stroke_opacity = NULL, fill_colour = NULL,
   fill_opacity = NULL, info_window = NULL, mouse_over = NULL,
-  mouse_over_group = NULL)
+  mouse_over_group = NULL, layer_id = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -33,6 +33,8 @@ update_polygons(map, data, id, polyline = NULL, stroke_colour = NULL,
 \item{mouse_over}{string specifying the column of data to display when the mouse rolls over the polygon}
 
 \item{mouse_over_group}{string specifying the column of data specifying which groups of polygons to highlight on mouseover}
+
+\item{layer_id}{single value specifying an id for the layer.}
 }
 \description{
 Updates specific colours and opacities of specified polygons. Designed to be used in a shiny application.

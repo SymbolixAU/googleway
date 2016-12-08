@@ -7,7 +7,7 @@
 add_markers(map, data = get_map_data(map), lat = NULL, lon = NULL,
   title = NULL, draggable = NULL, opacity = NULL, label = NULL,
   cluster = FALSE, info_window = NULL, mouse_over = NULL,
-  layer_id = NULL)
+  mouse_over_group = NULL, layer_id = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -32,7 +32,9 @@ add_markers(map, data = get_map_data(map), lat = NULL, lon = NULL,
 
 \item{mouse_over}{string specifying the column of data to display when the mouse rolls over the polygon}
 
-\item{layer_id}{single value specifying an id for the marker layer.}
+\item{mouse_over_group}{string specifying the column of data specifying which groups of circles to highlight on mouseover}
+
+\item{layer_id}{single value specifying an id for the layer.}
 }
 \description{
 Add markers to a google map

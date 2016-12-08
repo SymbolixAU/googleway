@@ -16,7 +16,7 @@ clear_markers(map, layer_id = NULL)
 
 clear_circles(map, layer_id = NULL)
 
-clear_heatmap(map)
+clear_heatmap(map, layer_id = NULL)
 
 clear_traffic(map)
 
@@ -24,14 +24,14 @@ clear_transit(map)
 
 clear_bicycling(map)
 
-clear_polylines(map)
+clear_polylines(map, layer_id = NULL)
 
-clear_polygons(map)
+clear_polygons(map, layer_id = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
-\item{layer_id}{id value of the marker layer to be removed from the map}
+\item{layer_id}{id value of the layer to be removed from the map}
 }
 \description{
 clears elements from a map

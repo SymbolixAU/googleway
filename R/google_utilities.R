@@ -352,7 +352,16 @@ MapStyles <- function(){
               aubergine = aubergine))
 }
 
+LayerId <- function(layer_id){
+  if(!is.null(layer_id) & length(layer_id) != 1)
+    stop("please provide a single value for 'layer_id'")
 
+  if(is.null(layer_id)){
+    return("defaultLayerId")
+  }else{
+    return(layer_id)
+  }
+}
 
 
 

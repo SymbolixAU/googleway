@@ -6,7 +6,8 @@
 \usage{
 add_polylines(map, data = get_map_data(map), polyline, geodesic = NULL,
   stroke_colour = NULL, stroke_weight = NULL, stroke_opacity = NULL,
-  info_window = NULL, mouse_over = NULL, mouse_over_group = NULL)
+  info_window = NULL, mouse_over = NULL, mouse_over_group = NULL,
+  update_map_view = TRUE, layer_id = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -28,9 +29,16 @@ add_polylines(map, data = get_map_data(map), polyline, geodesic = NULL,
 \item{mouse_over}{string specifying the column of data to display when the mouse rolls over the polygon}
 
 \item{mouse_over_group}{string specifying the column of data specifying which groups of polylines to highlight on mouseover}
+
+\item{update_map_view}{logical specifying if the map should re-centre according to the polyline.}
+
+\item{layer_id}{single value specifying an id for the layer.}
 }
 \description{
 Add a polyline to a google map
+}
+\note{
+using \code{update_map_view = TRUE} for multiple polylines may be slow, so it may be more appropriate to set the view of the map using the location argument of \code{google_map()}
 }
 \examples{
 \dontrun{
