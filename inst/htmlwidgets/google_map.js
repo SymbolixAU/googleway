@@ -414,7 +414,15 @@ function clear_heatmap(map_id, layer_id){
   window[map_id + 'googleHeatmap' + layer_id].setMap(null);
 }
 
-
+/** Add polylines
+ *
+ * Adds polylines to the map
+ *
+ * @param map_id
+ * @param data_polyine
+ * @param update_map_view
+ * @param layer_id
+ */
 function add_polylines(map_id, data_polyline, update_map_view, layer_id){
 
   // decode and plot polylines
@@ -432,7 +440,10 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id){
       geodesic: polyline.geodesic,
       strokeColor: polyline.stroke_colour,
       strokeOpacity: polyline.stroke_opacity,
-      strokeWeight: polyline.stroke_weight
+      strokeOpacityHolder: polyline.stroke_opacity,
+      strokeWeight: polyline.stroke_weight,
+      mouseOver: polyline.mouse_over,
+      mouseOverGroup: polyline.mouse_over_group
 
     });
 
@@ -452,6 +463,9 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id){
       add_infoWindow(map_id, infoWindow, Polyline, '_information', polyline.info_window);
     }
 
+     if(polyline.mouse_over || polyline.mouse_over_group){
+      add_mouseOver(map_id, infoWindow, Polyline, "_mouse_over", polyline.mouse_over, layer_id, 'googlePolyline');
+    }
   }
 
   if(update_map_view === true){
@@ -694,6 +708,14 @@ function add_mouseOver(map_id, infoWindow, mapObject, objectAttribute, attribute
           }
         }
 
+      }else if(layerType === 'googlePolyline'){
+        for (i = 0; i < window[map_id + layerType + layer_id].length; i++){
+          if(window[map_id + layerType + layer_id][i].mouseOverGroup == this.mouseOverGroup){
+            window[map_id + layerType + layer_id][i].setOptions({strokeOpacity: 1});
+          }else{
+            window[map_id + layerType + layer_id][i].setOptions({strokeOpacity: 0.1});
+          }
+        }
       }else{
 
         // highlight all the shapes in the same group
@@ -709,6 +731,8 @@ function add_mouseOver(map_id, infoWindow, mapObject, objectAttribute, attribute
     }else{
       if(layerType === 'googleMarkers'){
         this.setOptions({Opacity: 1})
+      }else if(layerType === 'googlePolyline'){
+        this.setOptions({strokeOpacity: 1})
       }else{
         this.setOptions({fillOpacity: 1});
       }
@@ -729,15 +753,22 @@ function add_mouseOver(map_id, infoWindow, mapObject, objectAttribute, attribute
         for (i = 0; i < window[map_id + layerType + layer_id].length; i++){
           window[map_id + layerType + layer_id][i].setOptions({Opacity: window[map_id + layerType + layer_id][i].get('OpacityHolder')});
         }
+      }else if(layerType === 'googlePolyline'){
+        for (i = 0; i < window[map_id + layerType + layer_id].length; i++){
+          window[map_id + layerType + layer_id][i].setOptions({strokeOpacity: window[map_id + layerType + layer_id][i].get('strokeOpacityHolder')});
+        }
       }else{
         for (i = 0; i < window[map_id + layerType + layer_id].length; i++){
           window[map_id + layerType + layer_id][i].setOptions({fillOpacity: window[map_id + layerType + layer_id][i].get('fillOpacityHolder')});
         }
       }
+
     }else{
 
       if(layerType === 'googleMarkers'){
         this.setOptions({Opacity: mapObject.get('OpacityHolder')});
+      }else if(layerType === 'googlePolyline'){
+        this.setOptions({strokeOpacity: mapObject.get('strokeOpacityHolder')})
       }else{
         this.setOptions({fillOpacity: mapObject.get('fillOpacityHolder')});
       }

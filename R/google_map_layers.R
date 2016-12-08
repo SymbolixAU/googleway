@@ -69,7 +69,7 @@ add_markers <- function(map,
 
   layer_id <- LayerId(layer_id)
 
-  markers[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
+  # markers[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
   markers[, "opacity"] <- SetDefault(opacity, 1, data)
 
   if(!is.logical(cluster))
@@ -92,6 +92,9 @@ add_markers <- function(map,
 
   if(!is.null(mouse_over))
     markers[, "mouse_over"] <- as.character(data[, mouse_over])
+
+  if(!is.null(mouse_over_group))
+    markers[, "mouse_over_group"] <- as.character(data[, mouse_over_group])
 
   markers <- jsonlite::toJSON(markers)
 
@@ -222,7 +225,7 @@ add_circles <- function(map,
   Circles[, "radius"] <- SetDefault(radius, 50, data)
   Circles[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
   Circles[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
-  Circles[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
+  # Circles[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
 
   ## options
   if(!is.null(info_window))
@@ -230,6 +233,9 @@ add_circles <- function(map,
 
   if(!is.null(mouse_over))
     Circles[, "mouse_over"] <- as.character(data[, mouse_over])
+
+  if(!is.null(mouse_over_group))
+    Circles[, "mouse_over_group"] <- as.character(data[, mouse_over_group])
 
   Circles <- jsonlite::toJSON(Circles)
 
@@ -539,11 +545,14 @@ add_polylines <- function(map,
   polyline[, "stroke_colour"] <- SetDefault(stroke_colour, "#0000FF", data)
   polyline[, "stroke_weight"] <- SetDefault(stroke_weight, 2, data)
   polyline[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
-  polyline[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
+  # polyline[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
 
   ## options
   if(!is.null(mouse_over))
     polyline[, "mouse_over"] <- as.character(data[, mouse_over])
+
+  if(!is.null(mouse_over_group))
+    polyline[, "mouse_over_group"] <- as.character(data[, mouse_over_group])
 
   if(!is.null(info_window))
     polyline[, "info_window"] <- as.character(data[, info_window])
@@ -647,7 +656,7 @@ add_polygons <- function(map,
   polygon[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
   polygon[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
   polygon[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
-  polygon[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
+  # polygon[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
 
   ## options
   if(!is.null(id))
@@ -658,6 +667,9 @@ add_polygons <- function(map,
 
   if(!is.null(mouse_over))
     polygon[, "mouse_over"] <- as.character(data[, mouse_over])
+
+  if(!is.null(mouse_over_group))
+    Polygon[, "mouse_over_group"] <- as.character(data[, mouse_over_group])
 
   polygon <- jsonlite::toJSON(polygon)
 
@@ -717,13 +729,16 @@ update_polygons <- function(map, data, id,
   polygonUpdate[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
   polygonUpdate[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
   polygonUpdate[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
-  polygonUpdate[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
+  # polygonUpdate[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
 
   if(!is.null(info_window))
     polygonUpdate[, "info_window"] <- as.character(data[, info_window])
 
   if(!is.null(mouse_over))
     polygonUpdate[, "mouse_over"] <- as.character(data[, mouse_over])
+
+  if(!is.null(mouse_over_group))
+    polygonUpdate[, "mouse_over_group"] <- as.character(data[, mouse_over_group])
 
   polygonUpdate <- jsonlite::toJSON(polygonUpdate)
 
