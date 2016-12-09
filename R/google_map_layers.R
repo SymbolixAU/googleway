@@ -528,7 +528,7 @@ add_polylines <- function(map,
   ## - each 'group' id has a corresponding option
   ## -- if not, use a 'default' colour
   ##
-  ## set 'default' colous
+
   if(is.null(polyline))
     stop("please supply the column containing the polylines")
 
@@ -669,7 +669,7 @@ add_polygons <- function(map,
     polygon[, "mouse_over"] <- as.character(data[, mouse_over])
 
   if(!is.null(mouse_over_group))
-    Polygon[, "mouse_over_group"] <- as.character(data[, mouse_over_group])
+    polygon[, "mouse_over_group"] <- as.character(data[, mouse_over_group])
 
   polygon <- jsonlite::toJSON(polygon)
 
