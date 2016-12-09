@@ -173,8 +173,6 @@ function add_markers(map_id, data_markers, cluster, layer_id){
       mouseOverGroup: data_markers[i].mouse_over_group
     });
 
-    console.log(marker);
-
     if(data_markers[i].info_window){
       add_infoWindow(map_id, infoWindow, marker, '_information', data_markers[i].info_window);
     }
