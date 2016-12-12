@@ -42,6 +42,27 @@ add_polygons(map, data = get_map_data(map), polyline, id = NULL,
 \description{
 Add a polygon to a google map.
 }
+\note{
+A polygon represents an area enclosed by a closed path. Polygon objects are similar to polylines in that htey consist of a series of coordinates in an ordered sequence.
+Polygon objects can describe complex shapes, including
+
+* Multiple non-contiguous areas defined by a single polygon
+
+* Areas wwith holes in them
+
+* Intersections of one or more areas
+
+To define a complex shape, you use a polygon with multiple paths.
+
+To create a hole in a polygon, you need to create two paths, one inside the other.
+To create the hole, the coordinates of the inner path must be in the opposite
+order to those defining the outer path. For example, if the coordinates of
+the outer path are in clockwise order, then the inner path must be anit-clockwise.
+
+To represent a complex polygon the data.frame column containing the polylines should be a list,
+where each polyline that is used to create the polygon is in the same row of the data.frame
+See examples.
+}
 \examples{
 \dontrun{
 

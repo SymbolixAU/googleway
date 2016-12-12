@@ -539,7 +539,6 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id){
     if(update_map_view === true){
 
       var points = paths[0];
-      console.log(points);
 
       for ( var n = 0; n < points.length; n++){
         window[map_id + 'mapBounds'].extend(points[n]);
@@ -610,7 +609,7 @@ function update_polygons(map_id, data_polygon, layer_id){
             window[map_id + 'googlePolygon' + layer_id][i].setOptions({fillOpacity: attributeValue});
             window[map_id + 'googlePolygon' + layer_id][i].setOptions({fillOpacityHolder: attributeValue});
             break;
-          case "stroke_color":
+          case "stroke_colour":
             window[map_id + 'googlePolygon' + layer_id][i].setOptions({strokeColor: attributeValue});
             break;
           case "stroke_weight":
