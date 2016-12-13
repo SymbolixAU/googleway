@@ -566,6 +566,7 @@ function update_polygons(map_id, data_polygon, layer_id){
 
   // for a given polygon_id,
   // change the options
+  var infoWindow = new google.maps.InfoWindow();
   var objectAttribute;
   var attributeValue;
   var _id;
@@ -595,7 +596,7 @@ function update_polygons(map_id, data_polygon, layer_id){
       // the new id exists in the current data set
       // update the values for this polygon
 
-      //    // for each of the options in data_polygon, update the polygons
+      // for each of the options in data_polygon, update the polygons
       for(j = 0; j < Object.keys(thisUpdatePolygon).length; j++){
 
         objectAttribute = Object.keys(thisUpdatePolygon)[j];
@@ -620,6 +621,15 @@ function update_polygons(map_id, data_polygon, layer_id){
             break;
         }
       }
+
+    if(thisUpdatePolygon.info_window){
+      console.log(thisUpdatePolygon);
+      add_infoWindow(map_id, infoWindow, window[map_id + 'googlePolygon' + layer_id][i], '_information', thisUpdatePolygon.info_window);
+    }
+
+    if(thisUpdatePolygon.mouse_over || thisUpdatePolygon.mouse_over_group){
+      add_mouseOver(map_id, infoWindow, window[map_id + 'googlePolygon' + layer_id][i], "_mouse_over", thisUpdatePolygon.mouse_over, layer_id, 'googlePolygon');
+    }
 
 
     }else{
