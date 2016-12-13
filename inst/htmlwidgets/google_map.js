@@ -155,8 +155,8 @@ function add_markers(map_id, data_markers, cluster, layer_id){
 
   var markers = [];
   var i;
-//  var bounds = new google.maps.LatLngBounds();
   var infoWindow = new google.maps.InfoWindow();
+//  var bounds = new google.maps.LatLngBounds();
   window[map_id + 'googleMarkers' + layer_id] = [];
 
   for (i = 0; i < Object.keys(data_markers).length; i++){
@@ -174,11 +174,11 @@ function add_markers(map_id, data_markers, cluster, layer_id){
     });
 
     if(data_markers[i].info_window){
-      add_infoWindow(map_id, infoWindow, marker, '_information', data_markers[i].info_window);
+      add_infoWindow(map_id, marker, infoWindow, '_information', data_markers[i].info_window);
     }
 
     if(data_markers[i].mouse_over || data_markers[i].mouse_over_group){
-      add_mouseOver(map_id, infoWindow, marker, "_mouse_over", data_markers[i].mouse_over, layer_id, 'googleMarkers');
+      add_mouseOver(map_id, marker, infoWindow, '_mouse_over', data_markers[i].mouse_over, layer_id, 'googleMarkers');
     }
 
     window[map_id + 'mapBounds'].extend(latlon);
@@ -234,8 +234,8 @@ function clear_markers(map_id, layer_id){
 function add_circles(map_id, data_circles, layer_id){
 
   var i;
-  var infoWindow = new google.maps.InfoWindow();
   window[map_id + 'googleCircles' + layer_id] = [];
+  var infoWindow = new google.maps.InfoWindow();
 
   for (i = 0; i < Object.keys(data_circles).length; i++) {
     add_circle(map_id, data_circles[i]);
@@ -260,11 +260,11 @@ function add_circles(map_id, data_circles, layer_id){
     Circle.setMap(window[map_id + 'map']);
 
     if(circle.info_window){
-      add_infoWindow(map_id, infoWindow, Circle, '_information', circle.info_window);
+      add_infoWindow(map_id, Circle, infoWindow, '_information', circle.info_window);
     }
 
     if(circle.mouse_over || circle.mouse_over_group){
-      add_mouseOver(map_id, infoWindow, Circle, "_mouse_over", circle.mouse_over, layer_id, 'googleCircles');
+      add_mouseOver(map_id, Circle, infoWindow, "_mouse_over", circle.mouse_over, layer_id, 'googleCircles');
     }
 
     window[map_id + 'mapBounds'].extend(latlon);
@@ -424,8 +424,8 @@ function clear_heatmap(map_id, layer_id){
 function add_polylines(map_id, data_polyline, update_map_view, layer_id){
 
   // decode and plot polylines
-  var infoWindow = new google.maps.InfoWindow();
   window[map_id + 'googlePolyline' + layer_id] = [];
+  var infoWindow = new google.maps.InfoWindow();
 
   for(i = 0; i < Object.keys(data_polyline).length; i++){
     add_lines(map_id, data_polyline[i], layer_id);
@@ -458,11 +458,11 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id){
     }
 
     if(polyline.info_window){
-      add_infoWindow(map_id, infoWindow, Polyline, '_information', polyline.info_window);
+      add_infoWindow(map_id, Polyline, InfoWindow, '_information', polyline.info_window);
     }
 
      if(polyline.mouse_over || polyline.mouse_over_group){
-      add_mouseOver(map_id, infoWindow, Polyline, "_mouse_over", polyline.mouse_over, layer_id, 'googlePolyline');
+      add_mouseOver(map_id, Polyline, infoWindow, "_mouse_over", polyline.mouse_over, layer_id, 'googlePolyline');
     }
   }
 
@@ -490,8 +490,8 @@ function clear_polylines(map_id, layer_id){
  */
 function add_polygons(map_id, data_polygon, update_map_view, layer_id){
 
-  var infoWindow = new google.maps.InfoWindow();
   window[map_id + 'googlePolygon' + layer_id] = [];
+  var infoWindow = new google.maps.InfoWindow();
 
   for(i = 0; i < Object.keys(data_polygon).length; i++){
       add_gons(map_id, data_polygon[i]);
@@ -526,11 +526,11 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id){
     });
 
     if(polygon.info_window){
-      add_infoWindow(map_id, infoWindow, Polygon, '_information', polygon.info_window);
+      add_infoWindow(map_id, Polygon, infoWindow, '_information', polygon.info_window);
     }
 
     if(polygon.mouse_over || polygon.mouse_over_group){
-      add_mouseOver(map_id, infoWindow, Polygon, "_mouse_over", polygon.mouse_over, layer_id, 'googlePolygon');
+      add_mouseOver(map_id, Polygon, infoWindow, "_mouse_over", polygon.mouse_over, layer_id, 'googlePolygon');
     }
 
     window[map_id + 'googlePolygon' + layer_id].push(Polygon);
@@ -566,7 +566,6 @@ function update_polygons(map_id, data_polygon, layer_id){
 
   // for a given polygon_id,
   // change the options
-  var infoWindow = new google.maps.InfoWindow();
   var objectAttribute;
   var attributeValue;
   var _id;
@@ -619,17 +618,11 @@ function update_polygons(map_id, data_polygon, layer_id){
           case "stroke_opacity":
             window[map_id + 'googlePolygon' + layer_id][i].setOptions({strokeOpacity: attributeValue});
             break;
+          case "info_window":
+            window[map_id + 'googlePolygon' + layer_id][i].setOptions({_information: attributeValue});
+            break;
         }
       }
-
-    if(thisUpdatePolygon.info_window){
-      add_infoWindow(map_id, infoWindow, window[map_id + 'googlePolygon' + layer_id][i], '_information', thisUpdatePolygon.info_window);
-    }
-
-    if(thisUpdatePolygon.mouse_over || thisUpdatePolygon.mouse_over_group){
-      add_mouseOver(map_id, infoWindow, window[map_id + 'googlePolygon' + layer_id][i], "_mouse_over", thisUpdatePolygon.mouse_over, layer_id, 'googlePolygon');
-    }
-
 
     }else{
 //      console.log("polygon does not exist");
@@ -664,7 +657,12 @@ function update_polygons(map_id, data_polygon, layer_id){
 //    }
 }
 
-
+/**
+ * Clears polygons from a map
+ *
+ * @param map_id
+ * @param layer_id
+ */
 function clear_polygons(map_id, layer_id){
  for (i = 0; i < window[map_id + 'googlePolygon' + layer_id].length; i++){
     window[map_id + 'googlePolygon' + layer_id][i].setMap(null);
@@ -672,6 +670,7 @@ function clear_polygons(map_id, layer_id){
 }
 
 /**
+ * Adds infowindow to the specified map object
  *
  * @param map_id
  * @param mapObject
@@ -681,27 +680,33 @@ function clear_polygons(map_id, layer_id){
  * @param attributeValue
  *          the value of the attribute
  */
-function add_infoWindow(map_id, infoWindow, mapObject, objectAttribute, attributeValue){
-
-    mapObject.set(objectAttribute, attributeValue);
-
-    google.maps.event.addListener(mapObject, 'click', function(event){
-
-      var infoWindow = new google.maps.InfoWindow();
-      infoWindow.setContent(mapObject.get(objectAttribute));
-
-      infoWindow.setPosition(event.latLng);
-      infoWindow.open(window[map_id + 'map']);
-    });
-}
-
-function add_mouseOver(map_id, infoWindow, mapObject, objectAttribute, attributeValue, layer_id, layerType){
+function add_infoWindow(map_id, mapObject, infoWindow, objectAttribute, attributeValue){
 
   mapObject.set(objectAttribute, attributeValue);
 
+  google.maps.event.addListener(mapObject, 'click', function(event){
+
+    // the listener is being bound to the mapObject. So, when the infowindow
+    // contents are updated, the 'click' listener will need to see the new information
+    // ref: http://stackoverflow.com/a/13504662/5977215
+    mapObject.setOptions({"_information": mapObject.get(objectAttribute)});
+
+    infoWindow.setContent(mapObject.get(objectAttribute));
+
+    infoWindow.setPosition(event.latLng);
+    infoWindow.open(window[map_id + 'map']);
+  });
+}
+
+function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attributeValue, layer_id, layerType){
+
+  mapObject.set(objectAttribute, attributeValue);
+//  var infoWindow = new google.maps.InfoWindow();
+
+
   google.maps.event.addListener(mapObject, 'mouseover', function(event){
 
-    if(mapObject.get("mouseOverGroup") !== "NA"){
+    if(mapObject.get("mouseOverGroup") !== undefined){
 
       // markers don't have a fillOpacity
       if(layerType === 'googleMarkers'){
@@ -744,15 +749,19 @@ function add_mouseOver(map_id, infoWindow, mapObject, objectAttribute, attribute
       }
     }
 
-    infoWindow.setContent(mapObject.get(objectAttribute).toString());
+    if(mapObject.get(objectAttribute) !== undefined){
+      mapObject.setOptions({"_mouse_over": mapObject.get(objectAttribute)});
 
-    infoWindow.setPosition(event.latLng);
-    infoWindow.open(window[map_id + 'map']);
+      infoWindow.setContent(mapObject.get(objectAttribute).toString());
+
+      infoWindow.setPosition(event.latLng);
+      infoWindow.open(window[map_id + 'map']);
+    }
   });
 
   google.maps.event.addListener(mapObject, 'mouseout', function(event){
 
-    if(mapObject.get("mouseOverGroup")){
+    if(mapObject.get("mouseOverGroup") !== undefined){
       // highlight all the shapes in the same group
 
       if(layerType === 'googleMarkers'){

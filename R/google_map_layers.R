@@ -732,6 +732,7 @@ update_polygons <- function(map, data, id,
                             layer_id = NULL
                             ){
 
+## TODO: is 'info_window' required, if it was included in the original add_polygons?
 
   if(!is.null(polyline)){
     if(!is.list(data[, polyline])){
