@@ -623,7 +623,6 @@ function update_polygons(map_id, data_polygon, layer_id){
       }
 
     if(thisUpdatePolygon.info_window){
-      console.log(thisUpdatePolygon);
       add_infoWindow(map_id, infoWindow, window[map_id + 'googlePolygon' + layer_id][i], '_information', thisUpdatePolygon.info_window);
     }
 
