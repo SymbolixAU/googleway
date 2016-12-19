@@ -212,7 +212,7 @@
 # shinyApp(ui, server)
 #
 #
-# google_streetview(location = c(-37.8, 144),
+# google_streetview(location = c(-37.8, 144.967),
 #                   size = c(400,400),
 #                   panorama_id = NULL,
 #                   output = "plot",
