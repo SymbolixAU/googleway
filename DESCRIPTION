@@ -18,7 +18,8 @@ Imports:
     curl,
     htmlwidgets,
     htmltools,
-    shiny
+    shiny,
+    jpeg
 LinkingTo: Rcpp
 RoxygenNote: 5.0.1
 BugReports: https://github.com/SymbolixAU/googleway/issues

@@ -625,6 +625,7 @@ function update_polygons(map_id, data_polygon, layer_id){
       }
 
     }else{
+      console.log("removing polygons");
 //      console.log("polygon does not exist");
       // the id does not exist in the new data set
       //if(removeMissing){

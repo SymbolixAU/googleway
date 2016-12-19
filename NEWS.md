@@ -1,6 +1,7 @@
 
 ## Version 1.1.0 (development)
 
+* `google_streetview()` to download a static streetview map
 * `update_polygons()` to dynamically update polygons
 * `update_style()` to dynamically update the map style
 * `mouse_over` and `info_window` available for most layers

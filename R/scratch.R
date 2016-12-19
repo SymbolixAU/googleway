@@ -104,7 +104,7 @@
 # library(shiny)
 # library(googleway)
 # library(magrittr)
-
+#
 # ui <- fluidPage(google_mapOutput('map'),
 #                 actionButton("btn1", label = "remove layer 1"),
 #                 actionButton("btn2", label = "remove layer 2"))
@@ -115,35 +115,35 @@
 #    pl2 <- "vibfFix{sZzAaUz@sLhAgP\\}Ex@oMfBmYdAqPpBw[fCga@pByZz@kNhA_QnBo[dAqPtBk]FsAEk@EQIOfFyFsAyBhJwJnB_Ct@u@`AkA|@qAj@kAj@}AXkAXaBT}BL}CZ}EZ_CRcACo@Ck@Qq@?eAJiAdAwPjBqZvBs]pBu\\dAyPd@cJCWEMGWRQ`A}@r@}@tAcCp@mBd@{BV_CHaC?wAa@yIEg@_@gCaA}GuBqNuAyI_@}Bc@}Ci@uCaB}KGqAAoA@o@F{@Ba@VyA\\oA\\_Ab@{@rAiBhFyGLg@b@s@xAgCTk@dCLrBRpANVDLEb@IZMt@k@d@]N[hAmCz@cChAoEd@_Cn@yDn@uF^sDHeATi@z@uJnBqVhBcUb@gFr@yFn@{Dp@yCnAaFjAeDdAmCzBuEdEuIl@qAjBqFfBeId@gCl@iFZsEh@_Kh@wJpAqVvA}ZhBc]r@gLPkBb@uCbAeFhAkDt@kB`A}BdAkBpAsBfA}A~AgBpCgCpJ}H?KN[tBmBzCuClCoCp@eAVi@Zy@`@oBXgCVyBFSb@yHf@mIXgFLuBBo@CYCOAOIYGKEEcBUyEq@iEq@kIcAkNgB{c@{DwGg@qBW_RmBiAOB_@fAL"
 #    pl3 <- "pizeF_{~sZjLhAdAJLwBJkBv@wN~Bgd@x@sNjAeUR_FTkEAqBGiAQuAw@{E_C}NGwA?sANaELkDDu@LgAfAiF?g@EI?EIo@EMMKe@UQGaAM}IaA_Fg@_JaAsEc@_[iDiI_AeT}BgI{@mBSJ{AHwANgCn@}JdAaPiZgD"
 #
-   # df <- data.frame(polyline = c(pl, pl2, pl3),
-   #                  id = c(1,2,7),
-   #                  fill_colour = c("#FF00FF","#FFFF00","#00FFFF"))
+#    df <- data.frame(polyline = c(pl, pl2, pl3),
+#                     id = c(1,2,7),
+#                     fill_colour = c("#FF00FF","#FFFF00","#00FFFF"))
 #
-# #
-#      df <- data.frame(polyline = pl2)
-# #
-#     # df_update <- data.frame(id = c(1,1,2),
-#     #                       fill_colour = c("#FFFFFF", "#000000", "#0000FF"),
-#     #                       fill_opacity = c(0.3, 0.6, 0.9),
-#     #                       polyline = c(pl3, pl, pl2))
-# #
+#
+#     # df <- data.frame(polyline = pl2)
+#
+#     df_update <- data.frame(id = c(1,1,2),
+#                           fill_colour = c("#FFFFFF", "#000000", "#0000FF"),
+#                           fill_opacity = c(0.3, 0.6, 0.9),
+#                           polyline = c(pl3, pl, pl2))
+#
 #     df1 <- decode_pl(pl)
 #     df1$id <- sample(c(1,2,3,4), size = nrow(df1), replace = T)
-    # df2 <- decode_pl(pl2)
-    # df2$info <- sample(letters, size = nrow(df2), replace = T)
-# #
-# #     map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
-# #
-# #     output$map <- renderGoogle_map({
+#     df2 <- decode_pl(pl2)
+#     df2$info <- sample(letters, size = nrow(df2), replace = T)
+#
+#     map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#
+#     output$map <- renderGoogle_map({
 #       # google_map(key = map_key, height = 800) %>%
 #       #  add_polylines(data = df_update, polyline = "polyline", mouse_over_group = "id")
-# #
+#
 #      df0 <- data.frame(lat = 0, lng = 0)
-# #
+#
 #     google_map(key = map_key, height = 800) %>%
 #       add_polygons(data = df, polyline = "polyline", layer_id = "df", info_window = "id", mouse_over = "id") %>%
-# # #      add_polygons(data = df_update, polyline = "polyline", layer_id = "df_update", mouse_over_group = "id")
-# #          add_circles(data = df1,  layer_id = "markers1", mouse_over_group = "id") %>%
+#       add_polygons(data = df_update, polyline = "polyline", layer_id = "df_update", mouse_over_group = "id")
+#           add_circles(data = df1,  layer_id = "markers1", mouse_over_group = "id") %>%
 #           add_markers(data = df2, layer_id = "markers2", info_window = "info", mouse_over = "info")
 #          # add_markers(data = df0, layer_id = "markers3") %>%
 #          add_polylines(data = df, polyline = "polyline", layer_id = "polyline1", update_map_view = T) %>%
@@ -162,19 +162,19 @@
 #         google_map_update("map") %>%
 #         googleway::clear_polyline(layer_id = "df")
 #
-#       # if(input$btn %% 2 == 0){
-#       #   google_map_update("map") %>%
-#       #     googleway:::update_polygons(data = df_update, id = "id",
-#       #                                 fill_colour = "fill_colour",
-#       #                                 fill_opacity = "fill_opacity",
-#       #                                 polyline = "polyline")
-#       # }else{
-#       #   google_map_update("map") %>%
-#       #     googleway:::update_polygons(data = df, id = "id",
-#       #                                 fill_colour = "fill_colour",
-#       #                                 fill_opacity = "fill_opacity",
-#       #                                 polyline = "polyline")
-#       # }
+#       if(input$btn %% 2 == 0){
+#         google_map_update("map") %>%
+#           googleway:::update_polygons(data = df_update, id = "id",
+#                                       fill_colour = "fill_colour",
+#                                       fill_opacity = "fill_opacity",
+#                                       polyline = "polyline")
+#       }else{
+#         google_map_update("map") %>%
+#           googleway:::update_polygons(data = df, id = "id",
+#                                       fill_colour = "fill_colour",
+#                                       fill_opacity = "fill_opacity",
+#                                       polyline = "polyline")
+#       }
 #     })
 #
 #
@@ -191,5 +191,34 @@
 
 
 
-
+# library(shiny)
+# library(googleway)
+#
+# ui <- fluidPage(
+#   # tags$img(outputId = "myPlot")
+#   uiOutput(outputId = "myStreetview")
+# )
+#
+# server <- function(input, output){
+#   key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_API_KEY")
+#
+#   output$myStreetview <- renderUI({
+#     tags$img(src = google_streetview(location = c(-37.817714, 144.96726),
+#                                      size = c(400,400), output = "html",
+#                                      key = key),  width = "400px", height = "400px")
+#   })
+# }
+#
+# shinyApp(ui, server)
+#
+#
+# google_streetview(location = c(-37.8, 144),
+#                   size = c(400,400),
+#                   panorama_id = NULL,
+#                   output = "plot",
+#                   heading = 90,
+#                   fov = 90,
+#                   pitch = 0,
+#                   response_check = FALSE,
+#                   key = key)
 
