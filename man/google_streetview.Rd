@@ -5,10 +5,14 @@
 \title{Google street view}
 \usage{
 google_streetview(location = NULL, panorama_id = NULL, size = c(400, 400),
-  signature, heading = NULL, fov = 90, pitch = 0, output = c("plot",
-  "html"), response_check = TRUE, key)
+  heading = NULL, fov = 90, pitch = 0, output = c("plot", "html"),
+  response_check = TRUE, signature = NULL, key)
 }
 \arguments{
+\item{location}{numeric Vector of lat/lon coordinates, or an address string}
+
+\item{panorama_id}{a specific panorama ID.}
+
 \item{size}{numeric vector of length 2, specifying the output size of the image in pixles, given in \code{width x height}. For example, \code{c(600, 400)} returns an image 600 pixles wide and 400 pixles high.}
 
 \item{heading}{indicates the compass heading of the camera. Accepted valeus are from 0 to 360 (both 0 and 360 indicate north), 90 indicates east, 180 south and 270 west. If no heading is specified a value will be calculated that directs teh camera to wards the specified \code{location}, from the point at which the closest photograph was taken.}
@@ -21,7 +25,9 @@ google_streetview(location = NULL, panorama_id = NULL, size = c(400, 400),
 
 \item{response_check}{logical indicating if the function should first check if the image is available. If TRUE and no image is available, a warning message is printed and no image will be downloaded. if FALSE and no image is available, a blank image will be displayed saying 'Sorry, we have no imagery here'.}
 
-\item{key}{\code{string} A valid Google Developers Street View Image API key}
+\item{signature}{a digitial signature used to verify that any site generating requests using your API key is authorised to do so. See Google Documentaiton for further details \url{https://developers.google.com/maps/documentation/streetview/intro}}
+
+\item{key}{string A valid Google Developers Street View Image API key}
 }
 \description{
 Displays a static street view image from Google Maps Street View Image API
