@@ -95,7 +95,7 @@ google_map <- function(key,
 
     sizingPolicy = htmlwidgets::sizingPolicy(
       defaultWidth = '100%',
-      defaultHeight = 400,
+      defaultHeight = 800,
       padding = padding,
       browser.fill = FALSE
     )

@@ -11,9 +11,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Googleway provides access to 7 Google Maps APIs through specified functions, and the ability to plot a Google Map overlayed with markers, circles, shapes (polygons), lines (polylines) and heatmaps. You can also overlay traffic information, transit and cycling routes.
+Googleway provides access to Google Maps APIs through specified functions, and the ability to plot a Google Map overlayed with markers, circles, shapes (polygons), lines (polylines) and heatmaps. You can also overlay traffic information, transit and cycling routes.
 
-The 7 API functions are
+The API functions are
 
 * [**Directions**](https://developers.google.com/maps/documentation/directions/start) - `google_directions()`
 * [**Distance Matrix**](https://developers.google.com/maps/documentation/distance-matrix/) - `google_distance()`
@@ -43,7 +43,7 @@ Plotting a Google Map uses the Javascript API, and the functions used to create 
 # 
 ```
 
-As well as a function for decoding encoded location data, `decode_pl()`
+
 
 To use this package you need a valid **API KEY** ([follow instructions here to get a key](https://developers.google.com/maps/documentation/javascript/)) for the API you wish to use. Note that the same API key can be used for all the functions, but you need to register it with each API first. 
 
@@ -57,7 +57,7 @@ To access this API through googleway use the `google_directions()` function.
 
 ### Example
 
-Searching Google Maps for directions from Melbourne to Sydney generates the route:
+Searching the Google Maps website for directions from Melbourne to Sydney generates the route:
 
 ![Melbourne to Sydney](./img/melbourne_to_sydney.png)
 
@@ -78,7 +78,7 @@ df <- google_directions(origin = "Melbourne, Australia",
                         simplify = TRUE)
 ```
 
-The data used to draw the route is the **overview_polyline**
+The data used to draw the route on the map is the **overview_polyline**
 
 ![Melbourne to Sydney polyline](./img/melbourne_to_sydney_polyline.png)
 
@@ -90,7 +90,7 @@ df$routes$overview_polyline$points
 ```
 
 
-Having retreived the polyline, we can decode it using `decode_pl()`
+Having retreived the polyline, you can decode it using `decode_pl()`. See **** PLOTTING A GOOGLE MAP ****
 
 ```{r}
 polyline <- "rqxeF_cxsZgr@xmCekBhMunGnWc_Ank@vBpyCqjAfbAqmBjXydAe{AoF{oEgTqjGur@ch@qfAhUuiCww@}kEtOepAtdD{dDf~BsgIuj@}tHi{C{bGg{@{rGsmG_bDbW{wCuTyiBajBytF_oAyaI}K}bEkqA{jDg^epJmbB{gC}v@i~D`@gkGmJ_kEojD_O{`FqvCetE}bGgbDm_BqpD}pEqdGiaBo{FglEg_Su~CegHw`Cm`Hv[mxFwaAisAklCuUgzAqmCalJajLqfDedHgyC_yHibCizK~Xo_DuqAojDshAeaEpg@g`Dy|DgtNswBcgDiaAgEqgBozB{jEejQ}p@ckIc~HmvFkgAsfGmjCcaJwwD}~AycCrx@skCwUqwN{yKygH}nF_qAgyOep@slIehDcmDieDkoEiuCg|LrKo~Eb}Bw{Ef^klG_AgdFqvAaxBgoDeqBwoDypEeiFkjBa|Ks}@gr@c}IkE_qEqo@syCgG{iEazAmeBmeCqvA}rCq_AixEemHszB_SisB}mEgeEenCqeDab@iwAmZg^guB}cCk_F_iAmkGsu@abDsoBylBk`Bm_CsfD{jFgrAerB{gDkw@{|EacB_jDmmAsjC{yBsyFaqFqfEi_Ei~C{yAmwFt{B{fBwKql@onBmtCq`IomFmdGueD_kDssAwsCyqDkx@e\\kwEyUstC}uAe|Ac|BakGpGkfGuc@qnDguBatBot@}kD_pBmmCkdAgkB}jBaIyoC}xAexHka@cz@ahCcfCayBqvBgtBsuDxb@yiDe{Ikt@c{DwhBydEynDojCapAq}AuAksBxPk{EgPgkJ{gA}tGsJezKbcAcdK__@uuBn_AcuGsjDwvC_|AwbE}~@wnErZ{nGr_@stEjbDakFf_@clDmKkwBbpAi_DlgA{lArLukCBukJol@w~DfCcpBwnAghCweA}{EmyAgaEbNybGeV}kCtjAq{EveBwuHlb@gyIg\\gmEhBw{G{dAmpHp_@a|MsnCcuGy~@agIe@e`KkoA}lBspBs^}sAmgIdpAumE{Y_|Oe|CioKouFwuIqnCmlDoHamBiuAgnDqp@yqIkmEqaIozAohAykDymA{uEgiE}fFehBgnCgrGmwCkiLurBkhL{jHcrGs}GkhFwpDezGgjEe_EsoBmm@g}KimLizEgbA{~DwfCwvFmhBuvBy~DsqCicBatC{z@mlCkkDoaDw_BagA}|Bii@kgCpj@}{E}b@cuJxQwkK}j@exF`UanFzM{fFumB}fCirHoTml@CoAh`A"
@@ -313,7 +313,7 @@ A **Text** Search Service is a web service that returns information about a set 
 
 For a **text** search you are requried to provide a `search_string`
 
-For example, a query  for "restaurantes in Melbourne"" (a query will return 20 results)
+For example, here's a query for "restaurantes in Melbourne"
 
 ```
 
@@ -348,7 +348,7 @@ cbind(res$results$name, res$results$opening_hours)
 
 ```
 
-You can view the next 20 results using the `next_page_token` that is returned as part of the initial query.
+A single query will return 20 results per page. You can view the next 20 results using the `next_page_token` that is returned as part of the initial query.
 
 ```
 
@@ -385,6 +385,33 @@ cbind(res_next$results$name, res_next$results$opening_hours)
 **nearby**
 
 **all other parameter exampels**
+
+
+
+## Google Maps
+
+A google map can be made using the `google_map()` function. Without any data present, or no `location` value set, the map will default to Melbourne, Australia
+
+```
+## you need to have a valid Google Maps API key
+map_key <- "your_api_key"
+google_map(key = map_key)
+
+```
+![Melbourne](./img/google_map.png)
+
+Markers and circles can be used to show points on the map using `add_markers()` and `add_circles()`. In this example I'm using the `tram_stops` data set provided with googleway
+
+
+```
+library(magrittr)
+map_key <- "your_api_key"
+google_map(key = map_key) %>%
+  add_markers(data = tram_stops, lat = "stop_lat", lon = "stop_lon")
+
+```
+
+![Route 35 tram stops](./img/tram_stops.png)
 
 
 

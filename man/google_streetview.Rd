@@ -6,7 +6,7 @@
 \usage{
 google_streetview(location = NULL, panorama_id = NULL, size = c(400, 400),
   heading = NULL, fov = 90, pitch = 0, output = c("plot", "html"),
-  response_check = TRUE, signature = NULL, key)
+  response_check = FALSE, signature = NULL, key)
 }
 \arguments{
 \item{location}{numeric Vector of lat/lon coordinates, or an address string}
