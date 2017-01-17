@@ -404,18 +404,42 @@ Markers and circles can be used to show points on the map using `add_markers()` 
 
 
 ```
-library(magrittr)
+library(magrittr)  ## for the pipe `%>%`
 map_key <- "your_api_key"
-google_map(key = map_key) %>%
-  add_markers(data = tram_stops, lat = "stop_lat", lon = "stop_lon")
+google_map(data = tram_stops, key = map_key) %>%
+  add_markers(lat = "stop_lat", lon = "stop_lon")
 
 ```
 
 ![Route 35 tram stops](./img/tram_stops.png)
 
 
+You can specify a column in the data.frame to use to populate a popup `info_window` that will be displayed when clicking on a maker. The info window can also dispay any valid HTML, as demonstrated in [this Stack Overflow answer](http://stackoverflow.com/a/39339464/5977215).
 
 
+```
+df <- tram_stops
+df$info <- paste0("<b>Stop Name: </b>", df$stop_name)
+
+library(magrittr)  ## for the pipe `%>%`
+map_key <- "your_api_key"
+google_map(data = df, key = map_key) %>%
+  add_markers(lat = "stop_lat", lon = "stop_lon", info_window = "info")
+```
+
+![Marker Info Window](./img/marker_info.png)
+
+
+
+### mouse over
+### info windows
+
+## polyline
+## polygon
+## traffic
+## bicycling
+## transit
+## shiny
 
 
 
