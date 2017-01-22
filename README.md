@@ -18,6 +18,8 @@ See [**vignettes**](https://github.com/SymbolixAU/googleway/blob/master/vignette
 
 ## v1.1.0 - Development
 
+The development version allows you to plot a Google Map from R, both in a shiny environment and as a stand-alone R plot. 
+
 See [News](https://github.com/SymbolixAU/googleway/blob/master/NEWS.md) for a list of changes
 
 
