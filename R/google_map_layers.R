@@ -4,6 +4,7 @@
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
+#' @param id string specifying the column containing an identifier for a marker
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
 #' @param title string specifying the column of \code{data} containing the 'title' of the markers. The title is displayed when you hover over a marker. If blank, no title will be displayed for the markers.
@@ -34,6 +35,7 @@
 #' @export
 add_markers <- function(map,
                         data = get_map_data(map),
+                        id = NULL,
                         lat = NULL,
                         lon = NULL,
                         title = NULL,
@@ -74,6 +76,9 @@ add_markers <- function(map,
 
   if(!is.logical(cluster))
     stop("cluster must be logical")
+
+  if(!is.null(id))
+    markers[, "id"] <- as.character(data[, id])
 
   if(!is.null(title))
     markers[, "title"] <- as.character(data[, title])
@@ -156,6 +161,7 @@ update_style <- function(map, styles = NULL){
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
+#' @param id string specifying the column containing an identifier for a circle
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
 #' @param radius either a string specifying the column of \code{data} containing the radius of each circle, OR a numeric value specifying the radius of all the circles (radius is expressed in metres)
@@ -188,6 +194,7 @@ update_style <- function(map, styles = NULL){
 #' @export
 add_circles <- function(map,
                         data = get_map_data(map),
+                        id = NULL,
                         lat = NULL,
                         lon = NULL,
                         radius = NULL,
@@ -228,6 +235,9 @@ add_circles <- function(map,
   # Circles[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
 
   ## options
+  if(!is.null(id))
+    Circles[, "id"] <- as.character(data[, id])
+
   if(!is.null(info_window))
     Circles[, "info_window"] <- as.character(data[, info_window])
 
@@ -476,6 +486,7 @@ clear_bicycling <- function(map){
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
 #' @param polyline string specifying the column of \code{data} containing the encoded 'polyline'
+#' @param id string specifying the column containing an identifier for a polyline
 #' @param geodesic logical
 #' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
 #' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
@@ -502,6 +513,7 @@ clear_bicycling <- function(map){
 add_polylines <- function(map,
                          data = get_map_data(map),
                          polyline,
+                         id = NULL,
                          geodesic = NULL,
                          stroke_colour = NULL,
                          stroke_weight = NULL,
@@ -546,6 +558,9 @@ add_polylines <- function(map,
   polyline[, "stroke_weight"] <- SetDefault(stroke_weight, 2, data)
   polyline[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
   # polyline[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
+
+  if(!is.null(id))
+    polyline[, "id"] <- as.character(data[, id])
 
   ## options
   if(!is.null(mouse_over))
@@ -622,7 +637,7 @@ clear_polylines <- function(map, layer_id = NULL){
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
 #' @param polyline string specifying the column containing the polyline
-#' @param id string specifying the column containing an identifier for a polygon. Used when calling \code{update_polygons} so that specific polygons can be updated.
+#' @param id string specifying the column containing an identifier for a polygon. Used when calling \code{update_polygons} so that specific polygons can be updated
 #' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
 #' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
 #' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles

@@ -214,12 +214,12 @@
 #
 #   output$map <- renderGoogle_map({
 #       google_map(key = map_key, height = 800) %>%
-#        add_polygons(data = df, polyline = "polyline", info_window = "id", id = "id")
+#        add_polylines(data = df, polyline = "polyline", id = "id")
 #   })
 #
-#   observeEvent(input$map_click, {
+#   observeEvent(input$map_shape_click, {
 #     print("map clicked")
-#     print(str(input$map_click))
+#     print(str(input$map_shape_click))
 #   })
 #
 #

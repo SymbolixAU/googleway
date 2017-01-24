@@ -390,8 +390,6 @@ function update_heatmap(map_id, data_heatmap, layer_id){
     window[map_id + 'mapBounds'].extend(latlon);
   }
 
-
-
   window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
 
   //window[map_id + 'googleBounds'].push(bounds);
@@ -435,6 +433,7 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id){
 
     var Polyline = new google.maps.Polyline({
       path: google.maps.geometry.encoding.decodePath(polyline.polyline),
+      id: polyline.id,
       geodesic: polyline.geodesic,
       strokeColor: polyline.stroke_colour,
       strokeOpacity: polyline.stroke_opacity,
@@ -464,6 +463,9 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id){
      if(polyline.mouse_over || polyline.mouse_over_group){
       add_mouseOver(map_id, Polyline, infoWindow, "_mouse_over", polyline.mouse_over, layer_id, 'googlePolyline');
     }
+
+    shape_click(map_id, Polyline, polyline.id);
+
   }
 
   if(update_map_view === true){
@@ -679,9 +681,6 @@ function clear_polygons(map_id, mapObject, layer_id){
  *
  **/
 function shape_click(map_id, mapObject, shape_id){
-
-  console.log("generic click" + map_id + " - " + shape_id);
-  console.log(map_id);
 
   if(!HTMLWidgets.shinyMode) return;
 

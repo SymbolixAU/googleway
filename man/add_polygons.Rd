@@ -17,7 +17,7 @@ add_polygons(map, data = get_map_data(map), polyline, id = NULL,
 
 \item{polyline}{string specifying the column containing the polyline}
 
-\item{id}{string specifying the column containing an identifier for a polygon. Used when calling \code{update_polygons} so that specific polygons can be updated.}
+\item{id}{string specifying the column containing an identifier for a polygon. Used when calling \code{update_polygons} so that specific polygons can be updated}
 
 \item{stroke_colour}{either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles}
 

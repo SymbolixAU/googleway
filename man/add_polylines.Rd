@@ -4,10 +4,10 @@
 \alias{add_polylines}
 \title{Add polyline}
 \usage{
-add_polylines(map, data = get_map_data(map), polyline, geodesic = NULL,
-  stroke_colour = NULL, stroke_weight = NULL, stroke_opacity = NULL,
-  info_window = NULL, mouse_over = NULL, mouse_over_group = NULL,
-  update_map_view = TRUE, layer_id = NULL)
+add_polylines(map, data = get_map_data(map), polyline, id = NULL,
+  geodesic = NULL, stroke_colour = NULL, stroke_weight = NULL,
+  stroke_opacity = NULL, info_window = NULL, mouse_over = NULL,
+  mouse_over_group = NULL, update_map_view = TRUE, layer_id = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -15,6 +15,8 @@ add_polylines(map, data = get_map_data(map), polyline, geodesic = NULL,
 \item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.}
 
 \item{polyline}{string specifying the column of \code{data} containing the encoded 'polyline'}
+
+\item{id}{string specifying the column containing an identifier for a polyline}
 
 \item{geodesic}{logical}
 
