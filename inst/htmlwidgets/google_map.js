@@ -268,7 +268,8 @@ function add_circles(map_id, data_circles, layer_id){
       add_mouseOver(map_id, Circle, infoWindow, "_mouse_over", circle.mouse_over, layer_id, 'googleCircles');
     }
 
-    shape_click(map_id, Circle, circle.id);
+    shapeInfo = { layerId : layer_id };
+    shape_click(map_id, Circle, circle.id, shapeInfo);
 
     window[map_id + 'mapBounds'].extend(latlon);
   }
@@ -467,7 +468,8 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id){
       add_mouseOver(map_id, Polyline, infoWindow, "_mouse_over", polyline.mouse_over, layer_id, 'googlePolyline');
     }
 
-    shape_click(map_id, Polyline, polyline.id);
+    shapeInfo = { layerId : layer_id };
+    shape_click(map_id, Polyline, polyline.id, shapeInfo);
 
   }
 
@@ -538,7 +540,8 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id){
       add_mouseOver(map_id, Polygon, infoWindow, "_mouse_over", polygon.mouse_over, layer_id, 'googlePolygon');
     }
 
-    shape_click(map_id, Polygon, polygon.id);
+    shapeInfo = { layerId : layer_id };
+    shape_click(map_id, Polygon, polygon.id, shape_info);
 
     window[map_id + 'googlePolygon' + layer_id].push(Polygon);
     Polygon.setMap(window[map_id + 'map']);
@@ -551,7 +554,6 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id){
         window[map_id + 'mapBounds'].extend(points[n]);
       }
     }
-
   }
 
   if(update_map_view === true){
@@ -632,7 +634,6 @@ function update_polygons(map_id, data_polygon, layer_id){
       }
 
     }else{
-      console.log("removing polygons");
 //      console.log("polygon does not exist");
       // the id does not exist in the new data set
       //if(removeMissing){
@@ -671,10 +672,12 @@ function update_polygons(map_id, data_polygon, layer_id){
  * @param map_id
  * @param layer_id
  */
-function clear_polygons(map_id, mapObject, layer_id){
+function clear_polygons(map_id, layer_id){
+
  for (i = 0; i < window[map_id + 'googlePolygon' + layer_id].length; i++){
     window[map_id + 'googlePolygon' + layer_id][i].setMap(null);
   }
+
 }
 
 
@@ -683,9 +686,8 @@ function clear_polygons(map_id, mapObject, layer_id){
  * Returns the 'id' of the shape that was clicked back to shiny
  *
  **/
-function shape_click(map_id, mapObject, shape_id){
+function shape_click(map_id, mapObject, shape_id, shapeInfo){
 
-  console.log("shape_click");
   if(!HTMLWidgets.shinyMode) return;
 
   google.maps.event.addListener(mapObject, 'click', function(event){
@@ -693,36 +695,16 @@ function shape_click(map_id, mapObject, shape_id){
     let eventInfo = $.extend(
       {
         id: shape_id,
-        ".nonce": Math.random() // force reactivity
-      }
+        ".nonce": Math.random() // force reactivity so that 'onInputChange' thinks the input has changed
+      },
+      shapeInfo
     );
-    console.log(eventInfo);
 
-    Shiny.onInputChange(map_id + "_shape_click", eventInfo.id);
+    Shiny.onInputChange(map_id + "_shape_click", eventInfo);
   });
 
 }
 
-/**
-function mouseHandler(mapId, layerId, group, eventName, extraInfo) {
-  return function(e) {
-    if (!HTMLWidgets.shinyMode) return;
-
-    let eventInfo = $.extend(
-      {
-        id: layerId,
-        ".nonce": Math.random()  // force reactivity
-      },
-      group !== null ? {group: group} : null,
-      e.target.getLatLng ? e.target.getLatLng() : e.latlng,
-      extraInfo
-    );
-    Shiny.onInputChange(mapId + "_" + eventName, eventInfo);
-  };
-}
-
-methods.mouseHandler = mouseHandler;
-**/
 
 
 /**
