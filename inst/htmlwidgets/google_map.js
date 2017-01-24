@@ -685,10 +685,20 @@ function clear_polygons(map_id, mapObject, layer_id){
  **/
 function shape_click(map_id, mapObject, shape_id){
 
+  console.log("shape_click");
   if(!HTMLWidgets.shinyMode) return;
 
   google.maps.event.addListener(mapObject, 'click', function(event){
-    Shiny.onInputChange(map_id + "_shape_click", shape_id);
+
+    let eventInfo = $.extend(
+      {
+        id: shape_id,
+        ".nonce": Math.random() // force reactivity
+      }
+    );
+    console.log(eventInfo);
+
+    Shiny.onInputChange(map_id + "_shape_click", eventInfo.id);
   });
 
 }

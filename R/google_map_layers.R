@@ -698,8 +698,6 @@ add_polygons <- function(map,
   if(!is.null(id))
     polygon[, "id"] <- as.character(data[, id])
 
-  print(polygon[, "id"])
-
   if(!is.null(info_window))
     polygon[, "info_window"] <- as.character(data[, info_window])
 
