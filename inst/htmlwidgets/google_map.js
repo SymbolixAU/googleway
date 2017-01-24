@@ -122,7 +122,7 @@ if (HTMLWidgets.shinyMode) {
 
       var call = data.calls[i];
 
-      //push the mapId inot the call.args
+      //push the mapId into the call.args
       call.args.unshift(id);
 
       if (call.dependencies) {
@@ -533,6 +533,8 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id){
       add_mouseOver(map_id, Polygon, infoWindow, "_mouse_over", polygon.mouse_over, layer_id, 'googlePolygon');
     }
 
+    shape_click(map_id, Polygon, polygon.id);
+
     window[map_id + 'googlePolygon' + layer_id].push(Polygon);
     Polygon.setMap(window[map_id + 'map']);
 
@@ -664,11 +666,52 @@ function update_polygons(map_id, data_polygon, layer_id){
  * @param map_id
  * @param layer_id
  */
-function clear_polygons(map_id, layer_id){
+function clear_polygons(map_id, mapObject, layer_id){
  for (i = 0; i < window[map_id + 'googlePolygon' + layer_id].length; i++){
     window[map_id + 'googlePolygon' + layer_id][i].setMap(null);
   }
 }
+
+
+/**
+ * Shape Click
+ * Returns the 'id' of the shape that was clicked back to shiny
+ *
+ **/
+function shape_click(map_id, mapObject, shape_id){
+
+  console.log("generic click" + map_id + " - " + shape_id);
+  console.log(map_id);
+
+  if(!HTMLWidgets.shinyMode) return;
+
+  google.maps.event.addListener(mapObject, 'click', function(event){
+    Shiny.onInputChange(map_id + "_shape_click", shape_id);
+  });
+
+}
+
+/**
+function mouseHandler(mapId, layerId, group, eventName, extraInfo) {
+  return function(e) {
+    if (!HTMLWidgets.shinyMode) return;
+
+    let eventInfo = $.extend(
+      {
+        id: layerId,
+        ".nonce": Math.random()  // force reactivity
+      },
+      group !== null ? {group: group} : null,
+      e.target.getLatLng ? e.target.getLatLng() : e.latlng,
+      extraInfo
+    );
+    Shiny.onInputChange(mapId + "_" + eventName, eventInfo);
+  };
+}
+
+methods.mouseHandler = mouseHandler;
+**/
+
 
 /**
  * Adds infowindow to the specified map object
@@ -833,7 +876,6 @@ function add_transit(map_id){
 function clear_transit(map_id){
   window[map_id + 'googleTransitLayer'].setMap(null);
 }
-
 
 
 function initialise_map(el, x) {
