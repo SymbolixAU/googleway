@@ -246,6 +246,7 @@ function add_circles(map_id, data_circles, layer_id){
     var latlon = new google.maps.LatLng(circle.lat, circle.lng);
 
     var Circle = new google.maps.Circle({
+        id: circle.id,
         strokeColor: circle.stroke_colour,
         strokeOpacity: circle.stroke_opacity,
         strokeWeight: circle.stroke_weight,
@@ -266,6 +267,8 @@ function add_circles(map_id, data_circles, layer_id){
     if(circle.mouse_over || circle.mouse_over_group){
       add_mouseOver(map_id, Circle, infoWindow, "_mouse_over", circle.mouse_over, layer_id, 'googleCircles');
     }
+
+    shape_click(map_id, Circle, circle.id);
 
     window[map_id + 'mapBounds'].extend(latlon);
   }
