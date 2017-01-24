@@ -541,7 +541,7 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id){
     }
 
     shapeInfo = { layerId : layer_id };
-    shape_click(map_id, Polygon, polygon.id, shape_info);
+    shape_click(map_id, Polygon, polygon.id, shapeInfo);
 
     window[map_id + 'googlePolygon' + layer_id].push(Polygon);
     Polygon.setMap(window[map_id + 'map']);
