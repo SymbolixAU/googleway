@@ -73,6 +73,10 @@ HTMLWidgets.widget({
                 console.log("does not exist!");
               }
 
+              mapInfo = {};
+              map_click(el.id, window[el.id + 'map'], mapInfo);
+
+
             }, 100);
 
           }else{
@@ -104,6 +108,7 @@ HTMLWidgets.widget({
     };
   }
 });
+
 
 
 if (HTMLWidgets.shinyMode) {
@@ -693,6 +698,33 @@ function clear_polygons(map_id, layer_id){
 
 }
 
+
+/**
+ * Map click
+ *
+ * Returns details of the click even on a map
+ **/
+function map_click(map_id, mapObject, mapInfo){
+  if(!HTMLWidgets.shinyMode) return;
+
+  google.maps.event.addListener(mapObject, 'click', function(event){
+
+    let eventInfo = $.extend(
+      {
+        id: map_id,
+        lat: event.latLng.lat().toFixed(4),
+        lon: event.latLng.lng().toFixed(4),
+        randomValue: Math.random()
+      },
+     mapInfo
+    );
+
+    console.log(eventInfo);
+    console.log(map_id);
+    Shiny.onInputChange(map_id + "_map_click", eventInfo);
+  })
+}
+
 /**
  * Marker click
  *
@@ -706,6 +738,8 @@ function marker_click(map_id, markerObject, marker_id, markerInfo){
     let eventInfo = $.extend(
       {
         id: marker_id,
+//        lat: event.latLng.lat(),
+//        lon: event.latLng.lng(),
         randomValue: Math.random()
       },
       markerInfo
@@ -713,7 +747,6 @@ function marker_click(map_id, markerObject, marker_id, markerInfo){
 
     Shiny.onInputChange(map_id + "_marker_click", eventInfo);
   })
-
 }
 
 /**
@@ -722,15 +755,17 @@ function marker_click(map_id, markerObject, marker_id, markerInfo){
  * Returns the 'id' of the shape that was clicked back to shiny
  *
  **/
-function shape_click(map_id, mapObject, shape_id, shapeInfo){
+function shape_click(map_id, shapeObject, shape_id, shapeInfo){
 
   if(!HTMLWidgets.shinyMode) return;
 
-  google.maps.event.addListener(mapObject, 'click', function(event){
+  google.maps.event.addListener(shapeObject, 'click', function(event){
 
     let eventInfo = $.extend(
       {
         id: shape_id,
+        lat: event.latLng.lat(),
+        lon: event.latLng.lng(),
         randomValue: Math.random() // force reactivity so that 'onInputChange' thinks the input has changed
       },
       shapeInfo

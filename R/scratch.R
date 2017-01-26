@@ -198,14 +198,18 @@
 #
 #     google_map(key = map_key, height = 800) %>%
 #        add_markers(data = df, lat = "lat", lon = "lon", id = "id")
+#
 #   })
 #
 #   observeEvent(input$map_marker_click, {
-#     print("map clicked")
+#     print("marker clicked")
 #     print(str(input$map_marker_click))
 #   })
 #
-#
+#   observeEvent(input$map_map_click, {
+#     print("map clicked")
+#     print(str(input$map_map_click))
+#   })
 # }
 # shinyApp(ui , server)
 
