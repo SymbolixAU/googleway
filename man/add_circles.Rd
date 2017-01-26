@@ -5,7 +5,7 @@
 \title{Add circle}
 \usage{
 add_circles(map, data = get_map_data(map), id = NULL, lat = NULL,
-  lon = NULL, radius = NULL, stroke_colour = NULL,
+  lon = NULL, radius = NULL, draggable = NULL, stroke_colour = NULL,
   stroke_opacity = NULL, stroke_weight = NULL, fill_colour = NULL,
   fill_opacity = NULL, mouse_over = NULL, mouse_over_group = NULL,
   info_window = NULL, layer_id = NULL)
@@ -22,6 +22,8 @@ add_circles(map, data = get_map_data(map), id = NULL, lat = NULL,
 \item{lon}{string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made}
 
 \item{radius}{either a string specifying the column of \code{data} containing the radius of each circle, OR a numeric value specifying the radius of all the circles (radius is expressed in metres)}
+
+\item{draggable}{string specifying the column of \code{data} defining if the circle is 'draggable' (either TRUE or FALSE)}
 
 \item{stroke_colour}{either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles}
 

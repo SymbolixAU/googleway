@@ -431,13 +431,22 @@ google_map(data = df, key = map_key) %>%
 
 
 
+
+## polyline
+
+To draw a line on a map you use a polyline. 
+
+
+## polygon
+
+
+
 ### mouse over
 ### info windows
 ### shape clicks
 ### marker clicks
+## Circles
 
-## polyline
-## polygon
 ## traffic
 ## bicycling
 ## transit

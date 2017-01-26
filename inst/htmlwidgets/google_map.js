@@ -75,7 +75,12 @@ HTMLWidgets.widget({
 
               mapInfo = {};
               map_click(el.id, window[el.id + 'map'], mapInfo);
+              bounds_changed(el.id, window[el.id + 'map'], mapInfo);
 
+
+              console.log("listening for bounds");
+              console.log(window[el.id + 'map']);
+              console.log(window[el.id + 'map'].getBounds());
 
             }, 100);
 
@@ -99,7 +104,6 @@ HTMLWidgets.widget({
               initialise_map(el, x);
             };
           }
-
       },
       resize: function(width, height) {
         // TODO: code to re-render the widget with a new size
@@ -270,6 +274,7 @@ function add_circles(map_id, data_circles, layer_id){
         strokeWeight: circle.stroke_weight,
         fillColor: circle.fill_colour,
         fillOpacity: circle.fill_opacity,
+        draggable: circle.draggable,
         center: latlon,
         radius: circle.radius,
         mouseOverGroup: circle.mouse_over_group
@@ -714,14 +719,39 @@ function map_click(map_id, mapObject, mapInfo){
         id: map_id,
         lat: event.latLng.lat().toFixed(4),
         lon: event.latLng.lng().toFixed(4),
+        centerLat: mapObject.getCenter().lat().toFixed(4),
+        centerLng: mapObject.getCenter().lng().toFixed(4),
         randomValue: Math.random()
       },
      mapInfo
     );
 
-    console.log(eventInfo);
-    console.log(map_id);
     Shiny.onInputChange(map_id + "_map_click", eventInfo);
+  })
+}
+
+function bounds_changed(map_id, mapObject, mapInfo){
+  if(!HTMLWidgets.shinyMode) return;
+
+  google.maps.event.addListener(mapObject, 'bounds_changed', function(event){
+    let eventInfo = $.extend(
+      {
+        id: map_id,
+//        bounds:mapObject.getBounds(),
+//        east: mapObject.getBounds().toJSON().east.toFixed(4),
+//        north: mapObject.getBounds().toJSON().north.toFixed(4),
+//        south: mapObject.getBounds().toJSON().south.toFixed(4),
+//        west: mapObject.getBounds().toJSON().west.toFixed(4),
+        northEastLat: mapObject.getBounds().getNorthEast().lat().toFixed(4),
+        northEastLon: mapObject.getBounds().getNorthEast().lng().toFixed(4),
+        southWestLat: mapObject.getBounds().getSouthWest().lat().toFixed(4),
+        southWestLon: mapObject.getBounds().getSouthWest().lng().toFixed(4),
+        randomValue: Math.random()
+      },
+      mapInfo
+    );
+
+    Shiny.onInputChange(map_id + "_bounds_changed", eventInfo);
   })
 }
 

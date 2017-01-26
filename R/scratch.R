@@ -16,7 +16,7 @@
 #                                                                              97.1629025738221, 58.9051092562731, 76.3215389118996, 37.8982300488278,
 #                                                                              77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
 #                                                                                                                                                        "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
-#
+# map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 # library(magrittr)
 # google_map(key = map_key, data = df) %>%
 #   add_markers(lat = "lat", lon = "lon")
@@ -160,7 +160,7 @@
 # shinyApp(ui , server)
 
 
-## Click info
+# Click info
 # library(shiny)
 # library(googleway)
 # library(magrittr)
@@ -201,15 +201,20 @@
 #
 #   })
 #
-#   observeEvent(input$map_marker_click, {
-#     print("marker clicked")
-#     print(str(input$map_marker_click))
-#   })
-#
+#   # observeEvent(input$map_marker_click, {
+#   #   print("marker clicked")
+#   #   print(str(input$map_marker_click))
+#   # })
+#   #
 #   observeEvent(input$map_map_click, {
 #     print("map clicked")
 #     print(str(input$map_map_click))
 #   })
+#
+#   # observeEvent(input$map_bounds_changed, {
+#   #   print("bounds changed")
+#   #   print(str(input$map_bounds_changed))
+#   # })
 # }
 # shinyApp(ui , server)
 

@@ -165,6 +165,7 @@ update_style <- function(map, styles = NULL){
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
 #' @param radius either a string specifying the column of \code{data} containing the radius of each circle, OR a numeric value specifying the radius of all the circles (radius is expressed in metres)
+#' @param draggable string specifying the column of \code{data} defining if the circle is 'draggable' (either TRUE or FALSE)
 #' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
 #' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
 #' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
@@ -198,6 +199,7 @@ add_circles <- function(map,
                         lat = NULL,
                         lon = NULL,
                         radius = NULL,
+                        draggable = NULL,
                         stroke_colour = NULL,
                         stroke_opacity = NULL,
                         stroke_weight = NULL,
@@ -207,8 +209,6 @@ add_circles <- function(map,
                         mouse_over_group = NULL,
                         info_window = NULL,
                         layer_id = NULL){
-
-  # data <- as.data.frame(data)
 
   if(is.null(lat)){
     data <- latitude_column(data, lat, 'add_circles')
@@ -238,6 +238,9 @@ add_circles <- function(map,
   if(!is.null(id))
     Circles[, "id"] <- as.character(data[, id])
 
+  if(!is.null(draggable))
+    Circles[, 'draggable'] <- as.logical(data[, draggable])
+
   if(!is.null(info_window))
     Circles[, "info_window"] <- as.character(data[, info_window])
 
@@ -260,6 +263,57 @@ clear_circles <- function(map, layer_id = NULL){
 
   invoke_method(map, data = NULL, 'clear_circles', layer_id)
 }
+
+
+# #' Add Rectangle
+# #'
+# #' Add rectangle to a google map
+# #'
+# #' @param map a googleway map object created from \code{google_map()}
+# #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
+# #' @param id string specifying the column containing an identifier for a rectangle
+# #' @param top_left string specifying the colum containing the top-left point of the rectangle
+# #' @param bottom_left string specifying the colum containing the bottom-left point of the rectangle
+# #' @param top_right string specifying the colum containing the top-rigth point of the rectangle
+# #' @param bottom_right string specifying the colum containing the bottom-right point of the rectangle
+# #' @param draggable string specifying the column of \code{data} defining if the rectangle is 'draggable' (either TRUE or FALSE)
+# #' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
+# #' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
+# #' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
+# #' @param fill_colour either a string specifying the column of \code{data} containing the fill colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the cirlces
+# #' @param fill_opacity either a string specifying the column of \code{data} containing the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
+# #' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
+# #' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
+# #' @param mouse_over_group string specifying the column of data specifying which groups of circles to highlight on mouseover
+# #' @param layer_id single value specifying an id for the layer.
+# google_rectangle <- function(map,
+#                              data = get_map_data(map),
+#                              id = NULL,
+#                              top_left,
+#                              bottom_left,
+#                              top_right,
+#                              bottom_right,
+#                              draggable = NULL,
+#                              stroke_colour = NULL,
+#                              stroke_opacity = NULL,
+#                              stroke_weight = NULL,
+#                              fill_colour = NULL,
+#                              fill_opacity = NULL,
+#                              mouse_over = NULL,
+#                              mouse_over_group = NULL,
+#                              info_window = NULL,
+#                              layer_id = NULL){
+#
+#
+#
+# }
+#
+# clear_rectangles <- function(map, layer_id = NULL){
+#
+#   layer_id <- LayerId(layer_id)
+#
+#   invoke_method(map, data = NULL, 'clear_rectangles', layer_id)
+# }
 
 
 #' Add heatmap
