@@ -63,25 +63,17 @@ HTMLWidgets.widget({
               //global map object
               window[el.id + 'map'] = map;
 
-              if (google !== 'undefined'){
+              if (google !== undefined){
                 console.log("exists");
                 clearInterval(checkExists);
 
                 initialise_map(el, x);
 
+              console.log(window[el.id + 'map']);
+
               }else{
                 console.log("does not exist!");
               }
-
-              mapInfo = {};
-              map_click(el.id, window[el.id + 'map'], mapInfo);
-              bounds_changed(el.id, window[el.id + 'map'], mapInfo);
-
-
-              console.log("listening for bounds");
-              console.log(window[el.id + 'map']);
-              console.log(window[el.id + 'map'].getBounds());
-
             }, 100);
 
           }else{
@@ -712,6 +704,8 @@ function clear_polygons(map_id, layer_id){
 function map_click(map_id, mapObject, mapInfo){
   if(!HTMLWidgets.shinyMode) return;
 
+  console.log("map click listener");
+
   google.maps.event.addListener(mapObject, 'click', function(event){
 
     let eventInfo = $.extend(
@@ -1041,19 +1035,28 @@ function initialise_map(el, x) {
   }
 
   // call initial layers
-  for(layerCalls = 0; layerCalls < x.calls.length; layerCalls++){
+  if(x.calls !== undefined){
+    console.log("x.calls");
+    console.log(x.calls);
+    for(layerCalls = 0; layerCalls < x.calls.length; layerCalls++){
 
-    //push the map_id into the call.args
-    x.calls[layerCalls].args.unshift(el.id);
+      //push the map_id into the call.args
+      x.calls[layerCalls].args.unshift(el.id);
 
-    if (window[x.calls[layerCalls].functions]){
+      if (window[x.calls[layerCalls].functions]){
 
-      window[x.calls[layerCalls].functions].apply(window[el.id + 'map'], x.calls[layerCalls].args);
-    }else{
-      console.log("Unknown function " + x.calls[layerCalls]);
+        window[x.calls[layerCalls].functions].apply(window[el.id + 'map'], x.calls[layerCalls].args);
+      }else{
+        console.log("Unknown function " + x.calls[layerCalls]);
 
+      }
     }
   }
+
+  // listeners
+  mapInfo = {};
+  map_click(el.id, window[el.id + 'map'], mapInfo);
+  bounds_changed(el.id, window[el.id + 'map'], mapInfo);
 
 }
 
