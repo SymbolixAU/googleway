@@ -164,6 +164,7 @@ function add_markers(map_id, data_markers, cluster, layer_id){
     var latlon = new google.maps.LatLng(data_markers[i].lat, data_markers[i].lng);
 
     var marker = new google.maps.Marker({
+      id: data_markers[i].id,
       position: latlon,
       draggable: data_markers[i].draggable,
       opacity: data_markers[i].opacity,
@@ -180,6 +181,18 @@ function add_markers(map_id, data_markers, cluster, layer_id){
     if(data_markers[i].mouse_over || data_markers[i].mouse_over_group){
       add_mouseOver(map_id, marker, infoWindow, '_mouse_over', data_markers[i].mouse_over, layer_id, 'googleMarkers');
     }
+
+    markerInfo = {
+      layerId : layer_id,
+      lat : data_markers[i].lat.toFixed(4),
+      lon : data_markers[i].lng.toFixed(4)
+    };
+
+    marker_click(map_id, marker, marker.id, markerInfo);
+
+//    shapeInfo = { layerId : layer_id };
+//    shape_click(map_id, Circle, circle.id, shapeInfo);
+
 
     window[map_id + 'mapBounds'].extend(latlon);
 
@@ -680,9 +693,32 @@ function clear_polygons(map_id, layer_id){
 
 }
 
+/**
+ * Marker click
+ *
+ * Returns details of the marker that was clicked
+ **/
+function marker_click(map_id, markerObject, marker_id, markerInfo){
+  if(!HTMLWidgets.shinyMode) return;
+
+  google.maps.event.addListener(markerObject, 'click', function(event){
+
+    let eventInfo = $.extend(
+      {
+        id: marker_id,
+        randomValue: Math.random()
+      },
+      markerInfo
+    );
+
+    Shiny.onInputChange(map_id + "_marker_click", eventInfo);
+  })
+
+}
 
 /**
  * Shape Click
+ *
  * Returns the 'id' of the shape that was clicked back to shiny
  *
  **/
@@ -695,7 +731,7 @@ function shape_click(map_id, mapObject, shape_id, shapeInfo){
     let eventInfo = $.extend(
       {
         id: shape_id,
-        ".nonce": Math.random() // force reactivity so that 'onInputChange' thinks the input has changed
+        randomValue: Math.random() // force reactivity so that 'onInputChange' thinks the input has changed
       },
       shapeInfo
     );

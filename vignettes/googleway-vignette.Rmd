@@ -433,6 +433,8 @@ google_map(data = df, key = map_key) %>%
 
 ### mouse over
 ### info windows
+### shape clicks
+### marker clicks
 
 ## polyline
 ## polygon
