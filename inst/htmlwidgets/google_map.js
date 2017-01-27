@@ -78,10 +78,10 @@ HTMLWidgets.widget({
 
           }else{
             console.log("not shiny mode");
-            window.onload = function() {
+
+            //window.onload = function() {
 
               console.log("window onload");
-
               var mapDiv = document.getElementById(el.id);
 
               mapDiv.className = "googlemap";
@@ -93,8 +93,10 @@ HTMLWidgets.widget({
               });
 
               window[el.id + 'map'] = map;
+              console.log("calling initialise map: el.id: ");
+              console.log(el.id);
               initialise_map(el, x);
-            };
+            //};
           }
       },
       resize: function(width, height) {
@@ -970,6 +972,8 @@ function clear_transit(map_id){
 function initialise_map(el, x) {
 
   // map bounds object
+  //console.log("initialising map: el.id: ");
+  //console.log(el.id);
   window[el.id + 'mapBounds'] = new google.maps.LatLngBounds();
 
   // if places

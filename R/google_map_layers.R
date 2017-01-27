@@ -53,6 +53,7 @@ add_markers <- function(map,
   ## - popups/info window
   ## - if a feature column (draggable/opacity, etc) is specified, but the
   ## data is null/incorrect
+  ## - check for NAs - if any, issue warning
 
   data <- as.data.frame(data)
 
@@ -100,6 +101,9 @@ add_markers <- function(map,
 
   if(!is.null(mouse_over_group))
     markers[, "mouse_over_group"] <- as.character(data[, mouse_over_group])
+
+  # if(sum(is.na(markers)) > 0)
+  #   warning("There are some NAs in your data. These may affect the markers that have been plotted.")
 
   markers <- jsonlite::toJSON(markers)
 
@@ -249,6 +253,9 @@ add_circles <- function(map,
 
   if(!is.null(mouse_over_group))
     Circles[, "mouse_over_group"] <- as.character(data[, mouse_over_group])
+
+  # if(sum(is.na(Circles)) > 0)
+  #   warning("There are some NAs in your data. These may affect the circles that have been plotted.")
 
   Circles <- jsonlite::toJSON(Circles)
 
@@ -626,6 +633,8 @@ add_polylines <- function(map,
   if(!is.null(info_window))
     polyline[, "info_window"] <- as.character(data[, info_window])
 
+  # if(sum(is.na(polyline)) > 0)
+  #   warning("There are some NAs in your data. These may affect the polylines that have been plotted.")
 
   polyline <- jsonlite::toJSON(polyline)
 
@@ -735,6 +744,12 @@ add_polygons <- function(map,
   }else{
     polygon <- data[, polyline, drop = FALSE]
   }
+#
+#   if(sum(sapply(polygon[, polyline], is.null)) > 0){
+#     warning("There are some NULL polyline values. These polygons are removed from the map")
+#     print(str(polygon))
+#     polygon <- polygon[!sapply(polygon[, polyline], is.null)]
+#   }
 
   layer_id <- LayerId(layer_id)
 
@@ -760,6 +775,9 @@ add_polygons <- function(map,
 
   if(!is.null(mouse_over_group))
     polygon[, "mouse_over_group"] <- as.character(data[, mouse_over_group])
+
+  # if(sum(is.na(polygon)) > 0)
+  #   warning("There are some NAs in your data. These may affect the polygons that have been plotted.")
 
   polygon <- jsonlite::toJSON(polygon)
 
@@ -801,7 +819,7 @@ update_polygons <- function(map, data, id,
                             layer_id = NULL
                             ){
 
-## TODO: is 'info_window' required, if it was included in the original add_polygons?
+  ## TODO: is 'info_window' required, if it was included in the original add_polygons?
 
   if(!is.null(polyline)){
     if(!is.list(data[, polyline])){
