@@ -211,6 +211,7 @@
 # shinyApp(ui , server)
 
 
+# devtools::install_github("SymbolixAU/googleway")
 # library(shiny)
 # library(googleway)
 #
@@ -220,20 +221,14 @@
 #
 # server <- function(input, output){
 #
-#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#   #map_key <- "your_api_key"
 #
 #   output$myMap <- renderGoogle_map({
-#     google_map(key = map_key)
+#     google_map(key = "")
 #   })
 #
 #   observeEvent(input$myMap_map_click, {
-#     print("map clicked")
 #     print(str(input$myMap_map_click))
-#   })
-#
-#   observeEvent(input$myMap_bounds_changed, {
-#     print("bounds changed")
-#     print(str(input$myMap_bounds_changed))
 #   })
 #
 # }

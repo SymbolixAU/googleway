@@ -69,8 +69,6 @@ HTMLWidgets.widget({
 
                 initialise_map(el, x);
 
-              console.log(window[el.id + 'map']);
-
               }else{
                 console.log("does not exist!");
               }
@@ -93,8 +91,6 @@ HTMLWidgets.widget({
               });
 
               window[el.id + 'map'] = map;
-              console.log("calling initialise map: el.id: ");
-              console.log(el.id);
               initialise_map(el, x);
             //};
           }
@@ -706,22 +702,24 @@ function clear_polygons(map_id, layer_id){
 function map_click(map_id, mapObject, mapInfo){
   if(!HTMLWidgets.shinyMode) return;
 
-  console.log("map click listener");
-
   google.maps.event.addListener(mapObject, 'click', function(event){
 
     let eventInfo = $.extend(
       {
         id: map_id,
+        latNumeric: event.latLng.lat(),
         lat: event.latLng.lat().toFixed(4),
         lon: event.latLng.lng().toFixed(4),
         centerLat: mapObject.getCenter().lat().toFixed(4),
         centerLng: mapObject.getCenter().lng().toFixed(4),
+        zoom: mapObject.getZoom(),
         randomValue: Math.random()
       },
      mapInfo
     );
 
+    console.log("map clicked - event.latLng.lat(): ");
+    console.log(event.latLng.lat());
     Shiny.onInputChange(map_id + "_map_click", eventInfo);
   })
 }
@@ -749,6 +747,27 @@ function bounds_changed(map_id, mapObject, mapInfo){
 
     Shiny.onInputChange(map_id + "_bounds_changed", eventInfo);
   })
+}
+
+function zoom_changed(map_id, mapObject, mapInfo){
+
+    if(!HTMLWidgets.shinyMode) return;
+
+  google.maps.event.addListener(mapObject, 'bounds_changed', function(event){
+    let eventInfo = $.extend(
+      {
+        id: map_id,
+        zoom: mapObject.getZoom(),
+        randomValue: Math.random()
+      },
+      mapInfo
+    );
+
+    console.log("zoom changed");
+    console.log(mapObject);
+    Shiny.onInputChange(map_id + "_zoom_changed", eventInfo);
+  })
+
 }
 
 /**
@@ -1040,8 +1059,7 @@ function initialise_map(el, x) {
 
   // call initial layers
   if(x.calls !== undefined){
-    console.log("x.calls");
-    console.log(x.calls);
+
     for(layerCalls = 0; layerCalls < x.calls.length; layerCalls++){
 
       //push the map_id into the call.args
@@ -1061,6 +1079,7 @@ function initialise_map(el, x) {
   mapInfo = {};
   map_click(el.id, window[el.id + 'map'], mapInfo);
   bounds_changed(el.id, window[el.id + 'map'], mapInfo);
+  zoom_changed(el.id, window[el.id + 'map'], mapInfo);
 
 }
 
