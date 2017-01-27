@@ -266,11 +266,11 @@
 #                   pitch = 0,
 #                   response_check = FALSE,
 #                   key = key)
-
+#
 # map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 #
 # google_map(key = map_key) %>%
-#   googleway:::add_kml('http://googlemaps.github.io/js-v2-samples/ggeoxml/cta.kml')
+#   add_kml('http://googlemaps.github.io/js-v2-samples/ggeoxml/cta.kml')
 
 
 

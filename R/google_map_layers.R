@@ -869,9 +869,9 @@ clear_polygons <- function(map, layer_id = NULL){
 #'
 #' Adds a kml layer to a google map
 #'
-#' @param map
-#' @param kml_data
-#' @param layer_id
+#' @param map a googleway map object created from \code{google_map()}
+#' @param kml_data kml data layer
+#' @param layer_id single value specifying an id for the layer.
 #'
 #' @export
 add_kml <- function(map,

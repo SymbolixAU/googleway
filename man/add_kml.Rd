@@ -7,7 +7,11 @@
 add_kml(map, kml_data, layer_id = NULL)
 }
 \arguments{
-\item{layer_id}{}
+\item{map}{a googleway map object created from \code{google_map()}}
+
+\item{kml_data}{kml data layer}
+
+\item{layer_id}{single value specifying an id for the layer.}
 }
 \description{
 Adds a kml layer to a google map
