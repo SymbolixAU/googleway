@@ -136,6 +136,20 @@ if (HTMLWidgets.shinyMode) {
   });
 }
 
+
+
+/**
+ * Updates the google map with a particular style
+ * @param map_id
+ *          the map to which the style is applied
+ * @param style
+ *          style to apply (in the form of JSON)
+ */
+function update_style(map_id, style){
+  window[map_id + 'map'].set('styles', JSON.parse(style));
+}
+
+
 /**
  * Add markers
  *
@@ -207,7 +221,6 @@ function add_markers(map_id, data_markers, cluster, layer_id){
   }
 
   window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
-
 }
 
 /**
@@ -303,19 +316,6 @@ function clear_circles(map_id, layer_id){
     window[map_id + 'googleCircles' + layer_id][i].setMap(null);
   }
 }
-
-
-/**
- * Updates the google map with a particular style
- * @param map_id
- *          the map to which the style is applied
- * @param style
- *          style to apply (in the form of JSON)
- */
-function update_style(map_id, style){
-  window[map_id + 'map'].set('styles', JSON.parse(style));
-}
-
 
 
 /**
@@ -690,6 +690,17 @@ function clear_polygons(map_id, layer_id){
  for (i = 0; i < window[map_id + 'googlePolygon' + layer_id].length; i++){
     window[map_id + 'googlePolygon' + layer_id][i].setMap(null);
   }
+}
+
+
+function add_kml(map_id, kml_data, layer_id){
+
+  window[map_id + 'googleKml' + layer_id] = [];
+
+  var kmlLayer = new google.maps.KmlLayer({
+    url: kml_data,
+    map: window[map_id + 'map']
+  });
 
 }
 

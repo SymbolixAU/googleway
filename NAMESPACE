@@ -3,6 +3,7 @@
 export(add_bicycling)
 export(add_circles)
 export(add_heatmap)
+export(add_kml)
 export(add_markers)
 export(add_polygons)
 export(add_polylines)

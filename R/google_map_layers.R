@@ -865,3 +865,28 @@ clear_polygons <- function(map, layer_id = NULL){
 }
 
 
+#' Add KML
+#'
+#' Adds a kml layer to a google map
+#'
+#' @param map
+#' @param kml_data
+#' @param layer_id
+#'
+#' @export
+add_kml <- function(map,
+                    kml_data,
+                    layer_id = NULL){
+
+  kmlData <- kml_data
+
+  layer_id <- LayerId(layer_id)
+
+  invoke_method(map, data = NULL, 'add_kml', kmlData, layer_id)
+
+}
+
+
+
+
+

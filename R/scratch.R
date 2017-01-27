@@ -245,12 +245,12 @@
 # )
 #
 # server <- function(input, output){
-#   key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_API_KEY")
+#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 #
 #   output$myStreetview <- renderUI({
 #     tags$img(src = google_streetview(location = c(-37.817714, 144.96726),
 #                                      size = c(400,400), output = "html",
-#                                      key = key),  width = "400px", height = "400px")
+#                                      key = map_key),  width = "400px", height = "400px")
 #   })
 # }
 #
@@ -266,4 +266,11 @@
 #                   pitch = 0,
 #                   response_check = FALSE,
 #                   key = key)
+
+# map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#
+# google_map(key = map_key) %>%
+#   googleway:::add_kml('http://googlemaps.github.io/js-v2-samples/ggeoxml/cta.kml')
+
+
 
