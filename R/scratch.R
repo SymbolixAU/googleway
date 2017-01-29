@@ -9,6 +9,8 @@
 #
 ## testing circle bounds
 #
+# library(magrittr)
+# library(googleway)
 # df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
 #                              -37.8191299438477, -37.8187675476074, -37.8186187744141, -37.8181076049805
 # ), lon = c(144.968612670898, 144.968414306641, 144.968139648438,
@@ -17,11 +19,10 @@
 #                                                                              77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
 #                                                                                                                                                        "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
 # map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
-# library(magrittr)
 #
 # df$colour <- c('red','blue','green')
 # google_map(key = map_key, data = df) %>%
-#   add_markers(lat = "lat", lon = "lon", colour = 'colour', label = 'colour', title = 'colour')
+#   add_markers(lat = "lat", lon = "lon", colour = 'colour')
 #
 #
 #

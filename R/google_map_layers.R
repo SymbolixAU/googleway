@@ -121,7 +121,9 @@ add_markers <- function(map,
                                    "http://mt.google.com/vt/icon?psize=30&font=fonts/arialuni_t.ttf&color=ff304C13&name=icons/spotlight/spotlight-waypoint-a.png&ax=43&ay=48&text=%E2%80%A2",
                                    "http://mt.google.com/vt/icon/name=icons/spotlight/spotlight-ad.png"))
 
-  markers <- merge(markers, df_colours, by.x = colour, by.y = "colour", all.x = TRUE)
+  markers <- merge(markers, df_colours, by.x = "colour", by.y = "colour", all.x = TRUE)
+
+
 
   markers <- jsonlite::toJSON(markers)
 
