@@ -4,10 +4,10 @@
 \alias{add_markers}
 \title{Add markers}
 \usage{
-add_markers(map, data = get_map_data(map), id = NULL, lat = NULL,
-  lon = NULL, title = NULL, draggable = NULL, opacity = NULL,
-  label = NULL, cluster = FALSE, info_window = NULL, mouse_over = NULL,
-  mouse_over_group = NULL, layer_id = NULL)
+add_markers(map, data = get_map_data(map), id = NULL, colour = NULL,
+  lat = NULL, lon = NULL, title = NULL, draggable = NULL,
+  opacity = NULL, label = NULL, cluster = FALSE, info_window = NULL,
+  mouse_over = NULL, mouse_over_group = NULL, layer_id = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -15,6 +15,8 @@ add_markers(map, data = get_map_data(map), id = NULL, lat = NULL,
 \item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.}
 
 \item{id}{string specifying the column containing an identifier for a marker}
+
+\item{colour}{string specifying the column containing the 'colour' to use for the markers. One of 'red', 'blue', 'green' or 'lavender'.}
 
 \item{lat}{string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made}
 

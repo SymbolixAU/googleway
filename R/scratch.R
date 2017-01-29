@@ -18,8 +18,10 @@
 #                                                                                                                                                        "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
 # map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 # library(magrittr)
+#
+# df$colour <- c('red','blue','green')
 # google_map(key = map_key, data = df) %>%
-#   add_markers(lat = "lat", lon = "lon")
+#   add_markers(lat = "lat", lon = "lon", colour = 'colour', label = 'colour', title = 'colour')
 #
 #
 #

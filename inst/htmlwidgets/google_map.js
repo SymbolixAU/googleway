@@ -178,6 +178,7 @@ function add_markers(map_id, data_markers, cluster, layer_id){
 
     var marker = new google.maps.Marker({
       id: data_markers[i].id,
+      icon: { url: data_markers[i].url },
       position: latlon,
       draggable: data_markers[i].draggable,
       opacity: data_markers[i].opacity,
@@ -186,6 +187,8 @@ function add_markers(map_id, data_markers, cluster, layer_id){
       label: data_markers[i].label,
       mouseOverGroup: data_markers[i].mouse_over_group
     });
+
+    console.log(marker);
 
     if(data_markers[i].info_window){
       add_infoWindow(map_id, marker, infoWindow, '_information', data_markers[i].info_window);
@@ -202,9 +205,6 @@ function add_markers(map_id, data_markers, cluster, layer_id){
     };
 
     marker_click(map_id, marker, marker.id, markerInfo);
-
-//    shapeInfo = { layerId : layer_id };
-//    shape_click(map_id, Circle, circle.id, shapeInfo);
 
 
     window[map_id + 'mapBounds'].extend(latlon);

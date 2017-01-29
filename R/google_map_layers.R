@@ -5,6 +5,7 @@
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
 #' @param id string specifying the column containing an identifier for a marker
+#' @param colour string specifying the column containing the 'colour' to use for the markers. One of 'red', 'blue', 'green' or 'lavender'.
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
 #' @param title string specifying the column of \code{data} containing the 'title' of the markers. The title is displayed when you hover over a marker. If blank, no title will be displayed for the markers.
@@ -36,6 +37,7 @@
 add_markers <- function(map,
                         data = get_map_data(map),
                         id = NULL,
+                        colour = NULL,
                         lat = NULL,
                         lon = NULL,
                         title = NULL,
@@ -67,6 +69,12 @@ add_markers <- function(map,
     lon <- "lng"
   }
 
+  if(!is.null(colour)){
+    ## all colours must be either 'red', 'blue' or 'green'
+    if(!all((tolower(data[, colour])) %in% c("red","blue","green","lavender")))
+      stop("colours must be either red, blue or green")
+  }
+
   markers <- data.frame(lat = data[, lat],
                         lng = data[, lon])
 
@@ -74,6 +82,7 @@ add_markers <- function(map,
 
   # markers[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
   markers[, "opacity"] <- SetDefault(opacity, 1, data)
+  markers[, "colour"] <- SetDefault(colour, "red" , data)
 
   if(!is.logical(cluster))
     stop("cluster must be logical")
@@ -104,6 +113,15 @@ add_markers <- function(map,
 
   # if(sum(is.na(markers)) > 0)
   #   warning("There are some NAs in your data. These may affect the markers that have been plotted.")
+
+  ## colours last as they re-order the data with the merge
+  df_colours <- data.frame(colour = c('red', 'blue', 'green', 'lavender'),
+                           url = c("http://mt.googleapis.com/vt/icon/name=icons/spotlight/spotlight-poi.png&scale=1",
+                                   "https://mts.googleapis.com/vt/icon/name=icons/spotlight/spotlight-waypoint-blue.png&psize=16&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1",
+                                   "http://mt.google.com/vt/icon?psize=30&font=fonts/arialuni_t.ttf&color=ff304C13&name=icons/spotlight/spotlight-waypoint-a.png&ax=43&ay=48&text=%E2%80%A2",
+                                   "http://mt.google.com/vt/icon/name=icons/spotlight/spotlight-ad.png"))
+
+  markers <- merge(markers, df_colours, by.x = colour, by.y = "colour", all.x = TRUE)
 
   markers <- jsonlite::toJSON(markers)
 
