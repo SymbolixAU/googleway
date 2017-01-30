@@ -702,6 +702,16 @@ function add_kml(map_id, kml_data, layer_id){
     map: window[map_id + 'map']
   });
 
+  window[map_id + 'googleKml' + layer_id].push(kmlLayer);
+
+}
+
+function clear_kml(map_id, layer_id){
+
+  for (i = 0; i < window[map_id + 'googleKml' + layer_id].length; i++){
+    window[map_id + 'googleKml' + layer_id][i].setMap(null);
+  }
+
 }
 
 

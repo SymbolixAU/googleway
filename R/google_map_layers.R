@@ -906,7 +906,18 @@ add_kml <- function(map,
 
 }
 
+#' Clear kml
+#'
+#' Clears a kml layer from the map
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @param layer_id single value specifying an id for the layer
+#' @export
+clear_kml <- function(map, layer_id = NULL){
 
+  layer_id <- LayerId(layer_id)
 
+  invoke_method(map, data = NULL, 'clear_kml', layer_id)
+}
 
 

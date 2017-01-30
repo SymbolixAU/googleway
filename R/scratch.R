@@ -9,8 +9,6 @@
 #
 ## testing circle bounds
 #
-# library(magrittr)
-# library(googleway)
 # df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
 #                              -37.8191299438477, -37.8187675476074, -37.8186187744141, -37.8181076049805
 # ), lon = c(144.968612670898, 144.968414306641, 144.968139648438,
@@ -19,10 +17,9 @@
 #                                                                              77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
 #                                                                                                                                                        "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
 # map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
-#
-# df$colour <- c('red','blue','green')
+# library(magrittr)
 # google_map(key = map_key, data = df) %>%
-#   add_markers(lat = "lat", lon = "lon", colour = 'colour')
+#   add_markers(lat = "lat", lon = "lon")
 #
 #
 #
@@ -175,24 +172,23 @@
 #
 # server <- function(input, output){
 #
-#   df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
-#                                -37.8191299438477, -37.8187675476074, -37.8186187744141, -37.8181076049805
-#   ), lon = c(144.968612670898, 144.968414306641, 144.868139648438,
-#              144.967971801758, 144.967864990234, 144.967636108398), weight = c(31.5698964400217,
-#                                                                                97.1629025738221, 58.9051092562731, 76.3215389118996, 37.8982300488278,
-#                                                                                77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
-#                                                                                                                                                          "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
-#
-#
-#
-#   df$id <- 1:nrow(df)
-#
-#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
-#
-#   output$map <- renderGoogle_map({
-#
-#     google_map(key = map_key, height = 800) %>%
-#        add_markers(data = df, lat = "lat", lon = "lon", id = "id")
+  # df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
+  #                              -37.8191299438477, -37.8187675476074, -37.8186187744141, -37.8181076049805
+  # ), lon = c(144.968612670898, 144.968414306641, 144.868139648438,
+  #            144.967971801758, 144.967864990234, 144.967636108398), weight = c(31.5698964400217,
+  #                                                                              97.1629025738221, 58.9051092562731, 76.3215389118996, 37.8982300488278,
+  #                                                                              77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
+  #                                                                                                                                                        "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
+  #
+  #
+  #
+  # df$id <- 1:nrow(df)
+  #
+  # map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+  #
+  # output$map <- renderGoogle_map({
+  #
+  #   google_map(key = map_key, height = 800) %>% add_markers(data = df, lat = "lat", lon = "lon", id = "id", symbol = "symbol")
 #
 #   })
 #
@@ -274,6 +270,40 @@
 #
 # google_map(key = map_key) %>%
 #   add_kml('http://googlemaps.github.io/js-v2-samples/ggeoxml/cta.kml')
+
+
+# library(shiny)
+# library(magrittr)
+# library(googleway)
+#
+# ui <- fluidPage(
+#   google_mapOutput("myMap")
+# )
+#
+# server <- function(input, output){
+#
+#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#
+#   output$myMap <- renderGoogle_map({
+#     google_map(key = map_key) %>%
+#       add_kml('http://googlemaps.github.io/js-v2-samples/ggeoxml/cta.kml', layer_id = "kml_layer")
+#   })
+#
+#   observeEvent(input$myMap_map_click, {
+#     print(str(input$myMap_map_click))
+#
+#     google_map_update(map_id = "myMap") %>%
+#       clear_kml(layer_id = "kml_layer")
+#   })
+#
+# }
+#
+# shinyApp(ui, server)
+
+
+
+
+
 
 
 
