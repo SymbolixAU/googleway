@@ -292,6 +292,58 @@ clear_circles <- function(map, layer_id = NULL){
 }
 
 
+
+#' Update circles
+#'
+#' Updates specific colours and opacities of specified circles Designed to be used in a shiny application.
+#'
+#' @note Any circles (as specified by the \code{id} argument) that do not exist in the \code{data} passed into \code{add_circles()} will not be added to the map. This function will only update the circles that currently exist on the map when the function is called.
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @param data data.frame containing the new values for the circles
+#' @param id string representing the column of \code{data} containing the id values for the circles. The id values must be present in the data supplied to \code{add_circles} in order for the polygons to be udpated
+#' @param radius either a string specifying the column of \code{data} containing the radius of each circle, OR a numeric value specifying the radius of all the circles (radius is expressed in metres)
+#' @param draggable string specifying the column of \code{data} defining if the circle is 'draggable' (either TRUE or FALSE)
+#' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
+#' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
+#' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
+#' @param fill_colour either a string specifying the column of \code{data} containing the fill colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the cirlces
+#' @param fill_opacity either a string specifying the column of \code{data} containing the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
+#' @param layer_id single value specifying an id for the layer.
+#'
+#' @export
+update_circles <- function(map, data, id,
+                           radius = NULL,
+                           draggable = NULL,
+                           stroke_colour = NULL,
+                           stroke_weight = NULL,
+                           stroke_opacity = NULL,
+                           fill_colour = NULL,
+                           fill_opacity = NULL,
+                           layer_id = NULL){
+
+  ## TODO: is 'info_window' required, if it was included in the original add_polygons?
+  layer_id <- LayerId(layer_id)
+
+  circleUpdate <- data.frame(id = data[, id])
+
+  circleUpdate[, "stroke_colour"] <- SetDefault(stroke_colour, "#FF0000", data)
+  circleUpdate[, "stroke_weight"] <- SetDefault(stroke_weight, 1, data)
+  circleUpdate[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.8, data)
+  circleUpdate[, "radius"] <- SetDefault(radius, 50, data)
+  circleUpdate[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
+  circleUpdate[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
+
+  if(!is.null(draggable))
+    circleUpdate[, 'draggable'] <- as.logical(data[, draggable])
+
+  circleUpdate <- jsonlite::toJSON(circleUpdate)
+
+  invoke_method(map, data = NULL, 'update_circles', circleUpdate, layer_id)
+
+
+}
+
 # #' Add Rectangle
 # #'
 # #' Add rectangle to a google map
@@ -820,9 +872,6 @@ add_polygons <- function(map,
 #' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
 #' @param fill_colour either a string specifying the column of \code{data} containing the fill colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the cirlces
 #' @param fill_opacity either a string specifying the column of \code{data} containing the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
-#' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
-#' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
-#' @param mouse_over_group string specifying the column of data specifying which groups of polygons to highlight on mouseover
 #' @param layer_id single value specifying an id for the layer.
 #'
 #' @export
@@ -833,9 +882,6 @@ update_polygons <- function(map, data, id,
                             stroke_opacity = NULL,
                             fill_colour = NULL,
                             fill_opacity = NULL,
-                            info_window = NULL,
-                            mouse_over = NULL,
-                            mouse_over_group = NULL,
                             layer_id = NULL
                             ){
 

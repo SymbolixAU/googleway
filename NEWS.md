@@ -1,6 +1,8 @@
 
 ## Version 1.1.0 (development)
 
+
+* `add_kml()` adds kml layers to a google map
 * `google_streetview()` to download a static streetview map
 * `update_polygons()` to dynamically update polygons
 * `update_style()` to dynamically update the map style
