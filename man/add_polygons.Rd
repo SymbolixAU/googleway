@@ -66,22 +66,22 @@ See examples.
 \examples{
 \dontrun{
 
-## polygon with a hole - Bermuda triangle
+##polygon with a hole - Bermuda triangle
+## to encode the polylines I'm currenlty using `library(gepaf)`
 pl_outer <- gepaf::encodePolyline(data.frame(lat = c(25.774, 18.466,32.321),
-                                            lng = c(-80.190, -66.118, -64.757)))
+      lng = c(-80.190, -66.118, -64.757)))
 
 pl_inner <- gepaf::encodePolyline(data.frame(lat = c(28.745, 29.570, 27.339),
-                                             lng = c(-70.579, -67.514, -66.668)))
+       lng = c(-70.579, -67.514, -66.668)))
 
+df <- data.frame(id = c(1,1),
+       polyline = c(pl_outer, pl_inner),
+       stringsAsFactors = FALSE)
 
-l <- list(c(pl_outer, pl_inner))
-
-df <- data.frame(polyline = rep(NA, length(l)))
-
-df$polyline <- l
+df <- aggregate(polyline ~ id, data = df, list)
 
 google_map(key = map_key, height = 800, location = c(25.774, -80.190), zoom = 3) \%>\%
-  add_polygons(data = df, polyline = "polyline", mouse_over = "polyline")
+    add_polygons(data = df, polyline = "polyline", mouse_over = "polyline")
 
 
 }

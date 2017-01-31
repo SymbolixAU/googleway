@@ -906,14 +906,14 @@ update_polygons <- function(map, data, id,
   polygonUpdate[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
   # polygonUpdate[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
 
-  if(!is.null(info_window))
-    polygonUpdate[, "info_window"] <- as.character(data[, info_window])
-
-  if(!is.null(mouse_over))
-    polygonUpdate[, "mouse_over"] <- as.character(data[, mouse_over])
-
-  if(!is.null(mouse_over_group))
-    polygonUpdate[, "mouse_over_group"] <- as.character(data[, mouse_over_group])
+  # if(!is.null(info_window))
+  #   polygonUpdate[, "info_window"] <- as.character(data[, info_window])
+  #
+  # if(!is.null(mouse_over))
+  #   polygonUpdate[, "mouse_over"] <- as.character(data[, mouse_over])
+  #
+  # if(!is.null(mouse_over_group))
+  #   polygonUpdate[, "mouse_over_group"] <- as.character(data[, mouse_over_group])
 
   polygonUpdate <- jsonlite::toJSON(polygonUpdate)
 
