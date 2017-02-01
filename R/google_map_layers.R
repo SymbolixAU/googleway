@@ -325,7 +325,7 @@ update_circles <- function(map, data, id,
   ## TODO: is 'info_window' required, if it was included in the original add_polygons?
   layer_id <- LayerId(layer_id)
 
-  circleUpdate <- data.frame(id = data[, id])
+  circleUpdate <- data.frame(id = as.character(data[, id]))
 
   circleUpdate[, "stroke_colour"] <- SetDefault(stroke_colour, "#FF0000", data)
   circleUpdate[, "stroke_weight"] <- SetDefault(stroke_weight, 1, data)

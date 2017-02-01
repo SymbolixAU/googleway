@@ -188,8 +188,6 @@ function add_markers(map_id, data_markers, cluster, layer_id){
       mouseOverGroup: data_markers[i].mouse_over_group
     });
 
-    console.log(marker);
-
     if(data_markers[i].info_window){
       add_infoWindow(map_id, marker, infoWindow, '_information', data_markers[i].info_window);
     }
@@ -359,6 +357,7 @@ function update_circles(map_id, data_circle, layer_id){
       for(j = 0; j < Object.keys(thisUpdateCircle).length; j++){
 
         objectAttribute = Object.keys(thisUpdateCircle)[j];
+
         attributeValue = thisUpdateCircle[objectAttribute];
 
         switch(objectAttribute){
