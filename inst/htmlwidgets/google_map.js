@@ -410,7 +410,8 @@ function update_circles(map_id, data_circle, layer_id){
 function add_heatmap(map_id, data_heatmap, heatmap_options, layer_id){
 
   //heat = HTMLWidgets.dataframeToD3(data_heatmap);
-  heat_options = HTMLWidgets.dataframeToD3(heatmap_options);
+  //heat_options = HTMLWidgets.dataframeToD3(heatmap_options);
+  heat_options = heatmap_options;
 
   // need an array of google.maps.LatLng points
   var heatmapData = [];
@@ -424,7 +425,7 @@ function add_heatmap(map_id, data_heatmap, heatmap_options, layer_id){
     latlon = new google.maps.LatLng(data_heatmap[i].lat, data_heatmap[i].lng);
     heatmapData[i] = {
       location: latlon,
-      weight: data_heatmap[i].weight
+      weight: data_heatmap[i].weighT
     };
 
     //bounds.extend(latlon);
@@ -442,7 +443,12 @@ function add_heatmap(map_id, data_heatmap, heatmap_options, layer_id){
     radius: heat_options[0].radius,
     opacity: heat_options[0].opacity,
     dissipating: heat_options[0].dissipating
+    //gradient: [ heat_options[0].gradient ]
   });
+
+  if(heat_options[0].gradient !== undefined){
+    heatmap.set('gradient', heat_options[0].gradient);
+  }
 
 //  window[map_id + 'googleBounds'].push(bounds);
 //  window[map_id + 'map'].fitBounds(bounds);

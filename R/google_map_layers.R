@@ -403,6 +403,7 @@ update_circles <- function(map, data, id,
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
+#' @param option_gradient vector of colours to use as the gradient colours. All CSS3 named colours are supported (\link{https://www.w3.org/TR/css3-color/#html4}), except for extended named colours (\link{https://www.w3.org/TR/css3-color/#svg-color})
 #' @param weight string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.
 #' @param option_dissipating logical Specifies whether heatmaps dissipate on zoom. When dissipating is false the radius of influence increases with zoom level to ensure that the color intensity is preserved at any given geographic location. Defaults to false.
 #' @param option_radius numeric The radius of influence for each data point, in pixels.
@@ -411,7 +412,7 @@ update_circles <- function(map, data, id,
 #' @examples
 #' \dontrun{
 #'
-#' #' df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
+#' df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
 #' -37.8191299438477, -37.8187675476074, -37.8186187744141, -37.8181076049805
 #' ), lon = c(144.968612670898, 144.968414306641, 144.968139648438,
 #' 144.967971801758, 144.967864990234, 144.967636108398), weight = c(31.5698964400217,
@@ -420,7 +421,7 @@ update_circles <- function(map, data, id,
 #' "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
 #'
 #' library(magrittr)
-#' google_map(key = map_key, data = df_line) %>%
+#' google_map(key = map_key, data = df) %>%
 #'  add_heatmap(lat = "lat", lon = "lon", weight = "weight")
 #'
 #'  }
@@ -430,6 +431,7 @@ add_heatmap <- function(map,
                         lat = NULL,
                         lon = NULL,
                         weight = NULL,
+                        option_gradient = NULL,
                         option_dissipating = FALSE,
                         option_radius = 0.01,
                         option_opacity = 0.6,
@@ -464,6 +466,7 @@ add_heatmap <- function(map,
 
   Heatmap[, "weight"] <- SetDefault(weight, 1, data)
 
+
   ## Heatmap Options
   if(!is.null(option_opacity))
     if(!is.numeric(option_opacity) | (option_opacity < 0 | option_opacity > 1))
@@ -481,7 +484,11 @@ add_heatmap <- function(map,
                                 radius = option_radius,
                                 opacity = option_opacity)
 
+  if(!is.null(option_gradient))
+    heatmap_options$gradient <- list(c('rgba(0, 255, 255, 0)', option_gradient))
+
   Heatmap <- jsonlite::toJSON(Heatmap)
+  heatmap_options <- jsonlite::toJSON(heatmap_options)
 
   invoke_method(map, data, 'add_heatmap', Heatmap, heatmap_options, layer_id)
 }

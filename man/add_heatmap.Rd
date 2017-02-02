@@ -5,8 +5,8 @@
 \title{Add heatmap}
 \usage{
 add_heatmap(map, data = get_map_data(map), lat = NULL, lon = NULL,
-  weight = NULL, option_dissipating = FALSE, option_radius = 0.01,
-  option_opacity = 0.6, layer_id = NULL)
+  weight = NULL, option_gradient = NULL, option_dissipating = FALSE,
+  option_radius = 0.01, option_opacity = 0.6, layer_id = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -18,6 +18,8 @@ add_heatmap(map, data = get_map_data(map), lat = NULL, lon = NULL,
 \item{lon}{string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made}
 
 \item{weight}{string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.}
+
+\item{option_gradient}{vector of colours to use as the gradient colours. All CSS3 named colours are supported (\link{https://www.w3.org/TR/css3-color/#html4}), except for extended named colours (\link{https://www.w3.org/TR/css3-color/#svg-color})}
 
 \item{option_dissipating}{logical Specifies whether heatmaps dissipate on zoom. When dissipating is false the radius of influence increases with zoom level to ensure that the color intensity is preserved at any given geographic location. Defaults to false.}
 
@@ -33,7 +35,7 @@ Adds a heatmap to a google map
 \examples{
 \dontrun{
 
-#' df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
+df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
 -37.8191299438477, -37.8187675476074, -37.8186187744141, -37.8181076049805
 ), lon = c(144.968612670898, 144.968414306641, 144.968139648438,
 144.967971801758, 144.967864990234, 144.967636108398), weight = c(31.5698964400217,
@@ -42,7 +44,7 @@ Adds a heatmap to a google map
 "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
 
 library(magrittr)
-google_map(key = map_key, data = df_line) \%>\%
+google_map(key = map_key, data = df) \%>\%
  add_heatmap(lat = "lat", lon = "lon", weight = "weight")
 
  }
