@@ -403,7 +403,7 @@ update_circles <- function(map, data, id,
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
-#' @param option_gradient vector of colours to use as the gradient colours. All CSS3 named colours are supported (\link{https://www.w3.org/TR/css3-color/#html4}), except for extended named colours (\link{https://www.w3.org/TR/css3-color/#svg-color})
+#' @param option_gradient vector of colours to use as the gradient colours. All CSS3 named colours are supported (\url{https://www.w3.org/TR/css3-color/#html4}), except for extended named colours (\url{https://www.w3.org/TR/css3-color/#svg-color})
 #' @param weight string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.
 #' @param option_dissipating logical Specifies whether heatmaps dissipate on zoom. When dissipating is false the radius of influence increases with zoom level to ensure that the color intensity is preserved at any given geographic location. Defaults to false.
 #' @param option_radius numeric The radius of influence for each data point, in pixels.
@@ -484,8 +484,10 @@ add_heatmap <- function(map,
                                 radius = option_radius,
                                 opacity = option_opacity)
 
-  if(!is.null(option_gradient))
+  if(!is.null(option_gradient)){
+
     heatmap_options$gradient <- list(c('rgba(0, 255, 255, 0)', option_gradient))
+  }
 
   Heatmap <- jsonlite::toJSON(Heatmap)
   heatmap_options <- jsonlite::toJSON(heatmap_options)

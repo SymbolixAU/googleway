@@ -19,7 +19,7 @@ add_heatmap(map, data = get_map_data(map), lat = NULL, lon = NULL,
 
 \item{weight}{string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.}
 
-\item{option_gradient}{vector of colours to use as the gradient colours. All CSS3 named colours are supported (\link{https://www.w3.org/TR/css3-color/#html4}), except for extended named colours (\link{https://www.w3.org/TR/css3-color/#svg-color})}
+\item{option_gradient}{vector of colours to use as the gradient colours. All CSS3 named colours are supported (\url{https://www.w3.org/TR/css3-color/#html4}), except for extended named colours (\url{https://www.w3.org/TR/css3-color/#svg-color})}
 
 \item{option_dissipating}{logical Specifies whether heatmaps dissipate on zoom. When dissipating is false the radius of influence increases with zoom level to ensure that the color intensity is preserved at any given geographic location. Defaults to false.}
 
