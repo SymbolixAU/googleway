@@ -421,11 +421,15 @@ function add_heatmap(map_id, data_heatmap, heatmap_options, layer_id){
 //  var bounds = new google.maps.LatLngBounds();
 
   // turn row of the data into LatLng, and push it to the array
+
+  console.log("heatmap data");
+  console.log(data_heatmap);
+
   for(i = 0; i < Object.keys(data_heatmap).length; i++){
     latlon = new google.maps.LatLng(data_heatmap[i].lat, data_heatmap[i].lng);
     heatmapData[i] = {
       location: latlon,
-      weight: data_heatmap[i].weighT
+      weight: data_heatmap[i].weight
     };
 
     //bounds.extend(latlon);
