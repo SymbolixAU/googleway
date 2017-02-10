@@ -5,6 +5,25 @@
 NULL
 
 
+#' Pipe
+#'
+#' Uses the pipe operator (\code{\%>\%}) to chain statements. Useful for adding layes to a \code{google_map}
+#'
+#' @importFrom magrittr %>%
+#' @name %>%
+#' @rdname pipe
+#' @export
+#' @param lhs,rhs A google map and a layer to add to it
+#' @examples
+#' \dontrun{
+#'
+#' key <- "your_api_key"
+#' google_map(key = key) %>%
+#' add_traffic()
+#'
+#' }
+NULL
+
 ## build notes
 # --use-valgrind
 directions_data <- function(base_url,
