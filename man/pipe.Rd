@@ -4,6 +4,18 @@
 \alias{\%>\%}
 \title{Pipe}
 \arguments{
-\item{lhs, rhs}{A visualisation and a function to apply to it}
+\item{lhs, rhs}{A google map and a layer to add to it}
+}
+\description{
+Uses the pipe operator (\code{\%>\%}) to chain statements. Useful for adding layes to a \code{google_map}
+}
+\examples{
+\dontrun{
+
+key <- "your_api_key"
+google_map(key = key) \%>\%
+add_traffic()
+
+}
 }
 
