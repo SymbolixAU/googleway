@@ -1091,6 +1091,12 @@ function clear_transit(map_id){
   window[map_id + 'googleTransitLayer'].setMap(null);
 }
 
+function clear_search(map_id){
+  window[map_id + 'googlePlaceMarkers'].forEach(function(marker) {
+        marker.setMap(null);
+      });
+      window[map_id + 'googlePlaceMarkers'] = [];
+}
 
 function initialise_map(el, x) {
 

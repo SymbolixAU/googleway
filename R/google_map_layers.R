@@ -148,6 +148,16 @@ clear_markers <- function(map, layer_id = NULL){
   invoke_method(map, data = NULL, 'clear_markers', layer_id)
 }
 
+#' Clear search
+#'
+#' clears the markers placed on the map after using the search box
+#' @param map a googleway map object created from \code{google_map()}
+#'
+#' @export
+clear_search <- function(map){
+  invoke_method(map, data = NULL, 'clear_search')
+}
+
 #' Update style
 #'
 #' Updates the map with the given styles
@@ -938,6 +948,7 @@ clear_polygons <- function(map, layer_id = NULL){
 
   invoke_method(map, data = NULL, 'clear_polygons', layer_id)
 }
+
 
 
 #' Add KML

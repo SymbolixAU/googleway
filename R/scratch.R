@@ -317,5 +317,34 @@
 #   add_heatmap(lat = "lat", lon = "lon", weight = "weight")
 
 
+### clearing search box
+# library(shiny)
+# library(magrittr)
+# library(googleway)
+#
+# ui <- fluidPage(
+#   google_mapOutput("myMap"),
+#   actionButton("clear", "clear search")
+# )
+#
+# server <- function(input, output){
+#
+#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#
+#   output$myMap <- renderGoogle_map({
+#     google_map(key = map_key, search_box = T)
+#   })
+#
+#   observeEvent(input$clear, {
+#
+#     google_map_update(map_id = "myMap") %>%
+#       googleway:::clear_search()
+#
+#   })
+#
+# }
+#
+# shinyApp(ui, server)
+
 
 
