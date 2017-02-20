@@ -323,8 +323,8 @@
 # library(googleway)
 #
 # ui <- fluidPage(
-#   google_mapOutput("myMap"),
-#   actionButton("clear", "clear search")
+#   google_mapOutput("myMap")
+#   #actionButton("clear", "clear search")
 # )
 #
 # server <- function(input, output){
@@ -332,19 +332,20 @@
 #   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 #
 #   output$myMap <- renderGoogle_map({
-#     google_map(key = map_key, search_box = T)
+#     google_map(key = map_key, search_box = T) %>%
+#       add_markers(data = df)
 #   })
 #
-#   observeEvent(input$clear, {
-#
-#     google_map_update(map_id = "myMap") %>%
-#       clear_search()
-#
-#   })
+#   # observeEvent(input$clear, {
+#   #
+#   #   google_map_update(map_id = "myMap") %>%
+#   #     clear_search()
+#   #
+#   # })
 #
 # }
 #
 # shinyApp(ui, server)
-
-
-
+#
+#
+#
