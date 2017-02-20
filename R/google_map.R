@@ -101,13 +101,13 @@ google_map <- function(key,
     )
   )
 
-  if(search_box == TRUE){
+  # if(search_box == TRUE){
     header <- paste0('<script src="https://maps.googleapis.com/maps/api/js?key=',
                      key, '&libraries=visualization,geometry,places"></script>')
-  }else{
-    header <- paste0('<script src="https://maps.googleapis.com/maps/api/js?key=',
-                     key, '&libraries=visualization,geometry"></script>')
-  }
+  # }else{
+  #   header <- paste0('<script src="https://maps.googleapis.com/maps/api/js?key=',
+  #                    key, '&libraries=visualization,geometry"></script>')
+  # }
 
   googlemap$dependencies <- c(
     googlemap$dependencies,
@@ -185,4 +185,15 @@ renderGoogle_map <- function(expr, env = parent.frame(), quoted = FALSE) {
   if (!quoted) { expr <- substitute(expr) } # force quoted
   htmlwidgets::shinyRenderWidget(expr, google_mapOutput, env, quoted = TRUE)
 }
+
+
+# google_map_html <- function(id, style, class, ...){
+#   list(
+#       tags$div(id = id, class = class, style = style,
+#                tags$div(id = "search-container", class = "inner-addon right-addon",
+#                         tags$input(id = "pac-input", class = "controls", type = "text"),
+#                         tags$span(id = "search-clear", class="glyphicon glyphicon-remove-cirlce")))
+#       )
+# }
+
 

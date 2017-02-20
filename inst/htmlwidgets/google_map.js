@@ -36,10 +36,11 @@ HTMLWidgets.widget({
             // create a place DOM element
             window[el.id + 'googleSearchBox'] = document.createElement("input");
             // <input id="pac-input" class="controls" type="text" placeholder="Search place">
+            //window[el.id + 'googleSearchBox'].setAttribute('id', 'search-container');
             window[el.id + 'googleSearchBox'].setAttribute('id', 'pac-input');
             window[el.id + 'googleSearchBox'].setAttribute('class', 'controls');
             window[el.id + 'googleSearchBox'].setAttribute('type', 'text');
-            window[el.id + 'googleSearchBox'].setAttribute('placeholder', 'Search Box');
+            window[el.id + 'googleSearchBox'].setAttribute('placeholder', 'Search location');
             document.body.appendChild(window[el.id + 'googleSearchBox']);
           }
 
@@ -1108,6 +1109,8 @@ function initialise_map(el, x) {
   // if places
   if(x.search_box === true){
     var input = document.getElementById('pac-input');
+    //var input = document.getElementById('search-container');
+
     window[el.id + 'googleSearchBox'] = new google.maps.places.SearchBox(input);
     window[el.id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
@@ -1117,11 +1120,18 @@ function initialise_map(el, x) {
     });
 
     var markers = [];
+
+    // listen for deleting the search bar
+    input.addEventListener('input', function(){
+      if(input.value.length === 0){
+        clear_search(el.id)
+      }
+    })
+
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.
     window[el.id + 'googleSearchBox'].addListener('places_changed', function() {
       var places = window[el.id + 'googleSearchBox'].getPlaces();
-
       if (places.length == 0) {
         return;
       }

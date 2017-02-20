@@ -338,7 +338,7 @@
 #   observeEvent(input$clear, {
 #
 #     google_map_update(map_id = "myMap") %>%
-#       googleway:::clear_search()
+#       clear_search()
 #
 #   })
 #

@@ -14,16 +14,42 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
+#search-container{
+  width: 300px;
+  margin-left: 12px;
+  padding: 0 11px 0 13px;
+}
+
 #pac-input {
   background-color: #fff;
   font-family: Roboto;
   font-size: 15px;
   font-weight: 300;
-  margin-left: 12px;
-  padding: 0 11px 0 13px;
-  text-overflow: ellipsis;
   width: 300px;
+  padding: 0 11px 0 13px;
+  margin-left: 12px;
+  text-overflow: ellipsis;
 }
+
+/* enable absolute positioning */
+.inner-addon {
+  position: relative;
+}
+
+/* style glyph */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+/* align glyph */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
 
 #pac-input:focus {
   border-color: #4d90fe;
