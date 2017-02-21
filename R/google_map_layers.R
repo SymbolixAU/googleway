@@ -638,6 +638,8 @@ clear_bicycling <- function(map){
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
 #' @param polyline string specifying the column of \code{data} containing the encoded 'polyline'
+#' #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
+#' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
 #' @param id string specifying the column containing an identifier for a polyline
 #' @param geodesic logical
 #' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
@@ -653,18 +655,32 @@ clear_bicycling <- function(map){
 #' @examples
 #' \dontrun{
 #'
-#' library(magrittr)
-#' pl <- "pizeF_{~sZjLhAdAJLwBJkBv@wN~Bgd@x@sNjAeUR_FTkEAqBGiAQuAw@{E_C}NGwA?sANaELkDDu@LgAfAiF?g@EI?EIo@EMMKe@UQGaAM}IaA_Fg@_JaAsEc@_"
-#' df <- data.frame(polyline = pl)
-#' google_map(key = map_key) %>%
-#'   add_polylines(data = df, polyline = "polyline")
+#' flights <- read.csv('https://raw.githubusercontent.com/plotly/datasets/master/2011_february_aa_flight_paths.csv')
+#' flights$id <- seq_len(nrow(flights))
+#'
+#'
+#' ## encode the routes as polylines
+#' lst <- lapply(unique(flights$id), function(x){
+#'   lat = c(flights[flights["id"] == x, c("start_lat")], flights[flights["id"] == x, c("end_lat")])
+#'   lon = c(flights[flights["id"] == x, c("start_lon")], flights[flights["id"] == x, c("end_lon")])
+#'   data.frame(id = x, polyline = gepaf::encodePolyline(data.frame(lat = lat, lon = lon)))
+#' })
+#'
+#' flights <- merge(flights, do.call(rbind, lst), by = "id")
+#'
+#' map_key <- "your_api_key"
+#' google_map(key = map_key, style = style) %>%
+#'   add_polylines(data = flights, polyline = "polyline", mouse_over_group = "airport1",
+#'                stroke_weight = 1, stroke_opacity = 0.3, stroke_colour = "#ccffff")
 #'
 #'
 #' }
 #' @export
 add_polylines <- function(map,
                          data = get_map_data(map),
-                         polyline,
+                         polyline = NULL,
+                         lat = NULL,
+                         lon = NULL,
                          id = NULL,
                          geodesic = NULL,
                          stroke_colour = NULL,
@@ -674,13 +690,8 @@ add_polylines <- function(map,
                          mouse_over = NULL,
                          mouse_over_group = NULL,
                          update_map_view = TRUE,
-                         layer_id = NULL
-#                          lineSource = c("coords","polyline"),
-#                          group = NULL,
-#                          group_options = NULL,
-#                          lat = NULL,
-#                          lon = NULL,
-                                      ){
+                         layer_id = NULL){
+
   # ## TODO:
   # ## polylines can be a list of data.frames with lat/lon columns
   # ## or a shape file
@@ -693,16 +704,63 @@ add_polylines <- function(map,
   ## -- if not, use a 'default' colour
   ##
 
-  if(is.null(polyline))
-    stop("please supply the column containing the polylines")
+
+  if(is.null(polyline) & (is.null(lat) | is.null(lon)))
+    stop("please supply the either the column containing the polylines, or the lat/lon coordinate columns")
 
   if(!is.logical(update_map_view))
     stop("update_map_view must be TRUE or FALSE")
 
-  polyline <- data[, polyline, drop = FALSE]
-  polyline <- stats::setNames(polyline, "polyline")
+  if(!is.null(polyline)){
+    ## polyline specified
+    polyline <- data[, polyline, drop = FALSE]
+    polyline <- stats::setNames(polyline, "polyline")
+    usePolyline <- TRUE
+
+  }else{
+
+    usePolyline <- FALSE
+    dataLatLng <- data
+
+    if(is.null(lat)){
+      dataLatLng <- latitude_column(dataLatLng, lat, 'add_polylines')
+      lat <- "lat"
+    }
+
+    if(is.null(lon)){
+      dataLatLng <- longitude_column(dataLatLng, lon, 'add_polylines')
+      lon <- "lng"
+    }
+
+    data <- unique(dataLatLng[, !names(dataLatLng) %in% c(lat, lon), drop = FALSE])
+    polyline <- data
+
+  }
 
   layer_id <- LayerId(layer_id)
+
+
+  ## if an id has been supplied, we need to aggregate the lat / lon by the id
+  if(!is.null(id))
+    polyline[, "id"] <- as.character(data[, id])
+
+
+  ## using polyline ==> using one row per line (continue with 'polyline')
+  ## using lat/lon ==> using many rows per line
+  ## use a list to store the coordinates
+  if(!is.null(lat)){
+    lst_polyline <- lapply(unique(dataLatLng[, 'id']), function(x) {
+      list(id = x,
+           coords = data.frame(lat = dataLatLng[dataLatLng['id'] == x, 'lat'],
+                               lng = dataLatLng[dataLatLng['id'] == x, 'lon'])
+           )
+    })
+    js_polyline <- jsonlite::toJSON(lst_polyline)
+  }else{
+    js_polyline <- ""
+  }
+
+
 
   ## the defaults are required
   polyline[, "geodesic"] <- SetDefault(geodesic, TRUE, data)
@@ -710,9 +768,6 @@ add_polylines <- function(map,
   polyline[, "stroke_weight"] <- SetDefault(stroke_weight, 2, data)
   polyline[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
   # polyline[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
-
-  if(!is.null(id))
-    polyline[, "id"] <- as.character(data[, id])
 
   ## options
   if(!is.null(mouse_over))
@@ -729,8 +784,10 @@ add_polylines <- function(map,
 
   polyline <- jsonlite::toJSON(polyline)
 
-  invoke_method(map, data, 'add_polylines', polyline, update_map_view, layer_id)
-}
+  invoke_method(map, data, 'add_polylines', polyline, update_map_view, layer_id, usePolyline, js_polyline)
+  }
+
+
 
 #' @rdname clear
 #' @export

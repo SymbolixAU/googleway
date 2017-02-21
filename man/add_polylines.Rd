@@ -4,17 +4,21 @@
 \alias{add_polylines}
 \title{Add polyline}
 \usage{
-add_polylines(map, data = get_map_data(map), polyline, id = NULL,
-  geodesic = NULL, stroke_colour = NULL, stroke_weight = NULL,
-  stroke_opacity = NULL, info_window = NULL, mouse_over = NULL,
-  mouse_over_group = NULL, update_map_view = TRUE, layer_id = NULL)
+add_polylines(map, data = get_map_data(map), polyline = NULL, lat = NULL,
+  lon = NULL, id = NULL, geodesic = NULL, stroke_colour = NULL,
+  stroke_weight = NULL, stroke_opacity = NULL, info_window = NULL,
+  mouse_over = NULL, mouse_over_group = NULL, update_map_view = TRUE,
+  layer_id = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
 \item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.}
 
-\item{polyline}{string specifying the column of \code{data} containing the encoded 'polyline'}
+\item{polyline}{string specifying the column of \code{data} containing the encoded 'polyline'
+#' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made}
+
+\item{lon}{string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made}
 
 \item{id}{string specifying the column containing an identifier for a polyline}
 
@@ -45,11 +49,23 @@ using \code{update_map_view = TRUE} for multiple polylines may be slow, so it ma
 \examples{
 \dontrun{
 
-library(magrittr)
-pl <- "pizeF_{~sZjLhAdAJLwBJkBv@wN~Bgd@x@sNjAeUR_FTkEAqBGiAQuAw@{E_C}NGwA?sANaELkDDu@LgAfAiF?g@EI?EIo@EMMKe@UQGaAM}IaA_Fg@_JaAsEc@_"
-df <- data.frame(polyline = pl)
-google_map(key = map_key) \%>\%
-  add_polylines(data = df, polyline = "polyline")
+flights <- read.csv('https://raw.githubusercontent.com/plotly/datasets/master/2011_february_aa_flight_paths.csv')
+flights$id <- seq_len(nrow(flights))
+
+
+## encode the routes as polylines
+lst <- lapply(unique(flights$id), function(x){
+  lat = c(flights[flights["id"] == x, c("start_lat")], flights[flights["id"] == x, c("end_lat")])
+  lon = c(flights[flights["id"] == x, c("start_lon")], flights[flights["id"] == x, c("end_lon")])
+  data.frame(id = x, polyline = gepaf::encodePolyline(data.frame(lat = lat, lon = lon)))
+})
+
+flights <- merge(flights, do.call(rbind, lst), by = "id")
+
+map_key <- "your_api_key"
+google_map(key = map_key, style = style) \%>\%
+  add_polylines(data = flights, polyline = "polyline", mouse_over_group = "airport1",
+               stroke_weight = 1, stroke_opacity = 0.3, stroke_colour = "#ccffff")
 
 
 }

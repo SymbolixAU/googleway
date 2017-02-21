@@ -423,9 +423,6 @@ function add_heatmap(map_id, data_heatmap, heatmap_options, layer_id){
 
   // turn row of the data into LatLng, and push it to the array
 
-  console.log("heatmap data");
-  console.log(data_heatmap);
-
   for(i = 0; i < Object.keys(data_heatmap).length; i++){
     latlon = new google.maps.LatLng(data_heatmap[i].lat, data_heatmap[i].lng);
     heatmapData[i] = {
@@ -525,20 +522,33 @@ function clear_heatmap(map_id, layer_id){
  * @param update_map_view
  * @param layer_id
  */
-function add_polylines(map_id, data_polyline, update_map_view, layer_id){
+function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_polyline, line_coordinates){
 
   // decode and plot polylines
   window[map_id + 'googlePolyline' + layer_id] = [];
   var infoWindow = new google.maps.InfoWindow();
 
+  // if we are using a polyline column, then it's just one row per line
+  // if it's columns of lat/lon, then it's many rows per line
   for(i = 0; i < Object.keys(data_polyline).length; i++){
-    add_lines(map_id, data_polyline[i], layer_id);
+
+    if(use_polyline){
+      thisPath = google.maps.geometry.encoding.decodePath(data_polyline[i].polyline);
+    }else{
+      thisPath = [];
+
+      for(j = 0; j < Object.keys(line_coordinates[i]).length; j++){
+        thisPath.push(line_coordinates[i].coords[j]);
+      }
+    }
+    add_lines(map_id, data_polyline[i], layer_id, thisPath);
   }
 
-  function add_lines(map_id, polyline, layer_id){
+
+  function add_lines(map_id, polyline, layer_id, thisPath){
 
     var Polyline = new google.maps.Polyline({
-      path: google.maps.geometry.encoding.decodePath(polyline.polyline),
+      path: thisPath,
       id: polyline.id,
       geodesic: polyline.geodesic,
       strokeColor: polyline.stroke_colour,
