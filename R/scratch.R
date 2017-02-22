@@ -456,6 +456,8 @@
 #
 # flights <- merge(flights, do.call(rbind, lst), by = "id")
 #
+
+
 # google_map(key = map_key, style = style) %>%
 #   add_polylines(data = flights, polyline = "polyline", mouse_over_group = "airport1",
 #                 stroke_weight = 1, stroke_opacity = 0.3, stroke_colour = "#ccffff")
