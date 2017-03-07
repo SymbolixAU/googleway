@@ -636,10 +636,10 @@ clear_bicycling <- function(map){
 #' Add a polyline to a google map
 #'
 #' @param map a googleway map object created from \code{google_map()}
-#' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
+#' @param data data frame containing at least a \code{polyline} column, or a \code{lat} and a \code{lon} column. If Null, the data passed into \code{google_map()} will be used.
 #' @param polyline string specifying the column of \code{data} containing the encoded 'polyline'.
-#' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. Coordinates must be in sequential order
-#' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. Coordinates must be in sequential order
+#' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. Coordinates must be in the order that defines the path.
+#' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. Coordinates must be in the order that defines the path.
 #' @param id string specifying the column containing an identifier for a polyline
 #' @param geodesic logical
 #' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles

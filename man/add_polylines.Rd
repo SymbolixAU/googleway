@@ -13,13 +13,13 @@ add_polylines(map, data = get_map_data(map), polyline = NULL, lat = NULL,
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
-\item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.}
+\item{data}{data frame containing at least a \code{polyline} column, or a \code{lat} and a \code{lon} column. If Null, the data passed into \code{google_map()} will be used.}
 
 \item{polyline}{string specifying the column of \code{data} containing the encoded 'polyline'.}
 
-\item{lat}{string specifying the column of \code{data} containing the 'latitude' coordinates. Coordinates must be in sequential order}
+\item{lat}{string specifying the column of \code{data} containing the 'latitude' coordinates. Coordinates must be in the order that defines the path.}
 
-\item{lon}{string specifying the column of \code{data} containing the 'longitude' coordinates. Coordinates must be in sequential order}
+\item{lon}{string specifying the column of \code{data} containing the 'longitude' coordinates. Coordinates must be in the order that defines the path.}
 
 \item{id}{string specifying the column containing an identifier for a polyline}
 
