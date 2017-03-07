@@ -131,11 +131,11 @@ google_streetview <- function(location = NULL, panorama_id = NULL, size = c(400,
   if(output == "plot"){
 
     z <- tempfile()
-    download.file(map_url, z, mode = "wb")
+    utils::download.file(map_url, z, mode = "wb")
     pic <- jpeg::readJPEG(z)
     file.remove(z)
-    plot(0:1,0:1, type="n", ann=FALSE, axes=FALSE)
-    return(rasterImage(pic, 0,0,1,1))
+    graphics::plot(0:1,0:1, type="n", ann=FALSE, axes=FALSE)
+    return(graphics::rasterImage(pic, 0,0,1,1))
   }else{
     return(map_url)
   }

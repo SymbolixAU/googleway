@@ -135,57 +135,6 @@ invoke_method = function(map, data, method, ...) {
 }
 
 
-#' Polygon transform
-#'
-#' Encodes and foramts a \code{SpatialPolygonDataFrame} object into a Google-friendly \code{data.frame} of encoded polylines
-#'
-#' @param SPDF Spatial Polygons data frame to be encoded
-#' @param id_field field in @data that identifies the object
-#' @param CRSObj specify to also change the projection (default output is google map friendly EPSG:4326)
-#' @return data.frame with id field, encoded poly lines, `hole` boolean and `ringDir` info
-polygon_transform <- function(SPDF, id_field, CRSObj = "+init=epsg:4326"){
-
-  ## TODO:
-  ## - check incoming SPDF object (class, attr etc)
-  ## - check id field
-  ## - aggregate the output into the correct list-column structure for using as the polygon data.frame
-
-
-  SPDF <- spTransform(SPDF, CRSobj = CRS(CRSObj))
-  # creat poly lines and merge onto dt_wetlands
-
-  lst_poly <- lapply(1:length(SPDF), function(x, dat = SPDF, id_field_ = id_field){
-      p <- slot(slot(dat, "polygons")[[x]], "Polygons")
-
-      lst <- lapply(p, function(y){
-        coords <- data.frame(lat = slot(y, "coords")[,2],
-                             lng = slot(y, "coords")[,1])
-
-        pl <- gepaf::encodePolyline(coords)
-
-        df <- data.frame(polyline = pl,
-                         id_tmp = dat@data[x, id_field_, with=FALSE],
-                         hole = slot(y, "hole"),
-                         ringDir = slot(y, "ringDir"))
-
-        names(df)[names(df) == "id_tmp"] <- id_field_
-
-        return(df)
-      })
-      return(do.call(rbind, lst))
-    })
-
-  df_poly <- do.call(rbind, lst_poly)
-
-
-  return(df_poly)
-}
-
-
-
-
-
-
 latitude_column <- function(data, lat, calling_function){
 
   if(is.null(lat)){
@@ -414,6 +363,34 @@ LayerId <- function(layer_id){
     return(layer_id)
   }
 }
+
+
+#' Strip Columns
+#'
+#' Removes unnecessary columns before being passed to browser
+#'
+#' @param data data being passed to the browser
+#' @param keep vector of columns to keep
+stripColumns <- function(data, keep = c("id", "geodesic","stroke_colour","stroke_weight",
+                                        "stroke_opacity","info_window","mouse_over",
+                                        "mouse_over_group","layer_id")){
+
+  ## removes unnecessary columns
+  return(data[, c(names(data) %in% keep), drop = FALSE])
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

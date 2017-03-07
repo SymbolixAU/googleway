@@ -8,7 +8,7 @@ test_that("default options are set", {
   expect_true(g$x$lng == 144.5)
   expect_false(g$x$search_box)
   expect_null(g$x$styles)
-  expect_true(g$dependencies[[1]]$head == "<script src=\"https://maps.googleapis.com/maps/api/js?key=abc&libraries=visualization,geometry\"></script>")
+  expect_true(g$dependencies[[1]]$head == "<script src=\"https://maps.googleapis.com/maps/api/js?key=abc&libraries=visualization,geometry,places\"></script>")
   expect_true(is.list(g$x))
   expect_true(inherits(g, "google_map"))
 
