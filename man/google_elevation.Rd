@@ -4,11 +4,14 @@
 \alias{google_elevation}
 \title{Google elevation}
 \usage{
-google_elevation(df_locations, location_type = c("individual", "path"),
-  samples = NULL, key, simplify = TRUE)
+google_elevation(df_locations = NULL, polyline = NULL,
+  location_type = c("individual", "path"), samples = NULL, key,
+  simplify = TRUE)
 }
 \arguments{
 \item{df_locations}{data.frame of with two columns called 'lat' and 'lon' (or 'latitude' / 'longitude') used as the locations}
+
+\item{polyline}{string encoded polyline}
 
 \item{location_type}{string Specifies the results to be returned as individual locations or as a path. One of 'individual' or 'path'. If 'path', the data.frame df_locations must contain at least two rows. The order of the path is determined by the order of the rows.}
 
@@ -25,7 +28,8 @@ Either list or JSON string of the elevation data
 The Google Maps Elevation API provides elevation data for all locations on the surface of the earth, including depth locations on the ocean floor (which return negative values).
 }
 \details{
-You can specify the locations in one of two ways. Either as a set of single locations, or as a path (a series of connected locations).
+Locations can be specified as either a data.frame containing both a lat/latitude and lon/longitude column, or
+a single encoded polyline
 }
 \examples{
 \dontrun{

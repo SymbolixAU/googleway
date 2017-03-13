@@ -1,3 +1,13 @@
+
+## elevation URL length
+# pl1 <- "q{|aHknlv@n@Mt@IxAGb@B\\Eb@AZGRG^W`AyAPQF?NHDJFZBz@FVNPn@D`@C|@DjACv@@h@Dh@Ll@Zj@^\\`@fAx@j@r@d@n@\\ZJPNd@NbANzAFhANb@JNLHD?PKHMRGPSr@UPMXGDGJELMFCPAbBWROpAm@h@YZe@dAaC@Of@aAb@a@t@iALg@LWNQROf@IjAJnFbAv@Dr@Aj@BpBx@fFdCd@HlAHd@Pp@b@|@d@~@j@n@R~@n@\\NTCXBNEZCZKbB]rAKpDK~BO\\?NCd@?`DMz@SLO`@URCR@XLRRRVHd@NXNP\\RXf@JHXN\\Xn@ZD@Z?\\NvArA~BxA"
+# pl2 <- "uipaHmmcv@iBoFm@{AKQy@}B}AoDyA_CASEMGKKI]y@i@y@EOi@q@kAw@KEMAu@M]?[@WDkAZiB~@]H_@PUF]TUL_@XkAn@}CzAyAx@e@P_@JSNGROPa@Fu@[UOc@IOAu@_@WIUMIIWGu@]YEk@SoBiAc@_@gAeAg@{@]mAMq@YmBA]Oq@YuBKYUg@UQa@QiAOI@QIm@EiA[w@BSFYZ_@h@]t@o@bAOb@}@zAWn@_@jAGf@SbAKbAKXSpAS`@ICa@FSHICQ@gAHq@KSAa@I[CQ@k@KOGMKYg@aBkEs@u@k@g@_@a@{@o@W]IAYQYAsDIODc@LW\\GRKn@Ch@WtAO`BCzAIj@Wh@SRc@NS@a@KaAg@kCgAm@]iBo@w@_@UQc@S}@Ww@e@MCa@Sm@Sk@WYI{@g@IIMAMIIIm@QuBaAIGu@_@SQiAqA_AmASSYIUEqAKQBm@Im@Qe@i@k@UQBSCe@NO?[FKFYBSH_ADa@GQIw@OOSKF[b@M@gAl@i@b@{@b@OLwAj@KLWRI@yBvAuAd@m@F_@@qAEk@Kc@Oi@_@_@e@oAeBc@u@SSi@]i@We@Im@Q}@k@w@_@i@a@w@a@SQ[Qy@OeCSUGg@WSOa@e@W]MK_@i@CMMWIEMWa@m@[QEIICK@QHUTe@n@ELKFa@l@u@t@WNYLYXO?IBGHc@Tc@Ja@@{@Q{@]s@a@kBq@YOcAYs@IU?_@NU@GAu@^a@LSPg@X]^YJc@h@]PKHI@w@n@]h@AXEJMTCZc@|AS`@OVg@j@_Av@{@bA"
+# apiKey <- symbolix.utils::apiKey()
+#
+# google_elevation(polyline = pl1, key = apiKey)
+
+# google_elevation(decode_pl(pl2), key=apiKey)
+
 # library(shinydashboard)
 # library(shiny)
 # library(magrittr)
@@ -605,11 +615,16 @@
 # }
 
 
+### Spatial polylines
+# library(sp)
+# library(rgdal)
+#
+# shp <- readOGR(dsn = "../../SVNStuff/Clients/HT0_HydroTasmania/MRBU_MRWF_BUS_surveys/Data/Received_BUSData/GIS",
+#                layer = "Roads_line")
+# map_key <- symbolix.utils::mapKey()
 
-
-
-
-
+# google_map(key = map_key) %>%
+#   add_polylines(data = shp)
 
 
 

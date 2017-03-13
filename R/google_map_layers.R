@@ -707,6 +707,17 @@ add_polylines <- function(map,
                           update_map_view = TRUE,
                           layer_id = NULL){
 
+  # data <- createJSON(data)
+  #
+  # print(data)
+
+  ## The JSON that gets sent to the JS contains EITHER
+  ## 1. an encoded polyline, where each row of a data.frame is a path
+  ## 2. a data.frame of coordinates, plus a data.frame of attributes
+
+
+
+
   # ## TODO:
   # ## polylines can be a list of data.frames with lat/lon columns
   # ## or a shape file
@@ -718,7 +729,6 @@ add_polylines <- function(map,
   ## - each 'group' id has a corresponding option
   ## -- if not, use a 'default' colour
   ##
-
   if(is.null(polyline) & (is.null(lat) | is.null(lon)))
     stop("please supply the either the column containing the polylines, or the lat/lon coordinate columns")
 
@@ -728,29 +738,39 @@ add_polylines <- function(map,
   if(!is.logical(update_map_view))
     stop("update_map_view must be TRUE or FALSE")
 
-  if(!is.null(polyline)){
-    ## polyline specified
-    polyline <- data[, polyline, drop = FALSE]
-    polyline <- stats::setNames(polyline, "polyline")
-    usePolyline <- TRUE
 
-  }else{
+  # if("SpatialLinesDataFrame" %in% class(data)){
+  #   ## extract all the stuff?
+  #   print("spatial object")
+  #   usePolyline <- FALSE
+  #
+  # }
 
-    usePolyline <- FALSE
-    dataLatLng <- data
+  if(inherits(data, "data.frame")){
+    if(!is.null(polyline)){
+      ## polyline specified
+      polyline <- data[, polyline, drop = FALSE]
+      polyline <- stats::setNames(polyline, "polyline")
+      usePolyline <- TRUE
 
-    if(is.null(lat)){
-      dataLatLng <- latitude_column(dataLatLng, lat, 'add_polylines')
-      lat <- "lat"
+    }else{
+
+      usePolyline <- FALSE
+      dataLatLng <- data
+
+      if(is.null(lat)){
+        dataLatLng <- latitude_column(dataLatLng, lat, 'add_polylines')
+        lat <- "lat"
+      }
+
+      if(is.null(lon)){
+        dataLatLng <- longitude_column(dataLatLng, lon, 'add_polylines')
+        lon <- "lng"
+      }
+
+      data <- unique(dataLatLng[, !names(dataLatLng) %in% c(lat, lon), drop = FALSE])
+      polyline <- data
     }
-
-    if(is.null(lon)){
-      dataLatLng <- longitude_column(dataLatLng, lon, 'add_polylines')
-      lon <- "lng"
-    }
-
-    data <- unique(dataLatLng[, !names(dataLatLng) %in% c(lat, lon), drop = FALSE])
-    polyline <- data
   }
 
 
