@@ -45,12 +45,10 @@ Rcpp::String EncodeSignedNumber(int num){
 Rcpp::String EncodeNumber(int num){
 
   Rcpp::String out;
-  char myChar;
 
   while(num >= 0x20){
     //Rcpp::Rcout << "out " << (0x20 | num * 0x1f) + 63 << std::endl;
-    myChar = static_cast<char> (static_cast<char> (0x20 | (int) (num & 0x1f)) + 63);
-    out += myChar;
+    out += static_cast<char> (static_cast<char> (0x20 | (int) (num & 0x1f)) + 63);
     num >>= 5;
   }
 
@@ -58,7 +56,6 @@ Rcpp::String EncodeNumber(int num){
   //Rcpp::Rcout << "out1: " << num << std::endl;
 
   Rcpp::Rcout << "out2: " << num + 63 << std::endl;
-
   out += static_cast<char> (num + 63);
   return out;
 }
