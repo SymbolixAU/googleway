@@ -16,3 +16,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// EncodeCoordinates
+Rcpp::String EncodeCoordinates(Rcpp::NumericVector latitude, Rcpp::NumericVector longitude, int num_coords);
+RcppExport SEXP googleway_EncodeCoordinates(SEXP latitudeSEXP, SEXP longitudeSEXP, SEXP num_coordsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type latitude(latitudeSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type longitude(longitudeSEXP);
+    Rcpp::traits::input_parameter< int >::type num_coords(num_coordsSEXP);
+    rcpp_result_gen = Rcpp::wrap(EncodeCoordinates(latitude, longitude, num_coords));
+    return rcpp_result_gen;
+END_RCPP
+}
