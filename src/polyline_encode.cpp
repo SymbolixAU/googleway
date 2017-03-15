@@ -44,13 +44,22 @@ Rcpp::String EncodeSignedNumber(int num){
 
 Rcpp::String EncodeNumber(int num){
 
-  Rcpp::String out_str;
+  std::string out_str;
+  out_str = "";
+  char myChar;
+  int myInt;
 
   while(num >= 0x20){
-    //Rcpp::Rcout << "out " << (0x20 | num * 0x1f) + 63 << std::endl;
-    out_str += static_cast<char> (static_cast<char> (0x20 | (int) (num & 0x1f)) + 63);
+    //Rcpp::Rcout << "num " << (0x20 | (int)(num & 0x1f)) + 63 << std::endl;
+    myInt = (0x20 | (int)(num & 0x1f)) + 63;
+    //Rcpp::Rcout << "num " << myInt << std::endl;
+    //Rcpp::Rcout << "num cast " << (char)(myInt) << std::endl;
+    out_str += (char)(myInt);
+    //out_str += (char)(static_cast<char>((0x20 | (int) (num & 0x1f)) + 63));
     num >>= 5;
   }
+
+  //Rcpp::Rcout << "out " << static_cast<char>(0x20 | int(num * 0x1f) + 63) << std::endl;
 
   //std::string myStr;
   //myStr = Rcpp::as< std::string >(out_str);
@@ -60,8 +69,13 @@ Rcpp::String EncodeNumber(int num){
   //Rcpp::Rcout << "out1: " << num << std::endl;
 
 
-  Rcpp::Rcout << "out2: " << num + 63 << std::endl;
-  out_str += static_cast<char> (num + 63);
+  //Rcpp::Rcout << "out2: " << num + 63 << std::endl;
+  //out_str += static_cast<char> (num + 63);
+  out_str += char(num + 63);
   return out_str;
 }
+
+
+
+
 
