@@ -40,3 +40,23 @@ test_that("pitch is correct value",{
   expect_error(google_streetview(location = c(1,1), pitch = -180))
   expect_error(google_streetview(location = c(1,1), pitch = c(0, 90)))
 })
+
+
+test_that("response check fails ", {
+  expect_error(google_streetview(location = c(1,1), key = "key", response_check = T))
+})
+
+test_that("html is returned", {
+  expect_equal(
+    google_streetview(location = c(1, 1), output = "html", key = "key"),
+    "https://maps.googleapis.com/maps/api/streetview?&location=1,1&size=400x400&fov=90&pitch=0&key=key"
+  )
+})
+
+
+test_that("plot fails", {
+  expect_error(google_streetview(location = c(1, 1), output = "plot", key = "key"))
+})
+
+
+
