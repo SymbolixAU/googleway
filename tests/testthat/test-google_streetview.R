@@ -9,6 +9,12 @@ test_that("locations and panorama id", {
 
 })
 
+test_that("heading is correct",{
+  expect_error(google_streetview(location = c(1,1), heading = -1))
+  expect_error(google_streetview(location = c(1,1), heading = c(0, 360)))
+  expect_error(google_streetview(location = c(1,1), heading = c("36")))
+})
+
 
 test_that("response is logical", {
   expect_error(google_streetview(location = c(1,1), response_check = "TRUE"))

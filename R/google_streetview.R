@@ -81,7 +81,10 @@ google_streetview <- function(location = NULL, panorama_id = NULL, size = c(400,
   output <- match.arg(output)
 
   if(!is.null(heading)){
-    if(!is.numeric(heading) | length(heading) != 1 | heading < 0 | heading > 360){
+    if(length(heading) != 1)
+      stop("heading must be a single value")
+
+    if(!is.numeric(heading) | heading < 0 | heading > 360){
       stop("heading must be a numeric value between 0 and 360 (inclusive)")
     }
   }
