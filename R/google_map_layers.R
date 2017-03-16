@@ -28,9 +28,8 @@
 #' 77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
 #' "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
 #'
-#' library(magrittr)
 #' google_map(key = map_key, data = df) %>%
-#'  add_markers(lat = "lat", lon = "lon")
+#'  add_markers(lat = "lat", lon = "lon", info_window = "weight")
 #'
 #' }
 #' @export
@@ -221,7 +220,6 @@ update_style <- function(map, styles = NULL){
 #' 77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
 #' "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
 #'
-#' library(magrittr)
 #' google_map(key = map_key, data = df_line) %>%
 #'  add_circles()
 #'
@@ -430,7 +428,6 @@ update_circles <- function(map, data, id,
 #' 77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
 #' "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
 #'
-#' library(magrittr)
 #' google_map(key = map_key, data = df) %>%
 #'  add_heatmap(lat = "lat", lon = "lon", weight = "weight")
 #'
@@ -563,7 +560,6 @@ clear_heatmap <- function(map, layer_id = NULL){
 #' @param map a googleway map object created from \code{google_map()}
 #' @examples
 #' \dontrun{
-#' library(magrittr)
 #'
 #' google_map(key = "your_api_key") %>%
 #'   add_traffic()
@@ -588,7 +584,6 @@ clear_traffic <- function(map){
 #' @param map a googleway map object created from \code{google_map()}
 #' @examples
 #' \dontrun{
-#' library(magrittr)
 #'
 #' google_map(key = "your_api_key") %>%
 #'   add_transit()
@@ -613,7 +608,6 @@ clear_transit <- function(map){
 #' @param map a googleway map object created from \code{google_map()}
 #' @examples
 #' \dontrun{
-#' library(magrittr)
 #'
 #' google_map(key = "your_api_key") %>%
 #'   add_bicycling()

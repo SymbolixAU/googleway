@@ -58,7 +58,6 @@ df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
 77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
 "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
 
-library(magrittr)
 google_map(key = map_key, data = df_line) \%>\%
  add_circles()
 
