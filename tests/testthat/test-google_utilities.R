@@ -33,4 +33,18 @@ test_that("invoke_remote stops on invalid map parameter", {
 
 })
 
+test_that("opacity values between 0 and 1", {
+  expect_error(googleway:::check_opacities(data.frame(o = 2), "o"),
+               "opacity values for o must be between 0 and 1")
+})
+
+test_that("column check works", {
+  expect_error(googleway:::check_for_columns(data.frame(col1 = "hi"),"col2"),
+               "Could not find columns: col2 in the data")
+})
+
+test_that("hex colours works", {
+  expect_error(googleway:::check_hex_colours(data.frame(hex = "123"), "hex"),
+               "Incorrect colour specified in hex. Make sure the colours in the column are valid hexadecimal HTML colours")
+})
 
