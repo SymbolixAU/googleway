@@ -48,3 +48,15 @@ test_that("hex colours works", {
                "Incorrect colour specified in hex. Make sure the colours in the column are valid hexadecimal HTML colours")
 })
 
+
+test_that("google_map_update exists",{
+  expect_equal(
+    class(google_map_update("map", session = "now")),
+    "google_map_update"
+  )
+})
+
+
+
+
+
