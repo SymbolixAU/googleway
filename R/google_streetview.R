@@ -69,11 +69,14 @@ google_streetview <- function(location = NULL, panorama_id = NULL, size = c(400,
     stop("please provide one of location or panorama_id")
 
   if(!is.null(location)){
-    location <- fun_check_location(location)
+    location <- fun_check_location(location, "location")
   }
 
-  if(!is.logical(response_check) & length(response_check) != 1)
+  if(!is.logical(response_check))
     stop("response_check must be either TRUE or FALSE")
+
+  if(length(response_check) != 1)
+    stop("response_check can only be either TRUE or FALSE")
 
   output <- match.arg(output)
 
@@ -83,21 +86,25 @@ google_streetview <- function(location = NULL, panorama_id = NULL, size = c(400,
     }
   }
 
-  if(!is.numeric(fov) | fov < 0 | fov > 120){
-    stop("fov must be a numeric value between 0 and 120 (inclusive)")
-  }
+  if(length(fov) != 1)
+    stop("fov must be a single value")
 
-  if(!is.numeric(size) | length(size) != 2){
+  if(!is.numeric(fov) | fov < 0 | fov > 120)
+    stop("fov must be a numeric value between 0 and 120 (inclusive)")
+
+  if(!is.numeric(size) | length(size) != 2)
     stop("size must be a numeric vector of length 2, giving the width and height (in pixles) of the image")
-  }
 
   size <- paste0(size, collapse = "x")
+
+  if(length(pitch) != 1)
+    stop("pitch must be a single value")
 
   if(!is.numeric(pitch) | pitch < -90 | pitch > 90){
     stop("pitch must be between -90 and 90 (inclusive)")
   }
 
-  if(isTRUE(response_check)){
+  if(response_check){
     ## test for imagry
     ## location OR panorama_id
     map_url <- "https://maps.googleapis.com/maps/api/streetview/metadata?"

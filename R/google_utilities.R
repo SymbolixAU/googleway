@@ -381,10 +381,10 @@ stripColumns <- function(data, keep = c("id", "geodesic","stroke_colour","stroke
 }
 
 
-createJSON <- function(obj){
-  UseMethod("dataType", obj)
-}
-
+# createJSON <- function(obj){
+#   UseMethod("dataType", obj)
+# }
+#
 # #' @export
 # dataType.default <- function(data) stop(paste0("I don't yet know how to work with objects of class ", class(data)))
 #
