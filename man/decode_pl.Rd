@@ -2,7 +2,7 @@
 % Please edit documentation in R/decode_pl.R
 \name{decode_pl}
 \alias{decode_pl}
-\title{decode_pl}
+\title{Decode PL}
 \usage{
 decode_pl(encoded)
 }
@@ -13,7 +13,10 @@ decode_pl(encoded)
 data.frame of lat/lon coordinates
 }
 \description{
-Decodes a polyline that's generated from google's directions api \url{https://developers.google.com/maps/documentation/directions/}
+Decodes an encoded polyline into the series of lat/lon coordinates that specify the path
+}
+\note{
+An encoded polyline is generated from google's polyline encoding algorithm (\url{https://developers.google.com/maps/documentation/utilities/polylinealgorithm}).
 }
 \examples{
 ## polyline joining the capital cities of Australian states
@@ -21,5 +24,8 @@ pl <- "nnseFmpzsZgalNytrXetrG}krKsaif@kivIccvzAvvqfClp~uBlymzA~ocQ}_}iCthxo@srst
 
 df_polyline <- decode_pl(pl)
 df_polyline
+}
+\seealso{
+\link{encode_pl}, \link{google_directions}
 }
 

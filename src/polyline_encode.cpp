@@ -9,9 +9,9 @@ Rcpp::String EncodeSignedNumber(int num);
 Rcpp::String EncodeNumber(int num);
 
 // [[Rcpp::export]]
-Rcpp::String EncodeCoordinates(Rcpp::NumericVector latitude,
-                               Rcpp::NumericVector longitude,
-                               int num_coords){
+Rcpp::String rcpp_encode_pl(Rcpp::NumericVector latitude,
+                            Rcpp::NumericVector longitude,
+                            int num_coords){
 
   int plat = 0;
   int plon = 0;
@@ -45,32 +45,12 @@ Rcpp::String EncodeSignedNumber(int num){
 Rcpp::String EncodeNumber(int num){
 
   std::string out_str;
-  out_str = "";
-  char myChar;
-  int myInt;
 
   while(num >= 0x20){
-    //Rcpp::Rcout << "num " << (0x20 | (int)(num & 0x1f)) + 63 << std::endl;
-    myInt = (0x20 | (int)(num & 0x1f)) + 63;
-    //Rcpp::Rcout << "num " << myInt << std::endl;
-    //Rcpp::Rcout << "num cast " << (char)(myInt) << std::endl;
-    out_str += (char)(myInt);
-    //out_str += (char)(static_cast<char>((0x20 | (int) (num & 0x1f)) + 63));
+    out_str += (char)(0x20 | (int)(num & 0x1f)) + 63;
     num >>= 5;
   }
 
-  //Rcpp::Rcout << "out " << static_cast<char>(0x20 | int(num * 0x1f) + 63) << std::endl;
-
-  //std::string myStr;
-  //myStr = Rcpp::as< std::string >(out_str);
-  //myStr = Rcpp::as< std::string >(out_str);
-
-  //out_str = num + 63;
-  //Rcpp::Rcout << "out1: " << num << std::endl;
-
-
-  //Rcpp::Rcout << "out2: " << num + 63 << std::endl;
-  //out_str += static_cast<char> (num + 63);
   out_str += char(num + 63);
   return out_str;
 }
