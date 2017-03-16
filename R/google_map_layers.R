@@ -668,7 +668,8 @@ clear_bicycling <- function(map){
 #'
 #'
 #' ## using encoded polyline and various colour / fill options
-#' flights <- read.csv('https://raw.githubusercontent.com/plotly/datasets/master/2011_february_aa_flight_paths.csv')
+#' url <- 'https://raw.githubusercontent.com/plotly/datasets/master/2011_february_aa_flight_paths.csv'
+#' flights <- read.csv(url)
 #' flights$id <- seq_len(nrow(flights))
 #'
 #'
@@ -676,7 +677,7 @@ clear_bicycling <- function(map){
 #' lst <- lapply(unique(flights$id), function(x){
 #'   lat = c(flights[flights["id"] == x, c("start_lat")], flights[flights["id"] == x, c("end_lat")])
 #'   lon = c(flights[flights["id"] == x, c("start_lon")], flights[flights["id"] == x, c("end_lon")])
-#'   data.frame(id = x, polyline = gepaf::encodePolyline(data.frame(lat = lat, lon = lon)))
+#'   data.frame(id = x, polyline = encode_pl(lat = lat, lon = lon))
 #' })
 #'
 #' flights <- merge(flights, do.call(rbind, lst), by = "id")

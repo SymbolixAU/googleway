@@ -385,31 +385,31 @@ createJSON <- function(obj){
   UseMethod("dataType", obj)
 }
 
-#' @export
-dataType.default <- function(data) stop(paste0("I don't yet know how to work with objects of class ", class(data)))
-
-#' @export
-dataType.data.frame <- function(data) print("data.frame")
-#' @export
-dataType.data.table <- function(data) print("data.table")
-#' @export
-dataType.SpatialLinesDataFrame <- function(shp, id = NULL) {
-  print("spatial lines data frame")
-  ## extract polyline stuff
-  # sp::SpatialLines(data@lines[1])
-
-  ## need to extract a data.frame of attributes (slot(shp, "data")), AND
-  ## a data.frame of each list of coordinates in lat/lon
-
-  ## in the spatialpolylinesdataframe, each 'line' corresponds to a row of the data
-  ## if no id has been specified, create one based on rowname
-  data <- shp@data
-
-  if(!is.null(id))
-    data[, 'id'] <- as.character(data[, id])
-
-
-}
+# #' @export
+# dataType.default <- function(data) stop(paste0("I don't yet know how to work with objects of class ", class(data)))
+#
+# #' @export
+# dataType.data.frame <- function(data) print("data.frame")
+#
+# #' @export
+# dataType.data.table <- function(data) print("data.table")
+#
+# #' @export
+# dataType.SpatialLinesDataFrame <- function(shp, id = NULL) {
+#   print("spatial lines data frame")
+#   ## extract polyline stuff
+#   # sp::SpatialLines(data@lines[1])
+#
+#   ## need to extract a data.frame of attributes (slot(shp, "data")), AND
+#   ## a data.frame of each list of coordinates in lat/lon
+#
+#   ## in the spatialpolylinesdataframe, each 'line' corresponds to a row of the data
+#   ## if no id has been specified, create one based on rowname
+#   data <- shp@data
+#
+#   if(!is.null(id))
+#     data[, 'id'] <- as.character(data[, id])
+# }
 
 
 
