@@ -12,7 +12,7 @@
 
 <meta name="author" content="D Cooley" />
 
-<meta name="date" content="2017-02-10" />
+<meta name="date" content="2017-03-16" />
 
 <title>Googleway Vignette</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Googleway Vignette</h1>
 <h4 class="author"><em>D Cooley</em></h4>
-<h4 class="date"><em>2017-02-10</em></h4>
+<h4 class="date"><em>2017-03-16</em></h4>
 
 
 
@@ -96,6 +96,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="https://developers.google.com/maps/documentation/javascript/examples/layer-traffic"><strong>Traffic</strong></a> - <code>add_traffic()</code></li>
 <li><a href="https://developers.google.com/maps/documentation/javascript/examples/layer-transit"><strong>Transit</strong></a> - <code>add_transit()</code></li>
 </ul>
+<p>Downloading a static streetview map</p>
+<ul>
+<li><a href="https://developers.google.com/maps/documentation/streetview/"><strong>Street View Image</strong></a> - <code>google_streetview()</code></li>
+</ul>
+<p>Plus the helper fucntions, <code>encode_pl()</code> and <code>decode_pl()</code> for encoding and decoding polylines.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## TODO
 <span class="co"># - polygons with holes</span>
 <span class="co"># - mouse over</span>
@@ -151,6 +156,9 @@ df &lt;-<span class="st"> </span><span class="kw">decode_pl</span>(polyline)
 ## 4 -37.74520 144.9341
 ## 5 -37.73494 144.9270
 ## 6 -37.73554 144.9023</code></pre>
+<p>And, of course, to encode a series of lat/lon coordinates you use <code>encode_pl()</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">encode_pl</span>(<span class="dt">lat =</span> df$lat, <span class="dt">lon =</span> df$lon)</code></pre></div>
+<pre><code>## [1] &quot;pqxeF}bxsZer@vmCgkBlMunGjWc_Apk@vBpyCqjAfbAqmBjXydAg{AoFyoEgTojGsr@gh@sfAhUuiCuw@}kEtOepAvdD{dDd~BsgIuj@{tHi{C{bGg{@{rGsmGabDbW{wCuTwiBajBytFaoA{aI{K{bEkqA{jDg^gpJkbB{gC_w@g~D`@ikGmJ_kEojD_O}`FqvCctE}bGgbDk_BspD_qEodGgaBo{FilEi_Su~CcgHw`Cm`Hv[mxFwaAisAklCuUgzAsmCalJajLqfDcdHgyCayHibCezK~Xo_DuqAqjDshAeaEpg@g`Dy|DgtNqwBegDkaAeEogBozB{jEejQ_q@ckIc~HkvFkgAufGmjCcaJwwD}~AycCrx@skCwUqwN}yKygH}nF}pAgyOep@qlIghDemDgeDkoEkuCc|LtKq~E`}Bw{Ef^klG}@gdFsvAcxBeoDcqByoDypEciFkjBc|Ku}@gr@a}IkE_qEoo@syCgG}iEczAkeBmeCqvA}rCq_AgxEgmHszB}RksB}mEgeEgnCoeD_b@iwAmZi^guB}cCm_F_iAikGsu@cbDsoB{lBk`Bi_CsfD}jFerAgrB{gDiw@}|EacB_jDkmAsjC}yBsyFaqFofEk_Ei~C{yAowFv{ByfBwKsl@onBktCq`IqmFmdGueDakDssAssCyqDmx@e\\kwEyUstC}uAe|Ac|BakGpGmfGuc@mnDguBctBmt@}kDapBmmCkdAgkB}jBcIyoC}xAexHia@cz@ahCafCayBqvBitBuuDzb@wiDe{Imt@e{DwhBwdEynDqjCapAo}AuAmsBzPi{EiPgkJ{gA}tGsJezKbcAcdK__@wuBn_AauGsjDwvC_|AybE{~@unEpZ{nGt_@stEhbDakFh_@elDoKiwBdpAi_DjgAylArLykCDukJql@u~DfCepBwnAghCweA{{EmyAgaEbN{bGcV{kCrjAq{EveByuHlb@eyIg\\gmEhBw{GydAopHn_@_|MsnCcuGw~@agIg@e`KkoA}lBspBu^}sAmgIfpAsmE}Ya|Oc|CgoKouFwuIsnCmlDmHamBkuAinDop@wqIkmEsaIqzAmhAwkD{mA}uEciE}fFghBenCirGowCgiLsrBmhL}jHerGs}GihFupDezGgjEg_EuoBim@g}KmmLizEebAy~DwfCyvFmhBuvBy~DsqCicBatC{z@klCkkDqaDw_BagA}|Bii@kgCpj@}{E{b@cuJxQwkK}j@exF~TanFzM{fFumB_gCirHmTml@AoAd`A&quot;</code></pre>
 </div>
 </div>
 <div id="google-distance-api" class="section level2">

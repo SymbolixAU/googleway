@@ -34,6 +34,12 @@ Plotting a Google Map uses the Javascript API, and the functions used to create 
 * [**Traffic**](https://developers.google.com/maps/documentation/javascript/examples/layer-traffic) - `add_traffic()`
 * [**Transit**](https://developers.google.com/maps/documentation/javascript/examples/layer-transit) - `add_transit()`
 
+Downloading a static streetview map
+
+* [**Street View Image**](https://developers.google.com/maps/documentation/streetview/) - `google_streetview()` 
+
+Plus the helper fucntions, `encode_pl()` and `decode_pl()` for encoding and decoding polylines.
+
 ```{r todos}
 ## TODO
 # - polygons with holes
@@ -101,7 +107,13 @@ df <- decode_pl(polyline)
 head(df)
 ```
 
+And, of course, to encode a series of lat/lon coordinates you use `encode_pl()`
 
+```{r}
+
+encode_pl(lat = df$lat, lon = df$lon)
+
+```
 
 ## Google Distance API
 

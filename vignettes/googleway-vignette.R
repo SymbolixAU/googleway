@@ -13,3 +13,8 @@ library(googleway)
 df <- decode_pl(polyline)
 head(df)
 
+## ------------------------------------------------------------------------
+
+encode_pl(lat = df$lat, lon = df$lon)
+
+
