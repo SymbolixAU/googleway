@@ -381,6 +381,11 @@ stripColumns <- function(data, keep = c("id", "geodesic","stroke_colour","stroke
 }
 
 
+createJSON.sfc_LINESTRING <- function(sf){
+
+}
+
+
 # createJSON <- function(obj){
 #   UseMethod("dataType", obj)
 # }
