@@ -797,14 +797,15 @@ add_polylines <- function(map,
     ## if no id field has been specified, treat all the coordinates as one line
     if(is.null(id)){
       message("No 'id' value defined, assuming one continuous line")
-      dataLatLng[, 'id'] <- "1"
-      polyline[, 'id'] <- "1"
+      id <- 'id'
+      dataLatLng[, id] <- "1"
+      polyline[, id] <- "1"
     }
 
-    lst_polyline <- lapply(unique(dataLatLng[, 'id']), function(x) {
+    lst_polyline <- lapply(unique(dataLatLng[, id]), function(x) {
       list(id = x,
-           coords = data.frame(lat = dataLatLng[dataLatLng['id'] == x, lat],
-                               lng = dataLatLng[dataLatLng['id'] == x, lon])
+           coords = data.frame(lat = dataLatLng[dataLatLng[id] == x, lat],
+                               lng = dataLatLng[dataLatLng[id] == x, lon])
       )
     })
 

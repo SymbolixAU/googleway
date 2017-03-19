@@ -69,3 +69,10 @@ encode_pl <- function(lat, lon){
 }
 
 
+
+
+
+
+
+
+

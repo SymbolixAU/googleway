@@ -52,10 +52,10 @@
 # map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 #
 # ## polygon with a hole - Bermuda triangle
-# pl_outer <- gepaf::encodePolyline(data.frame(lat = c(25.774, 18.466,32.321),
+# pl_outer <- encode_pl(data.frame(lat = c(25.774, 18.466,32.321),
 #                                              lng = c(-80.190, -66.118, -64.757)))
 #
-# pl_inner <- gepaf::encodePolyline(data.frame(lat = c(28.745, 29.570, 27.339),
+# pl_inner <- encode_pl(data.frame(lat = c(28.745, 29.570, 27.339),
 #                                              lng = c(-70.579, -67.514, -66.668)))
 #
 #
@@ -398,7 +398,7 @@
 # df <- rbind(df_orig, df_dest)
 #
 # lst <- lapply(unique(df$id), function(x){
-#   data.frame(id = x, polyline = gepaf::encodePolyline(df[df['id'] == x, c("lat", "lon")]))
+#   data.frame(id = x, polyline = encode_pl(df[df['id'] == x, c("lat", "lon")]))
 # })
 #
 # df <- do.call(rbind, lst)
@@ -461,7 +461,7 @@
 # lst <- lapply(unique(flights$id), function(x){
 #   lat = c(flights[flights["id"] == x, c("start_lat")], flights[flights["id"] == x, c("end_lat")])
 #   lon = c(flights[flights["id"] == x, c("start_lon")], flights[flights["id"] == x, c("end_lon")])
-#   data.frame(id = x, polyline = gepaf::encodePolyline(data.frame(lat = lat, lon = lon)))
+#   data.frame(id = x, polyline = encode_pl(data.frame(lat = lat, lon = lon)))
 # })
 #
 # flights <- merge(flights, do.call(rbind, lst), by = "id")
@@ -499,7 +499,7 @@
 # lst <- lapply(unique(flights$id), function(x){
 #  lat = c(flights[flights["id"] == x, c("start_lat")], flights[flights["id"] == x, c("end_lat")])
 #  lon = c(flights[flights["id"] == x, c("start_lon")], flights[flights["id"] == x, c("end_lon")])
-#  data.frame(id = x, polyline = gepaf::encodePolyline(data.frame(lat = lat, lon = lon)))
+#  data.frame(id = x, polyline = encode_pl(data.frame(lat = lat, lon = lon)))
 # })
 # flights <- merge(flights, do.call(rbind, lst), by = "id")
 # ## style is taken from https://snazzymaps.com/style/6617/dark-greys
@@ -546,7 +546,7 @@
 #
 #   df <- data.frame(lat = c(dt_routes[x, SourceLatitude], dt_routes[x, DestinationLatitude]),
 #                    lon = c(dt_routes[x, SourceLongitude], dt_routes[x, DestinationLongitude]))
-#   pl <- gepaf::encodePolyline(df)
+#   pl <- encode_pl(df)
 #   dt_routes[x, polyline := pl]
 # })
 #
@@ -595,7 +595,7 @@
 #       coords <- data.frame(lat = slot(y, "coords")[,2],
 #                            lng = slot(y, "coords")[,1])
 #
-#       pl <- gepaf::encodePolyline(coords)
+#       pl <- encode_pl(coords)
 #
 #       df <- data.frame(polyline = pl,
 #                        id_tmp = dat@data[x, id_field_, with=FALSE],
@@ -616,15 +616,16 @@
 
 
 ### Spatial polylines using simple features!
-#library(sf)
-#library(rgdal)
-
+# library(sf)
+# library(rgdal)
+#
 # shp <- readOGR(dsn = "../../SVNStuff/Clients/HT0_HydroTasmania/MRBU_MRWF_BUS_surveys/Data/Received_BUSData/GIS",
 #                layer = "Roads_line")
 #
 # sf <- sf::read_sf("~/Documents/SVNStuff/Clients/HT0_HydroTasmania/MRBU_MRWF_BUS_surveys/Data/Received_BUSData/GIS/Roads_line.shp")
-#
+
 # map_key <- symbolix.utils::mapKey()
+# map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 #
 # google_map(key = map_key) %>%
 #   add_polylines(data = shp)
@@ -633,33 +634,15 @@
 # filename <- system.file("gpkg/nc.gpkg", package="sf")
 # nc <- st_read(filename, "nc.gpkg", crs = 4267)
 #
-# str(nc)
-# nc$geom
+
+# dt_nc <- spToDT(nc)
 #
-# class(nc$geom)
-# str(nc$geom)
-# nc$geom[[1]][[1]]
+# map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 #
-# geomCol <- attr(sf, "sf_column")
-#
-# class(sf[[geomCol]])
-#
-# as.data.frame(sf[[geomCol]])
-#
-# geom <- st_geometry(sf)
-#
-# class(geom)
-#
-# length(geom)
-#
-# lst <- lapply(geom, function(x){
-#   unlist(x)
-# })
-#
-# lapply(lst, function(x){
-#   coords = data.frame(lat = x[,2],
-#                       lon = x[,1])
-# })
+# google_map(key = map_key) %>%
+#   add_polylines(data = dt_nc[id == 4], lat = "lat", lon = "lon", id = "lineId")
+
+
 
 
 

@@ -381,10 +381,19 @@ stripColumns <- function(data, keep = c("id", "geodesic","stroke_colour","stroke
 }
 
 
-createJSON.sfc_LINESTRING <- function(sf){
+createJSON.sfc_LINESTRING <- function(geom){
 
 }
 
+
+createJSON.sfc_MULTIPOLYGON <- function(geom){
+
+}
+
+
+createJSON.default <- function(geom){
+
+}
 
 # createJSON <- function(obj){
 #   UseMethod("dataType", obj)
