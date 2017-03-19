@@ -634,13 +634,18 @@
 # filename <- system.file("gpkg/nc.gpkg", package="sf")
 # nc <- st_read(filename, "nc.gpkg", crs = 4267)
 #
-
+#
 # dt_nc <- spToDT(nc)
 #
 # map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 #
 # google_map(key = map_key) %>%
 #   add_polylines(data = dt_nc[id == 4], lat = "lat", lon = "lon", id = "lineId")
+#
+# dt_nc <- dt_nc[, .(polyline = encode_pl(lat, lon)), by = setdiff(names(dt_nc), c("lat", "lon"))]
+#
+# google_map(key = map_key) %>%
+#   add_polygons(data = dt_nc, polyline = "polyline")
 
 
 

@@ -944,6 +944,10 @@ add_polygons <- function(map,
                         ){
 
   ## TODO
+  ##
+  ## - holes must be wound in the opposite direction
+
+  ## -
   ## - other data foramts
   ## -- e.g. geoJSON
   ## -- allow addition of other attributes (however, how will the user access them?)
