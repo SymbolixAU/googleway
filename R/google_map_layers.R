@@ -735,13 +735,6 @@ add_polylines <- function(map,
     stop("update_map_view must be TRUE or FALSE")
 
 
-  # if("SpatialLinesDataFrame" %in% class(data)){
-  #   ## extract all the stuff?
-  #   print("spatial object")
-  #   usePolyline <- FALSE
-  #
-  # }
-
   if(inherits(data, "data.frame")){
     if(!is.null(polyline)){
       ## polyline specified
@@ -846,6 +839,9 @@ add_polylines <- function(map,
   }
 
   polyline <- jsonlite::toJSON(polyline)
+
+  print(polyline)
+  print(js_polyline)
 
   invoke_method(map, data, 'add_polylines', polyline, update_map_view, layer_id, usePolyline, js_polyline)
 }

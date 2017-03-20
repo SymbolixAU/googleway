@@ -383,26 +383,45 @@ stripColumns <- function(data, keep = c("id", "geodesic","stroke_colour","stroke
 
 polyCheck.sf <- function(data, polyline, lat, lon){
   ## sf objects will use the 'sfc_ geometry' column
+  ## return data, and the de-constructed geometry column
+
+  ## geom column
+  geomCol <- which(unlist(lapply(data, function(x) "sfc" %in% class(x))))
+
+
 
 }
-
-polyCheck.data.frame <- function(data, polyline, lat, lon){
-
-}
-
 
 
 polyCheck.default <- function(data, polyline, lat, lon){
-  stop(paste0("no idea what to do with ", class(data), " objects"))
+  ## nothing to do
+  return(list(data = data, polyline = polyline, lat = lat, lon = lon))
 }
 
 
-createJSON.sfc_LINESTRING <- function(geom){
+sfData <- function(geom) UseMethod("sfData")
+ß
+sfData.sfc_LINESTRING <- function(geom){
 
 }
 
 
-createJSON.sfc_MULTIPOLYGON <- function(geom){
+sfData.sfc_MULTIPOLYGON <- function(geom){
+
+
+    lapply(geom, function(x){
+
+         lapply(1:length(x), function(y){
+
+          data.frame(
+            lineId = y,
+            lat = x[[y]][[1]][,2],
+            lon = x[[y]][[1]][,1],
+            hole = (y > 1)[c(T, F)]
+          )
+        })
+    })
+
 
 }
 

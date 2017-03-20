@@ -617,14 +617,16 @@
 
 ### Spatial polylines using simple features!
 # library(sf)
-# library(rgdal)
-#
-# shp <- readOGR(dsn = "../../SVNStuff/Clients/HT0_HydroTasmania/MRBU_MRWF_BUS_surveys/Data/Received_BUSData/GIS",
-#                layer = "Roads_line")
-#
-# sf <- sf::read_sf("~/Documents/SVNStuff/Clients/HT0_HydroTasmania/MRBU_MRWF_BUS_surveys/Data/Received_BUSData/GIS/Roads_line.shp")
-#
-# map_key <- symbolix.utils::mapKey()
+# library(data.table)
+# library(spatial.data.table)
+# # library(rgdal)
+# #
+# # shp <- readOGR(dsn = "../../SVNStuff/Clients/HT0_HydroTasmania/MRBU_MRWF_BUS_surveys/Data/Received_BUSData/GIS",
+# #                layer = "Roads_line")
+# #
+# # sf <- sf::read_sf("~/Documents/SVNStuff/Clients/HT0_HydroTasmania/MRBU_MRWF_BUS_surveys/Data/Received_BUSData/GIS/Roads_line.shp")
+# #
+# # map_key <- symbolix.utils::mapKey()
 # map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 #
 # google_map(key = map_key) %>%
@@ -646,13 +648,15 @@
 #
 # google_map(key = map_key) %>%
 #   add_polygons(data = dt_nc, polyline = "polyline")
-
-
-
-
-
-
-
-
-
+#
+#
+# dt_line <- dt_nc[id == 4]
+#
+# google_map(key = map_key) %>%
+#   add_polylines(data = dt_line, lat = "lat", lon = "lon")
+#
+# dt_poly <- dt_nc[id == 1, .(polyline = encode_pl(lat, lon))]
+#
+# google_map(key = map_key) %>%
+#   add_polylines(data = dt_poly, polyline = "polyline")
 
