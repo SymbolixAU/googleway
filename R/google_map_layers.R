@@ -712,7 +712,6 @@ add_polylines <- function(map,
 
 
   ## sf objects: geomoetry column doesn't have column names
-  ##
 
 
   # ## TODO:

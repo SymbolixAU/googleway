@@ -381,6 +381,22 @@ stripColumns <- function(data, keep = c("id", "geodesic","stroke_colour","stroke
 }
 
 
+polyCheck.sf <- function(data, polyline, lat, lon){
+  ## sf objects will use the 'sfc_ geometry' column
+
+}
+
+polyCheck.data.frame <- function(data, polyline, lat, lon){
+
+}
+
+
+
+polyCheck.default <- function(data, polyline, lat, lon){
+  stop(paste0("no idea what to do with ", class(data), " objects"))
+}
+
+
 createJSON.sfc_LINESTRING <- function(geom){
 
 }
