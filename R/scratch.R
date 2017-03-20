@@ -655,8 +655,44 @@
 # google_map(key = map_key) %>%
 #   add_polylines(data = dt_line, lat = "lat", lon = "lon")
 #
-# dt_poly <- dt_nc[id == 1, .(polyline = encode_pl(lat, lon))]
+# dt_poly <- dt_nc[id == 4, .(polyline = encode_pl(lat, lon)), by = lineId]
 #
 # google_map(key = map_key) %>%
 #   add_polylines(data = dt_poly, polyline = "polyline")
+#
+#
+# df_nc <- nc[3:4, ]
+#
+# class(df_nc)
+#
+# geomCol <- which(unlist(lapply(df_nc, function(x) "sfc" %in% class(x))))
+#
+# class(df_nc[, geomCol][[1]])
+#
+# # unlist(df_nc[, geomCol][[1]])
+#
+# geom <- df_nc[, geomCol][[1]]
+#
+# lst <- lapply(geom, function(x){
+#
+#
+#   lapply(1:length(x), function(y){
+#
+#     data.frame(
+#       lineId = y,
+#       # polyline = encode_pl(x[[y]][[1]][,2], x[[y]][[1]][,1]),
+#       lat = x[[y]][[1]][,2],
+#       lon = x[[y]][[1]][,1],
+#       hole = (y > 1)[c(T, F)]
+#     )
+#   })
+#
+# })
+
+
+
+
+
+
+
 

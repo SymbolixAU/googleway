@@ -400,7 +400,7 @@ polyCheck.default <- function(data, polyline, lat, lon){
 
 
 sfData <- function(geom) UseMethod("sfData")
-ß
+
 sfData.sfc_LINESTRING <- function(geom){
 
 }
