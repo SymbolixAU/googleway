@@ -335,7 +335,11 @@ constructURL <- function(map_url, urlArgs){
 #' Map Styles
 #'
 #' Various style options for maps
+#'
+#' @note you can generate your own map styles at \url{https://mapstyle.withgoogle.com/}
+#'
 #' @return list of styles
+#' @export
 map_styles <- function(){
 
   standard <- '[]'

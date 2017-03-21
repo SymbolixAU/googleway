@@ -12,4 +12,7 @@ list of styles
 \description{
 Various style options for maps
 }
+\note{
+you can generate your own map styles at \url{https://mapstyle.withgoogle.com/}
+}
 
