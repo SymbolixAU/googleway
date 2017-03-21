@@ -334,7 +334,14 @@ constructURL <- function(map_url, urlArgs){
 
 #' Map Styles
 #'
-#' Various style options for maps
+#' Various styles for a \code{google_map()} map.
+#'
+#' @examples
+#' \dontrun{
+#' map_key <- "your_map_key"
+#' google_map(key = map_key, style = map_styles()$silver)
+#'
+#' }
 #'
 #' @note you can generate your own map styles at \url{https://mapstyle.withgoogle.com/}
 #'
