@@ -712,7 +712,6 @@ add_polylines <- function(map,
 
 
   ## sf objects: geomoetry column doesn't have column names
-  ##
 
 
   # ## TODO:
@@ -736,12 +735,7 @@ add_polylines <- function(map,
     stop("update_map_view must be TRUE or FALSE")
 
 
-  # if("SpatialLinesDataFrame" %in% class(data)){
-  #   ## extract all the stuff?
-  #   print("spatial object")
-  #   usePolyline <- FALSE
-  #
-  # }
+  # data <- as.data.frame(data)
 
   if(inherits(data, "data.frame")){
     if(!is.null(polyline)){
@@ -848,12 +842,61 @@ add_polylines <- function(map,
 
   polyline <- jsonlite::toJSON(polyline)
 
+  # print(polyline)
+  # print(js_polyline)
+
   invoke_method(map, data, 'add_polylines', polyline, update_map_view, layer_id, usePolyline, js_polyline)
 }
 
 
+#' Update polylines
+#'
+#' Updates specific colours and opacities of specified polylines. Designed to be used in a shiny application.
+#'
+#' @note Any polylines (as specified by the \code{id} argument) that do not exist in the \code{data} passed into \code{add_polylines()} will not be added to the map. This function will only update the polylines that currently exist on the map when the function is called.
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @param data data.frame containing the new values for the polylines
+#' @param id string representing the column of \code{data} containing the id values for the polylines The id values must be present in the data supplied to \code{add_polylines} in order for the polylines to be udpated
+#' @param polyline string specifying the column containing the polyline. Only used if \code{add_extra} is TRUE
+#' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
+#' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
+#' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
+#' @param layer_id single value specifying an id for the layer.
+#'
+#' @export
+update_polylines <- function(map, data, id,
+                             polyline = NULL,
+                             stroke_colour = NULL,
+                             stroke_weight = NULL,
+                             stroke_opacity = NULL,
+                             layer_id = NULL){
+
+  ## TODO: is 'info_window' required, if it was included in the original add_polygons?
+
+  # data <- as.data.frame(data)
+  if(!inherits(data, "data.frame"))
+    stop("sorry, I can only work with data.frames with a 'polyline' column at the moment. ")
 
 
+  if(!is.null(polyline)){
+    polylineUpdate <- data[, polyline, drop = FALSE]
+    polylineUpdate <- stats::setNames(polylineUpdate, "polyline")
+  }else{
+    stop("I really, really need that polyline column")
+  }
+
+  layer_id <- LayerId(layer_id)
+
+  polylineUpdate[, "id"] <- as.character(data[, id])
+  polylineUpdate[, "stroke_colour"] <- SetDefault(stroke_colour, "#0000FF", data)
+  polylineUpdate[, "stroke_weight"] <- SetDefault(stroke_weight, 1, data)
+  polylineUpdate[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
+
+  polylineUpdate <- jsonlite::toJSON(polylineUpdate)
+
+  invoke_method(map, data = NULL, 'update_polylines', polylineUpdate, layer_id)
+}
 
 
 #' @rdname clear
@@ -944,6 +987,10 @@ add_polygons <- function(map,
                         ){
 
   ## TODO
+  ##
+  ## - holes must be wound in the opposite direction
+
+  ## -
   ## - other data foramts
   ## -- e.g. geoJSON
   ## -- allow addition of other attributes (however, how will the user access them?)
@@ -1036,6 +1083,8 @@ update_polygons <- function(map, data, id,
     }else{
       polygonUpdate <- data[, polyline, drop = FALSE]
     }
+  }else{
+    stop("I really, really need that polyline column")
   }
 
   layer_id <- LayerId(layer_id)
