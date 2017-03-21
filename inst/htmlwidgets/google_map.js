@@ -622,6 +622,85 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
 }
 
 
+/**
+ * Updates polyline options
+ * @param map_id
+ *          the map containing the polygons
+ * @param data_polylines
+ *          polyline data to update
+ * @param addRemove
+ *          boolean specifying if polygons should be added or removed if they are / are not included in the udpated data set
+ */
+function update_polylines(map_id, data_polyline, layer_id){
+
+  // for a given polygon_id, change the options
+  var objectAttribute;
+  var attributeValue;
+  var _id;
+  var thisUpdatePolyline;
+  var currentIds = [];
+  var newIds = [];
+  var newPolylines = [];
+
+  if(window[map_id + 'googlePolyline' + layer_id] !== undefined ){
+
+    for(i = 0; i < Object.keys(window[map_id + 'googlePolyline' + layer_id]).length; i++){
+
+      _id = window[map_id + 'googlePolyline' + layer_id][i].id;
+      //console.log(_id);
+      currentIds.push(_id);
+
+      // find if there is a matching id in the new polyline data set
+      if(data_polyline.find(x => x.id === _id)){
+
+        thisUpdatePolyline = data_polyline.find(x => x.id === _id);
+
+        //if the polygon is currently set to Null, re-put it on the map
+        if(window[map_id + 'googlePolyline' + layer_id][i].getMap() === null){
+          window[map_id + 'googlePolyline' + layer_id][i].setMap(window[map_id + 'map']);
+        }
+
+        // the new id exists in the current data set
+        // update the values for this polygon
+
+        // for each of the options in data_polyline, update the polygons
+        for(j = 0; j < Object.keys(thisUpdatePolyline).length; j++){
+
+          objectAttribute = Object.keys(thisUpdatePolyline)[j];
+          attributeValue = thisUpdatePolyline[objectAttribute];
+
+          switch(objectAttribute){
+            case "stroke_colour":
+              window[map_id + 'googlePolyline' + layer_id][i].setOptions({strokeColor: attributeValue});
+              break;
+            case "stroke_weight":
+              window[map_id + 'googlePolyline' + layer_id][i].setOptions({strokeWeight: attributeValue});
+              break;
+            case "stroke_opacity":
+              window[map_id + 'googlePolyline' + layer_id][i].setOptions({strokeOpacity: attributeValue});
+              break;
+            case "info_window":
+              window[map_id + 'googlePolyline' + layer_id][i].setOptions({_information: attributeValue});
+              break;
+          }
+        }
+
+      }else{
+        // the id does not exist in the new data set
+        //if(removeMissing){
+          // remove the polygon from the map
+          // (but don't clear it from the arrray?)
+          window[map_id + 'googlePolyline' + layer_id][i].setMap(null);
+        //}
+      }
+    }
+  }
+
+}
+
+
+
+
 function clear_polylines(map_id, layer_id){
 
   for (i = 0; i < window[map_id + 'googlePolyline' + layer_id].length; i++){
@@ -1012,8 +1091,6 @@ function zoom_changed(map_id, mapObject, mapInfo){
       mapInfo
     );
 
-    console.log("zoom changed");
-    console.log(mapObject);
     Shiny.onInputChange(map_id + "_zoom_changed", eventInfo);
   })
 

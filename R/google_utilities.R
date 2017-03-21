@@ -381,54 +381,54 @@ stripColumns <- function(data, keep = c("id", "geodesic","stroke_colour","stroke
 }
 
 
-polyCheck.sf <- function(data, polyline, lat, lon){
-  ## sf objects will use the 'sfc_ geometry' column
-  ## return data, and the de-constructed geometry column
-
-  ## geom column
-  geomCol <- which(unlist(lapply(data, function(x) "sfc" %in% class(x))))
-
-
-
-}
-
-
-polyCheck.default <- function(data, polyline, lat, lon){
-  ## nothing to do
-  return(list(data = data, polyline = polyline, lat = lat, lon = lon))
-}
-
-
-sfData <- function(geom) UseMethod("sfData")
-
-sfData.sfc_LINESTRING <- function(geom){
-
-}
-
-
-sfData.sfc_MULTIPOLYGON <- function(geom){
-
-
-    lapply(geom, function(x){
-
-         lapply(1:length(x), function(y){
-
-          data.frame(
-            lineId = y,
-            lat = x[[y]][[1]][,2],
-            lon = x[[y]][[1]][,1],
-            hole = (y > 1)[c(T, F)]
-          )
-        })
-    })
-
-
-}
-
-
-createJSON.default <- function(geom){
-
-}
+# polyCheck.sf <- function(data, polyline, lat, lon){
+#   ## sf objects will use the 'sfc_ geometry' column
+#   ## return data, and the de-constructed geometry column
+#
+#   ## geom column
+#   geomCol <- which(unlist(lapply(data, function(x) "sfc" %in% class(x))))
+#
+#
+#
+# }
+#
+#
+# polyCheck.default <- function(data, polyline, lat, lon){
+#   ## nothing to do
+#   return(list(data = data, polyline = polyline, lat = lat, lon = lon))
+# }
+#
+#
+# sfData <- function(geom) UseMethod("sfData")
+#
+# sfData.sfc_LINESTRING <- function(geom){
+#
+# }
+#
+#
+# sfData.sfc_MULTIPOLYGON <- function(geom){
+#
+#
+#     lapply(geom, function(x){
+#
+#          lapply(1:length(x), function(y){
+#
+#           data.frame(
+#             lineId = y,
+#             lat = x[[y]][[1]][,2],
+#             lon = x[[y]][[1]][,1],
+#             hole = (y > 1)[c(T, F)]
+#           )
+#         })
+#     })
+#
+#
+# }
+#
+#
+# createJSON.default <- function(geom){
+#
+# }
 
 # createJSON <- function(obj){
 #   UseMethod("dataType", obj)
