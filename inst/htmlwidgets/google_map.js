@@ -743,6 +743,7 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id){
       fillColor: polygon.fill_colour,
       fillOpacity: polygon.fill_opacity,
       fillOpacityHolder: polygon.fill_opacity,
+      mouseOver: polygon.mouse_over,
       mouseOverGroup: polygon.mouse_over_group
       //_information: polygon.information
 //      clickable: true,
@@ -759,7 +760,6 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id){
 
     console.log(polygon);
     if(polygon.mouse_over || polygon.mouse_over_group){
-      console.log("calling polygoin mouse over");
       add_mouseOver(map_id, Polygon, infoWindow, "_mouse_over", polygon.mouse_over, layer_id, 'googlePolygon');
     }
 
@@ -921,6 +921,11 @@ function clear_kml(map_id, layer_id){
 
 function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attributeValue, layer_id, layerType){
 
+  // notes
+  // - mouseOver and mosueOverGroup need to have the same listener.
+  // - the group takes precedence.
+
+
   mapObject.set(objectAttribute, attributeValue);
 
   // this infoWindow object is created so the 'mouseout' function doeesn't 'close'
@@ -928,7 +933,7 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
   var infoWindow = new google.maps.InfoWindow();
 
   google.maps.event.addListener(mapObject, 'mouseover', function(event){
-    console.log("mosue over listener");
+    console.log("mouse over listener");
     console.log(mapObject);
 
     if(mapObject.get("mouseOverGroup") !== undefined){
@@ -971,7 +976,9 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
         }
       }
 
-    }else{
+    //}else{
+      // mouseOverGroup is undefined...
+      /**
       if(layerType === 'googleMarkers'){
         this.setOptions({Opacity: 1})
       }else if(layerType === 'googlePolyline'){
@@ -979,17 +986,31 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
       }else{
         this.setOptions({fillOpacity: 1});
       }
-    }
+      **/
 
-    // if the mouse_over is specified, we also need an info window
-    if(mapObject.get("mouseOver") !== undefined){
-      console.log("mosue over");
-      mapObject.setOptions({"_mouse_over": mapObject.get(objectAttribute)});
+      // infoWindow if 'mouseOver' is also specified
+      if(mapObject.get("mouseOver") !== undefined){
+        console.log("mosue over");
+        mapObject.setOptions({"_mouse_over": mapObject.get(objectAttribute)});
 
-      infoWindow.setContent(mapObject.get(objectAttribute).toString());
+        infoWindow.setContent(mapObject.get(objectAttribute).toString());
 
-      infoWindow.setPosition(event.latLng);
-      infoWindow.open(window[map_id + 'map']);
+        infoWindow.setPosition(event.latLng);
+        infoWindow.open(window[map_id + 'map']);
+      }
+
+    }else{
+
+      // if the mouse_over is specified without the group, we need an info window
+      if(mapObject.get("mouseOver") !== undefined){
+        console.log("mosue over");
+        mapObject.setOptions({"_mouse_over": mapObject.get(objectAttribute)});
+
+        infoWindow.setContent(mapObject.get(objectAttribute).toString());
+
+        infoWindow.setPosition(event.latLng);
+        infoWindow.open(window[map_id + 'map']);
+      }
     }
 
   });
