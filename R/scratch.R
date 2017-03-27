@@ -478,15 +478,15 @@
 # map_key <- symbolix.utils::mapKey()
 #
 
-df <- tram_route
-df$id <- c(rep(1, 27), rep(2, 10), rep(1, 18))
-library(data.table)
-setDT(df)
-
-df <- df[, .(polyline = encode_pl(lat = shape_pt_lat, lon = shape_pt_lon)), by = id]
-
-google_map(data = df, key = map_key) %>%
-  add_polygons(polyline = "polyline", mouse_over= "id", mouse_over_group = "id", id = "id")
+# df <- tram_route
+# df$id <- c(rep(1, 27), rep(2, 10), rep(1, 18))
+# library(data.table)
+# setDT(df)
+#
+# df <- df[, .(polyline = encode_pl(lat = shape_pt_lat, lon = shape_pt_lon)), by = id]
+#
+# google_map(data = df, key = map_key) %>%
+#   add_polygons(polyline = "polyline", mouse_over= "id", mouse_over_group = "id", id = "id")
 
 #
 # google_map(key = map_key) %>%

@@ -4,11 +4,11 @@
 \alias{add_polygons}
 \title{Add polygon}
 \usage{
-add_polygons(map, data = get_map_data(map), polyline, id = NULL,
-  stroke_colour = NULL, stroke_weight = NULL, stroke_opacity = NULL,
-  fill_colour = NULL, fill_opacity = NULL, info_window = NULL,
-  mouse_over = NULL, mouse_over_group = NULL, update_map_view = TRUE,
-  layer_id = NULL)
+add_polygons(map, data = get_map_data(map), polyline = NULL, lat = NULL,
+  lon = NULL, id = NULL, stroke_colour = NULL, stroke_weight = NULL,
+  stroke_opacity = NULL, fill_colour = NULL, fill_opacity = NULL,
+  info_window = NULL, mouse_over = NULL, mouse_over_group = NULL,
+  update_map_view = TRUE, layer_id = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -16,6 +16,10 @@ add_polygons(map, data = get_map_data(map), polyline, id = NULL,
 \item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.}
 
 \item{polyline}{string specifying the column containing the polyline}
+
+\item{lat}{string specifying the column of \code{data} containing the 'latitude' coordinates. Coordinates must be in the order that defines the path.}
+
+\item{lon}{string specifying the column of \code{data} containing the 'longitude' coordinates. Coordinates must be in the order that defines the path.}
 
 \item{id}{string specifying the column containing an identifier for a polygon. Used when calling \code{update_polygons} so that specific polygons can be updated}
 
