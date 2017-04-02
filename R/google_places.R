@@ -181,6 +181,8 @@ google_places <- function(search_string = NULL,
       stop("page_token must be a string of length 1")
   }
 
+  LogicalCheck(simplify)
+
   ## construct the URL
   ## if search string is specified, use the 'textsearch' url
   ## if no search_string, use the 'lat/lon' url

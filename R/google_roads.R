@@ -1,0 +1,94 @@
+#' Snap To Roads
+#'
+#' Takes up to 100 GPS coordinates collected along a route and returns a similar set of data,
+#' with the points snapped to the most likely roads the vehicle was treveling along
+#'
+#' @note The snapping algorithm works best for points that are not too far apart.
+#' If you observe odd snapping behaviour, try creating paths that have points closer together.
+#' To ensure the best snap-to-road quality, you should aim to provide paths on which consecutive
+#' pairs of points are within 300m of each other. This will also help in handling any
+#' isolated, long jumps between consecutive points caused by GPS signal loss or noise.
+#'
+#' @param df_path \code{data.frame} of with at least two columns specifying the latitude & longitude coordinates,
+#' with a maximum of 100 pairs of coordinates.
+#' @param lat string specifying the column of \code{df_path} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
+#' @param lon string specifying the column of \code{df_path} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
+#' @param interpolate logical indicating whether to interpolate a path to include all points forming the full road-geometry.
+#' When \code{TRUE}, additional interpolated points will also be returned, resulting ina  path
+#' that smoothly follows the geometry of the road, even around corners and through
+#' tunnels. Interpolated paths will most likely contain more ponts that the original path.
+#' @param simplify \code{logical} Inidicates if the returned JSON should be coerced into a list
+#' @param key \code{string} A valid Google Developers Places API key
+#'
+#' @examples
+#' \dontrun{
+#'
+#' key <- 'your_api_key'
+#'
+#' df_path <- read.table(text = "lat lon
+#' -35.27801 149.12958
+#' -35.28032 149.12907
+#' -35.28099 149.12929
+#' -35.28144 149.12984
+#' -35.28194 149.13003
+#' -35.28282 149.12956
+#' -35.28302 149.12881
+#' -35.28473 149.12836", header = T)
+#'
+#' google_snapToRoads(df_path, key = key, interpolate = TRUE, simplify = TRUE)
+#'
+#'
+#' }
+#' @export
+google_snapToRoads <- function(df_path,
+                               lat = NULL,
+                               lon = NULL,
+                               interpolate = FALSE,
+                               simplify = TRUE,
+                               key){
+
+
+  if(nrow(df_path) > 100)
+    stop("the maximum number of pairs of coordinates that can be supplied is 100")
+
+  LogicalCheck(interpolate)
+  LogicalCheck(simplify)
+
+
+  if(is.null(lat)){
+    df_path <- latitude_column(df_path, lat, 'google_snapToRoads')
+    lat <- "lat"
+  }
+
+  if(is.null(lon)){
+    df_path <- longitude_column(df_path, lon, 'google_snapToRoads')
+    lon <- "lng"
+  }
+
+  path <- paste0(df_path[, lat], ",", df_path[, lon], collapse = "|")
+
+  map_url <- "https://roads.googleapis.com/v1/snapToRoads?"
+
+  map_url <- constructURL(map_url, c("path" = path,
+                                     "interpolate" = interpolate,
+                                     "key" = key))
+
+  return(fun_download_data(map_url, simplify))
+}
+
+
+
+
+#' Nearest Roads
+#'
+#' Stuff...
+#'
+#' @param
+#' @param simplify \code{logical} Inidicates if the returned JSON should be coerced into a list
+#' @param key \code{string} A valid Google Developers Places API key
+#' @export
+google_nearestRoads <- function(simplify = TRUE,
+                                key){
+
+
+}
