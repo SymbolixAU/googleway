@@ -10,6 +10,17 @@ map_styles()
 list of styles
 }
 \description{
-Various style options for maps
+Various styles for a \code{google_map()} map.
+}
+\note{
+you can generate your own map styles at \url{https://mapstyle.withgoogle.com/}
+}
+\examples{
+\dontrun{
+map_key <- "your_map_key"
+google_map(key = map_key, style = map_styles()$silver)
+
+}
+
 }
 

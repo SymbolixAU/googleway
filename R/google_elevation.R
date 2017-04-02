@@ -90,8 +90,7 @@ google_elevation <- function(df_locations = NULL,
   ## check location_type
   location_type <- match.arg(location_type)
 
-  if(!is.logical(simplify))
-    stop("simplify must be logical - TRUE or FALSE")
+  LogicalCheck(simplify)
 
   ## check samples
 

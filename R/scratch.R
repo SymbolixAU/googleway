@@ -477,12 +477,17 @@
 
 # map_key <- symbolix.utils::mapKey()
 #
+
 # df <- tram_route
 # df$id <- c(rep(1, 27), rep(2, 10), rep(1, 18))
+# library(data.table)
+# setDT(df)
+#
+# df <- df[, .(polyline = encode_pl(lat = shape_pt_lat, lon = shape_pt_lon)), by = id]
 #
 # google_map(data = df, key = map_key) %>%
-#   add_polylines(lat = "shape_pt_lat", lon = "shape_pt_lon", mouse_over = "id", mouse_over_group = "id", id = "id")
-#
+#   add_polygons(polyline = "polyline", mouse_over= "id", mouse_over_group = "id", id = "id")
+
 #
 # google_map(key = map_key) %>%
 #   add_polylines(data = df, lat = "shape_pt_lat", lon = "shape_pt_lon", mouse_over = "id", mouse_over_group = "id", id = "id")
@@ -688,6 +693,14 @@
 #   })
 #
 # })
+#
+# df_points <- read.table(text = "lat lon
+# 60.170880 24.942795
+# 60.170879 24.942796
+# 60.170877 24.942796", header = T)
+#
+# google_nearestRoads(df_points, key = key)
+
 
 
 

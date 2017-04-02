@@ -958,6 +958,8 @@ clear_polylines <- function(map, layer_id = NULL){
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
 #' @param polyline string specifying the column containing the polyline
+#' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. Coordinates must be in the order that defines the path.
+#' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. Coordinates must be in the order that defines the path.
 #' @param id string specifying the column containing an identifier for a polygon. Used when calling \code{update_polygons} so that specific polygons can be updated
 #' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
 #' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
@@ -972,7 +974,9 @@ clear_polylines <- function(map, layer_id = NULL){
 #' @export
 add_polygons <- function(map,
                         data = get_map_data(map),
-                        polyline,
+                        polyline = NULL,
+                        lat = NULL,
+                        lon = NULL,
                         id = NULL,
                         stroke_colour = NULL,
                         stroke_weight = NULL,
@@ -990,22 +994,83 @@ add_polygons <- function(map,
   ##
   ## - holes must be wound in the opposite direction
 
+  ## can supply either a polyline as a list column or as a single column,
+  ## OR a list column of lat/lon coordinates.
+
   ## -
   ## - other data foramts
   ## -- e.g. geoJSON
   ## -- allow addition of other attributes (however, how will the user access them?)
   ## checks for missing column names
-  if(is.null(polyline))
-    stop("please supply the column containing the polylines")
+  # if(is.null(polyline))
+  #   stop("please supply the column containing the polylines")
+  #
+  # if(!is.logical(update_map_view))
+  #   stop("update_map_view must be TRUE or FALSE")
 
-  if(!is.logical(update_map_view))
-    stop("update_map_view must be TRUE or FALSE")
+
+
+  if(inherits(data, "data.frame")){
+    if(!is.null(polyline)){
+      ## polyline specified
+      polyline <- data[, polyline, drop = FALSE]
+      polyline <- stats::setNames(polyline, "polyline")
+      usePolyline <- TRUE
+
+    }else{
+
+    }
+  }
+
+
+
+  ## using polyline ==> using one row per line (continue with 'polyline')
+  ## using lat/lon ==> using many rows per line
+  ## use a list to store the coordinates
+  if(usePolyline == FALSE){
+
+    ## if no id field has been specified, treat all the coordinates as one line
+    if(is.null(id)){
+      message("No 'id' value defined, assuming one continuous line")
+      id <- 'id'
+      dataLatLng[, id] <- "1"
+      polyline[, id] <- "1"
+    }
+
+
+    ## each 'lineId' needs to be in the same array. Holes are wound in the opposite direction
+    ## to the outer path.
+    ## example of a single polygon looks like
+    ## polygon = new google.maps.polygon({
+    ##  paths : [ coords1, coords2, coords3, coords4]
+    ## })
+    ##
+    ## where any of coords* can be holes.
+    lst_polygon <- lapply(unique(dataLatLng[, id]), function(x) {
+
+      list(id = x,
+           coords = data.frame(lat = dataLatLng[dataLatLng[id] == x, lat],
+                               lng = dataLatLng[dataLatLng[id] == x, lon])
+      )
+    })
+
+    js_polyline <- jsonlite::toJSON(lst_polyline)
+  }else{
+    js_polyline <- ""
+  }
+
+
+
+
+
 
   if(!is.list(data[, polyline])){
     polygon <- data.frame(polyline = I(as.list(as.character(data[, polyline]))))
   }else{
     polygon <- data[, polyline, drop = FALSE]
   }
+
+
 #
 #   if(sum(sapply(polygon[, polyline], is.null)) > 0){
 #     warning("There are some NULL polyline values. These polygons are removed from the map")
@@ -1041,7 +1106,9 @@ add_polygons <- function(map,
   # if(sum(is.na(polygon)) > 0)
   #   warning("There are some NAs in your data. These may affect the polygons that have been plotted.")
 
+  print(polygon)
   polygon <- jsonlite::toJSON(polygon)
+  print(polygon)
 
   invoke_method(map, data, 'add_polygons', polygon, update_map_view, layer_id)
 }

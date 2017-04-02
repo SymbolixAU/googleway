@@ -717,6 +717,7 @@ function clear_polylines(map_id, layer_id){
  */
 function add_polygons(map_id, data_polygon, update_map_view, layer_id){
 
+  console.log(data_polygon);
   window[map_id + 'googlePolygon' + layer_id] = [];
   var infoWindow = new google.maps.InfoWindow();
 
@@ -742,6 +743,7 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id){
       fillColor: polygon.fill_colour,
       fillOpacity: polygon.fill_opacity,
       fillOpacityHolder: polygon.fill_opacity,
+      mouseOver: polygon.mouse_over,
       mouseOverGroup: polygon.mouse_over_group
       //_information: polygon.information
 //      clickable: true,
@@ -756,6 +758,7 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id){
       add_infoWindow(map_id, Polygon, infoWindow, '_information', polygon.info_window);
     }
 
+    console.log(polygon);
     if(polygon.mouse_over || polygon.mouse_over_group){
       add_mouseOver(map_id, Polygon, infoWindow, "_mouse_over", polygon.mouse_over, layer_id, 'googlePolygon');
     }
@@ -918,6 +921,11 @@ function clear_kml(map_id, layer_id){
 
 function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attributeValue, layer_id, layerType){
 
+  // notes
+  // - mouseOver and mosueOverGroup need to have the same listener.
+  // - the group takes precedence.
+
+
   mapObject.set(objectAttribute, attributeValue);
 
   // this infoWindow object is created so the 'mouseout' function doeesn't 'close'
@@ -925,6 +933,8 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
   var infoWindow = new google.maps.InfoWindow();
 
   google.maps.event.addListener(mapObject, 'mouseover', function(event){
+    console.log("mouse over listener");
+    console.log(mapObject);
 
     if(mapObject.get("mouseOverGroup") !== undefined){
       // polygons can be made up of many shapes
@@ -932,6 +942,7 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
 
       // markers only have opacity
       if(layerType === 'googleMarkers'){
+        console.log("mouse over markers");
 
         for (i = 0; i < window[map_id + layerType + layer_id].length; i++){
           if(window[map_id + layerType + layer_id][i].mouseOverGroup == this.mouseOverGroup){
@@ -943,6 +954,7 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
 
       // polylines only have strokeOpacity
       }else if(layerType === 'googlePolyline'){
+        console.log("mosue over polyline");
 
         for (i = 0; i < window[map_id + layerType + layer_id].length; i++){
           if(window[map_id + layerType + layer_id][i].mouseOverGroup == this.mouseOverGroup){
@@ -952,6 +964,7 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
           }
         }
       }else{
+        console.log("mouse over polygon");
 
         // other shapes have fillOpacity
         for (i = 0; i < window[map_id + layerType + layer_id].length; i++){
@@ -963,9 +976,9 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
         }
       }
 
-    }else{
-      // it' a polyline
-
+    //}else{
+      // mouseOverGroup is undefined...
+      /**
       if(layerType === 'googleMarkers'){
         this.setOptions({Opacity: 1})
       }else if(layerType === 'googlePolyline'){
@@ -973,16 +986,31 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
       }else{
         this.setOptions({fillOpacity: 1});
       }
-    }
+      **/
 
-    // if the mouse_over is specified, we also need an info window
-    if(mapObject.get("mouseOver") !== undefined){
-      mapObject.setOptions({"_mouse_over": mapObject.get(objectAttribute)});
+      // infoWindow if 'mouseOver' is also specified
+      if(mapObject.get("mouseOver") !== undefined){
+        console.log("mosue over");
+        mapObject.setOptions({"_mouse_over": mapObject.get(objectAttribute)});
 
-      infoWindow.setContent(mapObject.get(objectAttribute).toString());
+        infoWindow.setContent(mapObject.get(objectAttribute).toString());
 
-      infoWindow.setPosition(event.latLng);
-      infoWindow.open(window[map_id + 'map']);
+        infoWindow.setPosition(event.latLng);
+        infoWindow.open(window[map_id + 'map']);
+      }
+
+    }else{
+
+      // if the mouse_over is specified without the group, we need an info window
+      if(mapObject.get("mouseOver") !== undefined){
+        console.log("mosue over");
+        mapObject.setOptions({"_mouse_over": mapObject.get(objectAttribute)});
+
+        infoWindow.setContent(mapObject.get(objectAttribute).toString());
+
+        infoWindow.setPosition(event.latLng);
+        infoWindow.open(window[map_id + 'map']);
+      }
     }
 
   });
