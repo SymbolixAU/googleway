@@ -693,33 +693,13 @@
 #   })
 #
 # })
-
-
-
-## snap to roads
-
-# df_path <- data.frame(lats = c(-37.81659, -37.88950),
-#                  lon = c(144.9841, 144.9841))
 #
-# key <- symbolix.utils::apiKey()
+# df_points <- read.table(text = "lat lon
+# 60.170880 24.942795
+# 60.170879 24.942796
+# 60.170877 24.942796", header = T)
 #
-# lat <- NULL
-# lon <- NULL
-#
-# googleway:::latitude_column(df_path, lat, '')
-
-
-# df_path <- read.table(text = "lat lon
-# -35.27801 149.12958
-# -35.28032 149.12907
-# -35.28099 149.12929
-# -35.28144 149.12984
-# -35.28194 149.13003
-# -35.28282 149.12956
-# -35.28302 149.12881
-# -35.28473 149.12836", header = T)
-#
-# google_snapToRoads(df_path, key = key, simplify = TRUE)
+# google_nearestRoads(df_points, key = key)
 
 
 

@@ -8,7 +8,7 @@ google_snapToRoads(df_path, lat = NULL, lon = NULL, interpolate = FALSE,
   simplify = TRUE, key)
 }
 \arguments{
-\item{df_path}{\code{data.frame} of with at least two columns specifying the latitude & longitude coordinates,
+\item{df_path}{\code{data.frame} with at least two columns specifying the latitude & longitude coordinates,
 with a maximum of 100 pairs of coordinates.}
 
 \item{lat}{string specifying the column of \code{df_path} containing the 'latitude' coordinates. If left NULL, a best-guess will be made}
@@ -54,5 +54,8 @@ google_snapToRoads(df_path, key = key, interpolate = TRUE, simplify = TRUE)
 
 
 }
+}
+\seealso{
+\link{google_nearestRoads}
 }
 

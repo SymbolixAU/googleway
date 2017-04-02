@@ -9,7 +9,7 @@
 #' pairs of points are within 300m of each other. This will also help in handling any
 #' isolated, long jumps between consecutive points caused by GPS signal loss or noise.
 #'
-#' @param df_path \code{data.frame} of with at least two columns specifying the latitude & longitude coordinates,
+#' @param df_path \code{data.frame} with at least two columns specifying the latitude & longitude coordinates,
 #' with a maximum of 100 pairs of coordinates.
 #' @param lat string specifying the column of \code{df_path} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{df_path} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
@@ -19,6 +19,8 @@
 #' tunnels. Interpolated paths will most likely contain more ponts that the original path.
 #' @param simplify \code{logical} Inidicates if the returned JSON should be coerced into a list
 #' @param key \code{string} A valid Google Developers Places API key
+#'
+#' @seealso \link{google_nearestRoads}
 #'
 #' @examples
 #' \dontrun{
@@ -54,7 +56,6 @@ google_snapToRoads <- function(df_path,
   LogicalCheck(interpolate)
   LogicalCheck(simplify)
 
-
   if(is.null(lat)){
     df_path <- latitude_column(df_path, lat, 'google_snapToRoads')
     lat <- "lat"
@@ -81,14 +82,56 @@ google_snapToRoads <- function(df_path,
 
 #' Nearest Roads
 #'
-#' Stuff...
+#' Takes up to 100 independent coordinates and returns the closest road segment for each point.
+#' The points passed do not need to be part of a continuous path.
 #'
-#' @param
+#' @seealso \link{google_snapToRoads}
+#'
+#' @param df_points \code{data.frame} with at least two columns specifying the latitude & longitude coordinates,
+#' with a maximum of 100 pairs of coordinates.
+#'
 #' @param simplify \code{logical} Inidicates if the returned JSON should be coerced into a list
+#' @param lat string specifying the column of \code{df_path} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
+#' @param lon string specifying the column of \code{df_path} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
 #' @param key \code{string} A valid Google Developers Places API key
+#'
+#' @examples
+#' \dontrun{
+#'
+#' key <- 'your_api_key'
+#'
+#' df_points <- read.table(text = "lat lon
+#' 60.170880 24.942795
+#' 60.170879 24.942796
+#' 60.170877 24.942796", header = T)
+#'
+#' google_nearestRoads(df_points, key = key)
+#'
+#' }
 #' @export
-google_nearestRoads <- function(simplify = TRUE,
+google_nearestRoads <- function(df_points,
+                                simplify = TRUE,
                                 key){
 
+  LogicalCheck(simplify)
+
+  if(is.null(lat)){
+    df_points <- latitude_column(df_points, lat, 'google_snapToRoads')
+    lat <- "lat"
+  }
+
+  if(is.null(lon)){
+    df_points <- longitude_column(df_points, lon, 'google_snapToRoads')
+    lon <- "lng"
+  }
+
+  points <- paste0(df_points[, lat], ",", df_points[, lon], collapse = "|")
+
+  map_url <- "https://roads.googleapis.com/v1/nearestRoads?"
+
+  map_url <- constructURL(map_url, c("points" = points,
+                                     "key" = key))
+
+  return(fun_download_data(map_url, simplify))
 
 }
