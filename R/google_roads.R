@@ -85,6 +85,7 @@ google_snapToRoads <- function(df_path,
 #' Takes up to 100 independent coordinates and returns the closest road segment for each point.
 #' The points passed do not need to be part of a continuous path.
 #'
+#'
 #' @seealso \link{google_snapToRoads}
 #'
 #' @param df_points \code{data.frame} with at least two columns specifying the latitude & longitude coordinates,
@@ -135,3 +136,76 @@ google_nearestRoads <- function(df_points,
   return(fun_download_data(map_url, simplify))
 
 }
+
+
+
+#' Speed Limits
+#'
+#' Returns the posted speed limit for a given road segment. In the case of road segments
+#' with variable speed limits, the default speed limit for the segment is returned.
+#' The speed limits service is only available to Google Maps API Premium Plan customers with an Asset Tracking license.
+#'
+#' @notes The accuracy of speed limit data returned by Google Maps Roads API can not be
+#' guaranteed. The speed limit data provided is not real-time, and may be estimated,
+#' inaccurate, incomplete, and / or outdated.
+#'
+#' @param df_path \code{data.frame} with at least two columns specifying the latitude & longitude coordinates,
+#' with a maximum of 100 pairs of coordinates.
+#' @param placeIds Place IDs of the road segments. Place IDs are returned in response to \link{google_snapToRoads}
+#' and \link{google_nearestRoads} reqeusts. You can pass up to 100 placeIds at a time
+#' @param units Whether to return speed limits in kilometers or miles per hour
+#' @param simplify \code{logical} Inidicates if the returned JSON should be coerced into a list
+#' @param key \code{string} A valid Google Developers Places API key
+#' @export
+google_speedLimits <- function(df_path = NULL,
+                               placeIds = NULL,
+                               units = c("KPH","MPH"),
+                               simplify = TRUE,
+                               key){
+
+  units <- match.arg(units)
+
+  if(is.null(df_path) & is.null(placeIds))
+    stop("please specify one of df_path or placeIds")
+
+  if(!is.null(df_path) & !is.null(placeIds))
+    stop("please specify one of df_path or placeIds, not both")
+
+  LogicalCheck(simplify)
+
+  map_url <- "https://roads.googleapis.com/v1/speedLimits?"
+
+  if(!is.null(df_path)){
+
+    if(is.null(lat)){
+      df_path <- latitude_column(df_path, lat, 'google_speedLimits')
+      lat <- "lat"
+    }
+
+    if(is.null(lon)){
+      df_path <- longitude_column(df_path, lon, 'google_speedLimits')
+      lon <- "lng"
+    }
+
+    path <- paste0(df_path[, lat], ",", df_path[, lon], collapse = "|")
+
+    map_url <- constructURL(map_url, c("path" = path,
+                                       "units" = units,
+                                       "key" = key))
+  }else{
+
+    if(length(placeIds) > 100)
+      stop("the maximum number of placeIds allowed is 100")
+
+    places <- paste0(paste0("placeId=", placeIds), collapse = "&")
+
+    map_url <- constructURL(map_url, c("placeId" = places,
+                                       "units" = units,
+                                       "key" = key))
+
+  }
+
+  return(fun_download_data(map_url, simplify))
+}
+
+
