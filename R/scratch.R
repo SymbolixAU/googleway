@@ -694,18 +694,58 @@
 #
 # })
 #
-# df_points <- read.table(text = "lat lon
-# 60.170880 24.942795
-# 60.170879 24.942796
-# 60.170877 24.942796", header = T)
+
+
+
+#pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
+#      lon = c(-80.190, -66.118, -64.757))
 #
-# google_nearestRoads(df_points, key = key)
-
-
-
-
-
-
+# pl_inner <- encode_pl(lat = c(28.745, 29.570, 27.339),
+#       lon = c(-70.579, -67.514, -66.668))
+#
+#
+#
+#
+#
+# df <- data.frame(id = c(1,1,1,1,1,1,2,2,2),
+#                  lineId = c(1,1,1,2,2,2,1,1,1),
+#                  lat = c(26.774, 18.466, 32.321, 28.745, 29.570, 27.339, 22, 23, 22),
+#                  lon = c(-80.190, -66.118, -64.757, -70.579, -67.514, -66.668, -50, -49, -51))
+#
+#
+# lst <- list(path1 = data.frame(lat = c(25.774, 18.466,32.321),
+#                        lon = c(-80.190, -66.118, -64.757)),
+#             path2 = data.frame(lat = c(28.745, 29.570, 27.339),
+#                        lon = c(-70.579, -67.514, -66.668)))
+#
+# toJSON(lst)
+#
+#
+# ids <- unique(df[, 'id'])
+#
+# lst <- lapply(ids, function(x){
+#   lineIds <- unique(df[df$id == x, "lineId"])
+#   list(
+#     id = x,
+#     coords = sapply(lineIds, function(y){
+#       list(df[df$id == x & df$lineId == y, c("lat", "lon")])
+#       })
+#   )
+# })
+#
+#
+# toJSON(lst)
+#
+#
+#
+# ## one row per polygon...
+# ## therefore, each set of coordinates has to be in a list column, where each
+# ## list item is a data.frame...
+#
+#
+# sapply(lineIds, function(y){
+#   list(df[df$id == x & df$lineId == y, c("lat", "lon")])
+# })
 
 
 

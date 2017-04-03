@@ -411,12 +411,18 @@ update_circles <- function(map, data, id,
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
-#' @param option_gradient vector of colours to use as the gradient colours. All CSS3 named colours are supported (\url{https://www.w3.org/TR/css3-color/#html4}), except for extended named colours (\url{https://www.w3.org/TR/css3-color/#svg-color})
+#' @param option_gradient vector of colours to use as the gradient colours. see Deatils
 #' @param weight string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.
 #' @param option_dissipating logical Specifies whether heatmaps dissipate on zoom. When dissipating is false the radius of influence increases with zoom level to ensure that the color intensity is preserved at any given geographic location. Defaults to false.
 #' @param option_radius numeric The radius of influence for each data point, in pixels.
 #' @param option_opacity The opacity of the heatmap, expressed as a number between 0 and 1. Defaults to 0.6.
 #' @param layer_id single value specifying an id for the layer.
+#'
+#' @details
+#' \code{option_gradient} colours can be two of the R colour specifications;
+#' either a colour name (as listed by \code{colors()}, or a hexadecimal string of the form \code{"#rrggbb"}).
+#' The first colour in the vector will be used as the colour that fades to transparent.
+#'
 #' @examples
 #' \dontrun{
 #'
@@ -428,8 +434,12 @@ update_circles <- function(map, data, id,
 #' 77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
 #' "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
 #'
+#' option_gradient <- c('orange', 'blue', 'red', 'green')
+#'
+#' map_key <- 'your_api_key'
+#'
 #' google_map(key = map_key, data = df) %>%
-#'  add_heatmap(lat = "lat", lon = "lon", weight = "weight")
+#'  add_heatmap(lat = "lat", lon = "lon", weight = "weight", option_gradient = option_gradient)
 #'
 #'  }
 #' @export
@@ -493,7 +503,25 @@ add_heatmap <- function(map,
 
   if(!is.null(option_gradient)){
 
-    heatmap_options$gradient <- list(c('rgba(0, 255, 255, 0)', option_gradient))
+    if(length(option_gradient) == 1)
+      stop("please provide at least two gradient colours")
+
+    ## first entry is used to fade into the background
+    # rgb <- grDevices::col2rgb(option_gradient[1])
+    # heatmap_options$gradient <- list(c(paste0('rgba(',rgb[1], ', ', rgb[2], ', ', rgb[3], ', 0)'), option_gradient[2:length(option_gradient)]))
+    # print(heatmap_options$gradient)
+
+    # sapply(option_gradient, function(x) { paste0('rgba(', paste0(as.numeric(grDevices::col2rgb(x)), collapse = ","), ')') })
+
+    g <- sapply(seq_along(option_gradient), function(x){
+      if(x == 1){
+        paste0('rgba(', paste0(c(as.numeric(col2rgb(option_gradient[x])), 0), collapse = ","), ')')
+      }else{
+        paste0('rgba(', paste0(c(as.numeric(col2rgb(option_gradient[x])), 1), collapse = ","), ')')
+      }
+    })
+
+    heatmap_options$gradient <- list(g)
   }
 
   Heatmap <- jsonlite::toJSON(Heatmap)
@@ -762,6 +790,8 @@ add_polylines <- function(map,
       data <- unique(dataLatLng[, !names(dataLatLng) %in% c(lat, lon), drop = FALSE])
       polyline <- data
     }
+  }else{
+    stop(paste0("data must be an object that inherits 'data.frame'"))
   }
 
 
@@ -912,7 +942,8 @@ clear_polylines <- function(map, layer_id = NULL){
 #'
 #' Add a polygon to a google map.
 #'
-#' @note A polygon represents an area enclosed by a closed path. Polygon objects are similar to polylines in that htey consist of a series of coordinates in an ordered sequence.
+#' @note A polygon represents an area enclosed by a closed path. Polygon objects
+#' are similar to polylines in that they consist of a series of coordinates in an ordered sequence.
 #' Polygon objects can describe complex shapes, including
 #'
 #' * Multiple non-contiguous areas defined by a single polygon
@@ -924,7 +955,7 @@ clear_polylines <- function(map, layer_id = NULL){
 #' To define a complex shape, you use a polygon with multiple paths.
 #'
 #' To create a hole in a polygon, you need to create two paths, one inside the other.
-#' To create the hole, the coordinates of the inner path must be in the opposite
+#' To create the hole, the coordinates of the inner path must be wound in the opposite
 #' order to those defining the outer path. For example, if the coordinates of
 #' the outer path are in clockwise order, then the inner path must be anit-clockwise.
 #'
@@ -936,12 +967,12 @@ clear_polylines <- function(map, layer_id = NULL){
 #' \dontrun{
 #'
 #' ##polygon with a hole - Bermuda triangle
-#' ## to encode the polylines I'm currenlty using `library(gepaf)`
-#' pl_outer <- gepaf::encodePolyline(data.frame(lat = c(25.774, 18.466,32.321),
-#'       lng = c(-80.190, -66.118, -64.757)))
 #'
-#'pl_inner <- gepaf::encodePolyline(data.frame(lat = c(28.745, 29.570, 27.339),
-#'        lng = c(-70.579, -67.514, -66.668)))
+#' pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
+#'       lon = c(-80.190, -66.118, -64.757))
+#'
+#' pl_inner <- encode_pl(lat = c(28.745, 29.570, 27.339),
+#'        lon = c(-70.579, -67.514, -66.668))
 #'
 #' df <- data.frame(id = c(1,1),
 #'        polyline = c(pl_outer, pl_inner),
@@ -949,7 +980,7 @@ clear_polylines <- function(map, layer_id = NULL){
 #'
 #' df <- aggregate(polyline ~ id, data = df, list)
 #'
-#' google_map(key = map_key, height = 800, location = c(25.774, -80.190), zoom = 3) %>%
+#' google_map(key = map_key, height = 800) %>%
 #'     add_polygons(data = df, polyline = "polyline", mouse_over = "polyline")
 #'
 #'
@@ -961,6 +992,7 @@ clear_polylines <- function(map, layer_id = NULL){
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. Coordinates must be in the order that defines the path.
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. Coordinates must be in the order that defines the path.
 #' @param id string specifying the column containing an identifier for a polygon. Used when calling \code{update_polygons} so that specific polygons can be updated
+#' @param pathId string specifying the column containing an identifer for each path that forms the complete polygon.
 #' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
 #' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
 #' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
@@ -1016,7 +1048,6 @@ add_polygons <- function(map,
       polyline <- data[, polyline, drop = FALSE]
       polyline <- stats::setNames(polyline, "polyline")
       usePolyline <- TRUE
-
     }else{
 
     }
