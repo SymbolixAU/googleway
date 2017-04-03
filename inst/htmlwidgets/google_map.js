@@ -423,6 +423,21 @@ function update_circles(map_id, data_circle, layer_id){
 
 
 /**
+ * hex to rgb
+ *
+ * Converts hex colours to rgb
+ */
+function hexToRgb(hex) {
+  var arrBuff = new ArrayBuffer(4);
+  var vw = new DataView(arrBuff);
+  vw.setUint32(0, parseInt(hex, 16), false);
+  var arrByte = new Uint8Array(arrBuff);
+
+  return arrByte[1] + "," + arrByte[2] + "," + arrByte[3];
+}
+
+
+/**
  * Adds a heatmap layer to a google map object
  * @param map_id
  *          the map to which the heatmap will be added
@@ -1350,5 +1365,3 @@ function initialise_map(el, x) {
   zoom_changed(el.id, window[el.id + 'map'], mapInfo);
 
 }
-
-

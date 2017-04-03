@@ -42,12 +42,15 @@ add_polygons(map, data = get_map_data(map), polyline = NULL, lat = NULL,
 \item{update_map_view}{logical specifying if the map should re-centre according to the polyline.}
 
 \item{layer_id}{single value specifying an id for the layer.}
+
+\item{pathId}{string specifying the column containing an identifer for each path that forms the complete polygon.}
 }
 \description{
 Add a polygon to a google map.
 }
 \note{
-A polygon represents an area enclosed by a closed path. Polygon objects are similar to polylines in that htey consist of a series of coordinates in an ordered sequence.
+A polygon represents an area enclosed by a closed path. Polygon objects
+are similar to polylines in that they consist of a series of coordinates in an ordered sequence.
 Polygon objects can describe complex shapes, including
 
 * Multiple non-contiguous areas defined by a single polygon
@@ -59,7 +62,7 @@ Polygon objects can describe complex shapes, including
 To define a complex shape, you use a polygon with multiple paths.
 
 To create a hole in a polygon, you need to create two paths, one inside the other.
-To create the hole, the coordinates of the inner path must be in the opposite
+To create the hole, the coordinates of the inner path must be wound in the opposite
 order to those defining the outer path. For example, if the coordinates of
 the outer path are in clockwise order, then the inner path must be anit-clockwise.
 
@@ -71,12 +74,12 @@ See examples.
 \dontrun{
 
 ##polygon with a hole - Bermuda triangle
-## to encode the polylines I'm currenlty using `library(gepaf)`
-pl_outer <- gepaf::encodePolyline(data.frame(lat = c(25.774, 18.466,32.321),
-      lng = c(-80.190, -66.118, -64.757)))
 
-pl_inner <- gepaf::encodePolyline(data.frame(lat = c(28.745, 29.570, 27.339),
-       lng = c(-70.579, -67.514, -66.668)))
+pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
+      lon = c(-80.190, -66.118, -64.757))
+
+pl_inner <- encode_pl(lat = c(28.745, 29.570, 27.339),
+       lon = c(-70.579, -67.514, -66.668))
 
 df <- data.frame(id = c(1,1),
        polyline = c(pl_outer, pl_inner),
@@ -84,7 +87,7 @@ df <- data.frame(id = c(1,1),
 
 df <- aggregate(polyline ~ id, data = df, list)
 
-google_map(key = map_key, height = 800, location = c(25.774, -80.190), zoom = 3) \%>\%
+google_map(key = map_key, height = 800) \%>\%
     add_polygons(data = df, polyline = "polyline", mouse_over = "polyline")
 
 
