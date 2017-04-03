@@ -19,7 +19,7 @@ add_heatmap(map, data = get_map_data(map), lat = NULL, lon = NULL,
 
 \item{weight}{string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.}
 
-\item{option_gradient}{vector of colours to use as the gradient colours. see Deatils}
+\item{option_gradient}{vector of colours to use as the gradient colours. All CSS3 named colours are supported (\url{https://www.w3.org/TR/css3-color/#html4}), except for extended named colours (\url{https://www.w3.org/TR/css3-color/#svg-color})}
 
 \item{option_dissipating}{logical Specifies whether heatmaps dissipate on zoom. When dissipating is false the radius of influence increases with zoom level to ensure that the color intensity is preserved at any given geographic location. Defaults to false.}
 
@@ -32,11 +32,6 @@ add_heatmap(map, data = get_map_data(map), lat = NULL, lon = NULL,
 \description{
 Adds a heatmap to a google map
 }
-\details{
-\code{option_gradient} colours can be two of the R colour specifications;
-either a colour name (as listed by \code{colors()}, or a hexadecimal string of the form \code{"#rrggbb"}).
-The first colour in the vector will be used as the colour that fades to transparent.
-}
 \examples{
 \dontrun{
 
@@ -48,12 +43,8 @@ df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
 77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
 "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
 
-option_gradient <- c('orange', 'blue', 'red', 'green')
-
-map_key <- 'your_api_key'
-
 google_map(key = map_key, data = df) \%>\%
- add_heatmap(lat = "lat", lon = "lon", weight = "weight", option_gradient = option_gradient)
+ add_heatmap(lat = "lat", lon = "lon", weight = "weight")
 
  }
 }
