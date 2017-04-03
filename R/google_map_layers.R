@@ -981,7 +981,7 @@ clear_polylines <- function(map, layer_id = NULL){
 #' df <- aggregate(polyline ~ id, data = df, list)
 #'
 #' google_map(key = map_key, height = 800) %>%
-#'     add_polygons(data = df, polyline = "polyline", mouse_over = "polyline")
+#'     add_polygons(data = df, polyline = "polyline")
 #'
 #'
 #' }
