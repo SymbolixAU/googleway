@@ -163,14 +163,13 @@ google_speedLimits <- function(df_path = NULL,
                                simplify = TRUE,
                                key){
 
-  units <- match.arg(units)
-
   if(is.null(df_path) & is.null(placeIds))
     stop("please specify one of df_path or placeIds")
 
   if(!is.null(df_path) & !is.null(placeIds))
     stop("please specify one of df_path or placeIds, not both")
 
+  units <- match.arg(units)
   LogicalCheck(simplify)
 
   map_url <- "https://roads.googleapis.com/v1/speedLimits?"
