@@ -1042,53 +1042,53 @@ add_polygons <- function(map,
 
 
 
-  if(inherits(data, "data.frame")){
-    if(!is.null(polyline)){
-      ## polyline specified
-      polyline <- data[, polyline, drop = FALSE]
-      polyline <- stats::setNames(polyline, "polyline")
-      usePolyline <- TRUE
-    }else{
-
-    }
-  }
-
-
-
-  ## using polyline ==> using one row per line (continue with 'polyline')
-  ## using lat/lon ==> using many rows per line
-  ## use a list to store the coordinates
-  if(usePolyline == FALSE){
-
-    ## if no id field has been specified, treat all the coordinates as one line
-    if(is.null(id)){
-      message("No 'id' value defined, assuming one continuous line")
-      id <- 'id'
-      dataLatLng[, id] <- "1"
-      polyline[, id] <- "1"
-    }
-
-
-    ## each 'lineId' needs to be in the same array. Holes are wound in the opposite direction
-    ## to the outer path.
-    ## example of a single polygon looks like
-    ## polygon = new google.maps.polygon({
-    ##  paths : [ coords1, coords2, coords3, coords4]
-    ## })
-    ##
-    ## where any of coords* can be holes.
-    lst_polygon <- lapply(unique(dataLatLng[, id]), function(x) {
-
-      list(id = x,
-           coords = data.frame(lat = dataLatLng[dataLatLng[id] == x, lat],
-                               lng = dataLatLng[dataLatLng[id] == x, lon])
-      )
-    })
-
-    js_polyline <- jsonlite::toJSON(lst_polyline)
-  }else{
-    js_polyline <- ""
-  }
+  # if(inherits(data, "data.frame")){
+  #   if(!is.null(polyline)){
+  #     ## polyline specified
+  #     polyline <- data[, polyline, drop = FALSE]
+  #     polyline <- stats::setNames(polyline, "polyline")
+  #     usePolyline <- TRUE
+  #   }else{
+  #
+  #   }
+  # }
+  #
+  #
+  #
+  # ## using polyline ==> using one row per line (continue with 'polyline')
+  # ## using lat/lon ==> using many rows per line
+  # ## use a list to store the coordinates
+  # if(usePolyline == FALSE){
+  #
+  #   ## if no id field has been specified, treat all the coordinates as one line
+  #   if(is.null(id)){
+  #     message("No 'id' value defined, assuming one continuous line")
+  #     id <- 'id'
+  #     dataLatLng[, id] <- "1"
+  #     polyline[, id] <- "1"
+  #   }
+  #
+  #
+  #   ## each 'lineId' needs to be in the same array. Holes are wound in the opposite direction
+  #   ## to the outer path.
+  #   ## example of a single polygon looks like
+  #   ## polygon = new google.maps.polygon({
+  #   ##  paths : [ coords1, coords2, coords3, coords4]
+  #   ## })
+  #   ##
+  #   ## where any of coords* can be holes.
+  #   lst_polygon <- lapply(unique(dataLatLng[, id]), function(x) {
+  #
+  #     list(id = x,
+  #          coords = data.frame(lat = dataLatLng[dataLatLng[id] == x, lat],
+  #                              lng = dataLatLng[dataLatLng[id] == x, lon])
+  #     )
+  #   })
+  #
+  #   js_polyline <- jsonlite::toJSON(lst_polyline)
+  # }else{
+  #   js_polyline <- ""
+  # }
 
 
 
