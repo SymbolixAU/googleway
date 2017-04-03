@@ -411,12 +411,18 @@ update_circles <- function(map, data, id,
 #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
 #' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
-#' @param option_gradient vector of colours to use as the gradient colours. All CSS3 named colours are supported (\url{https://www.w3.org/TR/css3-color/#html4}), except for extended named colours (\url{https://www.w3.org/TR/css3-color/#svg-color})
+#' @param option_gradient vector of colours to use as the gradient colours. see Deatils
 #' @param weight string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.
 #' @param option_dissipating logical Specifies whether heatmaps dissipate on zoom. When dissipating is false the radius of influence increases with zoom level to ensure that the color intensity is preserved at any given geographic location. Defaults to false.
 #' @param option_radius numeric The radius of influence for each data point, in pixels.
 #' @param option_opacity The opacity of the heatmap, expressed as a number between 0 and 1. Defaults to 0.6.
 #' @param layer_id single value specifying an id for the layer.
+#'
+#' @details
+#' \code{option_gradient} colours can be two of the R colour specifications;
+#' either a colour name (as listed by \code{colors()}, or a hexadecimal string of the form \code{"#rrggbb"}).
+#' The first colour in the vector will be used as the colour that fades to transparent.
+#'
 #' @examples
 #' \dontrun{
 #'
@@ -428,8 +434,12 @@ update_circles <- function(map, data, id,
 #' 77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
 #' "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
 #'
+#' option_gradient <- c('orange', 'blue', 'red', 'green')
+#'
+#' map_key <- 'your_api_key'
+#'
 #' google_map(key = map_key, data = df) %>%
-#'  add_heatmap(lat = "lat", lon = "lon", weight = "weight")
+#'  add_heatmap(lat = "lat", lon = "lon", weight = "weight", option_gradient = option_gradient)
 #'
 #'  }
 #' @export
@@ -493,7 +503,25 @@ add_heatmap <- function(map,
 
   if(!is.null(option_gradient)){
 
-    heatmap_options$gradient <- list(c('rgba(0, 255, 255, 0)', option_gradient))
+    if(length(option_gradient) == 1)
+      stop("please provide at least two gradient colours")
+
+    ## first entry is used to fade into the background
+    # rgb <- grDevices::col2rgb(option_gradient[1])
+    # heatmap_options$gradient <- list(c(paste0('rgba(',rgb[1], ', ', rgb[2], ', ', rgb[3], ', 0)'), option_gradient[2:length(option_gradient)]))
+    # print(heatmap_options$gradient)
+
+    # sapply(option_gradient, function(x) { paste0('rgba(', paste0(as.numeric(grDevices::col2rgb(x)), collapse = ","), ')') })
+
+    g <- sapply(seq_along(option_gradient), function(x){
+      if(x == 1){
+        paste0('rgba(', paste0(c(as.numeric(col2rgb(option_gradient[x])), 0), collapse = ","), ')')
+      }else{
+        paste0('rgba(', paste0(c(as.numeric(col2rgb(option_gradient[x])), 1), collapse = ","), ')')
+      }
+    })
+
+    heatmap_options$gradient <- list(g)
   }
 
   Heatmap <- jsonlite::toJSON(Heatmap)
@@ -1014,53 +1042,53 @@ add_polygons <- function(map,
 
 
 
-  if(inherits(data, "data.frame")){
-    if(!is.null(polyline)){
-      ## polyline specified
-      polyline <- data[, polyline, drop = FALSE]
-      polyline <- stats::setNames(polyline, "polyline")
-      usePolyline <- TRUE
-    }else{
-
-    }
-  }
-
-
-
-  ## using polyline ==> using one row per line (continue with 'polyline')
-  ## using lat/lon ==> using many rows per line
-  ## use a list to store the coordinates
-  if(usePolyline == FALSE){
-
-    ## if no id field has been specified, treat all the coordinates as one line
-    if(is.null(id)){
-      message("No 'id' value defined, assuming one continuous line")
-      id <- 'id'
-      dataLatLng[, id] <- "1"
-      polyline[, id] <- "1"
-    }
-
-
-    ## each 'lineId' needs to be in the same array. Holes are wound in the opposite direction
-    ## to the outer path.
-    ## example of a single polygon looks like
-    ## polygon = new google.maps.polygon({
-    ##  paths : [ coords1, coords2, coords3, coords4]
-    ## })
-    ##
-    ## where any of coords* can be holes.
-    lst_polygon <- lapply(unique(dataLatLng[, id]), function(x) {
-
-      list(id = x,
-           coords = data.frame(lat = dataLatLng[dataLatLng[id] == x, lat],
-                               lng = dataLatLng[dataLatLng[id] == x, lon])
-      )
-    })
-
-    js_polyline <- jsonlite::toJSON(lst_polyline)
-  }else{
-    js_polyline <- ""
-  }
+  # if(inherits(data, "data.frame")){
+  #   if(!is.null(polyline)){
+  #     ## polyline specified
+  #     polyline <- data[, polyline, drop = FALSE]
+  #     polyline <- stats::setNames(polyline, "polyline")
+  #     usePolyline <- TRUE
+  #   }else{
+  #
+  #   }
+  # }
+  #
+  #
+  #
+  # ## using polyline ==> using one row per line (continue with 'polyline')
+  # ## using lat/lon ==> using many rows per line
+  # ## use a list to store the coordinates
+  # if(usePolyline == FALSE){
+  #
+  #   ## if no id field has been specified, treat all the coordinates as one line
+  #   if(is.null(id)){
+  #     message("No 'id' value defined, assuming one continuous line")
+  #     id <- 'id'
+  #     dataLatLng[, id] <- "1"
+  #     polyline[, id] <- "1"
+  #   }
+  #
+  #
+  #   ## each 'lineId' needs to be in the same array. Holes are wound in the opposite direction
+  #   ## to the outer path.
+  #   ## example of a single polygon looks like
+  #   ## polygon = new google.maps.polygon({
+  #   ##  paths : [ coords1, coords2, coords3, coords4]
+  #   ## })
+  #   ##
+  #   ## where any of coords* can be holes.
+  #   lst_polygon <- lapply(unique(dataLatLng[, id]), function(x) {
+  #
+  #     list(id = x,
+  #          coords = data.frame(lat = dataLatLng[dataLatLng[id] == x, lat],
+  #                              lng = dataLatLng[dataLatLng[id] == x, lon])
+  #     )
+  #   })
+  #
+  #   js_polyline <- jsonlite::toJSON(lst_polyline)
+  # }else{
+  #   js_polyline <- ""
+  # }
 
 
 
