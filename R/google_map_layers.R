@@ -759,8 +759,7 @@ add_polylines <- function(map,
   if(!is.null(polyline) & (!is.null(lat) | !is.null(lon)))
     stop("please use either a polyline colulmn, or lat/lon coordinate columns, not both")
 
-  if(!is.logical(update_map_view))
-    stop("update_map_view must be TRUE or FALSE")
+  LogicalCheck(update_map_view)
 
 
   # data <- as.data.frame(data)
@@ -966,15 +965,15 @@ clear_polylines <- function(map, layer_id = NULL){
 #' @examples
 #' \dontrun{
 #'
-#' ##polygon with a hole - Bermuda triangle
-#'
+#' ## polygon with a hole - Bermuda triangle
+#' ## using one row per polygon
 #' pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
 #'       lon = c(-80.190, -66.118, -64.757))
 #'
 #' pl_inner <- encode_pl(lat = c(28.745, 29.570, 27.339),
 #'        lon = c(-70.579, -67.514, -66.668))
 #'
-#' df <- data.frame(id = c(1,1),
+#' df <- data.frame(id = c(1, 1),
 #'        polyline = c(pl_outer, pl_inner),
 #'        stringsAsFactors = FALSE)
 #'
@@ -982,6 +981,14 @@ clear_polylines <- function(map, layer_id = NULL){
 #'
 #' google_map(key = map_key, height = 800) %>%
 #'     add_polygons(data = df, polyline = "polyline")
+#'
+#' ## the same polygon, but using an 'id' to specify the polygon
+#' df <- data.frame(id = c(1,1),
+#'        polyline = c(pl_outer, pl_inner),
+#'        stringsAsFactors = FALSE)
+#'
+#' google_map(key = map_key, height = 800) %>%
+#'     add_polygons(data = df, polyline = "polyline", id = "id")
 #'
 #'
 #' }
@@ -1010,6 +1017,7 @@ add_polygons <- function(map,
                         lat = NULL,
                         lon = NULL,
                         id = NULL,
+                        pathId = NULL,
                         stroke_colour = NULL,
                         stroke_weight = NULL,
                         stroke_opacity = NULL,
@@ -1036,70 +1044,187 @@ add_polygons <- function(map,
   ## checks for missing column names
   # if(is.null(polyline))
   #   stop("please supply the column containing the polylines")
-  #
-  # if(!is.logical(update_map_view))
-  #   stop("update_map_view must be TRUE or FALSE")
 
 
+  if(is.null(polyline) & (is.null(lat) | is.null(lon)))
+    stop("please supply the either the column containing the polylines, or the lat/lon coordinate columns")
 
-  # if(inherits(data, "data.frame")){
-  #   if(!is.null(polyline)){
-  #     ## polyline specified
-  #     polyline <- data[, polyline, drop = FALSE]
-  #     polyline <- stats::setNames(polyline, "polyline")
-  #     usePolyline <- TRUE
-  #   }else{
-  #
-  #   }
-  # }
-  #
-  #
-  #
-  # ## using polyline ==> using one row per line (continue with 'polyline')
-  # ## using lat/lon ==> using many rows per line
-  # ## use a list to store the coordinates
-  # if(usePolyline == FALSE){
-  #
-  #   ## if no id field has been specified, treat all the coordinates as one line
-  #   if(is.null(id)){
-  #     message("No 'id' value defined, assuming one continuous line")
-  #     id <- 'id'
-  #     dataLatLng[, id] <- "1"
-  #     polyline[, id] <- "1"
-  #   }
-  #
-  #
-  #   ## each 'lineId' needs to be in the same array. Holes are wound in the opposite direction
-  #   ## to the outer path.
-  #   ## example of a single polygon looks like
-  #   ## polygon = new google.maps.polygon({
-  #   ##  paths : [ coords1, coords2, coords3, coords4]
-  #   ## })
-  #   ##
-  #   ## where any of coords* can be holes.
-  #   lst_polygon <- lapply(unique(dataLatLng[, id]), function(x) {
-  #
-  #     list(id = x,
-  #          coords = data.frame(lat = dataLatLng[dataLatLng[id] == x, lat],
-  #                              lng = dataLatLng[dataLatLng[id] == x, lon])
-  #     )
-  #   })
-  #
-  #   js_polyline <- jsonlite::toJSON(lst_polyline)
-  # }else{
-  #   js_polyline <- ""
-  # }
+  if(!is.null(polyline) & (!is.null(lat) | !is.null(lon)))
+    stop("please use either a polyline colulmn, or lat/lon coordinate columns, not both")
 
+  LogicalCheck(update_map_view)
 
+  if(!inherits(data, "data.frame"))
+    stop("Currently only data.frames are supported")
 
+  ## polyline:
+  ## - if list column, don't use pathId. ID not required, will be assigned to 1:N
+  ## - if regular column, if no ID, will be assigned 1:N
+  ## - if regular column, if no pathId, will be assigned 1:N per ID
 
+  ## lat/lon
+  ## - only accept regular column
+  ## - if no ID will be assigned 1:N
+  ## - if no pathId, will be assigned 1:N per ID
 
+  if(!is.null(polyline)){
 
-  if(!is.list(data[, polyline])){
-    polygon <- data.frame(polyline = I(as.list(as.character(data[, polyline]))))
+    print("using polylines")
+
+    # if(!is.list(data[, polyline])){
+    #
+    #   ## make our own list column
+    #   if(is.null(id)){
+    #     message("no 'id' value defined, assuming each row is a polygon")
+    #     id <- 'id'
+    #     data[, id] <- 1:nrow(data)
+    #   }
+    #
+    #   polygon <- aggregate(
+    #     formula(
+    #       paste0(
+    #         polyline
+    #         , " ~ "
+    #         , setdiff(names(data), polyline)
+    #         )
+    #       )
+    #     , data = data
+    #     , list)
+    #
+    #   # polygon <- data.frame(polyline = I(as.list(as.character(data[, polyline]))))
+    # }else{
+    #   ## each row is already an individual polygon
+    #   polygon <- data[, polyline, drop = FALSE]
+
+    # }
+
+    if(is.null(id)){
+      id <- 'id'
+      data[, id] <- 1:nrow(data)
+    }
+
+   polygon <- data[, c(id, polyline)]
+
+   print("polygon 1")
+   print(polygon)
+
+    ## polyline specified
+    # polygon <- stats::setNames(polygon, "polyline")
+    usePolyline <- TRUE
+
   }else{
-    polygon <- data[, polyline, drop = FALSE]
+
+    usePolyline <- FALSE
+
+    print("using coordinates")
+
+    ## coordinates
+    if(is.null(id)){
+      message("No 'id' value defined, assuming one continuous line of coordinates")
+      id <- 'id'
+      data[, id] <- 1
+    }
+
+    ## check pathId
+    if(is.null(pathId)){
+      message("No 'pathId' value defined, assuming one continuous line per polygon")
+      pathId <- 'pathId'
+      data[, pathId] <- 1
+    }
+
+    if(is.null(lat)){
+      data <- latitude_column(data, lat, 'add_polygons')
+      lat <- "lat"
+    }
+
+    if(is.null(lon)){
+      data <- longitude_column(data, lon, 'add_polygons')
+      lon <- "lng"
+    }
+
+    polygon <- data[, c(id, pathId, lat, lon)]
+
   }
+
+  ## the defaults are required
+  polygon[, "stroke_colour"] <- SetDefault(stroke_colour, "#0000FF", data)
+  polygon[, "stroke_weight"] <- SetDefault(stroke_weight, 1, data)
+  polygon[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
+  polygon[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
+  polygon[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
+
+  # polygon[, id] <- as.character(polygon[, id])
+  # polygon[, pathId] <- as.character(polygon[, pathId])
+
+  if(!is.null(info_window))
+    polygon[, "info_window"] <- as.character(data[, info_window])
+
+  if(!is.null(mouse_over))
+    polygon[, "mouse_over"] <- as.character(data[, mouse_over])
+
+  if(!is.null(mouse_over_group))
+    polygon[, "mouse_over_group"] <- as.character(data[, mouse_over_group])
+
+
+  ## using polyline ==> using one row per line (continue with 'polyline')
+  ## using lat/lon ==> using many rows per line
+  ## use a list to store the coordinates
+  if(!usePolyline){
+
+    ## each 'lineId' needs to be in the same array. Holes are wound in the opposite direction
+    ## to the outer path.
+    ## example of a single polygon looks like
+    ## polygon = new google.maps.polygon({
+    ##  paths : [ coords1, coords2, coords3, coords4]
+    ## })
+    ##
+    ## where any of coords* can be holes.
+    ids <- unique(polygon[, id])
+
+    lst_polygon <- lapply(ids, function(x){
+      pathIds <- unique(polygon[ polygon[, id] == x, pathId])
+      thisRow <- unique(polygon[ polygon[, id] == x, setdiff(names(polygon), c(id, pathId, lat, lon)) , drop = FALSE] )
+      list(
+        id = x,
+        options = thisRow,
+        coords = sapply(pathIds, function(y){
+          list(polygon[polygon[, id] == x & polygon[, pathId] == y, c(lat, lon)])
+        })
+      )
+    })
+
+    js_polygon <- jsonlite::toJSON(lst_polygon)
+  }else{
+
+    if(!is.list(polygon[, polyline])){
+
+      ## make our own list column
+      # f <- paste0(polyline, " ~ " , paste0(setdiff(names(polygon), polyline), collapse = "+") )
+      # polygon <- aggregate(formula(f), data = polygon, list)
+
+
+
+      # polygon <- data.frame(polyline = I(as.list(as.character(data[, polyline]))))
+    }else{
+      ## each row is already an individual polygon
+      #polygon <- data[, polyline, drop = FALSE]
+
+
+      lst_polygon <- lapply(unique(polygon[, id]), function(x){
+        thisRow <- unique(polygon[ polygon[, id] == x, setdiff(names(polygon), c(id, polyline)), drop = FALSE])
+        list(
+          id = x,
+          options = thisRow,
+          polyline = unlist(polygon[polygon[, id] == x, polyline])
+        )
+      })
+
+    }
+
+    js_polygon <- jsonlite::toJSON(lst_polygon)
+  }
+
+  print(js_polygon)
 
 
 #
@@ -1111,37 +1236,14 @@ add_polygons <- function(map,
 
   layer_id <- LayerId(layer_id)
 
-  polygon <- stats::setNames(polygon, "polyline")
-
-  ## the defaults are required
-  polygon[, "stroke_colour"] <- SetDefault(stroke_colour, "#0000FF", data)
-  polygon[, "stroke_weight"] <- SetDefault(stroke_weight, 1, data)
-  polygon[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
-  polygon[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
-  polygon[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
-  # polygon[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
-
-  ## options
-  if(!is.null(id))
-    polygon[, "id"] <- as.character(data[, id])
-
-  if(!is.null(info_window))
-    polygon[, "info_window"] <- as.character(data[, info_window])
-
-  if(!is.null(mouse_over))
-    polygon[, "mouse_over"] <- as.character(data[, mouse_over])
-
-  if(!is.null(mouse_over_group))
-    polygon[, "mouse_over_group"] <- as.character(data[, mouse_over_group])
 
   # if(sum(is.na(polygon)) > 0)
   #   warning("There are some NAs in your data. These may affect the polygons that have been plotted.")
 
-  # print(polygon)
-  polygon <- jsonlite::toJSON(polygon)
-  # print(polygon)
+  # polygon <- jsonlite::toJSON(polygon)
+  # print(js_polygon)
 
-  invoke_method(map, data, 'add_polygons', polygon, update_map_view, layer_id)
+  # invoke_method(map, data, 'add_polygons', polygon, update_map_view, layer_id)
 }
 
 

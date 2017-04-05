@@ -696,8 +696,10 @@
 #
 
 
-
-#pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
+# library(googleway)
+# library(jsonlite)
+#
+# pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
 #      lon = c(-80.190, -66.118, -64.757))
 #
 # pl_inner <- encode_pl(lat = c(28.745, 29.570, 27.339),
@@ -707,45 +709,126 @@
 #
 #
 #
-# df <- data.frame(id = c(1,1,1,1,1,1,2,2,2),
+# df <- data.frame(myId = c(1,1,1,1,1,1,2,2,2),
 #                  lineId = c(1,1,1,2,2,2,1,1,1),
+#                  option1 = c('a','a','a','a','a','a','b','b','b'),
 #                  lat = c(26.774, 18.466, 32.321, 28.745, 29.570, 27.339, 22, 23, 22),
 #                  lon = c(-80.190, -66.118, -64.757, -70.579, -67.514, -66.668, -50, -49, -51))
 #
-#
-# lst <- list(path1 = data.frame(lat = c(25.774, 18.466,32.321),
-#                        lon = c(-80.190, -66.118, -64.757)),
-#             path2 = data.frame(lat = c(28.745, 29.570, 27.339),
-#                        lon = c(-70.579, -67.514, -66.668)))
-#
-# toJSON(lst)
+# # df$pathId <- with(df, ave(rep(1, nrow(df)), id, FUN = seq_along))
 #
 #
-# ids <- unique(df[, 'id'])
+# ids <- unique(df[, 'myId'])
 #
 # lst <- lapply(ids, function(x){
-#   lineIds <- unique(df[df$id == x, "lineId"])
+#   lineIds <- unique(df[df[, 'myId'] == x, "lineId"])
+#   thisRow <- unique(df[df[, 'myId'] == x, setdiff(names(df), c('myId','lineId', 'lat','lon')), drop = FALSE])
 #   list(
 #     id = x,
+#     options = thisRow,
 #     coords = sapply(lineIds, function(y){
-#       list(df[df$id == x & df$lineId == y, c("lat", "lon")])
+#       list(df[df[, 'myId'] == x & df$lineId == y, c("lat", "lon")])
 #       })
 #   )
 # })
 #
 #
 # toJSON(lst)
+# #
+# #
+# # add_polygons(data = df, lat = "lat", lon = "lon", id = "myId", pathId = "lineId")
 #
+# pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
+#        lon = c(-80.190, -66.118, -64.757))
 #
+# pl_inner <- encode_pl(lat = c(28.745, 29.570, 27.339),
+#         lon = c(-70.579, -67.514, -66.668))
 #
-# ## one row per polygon...
-# ## therefore, each set of coordinates has to be in a list column, where each
-# ## list item is a data.frame...
+# df <- data.frame(id = c(1, 1),
+#                  weight = c(1,1),
+#                  polyline = c(pl_outer, pl_inner),
+#                  stringsAsFactors = FALSE)
 #
+# df <- aggregate(polyline ~ id + weight, data = df, list)
 #
-# sapply(lineIds, function(y){
-#   list(df[df$id == x & df$lineId == y, c("lat", "lon")])
+# toJSON(df)
+# id <- 'id'
+# polyline <- 'polyline'
+#
+# apply(df, 1, function(x){
+#   thisRow = unique(x[, setdiff(names(x), c(id, polyline)), drop = FALSE])
+#   list(
+#     id = x[, id],
+#     options = thisRow,
+#     polyline = x[[polyline]]
+#   )
 # })
+#
+#
+#
+# stack(stats::setNames(df[, polyline], df[, c('weight', id)]))
+#
+# unstack(df, polyline ~ id)
+#
+#
+#
+#  pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
+#        lon = c(-80.190, -66.118, -64.757))
+#
+#  pl_inner <- encode_pl(lat = c(28.745, 29.570, 27.339),
+#         lon = c(-70.579, -67.514, -66.668))
+#
+#  df <- data.frame(id = c(1, 1),
+#                   weight = c(1, 1),
+#         polyline = c(pl_outer, pl_inner),
+#         stringsAsFactors = FALSE)
+#
+#  ## without a list column
+#  df$pathId <- 1
+#  pathId <- 'pathId'
+#  lat <- 'lat'
+#  lon <- 'lon'
+#
+#  ids <- unique(df[, id])
+#
+#  lst_polygon <- lapply(ids, function(x){
+#    pathIds <- unique(df[ df[, id] == x, pathId])
+#    thisRow <- unique(df[ df[, id] == x, setdiff(names(df), c(id, pathId, polyline)) , drop = FALSE] )
+#    list(
+#      id = x,
+#      options = thisRow,
+#      coords = sapply(pathIds, function(y){
+#        list(df[df[, id] == x & df[, pathId] == y, c(polyline)])
+#      })
+#    )
+#  })
+#
+#
+#  toJSON(lst_polygon)
+#
+#
+#  ## with a list column
+#  df <- aggregate(polyline ~ id + weight, data = df, list)
+#
+#
+# lst <- lapply(unique(df$id), function(x){
+#   thisRow <- unique(df[ df[, id] == x, setdiff(names(df), c(id, polyline)), drop = FALSE])
+#   list(
+#     id = x,
+#     options = thisRow,
+#     polyline = unlist(df[df[, id] == x, polyline])
+#   )
+# })
+#
+# toJSON(lst)
+
+
+
+
+
+
+
+
 
 
 

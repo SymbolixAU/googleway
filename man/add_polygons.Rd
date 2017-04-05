@@ -5,10 +5,10 @@
 \title{Add polygon}
 \usage{
 add_polygons(map, data = get_map_data(map), polyline = NULL, lat = NULL,
-  lon = NULL, id = NULL, stroke_colour = NULL, stroke_weight = NULL,
-  stroke_opacity = NULL, fill_colour = NULL, fill_opacity = NULL,
-  info_window = NULL, mouse_over = NULL, mouse_over_group = NULL,
-  update_map_view = TRUE, layer_id = NULL)
+  lon = NULL, id = NULL, pathId = NULL, stroke_colour = NULL,
+  stroke_weight = NULL, stroke_opacity = NULL, fill_colour = NULL,
+  fill_opacity = NULL, info_window = NULL, mouse_over = NULL,
+  mouse_over_group = NULL, update_map_view = TRUE, layer_id = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -22,6 +22,8 @@ add_polygons(map, data = get_map_data(map), polyline = NULL, lat = NULL,
 \item{lon}{string specifying the column of \code{data} containing the 'longitude' coordinates. Coordinates must be in the order that defines the path.}
 
 \item{id}{string specifying the column containing an identifier for a polygon. Used when calling \code{update_polygons} so that specific polygons can be updated}
+
+\item{pathId}{string specifying the column containing an identifer for each path that forms the complete polygon.}
 
 \item{stroke_colour}{either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles}
 
@@ -42,8 +44,6 @@ add_polygons(map, data = get_map_data(map), polyline = NULL, lat = NULL,
 \item{update_map_view}{logical specifying if the map should re-centre according to the polyline.}
 
 \item{layer_id}{single value specifying an id for the layer.}
-
-\item{pathId}{string specifying the column containing an identifer for each path that forms the complete polygon.}
 }
 \description{
 Add a polygon to a google map.
@@ -73,22 +73,30 @@ See examples.
 \examples{
 \dontrun{
 
-##polygon with a hole - Bermuda triangle
-
+## polygon with a hole - Bermuda triangle
+## using one row per polygon
 pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
       lon = c(-80.190, -66.118, -64.757))
 
 pl_inner <- encode_pl(lat = c(28.745, 29.570, 27.339),
        lon = c(-70.579, -67.514, -66.668))
 
-df <- data.frame(id = c(1,1),
+df <- data.frame(id = c(1, 1),
        polyline = c(pl_outer, pl_inner),
        stringsAsFactors = FALSE)
 
 df <- aggregate(polyline ~ id, data = df, list)
 
 google_map(key = map_key, height = 800) \%>\%
-    add_polygons(data = df, polyline = "polyline", mouse_over = "polyline")
+    add_polygons(data = df, polyline = "polyline")
+
+## the same polygon, but using an 'id' to specify the polygon
+df <- data.frame(id = c(1,1),
+       polyline = c(pl_outer, pl_inner),
+       stringsAsFactors = FALSE)
+
+google_map(key = map_key, height = 800) \%>\%
+    add_polygons(data = df, polyline = "polyline", id = "id")
 
 
 }
