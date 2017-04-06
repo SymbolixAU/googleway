@@ -85,6 +85,8 @@ See Examples
 \examples{
 \dontrun{
 
+map_key <- 'your_api_key'
+
 ## polygon with a hole - Bermuda triangle
 ## using one row per polygon, and a list-column of encoded polylines
 pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
@@ -98,8 +100,6 @@ df <- data.frame(id = c(1, 1),
        stringsAsFactors = FALSE)
 
 df <- aggregate(polyline ~ id, data = df, list)
-
-map_key <- 'your_api_key'
 
 google_map(key = map_key, height = 800) \%>\%
     add_polygons(data = df, polyline = "polyline")

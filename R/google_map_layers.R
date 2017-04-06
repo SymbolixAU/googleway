@@ -974,6 +974,8 @@ clear_polylines <- function(map, layer_id = NULL){
 #' @examples
 #' \dontrun{
 #'
+#' map_key <- 'your_api_key'
+#'
 #' ## polygon with a hole - Bermuda triangle
 #' ## using one row per polygon, and a list-column of encoded polylines
 #' pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
@@ -987,8 +989,6 @@ clear_polylines <- function(map, layer_id = NULL){
 #'        stringsAsFactors = FALSE)
 #'
 #' df <- aggregate(polyline ~ id, data = df, list)
-#'
-#' map_key <- 'your_api_key'
 #'
 #' google_map(key = map_key, height = 800) %>%
 #'     add_polygons(data = df, polyline = "polyline")
@@ -1166,7 +1166,6 @@ add_polygons <- function(map,
     ## })
     ##
     ## where any of coords* can be holes.
-
     ids <- unique(polygon[, 'id'])
 
     lst_polygon <- lapply(ids, function(x){
@@ -1175,7 +1174,7 @@ add_polygons <- function(map,
       coords <- sapply(pathIds, function(y){
         list(polygon[polygon[, 'id'] == x & polygon[, 'pathId'] == y, c('lat', 'lng')])
       })
-      c(list(coords = coords), thisRow)
+      c(list(coords = unname(coords)), thisRow)
     })
 
     js_polygon <- jsonlite::toJSON(lst_polygon)
@@ -1203,9 +1202,6 @@ add_polygons <- function(map,
 #   }
 
   layer_id <- LayerId(layer_id)
-
-  print(js_polygon)
-
   # if(sum(is.na(polygon)) > 0)
   #   warning("There are some NAs in your data. These may affect the polygons that have been plotted.")
   invoke_method(map, data, 'add_polygons', js_polygon, update_map_view, layer_id, usePolyline)

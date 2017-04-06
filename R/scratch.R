@@ -769,16 +769,23 @@
 #       fill_colour = c("#00FF00"),
 #       stringsAsFactors = FALSE)
 #
-# ids <- unique(df$id)
+# polygon <- df
+#
+# polygon <- setNames(polygon, c("id","pathId","lat","lng"))
+# polygon[, 'id'] <- as.character(polygon[, 'id'])
+# polygon[, 'pathId'] <- as.character(polygon[, 'pathId'])
+# str(polygon)
+#
+# ids <- unique(polygon[, 'id'])
+#
 #
 # lst_polygon <- lapply(ids, function(x){
-#   pathIds <- unique(df[ df[, 'id'] == x, 'pathId'])
-#   thisRow <- unique(df[ df[, 'id'] == x, setdiff(names(df), c('id', 'pathId', 'lat', 'lng')) , drop = FALSE] )
+#   pathIds <- unique(polygon[ polygon[, 'id'] == x, 'pathId'])
+#   thisRow <- unique(polygon[ polygon[, 'id'] == x, setdiff(names(polygon), c('id', 'pathId', 'lat', 'lng')) , drop = FALSE] )
 #   coords <- sapply(pathIds, function(y){
-#     list(df[df[, 'id'] == x & df[, 'pathId'] == y, c('lat', 'lng')])
+#     list(polygon[polygon[, 'id'] == x & polygon[, 'pathId'] == y, c('lat', 'lng')])
 #   })
-#   print(coords)
-#   c(list(coords = coords), thisRow)
+#   c(list(coords = unname(coords)), thisRow)
 # })
 #
 # jsonlite::toJSON(lst_polygon)
