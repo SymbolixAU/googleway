@@ -697,39 +697,14 @@
 # library(googleway)
 # library(jsonlite)
 #
-## Polylines, using an \code{id} to specify the polygons
-# pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
-#                       lon = c(-80.190, -66.118, -64.757))
-#
-# df <- data.frame(id = c(1),
-#                  polyline = pl_outer,
-#                  stringsAsFactors = F)
-#
-# df <- aggregate(polyline ~ id, data = df, list)
-#
-# google_map(key = map_key) %>%
-#   add_polygons(data = df, polyline = 'polyline', id = 'id')
-#
-#
 # pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
 #      lon = c(-80.190, -66.118, -64.757))
 #
 # pl_inner <- encode_pl(lat = c(28.745, 29.570, 27.339),
 #       lon = c(-70.579, -67.514, -66.668))
 #
-# df <- data.frame(id = c(1, 1),
-#                 polyline = c(pl_outer, pl_inner),
-#                 stringsAsFactors = FALSE)
-#
 # google_map(key = map_key) %>%
 #   add_polygons(data = df, polyline = 'polyline', id = 'id')
-# #
-# # ## Polylines in a list column, where each row specifies a polygon
-# #
-# df <- aggregate(polyline ~ id, data = df, list)
-#
-# google_map(key = map_key) %>%
-#   add_polygons(data = df, polyline = 'polyline', mouse_over_group = 'id', id = 'id')
 #
 # pl_other <- encode_pl(c(22,23,22), c(-50, -49, -51))
 #
@@ -738,21 +713,9 @@
 #                  polyline = c(pl_outer, pl_inner, pl_other),
 #                  stringsAsFactors = FALSE)
 #
-# # google_map(key = map_key) %>%
-# #   add_polygons(data = df, polyline = 'polyline', id = 'id')
-# #
-# #
 # df <- aggregate(polyline ~ id + colour, data = df, list)
 #
-#
-# df$draggable <- TRUE
-#
 # map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
-#
-# google_map(key = map_key) %>%
-#   add_polygons(data = df, polyline = 'polyline', id = 'id', fill_colour = 'colour',
-#                draggable = "draggable")
-#
 #
 # df_update <- df[, c("id", "colour")]
 # df_update$colour <- c("#FFFFFF", "000000")
@@ -760,7 +723,7 @@
 # google_map(key = map_key) %>%
 #   add_polygons(data = df, polyline = 'polyline', id = 'id', fill_colour = 'colour') %>%
 #   update_polygons(data = df_update, id = 'id', fill_colour = 'colour')
-#
+
 #
 # df <- data.frame(id = c(1,1,1,1,1,1,2,2,2),
 #       pathId = c(1,1,1,2,2,2,1,1,1),
