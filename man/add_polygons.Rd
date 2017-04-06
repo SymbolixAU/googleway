@@ -88,7 +88,7 @@ df <- data.frame(id = c(1,1),
 df <- aggregate(polyline ~ id, data = df, list)
 
 google_map(key = map_key, height = 800) \%>\%
-    add_polygons(data = df, polyline = "polyline", mouse_over = "polyline")
+    add_polygons(data = df, polyline = "polyline")
 
 
 }
