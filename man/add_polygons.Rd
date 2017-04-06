@@ -8,7 +8,8 @@ add_polygons(map, data = get_map_data(map), polyline = NULL, lat = NULL,
   lon = NULL, id = NULL, pathId = NULL, stroke_colour = NULL,
   stroke_weight = NULL, stroke_opacity = NULL, fill_colour = NULL,
   fill_opacity = NULL, info_window = NULL, mouse_over = NULL,
-  mouse_over_group = NULL, update_map_view = TRUE, layer_id = NULL)
+  mouse_over_group = NULL, draggable = NULL, update_map_view = TRUE,
+  layer_id = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -40,6 +41,8 @@ add_polygons(map, data = get_map_data(map), polyline = NULL, lat = NULL,
 \item{mouse_over}{string specifying the column of data to display when the mouse rolls over the polygon}
 
 \item{mouse_over_group}{string specifying the column of data specifying which groups of polygons to highlight on mouseover}
+
+\item{draggable}{string specifying the column of \code{data} defining if the marker is 'draggable' (either TRUE or FALSE)}
 
 \item{update_map_view}{logical specifying if the map should re-centre according to the polyline.}
 

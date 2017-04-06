@@ -770,7 +770,8 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
       fillOpacity: polygon.fill_opacity,
       fillOpacityHolder: polygon.fill_opacity,
       mouseOver: polygon.mouse_over,
-      mouseOverGroup: polygon.mouse_over_group
+      mouseOverGroup: polygon.mouse_over_group,
+      draggable: polygon.draggable
       //_information: polygon.information
 //      clickable: true,
 //      draggable: false,

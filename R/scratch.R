@@ -744,8 +744,14 @@
 # #
 # df <- aggregate(polyline ~ id + colour, data = df, list)
 #
+#
+# df$draggable <- TRUE
+#
+# map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#
 # google_map(key = map_key) %>%
-#   add_polygons(data = df, polyline = 'polyline', id = 'id', fill_colour = 'colour')
+#   add_polygons(data = df, polyline = 'polyline', id = 'id', fill_colour = 'colour',
+#                draggable = "draggable")
 #
 #
 # df_update <- df[, c("id", "colour")]

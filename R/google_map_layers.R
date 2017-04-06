@@ -1031,6 +1031,7 @@ clear_polylines <- function(map, layer_id = NULL){
 #' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
 #' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
 #' @param mouse_over_group string specifying the column of data specifying which groups of polygons to highlight on mouseover
+#' @param draggable string specifying the column of \code{data} defining if the marker is 'draggable' (either TRUE or FALSE)
 #' @param update_map_view logical specifying if the map should re-centre according to the polyline.
 #' @param layer_id single value specifying an id for the layer.
 #' @export
@@ -1049,6 +1050,7 @@ add_polygons <- function(map,
                         info_window = NULL,
                         mouse_over = NULL,
                         mouse_over_group = NULL,
+                        draggable = NULL,
                         update_map_view = TRUE,
                         layer_id = NULL
                         ){
@@ -1148,6 +1150,8 @@ add_polygons <- function(map,
   if(!is.null(mouse_over_group))
     polygon[, "mouse_over_group"] <- as.character(data[, mouse_over_group])
 
+  if(!is.null(draggable))
+    polygon[, "draggable"] <- as.logical(data[, draggable])
 
   ## using polyline ==> using one row per line (continue with 'polyline')
   ## using lat/lon ==> using many rows per line
