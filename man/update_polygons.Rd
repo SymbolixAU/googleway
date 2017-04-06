@@ -4,9 +4,9 @@
 \alias{update_polygons}
 \title{Update polygons}
 \usage{
-update_polygons(map, data, id, polyline = NULL, stroke_colour = NULL,
-  stroke_weight = NULL, stroke_opacity = NULL, fill_colour = NULL,
-  fill_opacity = NULL, layer_id = NULL)
+update_polygons(map, data, id, stroke_colour = NULL, stroke_weight = NULL,
+  stroke_opacity = NULL, fill_colour = NULL, fill_opacity = NULL,
+  layer_id = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -14,8 +14,6 @@ update_polygons(map, data, id, polyline = NULL, stroke_colour = NULL,
 \item{data}{data.frame containing the new values for the polygons}
 
 \item{id}{string representing the column of \code{data} containing the id values for the polygons. The id values must be present in the data supplied to \code{add_polygons} in order for the polygons to be udpated}
-
-\item{polyline}{string specifying the column containing the polyline. Only used if \code{add_extra} is TRUE}
 
 \item{stroke_colour}{either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles}
 

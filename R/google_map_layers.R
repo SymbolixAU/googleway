@@ -1080,27 +1080,17 @@ add_polygons <- function(map,
   if(!inherits(data, "data.frame"))
     stop("Currently only data.frames are supported")
 
-  ## polyline:
-  ## - if list column, don't use pathId. ID not required, will be assigned to 1:N
-  ## - if regular column, if no ID, will be assigned 1:N
-  ## - if regular column, if no pathId, will be assigned 1:N per ID
-
-  ## lat/lon
-  ## - only accept regular column
-  ## - if no ID will be assigned 1:N
-  ## - if no pathId, will be assigned 1:N per ID
-
   if(!is.null(polyline)){
 
     if(is.null(id)){
       id <- 'id'
-      data[, id] <- 1:nrow(data)
+      data[, id] <- as.character(1:nrow(data))
+    }else{
+      data[, id] <- as.character(data[, id])
     }
 
    polygon <- data[, c(id, polyline)]
-    ## polyline specified
-    # polygon <- stats::setNames(polygon, "polyline")
-    usePolyline <- TRUE
+   usePolyline <- TRUE
 
   }else{
 
@@ -1110,14 +1100,18 @@ add_polygons <- function(map,
     if(is.null(id)){
       message("No 'id' value defined, assuming one continuous line of coordinates")
       id <- 'id'
-      data[, id] <- 1
+      data[, id] <- '1'
+    }else{
+      data[, id] <- as.character(data[, id])
     }
 
     ## check pathId
     if(is.null(pathId)){
       message("No 'pathId' value defined, assuming one continuous line per polygon")
       pathId <- 'pathId'
-      data[, pathId] <- 1
+      data[, pathId] <- '1'
+    }else{
+      data[, pathId] <- as.character(data[, pathId])
     }
 
     if(is.null(lat)){
@@ -1197,7 +1191,6 @@ add_polygons <- function(map,
 
   }
 
-#
 #   if(sum(sapply(polygon[, polyline], is.null)) > 0){
 #     warning("There are some NULL polyline values. These polygons are removed from the map")
 #     print(str(polygon))
@@ -1209,10 +1202,6 @@ add_polygons <- function(map,
 
   # if(sum(is.na(polygon)) > 0)
   #   warning("There are some NAs in your data. These may affect the polygons that have been plotted.")
-
-  # polygon <- jsonlite::toJSON(polygon)
-  # print(js_polygon)
-
   invoke_method(map, data, 'add_polygons', js_polygon, update_map_view, layer_id, usePolyline)
 }
 
@@ -1226,7 +1215,6 @@ add_polygons <- function(map,
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data.frame containing the new values for the polygons
 #' @param id string representing the column of \code{data} containing the id values for the polygons. The id values must be present in the data supplied to \code{add_polygons} in order for the polygons to be udpated
-#' @param polyline string specifying the column containing the polyline. Only used if \code{add_extra} is TRUE
 #' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
 #' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
 #' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
@@ -1236,7 +1224,6 @@ add_polygons <- function(map,
 #'
 #' @export
 update_polygons <- function(map, data, id,
-                            polyline = NULL,
                             stroke_colour = NULL,
                             stroke_weight = NULL,
                             stroke_opacity = NULL,
@@ -1247,19 +1234,26 @@ update_polygons <- function(map, data, id,
 
   ## TODO: is 'info_window' required, if it was included in the original add_polygons?
 
-  if(!is.null(polyline)){
-    if(!is.list(data[, polyline])){
-      polygonUpdate <- data.frame(polyline = I(as.list(as.character(data[, polyline]))))
-    }else{
-      polygonUpdate <- data[, polyline, drop = FALSE]
-    }
-  }else{
-    stop("I really, really need that polyline column")
-  }
+  ## Updating a polygon doesn't 'add' or 'remove' polylines / coordinates,
+  ## it merely changes the attributes.
+  ## so.... don't need the 'polyline' or 'coordinate' columns
+
+  # if(!is.null(polyline)){
+  #   if(!is.list(data[, polyline])){
+  #     polygonUpdate <- data.frame(polyline = I(as.list(as.character(data[, polyline]))))
+  #   }else{
+  #     polygonUpdate <- data[, polyline, drop = FALSE]
+  #   }
+  # }else{
+  #   stop("I really, really need that polyline column")
+  # }
+
+  polygonUpdate <- data[, id, drop = FALSE]
+  polygonUpdate[, id] <- as.character(polygonUpdate[, id])
 
   layer_id <- LayerId(layer_id)
 
-  polygonUpdate[, "id"] <- as.character(data[, id])
+  # polygonUpdate[, id] <- as.character(data[, id])
 
   polygonUpdate[, "stroke_colour"] <- SetDefault(stroke_colour, "#0000FF", data)
   polygonUpdate[, "stroke_weight"] <- SetDefault(stroke_weight, 1, data)
@@ -1267,6 +1261,8 @@ update_polygons <- function(map, data, id,
   polygonUpdate[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
   polygonUpdate[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
   # polygonUpdate[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
+
+  print(polygonUpdate)
 
   polygonUpdate <- jsonlite::toJSON(polygonUpdate)
 

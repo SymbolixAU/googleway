@@ -732,6 +732,9 @@ function clear_polylines(map_id, layer_id){
  */
 function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyline){
 
+  console.log("polygon");
+  console.log(data_polygon);
+
   window[map_id + 'googlePolygon' + layer_id] = [];
   var infoWindow = new google.maps.InfoWindow();
 
@@ -827,7 +830,7 @@ function update_polygons(map_id, data_polygon, layer_id){
   var newIds = [];
   var newPolygons = [];
 
-  console.log("update polygons");
+  console.log(data_polygon);
 
   for(i = 0; i < Object.keys(window[map_id + 'googlePolygon' + layer_id]).length; i++){
 
@@ -875,6 +878,9 @@ function update_polygons(map_id, data_polygon, layer_id){
             break;
         }
       }
+
+      console.log(window[map_id + 'googlePolygon' + layer_id][i]);
+      console.log(thisUpdatePolygon);
 
     }else{
       // the id does not exist in the new data set
