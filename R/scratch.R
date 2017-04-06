@@ -760,6 +760,29 @@
 # google_map(key = map_key) %>%
 #   add_polygons(data = df, polyline = 'polyline', id = 'id', fill_colour = 'colour') %>%
 #   update_polygons(data = df_update, id = 'id', fill_colour = 'colour')
+#
+#
+# df <- data.frame(id = c(1,1,1,1,1,1,2,2,2),
+#       pathId = c(1,1,1,2,2,2,1,1,1),
+#       lat = c(26.774, 18.466, 32.321, 28.745, 29.570, 27.339, 22, 23, 22),
+#       lng = c(-80.190, -66.118, -64.757, -70.579, -67.514, -66.668, -50, -49, -51),
+#       fill_colour = c("#00FF00"),
+#       stringsAsFactors = FALSE)
+#
+# ids <- unique(df$id)
+#
+# lst_polygon <- lapply(ids, function(x){
+#   pathIds <- unique(df[ df[, 'id'] == x, 'pathId'])
+#   thisRow <- unique(df[ df[, 'id'] == x, setdiff(names(df), c('id', 'pathId', 'lat', 'lng')) , drop = FALSE] )
+#   coords <- sapply(pathIds, function(y){
+#     list(df[df[, 'id'] == x & df[, 'pathId'] == y, c('lat', 'lng')])
+#   })
+#   print(coords)
+#   c(list(coords = coords), thisRow)
+# })
+#
+# jsonlite::toJSON(lst_polygon)
+
 
 
 

@@ -1006,7 +1006,7 @@ clear_polylines <- function(map, layer_id = NULL){
 #' df <- data.frame(myId = c(1,1,1,1,1,1,2,2,2),
 #'       lineId = c(1,1,1,2,2,2,1,1,1),
 #'       lat = c(26.774, 18.466, 32.321, 28.745, 29.570, 27.339, 22, 23, 22),
-#'      lon = c(-80.190, -66.118, -64.757, -70.579, -67.514, -66.668, -50, -49, -51),
+#'       lon = c(-80.190, -66.118, -64.757, -70.579, -67.514, -66.668, -50, -49, -51),
 #'       stringsAsFactors = FALSE)
 #'
 #' google_map(key = map_key) %>%
@@ -1166,6 +1166,7 @@ add_polygons <- function(map,
     ## })
     ##
     ## where any of coords* can be holes.
+
     ids <- unique(polygon[, 'id'])
 
     lst_polygon <- lapply(ids, function(x){
@@ -1203,6 +1204,7 @@ add_polygons <- function(map,
 
   layer_id <- LayerId(layer_id)
 
+  print(js_polygon)
 
   # if(sum(is.na(polygon)) > 0)
   #   warning("There are some NAs in your data. These may affect the polygons that have been plotted.")
