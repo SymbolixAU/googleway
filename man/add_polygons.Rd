@@ -53,11 +53,11 @@ A polygon represents an area enclosed by a closed path. Polygon objects
 are similar to polylines in that they consist of a series of coordinates in an ordered sequence.
 Polygon objects can describe complex shapes, including
 
-* Multiple non-contiguous areas defined by a single polygon
-
-* Areas wwith holes in them
-
-* Intersections of one or more areas
+\itemize{
+  \item{Multiple non-contiguous areas defined by a single poylgon}
+  \item{Areas with holes in them}
+  \item{Intersections of one or more areas}
+}
 
 To define a complex shape, you use a polygon with multiple paths.
 
@@ -66,15 +66,24 @@ To create the hole, the coordinates of the inner path must be wound in the oppos
 order to those defining the outer path. For example, if the coordinates of
 the outer path are in clockwise order, then the inner path must be anit-clockwise.
 
-To represent a complex polygon the data.frame column containing the polylines should be a list,
-where each polyline that is used to create the polygon is in the same row of the data.frame
-See examples.
+You can represent a polygon ine one of three ways
+\itemize{
+  \item{as a series of coordinates defining a path (or paths) with both an
+  \code{id} and \code{pathId} argument that make up the polygon}
+  \item{as an encoded polyline using an \code{id} column to specify multiple
+  polylines for a polygon}
+  \item{as a list column in a data.frame, where each row of the data.frame
+  contains the polylines that comprise the polygon}
+
+}
+
+See Examples
 }
 \examples{
 \dontrun{
 
 ## polygon with a hole - Bermuda triangle
-## using one row per polygon
+## using one row per polygon, and a list-column of encoded polylines
 pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
       lon = c(-80.190, -66.118, -64.757))
 
@@ -87,6 +96,8 @@ df <- data.frame(id = c(1, 1),
 
 df <- aggregate(polyline ~ id, data = df, list)
 
+map_key <- 'your_api_key'
+
 google_map(key = map_key, height = 800) \%>\%
     add_polygons(data = df, polyline = "polyline")
 
@@ -97,6 +108,18 @@ df <- data.frame(id = c(1,1),
 
 google_map(key = map_key, height = 800) \%>\%
     add_polygons(data = df, polyline = "polyline", id = "id")
+
+## the same polygon, specified using coordinates, and with a second independent
+## polygon
+df <- data.frame(myId = c(1,1,1,1,1,1,2,2,2),
+      lineId = c(1,1,1,2,2,2,1,1,1),
+      lat = c(26.774, 18.466, 32.321, 28.745, 29.570, 27.339, 22, 23, 22),
+     lon = c(-80.190, -66.118, -64.757, -70.579, -67.514, -66.668, -50, -49, -51),
+      stringsAsFactors = FALSE)
+
+google_map(key = map_key) \%>\%
+  add_polygons(data = df, lat = 'lat', lon = 'lon', id = 'myId', pathId = 'lineId')
+
 
 
 }

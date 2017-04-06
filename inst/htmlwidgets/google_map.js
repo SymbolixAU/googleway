@@ -730,9 +730,8 @@ function clear_polylines(map_id, layer_id){
  * @param map_id
  * @param data_polygon
  */
-function add_polygons(map_id, data_polygon, update_map_view, layer_id){
+function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyline){
 
-  console.log(data_polygon);
   window[map_id + 'googlePolygon' + layer_id] = [];
   var infoWindow = new google.maps.InfoWindow();
 
@@ -744,9 +743,18 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id){
 
     var paths = [];
 
-    for(j = 0; j < polygon.polyline.length; j ++){
-      paths.push(google.maps.geometry.encoding.decodePath(polygon.polyline[j]));
+    if(use_polyline){
+      for(j = 0; j < polygon.polyline.length; j ++){
+        paths.push(google.maps.geometry.encoding.decodePath(polygon.polyline[j]));
+      }
+    }else{
+
+      for(j = 0; j < polygon.coords.length; j++){
+        paths.push(polygon.coords[j]);
+      }
+      //paths.push(polygon.coords);
     }
+
 
     //https://developers.google.com/maps/documentation/javascript/reference?csw=1#PolygonOptions
     var Polygon = new google.maps.Polygon({
@@ -773,7 +781,6 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id){
       add_infoWindow(map_id, Polygon, infoWindow, '_information', polygon.info_window);
     }
 
-    console.log(polygon);
     if(polygon.mouse_over || polygon.mouse_over_group){
       add_mouseOver(map_id, Polygon, infoWindow, "_mouse_over", polygon.mouse_over, layer_id, 'googlePolygon');
     }
@@ -819,6 +826,8 @@ function update_polygons(map_id, data_polygon, layer_id){
   var currentIds = [];
   var newIds = [];
   var newPolygons = [];
+
+  console.log("update polygons");
 
   for(i = 0; i < Object.keys(window[map_id + 'googlePolygon' + layer_id]).length; i++){
 
@@ -948,8 +957,6 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
   var infoWindow = new google.maps.InfoWindow();
 
   google.maps.event.addListener(mapObject, 'mouseover', function(event){
-    console.log("mouse over listener");
-    console.log(mapObject);
 
     if(mapObject.get("mouseOverGroup") !== undefined){
       // polygons can be made up of many shapes
@@ -957,7 +964,6 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
 
       // markers only have opacity
       if(layerType === 'googleMarkers'){
-        console.log("mouse over markers");
 
         for (i = 0; i < window[map_id + layerType + layer_id].length; i++){
           if(window[map_id + layerType + layer_id][i].mouseOverGroup == this.mouseOverGroup){
@@ -969,7 +975,6 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
 
       // polylines only have strokeOpacity
       }else if(layerType === 'googlePolyline'){
-        console.log("mosue over polyline");
 
         for (i = 0; i < window[map_id + layerType + layer_id].length; i++){
           if(window[map_id + layerType + layer_id][i].mouseOverGroup == this.mouseOverGroup){
@@ -979,7 +984,6 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
           }
         }
       }else{
-        console.log("mouse over polygon");
 
         // other shapes have fillOpacity
         for (i = 0; i < window[map_id + layerType + layer_id].length; i++){
@@ -1005,7 +1009,7 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
 
       // infoWindow if 'mouseOver' is also specified
       if(mapObject.get("mouseOver") !== undefined){
-        console.log("mosue over");
+
         mapObject.setOptions({"_mouse_over": mapObject.get(objectAttribute)});
 
         infoWindow.setContent(mapObject.get(objectAttribute).toString());
@@ -1018,7 +1022,6 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
 
       // if the mouse_over is specified without the group, we need an info window
       if(mapObject.get("mouseOver") !== undefined){
-        console.log("mosue over");
         mapObject.setOptions({"_mouse_over": mapObject.get(objectAttribute)});
 
         infoWindow.setContent(mapObject.get(objectAttribute).toString());

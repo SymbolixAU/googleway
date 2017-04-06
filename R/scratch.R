@@ -699,13 +699,116 @@
 # library(googleway)
 # library(jsonlite)
 #
+## Polylines, using an \code{id} to specify the polygons
+# pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
+#                       lon = c(-80.190, -66.118, -64.757))
+#
+# df <- data.frame(id = c(1),
+#                  polyline = pl_outer,
+#                  stringsAsFactors = F)
+#
+# df <- aggregate(polyline ~ id, data = df, list)
+#
+# google_map(key = map_key) %>%
+#   add_polygons(data = df, polyline = 'polyline', id = 'id')
+#
+#
 # pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
 #      lon = c(-80.190, -66.118, -64.757))
 #
 # pl_inner <- encode_pl(lat = c(28.745, 29.570, 27.339),
 #       lon = c(-70.579, -67.514, -66.668))
 #
+# df <- data.frame(id = c(1, 1),
+#                 polyline = c(pl_outer, pl_inner),
+#                 stringsAsFactors = FALSE)
 #
+# google_map(key = map_key) %>%
+#   add_polygons(data = df, polyline = 'polyline', id = 'id')
+# #
+# # ## Polylines in a list column, where each row specifies a polygon
+# #
+# df <- aggregate(polyline ~ id, data = df, list)
+#
+# google_map(key = map_key) %>%
+#   add_polygons(data = df, polyline = 'polyline')
+#
+# pl_other <- encode_pl(c(22,23,22), c(-50, -49, -51))
+#
+# df <- data.frame(id = c(1, 1, 2),
+#                  polyline = c(pl_outer, pl_inner, pl_other),
+#                  stringsAsFactors = FALSE)
+#
+# google_map(key = map_key) %>%
+#   add_polygons(data = df, polyline = 'polyline', id = 'id')
+#
+#
+# df <- aggregate(polyline ~ id, data = df, list)
+#
+# google_map(key = map_key) %>%
+#   add_polygons(data = df, polyline = 'polyline')
+#
+
+
+# #
+# #
+# # ## Coordinates
+# df <- data.frame(myId = c(1,1,1,1,1,1,2,2,2),
+#                  lineId = c(1,1,1,2,2,2,1,1,1),
+#                  lat = c(26.774, 18.466, 32.321, 28.745, 29.570, 27.339, 22, 23, 22),
+#                  lon = c(-80.190, -66.118, -64.757, -70.579, -67.514, -66.668, -50, -49, -51),
+#                  stringsAsFactors = FALSE)
+#
+# google_map(key = map_key) %>%
+#   add_polygons(data = df, lat = 'lat', lon = 'lon', id = 'myId', pathId = 'lineId')
+
+#
+
+# id <- 'myId'
+# pathId <- 'lineId'
+# lat <- 'lat'
+# lon <- 'lon'
+# ids <- unique(df[, id])
+#
+# lst_polygon <- lapply(ids, function(x){
+#   pathIds <- unique(df[ df[, id] == x, pathId])
+#   thisRow <- unique(df[ df[, id] == x, setdiff(names(df), c(id, pathId, lat, lon)) , drop = FALSE] )
+#   coords <- sapply(pathIds, function(y){
+#     list(df[df[, id] == x & df[, pathId] == y, c(lat, lon)])
+#   })
+#
+#   c(list(coords = coords), thisRow)
+# })
+#
+# toJSON(lst_polygon)
+
+
+# toJSON(lst_polygon, pretty = T)
+#
+# setNames(thisRow[1, ], names(thisRow))
+#
+# l <- sapply(pathIds, function(y){
+#   list(df[df[, id] == x & df[, pathId] == y, c(lat, lon)])
+# })
+#
+# toJSON(l)
+#
+#
+# l2 <- list(coords = l, stroke_colour = 'hi', stroke_fill = 'there')
+#
+# l2 <- list(c(list(coords = l), c(thisRow)))
+# l2
+# toJSON(l2)
+#
+
+#
+#
+# # df <- aggregate(polyline ~ id, data = df, list)
+# polyline <- 'polyline'
+# f <- paste0(polyline, " ~ " , paste0(setdiff(names(df), polyline), collapse = "+") )
+# df <- aggregate(formula(f), data = df, list)
+#
+# toJSON(df)
 #
 #
 #
