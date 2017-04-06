@@ -733,7 +733,7 @@
 #
 # pl_other <- encode_pl(c(22,23,22), c(-50, -49, -51))
 #
-# df <- data.frame(id = c(1, 1, 2),
+# df <- data.frame(id = c('1', '1', '2'),
 #                  colour = c("#00FF00", "#00FF00", "#FFFF00"),
 #                  polyline = c(pl_outer, pl_inner, pl_other),
 #                  stringsAsFactors = FALSE)
