@@ -11,12 +11,15 @@ google_snapToRoads(df_path, lat = NULL, lon = NULL, interpolate = FALSE,
 \item{df_path}{\code{data.frame} with at least two columns specifying the latitude & longitude coordinates,
 with a maximum of 100 pairs of coordinates.}
 
-\item{lat}{string specifying the column of \code{df_path} containing the 'latitude' coordinates. If left NULL, a best-guess will be made}
+\item{lat}{string specifying the column of \code{df_path} containing the
+'latitude' coordinates. If left NULL, a best-guess will be made}
 
-\item{lon}{string specifying the column of \code{df_path} containing the 'longitude' coordinates. If left NULL, a best-guess will be made}
+\item{lon}{string specifying the column of \code{df_path} containing the '
+longitude' coordinates. If left NULL, a best-guess will be made}
 
-\item{interpolate}{logical indicating whether to interpolate a path to include all points forming the full road-geometry.
-When \code{TRUE}, additional interpolated points will also be returned, resulting ina  path
+\item{interpolate}{logical indicating whether to interpolate a path to
+include all points forming the full road-geometry.
+When \code{TRUE}, additional interpolated points will also be returned, resulting in a path
 that smoothly follows the geometry of the road, even around corners and through
 tunnels. Interpolated paths will most likely contain more ponts that the original path.}
 

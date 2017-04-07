@@ -145,6 +145,8 @@ df <- data.frame(myId = c(1,1,1,1,1,1,2,2,2),
 google_map(key = map_key) \%>\%
   add_polygons(data = df, lat = 'lat', lon = 'lon', id = 'myId', pathId = 'lineId')
 
+
+
 }
 
 }

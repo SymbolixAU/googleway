@@ -515,9 +515,9 @@ add_heatmap <- function(map,
 
     g <- sapply(seq_along(option_gradient), function(x){
       if(x == 1){
-        paste0('rgba(', paste0(c(as.numeric(col2rgb(option_gradient[x])), 0), collapse = ","), ')')
+        paste0('rgba(', paste0(c(as.numeric(grDevices::col2rgb(option_gradient[x])), 0), collapse = ","), ')')
       }else{
-        paste0('rgba(', paste0(c(as.numeric(col2rgb(option_gradient[x])), 1), collapse = ","), ')')
+        paste0('rgba(', paste0(c(as.numeric(grDevices::col2rgb(option_gradient[x])), 1), collapse = ","), ')')
       }
     })
 
@@ -887,7 +887,6 @@ add_polylines <- function(map,
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data.frame containing the new values for the polylines
 #' @param id string representing the column of \code{data} containing the id values for the polylines The id values must be present in the data supplied to \code{add_polylines} in order for the polylines to be udpated
-#' @param polyline string specifying the column containing the polyline. Only used if \code{add_extra} is TRUE
 #' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
 #' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
 #' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
@@ -895,7 +894,6 @@ add_polylines <- function(map,
 #'
 #' @export
 update_polylines <- function(map, data, id,
-                             polyline = NULL,
                              stroke_colour = NULL,
                              stroke_weight = NULL,
                              stroke_opacity = NULL,
@@ -1211,7 +1209,7 @@ add_polygons <- function(map,
 
       ## make our own list column
       f <- paste0(polyline, " ~ " , paste0(setdiff(names(polygon), polyline), collapse = "+") )
-      polygon <- aggregate(formula(f), data = polygon, list)
+      polygon <- stats::aggregate(stats::formula(f), data = polygon, list)
       js_polygon <- jsonlite::toJSON(polygon)
 
     }else{

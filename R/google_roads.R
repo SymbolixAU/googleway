@@ -11,10 +11,13 @@
 #'
 #' @param df_path \code{data.frame} with at least two columns specifying the latitude & longitude coordinates,
 #' with a maximum of 100 pairs of coordinates.
-#' @param lat string specifying the column of \code{df_path} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
-#' @param lon string specifying the column of \code{df_path} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
-#' @param interpolate logical indicating whether to interpolate a path to include all points forming the full road-geometry.
-#' When \code{TRUE}, additional interpolated points will also be returned, resulting ina  path
+#' @param lat string specifying the column of \code{df_path} containing the
+#' 'latitude' coordinates. If left NULL, a best-guess will be made
+#' @param lon string specifying the column of \code{df_path} containing the '
+#' longitude' coordinates. If left NULL, a best-guess will be made
+#' @param interpolate logical indicating whether to interpolate a path to
+#' include all points forming the full road-geometry.
+#' When \code{TRUE}, additional interpolated points will also be returned, resulting in a path
 #' that smoothly follows the geometry of the road, even around corners and through
 #' tunnels. Interpolated paths will most likely contain more ponts that the original path.
 #' @param simplify \code{logical} Inidicates if the returned JSON should be coerced into a list
@@ -92,8 +95,10 @@ google_snapToRoads <- function(df_path,
 #' with a maximum of 100 pairs of coordinates.
 #'
 #' @param simplify \code{logical} Inidicates if the returned JSON should be coerced into a list
-#' @param lat string specifying the column of \code{df_path} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
-#' @param lon string specifying the column of \code{df_path} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
+#' @param lat string specifying the column of \code{df_path} containing the
+#' 'latitude' coordinates. If left NULL, a best-guess will be made
+#' @param lon string specifying the column of \code{df_path} containing the
+#' 'longitude' coordinates. If left NULL, a best-guess will be made
 #' @param key \code{string} A valid Google Developers Places API key
 #'
 #' @examples
@@ -111,6 +116,8 @@ google_snapToRoads <- function(df_path,
 #' }
 #' @export
 google_nearestRoads <- function(df_points,
+                                lat = NULL,
+                                lon = NULL,
                                 simplify = TRUE,
                                 key){
 
@@ -149,9 +156,11 @@ google_nearestRoads <- function(df_points,
 #' guaranteed. The speed limit data provided is not real-time, and may be estimated,
 #' inaccurate, incomplete, and / or outdated.
 #'
-#' @param df_path \code{data.frame} with at least two columns specifying the latitude & longitude coordinates,
+#' @param df_path \code{data.frame} with at least two columns specifying the
+#' latitude & longitude coordinates,
 #' with a maximum of 100 pairs of coordinates.
-#' @param placeIds Place IDs of the road segments. Place IDs are returned in response to \link{google_snapToRoads}
+#' @param placeIds Place IDs of the road segments. Place IDs are returned in
+#' response to \link{google_snapToRoads}
 #' and \link{google_nearestRoads} reqeusts. You can pass up to 100 placeIds at a time
 #' @param units Whether to return speed limits in kilometers or miles per hour
 #' @param simplify \code{logical} Inidicates if the returned JSON should be coerced into a list

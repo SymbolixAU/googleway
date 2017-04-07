@@ -4,8 +4,8 @@
 \alias{update_polylines}
 \title{Update polylines}
 \usage{
-update_polylines(map, data, id, polyline = NULL, stroke_colour = NULL,
-  stroke_weight = NULL, stroke_opacity = NULL, layer_id = NULL)
+update_polylines(map, data, id, stroke_colour = NULL, stroke_weight = NULL,
+  stroke_opacity = NULL, layer_id = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -13,8 +13,6 @@ update_polylines(map, data, id, polyline = NULL, stroke_colour = NULL,
 \item{data}{data.frame containing the new values for the polylines}
 
 \item{id}{string representing the column of \code{data} containing the id values for the polylines The id values must be present in the data supplied to \code{add_polylines} in order for the polylines to be udpated}
-
-\item{polyline}{string specifying the column containing the polyline. Only used if \code{add_extra} is TRUE}
 
 \item{stroke_colour}{either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles}
 

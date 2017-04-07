@@ -4,19 +4,22 @@
 \alias{google_nearestRoads}
 \title{Nearest Roads}
 \usage{
-google_nearestRoads(df_points, simplify = TRUE, key)
+google_nearestRoads(df_points, lat = NULL, lon = NULL, simplify = TRUE,
+  key)
 }
 \arguments{
 \item{df_points}{\code{data.frame} with at least two columns specifying the latitude & longitude coordinates,
 with a maximum of 100 pairs of coordinates.}
 
+\item{lat}{string specifying the column of \code{df_path} containing the
+'latitude' coordinates. If left NULL, a best-guess will be made}
+
+\item{lon}{string specifying the column of \code{df_path} containing the
+'longitude' coordinates. If left NULL, a best-guess will be made}
+
 \item{simplify}{\code{logical} Inidicates if the returned JSON should be coerced into a list}
 
 \item{key}{\code{string} A valid Google Developers Places API key}
-
-\item{lat}{string specifying the column of \code{df_path} containing the 'latitude' coordinates. If left NULL, a best-guess will be made}
-
-\item{lon}{string specifying the column of \code{df_path} containing the 'longitude' coordinates. If left NULL, a best-guess will be made}
 }
 \description{
 Takes up to 100 independent coordinates and returns the closest road segment for each point.
