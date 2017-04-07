@@ -4,15 +4,18 @@
 \alias{google_speedLimits}
 \title{Speed Limits}
 \usage{
-google_speedLimits(df_path = NULL, placeIds = NULL, units = c("KPH",
-  "MPH"), simplify = TRUE, key)
+google_speedLimits(df_path = NULL, lat = NULL, lon = NULL,
+  placeIds = NULL, units = c("KPH", "MPH"), simplify = TRUE, key)
 }
 \arguments{
 \item{df_path}{\code{data.frame} with at least two columns specifying the
-latitude & longitude coordinates,
-with a maximum of 100 pairs of coordinates.}
+latitude & longitude coordinates, with a maximum of 100 pairs of coordinates.}
 
-\item{placeIds}{Place IDs of the road segments. Place IDs are returned in
+\item{lat}{string specifying the latitude column}
+
+\item{lon}{string specifying the longitude column}
+
+\item{placeIds}{vector of Place IDs of the road segments. Place IDs are returned in
 response to \link{google_snapToRoads}
 and \link{google_nearestRoads} reqeusts. You can pass up to 100 placeIds at a time}
 

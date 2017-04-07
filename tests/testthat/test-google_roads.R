@@ -10,14 +10,30 @@ test_that("path is correct length", {
 
 })
 
-test_that("download attempted", {
+test_that("download attempted - sanp to roads", {
 
   df <- data.frame(lat = 1:10, lon = 1:10)
   expect_error(
     google_snapToRoads(df_path = df, key = 'abc'),
     'HTTP error 400.'
   )
-
-
-
 })
+
+test_that("download attempted - nearest roads", {
+
+  df <- data.frame(lat = 1:10, lon = 1:10)
+  expect_error(
+    google_nearestRoads(df_points = df, key = 'abc'),
+    'HTTP error 400.'
+  )
+})
+
+test_that("download attempted - speed limits", {
+
+  df <- data.frame(lat = 1:10, lon = 1:10)
+  expect_error(
+    google_speedLimits(df_path = df, key = 'abc'),
+    'HTTP error 400.'
+  )
+})
+

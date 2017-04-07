@@ -157,9 +157,10 @@ google_nearestRoads <- function(df_points,
 #' inaccurate, incomplete, and / or outdated.
 #'
 #' @param df_path \code{data.frame} with at least two columns specifying the
-#' latitude & longitude coordinates,
-#' with a maximum of 100 pairs of coordinates.
-#' @param placeIds Place IDs of the road segments. Place IDs are returned in
+#' latitude & longitude coordinates, with a maximum of 100 pairs of coordinates.
+#' @param lat string specifying the latitude column
+#' @param lon string specifying the longitude column
+#' @param placeIds vector of Place IDs of the road segments. Place IDs are returned in
 #' response to \link{google_snapToRoads}
 #' and \link{google_nearestRoads} reqeusts. You can pass up to 100 placeIds at a time
 #' @param units Whether to return speed limits in kilometers or miles per hour
@@ -167,6 +168,8 @@ google_nearestRoads <- function(df_points,
 #' @param key \code{string} A valid Google Developers Places API key
 #' @export
 google_speedLimits <- function(df_path = NULL,
+                               lat = NULL,
+                               lon = NULL,
                                placeIds = NULL,
                                units = c("KPH","MPH"),
                                simplify = TRUE,
