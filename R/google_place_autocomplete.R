@@ -39,6 +39,8 @@ google_place_autocomplete <- function(place_input,
 
   place_input <- gsub(" ", "+", place_input)
 
+  LogicalCheck(simplify)
+
   ## check location is valid
   if(!is.null(location)){
     if(length(location) != 2 | !is.numeric(location)){

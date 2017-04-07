@@ -3,19 +3,34 @@
 #' Add markers to a google map
 #'
 #' @param map a googleway map object created from \code{google_map()}
-#' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
+#' @param data data frame containing at least two columns, one specifying the latitude
+#' coordinates, and the other specifying the longitude. If Null, the data passed
+#' into \code{google_map()} will be used.
 #' @param id string specifying the column containing an identifier for a marker
-#' @param colour string specifying the column containing the 'colour' to use for the markers. One of 'red', 'blue', 'green' or 'lavender'.
-#' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
-#' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
-#' @param title string specifying the column of \code{data} containing the 'title' of the markers. The title is displayed when you hover over a marker. If blank, no title will be displayed for the markers.
-#' @param draggable string specifying the column of \code{data} defining if the marker is 'draggable' (either TRUE or FALSE)
-#' @param opacity string specifying the column of \code{data} defining the 'opacity' of the maker. Values must be between 0 and 1 (inclusive).
-#' @param label string specifying the column of \code{data} defining the character to appear in the centre of the marker. Values will be coerced to strings, and only the first character will be used.
-#' @param cluster logical indicating if co-located markers should be clustered when the map zoomed out
-#' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
-#' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
-#' @param mouse_over_group string specifying the column of data specifying which groups of circles to highlight on mouseover
+#' @param colour string specifying the column containing the 'colour' to use for
+#' the markers. One of 'red', 'blue', 'green' or 'lavender'.
+#' @param lat string specifying the column of \code{data} containing the 'latitude'
+#' coordinates. If left NULL, a best-guess will be made
+#' @param lon string specifying the column of \code{data} containing the 'longitude'
+#' coordinates. If left NULL, a best-guess will be made
+#' @param title string specifying the column of \code{data} containing the 'title'
+#' of the markers. The title is displayed when you hover over a marker. If blank,
+#' no title will be displayed for the markers.
+#' @param draggable string specifying the column of \code{data} defining if the
+#' marker is 'draggable' (either TRUE or FALSE)
+#' @param opacity string specifying the column of \code{data} defining the 'opacity'
+#' of the maker. Values must be between 0 and 1 (inclusive).
+#' @param label string specifying the column of \code{data} defining the character
+#' to appear in the centre of the marker. Values will be coerced to strings, and
+#' only the first character will be used.
+#' @param cluster logical indicating if co-located markers should be clustered
+#' when the map zoomed out
+#' @param info_window string specifying the column of data to display in an info
+#' window when a polygon is clicked
+#' @param mouse_over string specifying the column of data to display when the
+#' mouse rolls over the polygon
+#' @param mouse_over_group string specifying the column of data specifying which
+#' groups of circles to highlight on mouseover
 #' @param layer_id single value specifying an id for the layer.
 #' @examples
 #' \dontrun{
@@ -69,9 +84,11 @@ add_markers <- function(map,
   }
 
   if(!is.null(colour)){
-    ## all colours must be either 'red', 'blue' or 'green'
     if(!all((tolower(data[, colour])) %in% c("red","blue","green","lavender")))
-      stop("colours must be either red, blue or green")
+      stop("colours must be either red, blue, green or lavender")
+
+    data[, colour] <- tolower(data[, colour])
+
   }
 
   markers <- data.frame(lat = data[, lat],
@@ -113,16 +130,16 @@ add_markers <- function(map,
   # if(sum(is.na(markers)) > 0)
   #   warning("There are some NAs in your data. These may affect the markers that have been plotted.")
 
-  ## colours last as they re-order the data with the merge
-  df_colours <- data.frame(colour = c('red', 'blue', 'green', 'lavender'),
-                           url = c("http://mt.googleapis.com/vt/icon/name=icons/spotlight/spotlight-poi.png&scale=1",
-                                   "https://mts.googleapis.com/vt/icon/name=icons/spotlight/spotlight-waypoint-blue.png&psize=16&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1",
-                                   "http://mt.google.com/vt/icon?psize=30&font=fonts/arialuni_t.ttf&color=ff304C13&name=icons/spotlight/spotlight-waypoint-a.png&ax=43&ay=48&text=%E2%80%A2",
-                                   "http://mt.google.com/vt/icon/name=icons/spotlight/spotlight-ad.png"))
+  if(!is.null(colour)){
+    ## colours last as they re-order the data with the merge
+    df_colours <- data.frame(colour = c('red', 'blue', 'green', 'lavender'),
+                             url = c("http://mt.googleapis.com/vt/icon/name=icons/spotlight/spotlight-poi.png&scale=1",
+                                     "https://mts.googleapis.com/vt/icon/name=icons/spotlight/spotlight-waypoint-blue.png&psize=16&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1",
+                                     "http://mt.google.com/vt/icon?psize=30&font=fonts/arialuni_t.ttf&color=ff304C13&name=icons/spotlight/spotlight-waypoint-a.png&ax=43&ay=48&text=%E2%80%A2",
+                                     "http://mt.google.com/vt/icon/name=icons/spotlight/spotlight-ad.png"))
 
-  markers <- merge(markers, df_colours, by.x = "colour", by.y = "colour", all.x = TRUE)
-
-
+    markers <- merge(markers, df_colours, by.x = "colour", by.y = "colour", all.x = TRUE)
+  }
 
   markers <- jsonlite::toJSON(markers)
 
@@ -161,10 +178,13 @@ clear_search <- function(map){
 #'
 #' Updates the map with the given styles
 #'
-#' @note This function is intended for use with \link{google_map_update} in an interactive shiny environment. You can set the styles of the original map using the \code{styles} argument of \link{google_map}
+#' @note This function is intended for use with \link{google_map_update} in an
+#' interactive shiny environment. You can set the styles of the original map
+#' using the \code{styles} argument of \link{google_map}
 #'
 #' @param map a googleway map object created from \code{google_map()}
-#' @param styles JSON string representation of a valid Google Maps styles Array. See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}
+#' @param styles JSON string representation of a valid Google Maps styles Array.
+#' See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}
 #' @examples
 #' \dontrun{
 #'
@@ -193,20 +213,39 @@ update_style <- function(map, styles = NULL){
 #' Add circles to a google map
 #'
 #' @param map a googleway map object created from \code{google_map()}
-#' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
+#' @param data data frame containing at least two columns, one specifying the
+#' latitude coordinates, and the other specifying the longitude. If Null, the
+#' data passed into \code{google_map()} will be used.
 #' @param id string specifying the column containing an identifier for a circle
-#' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
-#' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
-#' @param radius either a string specifying the column of \code{data} containing the radius of each circle, OR a numeric value specifying the radius of all the circles (radius is expressed in metres)
-#' @param draggable string specifying the column of \code{data} defining if the circle is 'draggable' (either TRUE or FALSE)
-#' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
-#' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
-#' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
-#' @param fill_colour either a string specifying the column of \code{data} containing the fill colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the cirlces
-#' @param fill_opacity either a string specifying the column of \code{data} containing the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
-#' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
-#' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
-#' @param mouse_over_group string specifying the column of data specifying which groups of circles to highlight on mouseover
+#' @param lat string specifying the column of \code{data} containing the 'latitude'
+#' coordinates. If left NULL, a best-guess will be made
+#' @param lon string specifying the column of \code{data} containing the 'longitude'
+#' coordinates. If left NULL, a best-guess will be made
+#' @param radius either a string specifying the column of \code{data} containing the
+#' radius of each circle, OR a numeric value specifying the radius of all the circles
+#' (radius is expressed in metres)
+#' @param draggable string specifying the column of \code{data} defining if the circle
+#' is 'draggable' (either TRUE or FALSE)
+#' @param stroke_colour either a string specifying the column of \code{data} containing
+#' the stroke colour of each circle, or a valid hexadecimal numeric HTML style to
+#' be applied to all the circles
+#' @param stroke_opacity either a string specifying the column of \code{data} containing
+#' the stroke opacity of each circle, or a value between 0 and 1 that will be
+#' aplied to all the circles
+#' @param stroke_weight either a string specifying the column of \code{data} containing
+#' the stroke weight of each circle, or a number indicating the width of pixels
+#' in the line to be applied to all the circles
+#' @param fill_colour either a string specifying the column of \code{data} containing
+#' the fill colour of each circle, or a valid hexadecimal numeric HTML style to
+#' be applied to all the cirlces
+#' @param fill_opacity either a string specifying the column of \code{data} containing
+#' the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
+#' @param info_window string specifying the column of data to display in an info
+#' window when a polygon is clicked
+#' @param mouse_over string specifying the column of data to display when the
+#' mouse rolls over the polygon
+#' @param mouse_over_group string specifying the column of data specifying which
+#' groups of circles to highlight on mouseover
 #' @param layer_id single value specifying an id for the layer.
 #'  layer.
 #' @examples
@@ -303,20 +342,38 @@ clear_circles <- function(map, layer_id = NULL){
 
 #' Update circles
 #'
-#' Updates specific colours and opacities of specified circles Designed to be used in a shiny application.
+#' Updates specific colours and opacities of specified circles Designed to be
+#' used in a shiny application.
 #'
-#' @note Any circles (as specified by the \code{id} argument) that do not exist in the \code{data} passed into \code{add_circles()} will not be added to the map. This function will only update the circles that currently exist on the map when the function is called.
+#' @note Any circles (as specified by the \code{id} argument) that do not exist
+#' in the \code{data} passed into \code{add_circles()} will not be added to the map.
+#' This function will only update the circles that currently exist on the map when the function is called.
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data.frame containing the new values for the circles
-#' @param id string representing the column of \code{data} containing the id values for the circles. The id values must be present in the data supplied to \code{add_circles} in order for the polygons to be udpated
-#' @param radius either a string specifying the column of \code{data} containing the radius of each circle, OR a numeric value specifying the radius of all the circles (radius is expressed in metres)
-#' @param draggable string specifying the column of \code{data} defining if the circle is 'draggable' (either TRUE or FALSE)
-#' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
-#' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
-#' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
-#' @param fill_colour either a string specifying the column of \code{data} containing the fill colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the cirlces
-#' @param fill_opacity either a string specifying the column of \code{data} containing the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
+#' @param id string representing the column of \code{data} containing the id values
+#' for the circles. The id values must be present in the data supplied to
+#' \code{add_circles} in order for the polygons to be udpated
+#' @param radius either a string specifying the column of \code{data} containing
+#' the radius of each circle, OR a numeric value specifying the radius of all the
+#' circles (radius is expressed in metres)
+#' @param draggable string specifying the column of \code{data} defining if the
+#' circle is 'draggable' (either TRUE or FALSE)
+#' @param stroke_colour either a string specifying the column of \code{data} containing
+#' the stroke colour of each circle, or a valid hexadecimal numeric HTML style
+#' to be applied to all the circles
+#' @param stroke_opacity either a string specifying the column of \code{data} containing
+#' the stroke opacity of each circle, or a value between 0 and 1 that will be
+#' aplied to all the circles
+#' @param stroke_weight either a string specifying the column of \code{data} containing
+#' the stroke weight of each circle, or a number indicating the width of pixels
+#' in the line to be applied to all the circles
+#' @param fill_colour either a string specifying the column of \code{data} containing
+#' the fill colour of each circle, or a valid hexadecimal numeric HTML style to
+#' be applied to all the cirlces
+#' @param fill_opacity either a string specifying the column of \code{data} containing
+#' the fill opacity of each circle, or a value between 0 and 1 that will be aplied
+#' to all the circles
 #' @param layer_id single value specifying an id for the layer.
 #'
 #' @export
@@ -408,23 +465,34 @@ update_circles <- function(map, data, id,
 #' Adds a heatmap to a google map
 #'
 #' @param map a googleway map object created from \code{google_map()}
-#' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
-#' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
-#' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
+#' @param data data frame containing at least two columns, one specifying the
+#' latitude coordinates, and the other specifying the longitude. If Null, the
+#' data passed into \code{google_map()} will be used.
+#' @param lat string specifying the column of \code{data} containing the 'latitude'
+#' coordinates. If left NULL, a best-guess will be made
+#' @param lon string specifying the column of \code{data} containing the 'longitude'
+#' coordinates. If left NULL, a best-guess will be made
 #' @param option_gradient vector of colours to use as the gradient colours. see Deatils
-#' @param weight string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.
-#' @param option_dissipating logical Specifies whether heatmaps dissipate on zoom. When dissipating is false the radius of influence increases with zoom level to ensure that the color intensity is preserved at any given geographic location. Defaults to false.
+#' @param weight string specifying the column of \code{data} containing the 'weight'
+#' associated with each point. If NULL, each point will get a weight of 1.
+#' @param option_dissipating logical Specifies whether heatmaps dissipate on zoom.
+#' When dissipating is false the radius of influence increases with zoom level to
+#' ensure that the color intensity is preserved at any given geographic location. Defaults to false.
 #' @param option_radius numeric The radius of influence for each data point, in pixels.
 #' @param option_opacity The opacity of the heatmap, expressed as a number between 0 and 1. Defaults to 0.6.
 #' @param layer_id single value specifying an id for the layer.
 #'
 #' @details
 #' \code{option_gradient} colours can be two of the R colour specifications;
-#' either a colour name (as listed by \code{colors()}, or a hexadecimal string of the form \code{"#rrggbb"}).
-#' The first colour in the vector will be used as the colour that fades to transparent.
+#' either a colour name (as listed by \code{colors()}, or a hexadecimal string of the
+#' form \code{"#rrggbb"}).
+#' The first colour in the vector will be used as the colour that fades to transparent,
+#' while the last colour in the vector will be use in the centre of the 'heat'.
 #'
 #' @examples
 #' \dontrun{
+#'
+#' map_key <- 'your_api_key'
 #'
 #' df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
 #' -37.8191299438477, -37.8187675476074, -37.8186187744141, -37.8181076049805
@@ -434,9 +502,11 @@ update_circles <- function(map, data, id,
 #' 77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
 #' "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
 #'
-#' option_gradient <- c('orange', 'blue', 'red', 'green')
+#' google_map(key = map_key, data = df) %>%
+#'  add_heatmap(lat = "lat", lon = "lon", weight = "weight")
 #'
-#' map_key <- 'your_api_key'
+#' ## specifying different colour gradient
+#' option_gradient <- c('orange', 'blue', 'mediumpurple4', 'snow4', 'thistle1')
 #'
 #' google_map(key = map_key, data = df) %>%
 #'  add_heatmap(lat = "lat", lon = "lon", weight = "weight", option_gradient = option_gradient)
@@ -457,7 +527,6 @@ add_heatmap <- function(map,
 
 
   ## TODO
-  ## - gradient
   ## - max intensity
   ## - allow columns to be used for other options
   ## -- e.g., allow a column called 'opacity' to be used as a 'title'
@@ -536,10 +605,15 @@ add_heatmap <- function(map,
 #' updates a heatmap layer
 #'
 #' @param map a googleway map object created from \code{google_map()}
-#' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
-#' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made
-#' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made
-#' @param weight string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.
+#' @param data data frame containing at least two columns, one specifying the
+#' latitude coordinates, and the other specifying the longitude. If Null,
+#' the data passed into \code{google_map()} will be used.
+#' @param lat string specifying the column of \code{data} containing the 'latitude'
+#' coordinates. If left NULL, a best-guess will be made
+#' @param lon string specifying the column of \code{data} containing the 'longitude'
+#' coordinates. If left NULL, a best-guess will be made
+#' @param weight string specifying the column of \code{data} containing the 'weight'
+#' associated with each point. If NULL, each point will get a weight of 1.
 #' @param layer_id single value specifying an id for the layer.
 #' @export
 update_heatmap <- function(map,
@@ -552,10 +626,12 @@ update_heatmap <- function(map,
   ## rename the cols so the javascript functions will see them
   if(is.null(lat)){
     data <- latitude_column(data, lat, 'update_heatmap')
+    lat <- 'lat'
   }
 
   if(is.null(lon)){
     data <- longitude_column(data, lon, 'update_heatmap')
+    lon <- 'lng'
   }
 
   layer_id <- LayerId(layer_id)
@@ -567,7 +643,7 @@ update_heatmap <- function(map,
 
   Heatmap <- jsonlite::toJSON(Heatmap)
 
-  invoke_method(map, data, 'update_heatmap', Heatmap)
+  invoke_method(map, data, 'update_heatmap', Heatmap, layer_id)
 
 }
 
@@ -658,25 +734,44 @@ clear_bicycling <- function(map){
 #' Add a polyline to a google map
 #'
 #' @param map a googleway map object created from \code{google_map()}
-#' @param data data frame containing at least a \code{polyline} column, or a \code{lat} and a \code{lon} column. If Null, the data passed into \code{google_map()} will be used.
-#' @param polyline string specifying the column of \code{data} containing the encoded 'polyline'.
-#' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. Coordinates must be in the order that defines the path.
-#' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. Coordinates must be in the order that defines the path.
+#' @param data data frame containing at least a \code{polyline} column, or a
+#' \code{lat} and a \code{lon} column. If Null, the data passed into
+#' \code{google_map()} will be used.
+#' @param polyline string specifying the column of \code{data} containing the
+#' encoded 'polyline'.
+#' @param lat string specifying the column of \code{data} containing the 'latitude'
+#' coordinates. Coordinates must be in the order that defines the path.
+#' @param lon string specifying the column of \code{data} containing the 'longitude'
+#' coordinates. Coordinates must be in the order that defines the path.
 #' @param id string specifying the column containing an identifier for a polyline
 #' @param geodesic logical
-#' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
-#' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
-#' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
-#' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
-#' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
-#' @param mouse_over_group string specifying the column of data specifying which groups of polylines to highlight on mouseover
-#' @param update_map_view logical specifying if the map should re-centre according to the polyline.
+#' @param stroke_colour either a string specifying the column of \code{data}
+#' containing the stroke colour of each circle, or a valid hexadecimal numeric
+#' HTML style to be applied to all the circles
+#' @param stroke_opacity either a string specifying the column of \code{data}
+#' containing the stroke opacity of each circle, or a value between 0 and 1 that
+#' will be aplied to all the circles
+#' @param stroke_weight either a string specifying the column of \code{data}
+#' containing the stroke weight of each circle, or a number indicating the width
+#' of pixels in the line to be applied to all the circles
+#' @param info_window string specifying the column of data to display in an info
+#' window when a polygon is clicked
+#' @param mouse_over string specifying the column of data to display when the
+#' mouse rolls over the polygon
+#' @param mouse_over_group string specifying the column of data specifying which
+#' groups of polylines to highlight on mouseover
+#' @param update_map_view logical specifying if the map should re-centre according
+#' to the polyline.
 #' @param layer_id single value specifying an id for the layer.
 #'
-#' @note The lines can be generated by either using an encoded polyline, or by a set of lat/lon coordinates.
-#' You sould specify either the column containing an encoded polyline, OR the lat / lon colulmns.
+#' @note The lines can be generated by either using an encoded polyline, or by a
+#' set of lat/lon coordinates.
+#' You sould specify either the column containing an encoded polyline, OR the
+#' lat / lon colulmns.
 #'
-#' Using \code{update_map_view = TRUE} for multiple polylines may be slow, so it may be more appropriate to set the view of the map using the location argument of \code{google_map()}
+#' Using \code{update_map_view = TRUE} for multiple polylines may be slow, so it
+#' may be more appropriate to set the view of the map using the location argument
+#' of \code{google_map()}
 #'
 #' @examples
 #' \dontrun{
@@ -880,16 +975,28 @@ add_polylines <- function(map,
 
 #' Update polylines
 #'
-#' Updates specific colours and opacities of specified polylines. Designed to be used in a shiny application.
+#' Updates specific colours and opacities of specified polylines. Designed to be
+#' used in a shiny application.
 #'
-#' @note Any polylines (as specified by the \code{id} argument) that do not exist in the \code{data} passed into \code{add_polylines()} will not be added to the map. This function will only update the polylines that currently exist on the map when the function is called.
+#' @note Any polylines (as specified by the \code{id} argument) that do not exist
+#' in the \code{data} passed into \code{add_polylines()} will not be added to the
+#' map. This function will only update the polylines that currently exist on
+#' the map when the function is called.
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data.frame containing the new values for the polylines
-#' @param id string representing the column of \code{data} containing the id values for the polylines The id values must be present in the data supplied to \code{add_polylines} in order for the polylines to be udpated
-#' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
-#' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
-#' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
+#' @param id string representing the column of \code{data} containing the id
+#' values for the polylines The id values must be present in the data supplied
+#' to \code{add_polylines} in order for the polylines to be udpated
+#' @param stroke_colour either a string specifying the column of \code{data}
+#' containing the stroke colour of each circle, or a valid hexadecimal numeric
+#' HTML style to be applied to all the circles
+#' @param stroke_opacity either a string specifying the column of \code{data}
+#' containing the stroke opacity of each circle, or a value between 0 and 1
+#' that will be aplied to all the circles
+#' @param stroke_weight either a string specifying the column of \code{data}
+#' containing the stroke weight of each circle, or a number indicating the width
+#' of pixels in the line to be applied to all the circles
 #' @param layer_id single value specifying an id for the layer.
 #'
 #' @export
@@ -1235,18 +1342,34 @@ add_polygons <- function(map,
 
 #' Update polygons
 #'
-#' Updates specific colours and opacities of specified polygons. Designed to be used in a shiny application.
+#' Updates specific colours and opacities of specified polygons. Designed to be
+#' used in a shiny application.
 #'
-#' @note Any polygons (as specified by the \code{id} argument) that do not exist in the \code{data} passed into \code{add_polygons()} will not be added to the map. This function will only update the polygons that currently exist on the map when the function is called.
+#' @note Any polygons (as specified by the \code{id} argument) that do not exist
+#' in the \code{data} passed into \code{add_polygons()} will not be added to the map.
+#' This function will only update the polygons that currently exist on the map
+#' when the function is called.
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data.frame containing the new values for the polygons
-#' @param id string representing the column of \code{data} containing the id values for the polygons. The id values must be present in the data supplied to \code{add_polygons} in order for the polygons to be udpated
-#' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
-#' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
-#' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
-#' @param fill_colour either a string specifying the column of \code{data} containing the fill colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the cirlces
-#' @param fill_opacity either a string specifying the column of \code{data} containing the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
+#' @param id string representing the column of \code{data} containing the id
+#' values for the polygons. The id values must be present in the data supplied
+#' to \code{add_polygons} in order for the polygons to be udpated
+#' @param stroke_colour either a string specifying the column of \code{data}
+#' containing the stroke colour of each circle, or a valid hexadecimal numeric
+#' HTML style to be applied to all the circles
+#' @param stroke_opacity either a string specifying the column of \code{data}
+#' containing the stroke opacity of each circle, or a value between 0 and 1 that
+#' will be aplied to all the circles
+#' @param stroke_weight either a string specifying the column of \code{data}
+#' containing the stroke weight of each circle, or a number indicating the width of
+#' pixels in the line to be applied to all the circles
+#' @param fill_colour either a string specifying the column of \code{data}
+#' containing the fill colour of each circle, or a valid hexadecimal numeric
+#' HTML style to be applied to all the cirlces
+#' @param fill_opacity either a string specifying the column of \code{data}
+#' containing the fill opacity of each circle, or a value between 0 and 1 that
+#' will be aplied to all the circles
 #' @param layer_id single value specifying an id for the layer.
 #'
 #' @export

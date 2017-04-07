@@ -13,28 +13,46 @@ update_circles(map, data, id, radius = NULL, draggable = NULL,
 
 \item{data}{data.frame containing the new values for the circles}
 
-\item{id}{string representing the column of \code{data} containing the id values for the circles. The id values must be present in the data supplied to \code{add_circles} in order for the polygons to be udpated}
+\item{id}{string representing the column of \code{data} containing the id values
+for the circles. The id values must be present in the data supplied to
+\code{add_circles} in order for the polygons to be udpated}
 
-\item{radius}{either a string specifying the column of \code{data} containing the radius of each circle, OR a numeric value specifying the radius of all the circles (radius is expressed in metres)}
+\item{radius}{either a string specifying the column of \code{data} containing
+the radius of each circle, OR a numeric value specifying the radius of all the
+circles (radius is expressed in metres)}
 
-\item{draggable}{string specifying the column of \code{data} defining if the circle is 'draggable' (either TRUE or FALSE)}
+\item{draggable}{string specifying the column of \code{data} defining if the
+circle is 'draggable' (either TRUE or FALSE)}
 
-\item{stroke_colour}{either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles}
+\item{stroke_colour}{either a string specifying the column of \code{data} containing
+the stroke colour of each circle, or a valid hexadecimal numeric HTML style
+to be applied to all the circles}
 
-\item{stroke_weight}{either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles}
+\item{stroke_weight}{either a string specifying the column of \code{data} containing
+the stroke weight of each circle, or a number indicating the width of pixels
+in the line to be applied to all the circles}
 
-\item{stroke_opacity}{either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles}
+\item{stroke_opacity}{either a string specifying the column of \code{data} containing
+the stroke opacity of each circle, or a value between 0 and 1 that will be
+aplied to all the circles}
 
-\item{fill_colour}{either a string specifying the column of \code{data} containing the fill colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the cirlces}
+\item{fill_colour}{either a string specifying the column of \code{data} containing
+the fill colour of each circle, or a valid hexadecimal numeric HTML style to
+be applied to all the cirlces}
 
-\item{fill_opacity}{either a string specifying the column of \code{data} containing the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles}
+\item{fill_opacity}{either a string specifying the column of \code{data} containing
+the fill opacity of each circle, or a value between 0 and 1 that will be aplied
+to all the circles}
 
 \item{layer_id}{single value specifying an id for the layer.}
 }
 \description{
-Updates specific colours and opacities of specified circles Designed to be used in a shiny application.
+Updates specific colours and opacities of specified circles Designed to be
+used in a shiny application.
 }
 \note{
-Any circles (as specified by the \code{id} argument) that do not exist in the \code{data} passed into \code{add_circles()} will not be added to the map. This function will only update the circles that currently exist on the map when the function is called.
+Any circles (as specified by the \code{id} argument) that do not exist
+in the \code{data} passed into \code{add_circles()} will not be added to the map.
+This function will only update the circles that currently exist on the map when the function is called.
 }
 

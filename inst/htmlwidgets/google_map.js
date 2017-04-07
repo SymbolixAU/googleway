@@ -485,15 +485,11 @@ function add_heatmap(map_id, data_heatmap, heatmap_options, layer_id){
     radius: heat_options[0].radius,
     opacity: heat_options[0].opacity,
     dissipating: heat_options[0].dissipating
-    //gradient: [ heat_options[0].gradient ]
   });
 
   if(heat_options[0].gradient !== undefined){
     heatmap.set('gradient', heat_options[0].gradient);
   }
-
-//  window[map_id + 'googleBounds'].push(bounds);
-//  window[map_id + 'map'].fitBounds(bounds);
 
   window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
 
@@ -514,29 +510,34 @@ function add_heatmap(map_id, data_heatmap, heatmap_options, layer_id){
  */
 function update_heatmap(map_id, data_heatmap, layer_id){
 
-  // update the heatmap array
-  window[map_id + 'googleHeatmapLayerMVC' + layer_id].clear();
+  if(window[map_id + 'googleHeatmap' + layer_id] !== undefined){
 
-  var heatmapData = [];
-  var i;
-  // turn row of the data into LatLng, and push it to the array
-  for(i = 0; i < Object.keys(data_heatmap).length; i++){
-    var latlon = new google.maps.LatLng(data_heatmap[i].lat, data_heatmap[i].lng);
+    // update the heatmap array
+    window[map_id + 'googleHeatmapLayerMVC' + layer_id].clear();
 
-    heatmapData[i] = {
-      location: latlon,
-      weight: data_heatmap[i].weight
-    };
+    var heatmapData = [];
+    var i;
 
-    window[map_id + 'googleHeatmapLayerMVC' + layer_id].push(heatmapData[i]);
-    //bounds.extend(latlon);
-    window[map_id + 'mapBounds'].extend(latlon);
+    // turn row of the data into LatLng, and push it to the array
+    for(i = 0; i < Object.keys(data_heatmap).length; i++){
+      var latlon = new google.maps.LatLng(data_heatmap[i].lat, data_heatmap[i].lng);
+
+      heatmapData[i] = {
+        location: latlon,
+        weight: data_heatmap[i].weight
+      };
+
+      window[map_id + 'googleHeatmapLayerMVC' + layer_id].push(heatmapData[i]);
+      //bounds.extend(latlon);
+      window[map_id + 'mapBounds'].extend(latlon);
+    }
+
+    window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+
+    //window[map_id + 'googleBounds'].push(bounds);
+    //window[map_id + 'map'].fitBounds(bounds);
+
   }
-
-  window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
-
-  //window[map_id + 'googleBounds'].push(bounds);
-  //window[map_id + 'map'].fitBounds(bounds);
 
 }
 
@@ -568,7 +569,6 @@ function clear_heatmap(map_id, layer_id){
  */
 function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_polyline, line_coordinates){
 
-  // decode and plot polylines
   window[map_id + 'googlePolyline' + layer_id] = [];
   var infoWindow = new google.maps.InfoWindow();
 
@@ -662,7 +662,7 @@ function update_polylines(map_id, data_polyline, layer_id){
     for(i = 0; i < Object.keys(window[map_id + 'googlePolyline' + layer_id]).length; i++){
 
       _id = window[map_id + 'googlePolyline' + layer_id][i].id;
-      //console.log(_id);
+
       currentIds.push(_id);
 
       // find if there is a matching id in the new polyline data set

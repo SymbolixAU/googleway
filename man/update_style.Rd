@@ -9,12 +9,15 @@ update_style(map, styles = NULL)
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
-\item{styles}{JSON string representation of a valid Google Maps styles Array. See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}}
+\item{styles}{JSON string representation of a valid Google Maps styles Array.
+See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}}
 }
 \description{
 Updates the map with the given styles
 }
 \note{
-This function is intended for use with \link{google_map_update} in an interactive shiny environment. You can set the styles of the original map using the \code{styles} argument of \link{google_map}
+This function is intended for use with \link{google_map_update} in an
+interactive shiny environment. You can set the styles of the original map
+using the \code{styles} argument of \link{google_map}
 }
 

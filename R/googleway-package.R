@@ -55,8 +55,7 @@ directions_data <- function(base_url,
   units <- match.arg(units)
   # traffic_model <- match.arg(traffic_model)
 
-  if(!is.logical(simplify))
-    stop("simplify must be logical - TRUE or FALSE")
+  LogicalCheck(simplify)
 
   ## transit_mode is only valid where mode = transit
   if(!is.null(transit_mode) & mode != "transit"){
@@ -106,11 +105,7 @@ directions_data <- function(base_url,
   }
 
   ## check alternatives is valid
-  if(!is.logical(alternatives))
-    stop("alternatives must be logical - TRUE or FALSE")
-
-  if(length(alternatives) != 1)
-    stop("alternatives must be either TRUE or FALSE")
+  LogicalCheck(alternatives)
 
   if(!is.null(alternatives))
     alternatives <- tolower(alternatives)
@@ -189,14 +184,6 @@ directions_data <- function(base_url,
   if(!is.null(region))
     region <- tolower(region)
 
-  # origin_code <- switch(information_type,
-  #                       "directions" = "origin=",
-  #                       "distance" = "origins=")
-  #
-  # destination_code <- switch(information_type,
-  #                            "directions" = "destination=",
-  #                            "distance" = "destinations=")
-
   ## construct url
   if(information_type == "directions"){
     args <- c("origin" = origin, "destination" = destination)
@@ -218,22 +205,6 @@ directions_data <- function(base_url,
             "key" = key)
 
   map_url <- constructURL(base_url, args)
-
-  # map_url <- paste0(base_url,
-  #                   origin_code, origin,
-  #                   "&", destination_code, destination,
-  #                   "&waypoints=", waypoints,
-  #                   "&departure_time=", departure_time,
-  #                   "&arrival_time=", arrival_time,
-  #                   "&alternatives=", tolower(alternatives),
-  #                   "&avoid=", avoid,
-  #                   "&units=", tolower(units),
-  #                   "&mode=", tolower(mode),
-  #                   "&transit_mode=", transit_mode,
-  #                   "&transit_routing_preference=", transit_routing_preference,
-  #                   "&language=", tolower(language),
-  #                   "&region=", tolower(region),
-  #                   "&key=", key)
 
   if(length(map_url) > 1)
     stop("invalid map_url")

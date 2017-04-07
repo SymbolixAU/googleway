@@ -56,10 +56,16 @@
 #'
 #' }
 #' @export
-google_streetview <- function(location = NULL, panorama_id = NULL, size = c(400, 400),
-                              heading = NULL, fov = 90, pitch = 0,
-                              output = c("plot","html"), response_check = FALSE,
-                              signature = NULL, key){
+google_streetview <- function(location = NULL,
+                              panorama_id = NULL,
+                              size = c(400, 400),
+                              heading = NULL,
+                              fov = 90,
+                              pitch = 0,
+                              output = c("plot","html"),
+                              response_check = FALSE,
+                              signature = NULL,
+                              key){
 
 
   if(is.null(location) & is.null(panorama_id))
@@ -72,11 +78,7 @@ google_streetview <- function(location = NULL, panorama_id = NULL, size = c(400,
     location <- fun_check_location(location, "location")
   }
 
-  if(!is.logical(response_check))
-    stop("response_check must be either TRUE or FALSE")
-
-  if(length(response_check) != 1)
-    stop("response_check can only be either TRUE or FALSE")
+  LogicalCheck(response_check)
 
   output <- match.arg(output)
 

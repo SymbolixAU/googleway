@@ -52,8 +52,7 @@ google_geocode <- function(address,
   if(is.null(key))
     stop("A Valid Google Developers API key is required")
 
-  if(!is.logical(simplify))
-    stop("simplify must be logical - TRUE or FALSE")
+  LogicalCheck(simplify)
 
   ## address check
   address <- fun_check_address(address)

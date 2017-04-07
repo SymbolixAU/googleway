@@ -11,17 +11,24 @@ add_heatmap(map, data = get_map_data(map), lat = NULL, lon = NULL,
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
-\item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.}
+\item{data}{data frame containing at least two columns, one specifying the
+latitude coordinates, and the other specifying the longitude. If Null, the
+data passed into \code{google_map()} will be used.}
 
-\item{lat}{string specifying the column of \code{data} containing the 'latitude' coordinates. If left NULL, a best-guess will be made}
+\item{lat}{string specifying the column of \code{data} containing the 'latitude'
+coordinates. If left NULL, a best-guess will be made}
 
-\item{lon}{string specifying the column of \code{data} containing the 'longitude' coordinates. If left NULL, a best-guess will be made}
+\item{lon}{string specifying the column of \code{data} containing the 'longitude'
+coordinates. If left NULL, a best-guess will be made}
 
-\item{weight}{string specifying the column of \code{data} containing the 'weight' associated with each point. If NULL, each point will get a weight of 1.}
+\item{weight}{string specifying the column of \code{data} containing the 'weight'
+associated with each point. If NULL, each point will get a weight of 1.}
 
 \item{option_gradient}{vector of colours to use as the gradient colours. see Deatils}
 
-\item{option_dissipating}{logical Specifies whether heatmaps dissipate on zoom. When dissipating is false the radius of influence increases with zoom level to ensure that the color intensity is preserved at any given geographic location. Defaults to false.}
+\item{option_dissipating}{logical Specifies whether heatmaps dissipate on zoom.
+When dissipating is false the radius of influence increases with zoom level to
+ensure that the color intensity is preserved at any given geographic location. Defaults to false.}
 
 \item{option_radius}{numeric The radius of influence for each data point, in pixels.}
 
@@ -34,11 +41,15 @@ Adds a heatmap to a google map
 }
 \details{
 \code{option_gradient} colours can be two of the R colour specifications;
-either a colour name (as listed by \code{colors()}, or a hexadecimal string of the form \code{"#rrggbb"}).
-The first colour in the vector will be used as the colour that fades to transparent.
+either a colour name (as listed by \code{colors()}, or a hexadecimal string of the
+form \code{"#rrggbb"}).
+The first colour in the vector will be used as the colour that fades to transparent,
+while the last colour in the vector will be use in the centre of the 'heat'.
 }
 \examples{
 \dontrun{
+
+map_key <- 'your_api_key'
 
 df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
 -37.8191299438477, -37.8187675476074, -37.8186187744141, -37.8181076049805
@@ -48,9 +59,11 @@ df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
 77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
 "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
 
-option_gradient <- c('orange', 'blue', 'red', 'green')
+google_map(key = map_key, data = df) \%>\%
+ add_heatmap(lat = "lat", lon = "lon", weight = "weight")
 
-map_key <- 'your_api_key'
+## specifying different colour gradient
+option_gradient <- c('orange', 'blue', 'mediumpurple4', 'snow4', 'thistle1')
 
 google_map(key = map_key, data = df) \%>\%
  add_heatmap(lat = "lat", lon = "lon", weight = "weight", option_gradient = option_gradient)

@@ -32,6 +32,8 @@ google_place_details <- function(place_id,
   if(!is.null(language))
     language <- tolower(language)
 
+  LogicalCheck(simplify)
+
   map_url <- "https://maps.googleapis.com/maps/api/place/details/json?"
 
   map_url <- constructURL(map_url, c("placeid" = place_id,
