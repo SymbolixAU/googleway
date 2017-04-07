@@ -1,28 +1,79 @@
 #' Google places
 #'
-#' The Google Places API Web Service allows you to query for place information on a variety of categories, such as: establishments, prominent points of interest, geographic locations, and more.
+#' The Google Places API Web Service allows you to query for place information
+#' on a variety of categories, such as: establishments, prominent points of interest,
+#' geographic locations, and more.
 #'
-#' @param search_string \code{string} A search term representing a place for which to search. If blank, the \code{location} argument must be used.
-#' @param location \code{numeric} vector of latitude/longitude coordinates (in that order) around which to retrieve place information. If blank, the \code{search_string} argument must be used. If used in conjunction with \code{search_string} it represents the latitude/longitude around which to retrieve place information, and must be used in conjunction with \code{radius}.
-#' @param radar \code{boolean} The Google Places API Radar Search Service allows you to search for up to 200 places at once, but with less detail than is typically returned from a Text Search (\code{search_string}) or Nearby Search (\code{location}) request. A radar search must contain a \code{location} and \code{radius}, and one of \code{keyword}, \code{name} or \code{type}. A radar search will not use a \code{search_string}
-#' @param radius \code{numeric} Defines the distance (in meters) within which to return place results. Required if only a \code{location} search is specified. The maximum allowed radius is 50,000 meters. Radius must not be included if \code{rankby="distance"} is specified. see Details.
-#' @param rankby \code{string} Specifies the order in which results are listed. Possible values are \code{"prominence"}, \code{"distance"} or \code{"location"}. If \code{rankby = distance}, then one of \code{keyword}, \code{name} or \code{place_type} must be specified. If a \code{search_string} is used then \code{rankby} is ignored
-#' @param keyword \code{string} A term to be matched against all content that Google has indexed for this place, including but not limited to name, type, and address, as well as customer reviews and other third-party content.
-#' @param language \code{string} The language code, indicating in which language the results should be returned, if possible. Searches are also biased to the selected language; results in the selected language may be given a higher ranking. See the list of supported languages and their codes \url{https://developers.google.com/maps/faq#languagesupport}
-#' @param name \code{string} \code{vector} One or more terms to be matched against the names of places. Ignored when used with a \code{search_string}. Results will be restricted to those containing the passed \code{name} values. Note that a place may have additional names associated with it, beyond its listed name. The API will try to match the passed name value against all of these names. As a result, places may be returned in the results whose listed names do not match the search term, but whose associated names do.
-#' @param place_type \code{string} Restricts the results to places matching the specified type. Only one type may be specified. For a list of valid types, please visit \url{https://developers.google.com/places/supported_types}
-#' @param price_range \code{numeric} \code{vector} Specifying the minimum and maximum price ranges. Values range between 0 (most affordable) and 4 (most expensive)
-#' @param open_now \code{logical} Returns only those places that are open for business at the time the query is sent. Places that do not specify opening hours in the Google Places database will not be returned if you include this parameter in your query.
-#' @param page_token \code{string} Returns the next 20 results from a previously run search. Setting a \code{page_token} parameter will execute a search with the same parameters used in a previous search. All parameters other than \code{page_token} will be ignored. The \code{page_token} can be found in the result set of a previously run query.
-#' @param simplify \code{logical} Inidicates if the returned JSON should be coerced into a list
+#' @param search_string \code{string} A search term representing a place for
+#' which to search. If blank, the \code{location} argument must be used.
+#' @param location \code{numeric} vector of latitude/longitude coordinates
+#' (in that order) around which to retrieve place information. If blank, the
+#' \code{search_string} argument must be used. If used in conjunction with
+#' \code{search_string} it represents the latitude/longitude around which to
+#' retrieve place information, and must be used in conjunction with \code{radius}.
+#' @param radar \code{boolean} The Google Places API Radar Search Service allows
+#' you to search for up to 200 places at once, but with less detail than is typically
+#' returned from a Text Search (\code{search_string}) or Nearby Search (\code{location}) request.
+#' A radar search must contain a \code{location} and \code{radius}, and one of \code{keyword},
+#' \code{name} or \code{type}. A radar search will not use a \code{search_string}
+#' @param radius \code{numeric} Defines the distance (in meters) within which to
+#' return place results. Required if only a \code{location} search is specified.
+#' The maximum allowed radius is 50,000 meters. Radius must not be included if
+#' \code{rankby="distance"} is specified. see Details.
+#' @param rankby \code{string} Specifies the order in which results are listed.
+#' Possible values are \code{"prominence"}, \code{"distance"} or \code{"location"}.
+#' If \code{rankby = distance}, then one of \code{keyword}, \code{name} or
+#' \code{place_type} must be specified. If a \code{search_string} is used then
+#' \code{rankby} is ignored
+#' @param keyword \code{string} A term to be matched against all content that
+#' Google has indexed for this place, including but not limited to name, type,
+#' and address, as well as customer reviews and other third-party content.
+#' @param language \code{string} The language code, indicating in which language
+#' the results should be returned, if possible. Searches are also biased to the
+#' selected language; results in the selected language may be given a higher ranking.
+#' See the list of supported languages and their codes
+#' \url{https://developers.google.com/maps/faq#languagesupport}
+#' @param name \code{string} \code{vector} One or more terms to be matched against
+#' the names of places. Ignored when used with a \code{search_string}. Results will
+#' be restricted to those containing the passed \code{name} values. Note that a
+#' place may have additional names associated with it, beyond its listed name.
+#' The API will try to match the passed name value against all of these names.
+#' As a result, places may be returned in the results whose listed names do not
+#' match the search term, but whose associated names do.
+#' @param place_type \code{string} Restricts the results to places matching the
+#' specified type. Only one type may be specified. For a list of valid types,
+#' please visit \url{https://developers.google.com/places/supported_types}
+#' @param price_range \code{numeric} \code{vector} Specifying the minimum and
+#' maximum price ranges. Values range between 0 (most affordable) and 4 (most expensive)
+#' @param open_now \code{logical} Returns only those places that are open for
+#' business at the time the query is sent. Places that do not specify opening
+#' hours in the Google Places database will not be returned if you include this
+#' parameter in your query.
+#' @param page_token \code{string} Returns the next 20 results from a previously
+#' run search. Setting a \code{page_token} parameter will execute a search with
+#' the same parameters used in a previous search. All parameters other than
+#' \code{page_token} will be ignored. The \code{page_token} can be found in the
+#' result set of a previously run query.
+#' @param simplify \code{logical} Inidicates if the returned JSON should be coerced
+#' into a list
 #' @param key \code{string} A valid Google Developers Places API key
 #'
 #' @details
-#' You can search for places either by proximity (\code{location}) or a text string (\code{search_string}). A Place Search returns a list of places along with summary information about each place; additional information is available via a Place Details query.
+#' You can search for places either by proximity (\code{location}) or a text
+#' string (\code{search_string}). A Place Search returns a list of places along
+#' with summary information about each place; additional information is available
+#' via a Place Details query.
 #'
-#' \code{radius} - Required when only using a \code{location} search, \code{radius} defines the distance (in meters) within which to return place results. The maximum allowed radius is 50,000 meters. Note that radius must not be included if rankby=distance is specified.
+#' \code{radius} - Required when only using a \code{location} search, \code{radius}
+#' defines the distance (in meters) within which to return place results. The maximum
+#' allowed radius is 50,000 meters. Note that radius must not be included if
+#' \code{rankby = distance} is specified.
 #'
-#' \code{radius} - Optional when using a \code{search_string}. Defines the distance (in meters) within which to bias place results. The maximum allowed radius is 50,000 meters. Results inside of this region will be ranked higher than results outside of the search circle; however, prominent results from outside of the search radius may be included.
+#' \code{radius} - Optional when using a \code{search_string}. Defines the distance
+#' (in meters) within which to bias place results. The maximum allowed radius is
+#' 50,000 meters. Results inside of this region will be ranked higher than results
+#' outside of the search circle; however, prominent results from outside of the
+#' search radius may be included.
 #'
 #'
 #'

@@ -9,13 +9,20 @@ google_elevation(df_locations = NULL, polyline = NULL,
   simplify = TRUE)
 }
 \arguments{
-\item{df_locations}{data.frame of with two columns called 'lat' and 'lon' (or 'latitude' / 'longitude') used as the locations}
+\item{df_locations}{data.frame of with two columns called 'lat' and 'lon'
+(or 'latitude' / 'longitude') used as the locations}
 
 \item{polyline}{string encoded polyline}
 
-\item{location_type}{string Specifies the results to be returned as individual locations or as a path. One of 'individual' or 'path'. If 'path', the data.frame df_locations must contain at least two rows. The order of the path is determined by the order of the rows.}
+\item{location_type}{string Specifies the results to be returned as individual
+locations or as a path. One of 'individual' or 'path'. If 'path', the data.frame
+\code{df_locations} must contain at least two rows. The order of the path is
+determined by the order of the rows.}
 
-\item{samples}{integer required if \code{location_type == "path"}. Specifies the number of sample points along a path for which to return elevation data. The samples parameter divides the given path into an ordered set of equidistant points along the path.}
+\item{samples}{integer required if \code{location_type == "path"}.
+Specifies the number of sample points along a path for which to return elevation data.
+The samples parameter divides the given path into an ordered set of equidistant
+points along the path.}
 
 \item{key}{string A valid Google Developers Elevation API key}
 
@@ -25,10 +32,13 @@ google_elevation(df_locations = NULL, polyline = NULL,
 Either list or JSON string of the elevation data
 }
 \description{
-The Google Maps Elevation API provides elevation data for all locations on the surface of the earth, including depth locations on the ocean floor (which return negative values).
+The Google Maps Elevation API provides elevation data for all locations on
+the surface of the earth, including depth locations on the ocean floor
+(which return negative values).
 }
 \details{
-Locations can be specified as either a data.frame containing both a lat/latitude and lon/longitude column, or
+Locations can be specified as either a data.frame containing both a lat/latitude
+and lon/longitude column, or
 a single encoded polyline
 }
 \examples{

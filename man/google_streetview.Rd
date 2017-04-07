@@ -13,19 +13,37 @@ google_streetview(location = NULL, panorama_id = NULL, size = c(400, 400),
 
 \item{panorama_id}{a specific panorama ID.}
 
-\item{size}{numeric vector of length 2, specifying the output size of the image in pixles, given in \code{width x height}. For example, \code{c(600, 400)} returns an image 600 pixles wide and 400 pixles high.}
+\item{size}{numeric vector of length 2, specifying the output size of the
+image in pixles, given in \code{width x height}. For example, \code{c(600, 400)}
+returns an image 600 pixles wide and 400 pixles high.}
 
-\item{heading}{indicates the compass heading of the camera. Accepted valeus are from 0 to 360 (both 0 and 360 indicate north), 90 indicates east, 180 south and 270 west. If no heading is specified a value will be calculated that directs teh camera to wards the specified \code{location}, from the point at which the closest photograph was taken.}
+\item{heading}{indicates the compass heading of the camera. Accepted valeus are
+from 0 to 360 (both 0 and 360 indicate north), 90 indicates east, 180 south and 270 west.
+If no heading is specified a value will be calculated that directs teh camera
+to wards the specified \code{location}, from the point at which the closest
+photograph was taken.}
 
-\item{fov}{determins the horizontal field of view of the image. The field of view is expressed in degrees, with a maximum allowed value of 120. When dealing with a fixed-size viewport, as with Street View image of a set size, field of view in essence represents zoom, with small numbers indicating a higher level of zoom}
+\item{fov}{determins the horizontal field of view of the image. The field of
+view is expressed in degrees, with a maximum allowed value of 120. When dealing
+with a fixed-size viewport, as with Street View image of a set size, field of
+view in essence represents zoom, with small numbers indicating a higher level of zoom}
 
-\item{pitch}{specifies the up or down angle of the camera relative to teh Street View vehicle. This is often, but not always, flat horizontal. Positive values angle the camera up (with 90 degrees indicating straight up); negative values angle the camera down (with -90 indicating straight down)}
+\item{pitch}{specifies the up or down angle of the camera relative to the
+Street View vehicle. This is often, but not always, flat horizontal.
+Positive values angle the camera up (with 90 degrees indicating straight up);
+negative values angle the camera down (with -90 indicating straight down)}
 
-\item{output}{specifies whether the result should be displayed in R's viewer, or embeded as HTML inside a webpage}
+\item{output}{specifies whether the result should be displayed in R's viewer,
+or embeded as HTML inside a webpage}
 
-\item{response_check}{logical indicating if the function should first check if the image is available. If TRUE and no image is available, a warning message is printed and no image will be downloaded. if FALSE and no image is available, a blank image will be displayed saying 'Sorry, we have no imagery here'.}
+\item{response_check}{logical indicating if the function should first check if
+the image is available. If TRUE and no image is available, a warning message
+is printed and no image will be downloaded. if FALSE and no image is available,
+a blank image will be displayed saying 'Sorry, we have no imagery here'.}
 
-\item{signature}{a digitial signature used to verify that any site generating requests using your API key is authorised to do so. See Google Documentaiton for further details \url{https://developers.google.com/maps/documentation/streetview/intro}}
+\item{signature}{a digitial signature used to verify that any site generating
+requests using your API key is authorised to do so. See Google Documentaiton
+for further details \url{https://developers.google.com/maps/documentation/streetview/intro}}
 
 \item{key}{string A valid Google Developers Street View Image API key}
 }

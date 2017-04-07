@@ -7,7 +7,8 @@
 \item{lhs, rhs}{A google map and a layer to add to it}
 }
 \description{
-Uses the pipe operator (\code{\%>\%}) to chain statements. Useful for adding layes to a \code{google_map}
+Uses the pipe operator (\code{\%>\%}) to chain statements. Useful for adding
+layers to a \code{google_map}
 }
 \examples{
 \dontrun{

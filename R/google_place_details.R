@@ -1,10 +1,20 @@
 #' Google place details
 #'
-#' Once you have a place_id from a Place Search, you can request more details about a particular establishment or point of interest by initiating a Place Details request. A Place Details request returns more comprehensive information about the indicated place such as its complete address, phone number, user rating and reviews.
+#' Once you have a place_id from a Place Search, you can request more details
+#' about a particular establishment or point of interest by initiating a Place
+#' Details request. A Place Details request returns more comprehensive information
+#' about the indicated place such as its complete address, phone number, user
+#' rating and reviews.
 #'
 #'
-#' @param place_id \code{string} A textual identifier that uniquely identifies a place, usually of the form \code{ChIJrTLr-GyuEmsRBfy61i59si0}, returned from a place search
-#' @param language \code{string} The language code, indicating in which language the results should be returned, if possible. Searches are also biased to the selected language; results in the selected language may be given a higher ranking. See the list of supported languages and their codes \url{https://developers.google.com/maps/faq#languagesupport}
+#' @param place_id \code{string} A textual identifier that uniquely identifies a
+#' place, usually of the form \code{ChIJrTLr-GyuEmsRBfy61i59si0}, returned from
+#' a place search
+#' @param language \code{string} The language code, indicating in which language
+#' the results should be returned, if possible. Searches are also biased to the
+#' selected language; results in the selected language may be given a higher ranking.
+#' See the list of supported languages and their codes
+#' \url{https://developers.google.com/maps/faq#languagesupport}
 #' @param simplify \code{logical} Inidicates if the returned JSON should be coerced into a list
 #' @param key \code{string} A valid Google Developers Places API key
 #' @examples

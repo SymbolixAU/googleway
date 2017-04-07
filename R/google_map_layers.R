@@ -150,7 +150,8 @@ add_markers <- function(map,
 #'
 #' clears elements from a map
 #'
-#' @note These operations are intended for use in conjunction with \link{google_map_update} in an interactive shiny environment
+#' @note These operations are intended for use in conjunction with
+#' \link{google_map_update} in an interactive shiny environment
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param layer_id id value of the layer to be removed from the map
@@ -336,7 +337,8 @@ clear_circles <- function(map, layer_id = NULL){
 #'
 #' @note Any circles (as specified by the \code{id} argument) that do not exist
 #' in the \code{data} passed into \code{add_circles()} will not be added to the map.
-#' This function will only update the circles that currently exist on the map when the function is called.
+#' This function will only update the circles that currently exist on the map when
+#' the function is called.
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data.frame containing the new values for the circles
@@ -415,9 +417,11 @@ update_circles <- function(map, data, id,
 #' associated with each point. If NULL, each point will get a weight of 1.
 #' @param option_dissipating logical Specifies whether heatmaps dissipate on zoom.
 #' When dissipating is false the radius of influence increases with zoom level to
-#' ensure that the color intensity is preserved at any given geographic location. Defaults to false.
+#' ensure that the color intensity is preserved at any given geographic location.
+#' Defaults to false.
 #' @param option_radius numeric The radius of influence for each data point, in pixels.
-#' @param option_opacity The opacity of the heatmap, expressed as a number between 0 and 1. Defaults to 0.6.
+#' @param option_opacity The opacity of the heatmap, expressed as a number between
+#' 0 and 1. Defaults to 0.6.
 #' @param layer_id single value specifying an id for the layer.
 #'
 #' @details

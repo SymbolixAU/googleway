@@ -1,10 +1,18 @@
 #' Google timezone
 #'
-#' The Google Maps Time Zone API provides time offset data for locations on the surface of the earth. You request the time zone information for a specific latitude/longitude pair and date
+#' The Google Maps Time Zone API provides time offset data for locations on the
+#' surface of the earth. You request the time zone information for a specific
+#' latitude/longitude pair and date
 #'
 #' @param location vector of lat/lon pair
-#' @param timestamp POSIXct The Google Maps Time Zone API uses the timestamp to determine whether or not Daylight Savings should be applied. Will default to the current system time
-#' @param language string specifies the language in which to return the results. See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis} If no langauge is supplied, the service will attempt to use the language of the domain from which the request was sent
+#' @param timestamp POSIXct The Google Maps Time Zone API uses the timestamp to
+#' determine whether or not Daylight Savings should be applied. Will default to
+#' the current system time
+#' @param language string specifies the language in which to return the results.
+#' See the list of supported languages:
+#' \url{https://developers.google.com/maps/faq#using-google-maps-apis}.
+#' If no langauge is supplied, the service will attempt to use the language of
+#' the domain from which the request was sent
 #' @param key string A valid Google Developers Timezone API key
 #' @param simplify logical Inidicates if the returned JSON should be coerced into a list
 #' @return Either list or JSON string of the timezone

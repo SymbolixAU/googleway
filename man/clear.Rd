@@ -37,6 +37,7 @@ clear_polygons(map, layer_id = NULL)
 clears elements from a map
 }
 \note{
-These operations are intended for use in conjunction with \link{google_map_update} in an interactive shiny environment
+These operations are intended for use in conjunction with
+\link{google_map_update} in an interactive shiny environment
 }
 

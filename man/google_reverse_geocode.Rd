@@ -10,11 +10,18 @@ google_reverse_geocode(location, result_type = NULL, location_type = NULL,
 \arguments{
 \item{location}{numeric Vector of lat/lon coordinates}
 
-\item{result_type}{string vector One or more address types. See \url{https://developers.google.com/maps/documentation/geocoding/intro#Types} for list of available types.}
+\item{result_type}{string vector One or more address types.
+See \url{https://developers.google.com/maps/documentation/geocoding/intro#Types}
+for list of available types.}
 
-\item{location_type}{string vector Specifying a location type will restrict the results to this type. If multiple types are specified, the API will return all addresses that match any of the types}
+\item{location_type}{string vector Specifying a location type will restrict the
+results to this type. If multiple types are specified, the API will return all
+addresses that match any of the types}
 
-\item{language}{string specifies the language in which to return the results. See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis} If no langauge is supplied, the service will attempt to use the language of the domain from which the request was sent}
+\item{language}{string specifies the language in which to return the results.
+See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis}.
+If no langauge is supplied, the service will attempt to use the language of the
+domain from which the request was sent}
 
 \item{key}{string A valid Google Developers Geocode API key}
 
@@ -24,7 +31,8 @@ google_reverse_geocode(location, result_type = NULL, location_type = NULL,
 Either list or JSON string of the geocoded address
 }
 \description{
-Reverse geocoding is the process of converting geographic coordinates into a human-readable address.
+Reverse geocoding is the process of converting geographic coordinates into a
+human-readable address.
 }
 \examples{
 \dontrun{

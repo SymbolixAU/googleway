@@ -9,7 +9,8 @@ NULL
 
 #' Pipe
 #'
-#' Uses the pipe operator (\code{\%>\%}) to chain statements. Useful for adding layes to a \code{google_map}
+#' Uses the pipe operator (\code{\%>\%}) to chain statements. Useful for adding
+#' layers to a \code{google_map}
 #'
 #' @importFrom magrittr %>%
 #' @name %>%
@@ -282,15 +283,4 @@ fun_check_address <- function(address){
   }
   return(address)
 }
-
-
-  ## default / red
-  # "http://mt.google.com/vt/icon/psize=16&font=fonts/arialuni_t.ttf&color=ff330000&name=icons/spotlight/spotlight-waypoint-b.png&ax=44&ay=48&scale=1"
-
-  ## blue
-  # https://mts.googleapis.com/vt/icon/name=icons/spotlight/spotlight-waypoint-blue.png&psize=16&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1
-
-  ## green
-  # "https://mts.googleapis.com/vt/icon/name=icons/spotlight/spotlight-waypoint-a.png&psize=16&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1"
-
 

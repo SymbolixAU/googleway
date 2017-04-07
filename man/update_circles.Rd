@@ -53,6 +53,7 @@ used in a shiny application.
 \note{
 Any circles (as specified by the \code{id} argument) that do not exist
 in the \code{data} passed into \code{add_circles()} will not be added to the map.
-This function will only update the circles that currently exist on the map when the function is called.
+This function will only update the circles that currently exist on the map when
+the function is called.
 }
 
