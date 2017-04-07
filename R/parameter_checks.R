@@ -79,7 +79,7 @@ latitude_column <- function(data, lat, calling_function){
 #'
 #' calls the correct function to check for longitude column
 #' @param data \code{data.frame}
-#' @param lat string identifying the longitude column
+#' @param lon string identifying the longitude column
 #' @param calling_function the function that called this function
 longitude_column <- function(data, lon, calling_function){
   if(is.null(lon)){
@@ -96,7 +96,7 @@ longitude_column <- function(data, lon, calling_function){
 #'
 #' Tries to identify the latitude column
 #' @param names string of column names
-#' @param calling_funciton the function that called this function
+#' @param calling_function the function that called this function
 #' @param stopOnFailure logical
 find_lat_column = function(names, calling_function, stopOnFailure = TRUE) {
 
@@ -121,7 +121,7 @@ find_lat_column = function(names, calling_function, stopOnFailure = TRUE) {
 #'
 #' Tries to identify the longitude column
 #' @param names string of column names
-#' @param calling_funciton the function that called this function
+#' @param calling_function the function that called this function
 #' @param stopOnFailure logical
 find_lon_column = function(names, calling_function, stopOnFailure = TRUE) {
 

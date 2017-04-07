@@ -9,9 +9,9 @@ find_lon_column(names, calling_function, stopOnFailure = TRUE)
 \arguments{
 \item{names}{string of column names}
 
-\item{stopOnFailure}{logical}
+\item{calling_function}{the function that called this function}
 
-\item{calling_funciton}{the function that called this function}
+\item{stopOnFailure}{logical}
 }
 \description{
 Tries to identify the longitude column

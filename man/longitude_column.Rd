@@ -9,9 +9,9 @@ longitude_column(data, lon, calling_function)
 \arguments{
 \item{data}{\code{data.frame}}
 
-\item{calling_function}{the function that called this function}
+\item{lon}{string identifying the longitude column}
 
-\item{lat}{string identifying the longitude column}
+\item{calling_function}{the function that called this function}
 }
 \description{
 calls the correct function to check for longitude column
