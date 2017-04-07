@@ -152,7 +152,7 @@ google_nearestRoads <- function(df_points,
 #' with variable speed limits, the default speed limit for the segment is returned.
 #' The speed limits service is only available to Google Maps API Premium Plan customers with an Asset Tracking license.
 #'
-#' @notes The accuracy of speed limit data returned by Google Maps Roads API can not be
+#' @note The accuracy of speed limit data returned by Google Maps Roads API can not be
 #' guaranteed. The speed limit data provided is not real-time, and may be estimated,
 #' inaccurate, incomplete, and / or outdated.
 #'

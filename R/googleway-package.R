@@ -2,6 +2,8 @@
 #' @importFrom Rcpp evalCpp
 #' @importFrom jsonlite fromJSON
 #' @importFrom curl curl
+#' @importFrom grDevices col2rgb
+#' @importFrom stats setNames
 NULL
 
 

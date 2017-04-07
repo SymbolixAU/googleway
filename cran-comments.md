@@ -1,9 +1,8 @@
 
 ## Release summary
 
-* Updates v0.2.0 to v1.0.0
-* 5 new functions
-* 1 renamed function
+* Updates v1.0.0 to v2.0.0
+* Added a Google Map widget
 
 
 ## Test Environments

@@ -185,18 +185,7 @@ clear_search <- function(map){
 #' @param map a googleway map object created from \code{google_map()}
 #' @param styles JSON string representation of a valid Google Maps styles Array.
 #' See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}
-#' @examples
-#' \dontrun{
 #'
-#'#' style <- '[{"featureType":"all","elementType":"all","stylers":[{"invert_lightness":true},
-#' {"saturation":10},{"lightness":30},{"gamma":0.5},{"hue":"#435158"}]},
-#' {"featureType":"road.arterial","elementType":"all","stylers":[{"visibility":"simplified"}]},
-#' {"featureType":"transit.station","elementType":"labels.text","stylers":[{"visibility":"off"}]}]'
-#'
-#' google_map(key = "your_api_key") %>%
-#'  update_style(styles = style)
-#'
-#' }
 #' @export
 update_style <- function(map, styles = NULL){
 
@@ -408,57 +397,6 @@ update_circles <- function(map, data, id,
 
 
 }
-
-# #' Add Rectangle
-# #'
-# #' Add rectangle to a google map
-# #'
-# #' @param map a googleway map object created from \code{google_map()}
-# #' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
-# #' @param id string specifying the column containing an identifier for a rectangle
-# #' @param top_left string specifying the colum containing the top-left point of the rectangle
-# #' @param bottom_left string specifying the colum containing the bottom-left point of the rectangle
-# #' @param top_right string specifying the colum containing the top-rigth point of the rectangle
-# #' @param bottom_right string specifying the colum containing the bottom-right point of the rectangle
-# #' @param draggable string specifying the column of \code{data} defining if the rectangle is 'draggable' (either TRUE or FALSE)
-# #' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
-# #' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
-# #' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
-# #' @param fill_colour either a string specifying the column of \code{data} containing the fill colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the cirlces
-# #' @param fill_opacity either a string specifying the column of \code{data} containing the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
-# #' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
-# #' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
-# #' @param mouse_over_group string specifying the column of data specifying which groups of circles to highlight on mouseover
-# #' @param layer_id single value specifying an id for the layer.
-# google_rectangle <- function(map,
-#                              data = get_map_data(map),
-#                              id = NULL,
-#                              top_left,
-#                              bottom_left,
-#                              top_right,
-#                              bottom_right,
-#                              draggable = NULL,
-#                              stroke_colour = NULL,
-#                              stroke_opacity = NULL,
-#                              stroke_weight = NULL,
-#                              fill_colour = NULL,
-#                              fill_opacity = NULL,
-#                              mouse_over = NULL,
-#                              mouse_over_group = NULL,
-#                              info_window = NULL,
-#                              layer_id = NULL){
-#
-#
-#
-# }
-#
-# clear_rectangles <- function(map, layer_id = NULL){
-#
-#   layer_id <- LayerId(layer_id)
-#
-#   invoke_method(map, data = NULL, 'clear_rectangles', layer_id)
-# }
-
 
 #' Add heatmap
 #'
@@ -1418,43 +1356,6 @@ clear_polygons <- function(map, layer_id = NULL){
   layer_id <- LayerId(layer_id)
 
   invoke_method(map, data = NULL, 'clear_polygons', layer_id)
-}
-
-
-
-#' Add KML
-#'
-#' Adds a kml layer to a google map
-#'
-#' @param map a googleway map object created from \code{google_map()}
-#' @param kml_data kml data layer
-#' @param layer_id single value specifying an id for the layer.
-#'
-#' @export
-add_kml <- function(map,
-                    kml_data,
-                    layer_id = NULL){
-
-  kmlData <- kml_data
-
-  layer_id <- LayerId(layer_id)
-
-  invoke_method(map, data = NULL, 'add_kml', kmlData, layer_id)
-
-}
-
-#' Clear kml
-#'
-#' Clears a kml layer from the map
-#'
-#' @param map a googleway map object created from \code{google_map()}
-#' @param layer_id single value specifying an id for the layer
-#' @export
-clear_kml <- function(map, layer_id = NULL){
-
-  layer_id <- LayerId(layer_id)
-
-  invoke_method(map, data = NULL, 'clear_kml', layer_id)
 }
 
 
