@@ -1,11 +1,19 @@
+#' Logical Check
+#'
+#' Checks for the correct logical parameter
+#' @param param parameter to check
 LogicalCheck <- function(param){
-  if(!is.logical(param))
+  if(!is.logical(param) | length(param) != 1)
     stop(paste0(deparse(substitute(param))," must be logical - TRUE or FALSE"))
 
-  if(length(param) != 1)
-    stop(paste0(deparse(substitute(param))," must be either TRUE or FALSE"))
 }
 
+#' Check hex colours
+#'
+#' Checks for valid hexadecimal value
+#'
+#' @param df \code{data.frame}
+#' @param cols string of columns to check
 check_hex_colours <- function(df, cols){
   ## checks the columns of data that should be in HEX colours
 
@@ -15,6 +23,12 @@ check_hex_colours <- function(df, cols){
   }
 }
 
+#' Check opacities
+#'
+#' Checks for valid opacity values
+#'
+#' @param df \code{data.frame}
+#' @param cols string of columns to check
 check_opacities <- function(df, cols){
 
   for(myCol in cols){
@@ -26,6 +40,12 @@ check_opacities <- function(df, cols){
   }
 }
 
+#' Check for columns
+#'
+#' Checks for valid columns
+#'
+#' @param df \code{data.frame}
+#' @param cols string of columns
 check_for_columns <- function(df, cols){
 
   ## check to see if the specified columns exist
@@ -36,7 +56,12 @@ check_for_columns <- function(df, cols){
 
 }
 
-
+#' Latitude column
+#'
+#' calls the correct function to check for latitude column
+#' @param data \code{data.frame}
+#' @param lat string identifying the latitude column
+#' @param calling_function the function that called this function
 latitude_column <- function(data, lat, calling_function){
 
   if(is.null(lat)){
@@ -50,6 +75,12 @@ latitude_column <- function(data, lat, calling_function){
   return(data)
 }
 
+#' Longitude column
+#'
+#' calls the correct function to check for longitude column
+#' @param data \code{data.frame}
+#' @param lat string identifying the longitude column
+#' @param calling_function the function that called this function
 longitude_column <- function(data, lon, calling_function){
   if(is.null(lon)){
     lon_col <- find_lon_column(names(data), calling_function)
@@ -61,6 +92,12 @@ longitude_column <- function(data, lon, calling_function){
   return(data)
 }
 
+#' Find Lat Column
+#'
+#' Tries to identify the latitude column
+#' @param names string of column names
+#' @param calling_funciton the function that called this function
+#' @param stopOnFailure logical
 find_lat_column = function(names, calling_function, stopOnFailure = TRUE) {
 
   lats = names[grep("^(lat|lats|latitude|latitudes)$", names, ignore.case = TRUE)]
@@ -80,7 +117,12 @@ find_lat_column = function(names, calling_function, stopOnFailure = TRUE) {
   list(lat = NA)
 }
 
-
+#' Find Lon Column
+#'
+#' Tries to identify the longitude column
+#' @param names string of column names
+#' @param calling_funciton the function that called this function
+#' @param stopOnFailure logical
 find_lon_column = function(names, calling_function, stopOnFailure = TRUE) {
 
   lons = names[grep("^(lon|lons|lng|lngs|long|longs|longitude|longitudes)$", names, ignore.case = TRUE)]
