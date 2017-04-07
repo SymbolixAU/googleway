@@ -759,8 +759,7 @@ add_polylines <- function(map,
   if(!is.null(polyline) & (!is.null(lat) | !is.null(lon)))
     stop("please use either a polyline colulmn, or lat/lon coordinate columns, not both")
 
-  if(!is.logical(update_map_view))
-    stop("update_map_view must be TRUE or FALSE")
+  LogicalCheck(update_map_view)
 
 
   # data <- as.data.frame(data)
@@ -905,16 +904,16 @@ update_polylines <- function(map, data, id,
   ## TODO: is 'info_window' required, if it was included in the original add_polygons?
 
   # data <- as.data.frame(data)
-  if(!inherits(data, "data.frame"))
-    stop("sorry, I can only work with data.frames with a 'polyline' column at the moment. ")
-
-
-  if(!is.null(polyline)){
-    polylineUpdate <- data[, polyline, drop = FALSE]
-    polylineUpdate <- stats::setNames(polylineUpdate, "polyline")
-  }else{
-    stop("I really, really need that polyline column")
-  }
+  # if(!inherits(data, "data.frame"))
+  #   stop("sorry, I can only work with data.frames with a 'polyline' column at the moment. ")
+  #
+  #
+  # if(!is.null(polyline)){
+  #   polylineUpdate <- data[, polyline, drop = FALSE]
+  #   polylineUpdate <- stats::setNames(polylineUpdate, "polyline")
+  # }else{
+  #   stop("I really, really need that polyline column")
+  # }
 
   layer_id <- LayerId(layer_id)
 
@@ -946,11 +945,11 @@ clear_polylines <- function(map, layer_id = NULL){
 #' are similar to polylines in that they consist of a series of coordinates in an ordered sequence.
 #' Polygon objects can describe complex shapes, including
 #'
-#' * Multiple non-contiguous areas defined by a single polygon
-#'
-#' * Areas wwith holes in them
-#'
-#' * Intersections of one or more areas
+#' \itemize{
+#'   \item{Multiple non-contiguous areas defined by a single poylgon}
+#'   \item{Areas with holes in them}
+#'   \item{Intersections of one or more areas}
+#' }
 #'
 #' To define a complex shape, you use a polygon with multiple paths.
 #'
@@ -959,22 +958,33 @@ clear_polylines <- function(map, layer_id = NULL){
 #' order to those defining the outer path. For example, if the coordinates of
 #' the outer path are in clockwise order, then the inner path must be anit-clockwise.
 #'
-#' To represent a complex polygon the data.frame column containing the polylines should be a list,
-#' where each polyline that is used to create the polygon is in the same row of the data.frame
-#' See examples.
+#' You can represent a polygon ine one of three ways
+#' \itemize{
+#'   \item{as a series of coordinates defining a path (or paths) with both an
+#'   \code{id} and \code{pathId} argument that make up the polygon}
+#'   \item{as an encoded polyline using an \code{id} column to specify multiple
+#'   polylines for a polygon}
+#'   \item{as a list column in a data.frame, where each row of the data.frame
+#'   contains the polylines that comprise the polygon}
+#'
+#' }
+#'
+#' See Examples
 #'
 #' @examples
 #' \dontrun{
 #'
-#' ##polygon with a hole - Bermuda triangle
+#' map_key <- 'your_api_key'
 #'
+#' ## polygon with a hole - Bermuda triangle
+#' ## using one row per polygon, and a list-column of encoded polylines
 #' pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
 #'       lon = c(-80.190, -66.118, -64.757))
 #'
 #' pl_inner <- encode_pl(lat = c(28.745, 29.570, 27.339),
 #'        lon = c(-70.579, -67.514, -66.668))
 #'
-#' df <- data.frame(id = c(1,1),
+#' df <- data.frame(id = c(1, 1),
 #'        polyline = c(pl_outer, pl_inner),
 #'        stringsAsFactors = FALSE)
 #'
@@ -983,26 +993,72 @@ clear_polylines <- function(map, layer_id = NULL){
 #' google_map(key = map_key, height = 800) %>%
 #'     add_polygons(data = df, polyline = "polyline")
 #'
+#' ## the same polygon, but using an 'id' to specify the polygon
+#' df <- data.frame(id = c(1,1),
+#'        polyline = c(pl_outer, pl_inner),
+#'        stringsAsFactors = FALSE)
+#'
+#' google_map(key = map_key, height = 800) %>%
+#'     add_polygons(data = df, polyline = "polyline", id = "id")
+#'
+#' ## the same polygon, specified using coordinates, and with a second independent
+#' ## polygon
+#' df <- data.frame(myId = c(1,1,1,1,1,1,2,2,2),
+#'       lineId = c(1,1,1,2,2,2,1,1,1),
+#'       lat = c(26.774, 18.466, 32.321, 28.745, 29.570, 27.339, 22, 23, 22),
+#'       lon = c(-80.190, -66.118, -64.757, -70.579, -67.514, -66.668, -50, -49, -51),
+#'       stringsAsFactors = FALSE)
+#'
+#' google_map(key = map_key) %>%
+#'   add_polygons(data = df, lat = 'lat', lon = 'lon', id = 'myId', pathId = 'lineId')
+#'
+#'
 #'
 #' }
 #'
 #' @param map a googleway map object created from \code{google_map()}
-#' @param data data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.
-#' @param polyline string specifying the column containing the polyline
-#' @param lat string specifying the column of \code{data} containing the 'latitude' coordinates. Coordinates must be in the order that defines the path.
-#' @param lon string specifying the column of \code{data} containing the 'longitude' coordinates. Coordinates must be in the order that defines the path.
-#' @param id string specifying the column containing an identifier for a polygon. Used when calling \code{update_polygons} so that specific polygons can be updated
-#' @param pathId string specifying the column containing an identifer for each path that forms the complete polygon.
-#' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
-#' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
-#' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
-#' @param fill_colour either a string specifying the column of \code{data} containing the fill colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the cirlces
-#' @param fill_opacity either a string specifying the column of \code{data} containing the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
-#' @param info_window string specifying the column of data to display in an info window when a polygon is clicked
-#' @param mouse_over string specifying the column of data to display when the mouse rolls over the polygon
-#' @param mouse_over_group string specifying the column of data specifying which groups of polygons to highlight on mouseover
-#' @param update_map_view logical specifying if the map should re-centre according to the polyline.
+#' @param data data frame containing at least a \code{polyline} column,
+#' or a \code{lat} and a \code{lon} column. If Null, the data passed into
+#' \code{google_map()} will be used.
+#' @param polyline string specifying the column of \code{data} containing
+#' the encoded polyline
+#' @param lat string specifying the column of \code{data} containing the
+#' 'latitude' coordinates. Coordinates must be in the order that defines the path.
+#' @param lon string specifying the column of \code{data} containing the
+#' 'longitude' coordinates. Coordinates must be in the order that defines the path.
+#' @param id string specifying the column containing an identifier for a polygon.
+#' @param pathId string specifying the column containing an identifer for each
+#' path that forms the complete polygon. Not required when using \code{polyline},
+#' as each polyline is itself a path.
+#' @param stroke_colour either a string specifying the column of \code{data}
+#' containing the stroke colour of each circle, or a valid hexadecimal numeric
+#' HTML style to be applied to all the circles
+#' @param stroke_opacity either a string specifying the column of \code{data}
+#' containing the stroke opacity of each circle, or a value between 0 and 1
+#' that will be aplied to all the circles
+#' @param stroke_weight either a string specifying the column of \code{data}
+#' containing the stroke weight of each circle, or a number indicating the
+#' width of pixels in the line to be applied to all the circles
+#' @param fill_colour either a string specifying the column of \code{data}
+#' containing the fill colour of each circle, or a valid hexadecimal numeric
+#' HTML style to be applied to all the cirlces
+#' @param fill_opacity either a string specifying the column of \code{data}
+#' containing the fill opacity of each circle, or a value between 0 and 1 that
+#' will be aplied to all the circles
+#' @param info_window string specifying the column of data to display in an
+#' info window when a polygon is clicked
+#' @param mouse_over string specifying the column of data to display when the
+#' mouse rolls over the polygon
+#' @param mouse_over_group string specifying the column of data specifying
+#' which groups of polygons to highlight on mouseover
+#' @param draggable string specifying the column of \code{data} defining if
+#' the polygon is 'draggable'. The column of data should be logical (either TRUE or FALSE)
+#' @param update_map_view logical specifying if the map should re-centre
+#' according to the polyline.
 #' @param layer_id single value specifying an id for the layer.
+#'
+#' @seealso \link{encode_pl}
+#'
 #' @export
 add_polygons <- function(map,
                         data = get_map_data(map),
@@ -1010,6 +1066,7 @@ add_polygons <- function(map,
                         lat = NULL,
                         lon = NULL,
                         id = NULL,
+                        pathId = NULL,
                         stroke_colour = NULL,
                         stroke_weight = NULL,
                         stroke_opacity = NULL,
@@ -1018,6 +1075,7 @@ add_polygons <- function(map,
                         info_window = NULL,
                         mouse_over = NULL,
                         mouse_over_group = NULL,
+                        draggable = NULL,
                         update_map_view = TRUE,
                         layer_id = NULL
                         ){
@@ -1036,82 +1094,69 @@ add_polygons <- function(map,
   ## checks for missing column names
   # if(is.null(polyline))
   #   stop("please supply the column containing the polylines")
-  #
-  # if(!is.logical(update_map_view))
-  #   stop("update_map_view must be TRUE or FALSE")
 
 
+  if(is.null(polyline) & (is.null(lat) | is.null(lon)))
+    stop("please supply the either the column containing the polylines, or the lat/lon coordinate columns")
 
-  # if(inherits(data, "data.frame")){
-  #   if(!is.null(polyline)){
-  #     ## polyline specified
-  #     polyline <- data[, polyline, drop = FALSE]
-  #     polyline <- stats::setNames(polyline, "polyline")
-  #     usePolyline <- TRUE
-  #   }else{
-  #
-  #   }
-  # }
-  #
-  #
-  #
-  # ## using polyline ==> using one row per line (continue with 'polyline')
-  # ## using lat/lon ==> using many rows per line
-  # ## use a list to store the coordinates
-  # if(usePolyline == FALSE){
-  #
-  #   ## if no id field has been specified, treat all the coordinates as one line
-  #   if(is.null(id)){
-  #     message("No 'id' value defined, assuming one continuous line")
-  #     id <- 'id'
-  #     dataLatLng[, id] <- "1"
-  #     polyline[, id] <- "1"
-  #   }
-  #
-  #
-  #   ## each 'lineId' needs to be in the same array. Holes are wound in the opposite direction
-  #   ## to the outer path.
-  #   ## example of a single polygon looks like
-  #   ## polygon = new google.maps.polygon({
-  #   ##  paths : [ coords1, coords2, coords3, coords4]
-  #   ## })
-  #   ##
-  #   ## where any of coords* can be holes.
-  #   lst_polygon <- lapply(unique(dataLatLng[, id]), function(x) {
-  #
-  #     list(id = x,
-  #          coords = data.frame(lat = dataLatLng[dataLatLng[id] == x, lat],
-  #                              lng = dataLatLng[dataLatLng[id] == x, lon])
-  #     )
-  #   })
-  #
-  #   js_polyline <- jsonlite::toJSON(lst_polyline)
-  # }else{
-  #   js_polyline <- ""
-  # }
+  if(!is.null(polyline) & (!is.null(lat) | !is.null(lon)))
+    stop("please use either a polyline colulmn, or lat/lon coordinate columns, not both")
 
+  LogicalCheck(update_map_view)
 
+  if(!inherits(data, "data.frame"))
+    stop("Currently only data.frames are supported")
 
+  if(!is.null(polyline)){
 
+    if(is.null(id)){
+      id <- 'id'
+      data[, id] <- as.character(1:nrow(data))
+    }else{
+      data[, id] <- as.character(data[, id])
+    }
 
+   polygon <- data[, c(id, polyline)]
+   polygon <- stats::setNames(polygon, c("id", "polyline"))
 
-  if(!is.list(data[, polyline])){
-    polygon <- data.frame(polyline = I(as.list(as.character(data[, polyline]))))
+   usePolyline <- TRUE
+
   }else{
-    polygon <- data[, polyline, drop = FALSE]
+
+    usePolyline <- FALSE
+
+    ## coordinates
+    if(is.null(id)){
+      message("No 'id' value defined, assuming one continuous line of coordinates")
+      id <- 'id'
+      data[, id] <- '1'
+    }else{
+      data[, id] <- as.character(data[, id])
+    }
+
+    ## check pathId
+    if(is.null(pathId)){
+      message("No 'pathId' value defined, assuming one continuous line per polygon")
+      pathId <- 'pathId'
+      data[, pathId] <- '1'
+    }else{
+      data[, pathId] <- as.character(data[, pathId])
+    }
+
+    if(is.null(lat)){
+      data <- latitude_column(data, lat, 'add_polygons')
+      lat <- "lat"
+    }
+
+    if(is.null(lon)){
+      data <- longitude_column(data, lon, 'add_polygons')
+      lon <- "lng"
+    }
+
+    polygon <- data[, c(id, pathId, lat, lon)]
+    polygon <- stats::setNames(polygon, c('id', 'pathId', 'lat', 'lng'))
+
   }
-
-
-#
-#   if(sum(sapply(polygon[, polyline], is.null)) > 0){
-#     warning("There are some NULL polyline values. These polygons are removed from the map")
-#     print(str(polygon))
-#     polygon <- polygon[!sapply(polygon[, polyline], is.null)]
-#   }
-
-  layer_id <- LayerId(layer_id)
-
-  polygon <- stats::setNames(polygon, "polyline")
 
   ## the defaults are required
   polygon[, "stroke_colour"] <- SetDefault(stroke_colour, "#0000FF", data)
@@ -1119,11 +1164,9 @@ add_polygons <- function(map,
   polygon[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
   polygon[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
   polygon[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
-  # polygon[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
 
-  ## options
-  if(!is.null(id))
-    polygon[, "id"] <- as.character(data[, id])
+  # polygon[, id] <- as.character(polygon[, id])
+  # polygon[, pathId] <- as.character(polygon[, pathId])
 
   if(!is.null(info_window))
     polygon[, "info_window"] <- as.character(data[, info_window])
@@ -1134,14 +1177,61 @@ add_polygons <- function(map,
   if(!is.null(mouse_over_group))
     polygon[, "mouse_over_group"] <- as.character(data[, mouse_over_group])
 
+  if(!is.null(draggable))
+    polygon[, "draggable"] <- as.logical(data[, draggable])
+
+  ## using polyline ==> using one row per line (continue with 'polyline')
+  ## using lat/lon ==> using many rows per line
+  ## use a list to store the coordinates
+  if(!usePolyline){
+
+    ## each 'lineId' needs to be in the same array. Holes are wound in the opposite direction
+    ## to the outer path.
+    ## example of a single polygon looks like
+    ## polygon = new google.maps.polygon({
+    ##  paths : [ coords1, coords2, coords3, coords4]
+    ## })
+    ##
+    ## where any of coords* can be holes.
+    ids <- unique(polygon[, 'id'])
+
+    lst_polygon <- lapply(ids, function(x){
+      pathIds <- unique(polygon[ polygon[, 'id'] == x, 'pathId'])
+      thisRow <- unique(polygon[ polygon[, 'id'] == x, setdiff(names(polygon), c('id', 'pathId', 'lat', 'lng')) , drop = FALSE] )
+      coords <- sapply(pathIds, function(y){
+        list(polygon[polygon[, 'id'] == x & polygon[, 'pathId'] == y, c('lat', 'lng')])
+      })
+      c(list(coords = unname(coords)), thisRow)
+    })
+
+    js_polygon <- jsonlite::toJSON(lst_polygon)
+  }else{
+
+    if(!is.list(polygon[, polyline])){
+
+      ## make our own list column
+      f <- paste0(polyline, " ~ " , paste0(setdiff(names(polygon), polyline), collapse = "+") )
+      polygon <- aggregate(formula(f), data = polygon, list)
+      js_polygon <- jsonlite::toJSON(polygon)
+
+    }else{
+
+      js_polygon <- jsonlite::toJSON(polygon)
+
+    }
+
+  }
+
+#   if(sum(sapply(polygon[, polyline], is.null)) > 0){
+#     warning("There are some NULL polyline values. These polygons are removed from the map")
+#     print(str(polygon))
+#     polygon <- polygon[!sapply(polygon[, polyline], is.null)]
+#   }
+
+  layer_id <- LayerId(layer_id)
   # if(sum(is.na(polygon)) > 0)
   #   warning("There are some NAs in your data. These may affect the polygons that have been plotted.")
-
-  # print(polygon)
-  polygon <- jsonlite::toJSON(polygon)
-  # print(polygon)
-
-  invoke_method(map, data, 'add_polygons', polygon, update_map_view, layer_id)
+  invoke_method(map, data, 'add_polygons', js_polygon, update_map_view, layer_id, usePolyline)
 }
 
 
@@ -1154,7 +1244,6 @@ add_polygons <- function(map,
 #' @param map a googleway map object created from \code{google_map()}
 #' @param data data.frame containing the new values for the polygons
 #' @param id string representing the column of \code{data} containing the id values for the polygons. The id values must be present in the data supplied to \code{add_polygons} in order for the polygons to be udpated
-#' @param polyline string specifying the column containing the polyline. Only used if \code{add_extra} is TRUE
 #' @param stroke_colour either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles
 #' @param stroke_opacity either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
 #' @param stroke_weight either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles
@@ -1164,7 +1253,6 @@ add_polygons <- function(map,
 #'
 #' @export
 update_polygons <- function(map, data, id,
-                            polyline = NULL,
                             stroke_colour = NULL,
                             stroke_weight = NULL,
                             stroke_opacity = NULL,
@@ -1175,19 +1263,19 @@ update_polygons <- function(map, data, id,
 
   ## TODO: is 'info_window' required, if it was included in the original add_polygons?
 
-  if(!is.null(polyline)){
-    if(!is.list(data[, polyline])){
-      polygonUpdate <- data.frame(polyline = I(as.list(as.character(data[, polyline]))))
-    }else{
-      polygonUpdate <- data[, polyline, drop = FALSE]
-    }
-  }else{
-    stop("I really, really need that polyline column")
-  }
+  ## Updating a polygon doesn't 'add' or 'remove' polylines / coordinates,
+  ## it merely changes the attributes.
+  ## so.... don't need the 'polyline' or 'coordinate' columns
+
+
+  polygonUpdate <- data[, id, drop = FALSE]
+  polygonUpdate[, id] <- as.character(polygonUpdate[, id])
+
+  polygonUpdate <- stats::setNames(polygonUpdate, c('id'))
 
   layer_id <- LayerId(layer_id)
 
-  polygonUpdate[, "id"] <- as.character(data[, id])
+  # polygonUpdate[, id] <- as.character(data[, id])
 
   polygonUpdate[, "stroke_colour"] <- SetDefault(stroke_colour, "#0000FF", data)
   polygonUpdate[, "stroke_weight"] <- SetDefault(stroke_weight, 1, data)
@@ -1195,15 +1283,6 @@ update_polygons <- function(map, data, id,
   polygonUpdate[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
   polygonUpdate[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
   # polygonUpdate[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
-
-  # if(!is.null(info_window))
-  #   polygonUpdate[, "info_window"] <- as.character(data[, info_window])
-  #
-  # if(!is.null(mouse_over))
-  #   polygonUpdate[, "mouse_over"] <- as.character(data[, mouse_over])
-  #
-  # if(!is.null(mouse_over_group))
-  #   polygonUpdate[, "mouse_over_group"] <- as.character(data[, mouse_over_group])
 
   polygonUpdate <- jsonlite::toJSON(polygonUpdate)
 

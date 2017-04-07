@@ -5,45 +5,70 @@
 \title{Add polygon}
 \usage{
 add_polygons(map, data = get_map_data(map), polyline = NULL, lat = NULL,
-  lon = NULL, id = NULL, stroke_colour = NULL, stroke_weight = NULL,
-  stroke_opacity = NULL, fill_colour = NULL, fill_opacity = NULL,
-  info_window = NULL, mouse_over = NULL, mouse_over_group = NULL,
-  update_map_view = TRUE, layer_id = NULL)
+  lon = NULL, id = NULL, pathId = NULL, stroke_colour = NULL,
+  stroke_weight = NULL, stroke_opacity = NULL, fill_colour = NULL,
+  fill_opacity = NULL, info_window = NULL, mouse_over = NULL,
+  mouse_over_group = NULL, draggable = NULL, update_map_view = TRUE,
+  layer_id = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
-\item{data}{data frame containing at least two columns, one specifying the latitude coordinates, and the other specifying the longitude. If Null, the data passed into \code{google_map()} will be used.}
+\item{data}{data frame containing at least a \code{polyline} column,
+or a \code{lat} and a \code{lon} column. If Null, the data passed into
+\code{google_map()} will be used.}
 
-\item{polyline}{string specifying the column containing the polyline}
+\item{polyline}{string specifying the column of \code{data} containing
+the encoded polyline}
 
-\item{lat}{string specifying the column of \code{data} containing the 'latitude' coordinates. Coordinates must be in the order that defines the path.}
+\item{lat}{string specifying the column of \code{data} containing the
+'latitude' coordinates. Coordinates must be in the order that defines the path.}
 
-\item{lon}{string specifying the column of \code{data} containing the 'longitude' coordinates. Coordinates must be in the order that defines the path.}
+\item{lon}{string specifying the column of \code{data} containing the
+'longitude' coordinates. Coordinates must be in the order that defines the path.}
 
-\item{id}{string specifying the column containing an identifier for a polygon. Used when calling \code{update_polygons} so that specific polygons can be updated}
+\item{id}{string specifying the column containing an identifier for a polygon.}
 
-\item{stroke_colour}{either a string specifying the column of \code{data} containing the stroke colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the circles}
+\item{pathId}{string specifying the column containing an identifer for each
+path that forms the complete polygon. Not required when using \code{polyline},
+as each polyline is itself a path.}
 
-\item{stroke_weight}{either a string specifying the column of \code{data} containing the stroke weight of each circle, or a number indicating the width of pixels in the line to be applied to all the circles}
+\item{stroke_colour}{either a string specifying the column of \code{data}
+containing the stroke colour of each circle, or a valid hexadecimal numeric
+HTML style to be applied to all the circles}
 
-\item{stroke_opacity}{either a string specifying the column of \code{data} containing the stroke opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles}
+\item{stroke_weight}{either a string specifying the column of \code{data}
+containing the stroke weight of each circle, or a number indicating the
+width of pixels in the line to be applied to all the circles}
 
-\item{fill_colour}{either a string specifying the column of \code{data} containing the fill colour of each circle, or a valid hexadecimal numeric HTML style to be applied to all the cirlces}
+\item{stroke_opacity}{either a string specifying the column of \code{data}
+containing the stroke opacity of each circle, or a value between 0 and 1
+that will be aplied to all the circles}
 
-\item{fill_opacity}{either a string specifying the column of \code{data} containing the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles}
+\item{fill_colour}{either a string specifying the column of \code{data}
+containing the fill colour of each circle, or a valid hexadecimal numeric
+HTML style to be applied to all the cirlces}
 
-\item{info_window}{string specifying the column of data to display in an info window when a polygon is clicked}
+\item{fill_opacity}{either a string specifying the column of \code{data}
+containing the fill opacity of each circle, or a value between 0 and 1 that
+will be aplied to all the circles}
 
-\item{mouse_over}{string specifying the column of data to display when the mouse rolls over the polygon}
+\item{info_window}{string specifying the column of data to display in an
+info window when a polygon is clicked}
 
-\item{mouse_over_group}{string specifying the column of data specifying which groups of polygons to highlight on mouseover}
+\item{mouse_over}{string specifying the column of data to display when the
+mouse rolls over the polygon}
 
-\item{update_map_view}{logical specifying if the map should re-centre according to the polyline.}
+\item{mouse_over_group}{string specifying the column of data specifying
+which groups of polygons to highlight on mouseover}
+
+\item{draggable}{string specifying the column of \code{data} defining if
+the polygon is 'draggable'. The column of data should be logical (either TRUE or FALSE)}
+
+\item{update_map_view}{logical specifying if the map should re-centre
+according to the polyline.}
 
 \item{layer_id}{single value specifying an id for the layer.}
-
-\item{pathId}{string specifying the column containing an identifer for each path that forms the complete polygon.}
 }
 \description{
 Add a polygon to a google map.
@@ -53,11 +78,11 @@ A polygon represents an area enclosed by a closed path. Polygon objects
 are similar to polylines in that they consist of a series of coordinates in an ordered sequence.
 Polygon objects can describe complex shapes, including
 
-* Multiple non-contiguous areas defined by a single polygon
-
-* Areas wwith holes in them
-
-* Intersections of one or more areas
+\itemize{
+  \item{Multiple non-contiguous areas defined by a single poylgon}
+  \item{Areas with holes in them}
+  \item{Intersections of one or more areas}
+}
 
 To define a complex shape, you use a polygon with multiple paths.
 
@@ -66,22 +91,33 @@ To create the hole, the coordinates of the inner path must be wound in the oppos
 order to those defining the outer path. For example, if the coordinates of
 the outer path are in clockwise order, then the inner path must be anit-clockwise.
 
-To represent a complex polygon the data.frame column containing the polylines should be a list,
-where each polyline that is used to create the polygon is in the same row of the data.frame
-See examples.
+You can represent a polygon ine one of three ways
+\itemize{
+  \item{as a series of coordinates defining a path (or paths) with both an
+  \code{id} and \code{pathId} argument that make up the polygon}
+  \item{as an encoded polyline using an \code{id} column to specify multiple
+  polylines for a polygon}
+  \item{as a list column in a data.frame, where each row of the data.frame
+  contains the polylines that comprise the polygon}
+
+}
+
+See Examples
 }
 \examples{
 \dontrun{
 
-##polygon with a hole - Bermuda triangle
+map_key <- 'your_api_key'
 
+## polygon with a hole - Bermuda triangle
+## using one row per polygon, and a list-column of encoded polylines
 pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
       lon = c(-80.190, -66.118, -64.757))
 
 pl_inner <- encode_pl(lat = c(28.745, 29.570, 27.339),
        lon = c(-70.579, -67.514, -66.668))
 
-df <- data.frame(id = c(1,1),
+df <- data.frame(id = c(1, 1),
        polyline = c(pl_outer, pl_inner),
        stringsAsFactors = FALSE)
 
@@ -90,8 +126,29 @@ df <- aggregate(polyline ~ id, data = df, list)
 google_map(key = map_key, height = 800) \%>\%
     add_polygons(data = df, polyline = "polyline")
 
+## the same polygon, but using an 'id' to specify the polygon
+df <- data.frame(id = c(1,1),
+       polyline = c(pl_outer, pl_inner),
+       stringsAsFactors = FALSE)
+
+google_map(key = map_key, height = 800) \%>\%
+    add_polygons(data = df, polyline = "polyline", id = "id")
+
+## the same polygon, specified using coordinates, and with a second independent
+## polygon
+df <- data.frame(myId = c(1,1,1,1,1,1,2,2,2),
+      lineId = c(1,1,1,2,2,2,1,1,1),
+      lat = c(26.774, 18.466, 32.321, 28.745, 29.570, 27.339, 22, 23, 22),
+      lon = c(-80.190, -66.118, -64.757, -70.579, -67.514, -66.668, -50, -49, -51),
+      stringsAsFactors = FALSE)
+
+google_map(key = map_key) \%>\%
+  add_polygons(data = df, lat = 'lat', lon = 'lon', id = 'myId', pathId = 'lineId')
 
 }
 
+}
+\seealso{
+\link{encode_pl}
 }
 
