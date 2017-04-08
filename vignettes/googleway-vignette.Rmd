@@ -417,8 +417,8 @@ Markers and circles can be used to show points on the map using `add_markers()` 
 
 
 ```
-library(magrittr)  ## for the pipe `%>%`
 map_key <- "your_api_key"
+
 google_map(data = tram_stops, key = map_key) %>%
   add_markers(lat = "stop_lat", lon = "stop_lon")
 
@@ -434,7 +434,6 @@ You can specify a column in the data.frame to use to populate a popup `info_wind
 df <- tram_stops
 df$info <- paste0("<b>Stop Name: </b>", df$stop_name)
 
-library(magrittr)  ## for the pipe `%>%`
 map_key <- "your_api_key"
 google_map(data = df, key = map_key) %>%
   add_markers(lat = "stop_lat", lon = "stop_lon", info_window = "info")
@@ -471,27 +470,34 @@ google_map(key = map_key) %>%
 
 A polygon represents an area enclosed by one or more polylines. Holes are denoted by defining an inner path wound in the opposite direction to the outer path.
 
-To draw a polygon on a map you use the `add_polygons()` function. This function takes a data.frame with at least one column of data containing the polylines. Where there a polygon is made up from multiple polylines, the column must be a `list`, where each list entry contains all the polylines that form the polygon.
+To draw a polygon on a map use the `add_polygons()` function. This function takes a data.frame, where the polygons can be specified in one of three ways
 
-Here is an example of plotting the bermuda triangle, with an inner-triangle removed
+* Multiple rows of latitude and longitude coordinates that specify paths, using an `id` and `pathId` value to specify the polygon that each path belongs to
+* Rows of encoded polylines, using a `id` value to specify the polygon that each polyline represents
+* Rows of nested polylines in a list column. Each row represents a polygon, and each polylne in the list represents the paths that make up the polygon.
+
+
+These examples show a single polygon made up of three paths. 
+
 
 ```
 ## polygon with a hole - Bermuda triangle
-## to encode the polylines I'm currenlty using `library(gepaf)`
-pl_outer <- gepaf::encodePolyline(data.frame(lat = c(25.774, 18.466,32.321),
-                                            lng = c(-80.190, -66.118, -64.757)))
+pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
+                      lon = c(-80.190, -66.118, -64.757))
 
-pl_inner <- gepaf::encodePolyline(data.frame(lat = c(28.745, 29.570, 27.339),
-                                             lng = c(-70.579, -67.514, -66.668)))
+pl_inner <- encode_pl(lat = c(28.745, 29.570, 27.339),
+                      lon = c(-70.579, -67.514, -66.668))
 
-df <- data.frame(id = c(1,1),
-                 polyline = c(pl_outer, pl_inner),
+pl_other <- encode_pl(c(21,28,22), c(-63, -58, -59))
+
+df <- data.frame(id = c(1,1,1),
+                 polyline = c(pl_outer, pl_inner, pl_other),
                  stringsAsFactors = FALSE)
   
 df <- aggregate(polyline ~ id, data = df, list)               
 
-google_map(key = map_key, height = 800, location = c(25.774, -80.190), zoom = 3) %>%
-  add_polygons(data = df, polyline = "polyline", mouse_over = "polyline")
+google_map(key = map_key, height = 800) %>%
+  add_polygons(data = df, polyline = "polyline")
 ```
 
 ![Polygon](./img/polygon_hole.png)
