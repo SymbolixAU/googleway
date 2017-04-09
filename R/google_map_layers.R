@@ -779,12 +779,8 @@ add_polylines <- function(map,
   ## sf objects: geomoetry column doesn't have column names
 
 
-  # ## TODO:
-  # ## polylines can be a list of data.frames with lat/lon columns
-  # ## or a shape file
-  # ## or also an encoded polyline
-  # ## - other options - colours
-  # ## rename the cols so the javascript functions will see them
+  ## TODO:
+  ## - create the JSON in the same way as as polygons
 
   ## checks on group_options
   ## - each 'group' id has a corresponding option
