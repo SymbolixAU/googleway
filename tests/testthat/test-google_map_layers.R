@@ -11,6 +11,7 @@ test_that("markers correctly defined", {
   expect_error(add_markers(map = m), "Couldn't infer latitude column for add_markers")
   expect_error(add_markers(map = m, data = df), "Couldn't infer latitude column for add_markers")
 
+
   df <- data.frame(lat = 1:4,
                    mylon = 1:4)
 
@@ -21,6 +22,17 @@ test_that("markers correctly defined", {
                    lon = 1:4)
 
   expect_error(add_markers(map = m, data = df, cluster = 'yes'), "cluster must be logical")
+
+  ## colours
+  df$colour <- c("red", "blue", "green", "lavender")
+  expect_silent(add_markers(map = m, data = df, colour = "colour"))
+
+  df$colour <- c("red", "blue", "green", "lavendar")
+  expect_error(
+    add_markers(map = m, data = df, colour = "colour"),
+    "colours must be either red, blue, green or lavender"
+    )
+
 
   df <- data.frame(lat = 1:4,
                    lon = 1:4,
@@ -48,6 +60,13 @@ test_that("clear markers invoked", {
   m <- google_map(key = "abc") %>% add_markers(data = df)
 
   expect_true(clear_markers(m)$x$calls[[2]]$functions == "clear_markers")
+
+})
+
+test_that("clear search invoked", {
+
+  m <- google_map(key = "abc")
+  expect_silent(clear_search(map = m))
 
 })
 
@@ -90,6 +109,13 @@ test_that("circles correctly defined", {
 
 })
 
+test_that("update circles defined", {
+
+  m <- google_map(key = "abc")
+  df <- data.frame(id = 1:4)
+  expect_silent(update_circles(map = m, data = df))
+
+})
 
 test_that("clear markers circles", {
 
@@ -123,6 +149,21 @@ test_that("heatmap correctly defined", {
   expect_error(add_heatmap(map = m, data = df, option_radius = "1"))
 
   expect_true(add_heatmap(m, data = df)$x$calls[[1]]$functions == "add_heatmap")
+
+  expect_error(
+    add_heatmap(m, data = df, option_gradient = c("blue")),
+    "please provide at least two gradient colours"
+  )
+
+  expect_true(
+    add_heatmap(m, data = df, option_gradient = c("red", "blue"))$x$calls[[1]]$args[[1]] ==
+      '[{"lat":1,"lng":1,"weight":1},{"lat":2,"lng":2,"weight":1},{"lat":3,"lng":3,"weight":1},{"lat":4,"lng":4,"weight":1}]'
+  )
+
+  expect_true(
+    add_heatmap(m, data = df, option_gradient = c("red", "blue"))$x$calls[[1]]$args[[2]] ==
+      '[{"dissipating":false,"radius":0.01,"opacity":0.6,"gradient":["rgba(255,0,0,0)","rgba(0,0,255,1)"]}]'
+  )
 
 })
 
@@ -163,6 +204,7 @@ test_that("layers added and removed", {
 
 test_that("polylines added and removed", {
 
+  ##  poylline column
   m <- google_map(key = "abc")
   df <- data.frame(lat = 1:4,
                   lon = 1:4,
@@ -170,7 +212,9 @@ test_that("polylines added and removed", {
                   info_window = letters[1:4],
                   mouse_over = letters[1:4])
 
-  expect_error(add_polylines(m))
+  expect_error(
+    add_polylines(m),
+    'please supply the either the column containing the polylines, or the lat/lon coordinate columns')
 
   expect_true(unique(jsonlite::fromJSON(add_polylines(map = m, data = df, polyline = "polyline")$x$calls[[1]]$args[[1]])$geodesic) == TRUE)
   expect_true(unique(jsonlite::fromJSON(add_polylines(map = m, data = df, polyline = "polyline")$x$calls[[1]]$args[[1]])$stroke_colour) == "#0000FF")
@@ -181,6 +225,14 @@ test_that("polylines added and removed", {
   expect_true("mouse_over" %in% names(jsonlite::fromJSON(add_polylines(map = m, data = df, polyline = "polyline", mouse_over = "mouse_over")$x$calls[[1]]$args[[1]])))
 
   expect_true(clear_polylines(m)$x$calls[[1]]$functions == "clear_polylines")
+
+  expect_error(
+    add_polylines(map = m, data = df, polyline = 'polyline', lat = 'lat', lon = 'lon'),
+    'please use either a polyline colulmn, or lat/lon coordinate columns, not both'
+  )
+
+  ## lat/lon column
+  # add_polylines(map = m, data = df, lat = 'lat', lon = 'lon')
 
 })
 
