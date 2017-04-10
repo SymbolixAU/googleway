@@ -59,7 +59,7 @@ objPolygonCoords <- function(obj, ids, otherColumns){
       coords <- sapply(pathIds, function(y){
         list(obj[obj[, 'id'] == x & obj[, 'pathId'] == y, c('lat', 'lng')])
       })
-      c(list(coords = unname(coords)), thisRow, id = x)
+      c(list(coords = unname(coords)), id = x)
     })
   }
 

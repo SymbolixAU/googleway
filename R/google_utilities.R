@@ -312,24 +312,6 @@ objectColumns <- function(obj = c("polylinePolyline",
 }
 
 
-#' Strip Columns
-#'
-#' Removes unnecessary columns before being passed to browser
-#'
-#' @param data data being passed to the browser
-#' @param keep vector of columns to keep
-stripColumns <- function(data, keep = c("id", "geodesic","stroke_colour","stroke_weight",
-                                        "stroke_opacity","info_window","mouse_over",
-                                        "mouse_over_group","layer_id")){
-
-  ## removes unnecessary columns
-  return(data[, c(names(data) %in% keep), drop = FALSE])
-
-}
-
-
-
-
 
 # polyCheck.sf <- function(data, polyline, lat, lon){
 #   ## sf objects will use the 'sfc_ geometry' column
