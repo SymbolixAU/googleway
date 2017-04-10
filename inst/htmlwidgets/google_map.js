@@ -769,7 +769,6 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
       draggable: polygon.draggable
       //_information: polygon.information
 //      clickable: true,
-//      draggable: false,
 //      editable: false,
 //      strokePosition: "CENTER",
 //      visible: true

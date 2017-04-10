@@ -741,9 +741,8 @@ clear_bicycling <- function(map){
 #'
 #' flights <- merge(flights, do.call(rbind, lst), by = "id")
 #'
-#' ## style is taken from https://snazzymaps.com/style/6617/dark-greys
+#' style <- map_styles()$night
 #'
-#' map_key <- "your_api_key"
 #' google_map(key = map_key, style = style) %>%
 #'   add_polylines(data = flights, polyline = "polyline", mouse_over_group = "airport1",
 #'                stroke_weight = 1, stroke_opacity = 0.3, stroke_colour = "#ccffff")
@@ -767,25 +766,10 @@ add_polylines <- function(map,
                           update_map_view = TRUE,
                           layer_id = NULL){
 
-  # data <- createJSON(data)
-  #
-  # print(data)
-
-  ## The JSON that gets sent to the JS contains EITHER
-  ## 1. an encoded polyline, where each row of a data.frame is a path
-  ## 2. a data.frame of coordinates, plus a data.frame of attributes
-
-
-  ## sf objects: geomoetry column doesn't have column names
-
-
   ## TODO:
-  ## - create the JSON in the same way as as polygons
+  ## - warning if there are non-unique attributes for cooridnate lines
+  ## -- e.g., if the same line has different colours
 
-  ## checks on group_options
-  ## - each 'group' id has a corresponding option
-  ## -- if not, use a 'default' colour
-  ##
   if(is.null(polyline) & (is.null(lat) | is.null(lon)))
     stop("please supply the either the column containing the polylines, or the lat/lon coordinate columns")
 
@@ -841,16 +825,6 @@ add_polylines <- function(map,
   }
 
 
-  ### IF using POLYLINES, there should be one row per line
-  ### IF using COORDINATES, there will be many rows per line,
-  ### - which means thee attributes may be repeated, and there could be values such
-  ### - as 'point sequence', that need to be accounted for.
-
-  ## so, need to construct the 'attributes' differently for different types of lines
-  ## the COORDINATES need to take all the attributes and 'unique' them, but these
-  ## will only be the attributes available in the function arguments list, and they must be unique
-  ## per line id.
-
   layer_id <- LayerId(layer_id)
 
 
@@ -878,11 +852,10 @@ add_polylines <- function(map,
     ## using coordinates
     ids <- unique(polyline[, 'id'])
     n <- names(polyline)[names(polyline) %in% objectColumns("polylineCoords")]
-    keep <- setdiff(n, c('lat', 'lng'))
+    keep <- setdiff(n, c('id', 'lat', 'lng'))
 
     lst_polyline <- objPolylineCoords(polyline, ids, keep)
 
-    # print(jsonlite::toJSON(polyline, pretty = T))
     js_polyline <- jsonlite::toJSON(lst_polyline)
 
   }else{
@@ -1036,10 +1009,12 @@ clear_polylines <- function(map, layer_id = NULL){
 #'       lineId = c(1,1,1,2,2,2,1,1,1),
 #'       lat = c(26.774, 18.466, 32.321, 28.745, 29.570, 27.339, 22, 23, 22),
 #'       lon = c(-80.190, -66.118, -64.757, -70.579, -67.514, -66.668, -50, -49, -51),
+#'       colour = c(rep("#00FF0F", 6), rep("#FF00FF", 3)),
 #'       stringsAsFactors = FALSE)
 #'
 #' google_map(key = map_key) %>%
-#'   add_polygons(data = df, lat = 'lat', lon = 'lon', id = 'myId', pathId = 'lineId')
+#'   add_polygons(data = df, lat = 'lat', lon = 'lon', id = 'myId', pathId = 'lineId',
+#'                fill_colour = 'colour')
 #'
 #'
 #'
@@ -1226,22 +1201,12 @@ add_polygons <- function(map,
     ## using coordinates
     ids <- unique(polygon[, 'id'])
     n <- names(polygon)[names(polygon) %in% objectColumns("polygonCoords")]
-    keep <- setdiff(n, c('lat', 'lng'))
+    keep <- setdiff(n, c('id', 'pathId', 'lat', 'lng'))
 
-    ids <- unique(polygon[, 'id'])
-
-    lst_polygon <- lapply(ids, function(x){
-      pathIds <- unique(polygon[ polygon[, 'id'] == x, 'pathId'])
-      thisRow <- unique(polygon[ polygon[, 'id'] == x, setdiff(names(polygon),
-                                                               c('id', 'pathId', 'lat', 'lng')) ,
-                                 drop = FALSE] )
-      coords <- sapply(pathIds, function(y){
-        list(polygon[polygon[, 'id'] == x & polygon[, 'pathId'] == y, c('lat', 'lng')])
-      })
-      c(list(coords = unname(coords)), thisRow)
-    })
+    lst_polygon <- objPolygonCoords(polygon, ids, keep)
 
     js_polygon <- jsonlite::toJSON(lst_polygon)
+
   }else{
 
     if(!is.list(polygon[, polyline])){
@@ -1249,6 +1214,7 @@ add_polygons <- function(map,
       ## make our own list column
       f <- paste0(polyline, " ~ " , paste0(setdiff(names(polygon), polyline), collapse = "+") )
       polygon <- stats::aggregate(stats::formula(f), data = polygon, list)
+
       js_polygon <- jsonlite::toJSON(polygon)
 
     }else{

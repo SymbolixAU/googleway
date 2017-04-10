@@ -307,7 +307,7 @@ objectColumns <- function(obj = c("polylinePolyline",
            "polygonCoords" = c("id","pathId","lat","lng","stroke_colour",
                                "stroke_weight","stroke_opacity","fill_colour",
                                "fill_opacity", "info_window","mouse_over",
-                               "mouse_over_group", "draggable"))
+                               "mouse_over_group"))
   )
 }
 

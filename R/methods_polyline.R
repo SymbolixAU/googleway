@@ -15,14 +15,14 @@ objPolylineCoords <- function(obj, ids, otherColumns){
     lst_polyline <- lapply(ids, function(x){
       thisRow <- unique(obj[ obj[, 'id'] == x, otherColumns, drop = FALSE])
       coords <- list(obj[obj[, 'id'] == x, c('lat', 'lng')])
-      c(c(coords = unname(coords)), thisRow)
+      c(c(coords = unname(coords)), thisRow, id = x)
     })
 
   }else{
 
     lst_polyline <- lapply(ids, function(x){
       coords <- list(obj[obj[, 'id'] == x, c('lat', 'lng')])
-      c(c(coords = unname(coords)))
+      c(c(coords = unname(coords), id = x))
     })
   }
 
@@ -44,23 +44,25 @@ objPolygonCoords <- function(obj, ids, otherColumns){
   if(length(otherColumns) > 0){
 
     lst_polygon <- lapply(ids, function(x){
-      pathIds <- unique(polygon[ polygon[, 'id'] == x, 'pathId'])
-      thisRow <- unique(polygon[ polygon[, 'id'] == x, otherColumns, drop = FALSE] )
+      pathIds <- unique(obj[ obj[, 'id'] == x, 'pathId'])
+      thisRow <- unique(obj[ obj[, 'id'] == x, otherColumns, drop = FALSE] )
       coords <- sapply(pathIds, function(y){
-        list(polygon[polygon[, 'id'] == x & polygon[, 'pathId'] == y, c('lat', 'lng')])
+        list(obj[obj[, 'id'] == x & obj[, 'pathId'] == y, c('lat', 'lng')])
       })
-      c(list(coords = unname(coords)), thisRow)
+      c(list(coords = unname(coords)), thisRow, id = x)
     })
 
   }else{
 
     lst_polygon <- lapply(ids, function(x){
-      pathIds <- unique(polygon[ polygon[, 'id'] == x, 'pathId'])
+      pathIds <- unique(obj[ obj[, 'id'] == x, 'pathId'])
       coords <- sapply(pathIds, function(y){
-        list(polygon[polygon[, 'id'] == x & polygon[, 'pathId'] == y, c('lat', 'lng')])
+        list(obj[obj[, 'id'] == x & obj[, 'pathId'] == y, c('lat', 'lng')])
       })
-      c(list(coords = unname(coords)), thisRow)
+      c(list(coords = unname(coords)), thisRow, id = x)
     })
   }
+
+  return(lst_polygon)
 }
 
