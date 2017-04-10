@@ -641,8 +641,6 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
  *          the map containing the polygons
  * @param data_polylines
  *          polyline data to update
- * @param addRemove
- *          boolean specifying if polygons should be added or removed if they are / are not included in the udpated data set
  */
 function update_polylines(map_id, data_polyline, layer_id){
 
@@ -750,7 +748,6 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
       for(j = 0; j < polygon.coords.length; j++){
         paths.push(polygon.coords[j]);
       }
-      //paths.push(polygon.coords);
     }
 
 

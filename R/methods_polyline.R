@@ -15,6 +15,7 @@ objPolylineCoords <- function(obj, ids, otherColumns){
     lst_polyline <- lapply(ids, function(x){
       thisRow <- unique(obj[ obj[, 'id'] == x, otherColumns, drop = FALSE])
       coords <- list(obj[obj[, 'id'] == x, c('lat', 'lng')])
+      print(str(thisRow))
       c(c(coords = unname(coords)), thisRow, id = x)
     })
 

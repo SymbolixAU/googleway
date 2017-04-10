@@ -31,7 +31,7 @@ that will be aplied to all the circles}
 \item{layer_id}{single value specifying an id for the layer.}
 }
 \description{
-Updates specific colours and opacities of specified polylines. Designed to be
+Updates specific attributes of polylines. Designed to be
 used in a shiny application.
 }
 \note{
@@ -39,5 +39,35 @@ Any polylines (as specified by the \code{id} argument) that do not exist
 in the \code{data} passed into \code{add_polylines()} will not be added to the
 map. This function will only update the polylines that currently exist on
 the map when the function is called.
+}
+\examples{
+\dontrun{
+
+map_key <- 'your_api_key'
+
+## plot polylines using default attributes
+df <- tram_route
+df$id <- c(rep(1, 27), rep(2, 28))
+
+df$colour <- c(rep("#00FFFF", 27), rep("#FF00FF", 28))
+
+google_map(key = map_key) \%>\%
+  add_polylines(data = df, lat = 'shape_pt_lat', lon = 'shape_pt_lon',
+                stroke_colour = "colour", id = 'id')
+
+## specify width and colour attributes to update
+df_update <- data.frame(id = c(1,2),
+                        width = c(3,10),
+                        colour = c("#00FF00", "#DCAB00"))
+
+google_map(key = map_key) \%>\%
+  add_polylines(data = df, lat = 'shape_pt_lat', lon = 'shape_pt_lon',
+                stroke_colour = "colour", id = 'id') \%>\%
+  update_polylines(data = df_update, id = 'id', stroke_weight = "width",
+                   stroke_colour = 'colour')
+
+
+}
+
 }
 

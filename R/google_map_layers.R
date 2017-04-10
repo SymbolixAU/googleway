@@ -856,14 +856,14 @@ add_polylines <- function(map,
 
     lst_polyline <- objPolylineCoords(polyline, ids, keep)
 
-    js_polyline <- jsonlite::toJSON(lst_polyline)
+    js_polyline <- jsonlite::toJSON(lst_polyline, auto_unbox = T)
 
   }else{
 
     n <- names(polyline)[names(polyline) %in% objectColumns("polylinePolyline")]
     polyline <- polyline[, n, drop = FALSE]
 
-    js_polyline <- jsonlite::toJSON(polyline)
+    js_polyline <- jsonlite::toJSON(polyline, auto_unbox = T)
   }
 
   invoke_method(map, data, 'add_polylines', js_polyline, update_map_view, layer_id, usePolyline)
@@ -872,7 +872,7 @@ add_polylines <- function(map,
 
 #' Update polylines
 #'
-#' Updates specific colours and opacities of specified polylines. Designed to be
+#' Updates specific attributes of polylines. Designed to be
 #' used in a shiny application.
 #'
 #' @note Any polylines (as specified by the \code{id} argument) that do not exist
@@ -896,6 +896,35 @@ add_polylines <- function(map,
 #' of pixels in the line to be applied to all the circles
 #' @param layer_id single value specifying an id for the layer.
 #'
+#' @examples
+#' \dontrun{
+#'
+#' map_key <- 'your_api_key'
+#'
+#' ## plot polylines using default attributes
+#' df <- tram_route
+#' df$id <- c(rep(1, 27), rep(2, 28))
+#'
+#' df$colour <- c(rep("#00FFFF", 27), rep("#FF00FF", 28))
+#'
+#' google_map(key = map_key) %>%
+#'   add_polylines(data = df, lat = 'shape_pt_lat', lon = 'shape_pt_lon',
+#'                 stroke_colour = "colour", id = 'id')
+#'
+#' ## specify width and colour attributes to update
+#' df_update <- data.frame(id = c(1,2),
+#'                         width = c(3,10),
+#'                         colour = c("#00FF00", "#DCAB00"))
+#'
+#' google_map(key = map_key) %>%
+#'   add_polylines(data = df, lat = 'shape_pt_lat', lon = 'shape_pt_lon',
+#'                 stroke_colour = "colour", id = 'id') %>%
+#'   update_polylines(data = df_update, id = 'id', stroke_weight = "width",
+#'                    stroke_colour = 'colour')
+#'
+#'
+#' }
+#'
 #' @export
 update_polylines <- function(map, data, id,
                              stroke_colour = NULL,
@@ -905,26 +934,17 @@ update_polylines <- function(map, data, id,
 
   ## TODO: is 'info_window' required, if it was included in the original add_polygons?
 
-  # data <- as.data.frame(data)
-  # if(!inherits(data, "data.frame"))
-  #   stop("sorry, I can only work with data.frames with a 'polyline' column at the moment. ")
-  #
-  #
-  # if(!is.null(polyline)){
-  #   polylineUpdate <- data[, polyline, drop = FALSE]
-  #   polylineUpdate <- stats::setNames(polylineUpdate, "polyline")
-  # }else{
-  #   stop("I really, really need that polyline column")
-  # }
+  polylineUpdate <- data[, id, drop = FALSE]
+  polylineUpdate[, "id"] <- as.character(data[, id])
+  polylineUpdate <- stats::setNames(polylineUpdate, 'id')
 
   layer_id <- LayerId(layer_id)
 
-  polylineUpdate[, "id"] <- as.character(data[, id])
   polylineUpdate[, "stroke_colour"] <- SetDefault(stroke_colour, "#0000FF", data)
   polylineUpdate[, "stroke_weight"] <- SetDefault(stroke_weight, 1, data)
   polylineUpdate[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
 
-  polylineUpdate <- jsonlite::toJSON(polylineUpdate)
+  polylineUpdate <- jsonlite::toJSON(polylineUpdate, auto_unbox = T)
 
   invoke_method(map, data = NULL, 'update_polylines', polylineUpdate, layer_id)
 }
@@ -1205,7 +1225,7 @@ add_polygons <- function(map,
 
     lst_polygon <- objPolygonCoords(polygon, ids, keep)
 
-    js_polygon <- jsonlite::toJSON(lst_polygon)
+    js_polygon <- jsonlite::toJSON(lst_polygon, auto_unbox = T)
 
   }else{
 
@@ -1270,6 +1290,36 @@ add_polygons <- function(map,
 #' will be aplied to all the circles
 #' @param layer_id single value specifying an id for the layer.
 #'
+#' @examples
+#' \dontrun{
+#'
+#' map_key <- 'your_api_key'
+#'
+#' pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
+#'                       lon = c(-80.190, -66.118, -64.757))
+#'
+#' pl_inner <- encode_pl(lat = c(28.745, 29.570, 27.339),
+#'                       lon = c(-70.579, -67.514, -66.668))
+#'
+#' pl_other <- encode_pl(c(21,23,22), c(-50, -49, -51))
+#'
+#' df <- data.frame(id = c(1,1,2),
+#'                  colour = c("#00FF00", "#00FF00", "#FFFF00"),
+#'                  polyline = c(pl_outer, pl_inner, pl_other),
+#'                  stringsAsFactors = FALSE)
+#'
+#' google_map(key = map_key) %>%
+#'   add_polygons(data = df, polyline = 'polyline', id = 'id', fill_colour = 'colour')
+#'
+#' df_update <- df[, c("id", "colour")]
+#' df_update$colour <- c("#FFFFFF", "#FFFFFF", "000000")
+#'
+#' google_map(key = map_key) %>%
+#'   add_polygons(data = df, polyline = 'polyline', id = 'id', fill_colour = 'colour') %>%
+#'   update_polygons(data = df_update, id = 'id', fill_colour = 'colour')
+#'
+#' }
+#'
 #' @export
 update_polygons <- function(map, data, id,
                             stroke_colour = NULL,
@@ -1281,11 +1331,6 @@ update_polygons <- function(map, data, id,
                             ){
 
   ## TODO: is 'info_window' required, if it was included in the original add_polygons?
-
-  ## Updating a polygon doesn't 'add' or 'remove' polylines / coordinates,
-  ## it merely changes the attributes.
-  ## so.... don't need the 'polyline' or 'coordinate' columns
-
 
   polygonUpdate <- data[, id, drop = FALSE]
   polygonUpdate[, id] <- as.character(polygonUpdate[, id])
@@ -1303,7 +1348,7 @@ update_polygons <- function(map, data, id,
   polygonUpdate[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
   # polygonUpdate[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
 
-  polygonUpdate <- jsonlite::toJSON(polygonUpdate)
+  polygonUpdate <- jsonlite::toJSON(polygonUpdate, auto_unbox = T)
 
   invoke_method(map, data = NULL, 'update_polygons', polygonUpdate, layer_id)
 
