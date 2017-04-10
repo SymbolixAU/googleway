@@ -45,6 +45,7 @@ the map when the function is called.
 
 map_key <- 'your_api_key'
 
+## coordinate columns
 ## plot polylines using default attributes
 df <- tram_route
 df$id <- c(rep(1, 27), rep(2, 28))
@@ -66,6 +67,21 @@ google_map(key = map_key) \%>\%
   update_polylines(data = df_update, id = 'id', stroke_weight = "width",
                    stroke_colour = 'colour')
 
+
+## encoded polylines
+pl <- sapply(unique(df$id), function(x){
+  encode_pl(lat = df[ df$id == x , 'shape_pt_lat'], lon = df[ df$id == x, 'shape_pt_lon'])
+})
+
+df <- data.frame(id = c(1, 2), polyline = pl)
+
+google_map(key = map_key) \%>\%
+  add_polylines(data = df, polyline = 'polyline')
+
+google_map(key = map_key) \%>\%
+  add_polylines(data = df, polyline = 'polyline') \%>\%
+  update_polylines(data = df_update, id = 'id', stroke_weight = "width",
+                   stroke_colour = 'colour')
 
 }
 
