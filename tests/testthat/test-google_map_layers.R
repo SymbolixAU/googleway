@@ -214,7 +214,22 @@ test_that("polylines added and removed", {
 
   expect_error(
     add_polylines(m),
-    'please supply the either the column containing the polylines, or the lat/lon coordinate columns')
+    'please supply the either the column containing the polylines, or the lat/lon coordinate columns'
+    )
+
+  df$id <- 1:nrow(df)
+  expect_silent(add_polylines(map = m, data = df, id = 'id', lat = 'lat', lon = 'lon'))
+
+  x <- add_polylines(map = m, data = df, id = 'id', lat = 'lat', lon = 'lon')
+  js <- x$x$calls[[1]]$args[[1]]
+  expect_equal(as.character(js), '[{"coords":[{"lat":1,"lng":1}],"geodesic":true,"stroke_colour":"#0000FF","stroke_weight":2,"stroke_opacity":0.6,"id":"1"},{"coords":[{"lat":2,"lng":2}],"geodesic":true,"stroke_colour":"#0000FF","stroke_weight":2,"stroke_opacity":0.6,"id":"2"},{"coords":[{"lat":3,"lng":3}],"geodesic":true,"stroke_colour":"#0000FF","stroke_weight":2,"stroke_opacity":0.6,"id":"3"},{"coords":[{"lat":4,"lng":4}],"geodesic":true,"stroke_colour":"#0000FF","stroke_weight":2,"stroke_opacity":0.6,"id":"4"}]')
+
+  expect_message(
+    add_polylines(map = m, data = df, lat = 'lat', lon = 'lon'),
+    "No 'id' value defined, assuming one continuous line of coordinates"
+  )
+
+
 
   expect_true(unique(jsonlite::fromJSON(add_polylines(map = m, data = df, polyline = "polyline")$x$calls[[1]]$args[[1]])$geodesic) == TRUE)
   expect_true(unique(jsonlite::fromJSON(add_polylines(map = m, data = df, polyline = "polyline")$x$calls[[1]]$args[[1]])$stroke_colour) == "#0000FF")

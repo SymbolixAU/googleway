@@ -12,6 +12,31 @@ test_that("invoke_remote stops on invalid map parameter", {
 
 })
 
+test_that("invoke_remote creates map object", {
+
+  m <- google_map(key = 'abc')
+  class(m) <- 'google_map_update'
+
+  expect_error(
+    googleway:::invoke_remote(m, 'myMethod'),
+    'argument is of length zero'
+  )
+
+})
+
+
+test_that("formula resolves", {
+
+  f <- formula(x ~ y)
+
+  expect_error(
+    googleway:::resolveFormula(f, data.frame(x = 1, y = 2)),
+    "Unexpected two-sided formula: x ~ y"
+  )
+
+
+
+})
 
 test_that("google_map_update exists",{
   expect_equal(
