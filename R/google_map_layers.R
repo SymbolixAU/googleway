@@ -794,36 +794,50 @@ add_polylines <- function(map,
 
   LogicalCheck(update_map_view)
 
+  if(!inherits(data, "data.frame"))
+    stop("Currently only data.frames are supported")
 
-  # data <- as.data.frame(data)
 
-  if(inherits(data, "data.frame")){
-    if(!is.null(polyline)){
-      ## polyline specified
-      polyline <- data[, polyline, drop = FALSE]
-      polyline <- stats::setNames(polyline, "polyline")
-      usePolyline <- TRUE
+  if(!is.null(polyline)){
 
+    usePolyline <- TRUE
+
+    if(is.null(id)){
+      id <- 'id'
+      data[, id] <- as.character(1:nrow(data))
     }else{
-
-      usePolyline <- FALSE
-      dataLatLng <- data
-
-      if(is.null(lat)){
-        dataLatLng <- latitude_column(dataLatLng, lat, 'add_polylines')
-        lat <- "lat"
-      }
-
-      if(is.null(lon)){
-        dataLatLng <- longitude_column(dataLatLng, lon, 'add_polylines')
-        lon <- "lng"
-      }
-
-      data <- unique(dataLatLng[, !names(dataLatLng) %in% c(lat, lon), drop = FALSE])
-      polyline <- data
+      data[, id] <- as.character(data[, id])
     }
+
+    ## polyline specified
+    polyline <- data[, c(id, polyline)]
+    polyline <- stats::setNames(polyline, c("id", "polyline"))
+
   }else{
-    stop(paste0("data must be an object that inherits 'data.frame'"))
+
+    ## coordinates
+    usePolyline <- FALSE
+
+    if(is.null(id)){
+      message("No 'id' value defined, assuming one continuous line of coordinates")
+      id <- 'id'
+      data[, id] <- '1'
+    }else{
+      data[, id] <- as.character(data[, id])
+    }
+
+    if(is.null(lat)){
+      data <- latitude_column(data, lat, 'add_polylines')
+      lat <- "lat"
+    }
+
+    if(is.null(lon)){
+      data <- longitude_column(data, lon, 'add_polylines')
+      lon <- "lng"
+    }
+
+    polyline <- data[, c(id, lat, lon)]
+    polyline <- stats::setNames(polyline, c('id', 'lat', 'lng'))
   }
 
 
@@ -839,36 +853,6 @@ add_polylines <- function(map,
 
   layer_id <- LayerId(layer_id)
 
-
-  ## if an id has been supplied, we need to aggregate the lat / lon by the id
-  if(!is.null(id))
-    polyline[, "id"] <- as.character(data[, id])
-
-
-  ## using polyline ==> using one row per line (continue with 'polyline')
-  ## using lat/lon ==> using many rows per line
-  ## use a list to store the coordinates
-  if(usePolyline == FALSE){
-
-    ## if no id field has been specified, treat all the coordinates as one line
-    if(is.null(id)){
-      message("No 'id' value defined, assuming one continuous line")
-      id <- 'id'
-      dataLatLng[, id] <- "1"
-      polyline[, id] <- "1"
-    }
-
-    lst_polyline <- lapply(unique(dataLatLng[, id]), function(x) {
-      list(id = x,
-           coords = data.frame(lat = dataLatLng[dataLatLng[id] == x, lat],
-                               lng = dataLatLng[dataLatLng[id] == x, lon])
-      )
-    })
-
-    js_polyline <- jsonlite::toJSON(lst_polyline)
-  }else{
-    js_polyline <- ""
-  }
 
   ## the defaults are required
   polyline[, "geodesic"] <- SetDefault(geodesic, TRUE, data)
@@ -889,25 +873,27 @@ add_polylines <- function(map,
   # if(sum(is.na(polyline)) > 0)
   #   warning("There are some NAs in your data. These may affect the polylines that have been plotted.")
 
-  ## strip any unnecessary columns
-  if(usePolyline == FALSE){
+  if(!usePolyline){
+
     ## using coordinates
-    polyline <- unique(stripColumns(polyline))
+    ids <- unique(polyline[, 'id'])
+    n <- names(polyline)[names(polyline) %in% objectColumns("polylineCoords")]
+    keep <- setdiff(n, c('lat', 'lng'))
 
-    ## do a check for more rows than ids
-    if(nrow(polyline) != length(unique(polyline[, 'id'])))
-      warning("There are more distinct attributes than there are lines. This may cause issues with your plot
-              It is likely you have different colour/fill/opacity values for the same line,
-              or you haven't specified an id value for the different lines")
+    lst_polyline <- objPolylineCoords(polyline, ids, keep)
 
+    # print(jsonlite::toJSON(polyline, pretty = T))
+    js_polyline <- jsonlite::toJSON(lst_polyline)
+
+  }else{
+
+    n <- names(polyline)[names(polyline) %in% objectColumns("polylinePolyline")]
+    polyline <- polyline[, n, drop = FALSE]
+
+    js_polyline <- jsonlite::toJSON(polyline)
   }
 
-  polyline <- jsonlite::toJSON(polyline)
-
-  # print(polyline)
-  # print(js_polyline)
-
-  invoke_method(map, data, 'add_polylines', polyline, update_map_view, layer_id, usePolyline, js_polyline)
+  invoke_method(map, data, 'add_polylines', js_polyline, update_map_view, layer_id, usePolyline)
 }
 
 
@@ -1236,11 +1222,19 @@ add_polygons <- function(map,
     ## })
     ##
     ## where any of coords* can be holes.
+
+    ## using coordinates
+    ids <- unique(polygon[, 'id'])
+    n <- names(polygon)[names(polygon) %in% objectColumns("polygonCoords")]
+    keep <- setdiff(n, c('lat', 'lng'))
+
     ids <- unique(polygon[, 'id'])
 
     lst_polygon <- lapply(ids, function(x){
       pathIds <- unique(polygon[ polygon[, 'id'] == x, 'pathId'])
-      thisRow <- unique(polygon[ polygon[, 'id'] == x, setdiff(names(polygon), c('id', 'pathId', 'lat', 'lng')) , drop = FALSE] )
+      thisRow <- unique(polygon[ polygon[, 'id'] == x, setdiff(names(polygon),
+                                                               c('id', 'pathId', 'lat', 'lng')) ,
+                                 drop = FALSE] )
       coords <- sapply(pathIds, function(y){
         list(polygon[polygon[, 'id'] == x & polygon[, 'pathId'] == y, c('lat', 'lng')])
       })

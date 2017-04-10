@@ -284,6 +284,33 @@ LayerId <- function(layer_id){
   }
 }
 
+#' Object Columns
+#'
+#' Defines the columns used by the Maps API so only those required
+#' are kept
+#'
+#' @param obj string specifying the type of object
+#' @return vector of column names
+objectColumns <- function(obj = c("polylinePolyline",
+                                  "polylineCoords",
+                                  "polygonPolyline",
+                                  "polygonCoords")){
+
+  return(
+    switch(obj,
+           "polylineCoords" = c("id", "lat","lng", "geodesic","stroke_colour",
+                                "stroke_weight","stroke_opacity","mouse_over",
+                                "mouse_over_group", "info_window"),
+           "polylinePolyline" = c("id", "polyline", "geodesic","stroke_colour",
+                                "stroke_weight","stroke_opacity","mouse_over",
+                                "mouse_over_group", "info_window"),
+           "polygonCoords" = c("id","pathId","lat","lng","stroke_colour",
+                               "stroke_weight","stroke_opacity","fill_colour",
+                               "fill_opacity", "info_window","mouse_over",
+                               "mouse_over_group", "draggable"))
+  )
+}
+
 
 #' Strip Columns
 #'
@@ -299,6 +326,9 @@ stripColumns <- function(data, keep = c("id", "geodesic","stroke_colour","stroke
   return(data[, c(names(data) %in% keep), drop = FALSE])
 
 }
+
+
+
 
 
 # polyCheck.sf <- function(data, polyline, lat, lon){

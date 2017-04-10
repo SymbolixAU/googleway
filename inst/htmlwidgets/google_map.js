@@ -564,10 +564,8 @@ function clear_heatmap(map_id, layer_id){
  * @param layer_id
  * @param use_polyline
  *          boolean indicating if the data is an encoded polyline
- * @param line_coordinates
- *          JSON representation of the coordiantes to use as the line
  */
-function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_polyline, line_coordinates){
+function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_polyline){
 
   window[map_id + 'googlePolyline' + layer_id] = [];
   var infoWindow = new google.maps.InfoWindow();
@@ -581,8 +579,8 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
     }else{
       thisPath = [];
 
-      for(j = 0; j < Object.keys(line_coordinates[i].coords).length; j++){
-        thisPath.push(line_coordinates[i].coords[j]);
+      for(j = 0; j < Object.keys(data_polyline[i].coords).length; j++){
+        thisPath.push(data_polyline[i].coords[j]);
       }
     }
     add_lines(map_id, data_polyline[i], layer_id, thisPath);
