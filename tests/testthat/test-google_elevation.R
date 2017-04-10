@@ -72,6 +72,29 @@ test_that("warning issued when samples is NULL", {
                  "samples has not been specified. 3 will be used")
 })
 
+
+test_that("polyline correctly formed", {
+
+  polyline <- c("abc", "xyz")
+
+  expect_error(
+    google_elevation(polyline = polyline, key = 'abc'),
+    'please only specify a single polyline'
+  )
+
+  expect_equal(
+    google_elevation(polyline = "polyline", key = 'abc')$error_message,
+    "The provided API key is invalid."
+  )
+
+  expect_warning(
+    expect_error(
+      google_elevation(polyline = paste0(rep('a', 8192), collapse = ""), key = 'abc')
+      )
+  )
+
+})
+
 test_that("data is attempted to be downloaded", {
 
   df <- data.frame(lat = c(-37.81659, -37.88950),
