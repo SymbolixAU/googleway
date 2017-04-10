@@ -140,10 +140,12 @@ df <- data.frame(myId = c(1,1,1,1,1,1,2,2,2),
       lineId = c(1,1,1,2,2,2,1,1,1),
       lat = c(26.774, 18.466, 32.321, 28.745, 29.570, 27.339, 22, 23, 22),
       lon = c(-80.190, -66.118, -64.757, -70.579, -67.514, -66.668, -50, -49, -51),
+      colour = c(rep("#00FF0F", 6), rep("#FF00FF", 3)),
       stringsAsFactors = FALSE)
 
 google_map(key = map_key) \%>\%
-  add_polygons(data = df, lat = 'lat', lon = 'lon', id = 'myId', pathId = 'lineId')
+  add_polygons(data = df, lat = 'lat', lon = 'lon', id = 'myId', pathId = 'lineId',
+               fill_colour = 'colour')
 
 
 

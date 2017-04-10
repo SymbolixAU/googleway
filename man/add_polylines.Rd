@@ -95,9 +95,8 @@ lst <- lapply(unique(flights$id), function(x){
 
 flights <- merge(flights, do.call(rbind, lst), by = "id")
 
-## style is taken from https://snazzymaps.com/style/6617/dark-greys
+style <- map_styles()$night
 
-map_key <- "your_api_key"
 google_map(key = map_key, style = style) \%>\%
   add_polylines(data = flights, polyline = "polyline", mouse_over_group = "airport1",
                stroke_weight = 1, stroke_opacity = 0.3, stroke_colour = "#ccffff")

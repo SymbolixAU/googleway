@@ -362,265 +362,7 @@
 #
 
 
-### Coordinate polylines
 
-# library(googleway)
-# df <- structure(list(airline = c("BB", "US", "TK", "QF", "LH", "LH",
-# "AB", "9N"), airlineID = c(399, 473, 450, 379, 313, 313, 199,
-# 178), sourceAirport = c("VIJ", "CLT", "LED", "LAX", "FRA", "FRA",
-# "KGS", "SPR"), sourceAirportID = c(2463, 1647, 1100, 1434, 1387,
-# 1387, 248, 1908), destinationAirport = c("SJU", "PBI", "IST",
-# "NAN", "AGP", "LCY", "MUC", "CZH"), destinationAirportID = c(1053,
-# 1568, 383, 537, 159, 2019, 1424, 2879), codeshare = c("", "",
-# "", "Y", "", "Y", "", ""), stops = c(0L, 0L, 0L, 0L, 0L, 0L,
-# 0L, 0L), equipment = c("DHT", "320 319 734", "321 738", "332",
-# "321 320", "E90", "738", "CNC"), latSource = c(-31.9451999664,
-# 46.1766014099121, 10.0354995728, 49.310001, 49.0966667, 49.0966667,
-# 5.60518980026245, 20.0853004455566), lonSource = c(-65.1463012695,
-# 21.261999130249, -10.7698001862, 4.05, 2.0408333, 2.0408333,
-# -0.166786000132561, -75.1583023071289), latDest = c(18.4393997192,
-# 26.6832008361816, 40.9768981934, -17.7553997039795, 36.6749000549316,
-# 51.505299, 48.353801727295, NA), lonDest = c(-66.0018005371,
-# -80.0955963134766, 28.8145999908, 177.442993164062, -4.49911022186279,
-# 0.055278, 11.786100387573, NA)), .Names = c("airline", "airlineID",
-# "sourceAirport", "sourceAirportID", "destinationAirport", "destinationAirportID",
-# "codeshare", "stops", "equipment", "latSource", "lonSource",
-# "latDest", "lonDest"), row.names = c(14971L, 58839L, 52704L,
-# 46967L, 38214L, 38303L, 7371L, 3775L), class = "data.frame")
-#
-# df <- df[!is.na(df$latDest), ]
-#
-# df$id <- 1:nrow(df)
-#
-# df_orig <- df[, c("id", "latSource","lonSource")]
-# df_dest <- df[, c("id","latDest","lonDest")]
-#
-# df_orig <- setNames(df_orig, c("id","lat","lon"))
-# df_dest <- setNames(df_dest, c("id", "lat", "lon"))
-#
-# df <- rbind(df_orig, df_dest)
-#
-# lst <- lapply(unique(df$id), function(x){
-#   data.frame(id = x, polyline = encode_pl(df[df['id'] == x, c("lat", "lon")]))
-# })
-#
-# df <- do.call(rbind, lst)
-#
-# map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
-#
-# style <- '[{"featureType":"all","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"all","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"all","elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#000000"},{"lightness":40}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#000000"},{"lightness":16}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":17},{"weight":1.2}]},{"featureType":"administrative","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"administrative.country","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.country","elementType":"geometry","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.country","elementType":"labels.text","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.province","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"administrative.locality","elementType":"all","stylers":[{"visibility":"simplified"},{"saturation":"-100"},{"lightness":"30"}]},{"featureType":"administrative.neighborhood","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"administrative.land_parcel","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"all","stylers":[{"visibility":"simplified"},{"gamma":"0.00"},{"lightness":"74"}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"landscape","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"landscape.man_made","elementType":"all","stylers":[{"lightness":"3"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":21}]},{"featureType":"poi","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"visibility":"simplified"},{"color":"#424242"},{"lightness":"-61"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":16}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#2a2727"},{"lightness":"-61"},{"saturation":"-100"}]},{"featureType":"transit","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"water","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"labels.text","stylers":[{"visibility":"off"}]}]'
-#
-# google_map(key = map_key, style = style) %>%
-#   add_polylines(data = df, polyline = "polyline", stroke_weight = , stroke_opacity = 0.3, stroke_colour = "#ccffff")
-#
-#
-
-#
-#
-# jsonlite::toJSON(df, pretty = T)
-# jsonlite::toJSON(aggregate(lat + lon ~ id, data = df, list), pretty = T)
-#
-# ids <- unique(df$id)
-#
-# jsonlite::toJSON(df[df$id == ids[1], ], pretty = T)
-#
-# df_melt <- melt(df, id.vars = "id")
-#
-# jsonlite::toJSON(df_melt[df_melt$id == ids[1], ], pretty = T)
-#
-# aggregate(value ~ id,  data = aggregate(value ~ id + variable, df_melt, list), list)
-#
-# js <- '{"id" : 1, "coords" : [ {"lat": -31.9520, "lng": -65.141}, {"lat": 46.17, "lng": 21.261}   ] }'
-#
-# lst <- jsonlite::fromJSON(js)
-#
-# jsonlite::toJSON(lst)
-#
-# lst <- lapply(unique(df[, 'id']), function(x) {
-#   list(id = x,
-#   coords = data.frame(lat = df[df['id'] == x, 'lat'], lon = df[df['id'] == x, 'lon']))
-#
-#   })
-#
-#
-# jsonlite::toJSON(lst, pretty = T)
-#
-# #
-# google_map(key = map_key, data = df, style = googleway:::map_styles()$dark) %>%
-#   add_polylines(id = "id", lat = "lat",
-#                 lon = "lon", stroke_opacity = 0.6,
-#                 stroke_colour = "#ccffff",
-#                 stroke_weight = 2,
-#                 geodesic = TRUE)
-#
-#
-#
-#
-# air <- read.csv('https://raw.githubusercontent.com/plotly/datasets/master/2011_february_us_airport_traffic.csv')
-# # flights between airports
-# flights <- read.csv('https://raw.githubusercontent.com/plotly/datasets/master/2011_february_aa_flight_paths.csv')
-# flights$id <- seq_len(nrow(flights))
-#
-# lst <- lapply(unique(flights$id), function(x){
-#   lat = c(flights[flights["id"] == x, c("start_lat")], flights[flights["id"] == x, c("end_lat")])
-#   lon = c(flights[flights["id"] == x, c("start_lon")], flights[flights["id"] == x, c("end_lon")])
-#   data.frame(id = x, polyline = encode_pl(data.frame(lat = lat, lon = lon)))
-# })
-#
-# flights <- merge(flights, do.call(rbind, lst), by = "id")
-#
-
-
-# google_map(key = map_key, style = style) %>%
-#   add_polylines(data = flights, polyline = "polyline", mouse_over_group = "airport1",
-#                 stroke_weight = 1, stroke_opacity = 0.3, stroke_colour = "#ccffff")
-#
-
-
-
-# map_key <- symbolix.utils::mapKey()
-#
-
-# df <- tram_route
-# df$id <- c(rep(1, 27), rep(2, 10), rep(1, 18))
-# library(data.table)
-# setDT(df)
-#
-# df <- df[, .(polyline = encode_pl(lat = shape_pt_lat, lon = shape_pt_lon)), by = id]
-#
-# google_map(data = df, key = map_key) %>%
-#   add_polygons(polyline = "polyline", mouse_over= "id", mouse_over_group = "id", id = "id")
-
-#
-# google_map(key = map_key) %>%
-#   add_polylines(data = df, lat = "shape_pt_lat", lon = "shape_pt_lon", mouse_over = "id", mouse_over_group = "id", id = "id")
-#
-
-
-#
-#
-#
-# ## using encoded polyline and various colour / fill options
-# flights <- read.csv('https://raw.githubusercontent.com/plotly/datasets/master/2011_february_aa_flight_paths.csv')
-# flights$id <- seq_len(nrow(flights))
-# ## encode the routes as polylines
-# lst <- lapply(unique(flights$id), function(x){
-#  lat = c(flights[flights["id"] == x, c("start_lat")], flights[flights["id"] == x, c("end_lat")])
-#  lon = c(flights[flights["id"] == x, c("start_lon")], flights[flights["id"] == x, c("end_lon")])
-#  data.frame(id = x, polyline = encode_pl(data.frame(lat = lat, lon = lon)))
-# })
-# flights <- merge(flights, do.call(rbind, lst), by = "id")
-# ## style is taken from https://snazzymaps.com/style/6617/dark-greys
-#
-# style <- '[{"featureType":"all","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"all","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"all","elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#000000"},{"lightness":40}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#000000"},{"lightness":16}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":17},{"weight":1.2}]},{"featureType":"administrative","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"administrative.country","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.country","elementType":"geometry","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.country","elementType":"labels.text","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.province","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"administrative.locality","elementType":"all","stylers":[{"visibility":"simplified"},{"saturation":"-100"},{"lightness":"30"}]},{"featureType":"administrative.neighborhood","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"administrative.land_parcel","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"all","stylers":[{"visibility":"simplified"},{"gamma":"0.00"},{"lightness":"74"}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"landscape","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"landscape.man_made","elementType":"all","stylers":[{"lightness":"3"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":21}]},{"featureType":"poi","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"visibility":"simplified"},{"color":"#424242"},{"lightness":"-61"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":16}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#2a2727"},{"lightness":"-61"},{"saturation":"-100"}]},{"featureType":"transit","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"water","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"labels.text","stylers":[{"visibility":"off"}]}]'
-#
-# google_map(key = map_key, style = style) %>%
-#  add_polylines(data = flights, polyline = "polyline", mouse_over_group = "airport1", mouse_over = "airport1",
-#               stroke_weight = 1, stroke_opacity = 0.3, stroke_colour = "#ccffff")
-#
-#
-#
-#
-# library(data.table)
-# dt_routes <- fread("https://github.com/jpatokal/openflights/raw/master/data/routes.dat", header = F)
-# setnames(dt_routes, c("Airline", "AirlineID","SourceAirport","SourceAirportID","DestinationAirport","DestinationAirportID","CodeShare","Stops","Equipment"))
-#
-# dt_airports <- fread("https://github.com/jpatokal/openflights/raw/master/data/airports.dat")
-# setnames(dt_airports, c("AirportID","Name","City","Country","IATA","ICAO","Latitude","Longitude","Altitude","Timezone","DST", "TzDatabaseTimeZone","Type","Source"))
-#
-# str(dt_routes)
-# str(dt_airports)
-#
-# dt_airports[, AirportID := as.character(AirportID)]
-#
-# dt_routes <- dt_routes[
-#   dt_airports[, .(AirportID, Latitude, Longitude)]
-#   , on = c(SourceAirportID = "AirportID")
-#   , nomatch = 0
-#   ]
-#
-# setnames(dt_routes, c("Latitude", "Longitude"), c("SourceLatitude", "SourceLongitude"))
-#
-#
-# dt_routes <- dt_routes[
-#   dt_airports[, .(AirportID, Latitude, Longitude)]
-#   , on = c(DestinationAirportID = "AirportID")
-#   , nomatch = 0
-#   ]
-#
-# setnames(dt_routes, c("Latitude", "Longitude"), c("DestinationLatitude", "DestinationLongitude"))
-#
-# lapply(1:nrow(dt_routes),function(x){
-#
-#   df <- data.frame(lat = c(dt_routes[x, SourceLatitude], dt_routes[x, DestinationLatitude]),
-#                    lon = c(dt_routes[x, SourceLongitude], dt_routes[x, DestinationLongitude]))
-#   pl <- encode_pl(df)
-#   dt_routes[x, polyline := pl]
-# })
-#
-#
-#
-# style <- '[{"featureType":"all","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"all","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"all","elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#000000"},{"lightness":40}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#000000"},{"lightness":16}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":17},{"weight":1.2}]},{"featureType":"administrative","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"administrative.country","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.country","elementType":"geometry","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.country","elementType":"labels.text","stylers":[{"visibility":"simplified"}]},{"featureType":"administrative.province","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"administrative.locality","elementType":"all","stylers":[{"visibility":"simplified"},{"saturation":"-100"},{"lightness":"30"}]},{"featureType":"administrative.neighborhood","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"administrative.land_parcel","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"all","stylers":[{"visibility":"simplified"},{"gamma":"0.00"},{"lightness":"74"}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"landscape","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"landscape.man_made","elementType":"all","stylers":[{"lightness":"3"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":21}]},{"featureType":"poi","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"visibility":"simplified"},{"color":"#424242"},{"lightness":"-61"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":16}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#2a2727"},{"lightness":"-61"},{"saturation":"-100"}]},{"featureType":"transit","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"water","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"labels.text","stylers":[{"visibility":"off"}]}]'
-#
-# airports <- dt_airports[Country == "United Kingdom", AirportID]
-#
-# google_map(key = map_key, style = style) %>%
-#   add_polylines(data = unique(dt_routes[SourceAirportID %in% airports, .(polyline)]), polyline = "polyline",
-#                 stroke_weight = 1, stroke_opacity = 0.05, stroke_colour = "#ccffff")
-#
-#
-# google_map(key = map_key, style = style) %>%
-#   add_polylines(data = unique(dt_routes[, .(polyline)]), polyline = "polyline",
-#                 stroke_weight = 1, stroke_opacity = 0.05, stroke_colour = "#ccffff")
-
-
-
-
-
-# #' Polygon transform
-# #'
-# #' Encodes and foramts a \code{SpatialPolygonDataFrame} object into a Google-friendly \code{data.frame} of encoded polylines
-# #'
-# #' @param SPDF Spatial Polygons data frame to be encoded
-# #' @param id_field field in @data that identifies the object
-# #' @param CRSObj specify to also change the projection (default output is google map friendly EPSG:4326)
-# #' @return data.frame with id field, encoded poly lines, `hole` boolean and `ringDir` info
-# polygon_transform <- function(SPDF, id_field, CRSObj = "+init=epsg:4326"){
-#
-#   ## TODO:
-#   ## - check incoming SPDF object (class, attr etc)
-#   ## - check id field
-#   ## - aggregate the output into the correct list-column structure for using as the polygon data.frame
-#
-#
-#   SPDF <- spTransform(SPDF, CRSobj = CRS(CRSObj))
-#   # creat poly lines and merge onto dt_wetlands
-#
-#   lst_poly <- lapply(1:length(SPDF), function(x, dat = SPDF, id_field_ = id_field){
-#     p <- slot(slot(dat, "polygons")[[x]], "Polygons")
-#
-#     lst <- lapply(p, function(y){
-#       coords <- data.frame(lat = slot(y, "coords")[,2],
-#                            lng = slot(y, "coords")[,1])
-#
-#       pl <- encode_pl(coords)
-#
-#       df <- data.frame(polyline = pl,
-#                        id_tmp = dat@data[x, id_field_, with=FALSE],
-#                        hole = slot(y, "hole"),
-#                        ringDir = slot(y, "ringDir"))
-#
-#       names(df)[names(df) == "id_tmp"] <- id_field_
-#
-#       return(df)
-#     })
-#     return(do.call(rbind, lst))
-#   })
-#
-#   df_poly <- do.call(rbind, lst_poly)
-#
-#   return(df_poly)
-# }
 
 
 ### Spatial polylines using simple features!
@@ -699,6 +441,59 @@
 #
 
 
+
+
+### Coordinate polylines
+# library(googleway)
+#
+# df <- tram_route
+# df$id <- c(rep(1, 27), rep(2, 28))
+#
+# df$stroke_weight <- c(rep(3, 27), rep(6, 28))
+# df$lat <- df$shape_pt_lat
+# df$lng <- df$shape_pt_lon
+#
+#
+# map_key <- symbolix.utils::mapKey()
+#
+#
+# google_map(key = map_key) %>%
+#   add_polylines(data = df, lat = 'shape_pt_lat', lon = 'shape_pt_lon',
+#                 stroke_weight = "stroke_weight", id = 'id')
+
+
+## polyline/gon coordinates, where the JSON is not formed using arrays
+# obj <- data.frame(id = c(1,1,1,2,2),
+#                   stroke_weight = c(3,3,3,6,6),
+#                   lat = c(1,1,1, 2,2),
+#                   lng = c(1,1,1, 2,2))
+#
+# lst <- googleway:::objPolylineCoords(obj, unique(obj$id), c('stroke_weight'))
+#
+# jsonlite::toJSON(lst, auto_unbox = T)
+#
+#
+# library(jsonlite)
+#
+# df <- data.frame(id = c(1,2,3))
+# toJSON(df)
+#
+# id <- c(1,2,3)
+# toJSON(id)
+#
+# id <- list(1, 2, 3)
+# toJSON(id)
+#
+# id <- c(id = 1, id = 2, id = 3)
+# toJSON(id)
+#
+# id <- list(id = 1, id = 2, id = 3)
+
+
+
+
+
+
 # library(googleway)
 # library(jsonlite)
 #
@@ -708,9 +503,6 @@
 # pl_inner <- encode_pl(lat = c(28.745, 29.570, 27.339),
 #       lon = c(-70.579, -67.514, -66.668))
 #
-# google_map(key = map_key) %>%
-#   add_polygons(data = df, polyline = 'polyline', id = 'id')
-#
 # pl_other <- encode_pl(c(21,23,22), c(-50, -49, -51))
 #
 # df <- data.frame(id = c('1', '1', '2'),
@@ -718,12 +510,11 @@
 #                  polyline = c(pl_outer, pl_inner, pl_other),
 #                  stringsAsFactors = FALSE)
 #
-# df <- aggregate(polyline ~ id + colour, data = df, list)
-#
-# map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+# google_map(key = map_key) %>%
+#   add_polygons(data = df, polyline = 'polyline', id = 'id', fill_colour = 'colour')
 #
 # df_update <- df[, c("id", "colour")]
-# df_update$colour <- c("#FFFFFF", "000000")
+# df_update$colour <- c("#FFFFFF", "#FFFFFF", "000000")
 #
 # google_map(key = map_key) %>%
 #   add_polygons(data = df, polyline = 'polyline', id = 'id', fill_colour = 'colour') %>%

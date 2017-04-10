@@ -21,6 +21,35 @@ test_that("google_map_update exists",{
 })
 
 
+test_that("layer_id set to default", {
+
+  expect_equal(
+    googleway:::LayerId(NULL),
+    "defaultLayerId"
+  )
+
+  expect_error(
+    googleway:::LayerId(c(1,2)),
+    "please provide a single value for 'layer_id'"
+  )
+
+  expect_equal(
+    googleway:::LayerId(1),
+    1
+  )
+
+})
+
+test_that("map styles defined correctly", {
+  expect_true(is.character(map_styles()$night))
+
+  n <- names(map_styles())
+
+  expect_true(length(n) == 6)
+  expect_true(length(setdiff(c("standard", "silver", "retro", "dark", "night", "aubergine"), n)) == 0)
+  expect_true(length(setdiff(n, c("standard", "silver", "retro", "dark", "night", "aubergine"))) == 0)
+
+})
 
 
 
