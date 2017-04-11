@@ -915,6 +915,77 @@ function clear_polygons(map_id, layer_id){
 }
 
 
+function add_rectangles(map_id, data_rectangles, layer_id){
+
+  var i;
+  window[map_id + 'googleRectangles' + layer_id] = [];
+  var infoWindow = new google.maps.InfoWindow();
+
+ for (i = 0; i < Object.keys(data_rectangles).length; i++) {
+    add_rectangle(map_id, data_rectangles[i]);
+  }
+
+  function add_rectangle(map_id, rectangle){
+
+    console.log(rectangle);
+
+    //var latlon = new google.maps.LatLng(rectangle.lat, rectangle.lng);
+    var latlonNorth = new google.maps.LatLng(rectangle.north, rectangle.east);
+    var latlonSouth = new google.maps.LatLng(rectangle.south, rectangle.west);
+
+    //console.log(latlonNorth);
+    //console.log(latlonSouth);
+
+    //var bounds = new google.maps.LatLngBounds(latlonSouth, latlonNorth);
+
+//    var bounds = new google.maps.LatLngBounds({north: rectangle.north, south: rectangle.south, east: rectangle.east, west: rectangle.west});
+
+
+    var bounds = new google.maps.LatLngBounds(
+      latlonSouth,
+      latlonNorth
+    )
+
+    var Rectangle = new google.maps.Rectangle({
+        id: rectangle.id,
+        bounds: bounds,
+        strokeColor: rectangle.stroke_colour,
+        strokeOpacity: rectangle.stroke_opacity,
+        strokeWeight: rectangle.stroke_weight,
+        fillColor: rectangle.fill_colour,
+        fillOpacity: rectangle.fill_opacity,
+        draggable: rectangle.draggable,
+        editable: rectangle.editable,
+        radius: rectangle.radius,
+        mouseOverGroup: rectangle.mouse_over_group
+      });
+
+      console.log(Rectangle);
+
+    window[map_id + 'googleRectangles' + layer_id].push(Rectangle);
+    Rectangle.setMap(window[map_id + 'map']);
+
+    if(rectangle.info_window){
+      add_infoWindow(map_id, Rectangle, infoWindow, '_information', rectangle.info_window);
+    }
+
+    if(rectangle.mouse_over || rectangle.mouse_over_group){
+      add_mouseOver(map_id, Rectangle, infoWindow, "_mouse_over", rectangle.mouse_over, layer_id, 'googleRectangles');
+    }
+
+    shapeInfo = { layerId : layer_id };
+    shape_click(map_id, Rectangle, rectangle.id, shapeInfo);
+
+    window[map_id + 'mapBounds'].extend(latlonNorth);
+    window[map_id + 'mapBounds'].extend(latlonSouth);
+  }
+
+  window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+
+}
+
+
+
 function add_kml(map_id, kml_data, layer_id){
 
   window[map_id + 'googleKml' + layer_id] = [];
