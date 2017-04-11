@@ -14,7 +14,7 @@ google_reverse_geocode(location, result_type = NULL, location_type = NULL,
 See \url{https://developers.google.com/maps/documentation/geocoding/intro#Types}
 for list of available types.}
 
-\item{location_type}{string vector Specifying a location type will restrict the
+\item{location_type}{string vector specifying a location type will restrict the
 results to this type. If multiple types are specified, the API will return all
 addresses that match any of the types}
 

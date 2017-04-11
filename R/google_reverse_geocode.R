@@ -7,7 +7,7 @@
 #' @param result_type string vector One or more address types.
 #' See \url{https://developers.google.com/maps/documentation/geocoding/intro#Types}
 #' for list of available types.
-#' @param location_type string vector Specifying a location type will restrict the
+#' @param location_type string vector specifying a location type will restrict the
 #' results to this type. If multiple types are specified, the API will return all
 #' addresses that match any of the types
 #' @param language string specifies the language in which to return the results.
@@ -61,8 +61,11 @@ google_reverse_geocode <- function(location,
 
   ## location_type check
   if(!is.null(location_type)){
-    location_type <- match.arg(location_type, c("rooftop","range_interpolated", "geometric_center", "approximate"))
-    if(length(location_type) > 1){
+
+    if(length(setdiff(location_type, c("rooftop","range_interpolated", "geometric_center", "approximate"))) > 0)
+      stop("invlalid values for location_type")
+
+  if(length(location_type) > 1){
       location_type <- paste0(toupper(location_type), collapse = "|")
     }else{
       location_type <- toupper(location_type)

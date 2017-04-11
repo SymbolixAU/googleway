@@ -1,6 +1,6 @@
 context("Google reverse_geocode")
 
-test_that("incorrect location throws error",{
+test_that("incorrect location is valid",{
 
   expect_error(google_reverse_geocode(location = "Flinders Street Station, Melbourne",
                                       key = "abc"),
@@ -12,14 +12,34 @@ test_that("incorrect location throws error",{
                "location must be a vector of a pair of latitude and longitude coordinates")
 })
 
+test_that("location_type is valid", {
 
-test_that("result_type is a string character",{
 
-  expect_error(google_reverse_geocode(location = c(-37.81659, 144.9841),
-                                      result_type = 111,
-                                      location_type = "rooftop",
-                                      key = "abc"),
+  expect_true(
+    google_reverse_geocode(location = c(-37, 144),
+                           location_type = c("rooftop", "approximate"),
+                           key = 'abc')$error_message == "The provided API key is invalid."
+    )
+
+})
+
+
+test_that("result_type is valid",{
+
+  expect_error(
+    google_reverse_geocode(location = c(-37.81659, 144.9841),
+                           result_type = 111,
+                           location_type = "rooftop",
+                           key = "abc"),
           "result_type must be a vector of strings")
+
+
+    expect_true(
+      google_reverse_geocode(location = c(-37.81659, 144.9841),
+                             result_type = c("street_address", "route", "intersection"),
+                             key = 'abc')$error_message == "The provided API key is invalid."
+    )
+
 
 })
 

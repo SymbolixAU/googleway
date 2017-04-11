@@ -37,3 +37,12 @@ test_that("download attempted - speed limits", {
   )
 })
 
+test_that("place ids are valid", {
+
+  df <- data.frame(place = sample(letters, size = 101, replace = T))
+  expect_error(
+    google_speedLimits(placeIds = df$place, key = 'abc'),
+    "the maximum number of placeIds allowed is 100"
+  )
+
+})
