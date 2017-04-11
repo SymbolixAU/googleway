@@ -8,6 +8,7 @@
 \alias{clear_markers}
 \alias{clear_polygons}
 \alias{clear_polylines}
+\alias{clear_rectangles}
 \alias{clear_traffic}
 \alias{clear_transit}
 \title{clear map elements}
@@ -27,6 +28,8 @@ clear_bicycling(map)
 clear_polylines(map, layer_id = NULL)
 
 clear_polygons(map, layer_id = NULL)
+
+clear_rectangles(map, layer_id = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
