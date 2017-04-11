@@ -27,6 +27,8 @@ eastern most longitude}
 \item{west}{String specifying the column of \code{data} that contains the
 western most longitude}
 
+\item{id}{string specifying the column containing an identifier for a rectangle}
+
 \item{draggable}{string specifying the column of \code{data} defining if the rectangle
 is 'draggable' (either TRUE or FALSE)}
 

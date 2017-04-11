@@ -1419,6 +1419,7 @@ clear_polygons <- function(map, layer_id = NULL){
 #' eastern most longitude
 #' @param west String specifying the column of \code{data} that contains the
 #' western most longitude
+#' @param id string specifying the column containing an identifier for a rectangle
 #' @param draggable string specifying the column of \code{data} defining if the rectangle
 #' is 'draggable' (either TRUE or FALSE)
 #' @param editable string specifying the column of \code{data} defining if the rectangle
