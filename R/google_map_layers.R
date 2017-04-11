@@ -1486,16 +1486,6 @@ add_rectangles <- function(map,
                            info_window = NULL,
                            layer_id = NULL){
 
-  # if(is.null(lat)){
-  #   data <- latitude_column(data, lat, 'add_circles')
-  #   lat <- "lat"
-  # }
-  #
-  # if(is.null(lon)){
-  #   data <- longitude_column(data, lon, 'add_circles')
-  #   lon <- "lng"
-  # }
-
   layer_id <- LayerId(layer_id)
 
   Rectangle <- data.frame(north = data[, north],
@@ -1539,7 +1529,14 @@ add_rectangles <- function(map,
 
 }
 
+#' @rdname clear
+#' @export
+clear_rectangles <- function(map, layer_id = NULL){
 
+  layer_id <- LayerId(layer_id)
+
+  invoke_method(map, data = NULL, 'clear_rectangles', layer_id)
+}
 
 
 

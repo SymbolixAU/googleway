@@ -985,6 +985,18 @@ function add_rectangles(map_id, data_rectangles, layer_id){
 }
 
 
+/**
+ * clears rectangles from a google map object
+ * @param map_id
+ *          the map to clear
+ * @param layer_id
+ *          the layer to clear
+ */
+function clear_rectangles(map_id, layer_id){
+  for (i = 0; i < window[map_id + 'googleRectangles' + layer_id].length; i++){
+    window[map_id + 'googleRectangles' + layer_id][i].setMap(null);
+  }
+}
 
 function add_kml(map_id, kml_data, layer_id){
 
