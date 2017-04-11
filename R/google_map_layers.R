@@ -1405,3 +1405,138 @@ clear_polygons <- function(map, layer_id = NULL){
 }
 
 
+#' Add Rectangles
+#'
+#' Adds a rectangle to a google map
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @param data data frame containing the bounds for the rectangles
+#' @param north String specifying the column of \code{data} that contains the
+#' northern most latitude coordinate
+#' @param south String specifying the column of \code{data} that contains the
+#' southern most latitude coordinate
+#' @param east String specifying the column of \code{data} that contains the
+#' eastern most longitude
+#' @param west String specifying the column of \code{data} that contains the
+#' western most longitude
+#' @param draggable string specifying the column of \code{data} defining if the rectangle
+#' is 'draggable' (either TRUE or FALSE)
+#' @param editable string specifying the column of \code{data} defining if the rectangle
+#' is 'editable' (either TRUE or FALSE)
+#' @param stroke_colour either a string specifying the column of \code{data} containing
+#' the stroke colour of each rectangle, or a valid hexadecimal numeric HTML style to
+#' be applied to all the rectangle
+#' @param stroke_opacity either a string specifying the column of \code{data} containing
+#' the stroke opacity of each rectangle, or a value between 0 and 1 that will be
+#' aplied to all the rectangle
+#' @param stroke_weight either a string specifying the column of \code{data} containing
+#' the stroke weight of each rectangle, or a number indicating the width of pixels
+#' in the line to be applied to all the rectangle
+#' @param fill_colour either a string specifying the column of \code{data} containing
+#' the fill colour of each rectangle, or a valid hexadecimal numeric HTML style to
+#' be applied to all the rectangle
+#' @param fill_opacity either a string specifying the column of \code{data} containing
+#' the fill opacity of each rectangle, or a value between 0 and 1 that will be aplied to all the rectangles
+#' @param info_window string specifying the column of data to display in an info
+#' window when a polygon is clicked
+#' @param mouse_over string specifying the column of data to display when the
+#' mouse rolls over the polygon
+#' @param mouse_over_group string specifying the column of data specifying which
+#' groups of rectangle to highlight on mouseover
+#' @param layer_id single value specifying an id for the layer.
+#'  layer.
+#' @examples
+#' \dontrun{
+#'
+#' map_key <- 'your_api_key'
+#'
+#' df <- data.frame(north = 33.685, south = 33.671, east = -116.234, west = -116.251)
+#'
+#' google_map(key = map_key) %>%
+#'   add_rectangles(data = df, north = 'north', south = 'south',
+#'                  east = 'east', west = 'west')
+#'
+#' ## editable rectangle
+#' df <- data.frame(north = -37.8459, south = -37.8508, east = 144.9378,
+#'                   west = 144.9236, editable = T, draggable = T)
+#'
+#' google_map(key = map_key) %>%
+#'   add_rectangles(data = df, north = 'north', south = 'south',
+#'                  east = 'east', west = 'west',
+#'                  editable = 'editable', draggable = 'draggable')
+#'
+#' }
+#' @export
+add_rectangles <- function(map,
+                           data = get_map_data(map),
+                           north,
+                           south,
+                           east,
+                           west,
+                           id = NULL,
+                           draggable = NULL,
+                           editable = NULL,
+                           stroke_colour = NULL,
+                           stroke_opacity = NULL,
+                           stroke_weight = NULL,
+                           fill_colour = NULL,
+                           fill_opacity = NULL,
+                           mouse_over = NULL,
+                           mouse_over_group = NULL,
+                           info_window = NULL,
+                           layer_id = NULL){
+
+  layer_id <- LayerId(layer_id)
+
+  Rectangle <- data.frame(north = data[, north],
+                        south = data[, south],
+                        east = data[, east],
+                        west = data[, west])
+
+  Rectangle[, "stroke_colour"] <- SetDefault(stroke_colour, "#FF0000", data)
+  Rectangle[, "stroke_weight"] <- SetDefault(stroke_weight, 1, data)
+  Rectangle[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.8, data)
+  Rectangle[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
+  Rectangle[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
+  # Circles[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
+
+  ## options
+  if(!is.null(id))
+    Rectangle[, "id"] <- as.character(data[, id])
+
+  if(!is.null(draggable))
+    Rectangle[, 'draggable'] <- as.logical(data[, draggable])
+
+  if(!is.null(editable))
+    Rectangle[, 'editable'] <- as.logical(data[, editable])
+
+  if(!is.null(info_window))
+    Rectangle[, "info_window"] <- as.character(data[, info_window])
+
+  if(!is.null(mouse_over))
+    Rectangle[, "mouse_over"] <- as.character(data[, mouse_over])
+
+  if(!is.null(mouse_over_group))
+    Rectangle[, "mouse_over_group"] <- as.character(data[, mouse_over_group])
+
+  # if(sum(is.na(Rectangle)) > 0)
+  #   warning("There are some NAs in your data. These may affect the circles that have been plotted.")
+
+  Rectangle <- jsonlite::toJSON(Rectangle)
+
+
+  invoke_method(map, data, 'add_rectangles', Rectangle, layer_id)
+
+}
+
+#' @rdname clear
+#' @export
+clear_rectangles <- function(map, layer_id = NULL){
+
+  layer_id <- LayerId(layer_id)
+
+  invoke_method(map, data = NULL, 'clear_rectangles', layer_id)
+}
+
+
+
