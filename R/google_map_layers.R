@@ -1405,3 +1405,68 @@ clear_polygons <- function(map, layer_id = NULL){
 }
 
 
+#' Update rectangles
+#'
+#' Updates specific colours and opacities of specified rectangles Designed to be
+#' used in a shiny application.
+#'
+#' @note Any rectangles (as specified by the \code{id} argument) that do not exist
+#' in the \code{data} passed into \code{add_rectangles()} will not be added to the map.
+#' This function will only update the rectangles that currently exist on the map when
+#' the function is called.
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @param data data.frame containing the new values for the rectangles
+#' @param id string representing the column of \code{data} containing the id values
+#' for the rectangles The id values must be present in the data supplied to
+#' \code{add_rectangles} in order for the polygons to be udpated
+#' @param draggable string specifying the column of \code{data} defining if the
+#' rectangle is 'draggable' (either TRUE or FALSE)
+#' @param stroke_colour either a string specifying the column of \code{data} containing
+#' the stroke colour of each rectangle, or a valid hexadecimal numeric HTML style
+#' to be applied to all the rectangles
+#' @param stroke_opacity either a string specifying the column of \code{data} containing
+#' the stroke opacity of each rectangle, or a value between 0 and 1 that will be
+#' aplied to all the rectangles
+#' @param stroke_weight either a string specifying the column of \code{data} containing
+#' the stroke weight of each rectangle, or a number indicating the width of pixels
+#' in the line to be applied to all the rectangles
+#' @param fill_colour either a string specifying the column of \code{data} containing
+#' the fill colour of each rectangle, or a valid hexadecimal numeric HTML style to
+#' be applied to all the cirlces
+#' @param fill_opacity either a string specifying the column of \code{data} containing
+#' the fill opacity of each rectangle, or a value between 0 and 1 that will be aplied
+#' to all the rectangles
+#' @param layer_id single value specifying an id for the layer.
+#'
+#' @export
+update_circles <- function(map, data, id,
+                           draggable = NULL,
+                           stroke_colour = NULL,
+                           stroke_weight = NULL,
+                           stroke_opacity = NULL,
+                           fill_colour = NULL,
+                           fill_opacity = NULL,
+                           layer_id = NULL){
+
+  ## TODO: is 'info_window' required, if it was included in the original add_polygons?
+  layer_id <- LayerId(layer_id)
+
+  rectangleUpdate <- data.frame(id = as.character(data[, id]))
+
+  rectangleUpdate[, "stroke_colour"] <- SetDefault(stroke_colour, "#FF0000", data)
+  rectangleUpdate[, "stroke_weight"] <- SetDefault(stroke_weight, 1, data)
+  rectangleUpdate[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.8, data)
+  rectangleUpdate[, "radius"] <- SetDefault(radius, 50, data)
+  rectangleUpdate[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
+  rectangleUpdate[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
+
+  if(!is.null(draggable))
+    rectangleUpdate[, 'draggable'] <- as.logical(data[, draggable])
+
+  rectangleUpdate <- jsonlite::toJSON(rectangleUpdate)
+
+  invoke_method(map, data = NULL, 'update_rectangles', rectangleUpdate, layer_id)
+
+
+}
