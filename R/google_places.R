@@ -184,12 +184,6 @@ google_places <- function(search_string = NULL,
 
   }
 
-  # ## default radius will be 10,000m
-  # if(is.null(search_string) & is.null(radius)){
-  #   radius <- 10000
-  #   warning("A radius was not supplied. A value of 10,000m will be used ")
-  # }
-
   ## radius must be included if using a location search
   if(is.null(search_string) & !is.null(location) & is.null(radius))
     stop("you must specify a radius if only using a 'location' search, and rankby is not equal to 'distance'")
@@ -204,7 +198,7 @@ google_places <- function(search_string = NULL,
   }
 
   ## rankby has correct arguments
-  if(!is.null(rankby) & is.null(search_string))
+  if(!is.null(rankby) & !is.null(location))
     if(!rankby %in% c("prominence","distance","location"))
       stop("rankby must be one of either prominence, distance or location")
 
@@ -213,12 +207,17 @@ google_places <- function(search_string = NULL,
     warning("The 'rankby' argument is ignored when using a 'search_string'")
 
   ## radius must not be included if rankby=distance
-  if(!is.null(rankby)){
-    if(!is.null(radius) & rankby == "distance")
-      stop("radius can not be supplied if rankby == 'distance'")
+  if(!is.null(rankby) & !is.null(location)){
+    if(!is.null(radius) & rankby == "distance"){
+      warning("radius is ignored when rankby == 'distance'")
+     radius <- NULL
+    }
+  }
 
     ## if rankby == distance, then one of keyword, name or place_type must be specified
-    if(rankby == "distance" & is.null(keyword) & is.null(name) & is.null(place_type))
+  if(!is.null(rankby) & !is.null(location)){
+    if(rankby == "distance" &
+       is.null(keyword) & is.null(name) & is.null(place_type))
       stop("you have specified rankby to be 'distance', so you must provide one of 'keyword','name' or 'place_type'")
   }
 

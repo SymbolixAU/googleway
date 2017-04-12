@@ -42,9 +42,11 @@ test_that("pitch is correct value",{
 })
 
 
-test_that("response check fails ", {
-  expect_error(google_streetview(location = c(1,1), key = "key", response_check = T))
-})
+# test_that("response check fails ", {
+#   expect_error(
+#     google_streetview(location = c(1,1), key = "key", response_check = T)
+#     )
+# })
 
 test_that("html is returned", {
   expect_equal(
@@ -54,9 +56,9 @@ test_that("html is returned", {
 })
 
 
-test_that("plot fails", {
-  expect_error(google_streetview(location = c(1, 1), output = "plot", key = "key"))
-})
+# test_that("plot fails", {
+#   expect_error(google_streetview(location = c(1, 1), output = "plot", key = "key"))
+# })
 
 
 

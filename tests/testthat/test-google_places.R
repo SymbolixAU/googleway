@@ -50,13 +50,6 @@ test_that("radius is supplied when location search",{
 
 })
 
-test_that("radius is not used when rankby == distance",{
-
-  expect_error(google_places(location = c(-37.817839,144.9673254),
-                             radius = 200,
-                             rankby="distance"),
-               "radius can not be supplied if rankby == 'distance'")
-})
 
 test_that("rankby ignored when search_string", {
 
@@ -78,9 +71,9 @@ test_that("place type is specified correctly", {
 
 test_that("search string ignored when rankby is used", {
 
-  expect_error(
+  expect_warning(
     google_places(search_string = "Restaurangs in Melbourne, Australia",
-                  rankby = "distance"),
+                  rankby = "distance", key = 'abc'),
     "The 'rankby' argument is ignored when using a 'search_string'"
     )
 
@@ -89,6 +82,12 @@ test_that("search string ignored when rankby is used", {
                 rankby = 'distance'),
     "you must specify a radius if only using a 'location' search, and rankby is not equal to 'distance'"
     )
+
+  expect_warning(
+    google_places(location = c(-37, 144), keyword = "restaurant",radius = 3,
+                  rankby = 'distance', key = 'abc'),
+    "radius is ignored when rankby == 'distance'"
+  )
 
 })
 
