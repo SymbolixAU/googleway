@@ -104,7 +104,8 @@ A Radar search lets you search for places within a specified search radius
 by keyword, type or name.The Radar search returns more results than a
 Nearby or Text search, but the results contain fewer fields.
 
-A \link{place_details} search can be performed when you have a given \code{place_id}
+A Place Detail search (using \link{google_place_details}) can be performed when
+you have a given \code{place_id}
 from one of the other three search methods.
 
 

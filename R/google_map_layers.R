@@ -1124,18 +1124,6 @@ add_polygons <- function(map,
   ##
   ## - holes must be wound in the opposite direction
 
-  ## can supply either a polyline as a list column or as a single column,
-  ## OR a list column of lat/lon coordinates.
-
-  ## -
-  ## - other data foramts
-  ## -- e.g. geoJSON
-  ## -- allow addition of other attributes (however, how will the user access them?)
-  ## checks for missing column names
-  # if(is.null(polyline))
-  #   stop("please supply the column containing the polylines")
-
-
   if(is.null(polyline) & (is.null(lat) | is.null(lon)))
     stop("please supply the either the column containing the polylines, or the lat/lon coordinate columns")
 
@@ -1592,7 +1580,6 @@ update_rectangles <- function(map, data, id,
   rectangleUpdate[, "stroke_colour"] <- SetDefault(stroke_colour, "#FF0000", data)
   rectangleUpdate[, "stroke_weight"] <- SetDefault(stroke_weight, 1, data)
   rectangleUpdate[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.8, data)
-  rectangleUpdate[, "radius"] <- SetDefault(radius, 50, data)
   rectangleUpdate[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
   rectangleUpdate[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
 
