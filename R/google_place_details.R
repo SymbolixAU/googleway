@@ -17,6 +17,9 @@
 #' \url{https://developers.google.com/maps/faq#languagesupport}
 #' @param simplify \code{logical} Inidicates if the returned JSON should be coerced into a list
 #' @param key \code{string} A valid Google Developers Places API key
+#'
+#' @seealso \link{google_places}
+#'
 #' @examples
 #' \dontrun{
 #' ## search for a specific restaurant, Maha, in Melbourne, firstly using google_places()

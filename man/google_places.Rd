@@ -83,10 +83,30 @@ on a variety of categories, such as: establishments, prominent points of interes
 geographic locations, and more.
 }
 \details{
-You can search for places either by proximity (\code{location}) or a text
-string (\code{search_string}). A Place Search returns a list of places along
-with summary information about each place; additional information is available
-via a Place Details query.
+With the Places service you can perform four kinds of searches:
+\itemize{
+  \item{Nearby Search}
+  \item{Text Search}
+  \item{Radar Sarch}
+  \item{Place Details request}
+}
+
+A Nearby search lets you search for places within a specified area or by keyword.
+A Nearby search must always include a \code{location}, which can be specified
+as a point defined by a pair of lat/lon coordinates, or a circle defined by a
+point and a \code{radius}.
+
+A Text search returns information about a set of places based on the \code{search_string}.
+The service responds with a list of places matching the string and any location
+bias that has been set.
+
+A Radar search lets you search for places within a specified search radius
+by keyword, type or name.The Radar search returns more results than a
+Nearby or Text search, but the results contain fewer fields.
+
+A \link{place_details} search can be performed when you have a given \code{place_id}
+from one of the other three search methods.
+
 
 \code{radius} - Required when only using a \code{location} search, \code{radius}
 defines the distance (in meters) within which to return place results. The maximum
@@ -99,10 +119,20 @@ allowed radius is 50,000 meters. Note that radius must not be included if
 outside of the search circle; however, prominent results from outside of the
 search radius may be included.
 }
+\note{
+The Google Places API Web Service enforces a default limit of 1,000 fre requests
+per 24 hour period, calculated as the sum of client-side and server-side requets.
+See \url{https://developers.google.com/places/web-service/usage} for details.
+
+Use of the Places Library must be in accordance with the polices described
+for the Google Places API Web Service \url{https://developers.google.com/places/web-service/policies}
+}
 \examples{
 \dontrun{
 
 ## query restaurants in Melbourne (will return 20 results)
+key <- 'your_api_key'
+
 res <- google_places(search_string = "Restaurants in Melbourne, Australia",
                      key = key)
 
@@ -124,5 +154,8 @@ google_places(location = c(-37.817839,144.9673254),
                key = key)
 
 }
+}
+\seealso{
+\link{google_place_details}
 }
 

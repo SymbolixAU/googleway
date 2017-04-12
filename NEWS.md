@@ -1,6 +1,7 @@
 
 ## Version 1.1.0 (development)
 
+* `add_rectangles()` adds rectangles to the map
 * `google_nearestRoads()` finds closest road segment for given coordinates
 * `google_snapToRoads()` snaps GPS coordinates to nearest road
 * `add_kml()` adds kml layers to a google map
