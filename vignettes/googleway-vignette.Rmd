@@ -43,17 +43,6 @@ Downloading a static streetview map
 
 Plus the helper fucntions, `encode_pl()` and `decode_pl()` for encoding and decoding polylines.
 
-```{r todos}
-## TODO
-# - polygons with holes
-# - mouse over
-# - info window
-# - encoding and decoding polylines
-# 
-```
-
-
-
 To use this package you need a valid **API KEY** ([follow instructions here to get a key](https://developers.google.com/maps/documentation/javascript/)) for the API you wish to use. Note that the same API key can be used for all the functions, but you need to register it with each API first. 
 
 ---
@@ -556,6 +545,33 @@ google_map(key = map_key)
 ```
 ![Melbourne](./img/google_map.png)
 
+
+You can also display traffic, transit (public transport) or bicycle routes using the functions `add_traffic()`, `add_transit()` and `add_bicycling()` respectively
+
+```
+google_map(key = map_key) %>%
+  add_traffic()
+
+google_map(key = map_key) %>%
+  add_transit()
+
+google_map(key = map_key) %>%
+  add_bicycling()
+
+```
+
+![Traffic](./img/add_traffic.png)
+
+
+![Transit](./img/add_transit.png)
+
+
+![Bicycling](./img/add_bicycling.png)
+
+---
+
+### Example - Markers
+
 Markers and circles can be used to show points on the map using `add_markers()` and `add_circles()`. In this example I'm using the `tram_stops` data set provided with googleway
 
 
@@ -568,6 +584,15 @@ google_map(data = tram_stops, key = map_key) %>%
 ```
 
 ![Route 35 tram stops](./img/tram_stops.png)
+
+
+```
+google_map(data = tram_stops, key = map_key) %>%
+  add_circles(lat = "stop_lat", lon = "stop_lon", radius = 50, fill_colour = "#00FF00")
+```
+
+![Route 35 tram stops - circles](./img/add_circles.png)
+
 
 
 You can specify a column in the data.frame to use to populate a popup `info_window` that will be displayed when clicking on a maker. The info window can also dispay any valid HTML, as demonstrated in [this Stack Overflow answer](http://stackoverflow.com/a/39339464/5977215).
@@ -585,7 +610,7 @@ google_map(data = df, key = map_key) %>%
 ![Marker Info Window](./img/marker_info.png)
 
 
-
+---
 
 ## Polyline
 
@@ -608,6 +633,7 @@ google_map(key = map_key) %>%
 
 ![Polyline](./img/melbourne_to_sydney_add_polylines.png)
 
+---
 
 ## polygon
 
@@ -652,35 +678,41 @@ There are various other arguments you can use in the `add_*` functions, in parti
 * mouse_over - displays an information window when hovering over the map object
 * mouse_over_group - highlights a group of shapes when overing over a map object
 
+The following code and three images show polygons defined with an `id`, and the `mouse_over_group` using this `id` to highlighted associated polygons within the same group
+
+
+```
+pl1 <- encode_pl(lat = c(25.774, 18.466,32.321),
+                      lon = c(-80.190, -66.118, -64.757))
+
+pl2 <- encode_pl(lat = c(28.745, 29.570, 27.339),
+                      lon = c(-70.579, -67.514, -66.668))
+
+pl3 <- encode_pl(c(21,28,22), c(-63, -58, -59))
+
+pl4 <- encode_pl(c(21, 28, 24), c(-63, -51, -53))
+
+pl5 <- encode_pl(c(29, 27, 30), c(-71, -73, -75))
+
+df <- data.frame(id = c(1,1,2,1, 2),
+                 polyline = c(pl1, pl2, pl3, pl4, pl5),
+                 stringsAsFactors = FALSE)
+
+google_map(key = map_key, height = 800) %>%
+  add_polygons(data = df, polyline = "polyline", id = 'id', mouse_over_group = 'id')
+  
+```
+
+![Mouse Over Group](./img/mouse_over_group_off.png)
+
+![Mouse Over Group 1](./img/mouse_over_group_on1.png)
+
+![Mouse Over Group 2](./img/mouse_over_group_on2.png)
 
 
 
-
-### shape clicks
-### marker clicks
-## Circles
-## Rectangles
+---
 
 ## shiny
 
-```
-google_map(key = map_key) %>%
-  add_traffic()
-
-google_map(key = map_key) %>%
-  add_transit()
-
-google_map(key = map_key) %>%
-  add_bicycling()
-
-```
-
-![Traffic](./img/add_traffic.png)
-
-
-![Transit](./img/add_transit.png)
-
-
-
-![Bicycling](./img/add_bicycling.png)
 
