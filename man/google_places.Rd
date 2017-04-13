@@ -17,7 +17,7 @@ which to search. If blank, the \code{location} argument must be used.}
 (in that order) around which to retrieve place information. If blank, the
 \code{search_string} argument must be used. If used in conjunction with
 \code{search_string} it represents the latitude/longitude around which to
-retrieve place information, and must be used in conjunction with \code{radius}.}
+retrieve place information.}
 
 \item{radar}{\code{boolean} The Google Places API Radar Search Service allows
 you to search for up to 200 places at once, but with less detail than is typically
@@ -101,7 +101,7 @@ The service responds with a list of places matching the string and any location
 bias that has been set.
 
 A Radar search lets you search for places within a specified search radius
-by keyword, type or name.The Radar search returns more results than a
+by keyword, type or name. The Radar search returns more results than a
 Nearby or Text search, but the results contain fewer fields.
 
 A Place Detail search (using \link{google_place_details}) can be performed when
@@ -150,7 +150,6 @@ google_places(location = c(-37.817839,144.9673254),
 
 ## search for places that are open at the time of query
  google_places(search_string = "Bicycle shop, Melbourne, Australia",
-               radius = 50000,
                open_now = TRUE,
                key = key)
 

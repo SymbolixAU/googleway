@@ -763,7 +763,8 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
       fillOpacityHolder: polygon.fill_opacity,
       mouseOver: polygon.mouse_over,
       mouseOverGroup: polygon.mouse_over_group,
-      draggable: polygon.draggable
+      draggable: polygon.draggable,
+      editable: polygon.editable
       //_information: polygon.information
 //      clickable: true,
 //      editable: false,
@@ -927,23 +928,12 @@ function add_rectangles(map_id, data_rectangles, layer_id){
 
   function add_rectangle(map_id, rectangle){
 
-    console.log(rectangle);
-
-    //var latlon = new google.maps.LatLng(rectangle.lat, rectangle.lng);
-    var latlonNorth = new google.maps.LatLng(rectangle.north, rectangle.east);
-    var latlonSouth = new google.maps.LatLng(rectangle.south, rectangle.west);
-
-    //console.log(latlonNorth);
-    //console.log(latlonSouth);
-
-    //var bounds = new google.maps.LatLngBounds(latlonSouth, latlonNorth);
-
-//    var bounds = new google.maps.LatLngBounds({north: rectangle.north, south: rectangle.south, east: rectangle.east, west: rectangle.west});
-
+    var latlonNorthEast = new google.maps.LatLng(rectangle.north, rectangle.east);
+    var latlonSouthWest = new google.maps.LatLng(rectangle.south, rectangle.west);
 
     var bounds = new google.maps.LatLngBounds(
-      latlonSouth,
-      latlonNorth
+      latlonSouthWest,
+      latlonNorthEast
     )
 
     var Rectangle = new google.maps.Rectangle({

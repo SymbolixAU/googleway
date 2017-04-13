@@ -19,7 +19,7 @@
 #' (in that order) around which to retrieve place information. If blank, the
 #' \code{search_string} argument must be used. If used in conjunction with
 #' \code{search_string} it represents the latitude/longitude around which to
-#' retrieve place information, and must be used in conjunction with \code{radius}.
+#' retrieve place information.
 #' @param radar \code{boolean} The Google Places API Radar Search Service allows
 #' you to search for up to 200 places at once, but with less detail than is typically
 #' returned from a Text Search (\code{search_string}) or Nearby Search (\code{location}) request.
@@ -86,7 +86,7 @@
 #' bias that has been set.
 #'
 #' A Radar search lets you search for places within a specified search radius
-#' by keyword, type or name.The Radar search returns more results than a
+#' by keyword, type or name. The Radar search returns more results than a
 #' Nearby or Text search, but the results contain fewer fields.
 #'
 #' A Place Detail search (using \link{google_place_details}) can be performed when
@@ -129,7 +129,6 @@
 #'
 #' ## search for places that are open at the time of query
 #'  google_places(search_string = "Bicycle shop, Melbourne, Australia",
-#'                radius = 50000,
 #'                open_now = TRUE,
 #'                key = key)
 #'
@@ -187,7 +186,7 @@ google_places <- function(search_string = NULL,
 
   ## radius must be included if using a location search
   if(is.null(search_string) & !is.null(location) & is.null(radius))
-    stop("you must specify a radius if only using a 'location' search, and rankby is not equal to 'distance'")
+    stop("you must specify a radius if only using a 'location' search")
 
   ## check radius < 50000m
   if(!is.null(radius)){

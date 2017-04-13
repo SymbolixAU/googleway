@@ -31,9 +31,9 @@ The points passed do not need to be part of a continuous path.
 key <- 'your_api_key'
 
 df_points <- read.table(text = "lat lon
-60.170880 24.942795
-60.170879 24.942796
-60.170877 24.942796", header = T)
+ 60.1707 24.9426
+ 60.1708 24.9424
+ 60.1709 24.9423", header = T)
 
 google_nearestRoads(df_points, key = key)
 

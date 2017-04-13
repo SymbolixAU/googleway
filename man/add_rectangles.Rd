@@ -4,7 +4,7 @@
 \alias{add_rectangles}
 \title{Add Rectangles}
 \usage{
-add_rectangles(map, data = get_map_data(map), north, south, east, west,
+add_rectangles(map, data = get_map_data(map), north, east, south, west,
   id = NULL, draggable = NULL, editable = NULL, stroke_colour = NULL,
   stroke_opacity = NULL, stroke_weight = NULL, fill_colour = NULL,
   fill_opacity = NULL, mouse_over = NULL, mouse_over_group = NULL,
@@ -18,11 +18,11 @@ add_rectangles(map, data = get_map_data(map), north, south, east, west,
 \item{north}{String specifying the column of \code{data} that contains the
 northern most latitude coordinate}
 
-\item{south}{String specifying the column of \code{data} that contains the
-southern most latitude coordinate}
-
 \item{east}{String specifying the column of \code{data} that contains the
 eastern most longitude}
+
+\item{south}{String specifying the column of \code{data} that contains the
+southern most latitude coordinate}
 
 \item{west}{String specifying the column of \code{data} that contains the
 western most longitude}

@@ -11,7 +11,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Googleway provides access to Google Maps APIs through specified functions, and the ability to plot a Google Map overlayed with markers, circles, shapes (polygons), lines (polylines) and heatmaps. You can also overlay traffic information, transit and cycling routes.
+Googleway provides access to Google Maps APIs through specified functions, and the ability to plot a Google Map overlayed with markers, circles, rectangles, shapes (polygons), lines (polylines) and heatmaps. You can also overlay traffic information, transit and cycling routes.
 
 The API functions are
 
@@ -19,9 +19,11 @@ The API functions are
 * [**Distance Matrix**](https://developers.google.com/maps/documentation/distance-matrix/) - `google_distance()`
 * [**Elevation**](https://developers.google.com/maps/documentation/elevation/start) - `google_elevation()`
 * [**Geocoding**](https://developers.google.com/maps/documentation/geocoding/start) - `google_geocode()`
-* [**Places**](https://developers.google.com/places/) - `google_places()`
 * [**Reverse Geocoding**](https://developers.google.com/maps/documentation/geocoding/intro#ReverseGeocoding) - `google_reverse_geocode()`
+* [**Places**](https://developers.google.com/maps/documentation/javascript/places#place_searches) - `google_places()`
+* [**Place Details**](https://developers.google.com/maps/documentation/javascript/places#place_details) - `google_place_details()`
 * [**Time zone**](https://developers.google.com/maps/documentation/timezone/start) - `google_timezone()`
+* [**Roads**](https://developers.google.com/maps/documentation/roads/intro) - `google_snapToRoads()` and `google_nearestRoads()`
 
 Plotting a Google Map uses the Javascript API, and the functions used to create a map and overlays are
 
@@ -30,6 +32,7 @@ Plotting a Google Map uses the Javascript API, and the functions used to create 
 * [**Circles**](https://developers.google.com/maps/documentation/javascript/examples/circle-simple) - `add_circles()`
 * [**Polygons**](https://developers.google.com/maps/documentation/javascript/examples/polygon-simple) - `add_polygons()`
 * [**Lines**](https://developers.google.com/maps/documentation/javascript/examples/polyline-simple) - `add_polylines()`
+* [**Rectangles**](https://developers.google.com/maps/documentation/javascript/examples/rectangle-simple) - `add_rectangles()`
 * [**Bicycle routes**](https://developers.google.com/maps/documentation/javascript/examples/layer-bicycling) - `add_bicycling()`
 * [**Traffic**](https://developers.google.com/maps/documentation/javascript/examples/layer-traffic) - `add_traffic()`
 * [**Transit**](https://developers.google.com/maps/documentation/javascript/examples/layer-transit) - `add_transit()`
@@ -53,17 +56,17 @@ Plus the helper fucntions, `encode_pl()` and `decode_pl()` for encoding and deco
 
 To use this package you need a valid **API KEY** ([follow instructions here to get a key](https://developers.google.com/maps/documentation/javascript/)) for the API you wish to use. Note that the same API key can be used for all the functions, but you need to register it with each API first. 
 
+---
+
 ## Google Directions API
 
 [**Google Maps**](http://www.google.com/maps) allows users to find directions between locations.
 
 The [**Google Maps Directions API**](https://developers.google.com/maps/documentation/directions/) is a service available to developers that calculates directions between locations.
 
-To access this API through googleway use the `google_directions()` function.
-
 ### Example
 
-Searching the Google Maps website for directions from Melbourne to Sydney generates the route:
+Searching Google Maps for directions from Melbourne to Sydney generates the route:
 
 ![Melbourne to Sydney](./img/melbourne_to_sydney.png)
 
@@ -115,11 +118,11 @@ encode_pl(lat = df$lat, lon = df$lon)
 
 ```
 
+---
+
 ## Google Distance API
 
 The [**Google Maps Distance API**](https://developers.google.com/maps/documentation/distance-matrix/intro) is a service that provides travel distance and time for a matrix of origins and destinations.
-
-To access this API through googleway use the `google_distance()` function.
 
 
 ### Example
@@ -153,13 +156,11 @@ $status
 
 ```
 
+---
 
 ## Google Elevation API
 
 The [**Google Maps Elevation API**](https://developers.google.com/maps/documentation/elevation/start) provides elevation data for all locations on the surface of the earth, including depth locations on the ocean floor (which return negative values).
-
-To access this API through googleway use the `google_elevation()` function.
-
 
 ### Example
 
@@ -201,6 +202,8 @@ $status
 
 ```
 
+---
+
 ## Google Timezone API
 
 The [**Google Maps Time zone API**](https://developers.google.com/maps/documentation/timezone/start) provides time offset data for locations on the surface of the earth. You request the time zone information for a specific latitude/longitude pair and date. The API returns the name of that time zone, the time offset from UTC, and the daylight savings offset
@@ -228,6 +231,7 @@ google_timezone(location = c(-37.81659, 144.9841),
 
 ```
 
+---
 
 ## Google Geocode API
 
@@ -271,7 +275,7 @@ df$results$formatted_address
 
 ```
 
-
+---
 
 ## Google Reverse Geocode API
 
@@ -309,17 +313,28 @@ df$results$geometry
 
 ```
 
+---
+
 ## Google Places API
 
 The [**Google Maps Places API**](https://developers.google.com/places/) gets data from the same database used by Google Maps and Google+ Local. Places features more than 100 million businesses and points of interest that are updated frequently through owner-verified listings and user-moderated contributions.
 
-To access this API through googleway use the `google_places()` function.
+There are four types of search you can perform
 
-There are two types of searches you can perform, [**Nearby** and **Text**](https://developers.google.com/places/web-service/search)
+* Nearby
+* Text
+* Radar
+* Place Details
+
 
 A **Nearby** Search lets you search for places within a specified area. You can refine your search request by supplying keywords or specifying the type of place you are searching for.
 
 A **Text** Search Service is a web service that returns information about a set of places based on a string — for example "pizza in New York" or "shoe stores near Ottawa" or "123 Main Street". The service responds with a list of places matching the text string and any location bias that has been set.
+
+A **Radar** search lets you search for places within a specified search radius by keyword, type or name. The Radar search returns more results than a Nearby or Text search, but the results contain fewer fields.
+
+A Place Detail search (using `google_place_details()`) can be performed when you have a given `place_id` from one of the other three search methods.
+
 
 
 ### Example - Text
@@ -395,11 +410,139 @@ cbind(res_next$results$name, res_next$results$opening_hours)
 
 ```
 
-**nearby**
+### Example - Nearby
 
-**all other parameter exampels**
+For a **nearby** search your are required to porvide a `location` as a pair of latitude/longitude coordinates. You can refine your search by providing a search string and / or a radius.
 
 
+```
+res <- google_places(location = c(-37.918, 144.968),
+                    search_string = "Restaurant",
+                    radius = 500,
+                    key = key)
+
+
+cbind(res$results$name, res$results$opening_hours)
+#                          res$results$name open_now weekday_text
+# 1            Gold Moon Chinese Restaurant     TRUE         NULL
+# 2                  Botticelli of Brighton     TRUE         NULL
+# 3        White Rabbit Restaurant Brighton     TRUE         NULL
+# 4            Ah'Loys Malaysian Restaurant    FALSE         NULL
+# 5  Vivace Restaurant & Functions Brighton     TRUE         NULL
+# 6               Irori Japanese Restaurant    FALSE         NULL
+# 7                        Sails on the bay     TRUE         NULL
+# 8                                   Okami    FALSE         NULL
+# 9                         10 Greek Plates     TRUE         NULL
+# 10                D'Gusto Thai Restaurant    FALSE         NULL
+# 11    Budapest Restaurant and Palinka Bar    FALSE         NULL
+# 12             Mediterranean Greek Tavern    FALSE         NULL
+# 13               St Petersburg Restaurant    FALSE         NULL
+# 14                                 Attica    FALSE         NULL
+# 15                   Claypots Seafood Bar     TRUE         NULL
+# 16                               Donovans     TRUE         NULL
+# 17                                Sumalee    FALSE         NULL
+# 18               Tulum Turkish Restaurant    FALSE         NULL
+# 19                            Hoi An Quan       NA         NULL
+# 20                        Rada Restaurant       NA         NULL
+```
+
+---
+
+## Google Roads
+
+The Google Roads API provides three functions
+
+* [Snap To Roads](https://developers.google.com/maps/documentation/roads/snap)
+* [Nearest Roads](https://developers.google.com/maps/documentation/roads/nearest)
+* [Speed Limits](https://developers.google.com/maps/documentation/roads/speed-limits) (premium only)
+
+
+### Example - Snap to Roads
+
+The snap to roads function takes up to 100 GPS points collected along a route and returns the points snapped to the most likely roads that were travelled along. 
+
+```
+
+df_path <- read.table(text = "lat lon
+-35.27801 149.12958
+-35.28032 149.12907
+-35.28099 149.12929
+-35.28144 149.12984
+-35.28194 149.13003
+-35.28282 149.12956
+-35.28302 149.12881
+-35.28473 149.12836
+", header = T, stringsAsFactors = F)
+
+
+res <- google_snapToRoads(df_path = df_path, key = key)
+
+res$snappedPoints
+  location.latitude location.longitude originalIndex                     placeId
+1         -35.27800           149.1295             0 ChIJr_xl0GdNFmsRsUtUbW7qABM
+2         -35.28032           149.1291             1 ChIJOyypT2hNFmsRZBtscGL0htw
+3         -35.28101           149.1292             2 ChIJv5r0smlNFmsR5nunau79Fv4
+4         -35.28147           149.1298             3 ChIJ601MoWlNFmsR5mvkfPp2ovA
+5         -35.28194           149.1300             4 ChIJ601MoWlNFmsR5mvkfPp2ovA
+6         -35.28282           149.1296             5 ChIJaUpThGlNFmsRMHWxoH7EOsc
+7         -35.28313           149.1289             6 ChIJWSb8ImpNFmsRp_4JAxJFE1A
+8         -35.28473           149.1283             7 ChIJtWxAZmpNFmsRlbUCkc6VtnA
+
+df_path$snapped_lat <- res$snappedPoints$location$latitude
+df_path$snapped_lon <- res$snappedPoints$location$longitude
+df_path$colour <- 'green'
+
+
+map_key <- "your_api_key"
+
+google_map(key = map_key) %>%
+  add_markers(data = df_path, lat = 'lat', lon = 'lon') %>%
+  add_markers(data = df_path, lat = 'snapped_lat', lon = 'snapped_lon', colour = "colour")
+
+```
+
+The result includes the column `originalIndex`. This is a zero-based index that indicates which of the input coordinates has been snapped to the given `location.latitude`/`location.longitude` coordinates. So in this example, `originalIndex` 0 is the first row of `df_path`, `originalIndex` 1 is the second row of `df_path`, and so on.
+
+The image shows the original coordinates from `df_path` in red, and the associated `snapped` coordinates in green
+
+![Snap to Roads](./img/snap_to_roads.png)
+
+### Example - Nearest Roads
+
+The nearest roads function takes up to 100 independent coordinates and returns the closest road segment for each point. 
+
+
+```
+df_points <- read.table(text = "lat lon
+60.1707 24.9426
+60.1708 24.9424
+60.1709 24.9423", header = T)
+
+
+
+res <- google_nearestRoads(df_points, key = key)
+
+res$snappedPoints
+  location.latitude location.longitude originalIndex                     placeId
+1          60.17070           24.94272             0 ChIJNX9BrM0LkkYRIM-cQg265e8
+2          60.17081           24.94271             1 ChIJNX9BrM0LkkYRIM-cQg265e8
+3          60.17091           24.94270             2 ChIJNX9BrM0LkkYRIM-cQg265e8
+
+df_points$snapped_lat <- res$snappedPoints$location$latitude
+df_points$snapped_lon <- res$snappedPoints$location$longitude
+df_points$colour <- 'green'
+
+google_map(key = map_key) %>%
+  add_markers(data = df_points, lat = 'lat', lon = 'lon') %>%
+  add_markers(data = df_points, lat = 'snapped_lat', lon = 'snapped_lon', colour = "colour")
+
+
+```
+
+
+![nearest Roads](./img/nearest_roads.png)
+
+---
 
 ## Google Maps
 
@@ -444,13 +587,13 @@ google_map(data = df, key = map_key) %>%
 
 
 
-## polyline
+## Polyline
 
 Polylines in Google Maps are formed from a set of latitude/longitude cooridnates, encoded using a lossy compression algorithm (https://developers.google.com/maps/documentation/utilities/polylinealgorithm) that allows you to store the serires of coordinates as a single string. 
 
-Both the `add_polylines()` and `add_polygons()` functions in googleway plot the encoded polyline, rather than explicit coordinates, to save the amount of data set to the browser. 
+Both the `add_polylines()` and `add_polygons()` functions in googleway can plot the encoded polyline to save the amount of data set to the browser. (They can also plot coordinates, but this is often slower).
 
-To draw a line on a map you use the `add_polylines()` function. This function takes a data.frame with at least one column of data containing the polylines. 
+To draw a line on a map you use the `add_polylines()` function. This function takes a data.frame with at least one column of data containing the polylines, or two columns containing the series of lat/lon coordinates that make up a polyline. 
 
 Here we can plot the polyline we generated earlier from querying the directions from Melbourne to Sydney.
 
@@ -493,7 +636,8 @@ pl_other <- encode_pl(c(21,28,22), c(-63, -58, -59))
 df <- data.frame(id = c(1,1,1),
                  polyline = c(pl_outer, pl_inner, pl_other),
                  stringsAsFactors = FALSE)
-  
+
+## using one row per polygon
 df <- aggregate(polyline ~ id, data = df, list)               
 
 google_map(key = map_key, height = 800) %>%
@@ -502,22 +646,41 @@ google_map(key = map_key, height = 800) %>%
 
 ![Polygon](./img/polygon_hole.png)
 
+There are various other arguments you can use in the `add_*` functions, in particular
+
+* info_window - displays an information window when clicking on the map object
+* mouse_over - displays an information window when hovering over the map object
+* mouse_over_group - highlights a group of shapes when overing over a map object
 
 
-### mouse over
-### info windows
+
+
+
 ### shape clicks
 ### marker clicks
 ## Circles
+## Rectangles
 
-## traffic
-## bicycling
-## transit
 ## shiny
 
+```
+google_map(key = map_key) %>%
+  add_traffic()
+
+google_map(key = map_key) %>%
+  add_transit()
+
+google_map(key = map_key) %>%
+  add_bicycling()
+
+```
+
+![Traffic](./img/add_traffic.png)
+
+
+![Transit](./img/add_transit.png)
 
 
 
-
-
+![Bicycling](./img/add_bicycling.png)
 

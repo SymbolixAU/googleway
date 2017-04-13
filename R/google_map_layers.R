@@ -1093,6 +1093,8 @@ clear_polylines <- function(map, layer_id = NULL){
 #' which groups of polygons to highlight on mouseover
 #' @param draggable string specifying the column of \code{data} defining if
 #' the polygon is 'draggable'. The column of data should be logical (either TRUE or FALSE)
+#' @param editable string specifying the column of \code{data} defining if the polygon
+#' is 'editable' (either TRUE or FALSE)
 #' @param update_map_view logical specifying if the map should re-centre
 #' according to the polyline.
 #' @param layer_id single value specifying an id for the layer.
@@ -1116,6 +1118,7 @@ add_polygons <- function(map,
                         mouse_over = NULL,
                         mouse_over_group = NULL,
                         draggable = NULL,
+                        editable = NULL,
                         update_map_view = TRUE,
                         layer_id = NULL
                         ){
@@ -1207,6 +1210,9 @@ add_polygons <- function(map,
 
   if(!is.null(draggable))
     polygon[, "draggable"] <- as.logical(data[, draggable])
+
+  if(!is.null(editable))
+    polygon[, 'editable'] <- as.logical(data[, editable])
 
   ## using polyline ==> using one row per line (continue with 'polyline')
   ## using lat/lon ==> using many rows per line
@@ -1401,10 +1407,10 @@ clear_polygons <- function(map, layer_id = NULL){
 #' @param data data frame containing the bounds for the rectangles
 #' @param north String specifying the column of \code{data} that contains the
 #' northern most latitude coordinate
-#' @param south String specifying the column of \code{data} that contains the
-#' southern most latitude coordinate
 #' @param east String specifying the column of \code{data} that contains the
 #' eastern most longitude
+#' @param south String specifying the column of \code{data} that contains the
+#' southern most latitude coordinate
 #' @param west String specifying the column of \code{data} that contains the
 #' western most longitude
 #' @param id string specifying the column containing an identifier for a rectangle
@@ -1459,8 +1465,8 @@ clear_polygons <- function(map, layer_id = NULL){
 add_rectangles <- function(map,
                            data = get_map_data(map),
                            north,
-                           south,
                            east,
+                           south,
                            west,
                            id = NULL,
                            draggable = NULL,
