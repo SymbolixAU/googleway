@@ -531,8 +531,80 @@
 # polygon <- df
 #
 
+### Polygon clicks
+
+# library(shiny)
+# library(googleway)
+#
+# ui <- fluidPage(
+#   google_mapOutput("myMap")
+# )
+#
+# server <- function(input, output){
+#
+#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#   pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
+#                         lon = c(-80.190, -66.118, -64.757))
+#
+#   pl_inner <- encode_pl(lat = c(28.745, 29.570, 27.339),
+#                         lon = c(-70.579, -67.514, -66.668))
+#
+#   df <- data.frame(id = c(1, 1),
+#                    polyline = c(pl_outer, pl_inner),
+#                    stringsAsFactors = FALSE)
+#
+#   df <- aggregate(polyline ~ id, data = df, list)
+#
+#   output$myMap <- renderGoogle_map({
+#     google_map(key = map_key) %>%
+#       add_polygons(data = df, polyline = 'polyline')
+#   })
+#
+#   observeEvent(input$myMap_polygon_click, {
+#     print(str(input$myMap_polygon_click))
+#   })
+#
+#   observeEvent(input$myMap_map_click, {
+#     print(str(input$myMap_map_click))
+#   })
+#
+# }
+#
+# shinyApp(ui, server)
 
 
-
+# ui2 <- shinyUI( bootstrapPage(
+#
+#   # a div named mydiv
+#   tags$div(id="mydiv", style="width: 50px; height :50px;
+#            left: 100px; top: 100px;
+#            background-color: gray; position: absolute"),
+#
+#   # a shiny element to display unformatted text
+#   verbatimTextOutput("results"),
+#
+#   # javascript code to send data to shiny server
+#   tags$script('
+#               document.getElementById("mydiv").onclick = function() {
+#                   let myInfo = {
+#                       randomNumber: Math.random(),
+#                       anotherNumber: 23.3355345,
+#                   }
+#                   // var number = Math.random();
+#                   Shiny.onInputChange("mydata", myInfo);
+#               };
+#               ')
+#
+#   ))
+#
+# server2 <- shinyServer(function(input, output, session) {
+#
+#   output$results = renderPrint({
+#     input$mydata
+#   })
+#
+# })
+#
+# shinyApp(ui = ui2, server = server2)
 
 

@@ -301,6 +301,7 @@ function add_circles(map_id, data_circles, layer_id){
         strokeWeight: circle.stroke_weight,
         fillColor: circle.fill_colour,
         fillOpacity: circle.fill_opacity,
+        fillOpacityHolder: circle.fill_opacity,
         draggable: circle.draggable,
         center: latlon,
         radius: circle.radius,
@@ -781,8 +782,8 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
       add_mouseOver(map_id, Polygon, infoWindow, "_mouse_over", polygon.mouse_over, layer_id, 'googlePolygon');
     }
 
-    shapeInfo = { layerId : layer_id };
-    shape_click(map_id, Polygon, polygon.id, shapeInfo);
+    polygonInfo = { layerId : layer_id };
+    polygon_click(map_id, Polygon, polygon.id, polygonInfo);
 
     window[map_id + 'googlePolygon' + layer_id].push(Polygon);
     Polygon.setMap(window[map_id + 'map']);
@@ -950,8 +951,6 @@ function add_rectangles(map_id, data_rectangles, layer_id){
         mouseOverGroup: rectangle.mouse_over_group
       });
 
-      console.log(Rectangle);
-
     window[map_id + 'googleRectangles' + layer_id].push(Rectangle);
     Rectangle.setMap(window[map_id + 'map']);
 
@@ -1104,7 +1103,7 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
           if(window[map_id + layerType + layer_id][i].mouseOverGroup == this.mouseOverGroup){
             window[map_id + layerType + layer_id][i].setOptions({Opacity: 1});
           }else{
-            window[map_id + layerType + layer_id][i].setOptions({Opacity: 0.1});
+            window[map_id + layerType + layer_id][i].setOptions({Opacity: 0.01});
           }
         }
 
@@ -1115,7 +1114,7 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
           if(window[map_id + layerType + layer_id][i].mouseOverGroup == this.mouseOverGroup){
             window[map_id + layerType + layer_id][i].setOptions({strokeOpacity: 1});
           }else{
-            window[map_id + layerType + layer_id][i].setOptions({strokeOpacity: 0.1});
+            window[map_id + layerType + layer_id][i].setOptions({strokeOpacity: 0.01});
           }
         }
       }else{
@@ -1213,22 +1212,35 @@ function map_click(map_id, mapObject, mapInfo){
 
   google.maps.event.addListener(mapObject, 'click', function(event){
 
-    let eventInfo = $.extend(
-      {
+//    let eventInfo = $.extend(
+//      mapInfo,
+//      {
+//        id: map_id,
+//        latNumeric: event.latLng.lat(),
+//        lat: event.latLng.lat().toFixed(4),
+//        lon: event.latLng.lng().toFixed(4),
+//        centerLat: +mapObject.getCenter().lat().toFixed(4),
+//        centerLng: mapObject.getCenter().lng().toFixed(4),
+//        zoom: mapObject.getZoom(),
+//        randomValue: Math.random()
+//      }
+//    );
+
+   let eventInfo = {
         id: map_id,
         latNumeric: event.latLng.lat(),
         lat: event.latLng.lat().toFixed(4),
         lon: event.latLng.lng().toFixed(4),
-        centerLat: mapObject.getCenter().lat().toFixed(4),
+        centerLat: +mapObject.getCenter().lat().toFixed(4),
         centerLng: mapObject.getCenter().lng().toFixed(4),
         zoom: mapObject.getZoom(),
         randomValue: Math.random()
-      },
-     mapInfo
-    );
+      };
 
     console.log("map clicked - event.latLng.lat(): ");
     console.log(event.latLng.lat());
+//    console.log(eventInfo);
+//    console.log(mapInfo);
     Shiny.onInputChange(map_id + "_map_click", eventInfo);
   })
 }
@@ -1328,6 +1340,27 @@ function shape_click(map_id, shapeObject, shape_id, shapeInfo){
 
 }
 
+function polygon_click(map_id, polygonObject, polygon_id, polygonInfo){
+
+  if(!HTMLWidgets.shinyMode) return;
+
+  google.maps.event.addListener(polygonObject, 'click', function(event){
+
+    let eventInfo = $.extend(
+      {
+        //id: polygon_id,
+        //lat: event.latLng.lat(),
+        //lon: event.latLng.lng(),
+        paths: polygonObject.getPath(),
+        randomValue: Math.random()
+      },
+      polygonInfo
+    );
+
+    Shiny.onInputChange(map_id + "_polygon_click", eventInfo);
+  });
+
+}
 
 
 /**
@@ -1498,8 +1531,14 @@ function initialise_map(el, x) {
 
   // listeners
   mapInfo = {};
+//  console.log('map info');
+//  console.log(mapInfo);
+
   map_click(el.id, window[el.id + 'map'], mapInfo);
   bounds_changed(el.id, window[el.id + 'map'], mapInfo);
   zoom_changed(el.id, window[el.id + 'map'], mapInfo);
+
+//  console.log("map info 2");
+//  console.log(mapInfo);
 
 }
