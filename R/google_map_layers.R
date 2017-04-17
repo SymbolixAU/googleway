@@ -63,8 +63,7 @@ add_markers <- function(map,
                         info_window = NULL,
                         mouse_over = NULL,
                         mouse_over_group = NULL,
-                        layer_id = NULL,
-                        z_index = NULL)
+                        layer_id = NULL)
 {
 
   ## TODO:
@@ -101,7 +100,6 @@ add_markers <- function(map,
   # markers[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
   markers[, "opacity"] <- SetDefault(opacity, 1, data)
   markers[, "colour"] <- SetDefault(colour, "red" , data)
-  markers[, "z_index"] <- SetDefault(z_index, 5, data)
 
   if(!is.logical(cluster))
     stop("cluster must be logical")
