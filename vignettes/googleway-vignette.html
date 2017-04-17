@@ -12,7 +12,7 @@
 
 <meta name="author" content="D Cooley" />
 
-<meta name="date" content="2017-04-13" />
+<meta name="date" content="2017-04-17" />
 
 <title>Googleway Vignette</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Googleway Vignette</h1>
 <h4 class="author"><em>D Cooley</em></h4>
-<h4 class="date"><em>2017-04-13</em></h4>
+<h4 class="date"><em>2017-04-17</em></h4>
 
 
 
@@ -687,6 +687,30 @@ google_map(key = map_key, height = 800) %&gt;%
 </div>
 <div id="shiny" class="section level2">
 <h2>shiny</h2>
+<p>As <code>google_map()</code> is a <code>HTMLWidget</code>, in inherently works in <em>Shiny</em>. As with all shiny apps the two functions you need to include are</p>
+<ul>
+<li><code>renderGoogle_map()</code> (in the UI)</li>
+<li><code>google_mapOutput()</code> (in the server)</li>
+</ul>
+<p>The simplest app can be build with</p>
+<pre><code>library(shiny)
+
+ui &lt;- fluidPage(
+   google_mapOutput(outputId = &quot;map&quot;)
+)
+
+server &lt;- function(input, output){
+
+  map_key &lt;- 'your_api_key'
+
+  output$map &lt;- renderGoogle_map({
+    google_map(key = map_key)
+  })
+}
+
+shinyApp(ui, server)
+</code></pre>
+<p>But of course, this isn’t very interesting.</p>
 </div>
 
 

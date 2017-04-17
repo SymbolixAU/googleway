@@ -44,7 +44,7 @@ test_that("Avoid is a valid type", {
                                  avoid = "dont avoid",
                                  key = "abc",
                                  simplify = TRUE),
-               "avoid must be one of tolls, highways, ferries or indoor")
+               "avoid can only include tolls, highways, ferries or indoor")
 })
 
 test_that("Departure time is not in the past",{

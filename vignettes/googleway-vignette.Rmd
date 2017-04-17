@@ -710,9 +710,40 @@ google_map(key = map_key, height = 800) %>%
 ![Mouse Over Group 2](./img/mouse_over_group_on2.png)
 
 
-
 ---
 
 ## shiny
+
+As `google_map()` is a `HTMLWidget`, in inherently works in *Shiny*. As with all shiny apps the two functions you need to include are
+
+* `renderGoogle_map()` (in the UI)
+* `google_mapOutput()` (in the server)
+
+The simplest app can be build with
+
+```
+library(shiny)
+
+ui <- fluidPage(
+   google_mapOutput(outputId = "map")
+)
+
+server <- function(input, output){
+
+  map_key <- 'your_api_key'
+
+  output$map <- renderGoogle_map({
+    google_map(key = map_key)
+  })
+}
+
+shinyApp(ui, server)
+
+```
+
+But of course, this isn't very interesting. 
+
+
+
 
 
