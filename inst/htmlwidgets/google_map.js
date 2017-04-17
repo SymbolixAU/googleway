@@ -543,10 +543,6 @@ function update_heatmap(map_id, data_heatmap, layer_id){
     }
 
     window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
-
-    //window[map_id + 'googleBounds'].push(bounds);
-    //window[map_id + 'map'].fitBounds(bounds);
-
   }
 
 }

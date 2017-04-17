@@ -53,22 +53,20 @@ while the last colour in the vector will be use in the centre of the 'heat'.
 
 map_key <- 'your_api_key'
 
-df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
--37.8191299438477, -37.8187675476074, -37.8186187744141, -37.8181076049805
-), lon = c(144.968612670898, 144.968414306641, 144.968139648438,
-144.967971801758, 144.967864990234, 144.967636108398), weight = c(31.5698964400217,
-97.1629025738221, 58.9051092562731, 76.3215389118996, 37.8982300488278,
-77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
-"lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
+set.seed(20170417)
+df <- tram_route
+df$weight <- sample(1:10, size = nrow(df), replace = T)
 
 google_map(key = map_key, data = df) \%>\%
- add_heatmap(lat = "lat", lon = "lon", weight = "weight")
+ add_heatmap(lat = "shape_pt_lat", lon = "shape_pt_lon", weight = "weight",
+              option_radius = 0.001)
 
 ## specifying different colour gradient
 option_gradient <- c('orange', 'blue', 'mediumpurple4', 'snow4', 'thistle1')
 
 google_map(key = map_key, data = df) \%>\%
- add_heatmap(lat = "lat", lon = "lon", weight = "weight", option_gradient = option_gradient)
+ add_heatmap(lat = "shape_pt_lat", lon = "shape_pt_lon", weight = "weight",
+              option_radius = 0.001, option_gradient = option_gradient)
 
  }
 }

@@ -436,22 +436,20 @@ update_circles <- function(map, data, id,
 #'
 #' map_key <- 'your_api_key'
 #'
-#' df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
-#' -37.8191299438477, -37.8187675476074, -37.8186187744141, -37.8181076049805
-#' ), lon = c(144.968612670898, 144.968414306641, 144.968139648438,
-#' 144.967971801758, 144.967864990234, 144.967636108398), weight = c(31.5698964400217,
-#' 97.1629025738221, 58.9051092562731, 76.3215389118996, 37.8982300488278,
-#' 77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
-#' "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
+#' set.seed(20170417)
+#' df <- tram_route
+#' df$weight <- sample(1:10, size = nrow(df), replace = T)
 #'
 #' google_map(key = map_key, data = df) %>%
-#'  add_heatmap(lat = "lat", lon = "lon", weight = "weight")
+#'  add_heatmap(lat = "shape_pt_lat", lon = "shape_pt_lon", weight = "weight",
+#'               option_radius = 0.001)
 #'
 #' ## specifying different colour gradient
 #' option_gradient <- c('orange', 'blue', 'mediumpurple4', 'snow4', 'thistle1')
 #'
 #' google_map(key = map_key, data = df) %>%
-#'  add_heatmap(lat = "lat", lon = "lon", weight = "weight", option_gradient = option_gradient)
+#'  add_heatmap(lat = "shape_pt_lat", lon = "shape_pt_lon", weight = "weight",
+#'               option_radius = 0.001, option_gradient = option_gradient)
 #'
 #'  }
 #' @export
@@ -502,7 +500,7 @@ add_heatmap <- function(map,
 
   if(!is.null(option_radius))
     if(!is.numeric(option_radius))
-      stop("option_radus must be numeric")
+      stop("option_radius must be numeric")
 
   if(!is.null(option_dissipating))
     if(!is.logical(option_dissipating))
@@ -559,30 +557,35 @@ add_heatmap <- function(map,
 #' @param layer_id single value specifying an id for the layer.
 #' @export
 update_heatmap <- function(map,
-                           data = get_map_data(map),
+                           data,
                            lat = NULL,
                            lon = NULL,
-                           weight = 0.6,
+                           weight = NULL,
                            layer_id = NULL){
 
   ## rename the cols so the javascript functions will see them
   if(is.null(lat)){
+    print("finding lat")
     data <- latitude_column(data, lat, 'update_heatmap')
     lat <- 'lat'
   }
 
   if(is.null(lon)){
+    print("finding lon")
     data <- longitude_column(data, lon, 'update_heatmap')
     lon <- 'lng'
   }
 
+  print(head(data))
+
   layer_id <- LayerId(layer_id)
 
-  Heatmap <- data.frame(lat = data[, "lat"],
-                        lng = data[, "lng"])
+  Heatmap <- data.frame(lat = data[, lat],
+                        lng = data[, lon])
 
-  Heatmap[, "weight"] <- SetDefault(weight, 1, data)
+  Heatmap[, "weight"] <- SetDefault(weight, 0.6, data)
 
+  print(head(Heatmap))
   Heatmap <- jsonlite::toJSON(Heatmap)
 
   invoke_method(map, data, 'update_heatmap', Heatmap, layer_id)

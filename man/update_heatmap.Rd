@@ -4,8 +4,8 @@
 \alias{update_heatmap}
 \title{update heatmap}
 \usage{
-update_heatmap(map, data = get_map_data(map), lat = NULL, lon = NULL,
-  weight = 0.6, layer_id = NULL)
+update_heatmap(map, data, lat = NULL, lon = NULL, weight = NULL,
+  layer_id = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}

@@ -711,6 +711,44 @@ server &lt;- function(input, output){
 shinyApp(ui, server)
 </code></pre>
 <p>But of course, this isn’t very interesting.</p>
+<p>You can use all the standard <code>add_*</code> functions that have already been specified to add various shapes and layers. But there’s also varous <code>clear_*</code> and <code>update_*</code> functions that let you update those shapes and layers dynamically with the shiny app.</p>
+<p>The <code>clear_*</code> functions are designed to remove objects from the app. The <code>update_*</code> functions are designed to update those objects that are already on the map.</p>
+<pre><code>library(shiny)
+
+ui &lt;- fluidPage(
+   sliderInput(inputId = &quot;weight&quot;, label = &quot;weight&quot;, min = 0, max = 1, 
+             step = 0.01, value = 1),
+   google_mapOutput(outputId = &quot;map&quot;)
+)
+
+server &lt;- function(input, output){
+
+  map_key &lt;- 'your_api_key'
+  
+  set.seed(20170417)
+  df &lt;- tram_route
+  df$weight &lt;- sample(1:10, size = nrow(df), replace = T)
+
+  output$map &lt;- renderGoogle_map({
+    google_map(key = map_key) %&gt;%
+      add_heatmap(data = df, lat = &quot;shape_pt_lat&quot;, lon = &quot;shape_pt_lon&quot;, 
+                   weight = &quot;weight&quot;, option_radius = 0.001)
+  })
+  
+  observeEvent(input$weight,{
+
+    print(df)
+    df$weight &lt;- df$weight * input$weight
+
+     google_map_update(map_id = &quot;map&quot;) %&gt;%
+       update_heatmap(data = df, lat = &quot;shape_pt_lat&quot;, lon = &quot;shape_pt_lon&quot;,
+          weight = &quot;weight&quot;)
+   })
+}
+
+shinyApp(ui, server)
+</code></pre>
+<p>Note that the <code>update_*</code> functions can’t be used to add extra objects, they can only update objects that already exist.</p>
 </div>
 
 
