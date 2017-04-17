@@ -41,11 +41,23 @@ test_that("Destination is lat/lon", {
 
 test_that("Avoid is a valid type", {
 
-  expect_error(google_directions(origin = c(-37.8179746, 144.9668636),
-                         destination = c(-37.81659, 144.9841),
-                         avoid = "dont avoid",
-                         key = "abc",
-                         simplify = TRUE))
+  expect_error(
+    google_directions(origin = c(-37.8179746, 144.9668636),
+                     destination = c(-37.81659, 144.9841),
+                     avoid = "dont avoid",
+                     key = "abc",
+                     simplify = TRUE),
+               "avoid can only include tolls, highways, ferries or indoor"
+    )
+
+  expect_silent(
+    google_directions(origin = c(-37.8179746, 144.9668636),
+                      destination = c(-37.81659, 144.9841),
+                      avoid = c("tolls","highways"),
+                      key = "abc",
+                      simplify = TRUE)
+  )
+
 })
 
 test_that("Departure time is not in the past",{
@@ -87,30 +99,106 @@ test_that("map url is a single string",{
 
 test_that("transit_mode issues warning when mode != transit",{
 
-  expect_warning(google_directions(origin = "Melbourne Airport, Australia",
-                           destination = "Portsea, Melbourne, Australia",
-                           departure_time = Sys.time() + (24 * 60 * 60),
-                           waypoints = list(via = c(-37.81659, 144.9841),
-                                            via = "Ringwood, Victoria"),
-                           transit_mode = "bus",
-                           key = "abc"))
+  expect_warning(
+    google_directions(origin = "Melbourne Airport, Australia",
+                     destination = "Portsea, Melbourne, Australia",
+                     departure_time = Sys.time() + (24 * 60 * 60),
+                     waypoints = list(via = c(-37.81659, 144.9841),
+                                      via = "Ringwood, Victoria"),
+                     transit_mode = "bus",
+                     key = "abc"),
+    "You have specified a transit_mode, but are not using mode = 'transit'. Therefore this argument will be ignored"
+    )
+})
 
+test_that("transit_mode is valid", {
+
+  expect_error(
+    google_directions(origin = "Melbourne Airport, Australia",
+                      destination = "Portsea, Melbourne, Australia",
+                      departure_time = Sys.time() + (24 * 60 * 60),
+                      waypoints = list(via = c(-37.81659, 144.9841),
+                                       via = "Ringwood, Victoria"),
+                      mode = "transit",
+                      transit_mode = "bike",
+                      key = "abc")
+  )
 })
 
 
 test_that("waypoints are correctly named", {
 
-  expect_error(google_directions(origin = "Melbourne Airport, Australia",
-                                 destination = "Portsea, Melbourne, Australia",
-                                 waypoints = list(c(-37.81659, 144.9841),
-                                                  via = "Ringwood, Victoria"),
-                                 key = "abc"),
+  expect_error(
+    google_directions(origin = "Melbourne Airport, Australia",
+                       destination = "Portsea, Melbourne, Australia",
+                       waypoints = list(c(-37.81659, 144.9841),
+                                        via = "Ringwood, Victoria"),
+                       key = "abc"),
                "waypoint list elements must be named either 'via' or 'stop'")
 
 })
 
+test_that("waypoints are optimised", {
+
+  expect_error(
+    google_directions(origin = "Melbourne Airport, Australia",
+                      destination = "Portsea, Melbourne, Australia",
+                      waypoints = list(via = c(-37.81659, 144.9841),
+                                       via = "Ringwood, Victoria"),
+                      optimise_waypoints = TRUE,
+                      key = "abc"),
+    "waypoints can only be optimised for stopovers. Each waypoint in the list must be named as stop"
+    )
+
+})
 
 
+test_that("transit_routing_preferences are valid",{
 
+  expect_error(
+    google_directions(origin = "Melbourne Airport, Australia",
+                      destination = "Portsea, Melbourne, Australia",
+                      departure_time = Sys.time() + (24 * 60 * 60),
+                      mode = "transit",
+                      transit_mode = "bus",
+                      transit_routing_preference = 'less walking',
+                      key = "abc")
+  )
+
+
+  expect_silent(
+    google_directions(origin = "Melbourne Airport, Australia",
+                    destination = "Portsea, Melbourne, Australia",
+                    departure_time = Sys.time() + (24 * 60 * 60),
+                    mode = "transit",
+                    transit_mode = "bus",
+                    transit_routing_preference = 'less_walking',
+                    key = "abc")
+  )
+
+  expect_silent(
+    google_directions(origin = "Melbourne Airport, Australia",
+                      destination = "Portsea, Melbourne, Australia",
+                      departure_time = Sys.time() + (24 * 60 * 60),
+                      mode = "transit",
+                      transit_mode = "bus",
+                      transit_routing_preference = c('less_walking','fewer_transfers'),
+                      key = "abc")
+  )
+
+
+})
+
+test_that("traffic model is valid",{
+
+  expect_error(
+    google_directions(origin = "Melbourne Airport, Australia",
+                      destination = "Portsea, Melbourne, Australia",
+                      departure_time = Sys.time() + (24 * 60 * 60),
+                      traffic_model = "best guess",
+                      key = "abc")
+  )
+
+})
 
 

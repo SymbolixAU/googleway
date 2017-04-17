@@ -79,7 +79,7 @@ directions_data <- function(base_url,
 
   ## check avoid is valid
   if(!all(tolower(avoid) %in% c("tolls","highways","ferries","indoor")) & !is.null(avoid)){
-    stop("avoid must be one of tolls, highways, ferries or indoor")
+    stop("avoid can only include tolls, highways, ferries or indoor")
   }else{
     if(length(avoid) > 1){
       avoid <- paste0(tolower(avoid), collapse = "+")
