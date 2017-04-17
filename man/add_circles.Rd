@@ -87,16 +87,8 @@ Markers are always the top layer
 \examples{
 \dontrun{
 
-df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
--37.8191299438477, -37.8187675476074, -37.8186187744141, -37.8181076049805
-), lon = c(144.968612670898, 144.968414306641, 144.968139648438,
-144.967971801758, 144.967864990234, 144.967636108398), weight = c(31.5698964400217,
-97.1629025738221, 58.9051092562731, 76.3215389118996, 37.8982300488278,
-77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
-"lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
-
-google_map(key = map_key, data = df_line) \%>\%
- add_circles()
+google_map(key = map_key, data = tram_stops) \%>\%
+ add_circles(lat = "stop_lat", lon = "stop_lon")
 
  }
 }
