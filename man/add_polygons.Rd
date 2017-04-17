@@ -9,7 +9,7 @@ add_polygons(map, data = get_map_data(map), polyline = NULL, lat = NULL,
   stroke_weight = NULL, stroke_opacity = NULL, fill_colour = NULL,
   fill_opacity = NULL, info_window = NULL, mouse_over = NULL,
   mouse_over_group = NULL, draggable = NULL, editable = NULL,
-  update_map_view = TRUE, layer_id = NULL)
+  update_map_view = TRUE, layer_id = NULL, z_index = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -72,9 +72,27 @@ is 'editable' (either TRUE or FALSE)}
 according to the polyline.}
 
 \item{layer_id}{single value specifying an id for the layer.}
+
+\item{z_index}{single value specifying where the polygons appear in the layering
+of the map objects. Layers with a higher \code{z_index} appear on top of those with
+a lower \code{z_index}. See details.}
 }
 \description{
 Add a polygon to a google map.
+}
+\details{
+\code{z_index} values define the order in which objects appear on the map.
+Those with a higher value appear on top of those with a lower value. The default
+order of objects is (1 being underneath all other objects)
+
+\itemize{
+  \item{1. Polygon}
+  \item{2. Rectangle}
+  \item{3. Polyline}
+  \item{4. Circle}
+}
+
+Markers are always the top layer
 }
 \note{
 A polygon represents an area enclosed by a closed path. Polygon objects

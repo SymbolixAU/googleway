@@ -315,7 +315,7 @@ function add_circles(map_id, data_circles, layer_id){
         center: latlon,
         radius: circle.radius,
         mouseOverGroup: circle.mouse_over_group,
-        zIndex: 1
+        zIndex: circle.z_index
       });
 
     window[map_id + 'googleCircles' + layer_id].push(Circle);
@@ -605,7 +605,8 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
       strokeOpacityHolder: polyline.stroke_opacity,
       strokeWeight: polyline.stroke_weight,
       mouseOver: polyline.mouse_over,
-      mouseOverGroup: polyline.mouse_over_group
+      mouseOverGroup: polyline.mouse_over_group,
+      zIndex: polyline.z_index
 
     });
 
@@ -774,7 +775,8 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
       mouseOver: polygon.mouse_over,
       mouseOverGroup: polygon.mouse_over_group,
       draggable: polygon.draggable,
-      editable: polygon.editable
+      editable: polygon.editable,
+      zIndex: polygon.z_index
       //_information: polygon.information
 //      clickable: true,
 //      editable: false,
@@ -782,6 +784,8 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
 //      visible: true
       //zIndex:1
     });
+
+    console.log(Polygon);
 
     if(polygon.info_window){
       add_infoWindow(map_id, Polygon, infoWindow, '_information', polygon.info_window);
@@ -957,7 +961,8 @@ function add_rectangles(map_id, data_rectangles, layer_id){
         draggable: rectangle.draggable,
         editable: rectangle.editable,
         radius: rectangle.radius,
-        mouseOverGroup: rectangle.mouse_over_group
+        mouseOverGroup: rectangle.mouse_over_group,
+        zIndex: rectangle.z_index
       });
 
     window[map_id + 'googleRectangles' + layer_id].push(Rectangle);

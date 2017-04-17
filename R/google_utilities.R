@@ -300,14 +300,14 @@ objectColumns <- function(obj = c("polylinePolyline",
     switch(obj,
            "polylineCoords" = c("id", "lat","lng", "geodesic","stroke_colour",
                                 "stroke_weight","stroke_opacity","mouse_over",
-                                "mouse_over_group", "info_window"),
+                                "mouse_over_group", "info_window", "z_index"),
            "polylinePolyline" = c("id", "polyline", "geodesic","stroke_colour",
                                 "stroke_weight","stroke_opacity","mouse_over",
-                                "mouse_over_group", "info_window"),
+                                "mouse_over_group", "info_window", "z_index"),
            "polygonCoords" = c("id","pathId","lat","lng","stroke_colour",
                                "stroke_weight","stroke_opacity","fill_colour",
                                "fill_opacity", "info_window","mouse_over",
-                               "mouse_over_group"))
+                               "mouse_over_group", "z_index"))
   )
 }
 

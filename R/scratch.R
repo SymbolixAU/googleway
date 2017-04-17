@@ -532,6 +532,19 @@
 #
 
 
+
+## Z_index
+# google_map(key = map_key) %>%
+#   add_circles(data = tram_stops, lat = "stop_lat", lon = "stop_lon",
+#               fill_colour = "#00FFFF", fill_opacity = 1, z_index = 3) %>%
+#   add_polygons(data = tram_route, lat = 'shape_pt_lat', lon = 'shape_pt_lon',
+#                fill_opacity = 1, z_index = 2) %>%
+#   add_polylines(data = tram_route, lat = "shape_pt_lat", lon = "shape_pt_lon",
+#                 stroke_opacity = 1, stroke_colour = "#FFFFFF", stroke_weight = 10,
+#                 z_index = 2)
+
+
+
 ## TEST: map_click numeric values
 # library(shiny)
 # library(googleway)
