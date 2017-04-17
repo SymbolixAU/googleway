@@ -45,8 +45,10 @@ test_that("radius is numeric > 0 & <= 50000",{
 
 test_that("radius is supplied when location search",{
 
-  expect_error(google_places(location = c(-37.817839,144.9673254)),
-               "you must specify a radius if only using a 'location' search, and rankby is not equal to 'distance'")
+  expect_error(
+    google_places(location = c(-37.817839,144.9673254)),
+    "you must specify a radius if only using a 'location' search"
+    )
 
 })
 
@@ -80,7 +82,7 @@ test_that("search string ignored when rankby is used", {
   expect_error(
     google_places(location = c(-37, 144),
                 rankby = 'distance'),
-    "you must specify a radius if only using a 'location' search, and rankby is not equal to 'distance'"
+    "you must specify a radius if only using a 'location' search"
     )
 
   expect_warning(

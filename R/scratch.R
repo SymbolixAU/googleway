@@ -531,12 +531,13 @@
 # polygon <- df
 #
 
-### Polygon clicks
 
+## TEST: map_click numeric values
 # library(shiny)
 # library(googleway)
 #
 # ui <- fluidPage(
+#   verbatimTextOutput("results"),
 #   google_mapOutput("myMap")
 # )
 #
@@ -553,19 +554,30 @@
 #                    polyline = c(pl_outer, pl_inner),
 #                    stringsAsFactors = FALSE)
 #
-#   df <- aggregate(polyline ~ id, data = df, list)
+#   # df <- aggregate(polyline ~ id, data = df, list)
 #
 #   output$myMap <- renderGoogle_map({
 #     google_map(key = map_key) %>%
 #       add_polygons(data = df, polyline = 'polyline')
+# #      add_polylines(data = df, polyline = 'polyline')
 #   })
 #
 #   observeEvent(input$myMap_polygon_click, {
 #     print(str(input$myMap_polygon_click))
 #   })
 #
+#   observeEvent(input$myMap_polyline_click, {
+#     print(str(input$myMap_polyline_click))
+#   })
+#
+#
 #   observeEvent(input$myMap_map_click, {
+#     print(input$myData)
 #     print(str(input$myMap_map_click))
+#   })
+#
+#   output$results = renderPrint({
+#     input$myMapData
 #   })
 #
 # }

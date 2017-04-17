@@ -10,6 +10,15 @@ HTMLWidgets.widget({
     return {
       renderValue: function(x) {
 
+//        DEBUGGING numeric / text
+//        myInfo = {id: "a"};
+//        let myVar = {
+//          myNumber: 123.45678,
+//          otherNumber: 987.654321
+//        };
+//        myInfo = $.extend(myVar, myInfo);
+//        Shiny.onInputChange("myData", myInfo);
+
           // global map objects
           // - display elements
 //          window[el.id + 'googleMarkers'] = [];
@@ -624,8 +633,11 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
       add_mouseOver(map_id, Polyline, infoWindow, "_mouse_over", polyline.mouse_over, layer_id, 'googlePolyline');
     }
 
-    shapeInfo = { layerId : layer_id };
-    shape_click(map_id, Polyline, polyline.id, shapeInfo);
+    polylineInfo = { layerId : layer_id };
+    polyline_click(map_id, Polyline, polyline.id, polylineInfo);
+
+    //shapeInfo = { layerId : layer_id };
+    //shape_click(map_id, Polyline, polyline.id, shapeInfo);
 
   }
 
@@ -1208,39 +1220,32 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
  * Returns details of the click even on a map
  **/
 function map_click(map_id, mapObject, mapInfo){
+
   if(!HTMLWidgets.shinyMode) return;
 
+  //Shiny.onInputChange("myMapData", 123.7887);
+
   google.maps.event.addListener(mapObject, 'click', function(event){
-
-//    let eventInfo = $.extend(
-//      mapInfo,
-//      {
-//        id: map_id,
-//        latNumeric: event.latLng.lat(),
-//        lat: event.latLng.lat().toFixed(4),
-//        lon: event.latLng.lng().toFixed(4),
-//        centerLat: +mapObject.getCenter().lat().toFixed(4),
-//        centerLng: mapObject.getCenter().lng().toFixed(4),
-//        zoom: mapObject.getZoom(),
-//        randomValue: Math.random()
-//      }
-//    );
-
-   let eventInfo = {
+//   mapObject.addListener('click', function(){
+//
+    let eventInfo = $.extend(
+      mapInfo,
+      {
         id: map_id,
-        latNumeric: event.latLng.lat(),
+//        latNumeric: event.latLng.lat(),
         lat: event.latLng.lat().toFixed(4),
         lon: event.latLng.lng().toFixed(4),
-        centerLat: +mapObject.getCenter().lat().toFixed(4),
+        centerLat: mapObject.getCenter().lat().toFixed(4),
         centerLng: mapObject.getCenter().lng().toFixed(4),
         zoom: mapObject.getZoom(),
         randomValue: Math.random()
-      };
+      }
+    );
 
-    console.log("map clicked - event.latLng.lat(): ");
-    console.log(event.latLng.lat());
-//    console.log(eventInfo);
-//    console.log(mapInfo);
+    // logging messages for debugging numerics / text error
+//    console.log("map clicked - event.latLng.lat(): ");
+//    console.log(event.latLng.lat());
+
     Shiny.onInputChange(map_id + "_map_click", eventInfo);
   })
 }
@@ -1302,8 +1307,8 @@ function marker_click(map_id, markerObject, marker_id, markerInfo){
     let eventInfo = $.extend(
       {
         id: marker_id,
-//        lat: event.latLng.lat(),
-//        lon: event.latLng.lng(),
+        lat: event.latLng.lat().toFixed(4),
+        lon: event.latLng.lng().toFixed(4),
         randomValue: Math.random()
       },
       markerInfo
@@ -1328,8 +1333,8 @@ function shape_click(map_id, shapeObject, shape_id, shapeInfo){
     let eventInfo = $.extend(
       {
         id: shape_id,
-        lat: event.latLng.lat(),
-        lon: event.latLng.lng(),
+        lat: event.latLng.lat().toFixed(4),
+        lon: event.latLng.lng().toFixed(4),
         randomValue: Math.random() // force reactivity so that 'onInputChange' thinks the input has changed
       },
       shapeInfo
@@ -1340,18 +1345,49 @@ function shape_click(map_id, shapeObject, shape_id, shapeInfo){
 
 }
 
+function polyline_click(map_id, polylineObject, polyline_id, polylineInfo){
+
+  if(!HTMLWidgets.shinyMode) return;
+
+  google.maps.event.addListener(polylineObject, 'click', function(event){
+
+    let eventInfo = $.extend(
+      {
+        id: polyline_id,
+        lat: event.latLng.lat().toFixed(4),
+        lon: event.latLng.lng().toFixed(4),
+        path: google.maps.geometry.encoding.encodePath(polylineObject.getPath()),
+        randomValue: Math.random()
+      },
+      polylineInfo
+    );
+
+    Shiny.onInputChange(map_id + "_polyline_click", eventInfo);
+  });
+
+}
+
 function polygon_click(map_id, polygonObject, polygon_id, polygonInfo){
 
   if(!HTMLWidgets.shinyMode) return;
 
   google.maps.event.addListener(polygonObject, 'click', function(event){
 
+    var polygonOuterPath = google.maps.geometry.encoding.encodePath(polygonObject.getPath());
+    var polygonAllPaths = [];
+    var paths = polygonObject.getPaths();
+
+    for(i = 0; i < paths.getLength(); i++){
+      polygonAllPaths.push(google.maps.geometry.encoding.encodePath(paths.getAt(i)));
+    }
+
     let eventInfo = $.extend(
       {
-        //id: polygon_id,
-        //lat: event.latLng.lat(),
-        //lon: event.latLng.lng(),
-        paths: polygonObject.getPath(),
+        id: polygon_id,
+        lat: event.latLng.lat().toFixed(4),
+        lon: event.latLng.lng().toFixed(4),
+        path: polygonOuterPath,
+        paths: polygonAllPaths,
         randomValue: Math.random()
       },
       polygonInfo
