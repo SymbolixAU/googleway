@@ -745,15 +745,51 @@ But of course, this isn't very interesting.
 
 You can use all the standard `add_*` functions that have already been specified to add various shapes and layers. But there's also varous `clear_*` and `update_*` functions that let you update those shapes and layers dynamically with the shiny app. 
 
-The `clear_*` functions are designed to remove objects from the app. The `update_*` functions are designed to update those objects that are already on the map. 
+The `clear_*` functions are designed to remove objects from the app. 
+
+The `update_*` functions are designed to update those objects that are already on the map. This is useful for when you want to update existing polylines, polygons, rectangles, circles and markers
 
 
 ```
 library(shiny)
 
 ui <- fluidPage(
-   sliderInput(inputId = "weight", label = "weight", min = 0, max = 1, 
+  sliderInput(inputId = "opacity", label = "opacity", min = 0, max = 1, 
              step = 0.01, value = 1),
+  google_mapOutput(outputId = "map")
+)
+
+server <- function(input, output){
+
+  map_key <- 'your_api_key'
+
+  output$map <- renderGoogle_map({
+    google_map(key = map_key) %>%
+      add_markers(data = tram_stops, lat = "stop_lat", lon = "stop_lon")
+  })
+  
+  
+  
+}
+
+shinyApp(ui, server)
+
+```
+
+
+
+
+
+
+
+The exception to this is `update_heatmap()`, which allows you to both add and remove points from the heat layer
+
+```
+library(shiny)
+
+ui <- fluidPage(
+   sliderInput(inputId = "weight", label = "weight", min = 0, max = 1, 
+             step = 0.01, value = 0.5),
    google_mapOutput(outputId = "map")
 )
 
@@ -772,9 +808,8 @@ server <- function(input, output){
   })
   
   observeEvent(input$weight,{
-
-    print(df)
-    df$weight <- df$weight * input$weight
+      
+    
 
      google_map_update(map_id = "map") %>%
        update_heatmap(data = df, lat = "shape_pt_lat", lon = "shape_pt_lon",

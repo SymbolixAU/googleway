@@ -314,7 +314,8 @@ function add_circles(map_id, data_circles, layer_id){
         draggable: circle.draggable,
         center: latlon,
         radius: circle.radius,
-        mouseOverGroup: circle.mouse_over_group
+        mouseOverGroup: circle.mouse_over_group,
+        zIndex: 1
       });
 
     window[map_id + 'googleCircles' + layer_id].push(Circle);
