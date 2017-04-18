@@ -52,13 +52,13 @@ be applied to all the cirlces}
 the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles}
 
 \item{mouse_over}{string specifying the column of data to display when the
-mouse rolls over the polygon}
+mouse rolls over the circle}
 
 \item{mouse_over_group}{string specifying the column of data specifying which
 groups of circles to highlight on mouseover}
 
 \item{info_window}{string specifying the column of data to display in an info
-window when a polygon is clicked}
+window when a circle is clicked}
 
 \item{layer_id}{single value specifying an id for the layer.
 layer.}

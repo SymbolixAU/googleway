@@ -43,10 +43,10 @@ containing the stroke opacity of each circle, or a value between 0 and 1 that
 will be aplied to all the circles}
 
 \item{info_window}{string specifying the column of data to display in an info
-window when a polygon is clicked}
+window when a polyline is clicked}
 
 \item{mouse_over}{string specifying the column of data to display when the
-mouse rolls over the polygon}
+mouse rolls over the polyline}
 
 \item{mouse_over_group}{string specifying the column of data specifying which
 groups of polylines to highlight on mouseover}

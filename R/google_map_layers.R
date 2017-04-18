@@ -26,9 +26,9 @@
 #' @param cluster logical indicating if co-located markers should be clustered
 #' when the map zoomed out
 #' @param info_window string specifying the column of data to display in an info
-#' window when a polygon is clicked
+#' window when a marker is clicked
 #' @param mouse_over string specifying the column of data to display when the
-#' mouse rolls over the polygon
+#' mouse rolls over the marker
 #' @param mouse_over_group string specifying the column of data specifying which
 #' groups of circles to highlight on mouseover
 #' @param layer_id single value specifying an id for the layer.
@@ -232,9 +232,9 @@ update_style <- function(map, styles = NULL){
 #' @param fill_opacity either a string specifying the column of \code{data} containing
 #' the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
 #' @param info_window string specifying the column of data to display in an info
-#' window when a polygon is clicked
+#' window when a circle is clicked
 #' @param mouse_over string specifying the column of data to display when the
-#' mouse rolls over the polygon
+#' mouse rolls over the circle
 #' @param mouse_over_group string specifying the column of data specifying which
 #' groups of circles to highlight on mouseover
 #' @param layer_id single value specifying an id for the layer.
@@ -713,9 +713,9 @@ clear_bicycling <- function(map){
 #' containing the stroke weight of each circle, or a number indicating the width
 #' of pixels in the line to be applied to all the circles
 #' @param info_window string specifying the column of data to display in an info
-#' window when a polygon is clicked
+#' window when a polyline is clicked
 #' @param mouse_over string specifying the column of data to display when the
-#' mouse rolls over the polygon
+#' mouse rolls over the polyline
 #' @param mouse_over_group string specifying the column of data specifying which
 #' groups of polylines to highlight on mouseover
 #' @param update_map_view logical specifying if the map should re-centre according
@@ -1488,9 +1488,9 @@ clear_polygons <- function(map, layer_id = NULL){
 #' @param fill_opacity either a string specifying the column of \code{data} containing
 #' the fill opacity of each rectangle, or a value between 0 and 1 that will be aplied to all the rectangles
 #' @param info_window string specifying the column of data to display in an info
-#' window when a polygon is clicked
+#' window when a rectangle is clicked
 #' @param mouse_over string specifying the column of data to display when the
-#' mouse rolls over the polygon
+#' mouse rolls over the rectangle
 #' @param mouse_over_group string specifying the column of data specifying which
 #' groups of rectangle to highlight on mouseover
 #' @param layer_id single value specifying an id for the layer.
