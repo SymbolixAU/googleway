@@ -127,7 +127,7 @@ if (HTMLWidgets.shinyMode) {
       return;
     }
 
-    for (let i = 0; i < data.calls.length; i++) {
+    for (var i = 0; i < data.calls.length; i++) {
 
       var call = data.calls[i];
 
@@ -377,20 +377,27 @@ function update_circles(map_id, data_circle, layer_id){
     _id = window[map_id + 'googleCircles' + layer_id][i].id;
     currentIds.push(_id);
 
-    // find if there is a matching id in the new polygon data set
-    if(data_circle.find(x => x.id === _id)){
+    // find if there is a matching id in the new circle data set
 
-      thisUpdateCircle = data_circle.find(x => x.id === _id);
 
-      //if the polygon is currently set to Null, re-put it on the map
+    // array is date_circles[],
+    // value to find is _id,
+
+    thisUpdateCircle = findById(data_circle, _id);
+    if(thisUpdateCircle !== undefined){
+
+    //if(data_circle.find(x => x.id === _id)){
+      //thisUpdateCircle = data_circle.find(x => x.id === _id);
+
+      //if the circle is currently set to Null, re-put it on the map
       if(window[map_id + 'googleCircles' + layer_id][i].getMap() === null){
         window[map_id + 'googleCircles' + layer_id][i].setMap(window[map_id + 'map']);
       }
 
       // the new id exists in the current data set
-      // update the values for this polygon
+      // update the values for this circle
 
-      // for each of the options in data_polygon, update the polygons
+      // for each of the options in data_circle, update the circles
       for(j = 0; j < Object.keys(thisUpdateCircle).length; j++){
 
         objectAttribute = Object.keys(thisUpdateCircle)[j];
@@ -673,9 +680,10 @@ function update_polylines(map_id, data_polyline, layer_id){
       currentIds.push(_id);
 
       // find if there is a matching id in the new polyline data set
-      if(data_polyline.find(x => x.id === _id)){
-
-        thisUpdatePolyline = data_polyline.find(x => x.id === _id);
+    thisUpdatePolyline = findById(data_polyline, _id);
+    if(thisUpdatePolyline !== undefined){
+      //if(data_polyline.find(x => x.id === _id)){
+        //thisUpdatePolyline = data_polyline.find(x => x.id === _id);
 
         //if the polygon is currently set to Null, re-put it on the map
         if(window[map_id + 'googlePolyline' + layer_id][i].getMap() === null){
@@ -843,9 +851,10 @@ function update_polygons(map_id, data_polygon, layer_id){
     currentIds.push(_id);
 
     // find if there is a matching id in the new polygon data set
-    if(data_polygon.find(x => x.id === _id)){
-
-      thisUpdatePolygon = data_polygon.find(x => x.id === _id);
+    thisUpdatePolygon = findById(data_polygon, _id);
+    if(thisUpdatePolygon !== undefined){
+    //if(data_polygon.find(x => x.id === _id)){
+      //thisUpdatePolygon = data_polygon.find(x => x.id === _id);
 
       //if the polygon is currently set to Null, re-put it on the map
       if(window[map_id + 'googlePolygon' + layer_id][i].getMap() === null){
@@ -1018,9 +1027,11 @@ function update_rectangles(map_id, data_rectangles, layer_id){
     currentIds.push(_id);
 
     // find if there is a matching id in the new polygon data set
-    if(data_rectangles.find(x => x.id === _id)){
+    thisUpdateRectangle = findById(data_rectangles, _id);
+    if(thisUpdateRectangle !== undefined){
 
-      thisUpdateRectangle = data_rectangles.find(x => x.id === _id);
+//    if(data_rectangles.find(x => x.id === _id)){
+//      thisUpdateRectangle = data_rectangles.find(x => x.id === _id);
 
       //if the polygon is currently set to Null, re-put it on the map
       if(window[map_id + 'googleRectangles' + layer_id][i].getMap() === null){
@@ -1230,7 +1241,7 @@ function map_click(map_id, mapObject, mapInfo){
   google.maps.event.addListener(mapObject, 'click', function(event){
 //   mapObject.addListener('click', function(){
 //
-    let eventInfo = $.extend(
+    var eventInfo = $.extend(
       mapInfo,
       {
         id: map_id,
@@ -1256,7 +1267,7 @@ function bounds_changed(map_id, mapObject, mapInfo){
   if(!HTMLWidgets.shinyMode) return;
 
   google.maps.event.addListener(mapObject, 'bounds_changed', function(event){
-    let eventInfo = $.extend(
+    var eventInfo = $.extend(
       {
         id: map_id,
 //        bounds:mapObject.getBounds(),
@@ -1282,7 +1293,7 @@ function zoom_changed(map_id, mapObject, mapInfo){
     if(!HTMLWidgets.shinyMode) return;
 
   google.maps.event.addListener(mapObject, 'bounds_changed', function(event){
-    let eventInfo = $.extend(
+    var eventInfo = $.extend(
       {
         id: map_id,
         zoom: mapObject.getZoom(),
@@ -1306,7 +1317,7 @@ function marker_click(map_id, markerObject, marker_id, markerInfo){
 
   google.maps.event.addListener(markerObject, 'click', function(event){
 
-    let eventInfo = $.extend(
+    var eventInfo = $.extend(
       {
         id: marker_id,
         lat: event.latLng.lat().toFixed(4),
@@ -1332,7 +1343,7 @@ function shape_click(map_id, shapeObject, shape_id, shapeInfo){
 
   google.maps.event.addListener(shapeObject, 'click', function(event){
 
-    let eventInfo = $.extend(
+    var eventInfo = $.extend(
       {
         id: shape_id,
         lat: event.latLng.lat().toFixed(4),
@@ -1353,7 +1364,7 @@ function polyline_click(map_id, polylineObject, polyline_id, polylineInfo){
 
   google.maps.event.addListener(polylineObject, 'click', function(event){
 
-    let eventInfo = $.extend(
+    var eventInfo = $.extend(
       {
         id: polyline_id,
         lat: event.latLng.lat().toFixed(4),
@@ -1383,7 +1394,7 @@ function polygon_click(map_id, polygonObject, polygon_id, polygonInfo){
       polygonAllPaths.push(google.maps.geometry.encoding.encodePath(paths.getAt(i)));
     }
 
-    let eventInfo = $.extend(
+    var eventInfo = $.extend(
       {
         id: polygon_id,
         lat: event.latLng.lat().toFixed(4),
@@ -1469,6 +1480,16 @@ function clear_search(map_id){
         marker.setMap(null);
       });
       window[map_id + 'googlePlaceMarkers'] = [];
+}
+
+
+function findById(source, id) {
+  for (var i = 0; i < source.length; i++) {
+    if (source[i].id === id) {
+      return source[i];
+    }
+  }
+  return;
 }
 
 function initialise_map(el, x) {
