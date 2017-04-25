@@ -793,7 +793,7 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
       //zIndex:1
     });
 
-    console.log(Polygon);
+    //console.log(Polygon);
 
     if(polygon.info_window){
       add_infoWindow(map_id, Polygon, infoWindow, '_information', polygon.info_window);
