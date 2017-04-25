@@ -52,4 +52,3 @@ in the \code{data} passed into \code{add_rectangles()} will not be added to the 
 This function will only update the rectangles that currently exist on the map when
 the function is called.
 }
-

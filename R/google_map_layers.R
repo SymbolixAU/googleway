@@ -578,18 +578,18 @@ update_heatmap <- function(map,
 
   ## rename the cols so the javascript functions will see them
   if(is.null(lat)){
-    print("finding lat")
+    # print("finding lat")
     data <- latitude_column(data, lat, 'update_heatmap')
     lat <- 'lat'
   }
 
   if(is.null(lon)){
-    print("finding lon")
+    # print("finding lon")
     data <- longitude_column(data, lon, 'update_heatmap')
     lon <- 'lng'
   }
 
-  print(head(data))
+  # print(head(data))
 
   layer_id <- LayerId(layer_id)
 
@@ -598,7 +598,7 @@ update_heatmap <- function(map,
 
   Heatmap[, "weight"] <- SetDefault(weight, 0.6, data)
 
-  print(head(Heatmap))
+  # print(head(Heatmap))
   Heatmap <- jsonlite::toJSON(Heatmap)
 
   invoke_method(map, data, 'update_heatmap', Heatmap, layer_id)

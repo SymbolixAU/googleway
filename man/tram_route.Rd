@@ -20,4 +20,3 @@ The latitude and longitude coordinates specifying the path tram 35 follows in Me
 The data is taken from the PTV GTFS data
 }
 \keyword{datasets}
-

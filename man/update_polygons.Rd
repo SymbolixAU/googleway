@@ -105,4 +105,3 @@ google_map(key = map_key) \%>\%
 }
 
 }
-

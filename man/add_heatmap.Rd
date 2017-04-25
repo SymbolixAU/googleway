@@ -70,4 +70,3 @@ google_map(key = map_key, data = df) \%>\%
 
  }
 }
-

@@ -40,4 +40,3 @@ google_timezone(location = c(-37.81659, 144.9841),
 }
 
 }
-
