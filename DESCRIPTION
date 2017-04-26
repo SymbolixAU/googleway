@@ -1,8 +1,8 @@
 Package: googleway
 Type: Package
-Title: Retrieves Data from Google Maps APIs
-Version: 1.1.0
-Date: 2016-06-11
+Title: Accesses Google Maps APIs to retreive data and plot maps
+Version: 2.0.0
+Date: 2017-04-26
 Authors@R: c(
     person("David", "Cooley", ,"dcooley@symbolix.com.au", role = c("aut", "cre")),
     person("Paulo", "Barcelos", role = "ctb", comment = "Author of c++ decode_pl"),

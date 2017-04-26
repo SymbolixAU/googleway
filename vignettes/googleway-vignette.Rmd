@@ -568,9 +568,19 @@ google_map(key = map_key) %>%
 
 ![Bicycling](./img/add_bicycling.png)
 
+You can also include a search box in your map by using the argument `search_box = TRUE`
+
+```
+google_map(key = map_key, search_box = T)
+```
+
+![Search Box](./img/search_box.png)
+
+
+
 ---
 
-### Example - Markers
+### Markers
 
 Markers and circles can be used to show points on the map using `add_markers()` and `add_circles()`. In this example I'm using the `tram_stops` data set provided with googleway
 
@@ -608,6 +618,35 @@ google_map(data = df, key = map_key) %>%
 ```
 
 ![Marker Info Window](./img/marker_info.png)
+
+### Heatmap
+
+You can create a heatmap using Google's [Heatlayer](https://developers.google.com/maps/documentation/javascript/examples/layer-heatmap), which in googleway is called with (not surprisingly) `add_heatmap()`
+
+
+```
+google_map(data = tram_stops, key = map_key) %>%
+  add_heatmap(lat = "stop_lat", lon = "stop_lon", option_radius = 0.0025)
+```
+
+![Heatmap](./img/heatmap.png)
+
+
+There are a few options you can configure to change how the heatmap is plotted, for example changing the colours, and the 'weight' associated with each point in the data set
+
+
+```
+## the colours can be any of those given by colors()
+tram_stops$weight <- 1:nrow(tram_stops)
+
+google_map(data = tram_stops, key = map_key) %>%
+  add_heatmap(lat = "stop_lat", lon = "stop_lon", option_radius = 0.0025,
+              weight = 'weight', 
+              option_gradient = c("plum1", "purple1", "peachpuff"))
+
+```
+![Heatmap Colour](./img/heatmap_colour.png)
+
 
 
 ---
@@ -714,12 +753,12 @@ google_map(key = map_key, height = 800) %>%
 
 ## shiny
 
-As `google_map()` is a `HTMLWidget`, in inherently works in *Shiny*. As with all shiny apps the two functions you need to include are
+As `google_map()` is a `HTMLWidget`, it inherently works in *Shiny*. As with all shiny apps the two functions you need to include are
 
 * `renderGoogle_map()` (in the UI)
 * `google_mapOutput()` (in the server)
 
-The simplest app can be build with
+The simplest app can be built with
 
 ```
 library(shiny)
@@ -743,7 +782,7 @@ shinyApp(ui, server)
 
 But of course, this isn't very interesting. 
 
-You can use all the standard `add_*` functions that have already been specified to add various shapes and layers. But there's also varous `clear_*` and `update_*` functions that let you update those shapes and layers dynamically with the shiny app. 
+You can use all the standard `add_*` functions that have already been discussed to add various shapes and layers. But there's also varous `clear_*` and `update_*` functions that let you update those shapes and layers dynamically within the shiny app. 
 
 The `clear_*` functions are designed to remove objects from the app. 
 
