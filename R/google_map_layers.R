@@ -529,12 +529,6 @@ add_heatmap <- function(map,
       stop("please provide at least two gradient colours")
 
     ## first entry is used to fade into the background
-    # rgb <- grDevices::col2rgb(option_gradient[1])
-    # heatmap_options$gradient <- list(c(paste0('rgba(',rgb[1], ', ', rgb[2], ', ', rgb[3], ', 0)'), option_gradient[2:length(option_gradient)]))
-    # print(heatmap_options$gradient)
-
-    # sapply(option_gradient, function(x) { paste0('rgba(', paste0(as.numeric(grDevices::col2rgb(x)), collapse = ","), ')') })
-
     g <- sapply(seq_along(option_gradient), function(x){
       if(x == 1){
         paste0('rgba(', paste0(c(as.numeric(grDevices::col2rgb(option_gradient[x])), 0), collapse = ","), ')')
@@ -578,18 +572,14 @@ update_heatmap <- function(map,
 
   ## rename the cols so the javascript functions will see them
   if(is.null(lat)){
-    # print("finding lat")
     data <- latitude_column(data, lat, 'update_heatmap')
     lat <- 'lat'
   }
 
   if(is.null(lon)){
-    # print("finding lon")
     data <- longitude_column(data, lon, 'update_heatmap')
     lon <- 'lng'
   }
-
-  # print(head(data))
 
   layer_id <- LayerId(layer_id)
 
@@ -598,7 +588,6 @@ update_heatmap <- function(map,
 
   Heatmap[, "weight"] <- SetDefault(weight, 0.6, data)
 
-  # print(head(Heatmap))
   Heatmap <- jsonlite::toJSON(Heatmap)
 
   invoke_method(map, data, 'update_heatmap', Heatmap, layer_id)
@@ -1312,7 +1301,6 @@ add_polygons <- function(map,
 
 #   if(sum(sapply(polygon[, polyline], is.null)) > 0){
 #     warning("There are some NULL polyline values. These polygons are removed from the map")
-#     print(str(polygon))
 #     polygon <- polygon[!sapply(polygon[, polyline], is.null)]
 #   }
 
