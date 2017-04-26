@@ -11,7 +11,7 @@
   \item{SA2_NAME}{statistical area 2 name of the polygon}
   \item{SA3_NAME}{statistical area 3 name of the polygon}
   \item{SA4_NAME}{statistical area 4 name of the polygon}
-  \item{AREASQM}{area of the SA2 polygon}
+  \item{AREASQKM}{area of the SA2 polygon}
   \item{polyline}{encoded polyline that defines each \code{pathId}}
 }}
 \usage{
