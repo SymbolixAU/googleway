@@ -29,6 +29,7 @@ Plotting a Google Map uses the Javascript API, and the functions used to create 
 
 * [**Google Map**](https://developers.google.com/maps/documentation/javascript/) - `google_map()`
 * [**Markers**](https://developers.google.com/maps/documentation/javascript/markers) - `add_markers()`
+* [**Heatmap**](https://developers.google.com/maps/documentation/javascript/examples/layer-heatmap) - `add_heatmap()`
 * [**Circles**](https://developers.google.com/maps/documentation/javascript/examples/circle-simple) - `add_circles()`
 * [**Polygons**](https://developers.google.com/maps/documentation/javascript/examples/polygon-simple) - `add_polygons()`
 * [**Lines**](https://developers.google.com/maps/documentation/javascript/examples/polyline-simple) - `add_polylines()`
@@ -632,7 +633,7 @@ google_map(data = tram_stops, key = map_key) %>%
 ![Heatmap](./img/heatmap.png)
 
 
-There are a few options you can configure to change how the heatmap is plotted, for example changing the colours, and the 'weight' associated with each point in the data set
+There are a few options you can configure to change how the heatmap is plotted, for example changing the colours, and weight associated with each point in the data set
 
 
 ```
