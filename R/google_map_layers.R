@@ -807,7 +807,6 @@ add_polylines <- function(map,
 
   if(!is.null(polyline)){
 
-    usePolyline <- TRUE
 
     if(is.null(id)){
       id <- 'id'
@@ -820,6 +819,8 @@ add_polylines <- function(map,
     polyline <- data[, c(id, polyline)]
     polyline <- stats::setNames(polyline, c("id", "polyline"))
 
+    polyline <- "polyline"
+    usePolyline <- TRUE
   }else{
 
     ## coordinates
@@ -1193,6 +1194,7 @@ add_polygons <- function(map,
    polygon <- data[, c(id, polyline)]
    polygon <- stats::setNames(polygon, c("id", "polyline"))
 
+   polyline <- "polyline"
    usePolyline <- TRUE
 
   }else{
@@ -1239,6 +1241,7 @@ add_polygons <- function(map,
   polygon[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
   polygon[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
   polygon[, "z_index"] <- SetDefault(z_index, 1, data)
+
 
   # polygon[, id] <- as.character(polygon[, id])
   # polygon[, pathId] <- as.character(polygon[, pathId])

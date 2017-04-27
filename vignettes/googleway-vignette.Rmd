@@ -62,9 +62,58 @@ Searching Google Maps for directions from Melbourne to Sydney generates the rout
 
 The same query using the developers API generates the data in JSON
 
-![Melbourne to Sydney JSON](./img/melbourne_to_sydney_json.png)
+```
+{
+   "geocoded_waypoints" : [
+      {
+         "geocoder_status" : "OK",
+         "place_id" : "ChIJ90260rVG1moRkM2MIXVWBAQ",
+         "types" : [ "colloquial_area", "locality", "political" ]
+      },
+      {
+         "geocoder_status" : "OK",
+         "place_id" : "ChIJP3Sa8ziYEmsRUKgyFmh9AQM",
+         "types" : [ "colloquial_area", "locality", "political" ]
+      }
+   ],
+   "routes" : [
+      {
+         "bounds" : {
+            "northeast" : {
+               "lat" : -33.8660005,
+               "lng" : 151.2176931
+            },
+            "southwest" : {
+               "lat" : -37.8136598,
+               "lng" : 144.8875036
+            }
+         },
+         "copyrights" : "Map data ©2017 Google",
+         "legs" : [
+            {
+               "distance" : {
+                  "text" : "878 km",
+                  "value" : 878208
+               },
+               "duration" : {
+                  "text" : "8 hours 44 mins",
+                  "value" : 31447
+               },
+               "end_address" : "Sydney NSW, Australia",
+               "end_location" : {
+                  "lat" : -33.8689894,
+                  "lng" : 151.2091978
+               },
+               "start_address" : "Melbourne VIC, Australia",
+               "start_location" : {
+                  "lat" : -37.8136598,
+                  "lng" : 144.9629147
+               },
+    ... etc
+    
+```
 
-This result can be returned using the `google_directions()` function. By default the result will be coerced to the simplest `R` structure possible using `jsonlite::fromJSON()`. If you would like the result in JSON set `simplify = FALSE`.
+This result can be returned in R using the `google_directions()` function. By default the result will be coerced to the simplest `R` structure possible using `jsonlite::fromJSON()`. If you want the result in JSON set `simplify = FALSE`.
 
 ```
 library(googleway)
@@ -77,11 +126,7 @@ df <- google_directions(origin = "Melbourne, Australia",
                         simplify = TRUE)
 ```
 
-The data used to draw the route on the map is the **overview_polyline**
-
-![Melbourne to Sydney polyline](./img/melbourne_to_sydney_polyline.png)
-
-which is located in `df$routes$overview_polyline$points`. 
+The data used to draw the route on the map is the **overview_polyline**. 
 
 ```
 pl <- df$routes$overview_polyline$points
@@ -90,7 +135,7 @@ pl
 ```
 
 
-Having retreived the polyline, you can decode it using `decode_pl()`. See **** PLOTTING A GOOGLE MAP ****
+Having retreived the polyline, you can decode it into latitude and longitude coordinates using `decode_pl()`.
 
 ```{r}
 polyline <- "rqxeF_cxsZgr@xmCekBhMunGnWc_Ank@vBpyCqjAfbAqmBjXydAe{AoF{oEgTqjGur@ch@qfAhUuiCww@}kEtOepAtdD{dDf~BsgIuj@}tHi{C{bGg{@{rGsmG_bDbW{wCuTyiBajBytF_oAyaI}K}bEkqA{jDg^epJmbB{gC}v@i~D`@gkGmJ_kEojD_O{`FqvCetE}bGgbDm_BqpD}pEqdGiaBo{FglEg_Su~CegHw`Cm`Hv[mxFwaAisAklCuUgzAqmCalJajLqfDedHgyC_yHibCizK~Xo_DuqAojDshAeaEpg@g`Dy|DgtNswBcgDiaAgEqgBozB{jEejQ}p@ckIc~HmvFkgAsfGmjCcaJwwD}~AycCrx@skCwUqwN{yKygH}nF_qAgyOep@slIehDcmDieDkoEiuCg|LrKo~Eb}Bw{Ef^klG_AgdFqvAaxBgoDeqBwoDypEeiFkjBa|Ks}@gr@c}IkE_qEqo@syCgG{iEazAmeBmeCqvA}rCq_AixEemHszB_SisB}mEgeEenCqeDab@iwAmZg^guB}cCk_F_iAmkGsu@abDsoBylBk`Bm_CsfD{jFgrAerB{gDkw@{|EacB_jDmmAsjC{yBsyFaqFqfEi_Ei~C{yAmwFt{B{fBwKql@onBmtCq`IomFmdGueD_kDssAwsCyqDkx@e\\kwEyUstC}uAe|Ac|BakGpGkfGuc@qnDguBatBot@}kD_pBmmCkdAgkB}jBaIyoC}xAexHka@cz@ahCcfCayBqvBgtBsuDxb@yiDe{Ikt@c{DwhBydEynDojCapAq}AuAksBxPk{EgPgkJ{gA}tGsJezKbcAcdK__@uuBn_AcuGsjDwvC_|AwbE}~@wnErZ{nGr_@stEjbDakFf_@clDmKkwBbpAi_DlgA{lArLukCBukJol@w~DfCcpBwnAghCweA}{EmyAgaEbNybGeV}kCtjAq{EveBwuHlb@gyIg\\gmEhBw{G{dAmpHp_@a|MsnCcuGy~@agIe@e`KkoA}lBspBs^}sAmgIdpAumE{Y_|Oe|CioKouFwuIqnCmlDoHamBiuAgnDqp@yqIkmEqaIozAohAykDymA{uEgiE}fFehBgnCgrGmwCkiLurBkhL{jHcrGs}GkhFwpDezGgjEe_EsoBmm@g}KimLizEgbA{~DwfCwvFmhBuvBy~DsqCicBatC{z@mlCkkDoaDw_BagA}|Bii@kgCpj@}{E}b@cuJxQwkK}j@exF`UanFzM{fFumB}fCirHoTml@CoAh`A"
@@ -198,8 +243,6 @@ $status
 
 The [**Google Maps Time zone API**](https://developers.google.com/maps/documentation/timezone/start) provides time offset data for locations on the surface of the earth. You request the time zone information for a specific latitude/longitude pair and date. The API returns the name of that time zone, the time offset from UTC, and the daylight savings offset
 
-To access this API through googleway use the `google_timezone()` function.
-
 
 ### Example
 
@@ -226,8 +269,6 @@ google_timezone(location = c(-37.81659, 144.9841),
 ## Google Geocode API
 
 The [**Google Maps Geocoding API**](https://developers.google.com/maps/documentation/geocoding/start) is a service that provides geocoding and reverse geocoding of addresses.
-
-To access this API through googleway use the `google_geocode()` function.
 
 
 ### Example
@@ -270,8 +311,6 @@ df$results$formatted_address
 ## Google Reverse Geocode API
 
 The [**Google Maps Reverse Geocoding API**](https://developers.google.com/maps/documentation/geocoding/intro#ReverseGeocoding) is a services that converts geographic coordinates into a human-readable address.
-
-To access this API through googleway use the `google_reverse_geocode()` function.
 
 
 ### Example
@@ -569,7 +608,7 @@ google_map(key = map_key) %>%
 
 ![Bicycling](./img/add_bicycling.png)
 
-You can also include a search box in your map by using the argument `search_box = TRUE`
+You can also include a search box in your map by using the argument `search_box = TRUE`, which allows you to search the maps just like you would when using Google Maps.
 
 ```
 google_map(key = map_key, search_box = T)
@@ -583,7 +622,9 @@ google_map(key = map_key, search_box = T)
 
 ### Markers
 
-Markers and circles can be used to show points on the map using `add_markers()` and `add_circles()`. In this example I'm using the `tram_stops` data set provided with googleway
+Markers and circles can be used to show points on the map. 
+
+In this example I'm using the `tram_stops` data set provided with googleway
 
 
 ```
@@ -592,18 +633,13 @@ map_key <- "your_api_key"
 google_map(data = tram_stops, key = map_key) %>%
   add_markers(lat = "stop_lat", lon = "stop_lon")
 
+## for plotting circles:
+##  add_circles(lat = "stop_lat", lon = "stop_lon", radius = 50, fill_colour = "#00FF00")
+
+
 ```
 
 ![Route 35 tram stops](./img/tram_stops.png)
-
-
-```
-google_map(data = tram_stops, key = map_key) %>%
-  add_circles(lat = "stop_lat", lon = "stop_lon", radius = 50, fill_colour = "#00FF00")
-```
-
-![Route 35 tram stops - circles](./img/add_circles.png)
-
 
 
 You can specify a column in the data.frame to use to populate a popup `info_window` that will be displayed when clicking on a maker. The info window can also dispay any valid HTML, as demonstrated in [this Stack Overflow answer](http://stackoverflow.com/a/39339464/5977215).
@@ -622,7 +658,7 @@ google_map(data = df, key = map_key) %>%
 
 ### Heatmap
 
-You can create a heatmap using Google's [Heatlayer](https://developers.google.com/maps/documentation/javascript/examples/layer-heatmap), which in googleway is called with (not surprisingly) `add_heatmap()`
+You can create a heatmap using Google's [Heatlayer](https://developers.google.com/maps/documentation/javascript/examples/layer-heatmap).
 
 
 ```
@@ -654,11 +690,11 @@ google_map(data = tram_stops, key = map_key) %>%
 
 ## Polyline
 
-Polylines in Google Maps are formed from a set of latitude/longitude cooridnates, encoded using a lossy compression algorithm (https://developers.google.com/maps/documentation/utilities/polylinealgorithm) that allows you to store the serires of coordinates as a single string. 
+Polylines in Google Maps are formed from a set of latitude/longitude cooridnates, encoded using a lossy compression algorithm (https://developers.google.com/maps/documentation/utilities/polylinealgorithm) that allows you to store the series of coordinates as a single string. 
 
 Both the `add_polylines()` and `add_polygons()` functions in googleway can plot the encoded polyline to save the amount of data set to the browser. (They can also plot coordinates, but this is often slower).
 
-To draw a line on a map you use the `add_polylines()` function. This function takes a data.frame with at least one column of data containing the polylines, or two columns containing the series of lat/lon coordinates that make up a polyline. 
+To draw a line on a map you use the `add_polylines()` function. This function takes a data.frame with at least one column of data containing the polylines, or two columns containing the series of lat/lon coordinates. 
 
 Here we can plot the polyline we generated earlier from querying the directions from Melbourne to Sydney.
 
