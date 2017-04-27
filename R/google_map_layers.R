@@ -819,7 +819,7 @@ add_polylines <- function(map,
     polyline <- data[, c(id, polyline)]
     polyline <- stats::setNames(polyline, c("id", "polyline"))
 
-    polyline <- "polyline"
+    # polyline <- "polyline"
     usePolyline <- TRUE
   }else{
 
