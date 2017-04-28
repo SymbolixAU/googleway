@@ -47,7 +47,7 @@ that will be aplied to all the polygons}
 
 \item{fill_colour}{either a string specifying the column of \code{data}
 containing the fill colour of each polygon, or a valid hexadecimal numeric
-HTML style to be applied to all the cirlces}
+HTML style to be applied to all the polygons}
 
 \item{fill_opacity}{either a string specifying the column of \code{data}
 containing the fill opacity of each polygon, or a value between 0 and 1 that
