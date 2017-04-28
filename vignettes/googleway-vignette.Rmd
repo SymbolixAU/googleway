@@ -592,19 +592,21 @@ You can also display traffic, transit (public transport) or bicycle routes using
 google_map(key = map_key) %>%
   add_traffic()
 
-google_map(key = map_key) %>%
-  add_transit()
-
-google_map(key = map_key) %>%
-  add_bicycling()
-
 ```
 
 ![Traffic](./img/add_traffic.png)
 
+```
+google_map(key = map_key) %>%
+  add_transit()
+```
 
 ![Transit](./img/add_transit.png)
 
+```
+google_map(key = map_key) %>%
+  add_bicycling()
+```
 
 ![Bicycling](./img/add_bicycling.png)
 
@@ -642,7 +644,7 @@ google_map(data = tram_stops, key = map_key) %>%
 ![Route 35 tram stops](./img/tram_stops.png)
 
 
-You can specify a column in the data.frame to use to populate a popup `info_window` that will be displayed when clicking on a maker. The info window can also dispay any valid HTML, as demonstrated in [this Stack Overflow answer](http://stackoverflow.com/a/39339464/5977215).
+You can specify a column in the data.frame to use to populate a popup `info_window` that will be displayed when clicking on a maker. The info window can dispay any valid HTML, as demonstrated in [this Stack Overflow answer](http://stackoverflow.com/a/39339464/5977215).
 
 
 ```
@@ -711,7 +713,7 @@ google_map(key = map_key) %>%
 
 ---
 
-## polygon
+## Polygon
 
 A polygon represents an area enclosed by one or more polylines. Holes are denoted by defining an inner path wound in the opposite direction to the outer path.
 
