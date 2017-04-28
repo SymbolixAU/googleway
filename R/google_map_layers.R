@@ -1096,20 +1096,20 @@ clear_polylines <- function(map, layer_id = NULL){
 #' path that forms the complete polygon. Not required when using \code{polyline},
 #' as each polyline is itself a path.
 #' @param stroke_colour either a string specifying the column of \code{data}
-#' containing the stroke colour of each circle, or a valid hexadecimal numeric
-#' HTML style to be applied to all the circles
+#' containing the stroke colour of each polygon, or a valid hexadecimal numeric
+#' HTML style to be applied to all the polygons
 #' @param stroke_opacity either a string specifying the column of \code{data}
-#' containing the stroke opacity of each circle, or a value between 0 and 1
-#' that will be aplied to all the circles
+#' containing the stroke opacity of each polygon, or a value between 0 and 1
+#' that will be aplied to all the polygons
 #' @param stroke_weight either a string specifying the column of \code{data}
-#' containing the stroke weight of each circle, or a number indicating the
-#' width of pixels in the line to be applied to all the circles
+#' containing the stroke weight of each polygon, or a number indicating the
+#' width of pixels in the line to be applied to all the polygons
 #' @param fill_colour either a string specifying the column of \code{data}
-#' containing the fill colour of each circle, or a valid hexadecimal numeric
+#' containing the fill colour of each polygon, or a valid hexadecimal numeric
 #' HTML style to be applied to all the cirlces
 #' @param fill_opacity either a string specifying the column of \code{data}
-#' containing the fill opacity of each circle, or a value between 0 and 1 that
-#' will be aplied to all the circles
+#' containing the fill opacity of each polygon, or a value between 0 and 1 that
+#' will be aplied to all the polygons
 #' @param info_window string specifying the column of data to display in an
 #' info window when a polygon is clicked
 #' @param mouse_over string specifying the column of data to display when the
