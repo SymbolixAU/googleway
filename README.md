@@ -16,7 +16,7 @@ Version 1.0.0 has **significant changes** compared to the previous release. See 
 
 See [**vignettes**](https://github.com/SymbolixAU/googleway/blob/master/vignettes/googleway-vignette.Rmd) for instructions and examples.
 
-## v1.1.0 - Development
+## v2.0.0 - pre-release development
 
 The development version allows you to plot a Google Map from R, both in a shiny environment and as a stand-alone R plot. 
 

@@ -8,9 +8,9 @@ Authors@R: c(
     person("Paulo", "Barcelos", role = "ctb", comment = "Author of c++ decode_pl"),
     person("Rstudio", role = "ctb", comment = "Functions written for the Leaflet pacakge")
     )
-Description: Retrieves data from six Google Maps APIs: directions, distances,
-    elevation, geocode, reverse geocode and timezone. Also able to decode encoded
-    location data.
+Description: Provides a mechanism to plot a Google Map from R and overlay it with shapes and 
+    markers, as well as providing access to Google Maps APIs, including places, directions, roads, distances,
+    geocoding, elevation and timezone
 License: GPL-3
 LazyData: TRUE
 Depends:
