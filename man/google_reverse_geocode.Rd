@@ -8,9 +8,9 @@ google_reverse_geocode(location, result_type = NULL, location_type = NULL,
   language = NULL, key, simplify = TRUE)
 }
 \arguments{
-\item{location}{numeric Vector of lat/lon coordinates}
+\item{location}{numeric vector of lat/lon coordinates.}
 
-\item{result_type}{string vector One or more address types.
+\item{result_type}{string vector - one or more address types.
 See \url{https://developers.google.com/maps/documentation/geocoding/intro#Types}
 for list of available types.}
 
@@ -23,9 +23,9 @@ See the list of supported languages: \url{https://developers.google.com/maps/faq
 If no langauge is supplied, the service will attempt to use the language of the
 domain from which the request was sent}
 
-\item{key}{string A valid Google Developers Geocode API key}
+\item{key}{string. A valid Google Developers Geocode API key}
 
-\item{simplify}{logical Inidicates if the returned JSON should be coerced into a list}
+\item{simplify}{logical. Indicates if the returned JSON should be coerced into a list}
 }
 \value{
 Either list or JSON string of the geocoded address
@@ -43,4 +43,3 @@ google_reverse_geocode(location = c(-37.81659, 144.9841),
                        key = "<your valid api key>")
 }
 }
-

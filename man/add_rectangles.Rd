@@ -41,7 +41,7 @@ be applied to all the rectangle}
 
 \item{stroke_opacity}{either a string specifying the column of \code{data} containing
 the stroke opacity of each rectangle, or a value between 0 and 1 that will be
-aplied to all the rectangle}
+applied to all the rectangle}
 
 \item{stroke_weight}{either a string specifying the column of \code{data} containing
 the stroke weight of each rectangle, or a number indicating the width of pixels
@@ -52,7 +52,7 @@ the fill colour of each rectangle, or a valid hexadecimal numeric HTML style to
 be applied to all the rectangle}
 
 \item{fill_opacity}{either a string specifying the column of \code{data} containing
-the fill opacity of each rectangle, or a value between 0 and 1 that will be aplied to all the rectangles}
+the fill opacity of each rectangle, or a value between 0 and 1 that will be applied to all the rectangles}
 
 \item{mouse_over}{string specifying the column of data to display when the
 mouse rolls over the rectangle}
@@ -108,4 +108,3 @@ google_map(key = map_key) \%>\%
 
 }
 }
-

@@ -12,15 +12,15 @@
 #' @param df_path \code{data.frame} with at least two columns specifying the latitude & longitude coordinates,
 #' with a maximum of 100 pairs of coordinates.
 #' @param lat string specifying the column of \code{df_path} containing the
-#' 'latitude' coordinates. If left NULL, a best-guess will be made
+#' 'latitude' coordinates. If left NULL, a best-guess will be made.
 #' @param lon string specifying the column of \code{df_path} containing the '
-#' longitude' coordinates. If left NULL, a best-guess will be made
+#' longitude' coordinates. If left NULL, a best-guess will be made.
 #' @param interpolate logical indicating whether to interpolate a path to
 #' include all points forming the full road-geometry.
 #' When \code{TRUE}, additional interpolated points will also be returned, resulting in a path
 #' that smoothly follows the geometry of the road, even around corners and through
 #' tunnels. Interpolated paths will most likely contain more ponts that the original path.
-#' @param simplify \code{logical} Inidicates if the returned JSON should be coerced into a list
+#' @param simplify \code{logical} Indicates if the returned JSON should be coerced into a list
 #' @param key \code{string} A valid Google Developers Places API key
 #'
 #' @seealso \link{google_nearestRoads}

@@ -25,7 +25,7 @@ The API functions are
 * [**Time zone**](https://developers.google.com/maps/documentation/timezone/start) - `google_timezone()`
 * [**Roads**](https://developers.google.com/maps/documentation/roads/intro) - `google_snapToRoads()` and `google_nearestRoads()`
 
-Plotting a Google Map uses the Javascript API, and the functions used to create a map and overlays are
+Plotting a Google Map uses the JavaScript API, and the functions used to create a map and overlays are
 
 * [**Google Map**](https://developers.google.com/maps/documentation/javascript/) - `google_map()`
 * [**Markers**](https://developers.google.com/maps/documentation/javascript/markers) - `add_markers()`
@@ -42,7 +42,7 @@ Downloading a static streetview map
 
 * [**Street View Image**](https://developers.google.com/maps/documentation/streetview/) - `google_streetview()` 
 
-Plus the helper fucntions, `encode_pl()` and `decode_pl()` for encoding and decoding polylines.
+Finally, the package includes the helper functions, `encode_pl()` and `decode_pl()` for encoding and decoding polylines.
 
 To use this package you need a valid **API KEY** ([follow instructions here to get a key](https://developers.google.com/maps/documentation/javascript/)) for the API you wish to use. Note that the same API key can be used for all the functions, but you need to register it with each API first. 
 
@@ -135,7 +135,7 @@ pl
 ```
 
 
-Having retreived the polyline, you can decode it into latitude and longitude coordinates using `decode_pl()`.
+Having retrieved the polyline, you can decode it into latitude and longitude coordinates using `decode_pl()`.
 
 ```{r}
 polyline <- "rqxeF_cxsZgr@xmCekBhMunGnWc_Ank@vBpyCqjAfbAqmBjXydAe{AoF{oEgTqjGur@ch@qfAhUuiCww@}kEtOepAtdD{dDf~BsgIuj@}tHi{C{bGg{@{rGsmG_bDbW{wCuTyiBajBytF_oAyaI}K}bEkqA{jDg^epJmbB{gC}v@i~D`@gkGmJ_kEojD_O{`FqvCetE}bGgbDm_BqpD}pEqdGiaBo{FglEg_Su~CegHw`Cm`Hv[mxFwaAisAklCuUgzAqmCalJajLqfDedHgyC_yHibCizK~Xo_DuqAojDshAeaEpg@g`Dy|DgtNswBcgDiaAgEqgBozB{jEejQ}p@ckIc~HmvFkgAsfGmjCcaJwwD}~AycCrx@skCwUqwN{yKygH}nF_qAgyOep@slIehDcmDieDkoEiuCg|LrKo~Eb}Bw{Ef^klG_AgdFqvAaxBgoDeqBwoDypEeiFkjBa|Ks}@gr@c}IkE_qEqo@syCgG{iEazAmeBmeCqvA}rCq_AixEemHszB_SisB}mEgeEenCqeDab@iwAmZg^guB}cCk_F_iAmkGsu@abDsoBylBk`Bm_CsfD{jFgrAerB{gDkw@{|EacB_jDmmAsjC{yBsyFaqFqfEi_Ei~C{yAmwFt{B{fBwKql@onBmtCq`IomFmdGueD_kDssAwsCyqDkx@e\\kwEyUstC}uAe|Ac|BakGpGkfGuc@qnDguBatBot@}kD_pBmmCkdAgkB}jBaIyoC}xAexHka@cz@ahCcfCayBqvBgtBsuDxb@yiDe{Ikt@c{DwhBydEynDojCapAq}AuAksBxPk{EgPgkJ{gA}tGsJezKbcAcdK__@uuBn_AcuGsjDwvC_|AwbE}~@wnErZ{nGr_@stEjbDakFf_@clDmKkwBbpAi_DlgA{lArLukCBukJol@w~DfCcpBwnAghCweA}{EmyAgaEbNybGeV}kCtjAq{EveBwuHlb@gyIg\\gmEhBw{G{dAmpHp_@a|MsnCcuGy~@agIe@e`KkoA}lBspBs^}sAmgIdpAumE{Y_|Oe|CioKouFwuIqnCmlDoHamBiuAgnDqp@yqIkmEqaIozAohAykDymA{uEgiE}fFehBgnCgrGmwCkiLurBkhL{jHcrGs}GkhFwpDezGgjEe_EsoBmm@g}KimLizEgbA{~DwfCwvFmhBuvBy~DsqCicBatC{z@mlCkkDoaDw_BagA}|Bii@kgCpj@}{E}b@cuJxQwkK}j@exF`UanFzM{fFumB}fCirHoTml@CoAh`A"
@@ -310,12 +310,12 @@ df$results$formatted_address
 
 ## Google Reverse Geocode API
 
-The [**Google Maps Reverse Geocoding API**](https://developers.google.com/maps/documentation/geocoding/intro#ReverseGeocoding) is a services that converts geographic coordinates into a human-readable address.
+The [**Google Maps Reverse Geocoding API**](https://developers.google.com/maps/documentation/geocoding/intro#ReverseGeocoding) is a service that converts geographic coordinates into a human-readable address.
 
 
 ### Example
 
-Finding the street address for a set of coordinates, using `result_type` and `location_type` as bounding parameters
+Finding the street address for a set of coordinates, using `result_type` and `location_type` as bounding parameters:
 
 ```
 df <- google_reverse_geocode(location = c(-37.81659, 144.9841),
@@ -362,15 +362,15 @@ A **Text** Search Service is a web service that returns information about a set 
 
 A **Radar** search lets you search for places within a specified search radius by keyword, type or name. The Radar search returns more results than a Nearby or Text search, but the results contain fewer fields.
 
-A Place Detail search (using `google_place_details()`) can be performed when you have a given `place_id` from one of the other three search methods.
+A **Place Detail** search (using `google_place_details()`) can be performed when you have a given `place_id` from one of the other three search methods.
 
 
 
 ### Example - Text
 
-For a **text** search you are requried to provide a `search_string`
+For a **text** search you are required to provide a `search_string`
 
-For example, here's a query for "restaurantes in Melbourne"
+For example, here's a query for "restaurants in Melbourne"
 
 ```
 
@@ -441,7 +441,7 @@ cbind(res_next$results$name, res_next$results$opening_hours)
 
 ### Example - Nearby
 
-For a **nearby** search your are required to porvide a `location` as a pair of latitude/longitude coordinates. You can refine your search by providing a search string and / or a radius.
+For a **nearby** search you are required to provide a `location` as a pair of latitude/longitude coordinates. You can refine your search by providing a search string and / or a radius.
 
 
 ```
@@ -532,7 +532,7 @@ google_map(key = map_key) %>%
 
 The result includes the column `originalIndex`. This is a zero-based index that indicates which of the input coordinates has been snapped to the given `location.latitude`/`location.longitude` coordinates. So in this example, `originalIndex` 0 is the first row of `df_path`, `originalIndex` 1 is the second row of `df_path`, and so on.
 
-The image shows the original coordinates from `df_path` in red, and the associated `snapped` coordinates in green
+The image shows the original coordinates from `df_path` in red, and the associated `snapped` coordinates in green.
 
 ![Snap to Roads](./img/snap_to_roads.png)
 
@@ -577,7 +577,7 @@ google_map(key = map_key) %>%
 
 A google map can be made using the `google_map()` function. Without any data present, or no `location` value set, the map will default to Melbourne, Australia.
 
-You can also display traffic, transit (public transport) or bicycle routes using the functions `add_traffic()`, `add_transit()` and `add_bicycling()` respectively. For example
+You can also display traffic, transit (public transport) or bicycle routes using the functions `add_traffic()`, `add_transit()` and `add_bicycling()` respectively. 
 
 You can also include a search box in your map by using the argument `search_box = TRUE`, which allows you to search the maps just like you would when using Google Maps.
 
@@ -598,7 +598,7 @@ Markers and circles can be used to show points on the map.
 
 In this example I'm using the `tram_stops` data set provided with googleway. 
 
-You can specify a column in the data.frame to use to populate a popup `info_window` that will be displayed when clicking on a maker. The info window can dispay any valid HTML, as demonstrated in [this Stack Overflow answer](http://stackoverflow.com/a/39339464/5977215).
+You can specify a column in the data.frame to use to populate a popup `info_window` that will be displayed when clicking on a maker. The info window can display any valid HTML, as demonstrated in [this Stack Overflow answer](http://stackoverflow.com/a/39339464/5977215).
 
 
 ```
@@ -646,7 +646,7 @@ google_map(data = tram_stops, key = map_key) %>%
 
 ## Polyline
 
-Polylines in Google Maps are formed from a set of latitude/longitude cooridnates, encoded into a polyline string.
+Polylines in Google Maps are formed from a set of latitude/longitude coordinates, encoded into a polyline string.
 
 Both the `add_polylines()` and `add_polygons()` functions in googleway can plot the encoded polyline to save the amount of data set to the browser. (They can also plot coordinates, but this is often slower).
 
@@ -675,7 +675,7 @@ To draw a polygon on a map use the `add_polygons()` function. This function take
 
 * Multiple rows of latitude and longitude coordinates that specify paths, using an `id` and `pathId` value to specify the polygon that each path belongs to
 * Rows of encoded polylines, using a `id` value to specify the polygon that each polyline represents
-* Rows of nested polylines in a list column. Each row represents a polygon, and each polylne in the list represents the paths that make up the polygon.
+* Rows of nested polylines in a list column. Each row represents a polygon, and each polyline in the list represents the paths that make up the polygon.
 
 
 The `melbourne` data set provided with `googleway` is a `data.frame` of polygons of Melbourne and the surrounding suburbs. The coordinates of the polygons are encoded in to polylines. 
@@ -738,13 +738,13 @@ shinyApp(ui, server)
 
 ```
 
-But of course, this isn't very interesting. 
+But, of course, this isn't very interesting. 
 
 You can use all the standard `add_*` functions that have already been discussed to add various shapes and layers. But there's also various `clear_*` and `update_*` functions that let you update those shapes and layers dynamically within the shiny app. 
 
 The `clear_*` functions are designed to remove objects from the app. 
 
-The `update_*` functions are designed to update those objects that are already on the map. This is useful for when you want to update existing polylines, polygons, rectangles, circles and markers
+The `update_*` functions are designed to update those objects that are already on the map. This is useful for when you want to update existing polylines, polygons, rectangles, circles and markers.
 
 
 ```

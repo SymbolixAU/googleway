@@ -8,16 +8,16 @@ google_map_update(map_id, session = shiny::getDefaultReactiveDomain(),
   data = NULL, deferUntilFlush = TRUE)
 }
 \arguments{
-\item{map_id}{string The output ID of the map in a shiny application}
+\item{map_id}{string containing the output ID of the map in a shiny application.}
 
 \item{session}{the Shiny session object to which the map belongs; usually the
-default value will suffice}
+default value will suffice.}
 
-\item{data}{data to be used in the map. See the details section for \code{\link{google_map}}}
+\item{data}{data to be used in the map. See the details section for \code{\link{google_map}}.}
 
 \item{deferUntilFlush}{indicates whether actions performed against this
 instance should be carried out right away, or whether they should be held until
-after the next time all of the outputs are updated; defaults to TRUE}
+after the next time all of the outputs are updated; defaults to TRUE.}
 }
 \description{
 Update a Google map in a shiny app. Use this function whenever the map needs
@@ -70,4 +70,3 @@ server <- function(input, output, session){
 shinyApp(ui, server)
 }
 }
-

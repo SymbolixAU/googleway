@@ -43,7 +43,7 @@ width of pixels in the line to be applied to all the polygons}
 
 \item{stroke_opacity}{either a string specifying the column of \code{data}
 containing the stroke opacity of each polygon, or a value between 0 and 1
-that will be aplied to all the polygons}
+that will be applied to all the polygons}
 
 \item{fill_colour}{either a string specifying the column of \code{data}
 containing the fill colour of each polygon, or a valid hexadecimal numeric
@@ -51,7 +51,7 @@ HTML style to be applied to all the polygons}
 
 \item{fill_opacity}{either a string specifying the column of \code{data}
 containing the fill opacity of each polygon, or a value between 0 and 1 that
-will be aplied to all the polygons}
+will be applied to all the polygons}
 
 \item{info_window}{string specifying the column of data to display in an
 info window when a polygon is clicked}
@@ -100,7 +100,7 @@ are similar to polylines in that they consist of a series of coordinates in an o
 Polygon objects can describe complex shapes, including
 
 \itemize{
-  \item{Multiple non-contiguous areas defined by a single poylgon}
+  \item{Multiple non-contiguous areas defined by a single polygon}
   \item{Areas with holes in them}
   \item{Intersections of one or more areas}
 }
@@ -110,9 +110,9 @@ To define a complex shape, you use a polygon with multiple paths.
 To create a hole in a polygon, you need to create two paths, one inside the other.
 To create the hole, the coordinates of the inner path must be wound in the opposite
 order to those defining the outer path. For example, if the coordinates of
-the outer path are in clockwise order, then the inner path must be anit-clockwise.
+the outer path are in clockwise order, then the inner path must be anti-clockwise.
 
-You can represent a polygon ine one of three ways
+You can represent a polygon in one of three ways
 \itemize{
   \item{as a series of coordinates defining a path (or paths) with both an
   \code{id} and \code{pathId} argument that make up the polygon}
@@ -176,4 +176,3 @@ google_map(key = map_key) \%>\%
 \seealso{
 \link{encode_pl}
 }
-

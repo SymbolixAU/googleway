@@ -8,29 +8,29 @@ google_geocode(address, bounds = NULL, key, language = NULL,
   region = NULL, components = NULL, simplify = TRUE)
 }
 \arguments{
-\item{address}{string The street address that you want to geocode, in the
+\item{address}{\code{string}. The street address that you want to geocode, in the
 format used by the national postal service of the country concerned}
 
 \item{bounds}{list of two, each element is a vector of lat/lon coordinates
 representing the south-west and north-east bounding box}
 
-\item{key}{string A valid Google Developers Geocode API key}
+\item{key}{\code{string}. A valid Google Developers Geocode API key}
 
-\item{language}{string specifies the language in which to return the results.
+\item{language}{\code{string}. Specifies the language in which to return the results.
 See the list of supported languages:
 \url{https://developers.google.com/maps/faq#using-google-maps-apis}. If no
 langauge is supplied, the service will attempt to use the language of the domain
 from which the request was sent}
 
-\item{region}{string Specifies the region code, specified as a ccTLD
+\item{region}{\code{string}. Specifies the region code, specified as a ccTLD
 ("top-level domain"). See region basing for details
 \url{https://developers.google.com/maps/documentation/directions/intro#RegionBiasing}}
 
-\item{components}{data.frame of two columns, component and value. Restricts
+\item{components}{\code{data.frame} of two columns, component and value. Restricts
 the results to a specific area. One or more of "route","locality","administrative_area",
 "postal_code","country"}
 
-\item{simplify}{logical Inidicates if the returned JSON should be coerced into a list}
+\item{simplify}{\code{logical} Indicates if the returned JSON should be coerced into a list}
 }
 \value{
 Either list or JSON string of the geocoded address
@@ -70,4 +70,3 @@ df <- google_geocode(address = "Flinders Street Station",
 
 }
 }
-

@@ -3,8 +3,8 @@
 #' Reverse geocoding is the process of converting geographic coordinates into a
 #' human-readable address.
 #'
-#' @param location numeric Vector of lat/lon coordinates
-#' @param result_type string vector One or more address types.
+#' @param location numeric vector of lat/lon coordinates.
+#' @param result_type string vector - one or more address types.
 #' See \url{https://developers.google.com/maps/documentation/geocoding/intro#Types}
 #' for list of available types.
 #' @param location_type string vector specifying a location type will restrict the
@@ -14,8 +14,8 @@
 #' See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis}.
 #' If no langauge is supplied, the service will attempt to use the language of the
 #' domain from which the request was sent
-#' @param key string A valid Google Developers Geocode API key
-#' @param simplify logical Inidicates if the returned JSON should be coerced into a list
+#' @param key string. A valid Google Developers Geocode API key
+#' @param simplify logical. Indicates if the returned JSON should be coerced into a list
 #' @return Either list or JSON string of the geocoded address
 #' @examples
 #' \dontrun{

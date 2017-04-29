@@ -12,10 +12,10 @@ google_snapToRoads(df_path, lat = NULL, lon = NULL, interpolate = FALSE,
 with a maximum of 100 pairs of coordinates.}
 
 \item{lat}{string specifying the column of \code{df_path} containing the
-'latitude' coordinates. If left NULL, a best-guess will be made}
+'latitude' coordinates. If left NULL, a best-guess will be made.}
 
 \item{lon}{string specifying the column of \code{df_path} containing the '
-longitude' coordinates. If left NULL, a best-guess will be made}
+longitude' coordinates. If left NULL, a best-guess will be made.}
 
 \item{interpolate}{logical indicating whether to interpolate a path to
 include all points forming the full road-geometry.
@@ -23,7 +23,7 @@ When \code{TRUE}, additional interpolated points will also be returned, resultin
 that smoothly follows the geometry of the road, even around corners and through
 tunnels. Interpolated paths will most likely contain more ponts that the original path.}
 
-\item{simplify}{\code{logical} Inidicates if the returned JSON should be coerced into a list}
+\item{simplify}{\code{logical} Indicates if the returned JSON should be coerced into a list}
 
 \item{key}{\code{string} A valid Google Developers Places API key}
 }
@@ -61,4 +61,3 @@ google_snapToRoads(df_path, key = key, interpolate = TRUE, simplify = TRUE)
 \seealso{
 \link{google_nearestRoads}
 }
-

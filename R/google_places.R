@@ -5,7 +5,7 @@
 #' geographic locations, and more.
 #'
 #' @note
-#' The Google Places API Web Service enforces a default limit of 1,000 fre requests
+#' The Google Places API Web Service enforces a default limit of 1,000 free requests
 #' per 24 hour period, calculated as the sum of client-side and server-side requets.
 #' See \url{https://developers.google.com/places/web-service/usage} for details.
 #'
@@ -33,7 +33,7 @@
 #' Possible values are \code{"prominence"}, \code{"distance"} or \code{"location"}.
 #' If \code{rankby = distance}, then one of \code{keyword}, \code{name} or
 #' \code{place_type} must be specified. If a \code{search_string} is used then
-#' \code{rankby} is ignored
+#' \code{rankby} is ignored.
 #' @param keyword \code{string} A term to be matched against all content that
 #' Google has indexed for this place, including but not limited to name, type,
 #' and address, as well as customer reviews and other third-party content.
@@ -41,7 +41,7 @@
 #' the results should be returned, if possible. Searches are also biased to the
 #' selected language; results in the selected language may be given a higher ranking.
 #' See the list of supported languages and their codes
-#' \url{https://developers.google.com/maps/faq#languagesupport}
+#' \url{https://developers.google.com/maps/faq#languagesupport}.
 #' @param name \code{string} \code{vector} One or more terms to be matched against
 #' the names of places. Ignored when used with a \code{search_string}. Results will
 #' be restricted to those containing the passed \code{name} values. Note that a
@@ -51,9 +51,9 @@
 #' match the search term, but whose associated names do.
 #' @param place_type \code{string} Restricts the results to places matching the
 #' specified type. Only one type may be specified. For a list of valid types,
-#' please visit \url{https://developers.google.com/places/supported_types}
+#' please visit \url{https://developers.google.com/places/supported_types}.
 #' @param price_range \code{numeric} \code{vector} Specifying the minimum and
-#' maximum price ranges. Values range between 0 (most affordable) and 4 (most expensive)
+#' maximum price ranges. Values range between 0 (most affordable) and 4 (most expensive).
 #' @param open_now \code{logical} Returns only those places that are open for
 #' business at the time the query is sent. Places that do not specify opening
 #' hours in the Google Places database will not be returned if you include this
@@ -63,9 +63,9 @@
 #' the same parameters used in a previous search. All parameters other than
 #' \code{page_token} will be ignored. The \code{page_token} can be found in the
 #' result set of a previously run query.
-#' @param simplify \code{logical} Inidicates if the returned JSON should be coerced
-#' into a list
-#' @param key \code{string} A valid Google Developers Places API key
+#' @param simplify \code{logical} Indicates if the returned JSON should be coerced
+#' into a list.
+#' @param key \code{string} A valid Google Developers Places API key.
 #'
 #' @details
 #' With the Places service you can perform four kinds of searches:

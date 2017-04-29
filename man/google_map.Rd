@@ -13,9 +13,9 @@ google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
 
 \item{data}{data to be used on the map. This will likely contain two columns for latitude and longitude, and / or encoded polylines for plotting polylines and polygons}
 
-\item{location}{numeric vector of latitude/longitude (in that order) coordinates for the initial starting position of the map. The map will automatically set the location and zoom if markers are supplied through \link{add_markers}. If null, the map will default to Melbourne, Australia.}
+\item{location}{\code{numeric} vector of latitude/longitude (in that order) coordinates for the initial starting position of the map. The map will automatically set the location and zoom if markers are supplied through \link{add_markers}. If null, the map will default to Melbourne, Australia.}
 
-\item{zoom}{numeric integer representing the zoom level of the map (0 is fully zoomed out)}
+\item{zoom}{\code{integer} representing the zoom level of the map (0 is fully zoomed out)}
 
 \item{width}{the width of the map}
 
@@ -31,9 +31,9 @@ google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
 Generates a google map object
 }
 \details{
-The data argument is only needed if you call other functions to add layers to th emap, such as \code{add_markers()} or \code{add_polylines}. However, the data argument can also be passed into those functions as well.
+The data argument is only needed if you call other functions to add layers to the map, such as \code{add_markers()} or \code{add_polylines}. However, the data argument can also be passed into those functions as well.
 
-In order to use Google Maps you need a valid Google Maps Web Javascript API key. See the Google Maps API documentation \url{https://developers.google.com/maps/}
+In order to use Google Maps you need a valid Google Maps Web JavaScript API key. See the Google Maps API documentation \url{https://developers.google.com/maps/}
 }
 \examples{
 \dontrun{
@@ -66,4 +66,3 @@ google_map(key = map_key, styles = style)
 
 
 }
-
