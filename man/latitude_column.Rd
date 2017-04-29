@@ -16,4 +16,3 @@ latitude_column(data, lat, calling_function)
 \description{
 calls the correct function to check for latitude column
 }
-

@@ -34,7 +34,7 @@ The maximum allowed radius is 50,000 meters. Radius must not be included if
 Possible values are \code{"prominence"}, \code{"distance"} or \code{"location"}.
 If \code{rankby = distance}, then one of \code{keyword}, \code{name} or
 \code{place_type} must be specified. If a \code{search_string} is used then
-\code{rankby} is ignored}
+\code{rankby} is ignored.}
 
 \item{keyword}{\code{string} A term to be matched against all content that
 Google has indexed for this place, including but not limited to name, type,
@@ -44,7 +44,7 @@ and address, as well as customer reviews and other third-party content.}
 the results should be returned, if possible. Searches are also biased to the
 selected language; results in the selected language may be given a higher ranking.
 See the list of supported languages and their codes
-\url{https://developers.google.com/maps/faq#languagesupport}}
+\url{https://developers.google.com/maps/faq#languagesupport}.}
 
 \item{name}{\code{string} \code{vector} One or more terms to be matched against
 the names of places. Ignored when used with a \code{search_string}. Results will
@@ -56,10 +56,10 @@ match the search term, but whose associated names do.}
 
 \item{place_type}{\code{string} Restricts the results to places matching the
 specified type. Only one type may be specified. For a list of valid types,
-please visit \url{https://developers.google.com/places/supported_types}}
+please visit \url{https://developers.google.com/places/supported_types}.}
 
 \item{price_range}{\code{numeric} \code{vector} Specifying the minimum and
-maximum price ranges. Values range between 0 (most affordable) and 4 (most expensive)}
+maximum price ranges. Values range between 0 (most affordable) and 4 (most expensive).}
 
 \item{open_now}{\code{logical} Returns only those places that are open for
 business at the time the query is sent. Places that do not specify opening
@@ -72,10 +72,10 @@ the same parameters used in a previous search. All parameters other than
 \code{page_token} will be ignored. The \code{page_token} can be found in the
 result set of a previously run query.}
 
-\item{simplify}{\code{logical} Inidicates if the returned JSON should be coerced
-into a list}
+\item{simplify}{\code{logical} Indicates if the returned JSON should be coerced
+into a list.}
 
-\item{key}{\code{string} A valid Google Developers Places API key}
+\item{key}{\code{string} A valid Google Developers Places API key.}
 }
 \description{
 The Google Places API Web Service allows you to query for place information
@@ -121,7 +121,7 @@ outside of the search circle; however, prominent results from outside of the
 search radius may be included.
 }
 \note{
-The Google Places API Web Service enforces a default limit of 1,000 fre requests
+The Google Places API Web Service enforces a default limit of 1,000 free requests
 per 24 hour period, calculated as the sum of client-side and server-side requets.
 See \url{https://developers.google.com/places/web-service/usage} for details.
 
@@ -158,4 +158,3 @@ google_places(location = c(-37.817839,144.9673254),
 \seealso{
 \link{google_place_details}
 }
-

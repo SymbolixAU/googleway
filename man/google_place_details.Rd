@@ -17,7 +17,7 @@ selected language; results in the selected language may be given a higher rankin
 See the list of supported languages and their codes
 \url{https://developers.google.com/maps/faq#languagesupport}}
 
-\item{simplify}{\code{logical} Inidicates if the returned JSON should be coerced into a list}
+\item{simplify}{\code{logical} Indicates if the returned JSON should be coerced into a list}
 
 \item{key}{\code{string} A valid Google Developers Places API key}
 }
@@ -43,4 +43,3 @@ google_place_details(place_id = res$results$place_id, key = key)
 \seealso{
 \link{google_places}
 }
-

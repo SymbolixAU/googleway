@@ -9,19 +9,19 @@
 #' and lon/longitude column, or
 #' a single encoded polyline
 #'
-#' @param df_locations data.frame of with two columns called 'lat' and 'lon'
+#' @param df_locations \code{data.frame} of with two columns called 'lat' and 'lon'
 #' (or 'latitude' / 'longitude') used as the locations
-#' @param polyline string encoded polyline
-#' @param location_type string Specifies the results to be returned as individual
+#' @param polyline \code{string} encoded polyline
+#' @param location_type \code{string} Specifies the results to be returned as individual
 #' locations or as a path. One of 'individual' or 'path'. If 'path', the data.frame
 #' \code{df_locations} must contain at least two rows. The order of the path is
 #' determined by the order of the rows.
-#' @param samples integer required if \code{location_type == "path"}.
+#' @param samples \code{integer} Required if \code{location_type == "path"}.
 #' Specifies the number of sample points along a path for which to return elevation data.
 #' The samples parameter divides the given path into an ordered set of equidistant
 #' points along the path.
-#' @param key string A valid Google Developers Elevation API key
-#' @param simplify logical Inidicates if the returned JSON should be coerced into a list
+#' @param key \code{string} A valid Google Developers Elevation API key
+#' @param simplify \code{logical} Indicates if the returned JSON should be coerced into a list
 #' @return Either list or JSON string of the elevation data
 #' @examples
 #' \dontrun{

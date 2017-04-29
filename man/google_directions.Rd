@@ -12,17 +12,17 @@ google_directions(origin, destination, mode = c("driving", "walking",
   region = NULL, key, simplify = TRUE, curl_proxy = NULL)
 }
 \arguments{
-\item{origin}{numeric Vector of lat/lon coordinates, or an address string}
+\item{origin}{\code{numeric} vector of lat/lon coordinates, or an address string}
 
-\item{destination}{numeric Vector of lat/lon coordinates, or an address string}
+\item{destination}{\code{numeric} vector of lat/lon coordinates, or an address string}
 
 \item{mode}{string. One of 'driving', 'walking', 'bicycling' or 'transit'.}
 
-\item{departure_time}{POSIXct. Specifies the desired time of departure.
+\item{departure_time}{\code{POSIXct}. Specifies the desired time of departure.
 Must be in the future (i.e. greater than \code{sys.time()}). If no value
 is specified it defaults to \code{Sys.time()}}
 
-\item{arrival_time}{POSIXct. Specifies the desired time of arrival. Note you
+\item{arrival_time}{\code{POSIXct}. Specifies the desired time of arrival. Note you
 can only specify one of \code{arrival_time} or \code{departure_time}, not both.
 If both are supplied, \code{departure_time} will be used.}
 
@@ -33,7 +33,7 @@ for transit, walking or bicycling modes. List elements must be named either
 and 'via' will not stop at the waypoint.
 See \url{https://developers.google.com/maps/documentation/directions/intro#Waypoints} for details}
 
-\item{optimise_waypoints}{boolean allow the Directions service to optimize the
+\item{optimise_waypoints}{\code{boolean} allow the Directions service to optimize the
 provided route by rearranging the waypoints in a more efficient order.
 (This optimization is an application of the Travelling Salesman Problem.)
 Travel time is the primary factor which is optimized, but other factors such
@@ -41,36 +41,36 @@ as distance, number of turns and many more may be taken into account when
 deciding which route is the most efficient. All waypoints must be stopovers
 for the Directions service to optimize their route.}
 
-\item{alternatives}{logical If set to true, specifies that the Directions
+\item{alternatives}{\code{logical} If set to true, specifies that the Directions
 service may provide more than one route alternative in the response}
 
-\item{avoid}{character Vector stating which features should be avoided.
+\item{avoid}{\code{character} vector stating which features should be avoided.
 One of 'tolls', 'highways', 'ferries' or 'indoor'}
 
-\item{units}{string metric or imperial. Note: Only affects the text displayed
+\item{units}{\code{string} metric or imperial. Note: Only affects the text displayed
 within the distance field. The values are always in metric}
 
-\item{traffic_model}{string One of 'best_guess', 'pessimistic' or 'optimistic'.
+\item{traffic_model}{\code{string} - one of 'best_guess', 'pessimistic' or 'optimistic'.
 Only valid with a departure time}
 
-\item{transit_mode}{vector of strings, either 'bus', 'subway', 'train', 'tram' or 'rail'.
+\item{transit_mode}{\code{vector} of strings, either 'bus', 'subway', 'train', 'tram' or 'rail'.
 Only vaid where \code{mode = 'transit'}. Note that 'rail' is equivalent
 to \code{transit_mode=c("train", "tram", "subway")}}
 
-\item{transit_routing_preference}{vector strings one of 'less_walking' and
+\item{transit_routing_preference}{\code{vector} of strings - one of 'less_walking' and
 'fewer_transfers'. specifies preferences for transit routes. Only valid for
 transit directions.}
 
-\item{language}{string specifies the language in which to return the results.
+\item{language}{\code{string} - specifies the language in which to return the results.
 See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis} If no langauge is supplied, the service will attempt to use the language of the domain from which the request was sent}
 
-\item{region}{string Specifies the region code, specified as a ccTLD
+\item{region}{\code{string} - specifies the region code, specified as a ccTLD
 ("top-level domain"). See region basing for details
 \url{https://developers.google.com/maps/documentation/directions/intro#RegionBiasing}}
 
-\item{key}{string A valid Google Developers Directions API key}
+\item{key}{\code{string} - a valid Google Developers Directions API key}
 
-\item{simplify}{logical Inidicates if the returned JSON should be coerced into a list}
+\item{simplify}{\code{logical} - indicates if the returned JSON should be coerced into a list}
 
 \item{curl_proxy}{a curl proxy object}
 }
@@ -143,4 +143,3 @@ google_directions(origin = "Melbourne Airport, Australia",
 
 }
 }
-

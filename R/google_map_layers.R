@@ -222,7 +222,7 @@ update_style <- function(map, styles = NULL){
 #' be applied to all the circles
 #' @param stroke_opacity either a string specifying the column of \code{data} containing
 #' the stroke opacity of each circle, or a value between 0 and 1 that will be
-#' aplied to all the circles
+#' applied to all the circles
 #' @param stroke_weight either a string specifying the column of \code{data} containing
 #' the stroke weight of each circle, or a number indicating the width of pixels
 #' in the line to be applied to all the circles
@@ -230,7 +230,7 @@ update_style <- function(map, styles = NULL){
 #' the fill colour of each circle, or a valid hexadecimal numeric HTML style to
 #' be applied to all the cirlces
 #' @param fill_opacity either a string specifying the column of \code{data} containing
-#' the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles
+#' the fill opacity of each circle, or a value between 0 and 1 that will be applied to all the circles
 #' @param info_window string specifying the column of data to display in an info
 #' window when a circle is clicked
 #' @param mouse_over string specifying the column of data to display when the
@@ -368,7 +368,7 @@ clear_circles <- function(map, layer_id = NULL){
 #' to be applied to all the circles
 #' @param stroke_opacity either a string specifying the column of \code{data} containing
 #' the stroke opacity of each circle, or a value between 0 and 1 that will be
-#' aplied to all the circles
+#' applied to all the circles
 #' @param stroke_weight either a string specifying the column of \code{data} containing
 #' the stroke weight of each circle, or a number indicating the width of pixels
 #' in the line to be applied to all the circles
@@ -376,7 +376,7 @@ clear_circles <- function(map, layer_id = NULL){
 #' the fill colour of each circle, or a valid hexadecimal numeric HTML style to
 #' be applied to all the cirlces
 #' @param fill_opacity either a string specifying the column of \code{data} containing
-#' the fill opacity of each circle, or a value between 0 and 1 that will be aplied
+#' the fill opacity of each circle, or a value between 0 and 1 that will be applied
 #' to all the circles
 #' @param layer_id single value specifying an id for the layer.
 #'
@@ -425,14 +425,14 @@ update_circles <- function(map, data, id,
 #' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude'
 #' coordinates. If left NULL, a best-guess will be made
-#' @param option_gradient vector of colours to use as the gradient colours. see Deatils
+#' @param option_gradient vector of colours to use as the gradient colours. see Details
 #' @param weight string specifying the column of \code{data} containing the 'weight'
 #' associated with each point. If NULL, each point will get a weight of 1.
 #' @param option_dissipating logical Specifies whether heatmaps dissipate on zoom.
-#' When dissipating is false the radius of influence increases with zoom level to
+#' When dissipating is FALSE the radius of influence increases with zoom level to
 #' ensure that the color intensity is preserved at any given geographic location.
-#' Defaults to false.
-#' @param option_radius numeric The radius of influence for each data point, in pixels.
+#' Defaults to FALSE
+#' @param option_radius numeric. The radius of influence for each data point, in pixels.
 #' @param option_opacity The opacity of the heatmap, expressed as a number between
 #' 0 and 1. Defaults to 0.6.
 #' @param layer_id single value specifying an id for the layer.
@@ -697,7 +697,7 @@ clear_bicycling <- function(map){
 #' HTML style to be applied to all the circles
 #' @param stroke_opacity either a string specifying the column of \code{data}
 #' containing the stroke opacity of each circle, or a value between 0 and 1 that
-#' will be aplied to all the circles
+#' will be applied to all the circles
 #' @param stroke_weight either a string specifying the column of \code{data}
 #' containing the stroke weight of each circle, or a number indicating the width
 #' of pixels in the line to be applied to all the circles
@@ -915,7 +915,7 @@ add_polylines <- function(map,
 #' HTML style to be applied to all the circles
 #' @param stroke_opacity either a string specifying the column of \code{data}
 #' containing the stroke opacity of each circle, or a value between 0 and 1
-#' that will be aplied to all the circles
+#' that will be applied to all the circles
 #' @param stroke_weight either a string specifying the column of \code{data}
 #' containing the stroke weight of each circle, or a number indicating the width
 #' of pixels in the line to be applied to all the circles
@@ -1009,7 +1009,7 @@ clear_polylines <- function(map, layer_id = NULL){
 #' Polygon objects can describe complex shapes, including
 #'
 #' \itemize{
-#'   \item{Multiple non-contiguous areas defined by a single poylgon}
+#'   \item{Multiple non-contiguous areas defined by a single polygon}
 #'   \item{Areas with holes in them}
 #'   \item{Intersections of one or more areas}
 #' }
@@ -1019,9 +1019,9 @@ clear_polylines <- function(map, layer_id = NULL){
 #' To create a hole in a polygon, you need to create two paths, one inside the other.
 #' To create the hole, the coordinates of the inner path must be wound in the opposite
 #' order to those defining the outer path. For example, if the coordinates of
-#' the outer path are in clockwise order, then the inner path must be anit-clockwise.
+#' the outer path are in clockwise order, then the inner path must be anti-clockwise.
 #'
-#' You can represent a polygon ine one of three ways
+#' You can represent a polygon in one of three ways
 #' \itemize{
 #'   \item{as a series of coordinates defining a path (or paths) with both an
 #'   \code{id} and \code{pathId} argument that make up the polygon}
@@ -1100,7 +1100,7 @@ clear_polylines <- function(map, layer_id = NULL){
 #' HTML style to be applied to all the polygons
 #' @param stroke_opacity either a string specifying the column of \code{data}
 #' containing the stroke opacity of each polygon, or a value between 0 and 1
-#' that will be aplied to all the polygons
+#' that will be applied to all the polygons
 #' @param stroke_weight either a string specifying the column of \code{data}
 #' containing the stroke weight of each polygon, or a number indicating the
 #' width of pixels in the line to be applied to all the polygons
@@ -1109,7 +1109,7 @@ clear_polylines <- function(map, layer_id = NULL){
 #' HTML style to be applied to all the polygons
 #' @param fill_opacity either a string specifying the column of \code{data}
 #' containing the fill opacity of each polygon, or a value between 0 and 1 that
-#' will be aplied to all the polygons
+#' will be applied to all the polygons
 #' @param info_window string specifying the column of data to display in an
 #' info window when a polygon is clicked
 #' @param mouse_over string specifying the column of data to display when the
@@ -1334,7 +1334,7 @@ add_polygons <- function(map,
 #' HTML style to be applied to all the circles
 #' @param stroke_opacity either a string specifying the column of \code{data}
 #' containing the stroke opacity of each circle, or a value between 0 and 1 that
-#' will be aplied to all the circles
+#' will be applied to all the circles
 #' @param stroke_weight either a string specifying the column of \code{data}
 #' containing the stroke weight of each circle, or a number indicating the width of
 #' pixels in the line to be applied to all the circles
@@ -1343,7 +1343,7 @@ add_polygons <- function(map,
 #' HTML style to be applied to all the cirlces
 #' @param fill_opacity either a string specifying the column of \code{data}
 #' containing the fill opacity of each circle, or a value between 0 and 1 that
-#' will be aplied to all the circles
+#' will be applied to all the circles
 #' @param layer_id single value specifying an id for the layer.
 #'
 #' @examples
@@ -1469,7 +1469,7 @@ clear_polygons <- function(map, layer_id = NULL){
 #' be applied to all the rectangle
 #' @param stroke_opacity either a string specifying the column of \code{data} containing
 #' the stroke opacity of each rectangle, or a value between 0 and 1 that will be
-#' aplied to all the rectangle
+#' applied to all the rectangle
 #' @param stroke_weight either a string specifying the column of \code{data} containing
 #' the stroke weight of each rectangle, or a number indicating the width of pixels
 #' in the line to be applied to all the rectangle
@@ -1477,7 +1477,7 @@ clear_polygons <- function(map, layer_id = NULL){
 #' the fill colour of each rectangle, or a valid hexadecimal numeric HTML style to
 #' be applied to all the rectangle
 #' @param fill_opacity either a string specifying the column of \code{data} containing
-#' the fill opacity of each rectangle, or a value between 0 and 1 that will be aplied to all the rectangles
+#' the fill opacity of each rectangle, or a value between 0 and 1 that will be applied to all the rectangles
 #' @param info_window string specifying the column of data to display in an info
 #' window when a rectangle is clicked
 #' @param mouse_over string specifying the column of data to display when the
@@ -1621,7 +1621,7 @@ clear_rectangles <- function(map, layer_id = NULL){
 #' to be applied to all the rectangles
 #' @param stroke_opacity either a string specifying the column of \code{data} containing
 #' the stroke opacity of each rectangle, or a value between 0 and 1 that will be
-#' aplied to all the rectangles
+#' applied to all the rectangles
 #' @param stroke_weight either a string specifying the column of \code{data} containing
 #' the stroke weight of each rectangle, or a number indicating the width of pixels
 #' in the line to be applied to all the rectangles
@@ -1629,7 +1629,7 @@ clear_rectangles <- function(map, layer_id = NULL){
 #' the fill colour of each rectangle, or a valid hexadecimal numeric HTML style to
 #' be applied to all the cirlces
 #' @param fill_opacity either a string specifying the column of \code{data} containing
-#' the fill opacity of each rectangle, or a value between 0 and 1 that will be aplied
+#' the fill opacity of each rectangle, or a value between 0 and 1 that will be applied
 #' to all the rectangles
 #' @param layer_id single value specifying an id for the layer.
 #'

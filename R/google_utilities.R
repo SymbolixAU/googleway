@@ -3,13 +3,13 @@
 #' Update a Google map in a shiny app. Use this function whenever the map needs
 #' to respond to reactive content.
 #'
-#' @param map_id string The output ID of the map in a shiny application
+#' @param map_id string containing the output ID of the map in a shiny application.
 #' @param session the Shiny session object to which the map belongs; usually the
-#' default value will suffice
-#' @param data data to be used in the map. See the details section for \code{\link{google_map}}
+#' default value will suffice.
+#' @param data data to be used in the map. See the details section for \code{\link{google_map}}.
 #' @param deferUntilFlush indicates whether actions performed against this
 #' instance should be carried out right away, or whether they should be held until
-#' after the next time all of the outputs are updated; defaults to TRUE
+#' after the next time all of the outputs are updated; defaults to TRUE.
 #' @examples
 #' \dontrun{
 #'

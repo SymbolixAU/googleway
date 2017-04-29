@@ -2,15 +2,15 @@
 % Please edit documentation in R/google_map_layers.R
 \name{clear}
 \alias{clear}
-\alias{clear_bicycling}
+\alias{clear_markers}
 \alias{clear_circles}
 \alias{clear_heatmap}
-\alias{clear_markers}
-\alias{clear_polygons}
-\alias{clear_polylines}
-\alias{clear_rectangles}
 \alias{clear_traffic}
 \alias{clear_transit}
+\alias{clear_bicycling}
+\alias{clear_polylines}
+\alias{clear_polygons}
+\alias{clear_rectangles}
 \title{clear map elements}
 \usage{
 clear_markers(map, layer_id = NULL)
@@ -43,4 +43,3 @@ clears elements from a map
 These operations are intended for use in conjunction with
 \link{google_map_update} in an interactive shiny environment
 }
-

@@ -38,7 +38,7 @@ be applied to all the circles}
 
 \item{stroke_opacity}{either a string specifying the column of \code{data} containing
 the stroke opacity of each circle, or a value between 0 and 1 that will be
-aplied to all the circles}
+applied to all the circles}
 
 \item{stroke_weight}{either a string specifying the column of \code{data} containing
 the stroke weight of each circle, or a number indicating the width of pixels
@@ -49,7 +49,7 @@ the fill colour of each circle, or a valid hexadecimal numeric HTML style to
 be applied to all the cirlces}
 
 \item{fill_opacity}{either a string specifying the column of \code{data} containing
-the fill opacity of each circle, or a value between 0 and 1 that will be aplied to all the circles}
+the fill opacity of each circle, or a value between 0 and 1 that will be applied to all the circles}
 
 \item{mouse_over}{string specifying the column of data to display when the
 mouse rolls over the circle}
@@ -92,4 +92,3 @@ google_map(key = map_key, data = tram_stops) \%>\%
 
  }
 }
-

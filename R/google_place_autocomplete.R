@@ -23,7 +23,7 @@
 #' specified type. Only one type may be specified (if more than one type is provided,
 #' all types following the first entry are ignored). For a list of valid types,
 #' please visit \url{https://developers.google.com/places/web-service/autocomplete#place_types}
-#' @param components \code{string} of length 1 Identifies a grouping of places
+#' @param components \code{string} of length 1 which identifies a grouping of places
 #' to which you would like to restrict your results. Currently, you can use
 #' components to filter by country only. The country must be passed as a two
 #' character, ISO 3166-1 Alpha-2 compatible country code.
