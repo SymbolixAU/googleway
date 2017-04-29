@@ -575,35 +575,19 @@ google_map(key = map_key) %>%
 
 ## Google Maps
 
-A google map can be made using the `google_map()` function. Without any data present, or no `location` value set, the map will default to Melbourne, Australia
-
-```
-map_key <- "your_api_key"
-google_map(key = map_key)
-
-```
-![Melbourne](./img/google_map.png)
-
+A google map can be made using the `google_map()` function. Without any data present, or no `location` value set, the map will default to Melbourne, Australia.
 
 You can also display traffic, transit (public transport) or bicycle routes using the functions `add_traffic()`, `add_transit()` and `add_bicycling()` respectively. For example
-
-```
-google_map(key = map_key) %>%
-  add_traffic()
-
-```
-
-![Traffic](./img/add_traffic.png)
-
 
 You can also include a search box in your map by using the argument `search_box = TRUE`, which allows you to search the maps just like you would when using Google Maps.
 
 ```
-google_map(key = map_key, search_box = T)
+map_key <- "your_api_key"
+google_map(key = map_key, search_box = T) %>%
+  add_traffic()
+
 ```
-
-![Search Box](./img/search_box.png)
-
+![Melbourne](./img/google_map.png)
 
 
 ---
@@ -612,23 +596,7 @@ google_map(key = map_key, search_box = T)
 
 Markers and circles can be used to show points on the map. 
 
-In this example I'm using the `tram_stops` data set provided with googleway
-
-
-```
-map_key <- "your_api_key"
-
-google_map(data = tram_stops, key = map_key) %>%
-  add_markers(lat = "stop_lat", lon = "stop_lon")
-
-## for plotting circles:
-##  add_circles(lat = "stop_lat", lon = "stop_lon", radius = 50, fill_colour = "#00FF00")
-
-
-```
-
-![Route 35 tram stops](./img/tram_stops.png)
-
+In this example I'm using the `tram_stops` data set provided with googleway. 
 
 You can specify a column in the data.frame to use to populate a popup `info_window` that will be displayed when clicking on a maker. The info window can dispay any valid HTML, as demonstrated in [this Stack Overflow answer](http://stackoverflow.com/a/39339464/5977215).
 
