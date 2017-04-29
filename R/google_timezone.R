@@ -5,7 +5,7 @@
 #' latitude/longitude pair and date.
 #'
 #' @param location \code{vector} of lat/lon pair
-  #' @param timestamp \code{POSIXct The Google Maps Time Zone API uses the timestamp to
+#' @param timestamp \code{POSIXct} The Google Maps Time Zone API uses the timestamp to
 #' determine whether or not Daylight Savings should be applied. Will default to
 #' the current system time.
 #' @param language \code{string} specifies the language in which to return the results.

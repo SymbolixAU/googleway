@@ -10,6 +10,10 @@ google_timezone(location, timestamp = Sys.time(), language = NULL,
 \arguments{
 \item{location}{\code{vector} of lat/lon pair}
 
+\item{timestamp}{\code{POSIXct} The Google Maps Time Zone API uses the timestamp to
+determine whether or not Daylight Savings should be applied. Will default to
+the current system time.}
+
 \item{language}{\code{string} specifies the language in which to return the results.
 See the list of supported languages:
 \url{https://developers.google.com/maps/faq#using-google-maps-apis}.
@@ -36,3 +40,4 @@ google_timezone(location = c(-37.81659, 144.9841),
 }
 
 }
+

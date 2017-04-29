@@ -8,9 +8,10 @@ Authors@R: c(
     person("Paulo", "Barcelos", role = "ctb", comment = "Author of c++ decode_pl"),
     person("Rstudio", role = "ctb", comment = "Functions written for the Leaflet pacakge")
     )
-Description: Provides a mechanism to plot a Google Map from R and overlay it with shapes and 
-    markers, as well as providing access to Google Maps APIs, including places, directions, roads, distances,
-    geocoding, elevation and timezone
+Description: Provides a mechanism to plot a Google Map from R and overlay
+    it with shapes and markers. Also provides access to Google Maps APIs,
+    including places, directions, roads, distances, geocoding, elevation and
+    timezone.
 License: GPL-3
 LazyData: TRUE
 Depends:
@@ -25,7 +26,7 @@ Imports:
     shiny,
     jpeg
 LinkingTo: Rcpp
-RoxygenNote: 6.0.1
+RoxygenNote: 5.0.1
 BugReports: https://github.com/SymbolixAU/googleway/issues
 Suggests:
     knitr,

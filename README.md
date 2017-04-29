@@ -8,20 +8,13 @@
 [![Build Status](https://travis-ci.org/SymbolixAU/googleway.svg?branch=master)](https://travis-ci.org/SymbolixAU/googleway)
 [![Coverage Status](https://codecov.io/github/SymbolixAU/googleway/coverage.svg?branch=master)](https://codecov.io/github/SymbolixAU/googleway?branch=master)
 
-Functions to access [Google Maps API](https://developers.google.com/maps/)
+Provides a mechanism to access various [Google Maps APIs](https://developers.google.com/maps/), including plotting a Google Map from R and overlaying it with shapes and markers, and retrieving data from the places, directions, roads, distances, geocoding, elevation and timezone APIs.
 
-## v1.0.0 - CRAN release
+## v2.0.0 - pre-release
 
-Version 1.0.0 has **significant changes** compared to the previous release. See [News](https://github.com/SymbolixAU/googleway/blob/master/NEWS.md) for a list of changes.
+Version 2.0.0 has **significant changes** compared to the previous release. See [News](https://github.com/SymbolixAU/googleway/blob/master/NEWS.md) for a list of changes.
 
 See [**vignettes**](https://github.com/SymbolixAU/googleway/blob/master/vignettes/googleway-vignette.Rmd) for instructions and examples.
-
-## v2.0.0 - pre-release development
-
-The development version allows you to plot a Google Map from R, both in a shiny environment and as a stand-alone R plot. 
-
-See [News](https://github.com/SymbolixAU/googleway/blob/master/NEWS.md) for a list of changes
-
 
 ## Installation
 
