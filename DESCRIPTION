@@ -8,10 +8,13 @@ Authors@R: c(
     person("Paulo", "Barcelos", role = "ctb", comment = "Author of c++ decode_pl"),
     person("Rstudio", role = "ctb", comment = "Functions written for the Leaflet pacakge")
     )
-Description: Retrieves data from six Google Maps APIs: directions, distances, elevation, geocode, reverse geocode and timezone. Also able to decode encoded location data.
+Description: Retrieves data from six Google Maps APIs: directions, distances,
+    elevation, geocode, reverse geocode and timezone. Also able to decode encoded
+    location data.
 License: GPL-3
 LazyData: TRUE
-Depends: R (>= 3.3.1)
+Depends:
+    R (>= 3.3.1)
 Imports:
     Rcpp (>= 0.12.5),
     jsonlite (>= 0.9.20),
@@ -22,9 +25,10 @@ Imports:
     shiny,
     jpeg
 LinkingTo: Rcpp
-RoxygenNote: 6.0.1
+RoxygenNote: 5.0.1
 BugReports: https://github.com/SymbolixAU/googleway/issues
-Suggests: knitr,
+Suggests:
+    knitr,
     rmarkdown,
     testthat
 VignetteBuilder: knitr

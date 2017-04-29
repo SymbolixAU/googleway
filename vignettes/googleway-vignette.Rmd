@@ -126,7 +126,7 @@ df <- google_directions(origin = "Melbourne, Australia",
                         simplify = TRUE)
 ```
 
-The data used to draw the route on the map is the **overview_polyline**. 
+The data used to draw the route on the map is the **overview_polyline**. This string represents a sequence of lat/lon pairs, encoded using a lossy compression algorithm (https://developers.google.com/maps/documentation/utilities/polylinealgorithm) that allows you to store the series of coordinates as a single string. 
 
 ```
 pl <- df$routes$overview_polyline$points
@@ -241,7 +241,7 @@ $status
 
 ## Google Timezone API
 
-The [**Google Maps Time zone API**](https://developers.google.com/maps/documentation/timezone/start) provides time offset data for locations on the surface of the earth. You request the time zone information for a specific latitude/longitude pair and date. The API returns the name of that time zone, the time offset from UTC, and the daylight savings offset
+The [**Google Maps Time zone API**](https://developers.google.com/maps/documentation/timezone/start) provides time offset data for locations on the surface of the earth. You request the time zone information for a specific latitude/longitude pair and date. The API returns the name of that time zone, the time offset from UTC, and the daylight savings offset.
 
 
 ### Example
@@ -276,7 +276,7 @@ The [**Google Maps Geocoding API**](https://developers.google.com/maps/documenta
 Finding the location details for Flinders Street Station, Melbourne
 
 ```
-An unbound search for Flinders Street Station returns 6 options.
+## An unbound search for Flinders Street Station returns 6 options.
 df <- google_geocode(address = "Flinders Street Station",
                      key = key,
                      simplify = TRUE)
@@ -578,7 +578,6 @@ google_map(key = map_key) %>%
 A google map can be made using the `google_map()` function. Without any data present, or no `location` value set, the map will default to Melbourne, Australia
 
 ```
-## you need to have a valid Google Maps API key
 map_key <- "your_api_key"
 google_map(key = map_key)
 
@@ -586,7 +585,7 @@ google_map(key = map_key)
 ![Melbourne](./img/google_map.png)
 
 
-You can also display traffic, transit (public transport) or bicycle routes using the functions `add_traffic()`, `add_transit()` and `add_bicycling()` respectively
+You can also display traffic, transit (public transport) or bicycle routes using the functions `add_traffic()`, `add_transit()` and `add_bicycling()` respectively. For example
 
 ```
 google_map(key = map_key) %>%
@@ -596,19 +595,6 @@ google_map(key = map_key) %>%
 
 ![Traffic](./img/add_traffic.png)
 
-```
-google_map(key = map_key) %>%
-  add_transit()
-```
-
-![Transit](./img/add_transit.png)
-
-```
-google_map(key = map_key) %>%
-  add_bicycling()
-```
-
-![Bicycling](./img/add_bicycling.png)
 
 You can also include a search box in your map by using the argument `search_box = TRUE`, which allows you to search the maps just like you would when using Google Maps.
 
@@ -692,7 +678,7 @@ google_map(data = tram_stops, key = map_key) %>%
 
 ## Polyline
 
-Polylines in Google Maps are formed from a set of latitude/longitude cooridnates, encoded using a lossy compression algorithm (https://developers.google.com/maps/documentation/utilities/polylinealgorithm) that allows you to store the series of coordinates as a single string. 
+Polylines in Google Maps are formed from a set of latitude/longitude cooridnates, encoded into a polyline string.
 
 Both the `add_polylines()` and `add_polygons()` functions in googleway can plot the encoded polyline to save the amount of data set to the browser. (They can also plot coordinates, but this is often slower).
 
@@ -724,75 +710,40 @@ To draw a polygon on a map use the `add_polygons()` function. This function take
 * Rows of nested polylines in a list column. Each row represents a polygon, and each polylne in the list represents the paths that make up the polygon.
 
 
-These examples show a single polygon made up of three paths. 
+The `melbourne` data set provided with `googleway` is a `data.frame` of polygons of Melbourne and the surrounding suburbs. The coordinates of the polygons are encoded in to polylines. 
+
+
+```{r}
+
+melbourne[melbourne$polygonId == 338 & melbourne$pathId %in% c(1, 2), ]
+
+```
+
+
+Plotting this data is done using `add_polygons()`
 
 
 ```
-## polygon with a hole - Bermuda triangle
-pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
-                      lon = c(-80.190, -66.118, -64.757))
-
-pl_inner <- encode_pl(lat = c(28.745, 29.570, 27.339),
-                      lon = c(-70.579, -67.514, -66.668))
-
-pl_other <- encode_pl(c(21,28,22), c(-63, -58, -59))
-
-df <- data.frame(id = c(1,1,1),
-                 polyline = c(pl_outer, pl_inner, pl_other),
-                 stringsAsFactors = FALSE)
-
-## using one row per polygon
-df <- aggregate(polyline ~ id, data = df, list)               
-
-google_map(key = map_key, height = 800) %>%
-  add_polygons(data = df, polyline = "polyline")
+google_map(key = 'your_api_key') %>%
+  add_polygons(data = melbourne, polyline = "polyline", info_window = "SA2_NAME",
+            mouse_over_group = "SA3_NAME")
 ```
 
-![Polygon](./img/polygon_hole.png)
 
-There are various other arguments you can use in the `add_*` functions, in particular
-
-* info_window - displays an information window when clicking on the map object
-* mouse_over - displays an information window when hovering over the map object
-* mouse_over_group - highlights a group of shapes when overing over a map object
-
-The following code and three images show polygons defined with an `id`, and the `mouse_over_group` using this `id` to highlighted associated polygons within the same group
+![Melbourne Polygons](./img/melbourne_polygons.png)
 
 
-```
-pl1 <- encode_pl(lat = c(25.774, 18.466,32.321),
-                      lon = c(-80.190, -66.118, -64.757))
+In this example I've specified
 
-pl2 <- encode_pl(lat = c(28.745, 29.570, 27.339),
-                      lon = c(-70.579, -67.514, -66.668))
-
-pl3 <- encode_pl(c(21,28,22), c(-63, -58, -59))
-
-pl4 <- encode_pl(c(21, 28, 24), c(-63, -51, -53))
-
-pl5 <- encode_pl(c(29, 27, 30), c(-71, -73, -75))
-
-df <- data.frame(id = c(1,1,2,1, 2),
-                 polyline = c(pl1, pl2, pl3, pl4, pl5),
-                 stringsAsFactors = FALSE)
-
-google_map(key = map_key, height = 800) %>%
-  add_polygons(data = df, polyline = "polyline", id = 'id', mouse_over_group = 'id')
-  
-```
-
-![Mouse Over Group](./img/mouse_over_group_off.png)
-
-![Mouse Over Group 1](./img/mouse_over_group_on1.png)
-
-![Mouse Over Group 2](./img/mouse_over_group_on2.png)
+* mouse_over_group - which highlights polygons in the same group when the mouse hovers over them
+* info_window - to display an info window when a polygon is clicked
 
 
 ---
 
-## shiny
+## Shiny
 
-As `google_map()` is a `HTMLWidget`, it inherently works in *Shiny*. As with all shiny apps the two functions you need to include are
+As `google_map()` is an `HTMLWidget`, it inherently works in **Shiny**. As with all shiny apps the two functions you need to include are
 
 * `renderGoogle_map()` (in the UI)
 * `google_mapOutput()` (in the server)
@@ -821,7 +772,7 @@ shinyApp(ui, server)
 
 But of course, this isn't very interesting. 
 
-You can use all the standard `add_*` functions that have already been discussed to add various shapes and layers. But there's also varous `clear_*` and `update_*` functions that let you update those shapes and layers dynamically within the shiny app. 
+You can use all the standard `add_*` functions that have already been discussed to add various shapes and layers. But there's also various `clear_*` and `update_*` functions that let you update those shapes and layers dynamically within the shiny app. 
 
 The `clear_*` functions are designed to remove objects from the app. 
 
@@ -833,72 +784,72 @@ library(shiny)
 
 ui <- fluidPage(
   sliderInput(inputId = "opacity", label = "opacity", min = 0, max = 1, 
-             step = 0.01, value = 1),
+              step = 0.01, value = 1),
   google_mapOutput(outputId = "map")
 )
 
 server <- function(input, output){
-
+  
   map_key <- 'your_api_key'
-
+  
   output$map <- renderGoogle_map({
+    
     google_map(key = map_key) %>%
-      add_markers(data = tram_stops, lat = "stop_lat", lon = "stop_lon")
+      add_polygons(data = melbourne, id = "polygonId", pathId = "pathId", 
+                   polyline = "polyline", fill_opacity = 1)
   })
   
-  
+  ## observe the opacity slider changing
+  observeEvent(input$opacity, {
+    
+    melbourne$opacity <- input$opacity
+    
+    google_map_update(map_id = "map") %>%
+      update_polygons(data = melbourne, fill_opacity = "opacity", id = "polygonId")
+  })
   
 }
 
 shinyApp(ui, server)
-
 ```
 
+Note that to use the `udpate_*` functions you need to provide the `id` of the object you want to update. 
 
-
-
-
-
-
-The exception to this is `update_heatmap()`, which allows you to both add and remove points from the heat layer
+The exception to the `update_*` functions is `update_heatmap()`, which allows you to both add and remove points from the heat layer.
 
 ```
 library(shiny)
 
 ui <- fluidPage(
-   sliderInput(inputId = "weight", label = "weight", min = 0, max = 1, 
-             step = 0.01, value = 0.5),
-   google_mapOutput(outputId = "map")
+  sliderInput(inputId = "sample", label = "sample", min = 1, max = 10,
+              step = 1, value = 10),
+  google_mapOutput(outputId = "map")
 )
 
 server <- function(input, output){
 
-  map_key <- 'your_api_key'
-  
-  set.seed(20170417)
-  df <- tram_route
-  df$weight <- sample(1:10, size = nrow(df), replace = T)
+  #map_key <- 'your_api_key'
 
+  set.seed(20170417)
+  df <- tram_route[sample(1:nrow(tram_route), size = 10 * 100, replace = T), ]
+  
   output$map <- renderGoogle_map({
     google_map(key = map_key) %>%
-      add_heatmap(data = df, lat = "shape_pt_lat", lon = "shape_pt_lon", 
-                   weight = "weight", option_radius = 0.001)
+      add_heatmap(data = df, lat = "shape_pt_lat", lon = "shape_pt_lon",
+                  option_radius = 0.001)
   })
-  
-  observeEvent(input$weight,{
-      
-    
 
-     google_map_update(map_id = "map") %>%
-       update_heatmap(data = df, lat = "shape_pt_lat", lon = "shape_pt_lon",
-          weight = "weight")
-   })
+  observeEvent(input$sample,{
+    
+    df <- tram_route[sample(1:nrow(tram_route), size = input$sample * 100, replace = T), ]
+
+    google_map_update(map_id = "map") %>%
+      update_heatmap(data = df, lat = "shape_pt_lat", lon = "shape_pt_lon")
+  })
 }
 
 shinyApp(ui, server)
 
 ```
-
-Note that the `update_*` functions can't be used to add extra objects, they can only update objects that already exist.
 
 

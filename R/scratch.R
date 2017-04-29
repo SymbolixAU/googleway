@@ -666,3 +666,85 @@
 # }
 #
 # shinyApp(ui, server)
+
+
+## Polygon
+# map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#
+# google_map(key = map_key) %>%
+#   add_polygons(data = melbourne, polyline = "polyline", info_window = "SA2_NAME")
+#
+# google_map(key = map_key) %>%
+#   add_polygons(data = melbourne, polyline = "polyline", info_window = "SA2_NAME",
+#                mouse_over_group = "SA3_NAME")
+
+
+## Shiny update polygons
+
+
+# library(shiny)
+#
+#
+# ui <- fluidPage(
+#   sliderInput(inputId = "opacity", label = "opacity", min = 0, max = 1,
+#               step = 0.01, value = 1),
+#   google_mapOutput(outputId = "map")
+# )
+#
+# server <- function(input, output){
+#
+#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#
+#   output$map <- renderGoogle_map({
+#
+#     google_map(key = map_key) %>%
+#       add_polygons(data = melbourne, id = "polygonId", pathId = "pathId",
+#                    polyline = "polyline", fill_opacity = 1)
+#   })
+#
+#   observeEvent(input$opacity, {
+#
+#     melbourne$opacity <- input$opacity
+#
+#     google_map_update(map_id = "map") %>%
+#       update_polygons(data = melbourne, fill_opacity = "opacity", id = "polygonId")
+#   })
+#
+# }
+#
+# shinyApp(ui, server)
+
+
+
+## update heatmap
+# ui <- fluidPage(
+#   sliderInput(inputId = "sample", label = "sample", min = 1, max = 10,
+#               step = 1, value = 10),
+#   google_mapOutput(outputId = "map")
+# )
+#
+# server <- function(input, output){
+#
+#   #map_key <- 'your_api_key'
+#
+#   set.seed(20170417)
+#   df <- tram_route[sample(1:nrow(tram_route), size = 10 * 100, replace = T), ]
+#
+#   output$map <- renderGoogle_map({
+#     google_map(key = map_key) %>%
+#       add_heatmap(data = df, lat = "shape_pt_lat", lon = "shape_pt_lon",
+#                   option_radius = 0.001)
+#   })
+#
+#   observeEvent(input$sample,{
+#
+#     df <- tram_route[sample(1:nrow(tram_route), size = input$sample * 100, replace = T), ]
+#
+#     google_map_update(map_id = "map") %>%
+#       update_heatmap(data = df, lat = "shape_pt_lat", lon = "shape_pt_lon")
+#   })
+# }
+#
+# shinyApp(ui, server)
+
+

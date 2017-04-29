@@ -10,3 +10,8 @@ head(df)
 encode_pl(lat = df$lat, lon = df$lon)
 
 
+## ------------------------------------------------------------------------
+
+melbourne[melbourne$polygonId == 338 & melbourne$pathId %in% c(1, 2), ]
+
+
