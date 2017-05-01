@@ -16,4 +16,3 @@ SetDefault(col, val, df)
 \description{
 Set Defaults
 }
-

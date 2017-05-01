@@ -14,4 +14,3 @@ check_hex_colours(df, cols)
 \description{
 Checks for valid hexadecimal value
 }
-

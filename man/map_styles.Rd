@@ -23,4 +23,3 @@ google_map(key = map_key, style = map_styles()$silver)
 }
 
 }
-

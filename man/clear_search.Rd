@@ -12,4 +12,3 @@ clear_search(map)
 \description{
 clears the markers placed on the map after using the search box
 }
-

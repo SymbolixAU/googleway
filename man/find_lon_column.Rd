@@ -16,4 +16,3 @@ find_lon_column(names, calling_function, stopOnFailure = TRUE)
 \description{
 Tries to identify the longitude column
 }
-

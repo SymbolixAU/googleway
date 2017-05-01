@@ -14,4 +14,3 @@ constructURL(map_url, urlArgs)
 \description{
 Constructs the relevant API url, given the arguments
 }
-

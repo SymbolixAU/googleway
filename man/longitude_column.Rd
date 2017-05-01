@@ -16,4 +16,3 @@ longitude_column(data, lon, calling_function)
 \description{
 calls the correct function to check for longitude column
 }
-
