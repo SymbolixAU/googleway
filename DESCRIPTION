@@ -1,6 +1,6 @@
 Package: googleway
 Type: Package
-Title: Accesses Google Maps APIs to retrieve data and plot maps
+Title: Accesses Google Maps APIs to Retrieve Data and Plot Maps
 Version: 2.0.0
 Date: 2017-04-26
 Authors@R: c(
