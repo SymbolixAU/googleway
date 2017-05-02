@@ -1661,5 +1661,50 @@ update_rectangles <- function(map, data, id,
 
   invoke_method(map, data = NULL, 'update_rectangles', rectangleUpdate, layer_id)
 
-
 }
+
+#' Add Overlay
+#'
+#' Adds a ground overlay to a map. The overlay can only be added from a URL
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @param north northern most latitude coordinate
+#' @param east eastern most longitude
+#' @param south southern most latitude coordinate
+#' @param west western most longitude
+#' @param layer_id single value specifying an id for the layer.
+#'
+#' @examples
+#' \dontrun{
+#'
+#' map_key <- 'your_api_key'
+#'
+#' google_map(key = map_key) %>%
+#'   add_overlay(north = 40.773941,south = 40.712216, east = -74.12544, west = -74.22655,
+#'                overlay_url = "https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg")
+#'
+#'
+#'                }
+#' @export
+add_overlay <- function(map,
+                        north,
+                        east,
+                        south,
+                        west,
+                        overlay_url,
+                        layer_id = NULL){
+
+
+  layer_id <- LayerId(layer_id)
+
+  overlay <- jsonlite::toJSON(data.frame(url = overlay_url,
+                                       north = north,
+                                       south = south,
+                                       west = west,
+                                       east = east))
+
+  invoke_method(map, data = NULL, 'add_overlay', overlay, layer_id)
+}
+
+
+

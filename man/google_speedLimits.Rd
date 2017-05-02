@@ -35,3 +35,4 @@ The accuracy of speed limit data returned by Google Maps Roads API can not be
 guaranteed. The speed limit data provided is not real-time, and may be estimated,
 inaccurate, incomplete, and / or outdated.
 }
+
