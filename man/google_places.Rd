@@ -158,3 +158,4 @@ google_places(location = c(-37.817839,144.9673254),
 \seealso{
 \link{google_place_details}
 }
+

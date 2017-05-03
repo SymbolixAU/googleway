@@ -176,3 +176,4 @@ google_map(key = map_key) \%>\%
 \seealso{
 \link{encode_pl}
 }
+

@@ -1,4 +1,11 @@
 
+## Version 2.0.1
+
+* `add_kml()` adds KML layer to a map
+* `add_overlay()` adds ground overlay layer to a map
+
+
+
 ## Version 2.0.0 
 
 * `add_rectangles()` adds rectangles to the map

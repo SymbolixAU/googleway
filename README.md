@@ -16,6 +16,11 @@ Version 2.0.0 has **significant changes** compared to the previous release. See 
 
 See [**vignettes**](https://github.com/SymbolixAU/googleway/blob/master/vignettes/googleway-vignette.Rmd) for instructions and examples.
 
+## v2.0.1 - Development version
+
+see [News](https://github.com/SymbolixAU/googleway/blob/master/NEWS.md) for a list of changes
+
+
 ## Installation
 
 ```
