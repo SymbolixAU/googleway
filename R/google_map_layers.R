@@ -1672,6 +1672,7 @@ update_rectangles <- function(map, data, id,
 #' @param east eastern most longitude
 #' @param south southern most latitude coordinate
 #' @param west western most longitude
+#' @param overlay_url URL string specifying the location of the overlay layer
 #' @param layer_id single value specifying an id for the layer.
 #'
 #' @examples
@@ -1684,7 +1685,7 @@ update_rectangles <- function(map, data, id,
 #'                overlay_url = "https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg")
 #'
 #'
-#'                }
+#' }
 #' @export
 add_overlay <- function(map,
                         north,
@@ -1704,6 +1705,35 @@ add_overlay <- function(map,
                                        east = east))
 
   invoke_method(map, data = NULL, 'add_overlay', overlay, layer_id)
+}
+
+
+#' Add KML
+#'
+#' Adds a KML layer to a map. The KML layer can only be added from a URL
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @param kml_url URL string specifying the location of the kml layer
+#' @param layer_id single value specifying an id for the layer.
+#'
+#' @examples
+#' \dontrun{
+#'
+#' map_key <- 'your_api_key'
+#'
+#' google_map(key = map_key) %>%
+#'   add_kml(kml_url = 'https://developers.google.com/maps/documentation/javascript/examples/kml/westcampus.kml')
+#'
+#'
+#'                }
+#' @export
+add_kml <- function(map, kml_url, layer_id = NULL){
+
+  layer_id <- LayerId(layer_id)
+
+  kml <- jsonlite::toJSON(data.frame(url = kml_url))
+
+  invoke_method(map, data = NULL, 'add_kml', kml, layer_id)
 }
 
 

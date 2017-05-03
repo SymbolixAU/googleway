@@ -12,4 +12,3 @@ get_route(...)
 \description{
 This function is deprecated. Please use \link{google_directions}
 }
-

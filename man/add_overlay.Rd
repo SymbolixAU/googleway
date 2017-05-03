@@ -17,6 +17,8 @@ add_overlay(map, north, east, south, west, overlay_url, layer_id = NULL)
 
 \item{west}{western most longitude}
 
+\item{overlay_url}{URL string specifying the location of the overlay layer}
+
 \item{layer_id}{single value specifying an id for the layer.}
 }
 \description{
@@ -32,6 +34,5 @@ google_map(key = map_key) \%>\%
                overlay_url = "https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg")
 
 
-               }
 }
-
+}
