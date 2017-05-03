@@ -24,6 +24,5 @@ map_key <- 'your_api_key'
 google_map(key = map_key) \%>\%
   add_kml(kml_url = 'https://developers.google.com/maps/documentation/javascript/examples/kml/westcampus.kml')
 
-
-               }
+}
 }

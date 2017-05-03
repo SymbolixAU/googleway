@@ -1695,6 +1695,7 @@ add_overlay <- function(map,
                         overlay_url,
                         layer_id = NULL){
 
+  URLCheck(overlay_url)
 
   layer_id <- LayerId(layer_id)
 
@@ -1724,10 +1725,11 @@ add_overlay <- function(map,
 #' google_map(key = map_key) %>%
 #'   add_kml(kml_url = 'https://developers.google.com/maps/documentation/javascript/examples/kml/westcampus.kml')
 #'
-#'
-#'                }
+#' }
 #' @export
 add_kml <- function(map, kml_url, layer_id = NULL){
+
+  URLCheck(kml_url)
 
   layer_id <- LayerId(layer_id)
 
