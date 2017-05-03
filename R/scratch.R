@@ -748,6 +748,22 @@
 # shinyApp(ui, server)
 
 
+### Overlay
+
+# map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#
+# google_map(key = map_key) %>%
+#   add_overlay(north = 40.773941,
+#               south = 40.712216,
+#               east = -74.12544,
+#               west = -74.22655,
+#               overlay_url = "https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg")
+
+
+
+
+
+
 
 
 

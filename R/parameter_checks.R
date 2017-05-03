@@ -1,3 +1,15 @@
+#' URL Check
+#'
+#' Checks for a valid URL
+#' @param url url to check
+URLCheck <- function(url){
+  if(length(url) != 1)
+    stop("only one URL is valid")
+
+
+}
+
+
 #' Logical Check
 #'
 #' Checks for the correct logical parameter
