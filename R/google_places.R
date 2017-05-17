@@ -291,6 +291,7 @@ google_places <- function(search_string = NULL,
                                      "pagetoken" = page_token,
                                      "key" = key))
 
+
   return(fun_download_data(map_url, simplify))
 
 }

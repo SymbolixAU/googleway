@@ -441,38 +441,38 @@ cbind(res_next$results$name, res_next$results$opening_hours)
 
 ### Example - Nearby
 
-For a **nearby** search you are required to provide a `location` as a pair of latitude/longitude coordinates. You can refine your search by providing a search string and / or a radius.
+For a **nearby** search you are required to provide a `location` as a pair of latitude/longitude coordinates. You can refine your search by providing a keyword and / or a radius.
 
 
 ```
 res <- google_places(location = c(-37.918, 144.968),
-                    search_string = "Restaurant",
-                    radius = 500,
+                    keyword = "Restaurant",
+                    radius = 5000,
                     key = key)
 
 
 cbind(res$results$name, res$results$opening_hours)
-#                          res$results$name open_now weekday_text
-# 1            Gold Moon Chinese Restaurant     TRUE         NULL
-# 2                  Botticelli of Brighton     TRUE         NULL
-# 3        White Rabbit Restaurant Brighton     TRUE         NULL
-# 4            Ah'Loys Malaysian Restaurant    FALSE         NULL
-# 5  Vivace Restaurant & Functions Brighton     TRUE         NULL
-# 6               Irori Japanese Restaurant    FALSE         NULL
-# 7                        Sails on the bay     TRUE         NULL
-# 8                                   Okami    FALSE         NULL
-# 9                         10 Greek Plates     TRUE         NULL
-# 10                D'Gusto Thai Restaurant    FALSE         NULL
-# 11    Budapest Restaurant and Palinka Bar    FALSE         NULL
-# 12             Mediterranean Greek Tavern    FALSE         NULL
-# 13               St Petersburg Restaurant    FALSE         NULL
-# 14                                 Attica    FALSE         NULL
-# 15                   Claypots Seafood Bar     TRUE         NULL
-# 16                               Donovans     TRUE         NULL
-# 17                                Sumalee    FALSE         NULL
-# 18               Tulum Turkish Restaurant    FALSE         NULL
-# 19                            Hoi An Quan       NA         NULL
-# 20                        Rada Restaurant       NA         NULL
+#                         res$results$name open_now weekday_text
+# 1                              Melbourne       NA         NULL
+# 2              Quest Brighton on the Bay     TRUE         NULL
+# 3                         Brighton Savoy    FALSE         NULL
+# 4  Caroline Serviced Apartments Brighton     TRUE         NULL
+# 5      The Buckingham Serviced Apartment       NA         NULL
+# 6                      Sandringham Hotel     TRUE         NULL
+# 7               Indian Palace Restaurant     TRUE         NULL
+# 8                       Elsternwick Park     TRUE         NULL
+# 9                         Brown Cow Cafe     TRUE         NULL
+# 10              Bok Choy Chinese Cuisine    FALSE         NULL
+# 11                          Marine Hotel     TRUE         NULL
+# 12                          Daily Planet     TRUE         NULL
+# 13                         Riva St Kilda     TRUE         NULL
+# 14                         New Bay Hotel     TRUE         NULL
+# 15          Flight Centre North Brighton     TRUE         NULL
+# 16              Vintage Cellars Brighton     TRUE         NULL
+# 17                   Palace Brighton Bay     TRUE         NULL
+# 18                       Brighton Toyota     TRUE         NULL
+# 19                            Sportsgirl     TRUE         NULL
+# 20                           Saint Kilda       NA         NULL
 ```
 
 ---
