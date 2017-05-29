@@ -27,7 +27,7 @@ to respond to reactive content.
 \dontrun{
 
 library(shiny)
-library(magrittr)
+library(googleway)
 
 ui <- pageWithSidebar(
   headerPanel("Toggle markers"),

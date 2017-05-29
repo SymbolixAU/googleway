@@ -38,8 +38,6 @@ In order to use Google Maps you need a valid Google Maps Web JavaScript API key.
 \examples{
 \dontrun{
 
-library(magrittr)  ## for the \%>\% pipes
-
 map_key <- "your_api_key"
 df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
 -37.8191299438477, -37.8187675476074, -37.8186187744141, -37.8181076049805
@@ -49,7 +47,6 @@ df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
 77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
 "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
 
-library(magrittr)
 google_map(key = map_key, data = df_line) \%>\%
  add_markers() \%>\%
  add_heatmap() \%>\%

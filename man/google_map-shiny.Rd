@@ -30,7 +30,7 @@ Output and render functions for using google_map within Shiny applications and i
 \examples{
 \dontrun{
 library(shiny)
-library(magrittr)
+library(googleway)
 
 ui <- fluidPage(google_mapOutput("map"))
 
