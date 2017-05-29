@@ -43,4 +43,3 @@ google_reverse_geocode(location = c(-37.81659, 144.9841),
                        key = "<your valid api key>")
 }
 }
-

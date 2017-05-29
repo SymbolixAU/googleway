@@ -7,7 +7,8 @@
 add_markers(map, data = get_map_data(map), id = NULL, colour = NULL,
   lat = NULL, lon = NULL, title = NULL, draggable = NULL,
   opacity = NULL, label = NULL, cluster = FALSE, info_window = NULL,
-  mouse_over = NULL, mouse_over_group = NULL, layer_id = NULL)
+  mouse_over = NULL, mouse_over_group = NULL, marker_icon = NULL,
+  layer_id = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -53,6 +54,9 @@ mouse rolls over the marker}
 \item{mouse_over_group}{string specifying the column of data specifying which
 groups of circles to highlight on mouseover}
 
+\item{marker_icon}{string specifying the column of data containing a link to
+an image to use for a marker}
+
 \item{layer_id}{single value specifying an id for the layer.}
 }
 \description{
@@ -74,4 +78,3 @@ google_map(key = map_key, data = df) \%>\%
 
 }
 }
-

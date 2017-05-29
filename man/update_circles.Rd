@@ -56,4 +56,3 @@ in the \code{data} passed into \code{add_circles()} will not be added to the map
 This function will only update the circles that currently exist on the map when
 the function is called.
 }
-
