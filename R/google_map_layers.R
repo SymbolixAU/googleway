@@ -31,6 +31,8 @@
 #' mouse rolls over the marker
 #' @param mouse_over_group string specifying the column of data specifying which
 #' groups of circles to highlight on mouseover
+#' @param marker_icon string specifying the column of data containing a link to
+#' an image to use for a marker
 #' @param layer_id single value specifying an id for the layer.
 #'
 #' @examples
@@ -44,8 +46,9 @@
 #' 77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
 #' "lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
 #'
+#'
 #' google_map(key = map_key, data = df) %>%
-#'  add_markers(lat = "lat", lon = "lon", info_window = "weight")
+#'  add_markers(lat = "lat", lon = "lon", info_window = "weight", marker_icon = 'icon')
 #'
 #' }
 #' @export
@@ -63,6 +66,7 @@ add_markers <- function(map,
                         info_window = NULL,
                         mouse_over = NULL,
                         mouse_over_group = NULL,
+                        marker_icon = NULL,
                         layer_id = NULL)
 {
 
@@ -127,6 +131,9 @@ add_markers <- function(map,
 
   if(!is.null(mouse_over_group))
     markers[, "mouse_over_group"] <- as.character(data[, mouse_over_group])
+
+  if(!is.null(marker_icon))
+    markers[, "icon"] <- as.character(data[, marker_icon])
 
   # if(sum(is.na(markers)) > 0)
   #   warning("There are some NAs in your data. These may affect the markers that have been plotted.")
