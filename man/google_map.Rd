@@ -6,7 +6,10 @@
 \title{Google map}
 \usage{
 google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
-  height = NULL, padding = 0, styles = NULL, search_box = FALSE)
+  height = NULL, padding = 0, styles = NULL, search_box = FALSE,
+  zoom_control = TRUE, map_type_control = TRUE, scale_control = FALSE,
+  street_view_control = TRUE, rotate_control = TRUE,
+  fullscreen_control = TRUE)
 }
 \arguments{
 \item{key}{A valid Google Maps API key. see Details}
@@ -26,6 +29,18 @@ google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
 \item{styles}{JSON string representation of a valid Google Maps styles Array. See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}}
 
 \item{search_box}{\code{boolean} indicating if a search box should be placed on the map}
+
+\item{zoom_control}{logical}
+
+\item{map_type_control}{logical}
+
+\item{scale_control}{logical}
+
+\item{street_view_control}{logical}
+
+\item{rotate_control}{logical}
+
+\item{fullscreen_control}{logical}
 }
 \description{
 Generates a google map object

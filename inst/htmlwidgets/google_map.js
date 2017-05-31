@@ -67,7 +67,13 @@ HTMLWidgets.widget({
               var map = new google.maps.Map(mapDiv, {
                 center: {lat: x.lat, lng: x.lng},
                 zoom: x.zoom,
-                styles: JSON.parse(x.styles)
+                styles: JSON.parse(x.styles),
+                zoomControl: x.zoomControl,
+                mapTypeControl: x.mapTypeControl,
+                scaleControl: x.scaleControl,
+                streetViewControl: x.streetViewControl,
+                rotateControl: x.rotateControl,
+                fullscreenControl: x.fullscreenControl
               });
 
               //global map object
@@ -97,7 +103,13 @@ HTMLWidgets.widget({
               var map = new google.maps.Map(mapDiv, {
                 center: {lat: x.lat, lng: x.lng},
                 zoom: x.zoom,
-                styles: JSON.parse(x.styles)
+                styles: JSON.parse(x.styles),
+                zoomControl: x.zoomControl,
+                mapTypeControl: x.mapTypeControl,
+                scaleControl: x.scaleControl,
+                streetViewControl: x.streetViewControl,
+                rotateControl: x.rotateControl,
+                fullscreenControl: x.fullscreenControl
               });
 
               window[el.id + 'map'] = map;

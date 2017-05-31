@@ -20,6 +20,12 @@
 #' @param padding the padding of the map
 #' @param styles JSON string representation of a valid Google Maps styles Array. See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}
 #' @param search_box \code{boolean} indicating if a search box should be placed on the map
+#' @param zoom_control logical
+#' @param map_type_control logical
+#' @param scale_control logical
+#' @param street_view_control logical
+#' @param rotate_control logical
+#' @param fullscreen_control logical
 #' @examples
 #' \dontrun{
 #'
@@ -56,7 +62,13 @@ google_map <- function(key,
                        height = NULL,
                        padding = 0,
                        styles = NULL,
-                       search_box = FALSE) {
+                       search_box = FALSE,
+                       zoom_control = TRUE,
+                       map_type_control = TRUE,
+                       scale_control = FALSE,
+                       street_view_control = TRUE,
+                       rotate_control = TRUE,
+                       fullscreen_control = TRUE) {
 
   ## TODO:
   ## centre map according to data/user location?
@@ -76,7 +88,13 @@ google_map <- function(key,
     lng = location[2],
     zoom = zoom,
     styles = styles,
-    search_box = search_box
+    search_box = search_box,
+    zoomControl = zoom_control,
+    mapTypeControl = map_type_control,
+    scaleControl = scale_control,
+    streetViewControl = street_view_control,
+    rotateControl = rotate_control,
+    fullscreenControl = fullscreen_control
   )
 
   # create widget

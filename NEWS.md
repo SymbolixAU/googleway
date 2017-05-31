@@ -4,7 +4,8 @@
 * `add_kml()` adds KML layer to a map
 * `add_overlay()` adds ground overlay layer to a map
 * `add_markers()` gets `marker_icon` argument (issue #54)
-* 
+* various controls added to `google_map()`
+
 
 
 
