@@ -88,6 +88,9 @@ add_markers <- function(map,
     lon <- "lng"
   }
 
+  if(!is.null(colour) & !is.null(marker_icon))
+    stop("only one of colour or icon can be used")
+
   if(!is.null(colour)){
     if(!all((tolower(data[, colour])) %in% c("red","blue","green","lavender")))
       stop("colours must be either red, blue, green or lavender")
@@ -133,7 +136,7 @@ add_markers <- function(map,
     markers[, "mouse_over_group"] <- as.character(data[, mouse_over_group])
 
   if(!is.null(marker_icon))
-    markers[, "icon"] <- as.character(data[, marker_icon])
+    markers[, "url"] <- as.character(data[, marker_icon])
 
   # if(sum(is.na(markers)) > 0)
   #   warning("There are some NAs in your data. These may affect the markers that have been plotted.")

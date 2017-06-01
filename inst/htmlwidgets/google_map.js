@@ -200,15 +200,14 @@ function add_markers(map_id, data_markers, cluster, layer_id){
 
     var marker = new google.maps.Marker({
       id: data_markers[i].id,
-      icon: { url: data_markers[i].url },
+      icon: data_markers[i].url,
       position: latlon,
       draggable: data_markers[i].draggable,
       opacity: data_markers[i].opacity,
       opacityHolder: data_markers[i].opacity,
       title: data_markers[i].title,
       label: data_markers[i].label,
-      mouseOverGroup: data_markers[i].mouse_over_group,
-      icon: data_markers[i].icon
+      mouseOverGroup: data_markers[i].mouse_over_group
     });
 
     if(data_markers[i].info_window){
