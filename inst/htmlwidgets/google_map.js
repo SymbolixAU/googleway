@@ -171,6 +171,35 @@ function update_style(map_id, style){
   window[map_id + 'map'].set('styles', JSON.parse(style));
 }
 
+/**
+ * adds a fusion layer to the map
+ *
+ */
+function add_fusion(map_id, data_fusion, layer_id){
+
+  window[map_id + 'googleFusion' + layer_id] = [];
+
+  var layer = new google.maps.FusionTablesLayer({
+    query: {
+      select: '\'Geocodable address\'',
+      from: '1mZ53Z70NsChnBMm-qEYmSDOvLXgrreLTkQUvvg'
+    }
+  });
+
+  window[map_id + 'googleFusion' + layer_id] = layer;
+  layer.setMap(window[map_id + 'map']);
+}
+
+/**
+ * clear fusion
+ *
+ * clears fusion layer
+ */
+function clear_fusion(map_id, layer_id){
+  window[map_id + 'googleFusion' + layer_id].setMap(null);
+}
+
+
 
 /**
  * Add markers
@@ -1524,9 +1553,9 @@ function clear_transit(map_id){
 
 function clear_search(map_id){
   window[map_id + 'googlePlaceMarkers'].forEach(function(marker) {
-        marker.setMap(null);
-      });
-      window[map_id + 'googlePlaceMarkers'] = [];
+    marker.setMap(null);
+  });
+  window[map_id + 'googlePlaceMarkers'] = [];
 }
 
 function findById(source, id) {

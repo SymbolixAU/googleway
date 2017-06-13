@@ -1749,4 +1749,26 @@ add_kml <- function(map, kml_url, layer_id = NULL){
 }
 
 
+#' Add Fusion
+#'
+#' Adds a fusion table to a map
+#'
+#' @param map
+#'
+#' @export
+add_fusion <- function(map, fusion, layer_id = NULL){
+
+  layer_id <- LayerId(layer_id)
+
+  invoke_method(map, data = NULL, 'add_fusion', layer_id)
+}
+
+#' @rdname clear
+#' @export
+clear_fusion <- function(map, layer_id = NULL){
+
+  layer_id <- LayerId(layer_id)
+
+  invoke_method(map, data = NULL, 'clear_fusion', layer_id)
+}
 
