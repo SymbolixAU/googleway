@@ -761,6 +761,37 @@
 
 
 
+## Delete objects
+# library(shiny)
+# library(googleway)
+#
+# ui <- fluidPage(
+#   google_mapOutput(outputId = "map"),
+#   actionButton(inputId = "button", "button")
+# )
+# server <- function(input, output){
+#   mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#   output$map <- renderGoogle_map({
+#     google_map(key = mapKey) %>%
+#       add_markers(data = tram_stops, lat = "stop_lat", lon = "stop_lon")
+#   })
+#
+#   observeEvent(input$button, {
+#     if(input$button %% 2 == 1){
+#       print("clear")
+#       google_map_update(map_id = "map") %>%
+#         clear_markers() %>%
+#         clear_polylines() %>%
+#         clear_traffic()
+#     }else{
+#       print("add")
+#       google_map_update(map_id = "map") %>%
+#         add_markers(data = tram_stops, lat = "stop_lat", lon = "stop_lon")
+#     }
+#   })
+# }
+#
+# shinyApp(server = server, ui = ui)
 
 
 
