@@ -14,3 +14,4 @@ check_for_columns(df, cols)
 \description{
 Checks for valid columns
 }
+

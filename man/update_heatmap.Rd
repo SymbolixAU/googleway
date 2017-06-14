@@ -28,3 +28,4 @@ associated with each point. If NULL, each point will get a weight of 1.}
 \description{
 updates a heatmap layer
 }
+

@@ -4,13 +4,14 @@
 \alias{add_fusion}
 \title{Add Fusion}
 \usage{
-add_fusion(map, fusion, table_id, layer_id = NULL)
+add_fusion(map, query, styles = NULL, layer_id = NULL)
 }
 \arguments{
-\item{table_id}{Encrypted Fusion Table ID}
-
 \item{layer_id}{}
+
+\item{table_id}{Encrypted Fusion Table ID}
 }
 \description{
 Adds a fusion table to a map
 }
+
