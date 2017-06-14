@@ -75,4 +75,3 @@ ggplot(data = df_plot, aes(x = location, y = elevation)) +
 
 
 }
-

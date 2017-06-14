@@ -181,9 +181,25 @@ function add_fusion(map_id, data_fusion, layer_id){
 
   var layer = new google.maps.FusionTablesLayer({
     query: {
-      select: '\'Geocodable address\'',
-      from: '1mZ53Z70NsChnBMm-qEYmSDOvLXgrreLTkQUvvg'
-    }
+      select: 'geometry',
+      from: '1ertEwm-1bMBhpEwHhtNYT47HQ9k2ki_6sRa-UQ'
+    },
+    styles: [{
+      polygonOptions: {
+        fillColor: '#00FF00',
+        fillOpacity: 0.3
+      }
+    }, {
+      where: 'birds > 300',
+      polygonOptions: {
+        fillColor: '#0000FF'
+      }
+    }, {
+      where: 'population > 5',
+      polygonOptions: {
+        fillOpacity: 1.0
+      }
+    }]
   });
 
   window[map_id + 'googleFusion' + layer_id] = layer;

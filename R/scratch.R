@@ -760,6 +760,34 @@
 #               overlay_url = "https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg")
 
 
+## Fusion
+
+# library(jsonlite)
+#
+# query <- data.frame(select = 'address',
+#                     from = 'dsafad',
+#                     where = 'adfasd')
+#
+# toJSON(query)
+#
+# ## list : produces an array
+# ## data.frame : produces named objects in array
+#
+# styles <- list(
+#   polygonOptions = data.frame(fillColor = "#00FF00", fillOpacity = 0.3)
+# )
+#
+# toJSON(styles)
+
+
+
+
+
+
+
+
+
+
 
 
 
