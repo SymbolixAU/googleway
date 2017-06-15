@@ -59,4 +59,3 @@ google_place_autocomplete("maha Restaurant", component = "au", key = key)
 
 }
 }
-

@@ -14,4 +14,3 @@ check_opacities(df, cols)
 \description{
 Checks for valid opacity values
 }
-
