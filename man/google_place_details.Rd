@@ -43,4 +43,3 @@ google_place_details(place_id = res$results$place_id, key = key)
 \seealso{
 \link{google_places}
 }
-
