@@ -20,3 +20,4 @@ google_map(key = "your_api_key") \%>\%
 
 }
 }
+

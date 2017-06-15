@@ -175,45 +175,18 @@ function update_style(map_id, style){
  * adds a fusion layer to the map
  *
  */
-function add_fusion(map_id, query, styles, layer_id){
+function add_fusion(map_id, query, styles, heat, layer_id){
 
 // TODO: extend map bounds
 
   window[map_id + 'googleFusion' + layer_id] = [];
-  console.log(query);
-  console.log(styles);
+
   var s = JSON.parse(styles);
-  console.log(s);
-  //var q = query;
-  //var q = JSON.parse(query);
-  //console.log(q);
 
   var layer = new google.maps.FusionTablesLayer({
-    /**
-    query: {
-      select: 'geometry',
-      from: '1ertEwm-1bMBhpEwHhtNYT47HQ9k2ki_6sRa-UQ'
-    },
-    styles: [{
-      polygonOptions: {
-        fillColor: '#00FF00',
-        fillOpacity: 0.3
-      }
-    }, {
-      where: 'birds > 300',
-      polygonOptions: {
-        fillColor: '#0000FF'
-      }
-    }, {
-      where: 'population > 5',
-      polygonOptions: {
-        fillOpacity: 1.0
-      }
-    }]
-    **/
     query: query,
-    styles: s
-
+    styles: s,
+    heatmap: { enabled: heat }
   });
 
   window[map_id + 'googleFusion' + layer_id] = layer;
@@ -227,6 +200,7 @@ function add_fusion(map_id, query, styles, layer_id){
  */
 function clear_fusion(map_id, layer_id){
   window[map_id + 'googleFusion' + layer_id].setMap(null);
+  window[map_id + 'googleFusion' + layer_id] = null;
 }
 
 

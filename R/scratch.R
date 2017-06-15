@@ -772,22 +772,6 @@
 # ## list : produces an array
 # ## data.frame : produces named objects in array
 #
-# "styles: [{
-#   polygonOptions: {
-#     fillColor: '#00FF00',
-#     fillOpacity: 0.3
-#   }
-# }, {
-#   where: 'birds > 300',
-#   polygonOptions: {
-#     fillColor: '#0000FF'
-#   }
-# }, {
-#   where: 'population > 5',
-#   polygonOptions: {
-#     fillOpacity: 1.0
-#   }
-# }]"
 #
 # styles <- list(
 #   list(

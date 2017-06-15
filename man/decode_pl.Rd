@@ -28,3 +28,4 @@ df_polyline
 \seealso{
 \link{encode_pl}, \link{google_directions}
 }
+
