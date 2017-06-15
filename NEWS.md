@@ -1,10 +1,11 @@
 
 ## Version 2.0.1
 
+* `add_fusion()` adds a Fustion Table Layer to a map
 * `add_kml()` adds KML layer to a map
 * `add_overlay()` adds ground overlay layer to a map
 * `add_markers()` gets `marker_icon` argument (issue #54)
-* various controls added to `google_map()`
+* various control options added to `google_map()` (zoom, maptype, rotate, scale, etc...)
 
 
 

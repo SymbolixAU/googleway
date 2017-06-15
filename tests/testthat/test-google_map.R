@@ -25,7 +25,13 @@ test_that("attributes and map data is attached", {
 
   g <- google_map(key = "abc", data = data.frame(id = 1:3, val = letters[1:3]))
 
-  expect_true(all(attributes(g$x)$names == c("lat", "lng","zoom","styles","search_box")))
+  expect_true(
+    all(
+      attributes(g$x)$names ==
+        c("lat", "lng","zoom","styles","search_box", "zoomControl", "mapTypeControl",
+          "scaleControl", "streetViewControl", "rotateControl", "fullscreenControl")
+      )
+    )
   expect_true(inherits(attributes(g$x)$google_map_data, "data.frame"))
 
 })
