@@ -12,3 +12,4 @@ LogicalCheck(param)
 \description{
 Checks for the correct logical parameter
 }
+

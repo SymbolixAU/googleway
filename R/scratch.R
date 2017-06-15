@@ -750,7 +750,7 @@
 
 ### Overlay
 
-# map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+# mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 #
 # google_map(key = map_key) %>%
 #   add_overlay(north = 40.773941,
@@ -758,6 +758,40 @@
 #               east = -74.12544,
 #               west = -74.22655,
 #               overlay_url = "https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg")
+
+
+## Fusion
+
+# library(jsonlite)
+#
+# qry <- data.frame(select = 'geometry',
+#                     from = '1ertEwm-1bMBhpEwHhtNYT47HQ9k2ki_6sRa-UQ')
+#
+# toJSON(qry, pretty = T)
+#
+# ## list : produces an array
+# ## data.frame : produces named objects in array
+#
+#
+# styles <- list(
+#   list(
+#     polygonOptions = list( fillColor = "#00FF00", fillOpacity = 0.3)
+#     ),
+#   list(
+#     where = "birds > 300",
+#     polygonOptions = list( fillColor = "#0000FF" )
+#     ),
+#   list(
+#     where = "population > 5",
+#     polygonOptions = list(fillOpactiy = 1.0)
+#     )
+# )
+#
+#
+# toJSON(styles, pretty = T)
+
+
+
 
 
 

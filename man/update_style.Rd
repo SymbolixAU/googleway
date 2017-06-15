@@ -20,3 +20,4 @@ This function is intended for use with \link{google_map_update} in an
 interactive shiny environment. You can set the styles of the original map
 using the \code{styles} argument of \link{google_map}
 }
+

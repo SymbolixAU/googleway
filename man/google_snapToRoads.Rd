@@ -61,3 +61,4 @@ google_snapToRoads(df_path, key = key, interpolate = TRUE, simplify = TRUE)
 \seealso{
 \link{google_nearestRoads}
 }
+
