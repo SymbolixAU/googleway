@@ -17,4 +17,3 @@ vector of column names
 Defines the columns used by the Maps API so only those required
 are kept
 }
-

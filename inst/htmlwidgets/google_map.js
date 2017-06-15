@@ -180,6 +180,8 @@ function add_fusion(map_id, query, styles, layer_id){
   window[map_id + 'googleFusion' + layer_id] = [];
   console.log(query);
   console.log(styles);
+  var s = JSON.parse(styles);
+  console.log(s);
   //var q = query;
   //var q = JSON.parse(query);
   //console.log(q);
@@ -208,7 +210,7 @@ function add_fusion(map_id, query, styles, layer_id){
     }]
     **/
     query: query,
-    styles: [ styles ]
+    styles: s
 
   });
 

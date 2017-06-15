@@ -1766,11 +1766,15 @@ add_fusion <- function(map, query, styles = NULL, layer_id = NULL){
   ## - SELECT property whose value is the column name containing the location information.
   ## - FROM property whose value is the encrypted ID of the table
   query <- gsub("\\[|\\]", "", jsonlite::toJSON(query))
-  styles <- gsub("\\[|\\]", "", jsonlite::toJSON(styles))
+  s <- jsonlite::toJSON(styles)
+  s <- gsub("\\[|\\]", "", substr(s, 2, (nchar(s) - 1)))
+  s <- paste0("[", s, "]")
+  print(s)
+  print(str(s))
 
   layer_id <- LayerId(layer_id)
 
-  invoke_method(map, data = NULL, 'add_fusion', query, styles, layer_id)
+  invoke_method(map, data = NULL, 'add_fusion', query, s, layer_id)
 }
 
 #' @rdname clear

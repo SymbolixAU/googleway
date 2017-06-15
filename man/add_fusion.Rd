@@ -14,4 +14,3 @@ add_fusion(map, query, styles = NULL, layer_id = NULL)
 \description{
 Adds a fusion table to a map
 }
-
