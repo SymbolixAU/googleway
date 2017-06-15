@@ -318,9 +318,11 @@ function clear_markers(map_id, layer_id){
   for (i = 0; i < window[map_id + 'googleMarkers' + layer_id ].length; i++){
       window[map_id + 'googleMarkers' + layer_id][i].setMap(null);
   }
+  window[map_id + 'googleMarkers' + layer_id] = null;
 
   if(window[map_id + 'googleMarkerClusterer' + layer_id]){
     window[map_id + 'googleMarkerClusterer' + layer_id].clearMarkers();
+    window[map_id + 'googleMarkerClusterer' + layer_id] = null;
   }
 
 }
@@ -395,6 +397,8 @@ function clear_circles(map_id, layer_id){
   for (i = 0; i < window[map_id + 'googleCircles' + layer_id].length; i++){
     window[map_id + 'googleCircles' + layer_id][i].setMap(null);
   }
+  window[map_id + 'googleCircles' + layer_id] = null;
+
 }
 
 /**
@@ -611,6 +615,7 @@ function update_heatmap(map_id, data_heatmap, layer_id){
  */
 function clear_heatmap(map_id, layer_id){
   window[map_id + 'googleHeatmap' + layer_id].setMap(null);
+  window[map_id + 'googleHeatmap' + layer_id] = null;
 }
 
 /** Add polylines
@@ -781,6 +786,7 @@ function clear_polylines(map_id, layer_id){
   for (i = 0; i < window[map_id + 'googlePolyline' + layer_id].length; i++){
     window[map_id + 'googlePolyline' + layer_id][i].setMap(null);
   }
+  window[map_id + 'googlePolyline' + layer_id] = null;
 }
 
 
@@ -981,6 +987,7 @@ function clear_polygons(map_id, layer_id){
  for (i = 0; i < window[map_id + 'googlePolygon' + layer_id].length; i++){
     window[map_id + 'googlePolygon' + layer_id][i].setMap(null);
   }
+  window[map_id + 'googlePolygon' + layer_id] = null;
 }
 
 
@@ -1053,6 +1060,7 @@ function clear_rectangles(map_id, layer_id){
   for (i = 0; i < window[map_id + 'googleRectangles' + layer_id].length; i++){
     window[map_id + 'googleRectangles' + layer_id][i].setMap(null);
   }
+  window[map_id + 'googleRectangles' + layer_id] = null;
 }
 
 
@@ -1144,6 +1152,7 @@ function clear_kml(map_id, layer_id){
   for (i = 0; i < window[map_id + 'googleKml' + layer_id].length; i++){
     window[map_id + 'googleKml' + layer_id][i].setMap(null);
   }
+  window[map_id + 'googleKml' + layer_id] = null;
 }
 
 function add_overlay(map_id, data_overlay, layer_id){
@@ -1180,6 +1189,7 @@ function clear_overlay(map_id, layer_id){
   for (i = 0; i < window[map_id + 'googleOverlay' + layer_id].length; i++){
     window[map_id + 'googleOverlay' + layer_id][i].setMap(null);
   }
+  window[map_id + 'googleOverlay' + layer_id] = null;
 }
 
 function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attributeValue, layer_id, layerType){
