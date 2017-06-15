@@ -177,6 +177,8 @@ function update_style(map_id, style){
  */
 function add_fusion(map_id, query, styles, layer_id){
 
+// TODO: extend map bounds
+
   window[map_id + 'googleFusion' + layer_id] = [];
   console.log(query);
   console.log(styles);
