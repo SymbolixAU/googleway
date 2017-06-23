@@ -1,6 +1,8 @@
 
 ## Version 2.0.1
 
+* bug fixes for `transit` mode
+* bug fixes for `waypoints`
 * `add_fusion()` adds a Fustion Table Layer to a map
 * `add_kml()` adds KML layer to a map
 * `add_overlay()` adds ground overlay layer to a map

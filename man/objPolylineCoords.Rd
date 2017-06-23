@@ -18,3 +18,4 @@ that are to be kept in the output}
 Creates a list object that can be converted into the required JSON for plotting
 coordinates as polylines
 }
+

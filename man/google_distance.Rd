@@ -6,10 +6,10 @@
 \usage{
 google_distance(origins, destinations, mode = c("driving", "walking",
   "bicycling", "transit"), departure_time = NULL, arrival_time = NULL,
-  waypoints = NULL, alternatives = FALSE, avoid = NULL,
-  units = c("metric", "imperial"), traffic_model = NULL,
-  transit_mode = NULL, transit_routing_preference = NULL, language = NULL,
-  region = NULL, key, simplify = TRUE, curl_proxy = NULL)
+  alternatives = FALSE, avoid = NULL, units = c("metric", "imperial"),
+  traffic_model = NULL, transit_mode = NULL,
+  transit_routing_preference = NULL, language = NULL, key,
+  simplify = TRUE, curl_proxy = NULL)
 }
 \arguments{
 \item{origins}{list of unnamed elements, each element is either a numeric
@@ -27,13 +27,6 @@ it defaults to \code{Sys.time()}}
 \item{arrival_time}{\code{POSIXct}. Specifies teh desired time of arrival. Note you can
 only specify one of \code{arrival_time} or \code{departure_time}, not both.
 If both are supplied, \code{departure_time} will be used.}
-
-\item{waypoints}{list of waypoints, expressed as either a \code{vector} of
-lat/lon coordinates, or a \code{string} address to be geocoded. Only available
-for transit, walking or bicycling modes. List elements must be named either
-'stop' or 'via', where 'stop' is used to indicate a stopover for a waypoint,
-and 'via' will not stop at the waypoint.
-See \url{https://developers.google.com/maps/documentation/directions/intro#Waypoints} for details}
 
 \item{alternatives}{\code{logical} If set to true, specifies that the Directions service
 may provide more than one route alternative in the response}
@@ -59,9 +52,6 @@ transit directions.}
 See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis}
 If no langauge is supplied, the service will attempt to use the language of
 the domain from which the request was sent}
-
-\item{region}{\code{string}. Specifies the region code, specified as a ccTLD ("top-level domain").
-See region basing for details \url{https://developers.google.com/maps/documentation/directions/intro#RegionBiasing}}
 
 \item{key}{\code{string}. A valid Google Developers Distance API key}
 
@@ -90,3 +80,4 @@ google_distance(origins = list(c("Melbourne Airport, Australia"),
 
 }
 }
+

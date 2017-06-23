@@ -72,3 +72,4 @@ google_map(key = mapKey, location = c(0, 0), zoom = 1) \%>\%
 }
 
 }
+

@@ -38,3 +38,4 @@ or an error. \code{invokeMethod} returns the
 \description{
 Extension points for plugins
 }
+

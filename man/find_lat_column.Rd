@@ -16,3 +16,4 @@ find_lat_column(names, calling_function, stopOnFailure = TRUE)
 \description{
 Tries to identify the latitude column
 }
+
