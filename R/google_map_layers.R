@@ -800,7 +800,7 @@ add_polylines <- function(map,
                           update_map_view = TRUE,
                           layer_id = NULL,
                           z_index = NULL,
-                          digits = digits){
+                          digits = 4){
 
   ## TODO:
   ## - warning if there are non-unique attributes for cooridnate lines

@@ -8,7 +8,7 @@ add_polylines(map, data = get_map_data(map), polyline = NULL, lat = NULL,
   lon = NULL, id = NULL, geodesic = NULL, stroke_colour = NULL,
   stroke_weight = NULL, stroke_opacity = NULL, info_window = NULL,
   mouse_over = NULL, mouse_over_group = NULL, update_map_view = TRUE,
-  layer_id = NULL, z_index = NULL, digits = digits)
+  layer_id = NULL, z_index = NULL, digits = 4)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
