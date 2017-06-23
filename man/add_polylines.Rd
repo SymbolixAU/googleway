@@ -8,7 +8,7 @@ add_polylines(map, data = get_map_data(map), polyline = NULL, lat = NULL,
   lon = NULL, id = NULL, geodesic = NULL, stroke_colour = NULL,
   stroke_weight = NULL, stroke_opacity = NULL, info_window = NULL,
   mouse_over = NULL, mouse_over_group = NULL, update_map_view = TRUE,
-  layer_id = NULL, z_index = NULL)
+  layer_id = NULL, z_index = NULL, digits = digits)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -59,6 +59,9 @@ to the polyline.}
 \item{z_index}{single value specifying where the polylines appear in the layering
 of the map objects. Layers with a higher \code{z_index} appear on top of those with
 a lower \code{z_index}. See details.}
+
+\item{digits}{integer. Use this parameter to specify how many digits (decimal places)
+should be used for the latitude / longitude coordinates.}
 }
 \description{
 Add a polyline to a google map

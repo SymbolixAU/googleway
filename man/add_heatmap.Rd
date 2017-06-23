@@ -6,7 +6,8 @@
 \usage{
 add_heatmap(map, data = get_map_data(map), lat = NULL, lon = NULL,
   weight = NULL, option_gradient = NULL, option_dissipating = FALSE,
-  option_radius = 0.01, option_opacity = 0.6, layer_id = NULL)
+  option_radius = 0.01, option_opacity = 0.6, layer_id = NULL,
+  digits = 6)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -37,6 +38,9 @@ Defaults to FALSE}
 0 and 1. Defaults to 0.6.}
 
 \item{layer_id}{single value specifying an id for the layer.}
+
+\item{digits}{integer. Use this parameter to specify how many digits (decimal places)
+should be used for the latitude / longitude coordinates.}
 }
 \description{
 Adds a heatmap to a google map

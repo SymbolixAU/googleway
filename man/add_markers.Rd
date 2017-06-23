@@ -8,7 +8,7 @@ add_markers(map, data = get_map_data(map), id = NULL, colour = NULL,
   lat = NULL, lon = NULL, title = NULL, draggable = NULL,
   opacity = NULL, label = NULL, cluster = FALSE, info_window = NULL,
   mouse_over = NULL, mouse_over_group = NULL, marker_icon = NULL,
-  layer_id = NULL)
+  layer_id = NULL, digits = 6)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -58,6 +58,9 @@ groups of circles to highlight on mouseover}
 an image to use for a marker}
 
 \item{layer_id}{single value specifying an id for the layer.}
+
+\item{digits}{integer. Use this parameter to specify how many digits (decimal places)
+should be used for the latitude / longitude coordinates.}
 }
 \description{
 Add markers to a google map
@@ -65,17 +68,8 @@ Add markers to a google map
 \examples{
 \dontrun{
 
-df <- structure(list(lat = c(-37.8201904296875, -37.8197288513184,
--37.8191299438477, -37.8187675476074, -37.8186187744141, -37.8181076049805
-), lon = c(144.968612670898, 144.968414306641, 144.968139648438,
-144.967971801758, 144.967864990234, 144.967636108398), weight = c(31.5698964400217,
-97.1629025738221, 58.9051092562731, 76.3215389118996, 37.8982300488278,
-77.1501972114202), opacity = c(0.2, 0.2, 0.2, 0.2, 0.2, 0.2)), .Names = c("lat",
-"lon", "weight", "opacity"), row.names = 379:384, class = "data.frame")
-
-
-google_map(key = map_key, data = df) \%>\%
- add_markers(lat = "lat", lon = "lon", info_window = "weight", marker_icon = 'icon')
+google_map(key = map_key, data = tram_stops) \%>\%
+ add_markers(lat = "stop_lat", lon = "stop_lon", info_window = "stop_name")
 
 }
 }
