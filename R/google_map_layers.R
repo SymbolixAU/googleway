@@ -61,7 +61,7 @@ add_markers <- function(map,
                         mouse_over_group = NULL,
                         marker_icon = NULL,
                         layer_id = NULL,
-                        digits = 6)
+                        digits = 4)
 {
 
   ## TODO:
@@ -288,7 +288,7 @@ add_circles <- function(map,
                         info_window = NULL,
                         layer_id = NULL,
                         z_index = NULL,
-                        digits = 6){
+                        digits = 4){
 
   if(is.null(lat)){
     data <- latitude_column(data, lat, 'add_circles')
@@ -485,7 +485,7 @@ add_heatmap <- function(map,
                         option_radius = 0.01,
                         option_opacity = 0.6,
                         layer_id = NULL,
-                        digits = 6
+                        digits = 4
                         ){
 
 
@@ -1180,7 +1180,7 @@ add_polygons <- function(map,
                         update_map_view = TRUE,
                         layer_id = NULL,
                         z_index = NULL,
-                        digits = 6
+                        digits = 4
                         ){
 
   ## TODO
@@ -1562,7 +1562,7 @@ add_rectangles <- function(map,
                            info_window = NULL,
                            layer_id = NULL,
                            z_index = NULL,
-                           digits = 6){
+                           digits = 4){
 
   layer_id <- LayerId(layer_id)
 
@@ -1715,7 +1715,7 @@ add_overlay <- function(map,
                         west,
                         overlay_url,
                         layer_id = NULL,
-                        digits = 6){
+                        digits = 4){
 
   URLCheck(overlay_url)
 

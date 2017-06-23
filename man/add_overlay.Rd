@@ -5,7 +5,7 @@
 \title{Add Overlay}
 \usage{
 add_overlay(map, north, east, south, west, overlay_url, layer_id = NULL,
-  digits = 6)
+  digits = 4)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}

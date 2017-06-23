@@ -8,7 +8,7 @@ add_markers(map, data = get_map_data(map), id = NULL, colour = NULL,
   lat = NULL, lon = NULL, title = NULL, draggable = NULL,
   opacity = NULL, label = NULL, cluster = FALSE, info_window = NULL,
   mouse_over = NULL, mouse_over_group = NULL, marker_icon = NULL,
-  layer_id = NULL, digits = 6)
+  layer_id = NULL, digits = 4)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
