@@ -37,7 +37,7 @@ components to filter by country only. The country must be passed as a two
 character, ISO 3166-1 Alpha-2 compatible country code.
 For example: components=country:fr would restrict your results to places within France.}
 
-\item{simplify}{\code{logical} Inidicates if the returned JSON should be coerced into a list}
+\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string}
 
 \item{key}{\code{string} A valid Google Developers Places API key}
 }

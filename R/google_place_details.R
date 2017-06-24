@@ -15,7 +15,7 @@
 #' selected language; results in the selected language may be given a higher ranking.
 #' See the list of supported languages and their codes
 #' \url{https://developers.google.com/maps/faq#languagesupport}
-#' @param simplify \code{logical} Indicates if the returned JSON should be coerced into a list
+#' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string
 #' @param key \code{string} A valid Google Developers Places API key
 #'
 #' @seealso \link{google_places}

@@ -63,7 +63,7 @@
 #' the same parameters used in a previous search. All parameters other than
 #' \code{page_token} will be ignored. The \code{page_token} can be found in the
 #' result set of a previously run query.
-#' @param simplify \code{logical} Indicates if the returned JSON should be coerced
+#' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string
 #' into a list.
 #' @param key \code{string} A valid Google Developers Places API key.
 #'

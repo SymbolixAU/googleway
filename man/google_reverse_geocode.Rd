@@ -25,7 +25,7 @@ domain from which the request was sent}
 
 \item{key}{string. A valid Google Developers Geocode API key}
 
-\item{simplify}{logical. Indicates if the returned JSON should be coerced into a list}
+\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string}
 }
 \value{
 Either list or JSON string of the geocoded address

@@ -70,7 +70,7 @@ See the list of supported languages: \url{https://developers.google.com/maps/faq
 
 \item{key}{\code{string} - a valid Google Developers Directions API key}
 
-\item{simplify}{\code{logical} - indicates if the returned JSON should be coerced into a list}
+\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string}
 
 \item{curl_proxy}{a curl proxy object}
 }

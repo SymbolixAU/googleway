@@ -32,7 +32,7 @@
 #' If no langauge is supplied, the service will attempt to use the language of
 #' the domain from which the request was sent
 #' @param key \code{string}. A valid Google Developers Distance API key
-#' @param simplify \code{logical}. Indicates if the returned JSON should be coerced into a list
+#' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string
 #' @param curl_proxy a curl proxy object
 #' @return Either list or JSON string of the distance between origins and destinations
 #' @examples

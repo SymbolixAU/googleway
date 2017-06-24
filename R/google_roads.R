@@ -20,7 +20,7 @@
 #' When \code{TRUE}, additional interpolated points will also be returned, resulting in a path
 #' that smoothly follows the geometry of the road, even around corners and through
 #' tunnels. Interpolated paths will most likely contain more ponts that the original path.
-#' @param simplify \code{logical} Indicates if the returned JSON should be coerced into a list
+#' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string
 #' @param key \code{string} A valid Google Developers Places API key
 #'
 #' @seealso \link{google_nearestRoads}
@@ -94,11 +94,11 @@ google_snapToRoads <- function(df_path,
 #' @param df_points \code{data.frame} with at least two columns specifying the latitude & longitude coordinates,
 #' with a maximum of 100 pairs of coordinates.
 #'
-#' @param simplify \code{logical} Inidicates if the returned JSON should be coerced into a list
 #' @param lat string specifying the column of \code{df_path} containing the
 #' 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{df_path} containing the
 #' 'longitude' coordinates. If left NULL, a best-guess will be made
+#' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string
 #' @param key \code{string} A valid Google Developers Places API key
 #'
 #' @examples
@@ -164,7 +164,7 @@ google_nearestRoads <- function(df_points,
 #' response to \link{google_snapToRoads}
 #' and \link{google_nearestRoads} reqeusts. You can pass up to 100 placeIds at a time
 #' @param units Whether to return speed limits in kilometers or miles per hour
-#' @param simplify \code{logical} Inidicates if the returned JSON should be coerced into a list
+#' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string
 #' @param key \code{string} A valid Google Developers Places API key
 #' @export
 google_speedLimits <- function(df_path = NULL,

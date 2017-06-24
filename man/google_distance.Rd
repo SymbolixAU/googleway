@@ -51,7 +51,7 @@ the domain from which the request was sent}
 
 \item{key}{\code{string}. A valid Google Developers Distance API key}
 
-\item{simplify}{\code{logical}. Indicates if the returned JSON should be coerced into a list}
+\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string}
 
 \item{curl_proxy}{a curl proxy object}
 }

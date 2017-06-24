@@ -221,6 +221,7 @@ directions_data <- function(base_url,
 
 fun_download_data <- function(map_url, simplify, curl_proxy = NULL){
 
+  out <- NULL
   ## check map_url is valid
   if(length(map_url) > 1)
     stop("invalid map_url")
@@ -251,7 +252,7 @@ fun_download_data <- function(map_url, simplify, curl_proxy = NULL){
     },
     error = function(cond){
       close(con)
-      cat("There was an error downloading results. Please manually check this URL is valid, and if so issue a bug report citing this URL (note: your API key has been removed, so you will need to add that back in) \n\n", gsub("key=.*","",map_url))
+      warning("There was an error downloading results. Please manually check the following URL is valid by entering it into a browswer. If valid, please file a bug report citing this URL (note: your API key has been removed, so you will need to add that back in) \n\n", gsub("key=.*","",map_url), "key=", sep = "")
     })
   }
   return(out)

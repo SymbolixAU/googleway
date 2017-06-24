@@ -1,5 +1,5 @@
 
-## Version 2.0.1
+## Version 2.2.0
 
 * fixed arguments for `google_distance()`
 * bug fixes for `transit` mode

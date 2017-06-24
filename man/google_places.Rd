@@ -72,7 +72,7 @@ the same parameters used in a previous search. All parameters other than
 \code{page_token} will be ignored. The \code{page_token} can be found in the
 result set of a previously run query.}
 
-\item{simplify}{\code{logical} Indicates if the returned JSON should be coerced
+\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string
 into a list.}
 
 \item{key}{\code{string} A valid Google Developers Places API key.}

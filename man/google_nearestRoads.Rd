@@ -17,7 +17,7 @@ with a maximum of 100 pairs of coordinates.}
 \item{lon}{string specifying the column of \code{df_path} containing the
 'longitude' coordinates. If left NULL, a best-guess will be made}
 
-\item{simplify}{\code{logical} Inidicates if the returned JSON should be coerced into a list}
+\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string}
 
 \item{key}{\code{string} A valid Google Developers Places API key}
 }

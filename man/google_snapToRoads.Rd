@@ -23,7 +23,7 @@ When \code{TRUE}, additional interpolated points will also be returned, resultin
 that smoothly follows the geometry of the road, even around corners and through
 tunnels. Interpolated paths will most likely contain more ponts that the original path.}
 
-\item{simplify}{\code{logical} Indicates if the returned JSON should be coerced into a list}
+\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string}
 
 \item{key}{\code{string} A valid Google Developers Places API key}
 }

@@ -30,7 +30,7 @@ from which the request was sent}
 the results to a specific area. One or more of "route","locality","administrative_area",
 "postal_code","country"}
 
-\item{simplify}{\code{logical} Indicates if the returned JSON should be coerced into a list}
+\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string}
 }
 \value{
 Either list or JSON string of the geocoded address

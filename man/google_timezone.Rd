@@ -20,7 +20,7 @@ See the list of supported languages:
 If no langauge is supplied, the service will attempt to use the language of
 the domain from which the request was sent.}
 
-\item{simplify}{\code{logical} Indicates if the returned JSON should be coerced into a list}
+\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string}
 
 \item{key}{\code{string} A valid Google Developers Timezone API key.}
 }

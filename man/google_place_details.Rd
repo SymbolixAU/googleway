@@ -17,7 +17,7 @@ selected language; results in the selected language may be given a higher rankin
 See the list of supported languages and their codes
 \url{https://developers.google.com/maps/faq#languagesupport}}
 
-\item{simplify}{\code{logical} Indicates if the returned JSON should be coerced into a list}
+\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string}
 
 \item{key}{\code{string} A valid Google Developers Places API key}
 }
