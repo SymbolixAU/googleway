@@ -1,6 +1,7 @@
 
 ## Version 2.0.1
 
+* fixed arguments for `google_distance()`
 * bug fixes for `transit` mode
 * bug fixes for `waypoints`
 * `add_fusion()` adds a Fustion Table Layer to a map

@@ -157,7 +157,7 @@ directions_data <- function(base_url,
     waypoints <- sapply(1:length(waypoints), function(x) {
       if(length(names(waypoints)) > 0){
         if(names(waypoints)[x] == "via"){
-          paste0("via:", googleway:::fun_check_location(waypoints[[x]]))
+          paste0("via:", fun_check_location(waypoints[[x]]))
         }else{
           ## 'stop' is the default in google, and the 'stop' identifier is not needed
           fun_check_location(waypoints[[x]])

@@ -6,10 +6,9 @@
 \usage{
 google_distance(origins, destinations, mode = c("driving", "walking",
   "bicycling", "transit"), departure_time = NULL, arrival_time = NULL,
-  alternatives = FALSE, avoid = NULL, units = c("metric", "imperial"),
-  traffic_model = NULL, transit_mode = NULL,
-  transit_routing_preference = NULL, language = NULL, key,
-  simplify = TRUE, curl_proxy = NULL)
+  avoid = NULL, units = c("metric", "imperial"), traffic_model = NULL,
+  transit_mode = NULL, transit_routing_preference = NULL, language = NULL,
+  key, simplify = TRUE, curl_proxy = NULL)
 }
 \arguments{
 \item{origins}{list of unnamed elements, each element is either a numeric
@@ -27,9 +26,6 @@ it defaults to \code{Sys.time()}}
 \item{arrival_time}{\code{POSIXct}. Specifies teh desired time of arrival. Note you can
 only specify one of \code{arrival_time} or \code{departure_time}, not both.
 If both are supplied, \code{departure_time} will be used.}
-
-\item{alternatives}{\code{logical} If set to true, specifies that the Directions service
-may provide more than one route alternative in the response}
 
 \item{avoid}{\code{character} vector stating which features should be avoided.
 One of 'tolls', 'highways', 'ferries' or 'indoor'}

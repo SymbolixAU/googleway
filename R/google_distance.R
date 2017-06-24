@@ -15,8 +15,6 @@
 #' @param arrival_time \code{POSIXct}. Specifies teh desired time of arrival. Note you can
 #' only specify one of \code{arrival_time} or \code{departure_time}, not both.
 #' If both are supplied, \code{departure_time} will be used.
-#' @param alternatives \code{logical} If set to true, specifies that the Directions service
-#' may provide more than one route alternative in the response
 #' @param avoid \code{character} vector stating which features should be avoided.
 #' One of 'tolls', 'highways', 'ferries' or 'indoor'
 #' @param units \code{string} metric or imperial. Note: Only affects the text displayed
@@ -55,7 +53,6 @@ google_distance <- function(origins,
                             mode = c('driving','walking','bicycling','transit'),
                             departure_time = NULL,
                             arrival_time = NULL,
-                            alternatives = FALSE,
                             avoid = NULL,
                             units = c("metric", "imperial"),
                             traffic_model = NULL,
@@ -73,15 +70,16 @@ google_distance <- function(origins,
                 mode,
                 departure_time,
                 arrival_time,
+                waypoints = NULL,
                 optimise_waypoints = FALSE,
-                alternatives,
+                alternatives = FALSE,
                 avoid,
                 units,
                 traffic_model,
                 transit_mode,
                 transit_routing_preference,
                 language,
-                region,
+                region = NULL,
                 key,
                 simplify,
                 curl_proxy)

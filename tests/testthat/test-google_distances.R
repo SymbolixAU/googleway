@@ -58,43 +58,41 @@ test_that("Departure time is not in the past",{
 
 })
 
-test_that("waypoints only valid for certain modes",{
+# test_that("waypoints only valid for certain modes",{
+#
+#   expect_error(google_distance(origins = "Melbourne Airport",
+#                                  destinations = "Sorrento",
+#                                  waypoints = list(c(-37.81659, 144.9841),
+#                                                   "Ringwood, Victoria"),
+#                                  mode = "transit",
+#                                  key = "abc"),
+#                "waypoints are only valid for driving, walking or bicycling modes")
+# })
 
-  expect_error(google_distance(origins = "Melbourne Airport",
-                                 destinations = "Sorrento",
-                                 waypoints = list(c(-37.81659, 144.9841),
-                                                  "Ringwood, Victoria"),
-                                 mode = "transit",
-                                 key = "abc"),
-               "waypoints are only valid for driving, walking or bicycling modes")
-})
+# test_that("waypoints are a list",{
+#
+#   expect_error(google_distance(origins = "Melbourne Airport",
+#                                  destinations = "Sorrento",
+#                                  waypoints = c(-37.81659, 144.9841),
+#                                  key = "abc"),
+#                "waypoints must be a list")
+# })
 
-test_that("waypoints are a list",{
-
-  expect_error(google_distance(origins = "Melbourne Airport",
-                                 destinations = "Sorrento",
-                                 waypoints = c(-37.81659, 144.9841),
-                                 key = "abc"),
-               "waypoints must be a list")
-})
-
-test_that("alternatives either TRUE or FALSE",{
-
-  expect_error(google_distance(origins = "Melbourne Airport",
-                                 destinations = "Sorrento",
-                                 alternatives = c(FALSE, TRUE),
-                                 key = "abc"))
-})
+# test_that("alternatives either TRUE or FALSE",{
+#
+#   expect_error(google_distance(origins = "Melbourne Airport",
+#                                  destinations = "Sorrento",
+#                                  alternatives = c(FALSE, TRUE),
+#                                  key = "abc"))
+# })
 
 test_that("transit_mode issues warning when mode != transit",{
 
   expect_warning(google_distance(origins = "Melbourne Airport, Australia",
-                                   destinations = "Portsea, Melbourne, Australia",
-                                   departure_time = Sys.time() + (24 * 60 * 60),
-                                   waypoints = list(via = c(-37.81659, 144.9841),
-                                                    via = "Ringwood, Victoria"),
-                                   transit_mode = "bus",
-                                   key = "abc"),
+                                 destinations = "Portsea, Melbourne, Australia",
+                                 departure_time = Sys.time() + (24 * 60 * 60),
+                                 transit_mode = "bus",
+                                 key = "abc"),
                  "You have specified a transit_mode, but are not using mode = 'transit'. Therefore this argument will be ignored")
 
 })
