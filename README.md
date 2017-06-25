@@ -10,15 +10,14 @@
 
 Provides a mechanism to access various [Google Maps APIs](https://developers.google.com/maps/), including plotting a Google Map from R and overlaying it with shapes and markers, and retrieving data from the places, directions, roads, distances, geocoding, elevation and timezone APIs.
 
-## v2.0.0
+## v2.2.0
 
-Version 2.0.0 has **significant changes** compared to the previous release. See [News](https://github.com/SymbolixAU/googleway/blob/master/NEWS.md) for a list of changes.
+Various bug fixes and a few more features added
+see [News](https://github.com/SymbolixAU/googleway/blob/master/NEWS.md) for a list of changes
 
 See [**vignettes**](https://github.com/SymbolixAU/googleway/blob/master/vignettes/googleway-vignette.Rmd) for instructions and examples.
 
-## v2.2.0
-
-see [News](https://github.com/SymbolixAU/googleway/blob/master/NEWS.md) for a list of changes
+## v2.3.0 - development
 
 
 ## Installation
