@@ -31,7 +31,7 @@
 #' mouse rolls over the marker
 #' @param mouse_over_group string specifying the column of data specifying which
 #' groups of circles to highlight on mouseover
-#' @param marker_icon string specifying the column of data containing a link to
+#' @param marker_icon string specifying the column of data containing a link/URL to
 #' an image to use for a marker
 #' @param layer_id single value specifying an id for the layer.
 #' @param digits integer. Use this parameter to specify how many digits (decimal places)
@@ -40,8 +40,16 @@
 #' @examples
 #' \dontrun{
 #'
+#' map_key <- "your api key"
+#'
 #' google_map(key = map_key, data = tram_stops) %>%
 #'  add_markers(lat = "stop_lat", lon = "stop_lon", info_window = "stop_name")
+#'
+#'
+#' ## using marker icons
+#' tram_stops$icon <- "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+#' google_map(key = map_key, data = tram_stops) %>%
+#'   add_markers(lat = "stop_lat", lon = "stop_lon", marker_icon = "icon")
 #'
 #' }
 #' @export
@@ -489,7 +497,7 @@ add_heatmap <- function(map,
                         ){
 
 
-  ## TODO
+  ## TODO:
   ## - max intensity
   ## - allow columns to be used for other options
   ## -- e.g., allow a column called 'opacity' to be used as a 'title'
@@ -1184,7 +1192,6 @@ add_polygons <- function(map,
                         ){
 
   ## TODO
-  ##
   ## - holes must be wound in the opposite direction
 
   if(is.null(polyline) & (is.null(lat) | is.null(lon)))

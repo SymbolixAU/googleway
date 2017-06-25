@@ -70,12 +70,6 @@ google_map <- function(key,
                        rotate_control = TRUE,
                        fullscreen_control = TRUE) {
 
-  ## TODO:
-  ## centre map according to data/user location?
-  ## other default location than Melbourne?
-  ## pass data into google_map, and use in the other map_layer() functions
-
-  # key <- read.dcf("~/Documents/.googleAPI", fields = c("GOOGLE_MAP_KEY"))
   if(is.null(location))
     location <- c(-37.9, 144.5)  ## Melbourne, Australia
 

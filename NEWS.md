@@ -1,13 +1,15 @@
 
 ## Version 2.2.0
 
+* removed roxygen comments for non-exported functions
 * fixed arguments for `google_distance()`
 * bug fixes for `transit` mode
-* bug fixes for `waypoints`
+* bug fixes for `waypoints` - fixes [#58](https://github.com/SymbolixAU/googleway/issues/58)
+* `digits` argument for map layers, gets sent to `jsonlite::toJSON()` for coordinate precision - closes [#53](https://github.com/SymbolixAU/googleway/issues/53)
 * `add_fusion()` adds a Fustion Table Layer to a map
 * `add_kml()` adds KML layer to a map
 * `add_overlay()` adds ground overlay layer to a map
-* `add_markers()` gets `marker_icon` argument (issue #54)
+* `add_markers()` gets `marker_icon` argument - closes [#54](https://github.com/SymbolixAU/googleway/issues/54)
 * various control options added to `google_map()` (zoom, maptype, rotate, scale, etc...)
 
 

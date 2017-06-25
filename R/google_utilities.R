@@ -203,11 +203,11 @@ doResolveFormula.data.frame = function(data, f) {
 
 
 
-#' Set Defaults
-#'
-#' @param col column to check / add to the data
-#' @param val default value for the column
-#' @param df data to be checked/ added to
+# Set Defaults
+#
+# @param col column to check / add to the data
+# @param val default value for the column
+# @param df data to be checked/ added to
 SetDefault <- function(col, val, df){
   if(is.null(col)){
     ## use the default value
@@ -224,11 +224,11 @@ SetDefault <- function(col, val, df){
   }
 }
 
-#' Construct url
-#'
-#' Constructs the relevant API url, given the arguments
-#' @param map_url string map url
-#' @param urlArgs other arguments to append to the URL string
+# Construct url
+#
+# Constructs the relevant API url, given the arguments
+# @param map_url string map url
+# @param urlArgs other arguments to append to the URL string
 constructURL <- function(map_url, urlArgs){
 
   return(paste0(map_url,
@@ -284,13 +284,13 @@ LayerId <- function(layer_id){
   }
 }
 
-#' Object Columns
-#'
-#' Defines the columns used by the Maps API so only those required
-#' are kept
-#'
-#' @param obj string specifying the type of object
-#' @return vector of column names
+# Object Columns
+#
+# Defines the columns used by the Maps API so only those required
+# are kept
+#
+# @param obj string specifying the type of object
+# @return vector of column names
 objectColumns <- function(obj = c("polylinePolyline",
                                   "polylineCoords",
                                   "polygonPolyline",

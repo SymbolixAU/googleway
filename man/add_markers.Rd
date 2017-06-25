@@ -54,7 +54,7 @@ mouse rolls over the marker}
 \item{mouse_over_group}{string specifying the column of data specifying which
 groups of circles to highlight on mouseover}
 
-\item{marker_icon}{string specifying the column of data containing a link to
+\item{marker_icon}{string specifying the column of data containing a link/URL to
 an image to use for a marker}
 
 \item{layer_id}{single value specifying an id for the layer.}
@@ -68,8 +68,16 @@ Add markers to a google map
 \examples{
 \dontrun{
 
+map_key <- "your api key"
+
 google_map(key = map_key, data = tram_stops) \%>\%
  add_markers(lat = "stop_lat", lon = "stop_lon", info_window = "stop_name")
+
+
+## using marker icons
+tram_stops$icon <- "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+google_map(key = map_key, data = tram_stops) \%>\%
+  add_markers(lat = "stop_lat", lon = "stop_lon", marker_icon = "icon")
 
 }
 }

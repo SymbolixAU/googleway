@@ -1,13 +1,13 @@
 
-#' Obj Polyline Coords
-#'
-#' Creates a list object that can be converted into the required JSON for plotting
-#' coordinates as polylines
-#'
-#' @param obj \code{data.frame} consisting of columns 'lat' and 'lng'
-#' @param ids vector of ids for each path/line
-#' @param otherColumns vector of attribute columns (e.g. stroke_fill, stroke_weight)
-#' that are to be kept in the output
+# Obj Polyline Coords
+#
+# Creates a list object that can be converted into the required JSON for plotting
+# coordinates as polylines
+#
+# @param obj \code{data.frame} consisting of columns 'lat' and 'lng'
+# @param ids vector of ids for each path/line
+# @param otherColumns vector of attribute columns (e.g. stroke_fill, stroke_weight)
+# that are to be kept in the output
 objPolylineCoords <- function(obj, ids, otherColumns){
 
   if(length(otherColumns) > 0){
@@ -30,15 +30,15 @@ objPolylineCoords <- function(obj, ids, otherColumns){
 }
 
 
-#' Obj Polygon Coords
-#'
-#' Creates a list object that can be converted into the required JSON for plotting
-#' coordinates as polygons
-#'
-#' @param obj \code{data.frame} consisting of columns 'lat' and 'lng'
-#' @param ids vector of ids for each path/line
-#' @param otherColumns vector of attribute columns (e.g. stroke_fill, stroke_weight)
-#' that are to be kept in the output
+# Obj Polygon Coords
+#
+# Creates a list object that can be converted into the required JSON for plotting
+# coordinates as polygons
+#
+# @param obj \code{data.frame} consisting of columns 'lat' and 'lng'
+# @param ids vector of ids for each path/line
+# @param otherColumns vector of attribute columns (e.g. stroke_fill, stroke_weight)
+# that are to be kept in the output
 objPolygonCoords <- function(obj, ids, otherColumns){
 
   if(length(otherColumns) > 0){
