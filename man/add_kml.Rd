@@ -14,15 +14,18 @@ add_kml(map, kml_url, layer_id = NULL)
 \item{layer_id}{single value specifying an id for the layer.}
 }
 \description{
-Adds a KML layer to a map. The KML layer can only be added from a URL
+Adds a KML layer to a map.
 }
 \examples{
 \dontrun{
 
 map_key <- 'your_api_key'
 
+kmlUrl <- paste0('https://developers.google.com/maps/',
+'documentation/javascript/examples/kml/westcampus.kml')
+
 google_map(key = map_key) \%>\%
-  add_kml(kml_url = 'https://developers.google.com/maps/documentation/javascript/examples/kml/westcampus.kml')
+  add_kml(kml_url = kmlUrl)
 
 }
 }

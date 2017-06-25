@@ -10,13 +10,13 @@ add_overlay(map, north, east, south, west, overlay_url, layer_id = NULL,
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
-\item{north}{northern most latitude coordinate}
+\item{north}{northern-most latitude coordinate}
 
-\item{east}{eastern most longitude}
+\item{east}{eastern-most longitude}
 
-\item{south}{southern most latitude coordinate}
+\item{south}{southern-most latitude coordinate}
 
-\item{west}{western most longitude}
+\item{west}{western-most longitude}
 
 \item{overlay_url}{URL string specifying the location of the overlay layer}
 

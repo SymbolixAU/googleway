@@ -1,8 +1,9 @@
 
 ## Release summary
 
-* Updates v1.0.0 to v2.0.0
-* Added a Google Map html widget
+* Updates v2.0.0 to v2.2.0
+* Added three map layers
+* various bug fixes
 
 
 ## Test Environments

@@ -47,7 +47,11 @@
 #'
 #'
 #' ## using marker icons
-#' tram_stops$icon <- "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+#' iconUrl <- paste0("https://developers.google.com/maps/documentation/",
+#' "javascript/examples/full/images/beachflag.png")
+#'
+#' tram_stops$icon <- iconUrl
+#'
 #' google_map(key = map_key, data = tram_stops) %>%
 #'   add_markers(lat = "stop_lat", lon = "stop_lon", marker_icon = "icon")
 #'
@@ -1694,10 +1698,10 @@ update_rectangles <- function(map, data, id,
 #' Adds a ground overlay to a map. The overlay can only be added from a URL
 #'
 #' @param map a googleway map object created from \code{google_map()}
-#' @param north northern most latitude coordinate
-#' @param east eastern most longitude
-#' @param south southern most latitude coordinate
-#' @param west western most longitude
+#' @param north northern-most latitude coordinate
+#' @param east eastern-most longitude
+#' @param south southern-most latitude coordinate
+#' @param west western-most longitude
 #' @param overlay_url URL string specifying the location of the overlay layer
 #' @param layer_id single value specifying an id for the layer.
 #' @param digits integer. Use this parameter to specify how many digits (decimal places)
@@ -1725,6 +1729,10 @@ add_overlay <- function(map,
                         digits = 4){
 
   URLCheck(overlay_url)
+  LatitudeCheck(north, "north")
+  LatitudeCheck(south, "south")
+  LongitudeCheck(east, "east")
+  LongitudeCheck(west, "west")
 
   layer_id <- LayerId(layer_id)
 
@@ -1741,7 +1749,7 @@ add_overlay <- function(map,
 
 #' Add KML
 #'
-#' Adds a KML layer to a map. The KML layer can only be added from a URL
+#' Adds a KML layer to a map.
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param kml_url URL string specifying the location of the kml layer
@@ -1752,8 +1760,11 @@ add_overlay <- function(map,
 #'
 #' map_key <- 'your_api_key'
 #'
+#' kmlUrl <- paste0('https://developers.google.com/maps/',
+#' 'documentation/javascript/examples/kml/westcampus.kml')
+#'
 #' google_map(key = map_key) %>%
-#'   add_kml(kml_url = 'https://developers.google.com/maps/documentation/javascript/examples/kml/westcampus.kml')
+#'   add_kml(kml_url = kmlUrl)
 #'
 #' }
 #' @export
@@ -1772,9 +1783,6 @@ add_kml <- function(map, kml_url, layer_id = NULL){
 #' Add Fusion
 #'
 #' Adds a fusion table layer to a map.
-#'
-#' @details
-#'
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param query a \code{data.frame} of 2 or 3 columns, and only 1 row. Two columns

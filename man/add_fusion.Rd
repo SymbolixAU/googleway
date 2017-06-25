@@ -26,9 +26,6 @@ constructed.}
 \description{
 Adds a fusion table layer to a map.
 }
-\details{
-
-}
 \examples{
 \dontrun{
 

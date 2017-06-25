@@ -301,5 +301,27 @@ test_that("polygons added and removed", {
 
 })
 
+test_that("map overlays coordinates are accurate", {
 
+  expect_error(google_map(key = 'abc') %>%
+                 add_overlay(north = 40.773941, south = 1000, east = -74.12544, west = -74.22655,
+                             overlay_url = "https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg")
+  )
+
+  expect_error(google_map(key = 'abc') %>%
+                 add_overlay(north = 40.773941, south = 40.712216, east = -274.12544, west = -74.22655,
+                             overlay_url = "https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg")
+  )
+
+  expect_error(google_map(key = 'abc') %>%
+                 add_overlay(north = 40.773941, south = 40.712216, east = -74.12544, west = -274.22655,
+                             overlay_url = "https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg")
+  )
+
+  expect_error(google_map(key = 'abc') %>%
+                 add_overlay(north = 240.773941, south = 40.712216, east = -74.12544, west = -74.22655,
+                             overlay_url = "https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg")
+  )
+
+})
 

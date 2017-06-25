@@ -1,3 +1,20 @@
+# Latitude Check
+#
+# Checks that a value is between -90:90
+LatitudeCheck <- function(lat, arg){
+  if(!is.numeric(lat) | lat < -90 | lat > 90)
+    stop(paste0(arg, " must be a value between -90 and 90 (inclusive)"))
+}
+
+# Longitude Check
+#
+# Checks that a value is between -90:90
+LongitudeCheck <- function(lat, arg){
+  if(!is.numeric(lat) | lat < -180 | lat > 180)
+    stop(paste0(arg, " must be a value between -180 and 180 (inclusive)"))
+}
+
+
 # URL Check
 #
 # Checks for a valid URL

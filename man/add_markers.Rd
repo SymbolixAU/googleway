@@ -75,7 +75,11 @@ google_map(key = map_key, data = tram_stops) \%>\%
 
 
 ## using marker icons
-tram_stops$icon <- "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+iconUrl <- paste0("https://developers.google.com/maps/documentation/",
+"javascript/examples/full/images/beachflag.png")
+
+tram_stops$icon <- iconUrl
+
 google_map(key = map_key, data = tram_stops) \%>\%
   add_markers(lat = "stop_lat", lon = "stop_lon", marker_icon = "icon")
 
