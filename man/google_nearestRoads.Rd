@@ -42,4 +42,3 @@ google_nearestRoads(df_points, key = key)
 \seealso{
 \link{google_snapToRoads}
 }
-
