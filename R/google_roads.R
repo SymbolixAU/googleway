@@ -20,7 +20,9 @@
 #' When \code{TRUE}, additional interpolated points will also be returned, resulting in a path
 #' that smoothly follows the geometry of the road, even around corners and through
 #' tunnels. Interpolated paths will most likely contain more ponts that the original path.
-#' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string
+#' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list.
+#' FALSE indicates the returend JSON will be returned as a string
+#' @param curl_proxy a curl proxy object
 #' @param key \code{string} A valid Google Developers Places API key
 #'
 #' @seealso \link{google_nearestRoads}
@@ -50,7 +52,9 @@ google_snapToRoads <- function(df_path,
                                lon = NULL,
                                interpolate = FALSE,
                                simplify = TRUE,
-                               key){
+                               curl_proxy = NULL,
+                               key
+                               ){
 
 
   if(nrow(df_path) > 100)
@@ -77,7 +81,7 @@ google_snapToRoads <- function(df_path,
                                      "interpolate" = interpolate,
                                      "key" = key))
 
-  return(fun_download_data(map_url, simplify))
+  return(fun_download_data(map_url, simplify, curl_proxy))
 }
 
 
@@ -98,7 +102,9 @@ google_snapToRoads <- function(df_path,
 #' 'latitude' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{df_path} containing the
 #' 'longitude' coordinates. If left NULL, a best-guess will be made
-#' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string
+#' @param simplify \code{logical} - TRUE indicates the returned JSON will be
+#' coerced into a list. FALSE indicates the returend JSON will be returned as a string
+#' @param curl_proxy a curl proxy object
 #' @param key \code{string} A valid Google Developers Places API key
 #'
 #' @examples
@@ -119,6 +125,7 @@ google_nearestRoads <- function(df_points,
                                 lat = NULL,
                                 lon = NULL,
                                 simplify = TRUE,
+                                curl_proxy = NULL,
                                 key){
 
   LogicalCheck(simplify)
@@ -140,7 +147,7 @@ google_nearestRoads <- function(df_points,
   map_url <- constructURL(map_url, c("points" = points,
                                      "key" = key))
 
-  return(fun_download_data(map_url, simplify))
+  return(fun_download_data(map_url, simplify, curl_proxy))
 
 }
 
@@ -164,7 +171,9 @@ google_nearestRoads <- function(df_points,
 #' response to \link{google_snapToRoads}
 #' and \link{google_nearestRoads} reqeusts. You can pass up to 100 placeIds at a time
 #' @param units Whether to return speed limits in kilometers or miles per hour
-#' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string
+#' @param simplify \code{logical} - TRUE indicates the returned JSON will be
+#' coerced into a list. FALSE indicates the returend JSON will be returned as a string
+#' @param curl_proxy a curl proxy object
 #' @param key \code{string} A valid Google Developers Places API key
 #' @export
 google_speedLimits <- function(df_path = NULL,
@@ -173,6 +182,7 @@ google_speedLimits <- function(df_path = NULL,
                                placeIds = NULL,
                                units = c("KPH","MPH"),
                                simplify = TRUE,
+                               curl_proxy = NULL,
                                key){
 
   if(is.null(df_path) & is.null(placeIds))
@@ -216,7 +226,7 @@ google_speedLimits <- function(df_path = NULL,
 
   }
 
-  return(fun_download_data(map_url, simplify))
+  return(fun_download_data(map_url, simplify, curl_proxy))
 }
 
 

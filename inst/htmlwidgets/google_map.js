@@ -667,6 +667,10 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
 
     });
 
+    // calculate and log the distance
+    polyLengthInMeters = google.maps.geometry.spherical.computeLength(Polyline.getPath().getArray());
+    console.log(polyLengthInMeters);
+
     window[map_id + 'googlePolyline' + layer_id].push(Polyline);
     Polyline.setMap(window[map_id + 'map']);
 

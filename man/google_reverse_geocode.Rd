@@ -5,7 +5,7 @@
 \title{Google reverse geocoding}
 \usage{
 google_reverse_geocode(location, result_type = NULL, location_type = NULL,
-  language = NULL, key, simplify = TRUE)
+  language = NULL, key, simplify = TRUE, curl_proxy = NULL)
 }
 \arguments{
 \item{location}{numeric vector of lat/lon coordinates.}
@@ -25,7 +25,10 @@ domain from which the request was sent}
 
 \item{key}{string. A valid Google Developers Geocode API key}
 
-\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string}
+\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be
+coerced into a list. FALSE indicates the returend JSON will be returned as a string}
+
+\item{curl_proxy}{a curl proxy object}
 }
 \value{
 Either list or JSON string of the geocoded address

@@ -7,7 +7,7 @@
 google_places(search_string = NULL, location = NULL, radar = FALSE,
   radius = NULL, rankby = NULL, keyword = NULL, language = NULL,
   name = NULL, place_type = NULL, price_range = NULL, open_now = NULL,
-  page_token = NULL, simplify = TRUE, key)
+  page_token = NULL, simplify = TRUE, curl_proxy = NULL, key)
 }
 \arguments{
 \item{search_string}{\code{string} A search term representing a place for
@@ -74,6 +74,8 @@ result set of a previously run query.}
 
 \item{simplify}{\code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string
 into a list.}
+
+\item{curl_proxy}{a curl proxy object}
 
 \item{key}{\code{string} A valid Google Developers Places API key.}
 }

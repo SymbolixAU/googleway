@@ -5,7 +5,7 @@
 \title{Nearest Roads}
 \usage{
 google_nearestRoads(df_points, lat = NULL, lon = NULL, simplify = TRUE,
-  key)
+  curl_proxy = NULL, key)
 }
 \arguments{
 \item{df_points}{\code{data.frame} with at least two columns specifying the latitude & longitude coordinates,
@@ -17,7 +17,10 @@ with a maximum of 100 pairs of coordinates.}
 \item{lon}{string specifying the column of \code{df_path} containing the
 'longitude' coordinates. If left NULL, a best-guess will be made}
 
-\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string}
+\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be
+coerced into a list. FALSE indicates the returend JSON will be returned as a string}
+
+\item{curl_proxy}{a curl proxy object}
 
 \item{key}{\code{string} A valid Google Developers Places API key}
 }

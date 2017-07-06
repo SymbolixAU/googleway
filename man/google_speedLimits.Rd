@@ -5,7 +5,8 @@
 \title{Speed Limits}
 \usage{
 google_speedLimits(df_path = NULL, lat = NULL, lon = NULL,
-  placeIds = NULL, units = c("KPH", "MPH"), simplify = TRUE, key)
+  placeIds = NULL, units = c("KPH", "MPH"), simplify = TRUE,
+  curl_proxy = NULL, key)
 }
 \arguments{
 \item{df_path}{\code{data.frame} with at least two columns specifying the
@@ -21,7 +22,10 @@ and \link{google_nearestRoads} reqeusts. You can pass up to 100 placeIds at a ti
 
 \item{units}{Whether to return speed limits in kilometers or miles per hour}
 
-\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string}
+\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be
+coerced into a list. FALSE indicates the returend JSON will be returned as a string}
+
+\item{curl_proxy}{a curl proxy object}
 
 \item{key}{\code{string} A valid Google Developers Places API key}
 }

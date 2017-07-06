@@ -15,7 +15,9 @@
 #' selected language; results in the selected language may be given a higher ranking.
 #' See the list of supported languages and their codes
 #' \url{https://developers.google.com/maps/faq#languagesupport}
-#' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string
+#' @param simplify \code{logical} - TRUE indicates the returned JSON will be
+#' coerced into a list. FALSE indicates the returend JSON will be returned as a string
+#' @param curl_proxy a curl proxy object
 #' @param key \code{string} A valid Google Developers Places API key
 #'
 #' @seealso \link{google_places}
@@ -36,6 +38,7 @@
 google_place_details <- function(place_id,
                                  language = NULL,
                                  simplify = TRUE,
+                                 curl_proxy = NULL,
                                  key){
 
   ## language check
@@ -54,6 +57,6 @@ google_place_details <- function(place_id,
                                      "key" = key))
 
 
-  return(fun_download_data(map_url, simplify))
+  return(fun_download_data(map_url, simplify, curl_proxy))
 
 }

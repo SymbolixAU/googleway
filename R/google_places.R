@@ -65,6 +65,7 @@
 #' result set of a previously run query.
 #' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string
 #' into a list.
+#' @param curl_proxy a curl proxy object
 #' @param key \code{string} A valid Google Developers Places API key.
 #'
 #' @details
@@ -148,6 +149,7 @@ google_places <- function(search_string = NULL,
                           open_now = NULL,
                           page_token = NULL,
                           simplify = TRUE,
+                          curl_proxy = NULL,
                           key
                           ){
 
@@ -292,6 +294,6 @@ google_places <- function(search_string = NULL,
                                      "key" = key))
 
 
-  return(fun_download_data(map_url, simplify))
+  return(fun_download_data(map_url, simplify, curl_proxy))
 
 }

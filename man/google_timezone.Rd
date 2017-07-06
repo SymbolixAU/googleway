@@ -5,7 +5,7 @@
 \title{Google timezone}
 \usage{
 google_timezone(location, timestamp = Sys.time(), language = NULL,
-  simplify = TRUE, key)
+  simplify = TRUE, curl_proxy = NULL, key)
 }
 \arguments{
 \item{location}{\code{vector} of lat/lon pair}
@@ -20,7 +20,10 @@ See the list of supported languages:
 If no langauge is supplied, the service will attempt to use the language of
 the domain from which the request was sent.}
 
-\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string}
+\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be
+coerced into a list. FALSE indicates the returend JSON will be returned as a string}
+
+\item{curl_proxy}{a curl proxy object}
 
 \item{key}{\code{string} A valid Google Developers Timezone API key.}
 }
