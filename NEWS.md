@@ -1,7 +1,7 @@
 ## Version 2.3.0 (development)
 
 * Map Layers get `update_map_view` argument
-* Fixed `add_rectanges` bug where coordinates were not recognised
+* Fixed `add_rectanges` bug where coordinates were not recognised [#61](https://github.com/SymbolixAU/googleway/issues/61)
 
 ## Version 2.2.0
 
