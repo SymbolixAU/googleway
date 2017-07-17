@@ -219,7 +219,7 @@ function clear_fusion(map_id, layer_id){
  * @param layer_id
  *          the layer identifier
  */
-function add_markers(map_id, data_markers, cluster, layer_id){
+function add_markers(map_id, data_markers, cluster, update_map_view, layer_id){
 
   var markers = [];
   var i;
@@ -284,8 +284,9 @@ function add_markers(map_id, data_markers, cluster, layer_id){
 
     marker_click(map_id, marker, marker.id, markerInfo);
 
-
-    window[map_id + 'mapBounds'].extend(latlon);
+    if(update_map_view === true){
+     window[map_id + 'mapBounds'].extend(latlon);
+    }
 
     window[map_id + 'googleMarkers' + layer_id].push(marker);
     markers.push(marker);
@@ -298,7 +299,11 @@ function add_markers(map_id, data_markers, cluster, layer_id){
 
   }
 
-  window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+  if(update_map_view === true){
+    window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+  }
+
+  //window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
 }
 
 /**
@@ -336,7 +341,7 @@ function clear_markers(map_id, layer_id){
  * @param data_circles
  * @param layer_id
  */
-function add_circles(map_id, data_circles, layer_id){
+function add_circles(map_id, data_circles, update_map_view, layer_id){
 
   var i;
   window[map_id + 'googleCircles' + layer_id] = [];
@@ -379,10 +384,14 @@ function add_circles(map_id, data_circles, layer_id){
     shapeInfo = { layerId : layer_id };
     shape_click(map_id, Circle, circle.id, shapeInfo);
 
-    window[map_id + 'mapBounds'].extend(latlon);
+    if(update_map_view === true){
+      window[map_id + 'mapBounds'].extend(latlon);
+    }
   }
 
-  window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+  if(update_map_view === true){
+    window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+  }
 
 }
 
@@ -991,7 +1000,7 @@ function clear_polygons(map_id, layer_id){
 }
 
 
-function add_rectangles(map_id, data_rectangles, layer_id){
+function add_rectangles(map_id, data_rectangles, update_map_view, layer_id){
 
   var i;
   window[map_id + 'googleRectangles' + layer_id] = [];
@@ -1040,11 +1049,15 @@ function add_rectangles(map_id, data_rectangles, layer_id){
     shapeInfo = { layerId : layer_id };
     shape_click(map_id, Rectangle, rectangle.id, shapeInfo);
 
-    window[map_id + 'mapBounds'].extend(latlonNorth);
-    window[map_id + 'mapBounds'].extend(latlonSouth);
+    if(update_map_view === true){
+      window[map_id + 'mapBounds'].extend(latlonNorthEast);
+      window[map_id + 'mapBounds'].extend(latlonSouthWest);
+    }
   }
 
-  window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+  if(update_map_view === true){
+    window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+  }
 
 }
 

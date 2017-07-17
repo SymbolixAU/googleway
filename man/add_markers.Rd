@@ -8,7 +8,7 @@ add_markers(map, data = get_map_data(map), id = NULL, colour = NULL,
   lat = NULL, lon = NULL, title = NULL, draggable = NULL,
   opacity = NULL, label = NULL, cluster = FALSE, info_window = NULL,
   mouse_over = NULL, mouse_over_group = NULL, marker_icon = NULL,
-  layer_id = NULL, digits = 4)
+  layer_id = NULL, update_map_view = TRUE, digits = 4)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -58,6 +58,9 @@ groups of circles to highlight on mouseover}
 an image to use for a marker}
 
 \item{layer_id}{single value specifying an id for the layer.}
+
+\item{update_map_view}{logical specifying if the map should re-centre according
+to the markers}
 
 \item{digits}{integer. Use this parameter to specify how many digits (decimal places)
 should be used for the latitude / longitude coordinates.}

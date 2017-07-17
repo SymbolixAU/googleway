@@ -8,7 +8,8 @@ add_rectangles(map, data = get_map_data(map), north, east, south, west,
   id = NULL, draggable = NULL, editable = NULL, stroke_colour = NULL,
   stroke_opacity = NULL, stroke_weight = NULL, fill_colour = NULL,
   fill_opacity = NULL, mouse_over = NULL, mouse_over_group = NULL,
-  info_window = NULL, layer_id = NULL, z_index = NULL, digits = 4)
+  info_window = NULL, layer_id = NULL, update_map_view = TRUE,
+  z_index = NULL, digits = 4)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -64,6 +65,9 @@ groups of rectangle to highlight on mouseover}
 window when a rectangle is clicked}
 
 \item{layer_id}{single value specifying an id for the layer.}
+
+\item{update_map_view}{logical specifying if the map should re-centre according
+to the rectangles}
 
 \item{z_index}{single value specifying where the rectangles appear in the layering
 of the map objects. Layers with a higher \code{z_index} appear on top of those with

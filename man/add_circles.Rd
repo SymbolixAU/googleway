@@ -8,7 +8,8 @@ add_circles(map, data = get_map_data(map), id = NULL, lat = NULL,
   lon = NULL, radius = NULL, draggable = NULL, stroke_colour = NULL,
   stroke_opacity = NULL, stroke_weight = NULL, fill_colour = NULL,
   fill_opacity = NULL, mouse_over = NULL, mouse_over_group = NULL,
-  info_window = NULL, layer_id = NULL, z_index = NULL, digits = 4)
+  info_window = NULL, layer_id = NULL, update_map_view = TRUE,
+  z_index = NULL, digits = 4)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -63,6 +64,9 @@ window when a circle is clicked}
 \item{layer_id}{single value specifying an id for the layer.
 layer.}
 
+\item{update_map_view}{logical specifying if the map should re-centre according to
+the circles}
+
 \item{z_index}{single value specifying where the circles appear in the layering
 of the map objects. Layers with a higher \code{z_index} appear on top of those with
 a lower \code{z_index}. See details.}
@@ -89,6 +93,8 @@ Markers are always the top layer
 }
 \examples{
 \dontrun{
+
+map_key <- 'your_api_key'
 
 google_map(key = map_key, data = tram_stops) \%>\%
  add_circles(lat = "stop_lat", lon = "stop_lon")

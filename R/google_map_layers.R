@@ -34,6 +34,8 @@
 #' @param marker_icon string specifying the column of data containing a link/URL to
 #' an image to use for a marker
 #' @param layer_id single value specifying an id for the layer.
+#' @param update_map_view logical specifying if the map should re-centre according
+#' to the markers
 #' @param digits integer. Use this parameter to specify how many digits (decimal places)
 #' should be used for the latitude / longitude coordinates.
 #'
@@ -73,6 +75,7 @@ add_markers <- function(map,
                         mouse_over_group = NULL,
                         marker_icon = NULL,
                         layer_id = NULL,
+                        update_map_view = TRUE,
                         digits = 4)
 {
 
@@ -93,6 +96,8 @@ add_markers <- function(map,
     data <- longitude_column(data, lon, 'add_markers')
     lon <- "lng"
   }
+
+  LogicalCheck(update_map_view)
 
   if(!is.null(colour) & !is.null(marker_icon))
     stop("only one of colour or icon can be used")
@@ -160,7 +165,7 @@ add_markers <- function(map,
 
   markers <- jsonlite::toJSON(markers, digits = digits)
 
-  invoke_method(map, data, 'add_markers', markers, cluster, layer_id)
+  invoke_method(map, data, 'add_markers', markers, cluster, update_map_view, layer_id)
 }
 
 #' clear map elements
@@ -255,6 +260,8 @@ update_style <- function(map, styles = NULL){
 #' groups of circles to highlight on mouseover
 #' @param layer_id single value specifying an id for the layer.
 #'  layer.
+#' @param update_map_view logical specifying if the map should re-centre according to
+#' the circles
 #' @param z_index single value specifying where the circles appear in the layering
 #' of the map objects. Layers with a higher \code{z_index} appear on top of those with
 #' a lower \code{z_index}. See details.
@@ -278,6 +285,8 @@ update_style <- function(map, styles = NULL){
 #' @examples
 #' \dontrun{
 #'
+#' map_key <- 'your_api_key'
+#'
 #' google_map(key = map_key, data = tram_stops) %>%
 #'  add_circles(lat = "stop_lat", lon = "stop_lon")
 #'
@@ -299,6 +308,7 @@ add_circles <- function(map,
                         mouse_over_group = NULL,
                         info_window = NULL,
                         layer_id = NULL,
+                        update_map_view = TRUE,
                         z_index = NULL,
                         digits = 4){
 
@@ -317,6 +327,7 @@ add_circles <- function(map,
   Circles <- data.frame(lat = data[, lat],
                         lng = data[, lon])
 
+  LogicalCheck(update_map_view)
 
   Circles[, "stroke_colour"] <- SetDefault(stroke_colour, "#FF0000", data)
   Circles[, "stroke_weight"] <- SetDefault(stroke_weight, 1, data)
@@ -348,7 +359,7 @@ add_circles <- function(map,
 
   Circles <- jsonlite::toJSON(Circles, digits = digits)
 
-  invoke_method(map, data, 'add_circles', Circles, layer_id)
+  invoke_method(map, data, 'add_circles', Circles, update_map_view, layer_id)
 }
 
 #' @rdname clear
@@ -1512,6 +1523,8 @@ clear_polygons <- function(map, layer_id = NULL){
 #' @param mouse_over_group string specifying the column of data specifying which
 #' groups of rectangle to highlight on mouseover
 #' @param layer_id single value specifying an id for the layer.
+#' @param update_map_view logical specifying if the map should re-centre according
+#' to the rectangles
 #' @param z_index single value specifying where the rectangles appear in the layering
 #' of the map objects. Layers with a higher \code{z_index} appear on top of those with
 #' a lower \code{z_index}. See details.
@@ -1572,10 +1585,13 @@ add_rectangles <- function(map,
                            mouse_over_group = NULL,
                            info_window = NULL,
                            layer_id = NULL,
+                           update_map_view = TRUE,
                            z_index = NULL,
                            digits = 4){
 
   layer_id <- LayerId(layer_id)
+
+  LogicalCheck(update_map_view)
 
   Rectangle <- data.frame(north = data[, north],
                         south = data[, south],
@@ -1615,7 +1631,7 @@ add_rectangles <- function(map,
   Rectangle <- jsonlite::toJSON(Rectangle, digits = digits)
 
 
-  invoke_method(map, data, 'add_rectangles', Rectangle, layer_id)
+  invoke_method(map, data, 'add_rectangles', Rectangle, update_map_view, layer_id)
 
 }
 
