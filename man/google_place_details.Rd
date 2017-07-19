@@ -4,7 +4,8 @@
 \alias{google_place_details}
 \title{Google place details}
 \usage{
-google_place_details(place_id, language = NULL, simplify = TRUE, key)
+google_place_details(place_id, language = NULL, simplify = TRUE,
+  curl_proxy = NULL, key)
 }
 \arguments{
 \item{place_id}{\code{string} A textual identifier that uniquely identifies a
@@ -17,7 +18,10 @@ selected language; results in the selected language may be given a higher rankin
 See the list of supported languages and their codes
 \url{https://developers.google.com/maps/faq#languagesupport}}
 
-\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string}
+\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be
+coerced into a list. FALSE indicates the returend JSON will be returned as a string}
+
+\item{curl_proxy}{a curl proxy object}
 
 \item{key}{\code{string} A valid Google Developers Places API key}
 }

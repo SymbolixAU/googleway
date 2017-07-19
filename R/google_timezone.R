@@ -14,7 +14,9 @@
 #' If no langauge is supplied, the service will attempt to use the language of
 #' the domain from which the request was sent.
 #' @param key \code{string} A valid Google Developers Timezone API key.
-#' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string
+#' @param simplify \code{logical} - TRUE indicates the returned JSON will be
+#' coerced into a list. FALSE indicates the returend JSON will be returned as a string
+#' @param curl_proxy a curl proxy object
 #' @return Either list or JSON string of the timezone
 #' @examples
 #' \dontrun{
@@ -28,6 +30,7 @@ google_timezone <- function(location,
                             timestamp = Sys.time(),
                             language = NULL,
                             simplify = TRUE,
+                            curl_proxy = NULL,
                             key
                             ){
 
@@ -62,6 +65,6 @@ google_timezone <- function(location,
                                      "language" = language,
                                      "key" = key))
 
-  return(fun_download_data(map_url, simplify))
+  return(fun_download_data(map_url, simplify, curl_proxy))
 
 }

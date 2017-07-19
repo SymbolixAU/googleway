@@ -28,7 +28,9 @@
 #' components to filter by country only. The country must be passed as a two
 #' character, ISO 3166-1 Alpha-2 compatible country code.
 #' For example: components=country:fr would restrict your results to places within France.
-#' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string
+#' @param simplify \code{logical} - TRUE indicates the returned JSON will be
+#' coerced into a list. FALSE indicates the returend JSON will be returned as a string
+#' @param curl_proxy a curl proxy object
 #' @param key \code{string} A valid Google Developers Places API key
 #'
 #' @examples
@@ -51,6 +53,7 @@ google_place_autocomplete <- function(place_input,
                                       place_type = NULL,
                                       components = NULL,
                                       simplify = TRUE,
+                                      curl_proxy = NULL,
                                       key){
 
   ## check input is a valid character string
@@ -111,6 +114,6 @@ google_place_autocomplete <- function(place_input,
                                      "components" = components,
                                      "key" = key))
 
-  return(fun_download_data(map_url, simplify))
+  return(fun_download_data(map_url, simplify, curl_proxy))
 
 }

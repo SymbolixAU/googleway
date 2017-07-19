@@ -21,6 +21,7 @@
 #' the results to a specific area. One or more of "route","locality","administrative_area",
 #' "postal_code","country"
 #' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string
+#' @param curl_proxy a curl proxy object
 #' @return Either list or JSON string of the geocoded address
 #' @examples
 #' \dontrun{
@@ -58,7 +59,9 @@ google_geocode <- function(address,
                            language = NULL,
                            region = NULL,
                            components = NULL,
-                           simplify = TRUE){
+                           simplify = TRUE,
+                           curl_proxy = NULL
+                           ){
 
   ## parameter check - key
   if(is.null(key))
@@ -115,6 +118,6 @@ google_geocode <- function(address,
                                      "components" = components,
                                      "key" = key))
 
-  return(fun_download_data(map_url, simplify))
+  return(fun_download_data(map_url, simplify, curl_proxy))
 
 }

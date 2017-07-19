@@ -15,7 +15,9 @@
 #' If no langauge is supplied, the service will attempt to use the language of the
 #' domain from which the request was sent
 #' @param key string. A valid Google Developers Geocode API key
-#' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string
+#' @param simplify \code{logical} - TRUE indicates the returned JSON will be
+#' coerced into a list. FALSE indicates the returend JSON will be returned as a string
+#' @param curl_proxy a curl proxy object
 #' @return Either list or JSON string of the geocoded address
 #' @examples
 #' \dontrun{
@@ -31,7 +33,9 @@ google_reverse_geocode <- function(location,
                                    location_type = NULL,
                                    language = NULL,
                                    key,
-                                   simplify = TRUE){
+                                   simplify = TRUE,
+                                   curl_proxy = NULL
+                                   ){
 
   ## parameter check - key
   if(is.null(key))
@@ -86,6 +90,6 @@ google_reverse_geocode <- function(location,
                                      "result_type" = result_type,
                                      "key" = key))
 
-  return(fun_download_data(map_url, simplify))
+  return(fun_download_data(map_url, simplify, curl_proxy))
 
 }
