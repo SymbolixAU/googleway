@@ -1,13 +1,15 @@
+
+/*
 #include <R.h>
 #include <Rinternals.h>
 #include <stdlib.h> // for NULL
 #include <R_ext/Rdynload.h>
 
-/* FIXME:
+FIXME:
   Check these declarations against the C/Fortran source code.
-*/
 
-/* .Call calls */
+
+.Call calls
 extern SEXP googleway_rcpp_decode_pl(SEXP);
 extern SEXP googleway_rcpp_encode_pl(SEXP, SEXP, SEXP);
 
@@ -22,3 +24,4 @@ void R_init_googleway(DllInfo *dll)
   R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
   R_useDynamicSymbols(dll, FALSE);
 }
+*/

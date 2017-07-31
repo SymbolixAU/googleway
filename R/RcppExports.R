@@ -2,10 +2,10 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 rcpp_decode_pl <- function(encoded) {
-    .Call('googleway_rcpp_decode_pl', PACKAGE = 'googleway', encoded)
+    .Call('_googleway_rcpp_decode_pl', PACKAGE = 'googleway', encoded)
 }
 
 rcpp_encode_pl <- function(latitude, longitude, num_coords) {
-    .Call('googleway_rcpp_encode_pl', PACKAGE = 'googleway', latitude, longitude, num_coords)
+    .Call('_googleway_rcpp_encode_pl', PACKAGE = 'googleway', latitude, longitude, num_coords)
 }
 

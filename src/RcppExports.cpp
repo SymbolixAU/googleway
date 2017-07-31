@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // rcpp_decode_pl
 DataFrame rcpp_decode_pl(std::string encoded);
-RcppExport SEXP googleway_rcpp_decode_pl(SEXP encodedSEXP) {
+RcppExport SEXP _googleway_rcpp_decode_pl(SEXP encodedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -18,7 +18,7 @@ END_RCPP
 }
 // rcpp_encode_pl
 Rcpp::String rcpp_encode_pl(Rcpp::NumericVector latitude, Rcpp::NumericVector longitude, int num_coords);
-RcppExport SEXP googleway_rcpp_encode_pl(SEXP latitudeSEXP, SEXP longitudeSEXP, SEXP num_coordsSEXP) {
+RcppExport SEXP _googleway_rcpp_encode_pl(SEXP latitudeSEXP, SEXP longitudeSEXP, SEXP num_coordsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -28,4 +28,15 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(rcpp_encode_pl(latitude, longitude, num_coords));
     return rcpp_result_gen;
 END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_googleway_rcpp_decode_pl", (DL_FUNC) &_googleway_rcpp_decode_pl, 1},
+    {"_googleway_rcpp_encode_pl", (DL_FUNC) &_googleway_rcpp_encode_pl, 3},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_googleway(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
 }
