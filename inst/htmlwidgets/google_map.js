@@ -10,28 +10,8 @@ HTMLWidgets.widget({
     return {
       renderValue: function(x) {
 
-//        DEBUGGING numeric / text
-//        myInfo = {id: "a"};
-//        let myVar = {
-//          myNumber: 123.45678,
-//          otherNumber: 987.654321
-//        };
-//        myInfo = $.extend(myVar, myInfo);
-//        Shiny.onInputChange("myData", myInfo);
-
           // global map objects
           // - display elements
-//          window[el.id + 'googleMarkers'] = [];
-//          window[el.id + 'googleMarkerClusterer'];
-//          window[el.id + 'googleHeatmapLayer'] = [];
-//          window[el.id + 'googleHeatmapLayerMVC'] = [];
-//          window[el.id + 'googleCircles'] = [];
-//          window[el.id + 'googlePolyline'] = [];
-//          window[el.id + 'googlePolygon'] = [];
-//          window[el.id + 'googlePolygonMVC'] = [];
-
-//          window[el.id + 'googleBounds'] = [];
-//          window[el.id + 'googleBounds'] = new google.maps.LatLngBounds();
 
           // visualisation layers
           window[el.id + 'googleTrafficLayer'] = [];
@@ -324,6 +304,7 @@ function clear_markers(map_id, layer_id){
       window[map_id + 'googleMarkers' + layer_id][i].setMap(null);
   }
   window[map_id + 'googleMarkers' + layer_id] = null;
+
 
   if(window[map_id + 'googleMarkerClusterer' + layer_id]){
     window[map_id + 'googleMarkerClusterer' + layer_id].clearMarkers();
