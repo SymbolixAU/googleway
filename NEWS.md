@@ -1,5 +1,7 @@
 ## Version 2.3.0 (development)
 
+* Down-graded R requirement to 3.3.0
+* Fix for url encoding issue [#65](https://github.com/SymbolixAU/googleway/issues/65)
 * Map Layers get `update_map_view` argument
 * Fixed `add_rectanges` bug where coordinates were not recognised [#61](https://github.com/SymbolixAU/googleway/issues/61)
 
