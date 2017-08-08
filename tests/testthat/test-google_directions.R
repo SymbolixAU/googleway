@@ -1,5 +1,15 @@
 context("Google directions")
 
+## issue 65
+test_that("url encoded correctly", {
+
+  expect_equal(
+    URLencode("https://www.google.com/&avoid=highways|tolls"),
+    "https://www.google.com/&avoid=highways%7Ctolls"
+  )
+
+})
+
 
 test_that("incorrect mode throws error", {
   skip("incorrect error string in match.arg")

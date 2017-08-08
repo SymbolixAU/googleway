@@ -231,13 +231,16 @@ SetDefault <- function(col, val, df){
 # @param urlArgs other arguments to append to the URL string
 constructURL <- function(map_url, urlArgs){
 
-  return(paste0(map_url,
-                paste0("&",
-                       paste0(names(urlArgs)),
-                       "=",
-                       paste0(urlArgs), collapse = "")
-                )
-         )
+  return(
+    URLencode(
+      paste0(map_url,
+             paste0("&",
+             paste0(names(urlArgs)),
+             "=",
+             paste0(urlArgs), collapse = "")
+             )
+      )
+    )
 }
 
 

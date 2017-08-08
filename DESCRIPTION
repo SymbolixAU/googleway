@@ -15,7 +15,7 @@ Description: Provides a mechanism to plot a Google Map from R and overlay
 License: GPL-3
 LazyData: TRUE
 Depends:
-    R (>= 3.3.1)
+    R (>= 3.3.0)
 Imports:
     Rcpp (>= 0.12.5),
     jsonlite (>= 0.9.20),
