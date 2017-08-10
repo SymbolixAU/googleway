@@ -82,7 +82,7 @@ directions_data <- function(base_url,
     stop("avoid can only include tolls, highways, ferries or indoor")
   }else{
     if(length(avoid) > 1){
-      avoid <- paste0(tolower(avoid), collapse = "+")
+      avoid <- paste0(tolower(avoid), collapse = "|")
     }else{
       avoid <- tolower(avoid)
     }
