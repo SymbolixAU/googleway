@@ -693,7 +693,7 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
     }
 
     if(polyline.info_window){
-      add_infoWindow(map_id, Polyline, InfoWindow, '_information', polyline.info_window);
+      add_infoWindow(map_id, Polyline, infoWindow, '_information', polyline.info_window);
     }
 
     // need to add the listener once so it's not overwritten?
