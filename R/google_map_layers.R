@@ -30,7 +30,7 @@
 #' @param mouse_over string specifying the column of data to display when the
 #' mouse rolls over the marker
 #' @param mouse_over_group string specifying the column of data specifying which
-#' groups of circles to highlight on mouseover
+#' groups of markers to highlight on mouseover
 #' @param marker_icon string specifying the column of data containing a link/URL to
 #' an image to use for a marker
 #' @param layer_id single value specifying an id for the layer.
@@ -726,14 +726,14 @@ clear_bicycling <- function(map){
 #' @param id string specifying the column containing an identifier for a polyline
 #' @param geodesic logical
 #' @param stroke_colour either a string specifying the column of \code{data}
-#' containing the stroke colour of each circle, or a valid hexadecimal numeric
-#' HTML style to be applied to all the circles
+#' containing the stroke colour of each polyline, or a valid hexadecimal numeric
+#' HTML style to be applied to all the polylines
 #' @param stroke_opacity either a string specifying the column of \code{data}
-#' containing the stroke opacity of each circle, or a value between 0 and 1 that
-#' will be applied to all the circles
+#' containing the stroke opacity of each polyline, or a value between 0 and 1 that
+#' will be applied to all the polylines
 #' @param stroke_weight either a string specifying the column of \code{data}
-#' containing the stroke weight of each circle, or a number indicating the width
-#' of pixels in the line to be applied to all the circles
+#' containing the stroke weight of each polyline, or a number indicating the width
+#' of pixels in the line to be applied to all the polylines
 #' @param info_window string specifying the column of data to display in an info
 #' window when a polyline is clicked
 #' @param mouse_over string specifying the column of data to display when the
@@ -947,14 +947,14 @@ add_polylines <- function(map,
 #' values for the polylines The id values must be present in the data supplied
 #' to \code{add_polylines} in order for the polylines to be udpated
 #' @param stroke_colour either a string specifying the column of \code{data}
-#' containing the stroke colour of each circle, or a valid hexadecimal numeric
-#' HTML style to be applied to all the circles
+#' containing the stroke colour of each polyline, or a valid hexadecimal numeric
+#' HTML style to be applied to all the polylines
 #' @param stroke_opacity either a string specifying the column of \code{data}
-#' containing the stroke opacity of each circle, or a value between 0 and 1
-#' that will be applied to all the circles
+#' containing the stroke opacity of each polyline, or a value between 0 and 1
+#' that will be applied to all the polyline
 #' @param stroke_weight either a string specifying the column of \code{data}
-#' containing the stroke weight of each circle, or a number indicating the width
-#' of pixels in the line to be applied to all the circles
+#' containing the stroke weight of each polyline, or a number indicating the width
+#' of pixels in the line to be applied to all the polyline
 #' @param layer_id single value specifying an id for the layer.
 #'
 #' @examples
@@ -1368,20 +1368,20 @@ add_polygons <- function(map,
 #' values for the polygons. The id values must be present in the data supplied
 #' to \code{add_polygons} in order for the polygons to be udpated
 #' @param stroke_colour either a string specifying the column of \code{data}
-#' containing the stroke colour of each circle, or a valid hexadecimal numeric
-#' HTML style to be applied to all the circles
+#' containing the stroke colour of each polygon, or a valid hexadecimal numeric
+#' HTML style to be applied to all the polygons
 #' @param stroke_opacity either a string specifying the column of \code{data}
-#' containing the stroke opacity of each circle, or a value between 0 and 1 that
-#' will be applied to all the circles
+#' containing the stroke opacity of each polygon, or a value between 0 and 1 that
+#' will be applied to all the polygons
 #' @param stroke_weight either a string specifying the column of \code{data}
-#' containing the stroke weight of each circle, or a number indicating the width of
-#' pixels in the line to be applied to all the circles
+#' containing the stroke weight of each polygon, or a number indicating the width of
+#' pixels in the line to be applied to all the polygons
 #' @param fill_colour either a string specifying the column of \code{data}
-#' containing the fill colour of each circle, or a valid hexadecimal numeric
-#' HTML style to be applied to all the cirlces
+#' containing the fill colour of each polygon, or a valid hexadecimal numeric
+#' HTML style to be applied to all the polygons
 #' @param fill_opacity either a string specifying the column of \code{data}
-#' containing the fill opacity of each circle, or a value between 0 and 1 that
-#' will be applied to all the circles
+#' containing the fill opacity of each polygon, or a value between 0 and 1 that
+#' will be applied to all the polygons
 #' @param layer_id single value specifying an id for the layer.
 #'
 #' @examples
@@ -1604,7 +1604,6 @@ add_rectangles <- function(map,
   Rectangle[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
   Rectangle[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
   Rectangle[, "z_index"] <- SetDefault(z_index, 2, data)
-  # Circles[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
 
   ## options
   if(!is.null(id))
@@ -1624,9 +1623,6 @@ add_rectangles <- function(map,
 
   if(!is.null(mouse_over_group))
     Rectangle[, "mouse_over_group"] <- as.character(data[, mouse_over_group])
-
-  # if(sum(is.na(Rectangle)) > 0)
-  #   warning("There are some NAs in your data. These may affect the circles that have been plotted.")
 
   Rectangle <- jsonlite::toJSON(Rectangle, digits = digits)
 

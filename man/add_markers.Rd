@@ -52,7 +52,7 @@ window when a marker is clicked}
 mouse rolls over the marker}
 
 \item{mouse_over_group}{string specifying the column of data specifying which
-groups of circles to highlight on mouseover}
+groups of markers to highlight on mouseover}
 
 \item{marker_icon}{string specifying the column of data containing a link/URL to
 an image to use for a marker}

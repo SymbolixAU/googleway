@@ -17,16 +17,16 @@ values for the polylines The id values must be present in the data supplied
 to \code{add_polylines} in order for the polylines to be udpated}
 
 \item{stroke_colour}{either a string specifying the column of \code{data}
-containing the stroke colour of each circle, or a valid hexadecimal numeric
-HTML style to be applied to all the circles}
+containing the stroke colour of each polyline, or a valid hexadecimal numeric
+HTML style to be applied to all the polylines}
 
 \item{stroke_weight}{either a string specifying the column of \code{data}
-containing the stroke weight of each circle, or a number indicating the width
-of pixels in the line to be applied to all the circles}
+containing the stroke weight of each polyline, or a number indicating the width
+of pixels in the line to be applied to all the polyline}
 
 \item{stroke_opacity}{either a string specifying the column of \code{data}
-containing the stroke opacity of each circle, or a value between 0 and 1
-that will be applied to all the circles}
+containing the stroke opacity of each polyline, or a value between 0 and 1
+that will be applied to all the polyline}
 
 \item{layer_id}{single value specifying an id for the layer.}
 }

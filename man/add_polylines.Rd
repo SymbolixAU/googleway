@@ -31,16 +31,16 @@ coordinates. Coordinates must be in the order that defines the path.}
 \item{geodesic}{logical}
 
 \item{stroke_colour}{either a string specifying the column of \code{data}
-containing the stroke colour of each circle, or a valid hexadecimal numeric
-HTML style to be applied to all the circles}
+containing the stroke colour of each polyline, or a valid hexadecimal numeric
+HTML style to be applied to all the polylines}
 
 \item{stroke_weight}{either a string specifying the column of \code{data}
-containing the stroke weight of each circle, or a number indicating the width
-of pixels in the line to be applied to all the circles}
+containing the stroke weight of each polyline, or a number indicating the width
+of pixels in the line to be applied to all the polylines}
 
 \item{stroke_opacity}{either a string specifying the column of \code{data}
-containing the stroke opacity of each circle, or a value between 0 and 1 that
-will be applied to all the circles}
+containing the stroke opacity of each polyline, or a value between 0 and 1 that
+will be applied to all the polylines}
 
 \item{info_window}{string specifying the column of data to display in an info
 window when a polyline is clicked}
