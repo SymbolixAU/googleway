@@ -6,6 +6,37 @@
 \usage{
 add_geojson(map, geojson, layer_id = NULL)
 }
+\arguments{
+\item{geojson}{geojson}
+}
 \description{
 Add GeoJson
+}
+\examples{
+\dontrun{
+
+## a rectangle polygon over melbourne
+ geojson_txt <- '{
+   "type" : "Feature",
+   "properties" : {
+     "color" : "blue"
+   },
+   "geometry" : {
+     "type" : "Polygon", "coordinates" : [
+       [
+         [144.88, -37.85],
+         [145.02, -37.85],
+         [145.02, -37.80],
+         [144.88, -37.80],
+         [144.88, -37.85]
+       ]
+     ]
+   }
+ }'
+
+google_map(key = mapKey) \%>\%
+  add_geojson(geojson = geojson_txt)
+
+}
+
 }
