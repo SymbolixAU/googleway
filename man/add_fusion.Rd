@@ -29,13 +29,13 @@ Adds a fusion table layer to a map.
 \examples{
 \dontrun{
 
-mapKey <- 'your_api_key'
+map_key <- 'your_api_key'
 
 qry <- data.frame(select = 'address',
     from = '1d7qpn60tAvG4LEg4jvClZbc1ggp8fIGGvpMGzA',
     where = 'ridership > 200')
 
-google_map(key = mapKey, location = c(41.8, -87.7), zoom = 9) \%>\%
+google_map(key = map_key, location = c(41.8, -87.7), zoom = 9) \%>\%
   add_fusion(query = qry)
 
 
@@ -57,13 +57,13 @@ styles <- list(
  )
 )
 
-google_map(key = mapKey, location = c(-25.3, 133), zoom = 4) \%>\%
+google_map(key = map_key, location = c(-25.3, 133), zoom = 4) \%>\%
   add_fusion(query = qry, styles = styles)
 
 qry <- data.frame(select = 'location',
     from = '1xWyeuAhIFK_aED1ikkQEGmR8mINSCJO9Vq-BPQ')
 
-google_map(key = mapKey, location = c(0, 0), zoom = 1) \%>\%
+google_map(key = map_key, location = c(0, 0), zoom = 1) \%>\%
   add_fusion(query = qry, heatmap = T)
 
 }

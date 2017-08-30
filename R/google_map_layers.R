@@ -1857,18 +1857,18 @@ add_kml <- function(map, kml_url, layer_id = NULL){
 #'  }'
 #'
 #' ## use the properties inside the geoJSON to style each feature
-#' google_map(key = mapKey) %>%
+#' google_map(key = map_key) %>%
 #'   add_geojson(geojson = geojson_txt,
 #'     style = list(fillColor = "color", strokeColor = "lineColor", title = "title"))
 #'
 #' ## use a JSON style literal to style all features
 #' style <- '{ "fillColor" : "green" , "strokeColor" : "black", "strokeWeight" : 0.5}'
-#' google_map(key = mapKey) %>%
+#' google_map(key = map_key) %>%
 #'   add_geojson(geojson = geojson_txt, style = style)
 #'
 #' ## GeoJSON from a URL
 #' url <- 'https://storage.googleapis.com/mapsdevsite/json/google.json'
-#' google_map(key = mapKey) %>%
+#' google_map(key = map_key) %>%
 #'   add_geojson(geojson = url)
 #'
 #' }
@@ -1922,6 +1922,8 @@ add_kml <- function(map, kml_url, layer_id = NULL){
 add_geojson <- function(map, geojson, style = NULL, update_map_view = TRUE){
 
   ## TODO:
+  ## - better handler geojson source (url or local) and style (list or json)
+  ## -- the current appraoch is limiting
   ## - update bounds (https://stackoverflow.com/questions/28507044/zoom-to-geojson-polygons-bounds-in-google-maps-api-v3)
 
   ## DataLayer events https://developers.google.com/maps/documentation/javascript/datalayer#add_event_handlers
@@ -1966,16 +1968,14 @@ add_geojson <- function(map, geojson, style = NULL, update_map_view = TRUE){
 #' @examples
 #' \dontrun{
 #'
-#' mapKey <- 'your_api_key'
+#' map_key <- 'your_api_key'
 #'
 #' qry <- data.frame(select = 'address',
 #'     from = '1d7qpn60tAvG4LEg4jvClZbc1ggp8fIGGvpMGzA',
 #'     where = 'ridership > 200')
 #'
-#' google_map(key = mapKey, location = c(41.8, -87.7), zoom = 9) %>%
+#' google_map(key = map_key, location = c(41.8, -87.7), zoom = 9) %>%
 #'   add_fusion(query = qry)
-#'
-#'
 #'
 #' qry <- data.frame(select = 'geometry',
 #'    from = '1ertEwm-1bMBhpEwHhtNYT47HQ9k2ki_6sRa-UQ')
@@ -1994,13 +1994,13 @@ add_geojson <- function(map, geojson, style = NULL, update_map_view = TRUE){
 #'  )
 #' )
 #'
-#' google_map(key = mapKey, location = c(-25.3, 133), zoom = 4) %>%
+#' google_map(key = map_key, location = c(-25.3, 133), zoom = 4) %>%
 #'   add_fusion(query = qry, styles = styles)
 #'
 #' qry <- data.frame(select = 'location',
 #'     from = '1xWyeuAhIFK_aED1ikkQEGmR8mINSCJO9Vq-BPQ')
 #'
-#' google_map(key = mapKey, location = c(0, 0), zoom = 1) %>%
+#' google_map(key = map_key, location = c(0, 0), zoom = 1) %>%
 #'   add_fusion(query = qry, heatmap = T)
 #'
 #' }
@@ -2012,6 +2012,7 @@ add_fusion <- function(map, query, styles = NULL, heatmap = FALSE, layer_id = NU
   ## - check each 'value' is a single value
   ## - update bounds on layer
   ## - info window
+  ## - allow JSON style
 
   ## The Google Maps API can't use values inside arrays, so we need
   ## to get rid of any arrays.

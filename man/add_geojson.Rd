@@ -119,18 +119,18 @@ See examples.
  }'
 
 ## use the properties inside the geoJSON to style each feature
-google_map(key = mapKey) \%>\%
+google_map(key = map_key) \%>\%
   add_geojson(geojson = geojson_txt,
     style = list(fillColor = "color", strokeColor = "lineColor", title = "title"))
 
 ## use a JSON style literal to style all features
 style <- '{ "fillColor" : "green" , "strokeColor" : "black", "strokeWeight" : 0.5}'
-google_map(key = mapKey) \%>\%
+google_map(key = map_key) \%>\%
   add_geojson(geojson = geojson_txt, style = style)
 
 ## GeoJSON from a URL
 url <- 'https://storage.googleapis.com/mapsdevsite/json/google.json'
-google_map(key = mapKey) \%>\%
+google_map(key = map_key) \%>\%
   add_geojson(geojson = url)
 
 }
