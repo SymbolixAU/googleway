@@ -4,38 +4,136 @@
 \alias{add_geojson}
 \title{Add GeoJson}
 \usage{
-add_geojson(map, geojson, layer_id = NULL)
+add_geojson(map, geojson, style = NULL, update_map_view = TRUE)
 }
 \arguments{
-\item{geojson}{geojson}
+\item{map}{a googleway map object created from \code{google_map()}}
+
+\item{geojson}{A character string or JSON/geoJSON literal of correctly formatted geoJSON}
+
+\item{style}{Style options for the geoJSON. See details}
+
+\item{update_map_view}{logical specifying if the map should re-centre according
+to the geoJSON}
+
+\item{layer_id}{single value specifying an id for the layer.}
 }
 \description{
 Add GeoJson
 }
+\details{
+The style of the geoJSON features can be defined inside the geoJSON itself,
+or specified as a JSON literal that's used to style all the features the same
+
+To use the properties in the geoJSON to define the styles, set the \code{style}
+argument to a named list, where each name is one of
+
+All Geometries
+
+\itemize{
+  \item{clickable}
+  \item{visible}
+  \item{zIndex}
+}
+
+Point Geometries
+
+\itemize{
+  \item{cursor}
+  \item{icon}
+  \item{shape}
+  \item{title}
+}
+
+Line Geometries
+\itemize{
+  \item{strokeColor}
+  \item{strokeOpacity}
+  \item{strokeWeight}
+}
+
+Polygon Geometries (Line Geometries, plus)
+\itemize{
+  \item{fillColor}
+  \item{fillOpacity}
+}
+
+and where the values are the the properties of the geoJSON that contain the relevant style
+for those properties.
+
+To style all the features the same, supply a JSON literal that defines a value for each
+of the style options (listed above)
+
+See examples.
+}
 \examples{
 \dontrun{
 
-## a rectangle polygon over melbourne
+## Rectangle polygons and a point over melbourne
  geojson_txt <- '{
-   "type" : "Feature",
-   "properties" : {
-     "color" : "blue"
-   },
-   "geometry" : {
-     "type" : "Polygon", "coordinates" : [
-       [
-         [144.88, -37.85],
-         [145.02, -37.85],
-         [145.02, -37.80],
-         [144.88, -37.80],
-         [144.88, -37.85]
-       ]
-     ]
-   }
+   "type" : "FeatureCollection",
+   "features" : [
+     {
+       "type" : "Feature",
+       "properties" : {
+         "color" : "green",
+         "lineColor" : "blue"
+       },
+       "geometry" : {
+         "type" : "Polygon", "coordinates" : [
+           [
+             [144.88, -37.85],
+             [145.02, -37.85],
+             [145.02, -37.80],
+             [144.88, -37.80],
+             [144.88, -37.85]
+           ]
+         ]
+       }
+     },
+     {
+       "type" : "Feature",
+       "properties" : {
+         "color" : "red"
+       },
+       "geometry" : {
+         "type" : "Polygon", "coordinates" : [
+           [
+             [144.80, -37.85],
+             [144.88, -37.85],
+             [144.88, -37.80],
+             [144.80, -37.80],
+             [144.80, -37.85]
+           ]
+         ]
+       }
+     },
+     {
+       "type" : "Feature",
+       "properties" : {
+         "title" : "a point"
+       },
+       "geometry" : {
+         "type" : "Point", "coordinates" : [145.00, -37.82]
+       }
+     }
+   ]
  }'
 
+## use the properties inside the geoJSON to style each feature
 google_map(key = mapKey) \%>\%
-  add_geojson(geojson = geojson_txt)
+  add_geojson(geojson = geojson_txt,
+    style = list(fillColor = "color", strokeColor = "lineColor", title = "title"))
+
+## use a JSON style literal to style all features
+style <- '{ "fillColor" : "green" , "strokeColor" : "black", "strokeWeight" : 0.5}'
+google_map(key = mapKey) \%>\%
+  add_geojson(geojson = geojson_txt, style = style)
+
+## GeoJSON from a URL
+url <- 'https://storage.googleapis.com/mapsdevsite/json/google.json'
+google_map(key = mapKey) \%>\%
+  add_geojson(geojson = url)
 
 }
 

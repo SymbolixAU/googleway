@@ -1,4 +1,4 @@
-#
+
 # ## Geojson
 #
 # library(symbolix.utils)
@@ -11,3 +11,9 @@
 # geo <- substr(x = geo, start = 17, nchar(geo) - 3)
 # geo <- paste0(geo, collapse = ",")
 # geo <- paste0('{ "type" : "FeatureCollection", "features" : [ ', geo, ' ] }')
+#
+# google_map(key = mapKey()) %>%
+#   add_geojson(geojson = geo)
+
+
+

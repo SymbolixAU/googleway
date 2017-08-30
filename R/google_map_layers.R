@@ -1794,74 +1794,156 @@ add_kml <- function(map, kml_url, layer_id = NULL){
 
 #' Add GeoJson
 #'
-#' @param geojson  geojson
+#' @param map a googleway map object created from \code{google_map()}
+#' @param geojson A character string or JSON/geoJSON literal of correctly formatted geoJSON
+#' @param style Style options for the geoJSON. See details
+#' @param update_map_view logical specifying if the map should re-centre according
+#' to the geoJSON
+#' @param layer_id single value specifying an id for the layer.
 #'
 #' @examples
 #' \dontrun{
 #'
-#' ## a rectangle polygon over melbourne
+#' ## Rectangle polygons and a point over melbourne
 #'  geojson_txt <- '{
-#'    "type" : "Feature",
-#'    "properties" : {
-#'      "color" : "blue"
-#'    },
-#'    "geometry" : {
-#'      "type" : "Polygon", "coordinates" : [
-#'        [
-#'          [144.88, -37.85],
-#'          [145.02, -37.85],
-#'          [145.02, -37.80],
-#'          [144.88, -37.80],
-#'          [144.88, -37.85]
-#'        ]
-#'      ]
-#'    }
+#'    "type" : "FeatureCollection",
+#'    "features" : [
+#'      {
+#'        "type" : "Feature",
+#'        "properties" : {
+#'          "color" : "green",
+#'          "lineColor" : "blue"
+#'        },
+#'        "geometry" : {
+#'          "type" : "Polygon", "coordinates" : [
+#'            [
+#'              [144.88, -37.85],
+#'              [145.02, -37.85],
+#'              [145.02, -37.80],
+#'              [144.88, -37.80],
+#'              [144.88, -37.85]
+#'            ]
+#'          ]
+#'        }
+#'      },
+#'      {
+#'        "type" : "Feature",
+#'        "properties" : {
+#'          "color" : "red"
+#'        },
+#'        "geometry" : {
+#'          "type" : "Polygon", "coordinates" : [
+#'            [
+#'              [144.80, -37.85],
+#'              [144.88, -37.85],
+#'              [144.88, -37.80],
+#'              [144.80, -37.80],
+#'              [144.80, -37.85]
+#'            ]
+#'          ]
+#'        }
+#'      },
+#'      {
+#'        "type" : "Feature",
+#'        "properties" : {
+#'          "title" : "a point"
+#'        },
+#'        "geometry" : {
+#'          "type" : "Point", "coordinates" : [145.00, -37.82]
+#'        }
+#'      }
+#'    ]
 #'  }'
 #'
+#' ## use the properties inside the geoJSON to style each feature
 #' google_map(key = mapKey) %>%
-#'   add_geojson(geojson = geojson_txt)
+#'   add_geojson(geojson = geojson_txt,
+#'     style = list(fillColor = "color", strokeColor = "lineColor", title = "title"))
+#'
+#' ## use a JSON style literal to style all features
+#' style <- '{ "fillColor" : "green" , "strokeColor" : "black", "strokeWeight" : 0.5}'
+#' google_map(key = mapKey) %>%
+#'   add_geojson(geojson = geojson_txt, style = style)
+#'
+#' ## GeoJSON from a URL
+#' url <- 'https://storage.googleapis.com/mapsdevsite/json/google.json'
+#' google_map(key = mapKey) %>%
+#'   add_geojson(geojson = url)
 #'
 #' }
 #'
+#' @details
+#' The style of the geoJSON features can be defined inside the geoJSON itself,
+#' or specified as a JSON literal that's used to style all the features the same
+#'
+#' To use the properties in the geoJSON to define the styles, set the \code{style}
+#' argument to a named list, where each name is one of
+#'
+#' All Geometries
+#'
+#' \itemize{
+#'   \item{clickable}
+#'   \item{visible}
+#'   \item{zIndex}
+#' }
+#'
+#' Point Geometries
+#'
+#' \itemize{
+#'   \item{cursor}
+#'   \item{icon}
+#'   \item{shape}
+#'   \item{title}
+#' }
+#'
+#' Line Geometries
+#' \itemize{
+#'   \item{strokeColor}
+#'   \item{strokeOpacity}
+#'   \item{strokeWeight}
+#' }
+#'
+#' Polygon Geometries (Line Geometries, plus)
+#' \itemize{
+#'   \item{fillColor}
+#'   \item{fillOpacity}
+#' }
+#'
+#' and where the values are the the properties of the geoJSON that contain the relevant style
+#' for those properties.
+#'
+#' To style all the features the same, supply a JSON literal that defines a value for each
+#' of the style options (listed above)
+#'
+#' See examples.
+#'
 #' @export
-add_geojson <- function(map, geojson, layer_id = NULL){
+add_geojson <- function(map, geojson, style = NULL, update_map_view = TRUE){
 
-  ## valid styles
-  ## https://developers.google.com/maps/documentation/javascript/datalayer#declarative_style_rules
+  ## TODO:
+  ## - update bounds (https://stackoverflow.com/questions/28507044/zoom-to-geojson-polygons-bounds-in-google-maps-api-v3)
 
-  ## styling needs to be handled by the user.
-  ## so you need to provide the styles to use
-  ##
-  ## all geometries
-  ## - clickable : true
-  ## - visible : true
-  ## - zIndex : numeric
+  ## DataLayer events https://developers.google.com/maps/documentation/javascript/datalayer#add_event_handlers
+  ## - addFeature
+  ## - click
+  ## - dblclick
+  ## - mosuedown
+  ## - mouseout
+  ## - mouseover
+  ## - mouseup
+  ## - removefeature
+  ## - removeproperty
+  ## - rightclick
+  ## - setgeometry
+  ## - setproperty
 
-  ## point
-  ## - cursor : (mouse cursor to show on hover)
-  ## - icon : (icno to show for point geometry)
-  ## - shape : (defineds the image map used for hit detection)
-  ## - title : rollover text
+  geojson <- validateGeojson(geojson)
 
-  ## line
-  ## - strokeColor
-  ## - strokeOpacity
-  ## - strokeWeight
+  if(!is.null(style))
+    style <- validateStyle(style)
 
-  ## polygons
-  ## - fillColor
-  ## - fillOpacity
-  ## - strokeColor
-  ## - strokeOpacity
-  ## - strokeWeight
-
-
-
-
-  ## https://github.com/jeroen/jsonlite/issues/77
-  class(geojson) <- 'json'
-
-  invoke_method(map, data = NULL, 'add_geojson', geojson, layer_id)
+  invoke_method(map, data = NULL, 'add_geojson', geojson[['geojson']], geojson[['source']],
+                style[['style']], style[['type']], layer_id)
 }
 
 
