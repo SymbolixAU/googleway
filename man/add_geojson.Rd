@@ -15,8 +15,6 @@ add_geojson(map, geojson, style = NULL, update_map_view = TRUE)
 
 \item{update_map_view}{logical specifying if the map should re-centre according
 to the geoJSON}
-
-\item{layer_id}{single value specifying an id for the layer.}
 }
 \description{
 Add GeoJson

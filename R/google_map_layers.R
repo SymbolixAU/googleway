@@ -1799,7 +1799,6 @@ add_kml <- function(map, kml_url, layer_id = NULL){
 #' @param style Style options for the geoJSON. See details
 #' @param update_map_view logical specifying if the map should re-centre according
 #' to the geoJSON
-#' @param layer_id single value specifying an id for the layer.
 #'
 #' @examples
 #' \dontrun{
