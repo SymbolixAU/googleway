@@ -1943,7 +1943,7 @@ add_geojson <- function(map, geojson, style = NULL, update_map_view = TRUE){
     style <- validateStyle(style)
 
   invoke_method(map, data = NULL, 'add_geojson', geojson[['geojson']], geojson[['source']],
-                style[['style']], style[['type']], layer_id)
+                style[['style']], style[['type']])
 }
 
 

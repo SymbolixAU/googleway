@@ -1173,7 +1173,7 @@ function clear_kml(map_id, layer_id){
 }
 
 
-function add_geojson(map_id, geojson, geojson_source, style, style_type, layer_id, update_map_view){
+function add_geojson(map_id, geojson, geojson_source, style, style_type, update_map_view){
 
   if(geojson_source == "local"){
     window[map_id + 'map'].data.addGeoJson(geojson);
