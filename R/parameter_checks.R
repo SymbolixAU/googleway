@@ -15,16 +15,16 @@ LongitudeCheck <- function(lat, arg){
 }
 
 
-# URL Check
-#
-# Checks for a valid URL
-# @param url url to check
-URLCheck <- function(url){
-  if(length(url) != 1)
-    stop("only one URL is valid")
+### url check ------------------
+urlCheck <- function(url) UseMethod("urlCheck")
 
-
+#' @export
+urlCheck.character <- function(url) {
+  if(!isUrl(url)) stop("invalid url")
 }
+
+#' @export
+urlCheck.default <- function(url) stopMessage(url)
 
 
 # Logical Check

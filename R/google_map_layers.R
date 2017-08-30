@@ -1725,7 +1725,7 @@ update_rectangles <- function(map, data, id,
 #' map_key <- 'your_api_key'
 #'
 #' google_map(key = map_key) %>%
-#'   add_overlay(north = 40.773941,south = 40.712216, east = -74.12544, west = -74.22655,
+#'   add_overlay(north = 40.773941, south = 40.712216, east = -74.12544, west = -74.22655,
 #'                overlay_url = "https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg")
 #'
 #'
@@ -1740,7 +1740,9 @@ add_overlay <- function(map,
                         layer_id = NULL,
                         digits = 4){
 
-  URLCheck(overlay_url)
+
+  urlCheck(overlay_url)
+
   LatitudeCheck(north, "north")
   LatitudeCheck(south, "south")
   LongitudeCheck(east, "east")
@@ -1782,7 +1784,7 @@ add_overlay <- function(map,
 #' @export
 add_kml <- function(map, kml_url, layer_id = NULL){
 
-  URLCheck(kml_url)
+  urlCheck(kml_url)
 
   layer_id <- LayerId(layer_id)
 

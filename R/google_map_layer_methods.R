@@ -1,4 +1,7 @@
 
+#isUrl <- function(txt) grepl("(((https?:\\/\\/)|(www\\.))[^\\s]+)", txt)
+isUrl <- function(txt) grepl("(^http)|(^www)", txt)
+
 stopMessage <- function(obj) stop(paste0("I don't know how to deal with objects of type ", class(obj)))
 
 
@@ -39,9 +42,6 @@ constructGeojsonSource <- function(geojson, source) {
   return(list(geojson = geojson, source = source))
 }
 
-
-#isUrl <- function(txt) grepl("(((https?:\\/\\/)|(www\\.))[^\\s]+)", txt)
-isUrl <- function(txt) grepl("(^http)|(www)", txt)
 
 
 ### validate Style -----------
