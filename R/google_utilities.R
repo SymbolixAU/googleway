@@ -232,7 +232,7 @@ SetDefault <- function(col, val, df){
 constructURL <- function(map_url, urlArgs){
 
   return(
-    URLencode(
+    utils::URLencode(
       paste0(map_url,
              paste0("&",
              paste0(names(urlArgs)),
