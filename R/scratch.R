@@ -1,19 +1,51 @@
-
-# ## Geojson
 #
-# library(symbolix.utils)
-# m <- ConnectToMongo(db = "ABS", collection = "VIC_2016", usr = "db_user")
+# library(jqr)
 #
-# geo <- m$find(' { "features.properties.SA3_NAME16" : "Wodonga - Alpine"  } ', fields = '{"features" : 1, "_id" : 0}', ndjson = T)
+# apiKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_API_KEY")
 #
-# ## plot a feature collection of all the features
+# js <- google_directions(origin = c(-37.8179746, 144.9668636),
+#                         destination = c(-37.81659, 144.9841),
+#                         mode = "walking",
+#                         key = apiKey,
+#                         simplify = FALSE)
 #
-# geo <- substr(x = geo, start = 17, nchar(geo) - 3)
-# geo <- paste0(geo, collapse = ",")
-# geo <- paste0('{ "type" : "FeatureCollection", "features" : [ ', geo, ' ] }')
+# # Formats the JSON response into an ARRAY
+# #createArray <- function(js) paste0("[", paste0(js, collapse = ""), "]")
 #
-# google_map(key = mapKey()) %>%
-#   add_geojson(geojson = geo)
-
-
-
+# ## directions:
+# ## legs:
+#
+# js2 <- createArray(js)
+#
+# js <- paste0(js, collapse = "")
+#
+# js %>%
+#   dot() %>%
+#   select(geo = .geocoded_waypoints) %>%
+#   index()
+#
+# js %>%
+#   dotindex(geocoded_waypoints)
+#
+# jq(js, ".geocoded_waypoints[]")
+#
+# legs <- jq(js, ".routes[].legs[].steps")
+#
+# jq(js, ".routes[].overview_polyline.points")
+#
+#
+#
+# js %>% keys()
+#
+#
+#
+# js %>%
+#   index("geocoded_waypoints")
+#
+# js %>%
+#   select(geo = .geocoded_waypoints)
+#
+#
+#
+#
+#
