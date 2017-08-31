@@ -38,8 +38,6 @@ qry <- data.frame(select = 'address',
 google_map(key = map_key, location = c(41.8, -87.7), zoom = 9) \%>\%
   add_fusion(query = qry)
 
-
-
 qry <- data.frame(select = 'geometry',
    from = '1ertEwm-1bMBhpEwHhtNYT47HQ9k2ki_6sRa-UQ')
 

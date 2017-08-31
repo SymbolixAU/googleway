@@ -57,7 +57,6 @@ HTMLWidgets.widget({
           mapDiv.className = "googlemap";
 
           if (HTMLWidgets.shinyMode){
-            console.log("shiny mode");
 
             // use setInterval to check if the map can be loaded
             // the map is dependant on the Google Maps JS resource
@@ -94,11 +93,6 @@ HTMLWidgets.widget({
             console.log("not shiny mode");
 
             //window.onload = function() {
-
-              console.log("window onload");
-              var mapDiv = document.getElementById(el.id);
-
-              mapDiv.className = "googlemap";
 
               var map = new google.maps.Map(mapDiv, {
                 center: {lat: x.lat, lng: x.lng},
@@ -223,9 +217,9 @@ function initialise_map(el, x) {
     // listen for deleting the search bar
     input.addEventListener('input', function(){
       if(input.value.length === 0){
-        clear_search(el.id)
+        clear_search(el.id);
       }
-    })
+    });
 
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.
@@ -296,14 +290,8 @@ function initialise_map(el, x) {
 
   // listeners
   mapInfo = {};
-//  console.log('map info');
-//  console.log(mapInfo);
 
   map_click(el.id, window[el.id + 'map'], mapInfo);
   bounds_changed(el.id, window[el.id + 'map'], mapInfo);
   zoom_changed(el.id, window[el.id + 'map'], mapInfo);
-
-//  console.log("map info 2");
-//  console.log(mapInfo);
-
 }

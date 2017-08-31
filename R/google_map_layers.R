@@ -181,9 +181,7 @@ add_markers <- function(map,
 #' @name clear
 #' @export
 clear_markers <- function(map, layer_id = NULL){
-
   layer_id <- LayerId(layer_id)
-
   invoke_method(map, data = NULL, 'clear_markers', layer_id)
 }
 
@@ -216,7 +214,6 @@ update_style <- function(map, styles = NULL){
     jsonlite::validate(styles)
 
   invoke_method(map, data = NULL, 'update_style', styles)
-
 }
 
 
