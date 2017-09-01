@@ -1,51 +1,27 @@
 #
-# library(jqr)
-#
 # apiKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_API_KEY")
 #
-# js <- google_directions(origin = c(-37.8179746, 144.9668636),
+# lst <- google_directions(origin = c(-37.8179746, 144.9668636),
 #                         destination = c(-37.81659, 144.9841),
 #                         mode = "walking",
 #                         key = apiKey,
-#                         simplify = FALSE)
+#                         simplify = TRUE)
 #
-# # Formats the JSON response into an ARRAY
-# #createArray <- function(js) paste0("[", paste0(js, collapse = ""), "]")
+# js <- google_directions(origin = c(-37.8179746, 144.9668636),
+#                          destination = c(-37.81659, 144.9841),
+#                          mode = "walking",
+#                          key = apiKey,
+#                          simplify = FALSE)
 #
-# ## directions:
-# ## legs:
+# map_url <- "https://maps.googleapis.com/maps/api/directions/json?&origin=-37.8179746,144.9668636&destination=-37.81659,144.9841&departure_time=1504215791&alternatives=false&units=metric&mode=walking&key=AIzaSyAxBffO67pqezBmgo34qr183SFx7olhwFI"
 #
-# js2 <- createArray(js)
+# js <- googleway:::collapseResult(js)
+# jqr::jq(googleway:::collapseResult(js), ".routes[].legs[].steps[].html_instructions")
 #
-# js <- paste0(js, collapse = "")
+# lst$routes$legs[[1]]$steps[[1]]$html_instructions
 #
-# js %>%
-#   dot() %>%
-#   select(geo = .geocoded_waypoints) %>%
-#   index()
+# jqr::jq(js, ".routes[].legs[].steps[].polyline.points")
 #
-# js %>%
-#   dotindex(geocoded_waypoints)
-#
-# jq(js, ".geocoded_waypoints[]")
-#
-# legs <- jq(js, ".routes[].legs[].steps")
-#
-# jq(js, ".routes[].overview_polyline.points")
-#
-#
-#
-# js %>% keys()
-#
-#
-#
-# js %>%
-#   index("geocoded_waypoints")
-#
-# js %>%
-#   select(geo = .geocoded_waypoints)
-#
-#
-#
-#
-#
+# googleway:::direction_routes(js)
+# googleway:::direction_legs(js)
+# googleway:::direction_points(js)
