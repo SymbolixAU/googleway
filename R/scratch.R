@@ -22,6 +22,34 @@
 #
 # jqr::jq(js, ".routes[].legs[].steps[].polyline.points")
 #
-# googleway:::direction_routes(js)
-# googleway:::direction_legs(js)
-# googleway:::direction_points(js)
+# direction_routes(js)
+# direction_legs(js)
+# direction_points(js)
+# direction_steps(js)
+# direction_points(js)
+
+# direction_routes(lst)
+# direction_legs(lst)
+# direction_points(lst)
+# direction_steps(lst)
+
+
+# apiKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_API_KEY")
+#
+# lst <- google_geocode(address = "Flinders Street Station, Melbourne",
+#                       key = apiKey)
+#
+# js <- google_geocode(address = "Flinders Street Station, Melbourne",
+#                      key = apiKey,
+#                      simplify = FALSE)
+#
+# js2 <- googleway:::collapseResult(js)
+#
+# jq(js2, ".results[].geometry.location")
+#
+# lst$results$geometry$location
+
+
+
+
+
