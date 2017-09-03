@@ -1,5 +1,7 @@
 ## Version 2.3.0 (development)
 
+* `add_geojson` adds geojson to a map
+* `access_result` function for accessing specific elements of a Google API query
 * Down-graded R requirement to 3.3.0
 * Fix for url encoding issue [#65](https://github.com/SymbolixAU/googleway/issues/65)
 * Map Layers get `update_map_view` argument

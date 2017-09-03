@@ -33,7 +33,7 @@ geocode_coordinates(res)
 geocode_address(res)
 }
 \arguments{
-\item{res}{result from a \code{googleway} Google API query}
+\item{res}{result from a Google API query}
 
 \item{result}{the specific field of the result you want to access}
 }

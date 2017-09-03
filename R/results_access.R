@@ -53,3 +53,15 @@ getFunc <- function(res){
          "coordinates" = "geocode",
          "address" = "geocode")
 }
+
+resultJs <- function(js, jqr_string) jqr::jq(js, jqr_string)
+
+jsAccessor <- function(resType){
+  switch(resType,
+         "routes" = ".routes[]",
+         "legs" = ".routes[].legs[]",
+         "steps" = ".routes[].legs[].steps",
+         "points" = ".routes[].legs[].steps[].polyline.points",
+         "polyline" = ".routes[].overview_polyline.points",
+         "instructions" = ".routes[].legs[].steps[].html_instructions")
+}
