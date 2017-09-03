@@ -1,19 +1,55 @@
+#
+# apiKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_API_KEY")
+#
+# lst <- google_directions(origin = c(-37.8179746, 144.9668636),
+#                         destination = c(-37.81659, 144.9841),
+#                         mode = "walking",
+#                         key = apiKey,
+#                         simplify = TRUE)
+#
+# js <- google_directions(origin = c(-37.8179746, 144.9668636),
+#                          destination = c(-37.81659, 144.9841),
+#                          mode = "walking",
+#                          key = apiKey,
+#                          simplify = FALSE)
+#
+# map_url <- "https://maps.googleapis.com/maps/api/directions/json?&origin=-37.8179746,144.9668636&destination=-37.81659,144.9841&departure_time=1504215791&alternatives=false&units=metric&mode=walking&key=AIzaSyAxBffO67pqezBmgo34qr183SFx7olhwFI"
+#
+# js <- googleway:::collapseResult(js)
+# jqr::jq(googleway:::collapseResult(js), ".routes[].legs[].steps[].html_instructions")
+#
+# lst$routes$legs[[1]]$steps[[1]]$html_instructions
+#
+# jqr::jq(js, ".routes[].legs[].steps[].polyline.points")
+#
+# direction_routes(js)
+# direction_legs(js)
+# direction_points(js)
+# direction_steps(js)
+# direction_points(js)
 
-# ## Geojson
+# direction_routes(lst)
+# direction_legs(lst)
+# direction_points(lst)
+# direction_steps(lst)
+
+
+# apiKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_API_KEY")
 #
-# library(symbolix.utils)
-# m <- ConnectToMongo(db = "ABS", collection = "VIC_2016", usr = "db_user")
+# lst <- google_geocode(address = "Flinders Street Station, Melbourne",
+#                       key = apiKey)
 #
-# geo <- m$find(' { "features.properties.SA3_NAME16" : "Wodonga - Alpine"  } ', fields = '{"features" : 1, "_id" : 0}', ndjson = T)
+# js <- google_geocode(address = "Flinders Street Station, Melbourne",
+#                      key = apiKey,
+#                      simplify = FALSE)
 #
-# ## plot a feature collection of all the features
+# js2 <- googleway:::collapseResult(js)
 #
-# geo <- substr(x = geo, start = 17, nchar(geo) - 3)
-# geo <- paste0(geo, collapse = ",")
-# geo <- paste0('{ "type" : "FeatureCollection", "features" : [ ', geo, ' ] }')
+# jq(js2, ".results[].geometry.location")
 #
-# google_map(key = mapKey()) %>%
-#   add_geojson(geojson = geo)
+# lst$results$geometry$location
+
+
 
 
 
