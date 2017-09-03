@@ -39,15 +39,15 @@ routes.default <- function(js) stopMessage(js)
 #' @param res The result of a \code{google_directions} query
 #'
 #' @export
-direction_legs <- function(res) legs(routes(resultType(res)))
+direction_legs <- function(res) legs(resultType(res))
 
 legs <- function(js) UseMethod("legs")
 
 #' @export
-legs.character <- function(js) jqr::jq(js, ".legs[]")
+legs.character <- function(js) jqr::jq(js, ".routes[].legs[]")
 
 #' @export
-legs.data.frame <- function(lst) lst[['legs']]
+legs.list <- function(lst) lst[['routes']][['legs']][[1]]
 
 #' @export
 legs.default <- function(js) stopMessage(js)
@@ -58,15 +58,15 @@ legs.default <- function(js) stopMessage(js)
 #' @param res The result of a \code{google_directions} query
 #'
 #' @export
-direction_steps <- function(res) steps(legs(routes(resultType(res))))
+direction_steps <- function(res) steps(resultType(res))
 
 steps <- function(js) UseMethod("steps")
 
 #' @export
-steps.character <- function(js) jqr::jq(js, ".steps[]")
+steps.character <- function(js) jqr::jq(js, ".routes[].legs[].steps[]")
 
 #' @export
-steps.list <- function(lst) lst[[1]][['steps']]
+steps.list <- function(lst) lst[['routes']][['legs']][[1]][['steps']][[1]]
 
 #' @export
 steps.default <- function(js) stopMessage(js)
