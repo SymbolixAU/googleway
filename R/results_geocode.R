@@ -1,7 +1,4 @@
-#'  Geocode Coordinates
-#'
-#' @param res The result of a \code{google_geocode} query
-#'
+#' @describeIn access_result the coordinates from a geocode query
 #' @export
 geocode_coordinates <- function(res) coordinates(resultType(res))
 
@@ -15,9 +12,7 @@ coordinates.list <- function(lst) lst[['results']][['geometry']][['location']]
 
 coordinates.default <- function(res) stopMessage(res)
 
-#' Geocode Address
-#'
-#' @param res The result of a \code{google_geocode} query
+#' @describeIn access_result the formatted address from a geocode query
 #'
 #' @export
 geocode_address <- function(res) address(resultType(res))

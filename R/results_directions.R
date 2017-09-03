@@ -1,7 +1,7 @@
-#' Direction Instructions
-#'
-#' @param res The result of a \code{google_directions} query
-#'
+
+
+
+#' @describeIn access_result the instructions from a directions query
 #' @export
 direction_instructions <- function(res) instructions(resultType(res))
 
@@ -16,10 +16,7 @@ instructions.list <- function(lst) lst[['routes']][['legs']][[1]][['steps']][[1]
 #' @export
 instructions.default <- function(js) stopMessage(js)
 
-#' Direction Routes
-#'
-#' @param res The result of a \code{google_directions} query
-#'
+#' @describeIn access_result the routes from a directions query
 #' @export
 direction_routes <- function(res) routes(resultType(res))
 
@@ -34,10 +31,7 @@ routes.list <- function(lst) lst[['routes']]
 #' @export
 routes.default <- function(js) stopMessage(js)
 
-#' Direction Legs
-#'
-#' @param res The result of a \code{google_directions} query
-#'
+#' @describeIn access_result the legs from a directions query
 #' @export
 direction_legs <- function(res) legs(resultType(res))
 
@@ -53,10 +47,7 @@ legs.list <- function(lst) lst[['routes']][['legs']][[1]]
 legs.default <- function(js) stopMessage(js)
 
 
-#' Direction Steps
-#'
-#' @param res The result of a \code{google_directions} query
-#'
+#' @describeIn access_result the steps from a directions query
 #' @export
 direction_steps <- function(res) steps(resultType(res))
 
@@ -71,10 +62,7 @@ steps.list <- function(lst) lst[['routes']][['legs']][[1]][['steps']][[1]]
 #' @export
 steps.default <- function(js) stopMessage(js)
 
-#' Direction Points
-#'
-#' @param res The result of a \code{google_directions} query
-#'
+#' @describeIn access_result the points from a directions query
 #' @export
 direction_points <- function(res) points(resultType(res))
 
@@ -87,10 +75,7 @@ points.character <- function(js) jqr::jq(js, ".routes[].legs[].steps[].polyline.
 #' @export
 points.list <- function(lst) lst[['routes']][['legs']][[1]][['steps']][[1]][['polyline']][['points']]
 
-#' Direction Polyline
-#'
-#' @param res The result of a \code{google_directions} query
-#'
+#' @describeIn access_result the encoded polyline from a direction query
 #' @export
 direction_polyline <- function(res) polyline(resultType(res))
 
