@@ -26,10 +26,8 @@
 #'                          simplify = FALSE)
 #'
 #' access_result(js, "polyline")
-#' "zgyeFiyxsZe@_CMu@_@gBO_@OKs@sDG[q@qDeAiFAi@[mBi@sB[oB@o@DmBLeB|@kMp@{Jj@aKZsFA]Hm@Di@LwCm@{@KSDq@"
 #'
 #' direction_polyline(js)
-#' "zgyeFiyxsZe@_CMu@_@gBO_@OKs@sDG[q@qDeAiFAi@[mBi@sB[oB@o@DmBLeB|@kMp@{Jj@aKZsFA]Hm@Di@LwCm@{@KSDq@"
 #'
 #' }
 #' @export

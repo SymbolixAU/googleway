@@ -79,10 +79,8 @@ js <- google_directions(origin = c(-37.8179746, 144.9668636),
                          simplify = FALSE)
 
 access_result(js, "polyline")
-"zgyeFiyxsZe@_CMu@_@gBO_@OKs@sDG[q@qDeAiFAi@[mBi@sB[oB@o@DmBLeB|@kMp@{Jj@aKZsFA]Hm@Di@LwCm@{@KSDq@"
 
 direction_polyline(js)
-"zgyeFiyxsZe@_CMu@_@gBO_@OKs@sDG[q@qDeAiFAi@[mBi@sB[oB@o@DmBLeB|@kMp@{Jj@aKZsFA]Hm@Di@LwCm@{@KSDq@"
 
 }
 }
