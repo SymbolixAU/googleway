@@ -39,29 +39,58 @@ access_result <- function(res,
   result <- match.arg(result)
   func <- getFunc(result)
 
-  do.call(paste0(func, "_", result), list(res))
+  do.call(func, list(res))
 }
+
+
+.access_result <- function(res, accessor) UseMethod(".access_result")
+
+#' @export
+.access_result.character <- function(js, accessor) resultJs(js, jsAccessor(accessor))
+
+#' @export
+.access_result.list <- function(lst, accessor) resultLst(lst, lstAccessor(accessor))
+
+#' @export
+.access_result.default <- function(res, accessor) stopMessage(res)
+
 
 getFunc <- function(res){
   switch(res,
-         "instructions" = "direction",
-         "routes" = "direction",
-         "legs" = "direction",
-         "steps" = "direction",
-         "points" = "direction",
-         "polyline" = "direction",
-         "coordinates" = "geocode",
-         "address" = "geocode")
+         "instructions"   =  "direction_instructions",
+         "routes"         =  "direction_routes",
+         "legs"           =  "direction_legs",
+         "steps"          =  "direction_steps",
+         "points"         =  "direction_points",
+         "polyline"       =  "direction_polyline",
+         "coordinates"    =  "geocode_coordinates",
+         "address"        =  "geocode_address")
 }
 
 resultJs <- function(js, jqr_string) jqr::jq(js, jqr_string)
 
+resultLst <- function(lst, lst_string) eval(parse(text = paste0("lst", lst_string)))
+
 jsAccessor <- function(resType){
   switch(resType,
-         "routes" = ".routes[]",
-         "legs" = ".routes[].legs[]",
-         "steps" = ".routes[].legs[].steps",
-         "points" = ".routes[].legs[].steps[].polyline.points",
-         "polyline" = ".routes[].overview_polyline.points",
-         "instructions" = ".routes[].legs[].steps[].html_instructions")
+         "routes"       =  ".routes[]",
+         "legs"         =  ".routes[].legs[]",
+         "steps"        =  ".routes[].legs[].steps",
+         "points"       =  ".routes[].legs[].steps[].polyline.points",
+         "polyline"     =  ".routes[].overview_polyline.points",
+         "instructions" =  ".routes[].legs[].steps[].html_instructions",
+         "coordinates"  =  ".results[].geometry.location",
+         "address"      =  ".results[].formatted_address")
+}
+
+lstAccessor <- function(resType){
+  switch(resType,
+         "routes"       = "[['routes']]",
+         "legs"         = "[['routes']][['legs']][[1]]",
+         "steps"        = "[['routes']][['legs']][[1]][['steps']][[1]]",
+         "polints"      = "[['routes']][['legs']][[1]][['steps']][[1]][['polyline']][['points']]",
+         "polyline"     = "[['routes']][['overview_polyline']][['points']]",
+         "instructions" = "[['routes']][['legs']][[1]][['steps']][[1]][['html_instructions']]",
+         "coordinates"  = "[['results']][['geometry']][['location']]",
+         "address"      = "[['results']][['formatted_address']]")
 }
