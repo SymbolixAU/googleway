@@ -25,13 +25,17 @@
 #                      key = apiKey,
 #                      simplify = FALSE)
 #
-# js2 <- googleway:::collapseResult(js)
 #
-# jq(js2, ".results[].geometry.location")
+# js <- google_distance(origins = list(c("Melbourne Airport, Australia"),
+#                                c("MCG, Melbourne, Australia"),
+#                                c(-37.81659, 144.9841)),
+#                 destinations = c("Portsea, Melbourne, Australia"),
+#                 key = apiKey,
+#                 simplify = FALSE)
 #
-# lst$results$geometry$location
-
-# access_result(js, "routes")
-
-
-
+# lst <- google_distance(origins = list(c("Melbourne Airport, Australia"),
+#                                       c("MCG, Melbourne, Australia"),
+#                                       c(-37.81659, 144.9841)),
+#                        destinations = c("Portsea, Melbourne, Australia"),
+#                        key = apiKey,
+#                        simplify = TRUE)

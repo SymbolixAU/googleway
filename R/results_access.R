@@ -34,7 +34,7 @@
 access_result <- function(res,
                           result = c("instructions", "routes", "legs", "steps",
                                      "points", "polyline", "coordinates", "address",
-                                     "address_components", "geo_place_id")){
+                                     "address_components", "geo_place_id", "dist_origin")){
   result <- match.arg(result)
   func <- getFunc(result)
 
@@ -72,6 +72,23 @@ resultJs <- function(js, jqr_string) jqr::jq(js, jqr_string)
 
 resultLst <- function(lst, lst_string) eval(parse(text = paste0("lst", lst_string)))
 
+getFunc <- function(res){
+  switch(res,
+         "instructions"       =  "direction_instructions",
+         "routes"             =  "direction_routes",
+         "legs"               =  "direction_legs",
+         "steps"              =  "direction_steps",
+         "points"             =  "direction_points",
+         "polyline"           =  "direction_polyline",
+         "coordinates"        =  "geocode_coordinates",
+         "address"            =  "geocode_address",
+         "address_components" =  "geocode_address_components",
+         "geo_place_id"       =  "geocode_place",
+         "dist_origin"        =  "distance_origin",
+         "dist_destination"   =  "distance_destination",
+         "dist_elements"      =  "distance_elements")
+}
+
 
 jsAccessor <- function(resType){
   switch(resType,
@@ -84,31 +101,25 @@ jsAccessor <- function(resType){
          "coordinates"        =  ".results[].geometry.location",
          "address"            =  ".results[].formatted_address",
          "address_components" =  ".results[].address_components[]",
-         "geo_place_id"       =  ".results[].place_id[]")
+         "geo_place_id"       =  ".results[].place_id[]",
+         "dist_origins"       =  ".origin_addresses[]",
+         "dist_destinations"  =  ".destination_addresses[]",
+         "dist_elements"      =  ".rows[].elements[]")
 }
 
 lstAccessor <- function(resType){
   switch(resType,
-         "routes"             =  "[['routes']]",
-         "legs"               =  "[['routes']][['legs']][[1]]",
-         "steps"              =  "[['routes']][['legs']][[1]][['steps']][[1]]",
-         "polints"            =  "[['routes']][['legs']][[1]][['steps']][[1]][['polyline']][['points']]",
-         "polyline"           =  "[['routes']][['overview_polyline']][['points']]",
-         "instructions"       =  "[['routes']][['legs']][[1]][['steps']][[1]][['html_instructions']]",
-         "coordinates"        =  "[['results']][['geometry']][['location']]",
-         "address"            =  "[['results']][['formatted_address']]",
-         "address_components" =  "[['results']][['address_components']][[1]]")
-}
-
-getFunc <- function(res){
-  switch(res,
-         "instructions"       =  "direction_instructions",
-         "routes"             =  "direction_routes",
-         "legs"               =  "direction_legs",
-         "steps"              =  "direction_steps",
-         "points"             =  "direction_points",
-         "polyline"           =  "direction_polyline",
-         "coordinates"        =  "geocode_coordinates",
-         "address"            =  "geocode_address",
-         "address_components" =  "geocode_address_components")
+         "routes"             =  "[[c('routes')]]",
+         "legs"               =  "[[c('routes','legs')]][[1]]",
+         "steps"              =  "[[c('routes','legs')]][[1]][['steps']][[1]]",
+         "polints"            =  "[[c('routes','legs')]][[1]][['steps']][[1]][[c('polyline','points')]]",
+         "polyline"           =  "[[c('routes','overview_polyline','points')]]",
+         "instructions"       =  "[[c('routes','legs')]][[1]][['steps']][[1]][['html_instructions']]",
+         "coordinates"        =  "[[c('results','geometry','location')]]",
+         "address"            =  "[[c('results','formatted_address')]]",
+         "address_components" =  "[[c('results','address_components')]][[1]]",
+         "geo_place_id"       =  "[[c('results','place_id')]][[1]]",
+         "dist_origins"       =  "[['origin_addresses']]",
+         "dist_destinations"  =  "[['destination_addresses']]",
+         "dist_elements"      =  "[[c('rows', 'elements')]]")
 }
