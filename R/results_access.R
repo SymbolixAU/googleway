@@ -33,7 +33,8 @@
 #' @export
 access_result <- function(res,
                           result = c("instructions", "routes", "legs", "steps",
-                                     "points", "polyline", "coordinates", "address")){
+                                     "points", "polyline", "coordinates", "address",
+                                     "address_components", "geo_place_id")){
   result <- match.arg(result)
   func <- getFunc(result)
 
@@ -51,19 +52,9 @@ access_result <- function(res,
 #' @export
 .access_result.default <- function(res, accessor) stopMessage(res)
 
-getFunc <- function(res){
-  switch(res,
-         "instructions"   =  "direction_instructions",
-         "routes"         =  "direction_routes",
-         "legs"           =  "direction_legs",
-         "steps"          =  "direction_steps",
-         "points"         =  "direction_points",
-         "polyline"       =  "direction_polyline",
-         "coordinates"    =  "geocode_coordinates",
-         "address"        =  "geocode_address")
-}
 
 collapseResult <- function(res) paste0(res, collapse = "")
+
 
 resultType <- function(res) UseMethod("resultType")
 
@@ -81,26 +72,43 @@ resultJs <- function(js, jqr_string) jqr::jq(js, jqr_string)
 
 resultLst <- function(lst, lst_string) eval(parse(text = paste0("lst", lst_string)))
 
+
 jsAccessor <- function(resType){
   switch(resType,
-         "routes"       =  ".routes[]",
-         "legs"         =  ".routes[].legs[]",
-         "steps"        =  ".routes[].legs[].steps",
-         "points"       =  ".routes[].legs[].steps[].polyline.points",
-         "polyline"     =  ".routes[].overview_polyline.points",
-         "instructions" =  ".routes[].legs[].steps[].html_instructions",
-         "coordinates"  =  ".results[].geometry.location",
-         "address"      =  ".results[].formatted_address")
+         "routes"             =  ".routes[]",
+         "legs"               =  ".routes[].legs[]",
+         "steps"              =  ".routes[].legs[].steps",
+         "points"             =  ".routes[].legs[].steps[].polyline.points",
+         "polyline"           =  ".routes[].overview_polyline.points",
+         "instructions"       =  ".routes[].legs[].steps[].html_instructions",
+         "coordinates"        =  ".results[].geometry.location",
+         "address"            =  ".results[].formatted_address",
+         "address_components" =  ".results[].address_components[]",
+         "geo_place_id"       =  ".results[].place_id[]")
 }
 
 lstAccessor <- function(resType){
   switch(resType,
-         "routes"       = "[['routes']]",
-         "legs"         = "[['routes']][['legs']][[1]]",
-         "steps"        = "[['routes']][['legs']][[1]][['steps']][[1]]",
-         "polints"      = "[['routes']][['legs']][[1]][['steps']][[1]][['polyline']][['points']]",
-         "polyline"     = "[['routes']][['overview_polyline']][['points']]",
-         "instructions" = "[['routes']][['legs']][[1]][['steps']][[1]][['html_instructions']]",
-         "coordinates"  = "[['results']][['geometry']][['location']]",
-         "address"      = "[['results']][['formatted_address']]")
+         "routes"             =  "[['routes']]",
+         "legs"               =  "[['routes']][['legs']][[1]]",
+         "steps"              =  "[['routes']][['legs']][[1]][['steps']][[1]]",
+         "polints"            =  "[['routes']][['legs']][[1]][['steps']][[1]][['polyline']][['points']]",
+         "polyline"           =  "[['routes']][['overview_polyline']][['points']]",
+         "instructions"       =  "[['routes']][['legs']][[1]][['steps']][[1]][['html_instructions']]",
+         "coordinates"        =  "[['results']][['geometry']][['location']]",
+         "address"            =  "[['results']][['formatted_address']]",
+         "address_components" =  "[['results']][['address_components']][[1]]")
+}
+
+getFunc <- function(res){
+  switch(res,
+         "instructions"       =  "direction_instructions",
+         "routes"             =  "direction_routes",
+         "legs"               =  "direction_legs",
+         "steps"              =  "direction_steps",
+         "points"             =  "direction_points",
+         "polyline"           =  "direction_polyline",
+         "coordinates"        =  "geocode_coordinates",
+         "address"            =  "geocode_address",
+         "address_components" =  "geocode_address_components")
 }

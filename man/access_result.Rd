@@ -11,10 +11,13 @@
 \alias{direction_polyline}
 \alias{geocode_coordinates}
 \alias{geocode_address}
+\alias{geocode_address_components}
+\alias{geocode_place}
 \title{Access Result}
 \usage{
 access_result(res, result = c("instructions", "routes", "legs", "steps",
-  "points", "polyline", "coordinates", "address"))
+  "points", "polyline", "coordinates", "address", "address_components",
+  "geo_place_id"))
 
 direction_instructions(res)
 
@@ -31,6 +34,10 @@ direction_polyline(res)
 geocode_coordinates(res)
 
 geocode_address(res)
+
+geocode_address_components(res)
+
+geocode_place(res)
 }
 \arguments{
 \item{res}{result from a Google API query}
@@ -57,6 +64,10 @@ Methods for accessing specific elements of a Google API query.
 \item \code{geocode_coordinates}: the coordinates from a geocode query
 
 \item \code{geocode_address}: the formatted address from a geocode query
+
+\item \code{geocode_address_components}: the address components from a geocode query
+
+\item \code{geocode_place}: the place id from a geocode query
 }}
 
 \examples{

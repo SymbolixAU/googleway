@@ -15,25 +15,7 @@
 #
 # map_url <- "https://maps.googleapis.com/maps/api/directions/json?&origin=-37.8179746,144.9668636&destination=-37.81659,144.9841&departure_time=1504215791&alternatives=false&units=metric&mode=walking&key=AIzaSyAxBffO67pqezBmgo34qr183SFx7olhwFI"
 #
-# js <- googleway:::collapseResult(js)
-# jqr::jq(googleway:::collapseResult(js), ".routes[].legs[].steps[].html_instructions")
 #
-# lst$routes$legs[[1]]$steps[[1]]$html_instructions
-#
-# jqr::jq(js, ".routes[].legs[].steps[].polyline.points")
-#
-# direction_routes(js)
-# direction_legs(js)
-# direction_points(js)
-# direction_steps(js)
-# direction_points(js)
-
-# direction_routes(lst)
-# direction_legs(lst)
-# direction_points(lst)
-# direction_steps(lst)
-
-
 # apiKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_API_KEY")
 #
 # lst <- google_geocode(address = "Flinders Street Station, Melbourne",
@@ -49,7 +31,7 @@
 #
 # lst$results$geometry$location
 
-
+# access_result(js, "routes")
 
 
 
