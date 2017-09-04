@@ -40,7 +40,6 @@ access_result <- function(res,
   do.call(func, list(res))
 }
 
-
 .access_result <- function(res, accessor) UseMethod(".access_result")
 
 #' @export
@@ -51,7 +50,6 @@ access_result <- function(res,
 
 #' @export
 .access_result.default <- function(res, accessor) stopMessage(res)
-
 
 getFunc <- function(res){
   switch(res,
@@ -64,6 +62,20 @@ getFunc <- function(res){
          "coordinates"    =  "geocode_coordinates",
          "address"        =  "geocode_address")
 }
+
+collapseResult <- function(res) paste0(res, collapse = "")
+
+resultType <- function(res) UseMethod("resultType")
+
+#' @export
+resultType.character <- function(res) collapseResult(res)
+
+#' @export
+resultType.list <- function(res) return(res)
+
+#' @export
+resultType.default <- function(res) stopMessage(res)
+
 
 resultJs <- function(js, jqr_string) jqr::jq(js, jqr_string)
 
