@@ -21,12 +21,15 @@
 \alias{geocode_place}
 \alias{place}
 \alias{place_next_page}
+\alias{place_name}
+\alias{place_location}
+\alias{place_type}
 \title{Access Result}
 \usage{
 access_result(res, result = c("instructions", "routes", "legs", "steps",
   "points", "polyline", "coordinates", "address", "address_components",
   "geo_place_id", "dist_origin", "elevation", "elev_location", "place",
-  "next_page"))
+  "place_name", "next_page", "place_location", "place_type"))
 
 direction_instructions(res)
 
@@ -61,6 +64,12 @@ geocode_place(res)
 place(res)
 
 place_next_page(res)
+
+place_name(res)
+
+place_location(res)
+
+place_type(res)
 }
 \arguments{
 \item{res}{result from a Google API query}
@@ -105,6 +114,12 @@ Methods for accessing specific elements of a Google API query.
 \item \code{place}: the place_id from a places query
 
 \item \code{place_next_page}: the next page token from a places query
+
+\item \code{place_name}: the place name from a places query
+
+\item \code{place_location}: the location from a places query
+
+\item \code{place_type}: the type of place from a places query
 }}
 
 \examples{

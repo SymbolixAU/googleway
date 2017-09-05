@@ -10,4 +10,4 @@
 #                      key = apiKey)
 #
 # js <- google_places(search_string = "Restaurants in Melbourne, Australia",
-#                      key = apiKey)
+#                      key = apiKey, simplify = FALSE)

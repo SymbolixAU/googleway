@@ -35,7 +35,9 @@ access_result <- function(res,
                           result = c("instructions", "routes", "legs", "steps",
                                      "points", "polyline", "coordinates", "address",
                                      "address_components", "geo_place_id", "dist_origin",
-                                     "elevation", "elev_location", "place", "next_page")){
+                                     "elevation", "elev_location", "place",
+                                     "place_name", "next_page", "place_location",
+                                     "place_type")){
   result <- match.arg(result)
   func <- getFunc(result)
 
@@ -91,7 +93,10 @@ getFunc <- function(res){
          "elevation"          =  "elevation",
          "elev_location"      =  "elevation_location",
          "place"              =  "place",
-         "next_page"          =  "place_next_page")
+         "place_name"         =  "place_name",
+         "next_page"          =  "place_next_page",
+         "place_location"     =  "place_location",
+         "place_type"         =  "place_type")
 }
 
 
@@ -113,7 +118,10 @@ jsAccessor <- function(resType){
          "elevation"          =  ".results[].elevation",
          "elev_location"      =  ".results[].location",
          "place"              =  ".results[].place_id",
-         "place_next_page"    =  ".next_page_token")
+         "place_name"         =  ".results[].name",
+         "place_next_page"    =  ".next_page_token",
+         "place_location"     =  ".results[].geometry.location",
+         "place_type"         =  ".results[].types")
 }
 
 lstAccessor <- function(resType){
@@ -134,5 +142,8 @@ lstAccessor <- function(resType){
          "elevation"          =  "[[c('results','elevation')]]",
          "elev_location"      =  "[[c('results', 'location')]]",
          "place"              =  "[[c('results','place_id')]]",
-         "place_next_page"    =  "[['next_page_token']]")
+         "place_name"         =  "[[c('results', 'name')]]",
+         "place_next_page"    =  "[['next_page_token']]",
+         "place_location"     =  "[[c('results','geometry','location')]]",
+         "place_type"         =  "[[c('results','types')]]")
 }
