@@ -19,6 +19,7 @@
 \alias{geocode_address}
 \alias{geocode_address_components}
 \alias{geocode_place}
+\alias{geocode_type}
 \alias{place}
 \alias{place_next_page}
 \alias{place_name}
@@ -61,6 +62,8 @@ geocode_address(res)
 geocode_address_components(res)
 
 geocode_place(res)
+
+geocode_type(res)
 
 place(res)
 
@@ -115,6 +118,8 @@ Nearest Road Coordinates
 \item \code{geocode_address_components}: the address components from a geocode or reverse geocode query
 
 \item \code{geocode_place}: the place id from a geocode or reverse geocode query
+
+\item \code{geocode_type}: the geocoded place types from a geocode or reverse geocode query
 
 \item \code{place}: the place_id from a places query
 

@@ -24,3 +24,22 @@
 #
 
 
+# lst <- google_geocode(address = "MCG, Melbourne, Australia",
+#                       key = apiKey,
+#                       simplify = TRUE)
+#
+#
+#
+# js <- google_geocode(address = "MCG, Melbourne, Australia",
+#                       key = apiKey,
+#                       simplify = FALSE)
+#
+# geocode_type(js)
+#
+# geocode_type(lst)
+#
+#
+# lst <- google_reverse_geocode(location = c(38.36648, -76.48020), key = apiKey)
+#
+# geocode_type(lst)
+
