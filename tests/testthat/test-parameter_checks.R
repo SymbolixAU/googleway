@@ -96,6 +96,5 @@ test_that("lat & lon are found", {
   expect_equal(googleway:::find_lat_column(names(df), 'test'), list(lat = "latitude"))
   expect_equal(googleway:::find_lon_column(names(df), 'test'), list(lon = "lons"))
 
-
 })
 

@@ -326,11 +326,46 @@ add_circles <- function(map,
 
   LogicalCheck(update_map_view)
 
+  colourColumns <- c("stroke_colour", "fill_colour")
+  opacityColumns <- c("stroke_opacity", "fill_opacity")
+  weightColumns <- c("stroke_weight")
+
+
+
+  ## TODO:
+  ## if the column already contains colours (hex), keep it...
+  if(!is.null(fill_colour) & fill_colour %in% names(data)){
+
+    ## should the character (non-numeric) columns be converted to factors?
+
+    ## palette: argument into add_circles()
+    ## - a list that defines a mapping between variables and a palette function / palette of colours
+    ## - or a single function that will be usd to generate a palette
+    ## - or a mapping between a 'variable' column, and a column of 'hex' colours
+
+    Circles[, fill_colour] <- data[, fill_colour]
+    fill_palette <- generatePalette(data[, fill_colour], fill_colour, "fill_colour")
+
+    ## if a vector is returned, it means the user supplied a column
+    ## of hex colours
+    ## if a data.frame is returned, they supplied a column name giving
+    ## the variable they wanted turned into a colour
+    ##
+    ## They should also be able to supply a palette they want to use for
+    ## their colour & mapping to variables. In which case, they'll supply the
+    ## variable column, and a palette/mapping?
+
+    ## if multiple colour options are mapped to the same variable, no need
+    ## to re-run the palette generator multiple times...
+
+    ## Need a 'createPalette function, that will return the colour palette data.frame
+  }
+
   Circles[, "stroke_colour"] <- SetDefault(stroke_colour, "#FF0000", data)
   Circles[, "stroke_weight"] <- SetDefault(stroke_weight, 1, data)
   Circles[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.8, data)
   Circles[, "radius"] <- SetDefault(radius, 50, data)
-  Circles[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
+  # Circles[, "fill_colour"] <- SetDefault(fill_colour, "#FF0000", data)
   Circles[, "fill_opacity"] <- SetDefault(fill_opacity, 0.35, data)
   Circles[, "z_index"] <- SetDefault(z_index, 4, data)
   # Circles[, "mouse_over_group"] <- SetDefault(mouse_over_group, "NA", data)
@@ -353,6 +388,9 @@ add_circles <- function(map,
 
   # if(sum(is.na(Circles)) > 0)
   #   warning("There are some NAs in your data. These may affect the circles that have been plotted.")
+
+  ## palettes
+  Circles <- merge(Circles, fill_palette, by = fill_colour)
 
   Circles <- jsonlite::toJSON(Circles, digits = digits)
 
