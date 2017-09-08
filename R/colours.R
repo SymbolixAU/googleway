@@ -37,6 +37,9 @@ constructPalette <- function( lvls, colours, colName, googleAttr ){
   )
 }
 
+
+
+
 #
 # mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 #
@@ -44,6 +47,11 @@ constructPalette <- function( lvls, colours, colName, googleAttr ){
 #
 # df$group <- factor(sample(letters[1:5], size = nrow(df), replace = T))
 #
+#
 # google_map(key = mapKey) %>%
 #   add_circles(data = df, lat = "stop_lat", lon = "stop_lon",
-#               fill_colour = "stop_name", stroke_weight = 1)
+#               fill_colour = "group", stroke_weight = 0, fill_opacity = 0.8)
+#
+# google_map(key = mapKey) %>%
+#   add_circles(data = df, lat = "stop_lat", lon = "stop_lon",
+#               fill_colour = "stop_name", stroke_weight = 0, fill_opacity = 0.8)
