@@ -93,10 +93,43 @@
 #
 # googleway:::add_shape(df, id = "id", stroke_colour = "colour")
 # googleway:::add_shape(df, id = "id", stroke_colour = "strings")
+# googleway:::add_shape(df, id = "id", stroke_colour = "id")
+
+# mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#
+# google_map(key = mapKey) %>%
+#   googleway:::add_shape(data = tram_stops, id = "stop_id",
+#                         lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_name")
+
+
 #
 #
 # googleway:::add_shape(tram_stops, lat = "stop_lat", lon = "stop_lon",
 #                       stroke_colour = "stop_name", fill_colour = "stop_name")
+
+
+
+# numericColours <- c(1, 2, 3.3, 3.333, 500, 2000)
+#
+# rank(numericColours)
+#
+# map2color <- function(x,pal,limits=NULL){
+#   if(is.null(limits))
+#     limits=range(x)
+#
+#   s <- seq(limits[1],limits[2], length.out = length(pal)+1)
+#   f <- findInterval(x, s, all.inside=TRUE)
+#   pal[f]
+# }
+#
+# rng <- range(numericColours)
+# s <- seq(rng[1], rng[2], length.out = 5 + 1)
+# f <- findInterval(numericColours, s, all.inside = T)
+# viridisLite::viridis(length(numericColours))[f]
+#
+#
+# map2color(numericColours, viridisLite::viridis(length(numericColours)))
+
 
 
 

@@ -4,7 +4,8 @@
 ## i.e., don't rely on keeping the order of the data in the SetDefault function
 
 
-add_shape <- function(data = get_map_data(map),
+add_shape <- function(map,
+                      data = get_map_data(map),
                         id = NULL,
                         lat = NULL,
                         lon = NULL,
@@ -23,7 +24,11 @@ add_shape <- function(data = get_map_data(map),
                         z_index = NULL,
                         digits = 4){
 
+  layer_id <- LayerId(layer_id)
   objArgs <- match.call(expand.dots = F)
+
+  ## correct lon to lng
+  names(objArgs)[which(names(objArgs) == "lon")] <- "lng"
 
   if(is.null(lat)){
     lat <- find_lat_column(names(data), "add_circles", TRUE)
@@ -32,12 +37,15 @@ add_shape <- function(data = get_map_data(map),
 
   if(is.null(lon)){
     lon <- find_lon_column(names(data), "add_circles", TRUE)
-    objArgs[['lon']] <- lon
+    objArgs[['lng']] <- lon
   }
 
-  allCols <- c('id', 'lat', 'lon', 'radius', 'draggable', 'stroke_colour', 'stroke_opacity',
-               'stroke_weight', 'fill_colour', 'fill_opacity', 'mouse_over', 'mouse_over_group',
-               'info_window')
+  allCols <- c('id', 'lat', 'lng', 'radius', 'draggable', 'stroke_colour',
+               'stroke_opacity', 'stroke_weight', 'fill_colour', 'fill_opacity',
+               'mouse_over', 'mouse_over_group', 'info_window')
+
+  requiredCols <- c("stroke_colour", "stroke_weight", "stroke_opacity", "radius",
+                    "fill_opacity", "fill_colour", "z_index")
 
   colourAttributes <- c("stroke_colour", "fill_colour")
 
@@ -61,9 +69,6 @@ add_shape <- function(data = get_map_data(map),
     )
   })
 
-  print("-- colour palettes --")
-  print(colour_palettes)
-
   colours <- lapply(colour_palettes, function(x){
     pal <- x[['palette']]
     vars <- x[['variables']]
@@ -73,29 +78,61 @@ add_shape <- function(data = get_map_data(map),
     })
   })
 
-  print("-- colours --")
-  print(colours)
-
   if(length(colours) > 0){
     colourNames <- dimnames(colours[[1]])[[2]]
     shape[, c(colourNames)] <- colours[[1]][, colourNames]
   }
 
-  return(shape)
+  requiredDefaults <- setdiff(requiredCols, names(shape))
+  # print(requiredDefaults)
+  shape$stroke_colour <- shape$fill_colour
+  shape$stroke_weight <- 0
+  shape$stroke_opacity <- 0.5
+  shape$radius <- 100
+  shape$fill_opacity <- 0.5
+  shape$z_index <- 1
+
+  shape <- jsonlite::toJSON(shape, digits = digits)
+
+  invoke_method(map, data, 'add_circles', shape, update_map_view, layer_id)
+
+  # return(shape)
+
 }
 
 createMapObject <- function(data, cols, objArgs){
 
+  types <- sapply(objArgs, class)
+  # print(which(types == "character"))
   argsIdx <- match(cols, names(objArgs))
+  argsIdx <- intersect(which(types == "character"), argsIdx)
+
+  # print(argsIdx[!is.na(argsIdx)])
+
   argNames <- names(objArgs)[argsIdx]
   argNames <- argNames[!is.na(argNames)]
-  dataCols <- vapply(argsIdx[!is.na(argsIdx)], function(x) objArgs[[x]], "")
-  return(setNames(data[, dataCols, drop = F], argNames))
+  print(argNames)
 
+  # dataCols <- vapply(argsIdx[!is.na(argsIdx)], function(x) objArgs[[x]], "")
+  dataCols <- vapply(which(types == "character"), function(x) objArgs[[x]], "")
+  return(setNames(data[, dataCols, drop = F], argNames))
 }
 
 
 generatePalette <- function(colData) UseMethod("generatePalette")
+
+
+#' @export
+generatePalette.numeric <- function(colData){
+
+  vals <- unique(colData)
+  rng = range(vals)
+  s <- seq(rng[1], rng[2], length.out = length(vals) + 1)
+  f <- findInterval(vals, s, all.inside = T)
+  colours <- viridisLite::viridis(length(vals))[f]
+
+  constructPalette(vals, colours)
+}
 
 #' @export
 generatePalette.factor <- function(colData){
@@ -104,7 +141,7 @@ generatePalette.factor <- function(colData){
   palFunc <- viridisLite::viridis
   colours <- do.call(palFunc, list(nlevels(colData)))
 
-  constructPaletteDiscrete(facLvls, colours)
+  constructPalette(facLvls, colours)
 }
 
 #' @export
@@ -114,27 +151,16 @@ generatePalette.character <- function(colData ){
   palFunc <- viridisLite::viridis
   colours <- do.call(palFunc, list(length(charLvls)))
 
-  constructPaletteDiscrete(charLvls, colours)
+  constructPalette(charLvls, colours)
 }
 
 #' @export
 generatePalette.default <- function(col) stop("I can't determine the colour for ", class(col), " columns.")
 
 
-constructPaletteDiscrete <- function(lvls, colours){
+constructPalette <- function(lvls, colours){
   setNames(
     data.frame(colName = lvls, colour = colours, stringsAsFactors = F),
     c("variable", "colour")
   )
 }
-
-
-# mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
-#
-# df <- tram_stops
-#
-# df$group <- factor(sample(letters[1:5], size = nrow(df), replace = T))
-#
-# google_map(key = mapKey) %>%
-#   add_circles(data = df, lat = "stop_lat", lon = "stop_lon",
-#               fill_colour = "stop_name", stroke_weight = 0)
