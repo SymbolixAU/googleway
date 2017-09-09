@@ -309,6 +309,29 @@ add_circles <- function(map,
                         z_index = NULL,
                         digits = 4){
 
+  objArgs <- match.call(expand.dots = F)
+
+  ## if the user hasn't supplied lat & lon, test so see if they exist
+  ## if they don't exist, stop.
+
+
+  allCols <- c('id', 'lat', 'lon', 'radius', 'draggable', 'stroke_colour', 'stroke_opacity',
+               'stroke_weight', 'fill_colour', 'fill_opacity', 'mouse_over', 'mouse_over_group',
+               'info_window')
+
+  attrCols <- c("stroke_colour", "stroke_weight", "stroke_opacity",
+                "fill_colour", "fill_opacity", "radius", "z_index")
+
+  # availableCols <- unique(c(id, lat, lon, radius, draggable, stroke_colour, stroke_opacity,
+  #                stroke_weight, fill_colour, fill_opacity, mouse_over, mouse_over_group,
+  #                info_window))
+
+
+
+  shapeObj <- createMapObject(data, allCols, objArgs)
+
+
+
   if(is.null(lat)){
     data <- latitude_column(data, lat, 'add_circles')
     lat <- "lat"
@@ -326,10 +349,18 @@ add_circles <- function(map,
 
   LogicalCheck(update_map_view)
 
-  colourColumns <- c("stroke_colour", "fill_colour")
+  colourColumns <- c("stroke_colour" = stroke_colour, "fill_colour" = fill_colour)
   opacityColumns <- c("stroke_opacity", "fill_opacity")
   weightColumns <- c("stroke_weight")
 
+  palettes <- unique(colourColumns)
+
+  colour_palettes <- lapply(palettes, function(x){
+    list(
+      variables = colourColumns[colourColumns == x],
+      palette = googleway:::generatePalette(data[, x])
+      )
+  })
 
 
   ## TODO:
@@ -344,7 +375,7 @@ add_circles <- function(map,
     ## - or a mapping between a 'variable' column, and a column of 'hex' colours
 
     Circles[, fill_colour] <- data[, fill_colour]
-    fill_palette <- generatePalette(data[, fill_colour], fill_colour, "fill_colour")
+    # fill_palette <- generatePalette(data[, fill_colour], fill_colour, "fill_colour")
 
     ## if a vector is returned, it means the user supplied a column
     ## of hex colours
@@ -390,6 +421,21 @@ add_circles <- function(map,
   #   warning("There are some NAs in your data. These may affect the circles that have been plotted.")
 
   ## palettes
+  lapply(colour_palettes, function(x){
+    pal <- x[['palette']]
+
+    Circles
+
+    # vars <- x[['variables']]
+    ## if variables are the same, we can just copy the colour column?
+    ## or do I pass it into the js functions?
+    # lapply(x[['variables']], function(y){
+    #    merge(Circles, pal, by.x = y, by.y = "variable")
+    # })
+  })
+
+
+
   Circles <- merge(Circles, fill_palette, by = fill_colour)
 
   Circles <- jsonlite::toJSON(Circles, digits = digits)

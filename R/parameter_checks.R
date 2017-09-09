@@ -50,7 +50,16 @@ check_hex_colours <- function(df, cols){
   }
 }
 
-isHexColour <- function(cols) all(grepl("^#(?:[0-9a-fA-F]{3}){1,2}$", cols))
+isHexColour <- function(cols){
+  hexPattern <- "^#(?:[0-9a-fA-F]{3}){1,2}$|^#(?:[0-9a-fA-F]{4}){1,2}$"
+  all(grepl(hexPattern, cols))
+}
+
+hexType <- function(cols){
+  rgb <- "^#(?:[0-9a-fA-F]{3}){1,2}$"
+  rgba <- "^#(?:[0-9a-fA-F]{4}){1,2}$"
+}
+
 
 # Check opacities
 #
@@ -132,18 +141,16 @@ find_lat_column = function(names, calling_function, stopOnFailure = TRUE) {
   lats = names[grep("^(lat|lats|latitude|latitudes)$", names, ignore.case = TRUE)]
 
   if (length(lats) == 1) {
-    # if (length(names) > 1) {
-    #   message("Assuming '", lats, " is the latitude column")
-    # }
-    ## passes
-    return(list(lat = lats))
+    # return(list(lat = lats))
+    return(lats)
   }
 
   if (stopOnFailure) {
     stop(paste0("Couldn't infer latitude column for ", calling_function))
   }
 
-  list(lat = NA)
+  return(NA)
+  # list(lat = NA)
 }
 
 # Find Lon Column
@@ -157,17 +164,15 @@ find_lon_column = function(names, calling_function, stopOnFailure = TRUE) {
   lons = names[grep("^(lon|lons|lng|lngs|long|longs|longitude|longitudes)$", names, ignore.case = TRUE)]
 
   if (length(lons) == 1) {
-    # if (length(names) > 1) {
-    #   message("Assuming '", lons, " is the longitude column")
-    # }
-    ## passes
-    return(list(lon = lons))
+    # return(list(lon = lons))
+    return(lons)
   }
 
   if (stopOnFailure) {
     stop(paste0("Couldn't infer longitude columns for ", calling_function))
   }
 
-  list(lon = NA)
+  #list(lon = NA)
+  return(NA)
 }
 
