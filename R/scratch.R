@@ -115,125 +115,48 @@
 #                         fill_colour = "stop_name", mouse_over_group = "stop_name")
 #
 # google_map(key = mapKey) %>%
-#   googleway:::add_polygon2(data = melbourne, id = "polygonId", fill_colour = "SA2_NAME",
+#   googleway:::add_polygon2(data = melbourne,  fill_colour = "SA2_NAME",
 #                            stroke_colour = "SA2_NAME", fill_opacity = 0.8, mouse_over_group = "SA3_NAME",
-#                            pathId = "pathId", polyline = "polyline")
+#                            polyline = "polyline")
+#
+#
+#
+#
 
-
+# pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
+#                       lon = c(-80.190, -66.118, -64.757))
 #
-# objArgs <- quote(googleway:::add_shape(map = ., data = df[1:10, ], id = "stop_id",stroke_colour = "#FF00FF",
-#                                        lat = "stop_lat", lon = "stop_lon", radius = 200,
-#                                        fill_colour = "rand", mouse_over_group = "stop_name"))
+# pl_inner <- encode_pl(lat = c(28.745, 29.570, 27.339),
+#                       lon = c(-70.579, -67.514, -66.668))
 #
-# objArgs <- googleway:::latLonCheck(objArgs, "stop_lat", "stop_lon", names(df), "add_circles")
-# names(objArgs)
+# df <- data.frame(id = c(1, 1),
+#                  polyline = c(pl_outer, pl_inner),
+#                  stringsAsFactors = FALSE)
 #
-# allCols <- c('id', 'lat', 'lng', 'radius', 'draggable', 'stroke_colour',
-#              'stroke_opacity', 'stroke_weight', 'fill_colour', 'fill_opacity',
-#              'mouse_over', 'mouse_over_group', 'info_window')
+# df <- aggregate(polyline ~ id, data = df, list)
 #
-# requiredCols <- c("stroke_colour", "stroke_weight", "stroke_opacity", "radius",
-#                   "fill_opacity", "fill_colour", "z_index")
-#
-#
-# shape <- googleway:::createMapObject(df, allCols, objArgs)
-# head(df)
-# head(shape)
-#
-# colourColumns <- c("stroke_colour" = NULL,
-#                    "fill_colour" = "rand")
+# google_map(key = mapKey, height = 800) %>%
+#   googleway:::add_polygon2(data = df, polyline = "polyline")
 #
 #
-# print(" -- palettes --")
-# palettes <- googleway:::createPalettes(shape, colourColumns)
-# print(palettes)
+# df <- data.frame(id = c(1,1),
+#                  polyline = c(pl_outer, pl_inner),
+#                  stringsAsFactors = FALSE)
 #
-# print(" -- colour palettes -- ")
-# colour_palettes <- googleway:::createColourPalettes(df, palettes, colourColumns)
-# print(colour_palettes)
-#
-#
-# print(" -- colours -- ")
-# colours <- googleway:::createColours(shape, colour_palettes)
-# colours
-# head(shape, 10)
+# google_map(key = mapKey, height = 800) %>%
+#   googleway:::add_polygon2(data = df, polyline = "polyline", id = "id",
+#                            fill_colour = "id")
 #
 #
-# if(length(colours) > 0){
 #
-#   eachColour <- sapply(colours, `[`)[, 1]
+# df <- data.frame(myId = c(1,1,1,1,1,1,2,2,2),
+#                  lineId = c(1,1,1,2,2,2,1,1,1),
+#                  lat = c(26.774, 18.466, 32.321, 28.745, 29.570, 27.339, 22, 23, 22),
+#                  lon = c(-80.190, -66.118, -64.757, -70.579, -67.514, -66.668, -50, -49, -51),
+#                  stringsAsFactors = FALSE)
 #
-#   #colourNames <- sapply(colours, function(x) dimnames(x)[[2]])=
-#   colourNames <- names(colours)
-#   # colourNames <- dimnames(colours[[1]])[[2]]
-#   # shape[, c(colourNames)] <- colours[[1]][, colourNames]
-#   shape[, c(colourNames)] <- eachColour
-# }
-#
-# requiredDefaults <- setdiff(requiredCols, names(shape))
-# if(length(requiredDefaults) > 0){
-#
-#   defaults <- googleway:::circleDefaults(nrow(shape))
-#
-#   shape <- cbind(shape, defaults[, requiredDefaults])
-# }
-#
-# shape <- jsonlite::toJSON(shape, digits = 7, auto_unbox = T)
-
-
-# colourColumns <- structure(c("stop_name", "rand"), .Names = c("stroke_colour",
-#                                                               "fill_colour"))
-#
-# palette <- googleway:::createPalettes(shape,colourColumns)
-# colour_palettes <- googleway:::createColourPalettes(df, palette, colourColumns)
-# googleway:::createColours(shape, colour_palettes)
-#
-# lapply(colour_palettes, function(x){
-#   pal <- x[['palette']]
-#   vars <- x[['variables']]
-#
-#   sapply(attr(vars, 'names'), function(y) {
-#     pal[['colour']][ match(shape[[y]], pal[['variable']]) ]
-#   })
-# })
-
-# DOESNT WORK: fill_colour only
 # google_map(key = mapKey) %>%
-#   googleway:::add_shape(data = df[1:10,], id = "stop_id",
-#                         lat = "stop_lat", lon = "stop_lon", radius = 200,
-#                         fill_colour = "rand", mouse_over_group = "stop_name")
-#
-
-# shape <- structure(list(id = c("17880", "17892", "17893", "18010", "18011",
-# "18030"), lat = c(-37.809, -37.8094, -37.8083, -37.8076, -37.8081,
-# -37.8095), lng = c(144.9731, 144.9729, 144.9731, 144.9709, 144.969,
-# 144.9641), fill_colour = c(0.445825678928034, 0.942978152937198,
-# 0.212424769105635, 0.0215267032474942, 0.586218127322045, -0.848655484877649
-# ), mouse_over_group = c("10-Albert St/Nicholson St (Fitzroy)",
-# "10-Albert St/Nicholson St (East Melbourne)", "11-Victoria Pde/Nicholson St (East Melbourne)",
-# "9-La Trobe St/Victoria St (Melbourne City)", "8-Exhibition St/La Trobe St (Melbourne City)",
-# "6-Swanston St/La Trobe St (Melbourne City)"), radius = c(200,
-# 200, 200, 200, 200, 200)), .Names = c("id", "lat", "lng", "fill_colour",
-# "mouse_over_group", "radius"), row.names = c(NA, 6L), class = "data.frame")
-#
-# colourColumns <- structure("rand", .Names = "fill_colour")
-#
-# palette <- googleway:::createPalettes(shape,colourColumns)
-# googleway:::createColourPalettes(df, palette, colourColumns)
-#
-
-# DOESNT WORK: stroke_colour only
-# google_map(key = mapKey) %>%
-#   googleway:::add_shape(data = df[1:10,], id = "stop_id", stroke_colour = "stop_name",
-#                         lat = "stop_lat", lon = "stop_lon", radius = 200,
-#                         mouse_over_group = "stop_name")
-
-# DOESNT WORK: the same colour values
-# google_map(key = mapKey) %>%
-#   googleway:::add_shape(data = df[1:10,], id = "stop_id", stroke_colour = "rand",
-#                         lat = "stop_lat", lon = "stop_lon", radius = 200,
-#                         fill_colour = "rand", mouse_over_group = "stop_name")
-
-
+#   googleway:::add_polygon2(data = df, lat = 'lat', lon = 'lon', id = 'myId',
+#                            pathId = 'lineId', fill_colour = "myId")
 
 

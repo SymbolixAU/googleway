@@ -100,10 +100,26 @@ add_polygon2 <- function(map,
   ## - parameter checks
   ## - holes must be wound in the opposite direction
 
-  layer_id <- LayerId(layer_id)
   objArgs <- match.call(expand.dots = F)
 
-  # objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_circles")
+
+  if(is.null(polyline) & (is.null(lat) | is.null(lon)))
+    stop("please supply the either the column containing the polylines, or the lat/lon coordinate columns")
+
+  if(!is.null(polyline) & (!is.null(lat) | !is.null(lon)))
+    stop("please use either a polyline colulmn, or lat/lon coordinate columns, not both")
+
+  if(!inherits(data, "data.frame"))
+    stop("Currently only data.frames are supported")
+
+  if(!is.null(polyline)){
+    usePolyline <- TRUE
+  }else{
+    usePolyline <- FALSE
+    objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_polygons")
+  }
+
+  layer_id <- LayerId(layer_id)
 
   allCols <- c('polyline', 'id', 'lat', 'lng', 'pathId', 'draggable', 'editable', 'stroke_colour',
                'stroke_opacity', 'stroke_weight', 'fill_colour', 'fill_opacity',
@@ -140,12 +156,35 @@ add_polygon2 <- function(map,
     shape <- cbind(shape, defaults[, requiredDefaults])
   }
 
-  f <- paste0(polyline, " ~ " , paste0(setdiff(names(shape), polyline), collapse = "+") )
-  shape <- stats::aggregate(stats::formula(f), data = shape, list)
+  ## TODO:
+  ## list columns
+  ## lat-lon values
+  ## (same os add_polygons)
+  print(str(shape))
+  if(usePolyline){
 
-  shape <- jsonlite::toJSON(shape, digits = digits)
+    if(!is.list(shape[, polyline])){
 
-  usePolyline <- TRUE
+      print(" -- not a list -- ")
+
+      f <- paste0(polyline, " ~ " , paste0(setdiff(names(shape), polyline), collapse = "+") )
+      shape <- stats::aggregate(stats::formula(f), data = shape, list)
+
+    }
+    shape <- jsonlite::toJSON(shape, digits = digits)
+  }else{
+
+    head(shape)
+    ids <- unique(shape[, 'id'])
+    print(ids)
+    n <- names(shape)[names(shape) %in% objectColumns("polygonCoords")]
+    print(n)
+    keep <- setdiff(n, c("id", "pathId", "lat", "lng"))
+
+    lst_polygon <- objPolygonCoords(shape, ids, keep)
+
+    shape <- jsonlite::toJSON(lst_polygon, digits = digits, auto_unbox = T)
+  }
 
   invoke_method(map, data, 'add_polygons', shape, update_map_view, layer_id, usePolyline)
 }
