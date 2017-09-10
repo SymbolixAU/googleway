@@ -72,7 +72,7 @@ createColourPalettes <- function(data, palettes, colourColumns, palette){
 
 # Create Colours
 #
-# creates columns of colours to map onto the shape object
+# creates columns of colours to map (replace) onto the shape object
 #
 # @param shape map shape object
 # @param colour_palettes lsit of colour palettes
@@ -82,12 +82,35 @@ createColours <- function(shape, colour_palettes){
     pal <- x[['palette']]
     vars <- x[['variables']]
 
-    l <- lapply(attr(vars, 'names'), function(y) {
-      pal[['colour']][ match(shape[[y]], pal[['variable']]) ]
+    s <- sapply(attr(vars, 'names'), function(y) {
+      pal[['colour']][ match(shape[[y]], pal[['variable']])]
     })
-    #unlist(l)
-    names(l) <- attr(vars, 'names')
-    l
+
+    s
+
+
+    # myVar <- unique(vars)
+    # if(length(myVar) != 1) stop("error mapping colour to variable")
+    #
+    # myColours <- pal[['colour']][ match(shape[[myVar]], pal[['variable']])]
+    #
+    # ## create a data.frame with the same number of columns as there are vars
+    # m <- matrix(myColours, nrow = length(myColours), ncol = length(names(vars)))
+    #
+    # colnames(m) <- attr(vars, 'names')
+    # m
+
+    # l <- lapply(attr(vars, 'names'), function(y) {
+    #   pal[['colour']][ match(shape[[y]], pal[['variable']]) ]
+    # })
+    #
+    # t(l)
+    # #unlist(l)
+    # names(l) <- attr(vars, 'names')
+    # l
+    ## collapse nested list into one list element
+
+    #names(myColours) <- attr(vars ,'names')
   })
 
   lst

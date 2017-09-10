@@ -269,8 +269,20 @@ setupColours <- function(data, shape, colourColumns, palette){
 
 replaceVariableColours <- function(shape, colours){
 
-  eachColour <- sapply(colours, `[`)
-  colourNames <- sapply(colours, names)
+  ## each 'row' of colours should be the same length
+  ## because they have been created / mapped already to the variables in shape
+  ## so can I unlist/rbind/cbind them in some way...
+
+  eachColour <- do.call(cbind, colours)
+  colourNames <- colnames(eachColour)
+
+  # ## need to generate a named list for each colour
+  # ## test_that("replace Variable colours extracts correct names", {
+  # eachColour <- sapply(colours, `[`)
+  #
+  # ## the names are in the list elements called 'variables'
+  # colourNames <- sapply(colours, names)
+
   shape[, c(unname(colourNames))] <- eachColour
   return(shape)
 

@@ -51,6 +51,76 @@ test_that("columns of colours are correctly mapped to shape object", {
 
 
 
+test_that("replace Variable colours extracts correct names", {
+
+  ## one variable used once
+  dat <- data.frame(id = c(rep(1,3), rep(2, 2)),
+                    val = letters[1:5],
+                    val2 = letters[11:15],
+                    stringsAsFactors = F)
+
+  allCols <- c("id", "val", "val2")
+  objArgs <- quote(add_polygons(id = "id", stroke_colour = "id", fill_colour = NULL))
+  shape <- googleway:::createMapObject(dat, allCols, objArgs)
+
+  colourColumns <- c("stroke_colour" = 'id', "fill_colour" = NULL)
+  pal <- googleway:::createPalettes(shape, colourColumns)
+  colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, viridisLite::viridis)
+
+  expectedColours <- googleway:::removeAlpha(viridisLite::viridis(2))
+  colours <- googleway:::createColours(shape, colour_palettes)
+
+  expect_true(sum(sapply(colours, names) == "stroke_colour") == 1)
+
+
+  googleway:::replaceVariableColours(shape, colours)
+
+
+
+  ## one variable used twice
+  dat <- data.frame(id = c(rep(1,3), rep(2, 2)),
+                    val = letters[1:5],
+                    val2 = letters[11:15],
+                    stringsAsFactors = F)
+
+  allCols <- c("id", "val", "val2")
+  objArgs <- quote(add_polygons(id = "id", stroke_colour = "id", fill_colour = "id"))
+  shape <- googleway:::createMapObject(dat, allCols, objArgs)
+
+  colourColumns <- c("stroke_colour" = 'id', "fill_colour" = "id")
+  pal <- googleway:::createPalettes(shape, colourColumns)
+  colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, viridisLite::viridis)
+
+  expectedColours <- googleway:::removeAlpha(viridisLite::viridis(2))
+  colours <- googleway:::createColours(shape, colour_palettes)
+
+
+  googleway:::replaceVariableColours(shape, colours)
+
+
+  ## two variables used once each
+  dat <- data.frame(id = c(rep(1,3), rep(2, 2)),
+                    val = letters[1:5],
+                    val2 = letters[11:15],
+                    stringsAsFactors = F)
+
+  allCols <- c("id", "val", "val2")
+  objArgs <- quote(add_polygons(id = "id", stroke_colour = "id", fill_colour = "val"))
+  shape <- googleway:::createMapObject(dat, allCols, objArgs)
+
+  colourColumns <- c("stroke_colour" = 'id', "fill_colour" = "val")
+  pal <- googleway:::createPalettes(shape, colourColumns)
+  colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, viridisLite::viridis)
+
+  expectedColours <- googleway:::removeAlpha(viridisLite::viridis(2))
+  colours <- googleway:::createColours(shape, colour_palettes)
+
+  googleway:::replaceVariableColours(shape, colours)
+
+
+})
+
+
 test_that("colour palette names created", {
 
   ## don't create palettes if the column is a hex colour

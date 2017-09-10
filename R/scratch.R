@@ -110,19 +110,16 @@
 # df$rand <- rnorm(nrow(df))
 # google_map(key = mapKey) %>%
 #   googleway:::add_circle2(data = df[1:10,], id = "stop_id",
-#                         lat = "stop_lat", lon = "stop_lon", radius = 200, stroke_colour = "rand",
+#                         lat = "stop_lat", lon = "stop_lon", radius = 200,
 #                         fill_colour = "stop_name", mouse_over_group = "stop_name")
-
+#
 # google_map(key = mapKey) %>%
-#   googleway:::add_polygon2(data = melbourne,  fill_colour = "SA2_NAME",
-#                            fill_opacity = 0.8, mouse_over_group = "SA3_NAME",
+#   googleway:::add_polygon2(data = melbourne, fill_colour = "SA2_NAME",
+#                            fill_opacity = 0.8, mouse_over_group = "SA2_NAME",
 #                            polyline = "polyline", palette = viridisLite::inferno)
 #
-#
-#
-#
-
-# objArgs <- quote(googleway:::add_polygon2(data = melbourne,  fill_colour = "SA2_NAME", stroke_colour = "SA2_NAME",
+# objArgs <- quote(googleway:::add_polygon2(data = melbourne,  fill_colour = "SA2_NAME",
+#                                           stroke_colour = "SA3_NAME",
 #                                             fill_opacity = 0.8, mouse_over_group = "SA3_NAME",
 #                                             polyline = "polyline", palette = viridisLite::inferno))
 #
