@@ -4,25 +4,25 @@
 ## i.e., don't rely on keeping the order of the data in the SetDefault function
 
 
-add_shape <- function(map,
+add_circle2 <- function(map,
                       data = get_map_data(map),
-                        id = NULL,
-                        lat = NULL,
-                        lon = NULL,
-                        radius = NULL,
-                        draggable = NULL,
-                        stroke_colour = NULL,
-                        stroke_opacity = NULL,
-                        stroke_weight = NULL,
-                        fill_colour = NULL,
-                        fill_opacity = NULL,
-                        mouse_over = NULL,
-                        mouse_over_group = NULL,
-                        info_window = NULL,
-                        layer_id = NULL,
-                        update_map_view = TRUE,
-                        z_index = NULL,
-                        digits = 4){
+                      id = NULL,
+                      lat = NULL,
+                      lon = NULL,
+                      radius = NULL,
+                      draggable = NULL,
+                      stroke_colour = NULL,
+                      stroke_opacity = NULL,
+                      stroke_weight = NULL,
+                      fill_colour = NULL,
+                      fill_opacity = NULL,
+                      mouse_over = NULL,
+                      mouse_over_group = NULL,
+                      info_window = NULL,
+                      layer_id = NULL,
+                      update_map_view = TRUE,
+                      z_index = NULL,
+                      digits = 4){
 
   ## TODO:
   ## parameter checks
@@ -72,6 +72,86 @@ add_shape <- function(map,
   invoke_method(map, data, 'add_circles', shape, update_map_view, layer_id)
 }
 
+
+
+add_polygon2 <- function(map,
+                         data = get_map_data(map),
+                         polyline = NULL,
+                         lat = NULL,
+                         lon = NULL,
+                         id = NULL,
+                         pathId = NULL,
+                         stroke_colour = NULL,
+                         stroke_weight = NULL,
+                         stroke_opacity = NULL,
+                         fill_colour = NULL,
+                         fill_opacity = NULL,
+                         info_window = NULL,
+                         mouse_over = NULL,
+                         mouse_over_group = NULL,
+                         draggable = NULL,
+                         editable = NULL,
+                         update_map_view = TRUE,
+                         layer_id = NULL,
+                         z_index = NULL,
+                         digits = 4){
+
+  ## TODO:
+  ## - parameter checks
+  ## - holes must be wound in the opposite direction
+
+  layer_id <- LayerId(layer_id)
+  objArgs <- match.call(expand.dots = F)
+
+  # objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_circles")
+
+  allCols <- c('polyline', 'id', 'lat', 'lng', 'pathId', 'draggable', 'editable', 'stroke_colour',
+               'stroke_opacity', 'stroke_weight', 'fill_colour', 'fill_opacity',
+               'mouse_over', 'mouse_over_group', 'info_window')
+
+  requiredCols <- c("stroke_colour", "stroke_weight", "stroke_opacity",
+                    "fill_opacity", "fill_colour", "z_index")
+
+
+  shape <- createMapObject(data, allCols, objArgs)
+
+  ## for the colour columns, if they exist in the 'shape':
+  ## -- if they are a hex colour, do nothing
+  ## -- else, create a palette for that column
+  ## --- if multiple colour columns share the same variable, only need one palette
+  colourColumns <- c("stroke_colour" = stroke_colour,
+                     "fill_colour" = fill_colour)
+
+  palettes <- createPalettes(shape, colourColumns)
+  colour_palettes <- createColourPalettes(data, palettes, colourColumns)
+  colours <- createColours(shape, colour_palettes)
+
+  if(length(colours) > 0){
+
+    eachColour <- sapply(colours, `[`)[, 1]
+    colourNames <- names(colours)
+    shape[, c(unname(colourNames))] <- eachColour
+  }
+
+  requiredDefaults <- setdiff(requiredCols, names(shape))
+  if(length(requiredDefaults) > 0){
+    defaults <- polygonDefaults(nrow(shape))
+
+    shape <- cbind(shape, defaults[, requiredDefaults])
+  }
+
+  f <- paste0(polyline, " ~ " , paste0(setdiff(names(shape), polyline), collapse = "+") )
+  shape <- stats::aggregate(stats::formula(f), data = shape, list)
+
+  shape <- jsonlite::toJSON(shape, digits = digits)
+
+  usePolyline <- TRUE
+
+  invoke_method(map, data, 'add_polygons', shape, update_map_view, layer_id, usePolyline)
+}
+
+
+
 createColours <- function(shape, colour_palettes){
 
   lst <- lapply(colour_palettes, function(x){
@@ -83,7 +163,6 @@ createColours <- function(shape, colour_palettes){
     })
     unlist(l)
   })
-
 }
 
 createColourPalettes <- function(data, palettes, colourColumns){

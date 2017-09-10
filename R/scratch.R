@@ -110,9 +110,16 @@
 # df <- tram_stops
 # df$rand <- rnorm(nrow(df))
 # google_map(key = mapKey) %>%
-#   googleway:::add_shape(data = df[1:10,], id = "stop_id",
+#   googleway:::add_circle2(data = df[1:10,], id = "stop_id",
 #                         lat = "stop_lat", lon = "stop_lon", radius = 200,
 #                         fill_colour = "stop_name", mouse_over_group = "stop_name")
+#
+# google_map(key = mapKey) %>%
+#   googleway:::add_polygon2(data = melbourne, id = "polygonId", fill_colour = "SA2_NAME",
+#                            stroke_colour = "SA2_NAME", fill_opacity = 0.8, mouse_over_group = "SA3_NAME",
+#                            pathId = "pathId", polyline = "polyline")
+
+
 #
 # objArgs <- quote(googleway:::add_shape(map = ., data = df[1:10, ], id = "stop_id",stroke_colour = "#FF00FF",
 #                                        lat = "stop_lat", lon = "stop_lon", radius = 200,
