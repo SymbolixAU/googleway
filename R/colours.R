@@ -1,4 +1,11 @@
 
+# Create Map Object
+#
+# Creates the map object from the input data and arguments
+#
+# @param data data passed into the map layer function
+# @param cols all the columns required for the given map object
+# @param objArgs the arguments passed into the map layer function
 createMapObject <- function(data, cols, objArgs){
 
   dataNames <- names(data)
@@ -78,8 +85,12 @@ createColours <- function(shape, colour_palettes){
     l <- lapply(attr(vars, 'names'), function(y) {
       pal[['colour']][ match(shape[[y]], pal[['variable']]) ]
     })
-    unlist(l)
+    #unlist(l)
+    names(l) <- attr(vars, 'names')
+    l
   })
+
+  lst
 }
 
 

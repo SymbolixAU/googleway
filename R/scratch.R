@@ -106,61 +106,44 @@
 ## UP TO:
 # mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 #
-# WORKS: different names for different colours
 # df <- tram_stops
 # df$rand <- rnorm(nrow(df))
 # google_map(key = mapKey) %>%
 #   googleway:::add_circle2(data = df[1:10,], id = "stop_id",
-#                         lat = "stop_lat", lon = "stop_lon", radius = 200,
+#                         lat = "stop_lat", lon = "stop_lon", radius = 200, stroke_colour = "rand",
 #                         fill_colour = "stop_name", mouse_over_group = "stop_name")
-#
+
 # google_map(key = mapKey) %>%
 #   googleway:::add_polygon2(data = melbourne,  fill_colour = "SA2_NAME",
-#                            stroke_colour = "SA2_NAME", fill_opacity = 0.8, mouse_over_group = "SA3_NAME",
+#                            fill_opacity = 0.8, mouse_over_group = "SA3_NAME",
 #                            polyline = "polyline", palette = viridisLite::inferno)
 #
 #
 #
 #
 
-# pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
-#                       lon = c(-80.190, -66.118, -64.757))
+# objArgs <- quote(googleway:::add_polygon2(data = melbourne,  fill_colour = "SA2_NAME", stroke_colour = "SA2_NAME",
+#                                             fill_opacity = 0.8, mouse_over_group = "SA3_NAME",
+#                                             polyline = "polyline", palette = viridisLite::inferno))
 #
-# pl_inner <- encode_pl(lat = c(28.745, 29.570, 27.339),
-#                       lon = c(-70.579, -67.514, -66.668))
+# fill_colour <- "SA2_NAME"
+# stroke_colour <- "SA2_NAME"
 #
-# df <- data.frame(id = c(1, 1),
-#                  polyline = c(pl_outer, pl_inner),
-#                  stringsAsFactors = FALSE)
+# allCols <- googleway:::polygonColumns()
+# requiredCols <- googleway:::requiredShapeColumns()
+# colourColumns <- googleway:::shapeAttributes(fill_colour, stroke_colour)
 #
-# df <- aggregate(polyline ~ id, data = df, list)
+# shape <- googleway:::createMapObject(melbourne, allCols, objArgs)
+# colours <- googleway:::setupColours(melbourne, shape, colourColumns, viridisLite::inferno)
 #
-# google_map(key = mapKey, height = 800) %>%
-#   googleway:::add_polygon2(data = df, polyline = "polyline")
+# if(length(colours) > 0){
+#   shape <- googleway:::replaceVariableColours(shape, colours)
+# }
 #
+# requiredDefaults <- setdiff(requiredCols, names(shape))
 #
-# df <- data.frame(id = c(1,1),
-#                  polyline = c(pl_outer, pl_inner),
-#                  stringsAsFactors = FALSE)
-#
-# google_map(key = mapKey, height = 800) %>%
-#   googleway:::add_polygon2(data = df, polyline = "polyline", id = "id",
-#                            fill_colour = "id")
-#
-#
-#
-# df <- data.frame(myId = c(1,1,1,1,1,1,2,2,2),
-#                  lineId = c(1,1,1,2,2,2,1,1,1),
-#                  lat = c(26.774, 18.466, 32.321, 28.745, 29.570, 27.339, 22, 23, 22),
-#                  lon = c(-80.190, -66.118, -64.757, -70.579, -67.514, -66.668, -50, -49, -51),
-#                  stringsAsFactors = FALSE)
-#
-#
-# df$var = c(rep("a", 6), rep("b", 3))
-#
-# google_map(key = mapKey) %>%
-#   googleway:::add_polygon2(data = df, lat = 'lat', lon = 'lon', id = 'myId',
-#                            pathId = 'lineId', fill_colour = "var",
-#                            palette = viridisLite::viridis)
+# if(length(requiredDefaults) > 0){
+#   shape <- googleway:::addDefaults(shape, requiredDefaults, "polygon")
+# }
 
 

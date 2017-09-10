@@ -16,7 +16,7 @@ test_that("columns of colours are correctly mapped to shape object", {
   colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, viridisLite::viridis)
 
   expectedColours <- googleway:::removeAlpha(viridisLite::viridis(2))
-  lst <- googleway:::createColours(shape, colour_palettes)
+  colours <- googleway:::createColours(shape, colour_palettes)
 
   expectedColours <- c(rep(expectedColours[1], 3), rep(expectedColours[2], 2))
 
