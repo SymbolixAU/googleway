@@ -98,62 +98,135 @@
 # mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 #
 # google_map(key = mapKey) %>%
-#   googleway:::add_shape(data = tram_stops, id = "stop_id",
-#                         lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_name")
+#   googleway:::add_shape(data = tram_stops, id = "stop_id", stroke_colour = "stop_name",
+#                         lat = "stop_lat", lon = "stop_lon", radius = 200,
+#                         fill_colour = "stop_name")
 
 
+## UP TO:
+# mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#
+# WORKS: different names for different colours
+# df <- tram_stops
+# df$rand <- rnorm(nrow(df))
+google_map(key = mapKey) %>%
+  googleway:::add_shape(data = df[1:10,], id = "stop_id", stroke_colour = "rand",
+                        lat = "stop_lat", lon = "stop_lon", radius = 200,
+                        fill_colour = "stop_name", mouse_over_group = "stop_name")
+#
+# objArgs <- quote(googleway:::add_shape(map = ., data = df[1:10, ], id = "stop_id",stroke_colour = "#FF00FF",
+#                                        lat = "stop_lat", lon = "stop_lon", radius = 200,
+#                                        fill_colour = "rand", mouse_over_group = "stop_name"))
+#
+# objArgs <- googleway:::latLonCheck(objArgs, "stop_lat", "stop_lon", names(df), "add_circles")
+# names(objArgs)
+#
+# allCols <- c('id', 'lat', 'lng', 'radius', 'draggable', 'stroke_colour',
+#              'stroke_opacity', 'stroke_weight', 'fill_colour', 'fill_opacity',
+#              'mouse_over', 'mouse_over_group', 'info_window')
+#
+# requiredCols <- c("stroke_colour", "stroke_weight", "stroke_opacity", "radius",
+#                   "fill_opacity", "fill_colour", "z_index")
 #
 #
-# googleway:::add_shape(tram_stops, lat = "stop_lat", lon = "stop_lon",
-#                       stroke_colour = "stop_name", fill_colour = "stop_name")
-
-
-
-# numericColours <- c(1, 2, 3.3, 3.333, 500, 2000)
+# shape <- googleway:::createMapObject(df, allCols, objArgs)
+# head(df)
+# head(shape)
 #
-# rank(numericColours)
+# colourColumns <- c("stroke_colour" = NULL,
+#                    "fill_colour" = "rand")
 #
-# map2color <- function(x,pal,limits=NULL){
-#   if(is.null(limits))
-#     limits=range(x)
 #
-#   s <- seq(limits[1],limits[2], length.out = length(pal)+1)
-#   f <- findInterval(x, s, all.inside=TRUE)
-#   pal[f]
+# print(" -- palettes --")
+# palettes <- googleway:::createPalettes(shape, colourColumns)
+# print(palettes)
+#
+# print(" -- colour palettes -- ")
+# colour_palettes <- googleway:::createColourPalettes(df, palettes, colourColumns)
+# print(colour_palettes)
+#
+#
+# print(" -- colours -- ")
+# colours <- googleway:::createColours(shape, colour_palettes)
+# colours
+# head(shape, 10)
+#
+#
+# if(length(colours) > 0){
+#
+#   eachColour <- sapply(colours, `[`)[, 1]
+#
+#   #colourNames <- sapply(colours, function(x) dimnames(x)[[2]])=
+#   colourNames <- names(colours)
+#   # colourNames <- dimnames(colours[[1]])[[2]]
+#   # shape[, c(colourNames)] <- colours[[1]][, colourNames]
+#   shape[, c(colourNames)] <- eachColour
 # }
 #
-# rng <- range(numericColours)
-# s <- seq(rng[1], rng[2], length.out = 5 + 1)
-# f <- findInterval(numericColours, s, all.inside = T)
-# viridisLite::viridis(length(numericColours))[f]
+# requiredDefaults <- setdiff(requiredCols, names(shape))
+# if(length(requiredDefaults) > 0){
 #
+#   defaults <- googleway:::circleDefaults(nrow(shape))
 #
-# map2color(numericColours, viridisLite::viridis(length(numericColours)))
+#   shape <- cbind(shape, defaults[, requiredDefaults])
+# }
+#
+# shape <- jsonlite::toJSON(shape, digits = 7, auto_unbox = T)
 
 
-
-
-# colour_palettes <- list(structure(list(variables = structure(c("colour", "colour"
-# ), .Names = c("stroke_colour", "fill_colour")), palette = structure(list(
-#   variable = c("a", "b", "c", "d", "e"), colour = c("#440154FF",
-#                                                     "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")), .Names = c("variable",
-#                                                                                                                      "colour"), row.names = c(NA, -5L), class = "data.frame")), .Names = c("variables",
-#                                                                                                                                                                                            "palette")))
+# colourColumns <- structure(c("stop_name", "rand"), .Names = c("stroke_colour",
+#                                                               "fill_colour"))
 #
-# shape <- df[, c("colour", "colour")]
-# shape <- setNames(shape, c("fill_colour", "stroke_colour"))
+# palette <- googleway:::createPalettes(shape,colourColumns)
+# colour_palettes <- googleway:::createColourPalettes(df, palette, colourColumns)
+# googleway:::createColours(shape, colour_palettes)
 #
-# colours <- lapply(colour_palettes, function(x){
+# lapply(colour_palettes, function(x){
 #   pal <- x[['palette']]
 #   vars <- x[['variables']]
 #
 #   sapply(attr(vars, 'names'), function(y) {
 #     pal[['colour']][ match(shape[[y]], pal[['variable']]) ]
 #   })
-#
 # })
+
+# DOESNT WORK: fill_colour only
+# google_map(key = mapKey) %>%
+#   googleway:::add_shape(data = df[1:10,], id = "stop_id",
+#                         lat = "stop_lat", lon = "stop_lon", radius = 200,
+#                         fill_colour = "rand", mouse_over_group = "stop_name")
 #
-# colourNames <- dimnames(colours[[1]])[[2]]
-# shape[, c(colourNames)] <- colours[[1]][, colourNames]
+
+# shape <- structure(list(id = c("17880", "17892", "17893", "18010", "18011",
+# "18030"), lat = c(-37.809, -37.8094, -37.8083, -37.8076, -37.8081,
+# -37.8095), lng = c(144.9731, 144.9729, 144.9731, 144.9709, 144.969,
+# 144.9641), fill_colour = c(0.445825678928034, 0.942978152937198,
+# 0.212424769105635, 0.0215267032474942, 0.586218127322045, -0.848655484877649
+# ), mouse_over_group = c("10-Albert St/Nicholson St (Fitzroy)",
+# "10-Albert St/Nicholson St (East Melbourne)", "11-Victoria Pde/Nicholson St (East Melbourne)",
+# "9-La Trobe St/Victoria St (Melbourne City)", "8-Exhibition St/La Trobe St (Melbourne City)",
+# "6-Swanston St/La Trobe St (Melbourne City)"), radius = c(200,
+# 200, 200, 200, 200, 200)), .Names = c("id", "lat", "lng", "fill_colour",
+# "mouse_over_group", "radius"), row.names = c(NA, 6L), class = "data.frame")
+#
+# colourColumns <- structure("rand", .Names = "fill_colour")
+#
+# palette <- googleway:::createPalettes(shape,colourColumns)
+# googleway:::createColourPalettes(df, palette, colourColumns)
+#
+
+# DOESNT WORK: stroke_colour only
+# google_map(key = mapKey) %>%
+#   googleway:::add_shape(data = df[1:10,], id = "stop_id", stroke_colour = "stop_name",
+#                         lat = "stop_lat", lon = "stop_lon", radius = 200,
+#                         mouse_over_group = "stop_name")
+
+# DOESNT WORK: the same colour values
+# google_map(key = mapKey) %>%
+#   googleway:::add_shape(data = df[1:10,], id = "stop_id", stroke_colour = "rand",
+#                         lat = "stop_lat", lon = "stop_lon", radius = 200,
+#                         fill_colour = "rand", mouse_over_group = "stop_name")
+
+
 
 
