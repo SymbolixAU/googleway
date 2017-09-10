@@ -117,7 +117,7 @@
 # google_map(key = mapKey) %>%
 #   googleway:::add_polygon2(data = melbourne,  fill_colour = "SA2_NAME",
 #                            stroke_colour = "SA2_NAME", fill_opacity = 0.8, mouse_over_group = "SA3_NAME",
-#                            polyline = "polyline")
+#                            polyline = "polyline", palette = viridisLite::inferno)
 #
 #
 #
@@ -155,8 +155,12 @@
 #                  lon = c(-80.190, -66.118, -64.757, -70.579, -67.514, -66.668, -50, -49, -51),
 #                  stringsAsFactors = FALSE)
 #
+#
+# df$var = c(rep("a", 6), rep("b", 3))
+#
 # google_map(key = mapKey) %>%
 #   googleway:::add_polygon2(data = df, lat = 'lat', lon = 'lon', id = 'myId',
-#                            pathId = 'lineId', fill_colour = "myId")
+#                            pathId = 'lineId', fill_colour = "var",
+#                            palette = viridisLite::viridis)
 
 
