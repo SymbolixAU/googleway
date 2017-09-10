@@ -29,19 +29,6 @@ createMapObject <- function(data, cols, objArgs){
 }
 
 
-createColours <- function(shape, colour_palettes){
-
-  lst <- lapply(colour_palettes, function(x){
-    pal <- x[['palette']]
-    vars <- x[['variables']]
-
-    l <- lapply(attr(vars, 'names'), function(y) {
-      pal[['colour']][ match(shape[[y]], pal[['variable']]) ]
-    })
-    unlist(l)
-  })
-}
-
 # Create Palettes
 #
 # Creates palette names from variables in the data
@@ -73,8 +60,28 @@ createColourPalettes <- function(data, palettes, colourColumns, palette){
       palette = generatePalette(data[, x], palette)
     )
   })
-
 }
+
+
+# Create Colours
+#
+# creates columns of colours to map onto the shape object
+#
+# @param shape map shape object
+# @param colour_palettes lsit of colour palettes
+createColours <- function(shape, colour_palettes){
+
+  lst <- lapply(colour_palettes, function(x){
+    pal <- x[['palette']]
+    vars <- x[['variables']]
+
+    l <- lapply(attr(vars, 'names'), function(y) {
+      pal[['colour']][ match(shape[[y]], pal[['variable']]) ]
+    })
+    unlist(l)
+  })
+}
+
 
 # Generate Palette
 #

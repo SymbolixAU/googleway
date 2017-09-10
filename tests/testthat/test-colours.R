@@ -1,5 +1,56 @@
 context("colours")
 
+test_that("columns of colours are correctly mapped to shape object", {
+
+  dat <- data.frame(id = c(rep(1,3), rep(2, 2)),
+                      val = letters[1:5],
+                      val2 = letters[11:15],
+                      stringsAsFactors = F)
+
+  allCols <- c("id", "val", "val2")
+  objArgs <- quote(add_polygons(id = "id", stroke_colour = "id", fill_colour = NULL))
+  shape <- googleway:::createMapObject(dat, allCols, objArgs)
+
+  colourColumns <- c("stroke_colour" = 'id', "fill_colour" = NULL)
+  pal <- googleway:::createPalettes(shape, colourColumns)
+  colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, viridisLite::viridis)
+
+  expectedColours <- googleway:::removeAlpha(viridisLite::viridis(2))
+  lst <- googleway:::createColours(shape, colour_palettes)
+
+  expectedColours <- c(rep(expectedColours[1], 3), rep(expectedColours[2], 2))
+
+  expect_true(
+    sum(lst[[1]] == expectedColours) == 5
+  )
+
+  ## unordered data
+  dat <- data.frame(id = c(rep(3,3), rep(2, 2)),
+                    val = letters[1:5],
+                    val2 = letters[11:15],
+                    stringsAsFactors = F)
+
+  allCols <- c("id", "val", "val2")
+  objArgs <- quote(add_polygons(id = "id", stroke_colour = "id", fill_colour = NULL))
+  shape <- googleway:::createMapObject(dat, allCols, objArgs)
+
+  colourColumns <- c("stroke_colour" = 'id', "fill_colour" = NULL)
+  pal <- googleway:::createPalettes(shape, colourColumns)
+  colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, viridisLite::viridis)
+
+  expectedColours <- googleway:::removeAlpha(viridisLite::viridis(2))
+  lst <- googleway:::createColours(shape, colour_palettes)
+
+  expectedColours <- c(rep(expectedColours[2], 3), rep(expectedColours[1], 2))
+
+  expect_true(
+    sum(lst[[1]] == expectedColours) == 5
+  )
+
+})
+
+
+
 test_that("colour palette names created", {
 
   ## don't create palettes if the column is a hex colour
