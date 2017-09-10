@@ -14,6 +14,22 @@ LongitudeCheck <- function(lat, arg){
     stop(paste0(arg, " must be a value between -180 and 180 (inclusive)"))
 }
 
+latLonCheck <- function(objArgs, lat, lon, names, layer_call){
+
+  ## change lon to lng
+  names(objArgs)[which(names(objArgs) == "lon")] <- "lng"
+
+  if(is.null(lat)){
+    lat <- find_lat_column(names(data), "add_circles", TRUE)
+    objArgs[['lat']] <- lat
+  }
+
+  if(is.null(lon)){
+    lon <- find_lon_column(names(data), "add_circles", TRUE)
+    objArgs[['lng']] <- lon
+  }
+  return(objArgs)
+}
 
 ### url check ------------------
 urlCheck <- function(url) UseMethod("urlCheck")
@@ -50,7 +66,23 @@ check_hex_colours <- function(df, cols){
   }
 }
 
-isHexColour <- function(cols) all(grepl("^#(?:[0-9a-fA-F]{3}){1,2}$", cols))
+isHexColour <- function(cols){
+  hexPattern <- "^#(?:[0-9a-fA-F]{3}){1,2}$|^#(?:[0-9a-fA-F]{4}){1,2}$"
+  all(grepl(hexPattern, cols))
+}
+
+isRgba <- function(cols){
+  all(grepl("^#(?:[0-9a-fA-F]{4}){1,2}$", cols))
+}
+
+hexType <- function(cols){
+  rgb <- "^#(?:[0-9a-fA-F]{3}){1,2}$"
+  rgba <- "^#(?:[0-9a-fA-F]{4}){1,2}$"
+}
+
+# some browsers don't support the alpha channel
+removeAlpha <- function(cols) substr(cols, 1, 7)
+
 
 # Check opacities
 #
@@ -132,18 +164,16 @@ find_lat_column = function(names, calling_function, stopOnFailure = TRUE) {
   lats = names[grep("^(lat|lats|latitude|latitudes)$", names, ignore.case = TRUE)]
 
   if (length(lats) == 1) {
-    # if (length(names) > 1) {
-    #   message("Assuming '", lats, " is the latitude column")
-    # }
-    ## passes
-    return(list(lat = lats))
+    # return(list(lat = lats))
+    return(lats)
   }
 
   if (stopOnFailure) {
     stop(paste0("Couldn't infer latitude column for ", calling_function))
   }
 
-  list(lat = NA)
+  return(NA)
+  # list(lat = NA)
 }
 
 # Find Lon Column
@@ -157,17 +187,15 @@ find_lon_column = function(names, calling_function, stopOnFailure = TRUE) {
   lons = names[grep("^(lon|lons|lng|lngs|long|longs|longitude|longitudes)$", names, ignore.case = TRUE)]
 
   if (length(lons) == 1) {
-    # if (length(names) > 1) {
-    #   message("Assuming '", lons, " is the longitude column")
-    # }
-    ## passes
-    return(list(lon = lons))
+    # return(list(lon = lons))
+    return(lons)
   }
 
   if (stopOnFailure) {
     stop(paste0("Couldn't infer longitude columns for ", calling_function))
   }
 
-  list(lon = NA)
+  #list(lon = NA)
+  return(NA)
 }
 

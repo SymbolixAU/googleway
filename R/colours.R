@@ -1,57 +1,166 @@
-## TODO:
-## re-define how the data is used inside each map layer function,
-## so that colours can be merged on.
-## i.e., don't rely on keeping the order of the data in the SetDefault function
+
+# Create Map Object
+#
+# Creates the map object from the input data and arguments
+#
+# @param data data passed into the map layer function
+# @param cols all the columns required for the given map object
+# @param objArgs the arguments passed into the map layer function
+createMapObject <- function(data, cols, objArgs){
+
+  dataNames <- names(data)
+
+  argsIdx <- match(cols, names(objArgs)) ## those taht exist in 'cols'
+  argsIdx <- argsIdx[!is.na(argsIdx)]
+
+  argValues <- sapply(1:length(objArgs), function(x) objArgs[[x]])
+
+  dataArgs <- which(argValues %in% names(data)) ## those where there is a column of data
+
+  additionalValues <- setdiff(argsIdx, dataArgs)
+
+  dataCols <- vapply(dataArgs, function(x) objArgs[[x]], "")
+  dataNames <- names(objArgs)[dataArgs]
+
+  df <- setNames(data[, dataCols, drop = F], dataNames)
+
+  if(length(additionalValues) > 0){
+
+    extraCols <- lapply(additionalValues, function(x){
+      setNames(as.data.frame(rep(objArgs[[x]], nrow(df)), stringsAsFactors = F), names(objArgs)[x])
+    })
+
+    df <- cbind(df, do.call(cbind, extraCols))
+  }
+  return(df)
+}
 
 
-generatePalette <- function(colData, colName, googleAttr, ...) UseMethod("generatePalette")
+# Create Palettes
+#
+# Creates palette names from variables in the data
+#
+# @param shape map object being plotted
+# @param colourColumns The columns of shape that are specified as a colour column
+createPalettes <- function(shape, colourColumns){
+
+  palettes <- unique(colourColumns)
+  v <- vapply(names(colourColumns), function(x) !googleway:::isHexColour(shape[, x]), 0L)
+  palettes <- colourColumns[which(v == T)]
+
+  return(palettes)
+}
+
+# Create Colour Palettes
+#
+# Creates colour palettes for each variable
+#
+# @param data The data passed into the map layer function
+# @param palettes the named colour palettes from createPalettes()
+# @param colourColumns the columns of data containing the colours
+# @param palette palette function
+createColourPalettes <- function(data, palettes, colourColumns, palette){
+
+  lapply(unique(palettes), function(x){
+    list(
+      variables = colourColumns[colourColumns == x],
+      palette = generatePalette(data[, x], palette)
+    )
+  })
+}
+
+
+# Create Colours
+#
+# creates columns of colours to map onto the shape object
+#
+# @param shape map shape object
+# @param colour_palettes lsit of colour palettes
+createColours <- function(shape, colour_palettes){
+
+  lst <- lapply(colour_palettes, function(x){
+    pal <- x[['palette']]
+    vars <- x[['variables']]
+
+    l <- lapply(attr(vars, 'names'), function(y) {
+      pal[['colour']][ match(shape[[y]], pal[['variable']]) ]
+    })
+    #unlist(l)
+    names(l) <- attr(vars, 'names')
+    l
+  })
+
+  lst
+}
+
+
+# Generate Palette
+#
+# Generates a palette of colours from the data
+#
+# @param colData column/vector of data
+# @param pal function palette
+generatePalette <- function(colData, pal) UseMethod("generatePalette")
 
 #' @export
-generatePalette.factor <- function(colData, colName, googleAttr){
+generatePalette.numeric <- function(colData, pal){
 
-  facLvls <- levels(colData)
-  palFunc <- viridisLite::viridis
-  colours <- do.call(palFunc, list(nlevels(colData)))
+  ## TODO:
+  ## numeric values need to be scaled between 0 & 1 so that negatives
+  ## are removed. Ensure the ordering is maintained when returned
+  ## back onto the data
+  ##
+  ## also, handle floating point errors by using factors?
 
-  constructPalette(facLvls, colours, colName, googleAttr)
+  vals <- unique(colData)
+  scaledVals <- scales::rescale(vals)
+  rng = range(scaledVals)
+  s <- seq(rng[1], rng[2], length.out = length(scaledVals) + 1)
+  f <- findInterval(scaledVals, s, all.inside = T)
+
+  colours <- do.call(pal, list(length(scaledVals)))[f]
+
+  constructPalette(vals, colours)
 }
 
 #' @export
-generatePalette.character <- function(colData, colName, googleAttr ){
+generatePalette.factor <- function(colData, pal){
+
+  facLvls <- levels(colData)
+  colours <- do.call(pal, list(nlevels(colData)))
+  constructPalette(facLvls, colours)
+}
+
+#' @export
+generatePalette.character <- function(colData, pal){
 
   charLvls <- unique(colData)
-  palFunc <- viridisLite::magma
-  colours <- do.call(palFunc, list(length(charLvls)))
+  colours <- do.call(pal, list(length(charLvls)))
+  constructPalette(charLvls, colours)
+}
 
-  constructPalette(charLvls, colours, colName, googleAttr)
+#' @export
+generatePalette.logical <- function(colData, pal){
+
+  logLvls <- unique(colData)
+  colours <- do.call(pal, list(length(logLvls)))
+  constructPalette(logLvls, colours)
+
 }
 
 #' @export
 generatePalette.default <- function(col) stop("I can't determine the colour for ", class(col), " columns.")
 
-
-constructPalette <- function( lvls, colours, colName, googleAttr ){
+# Construct Palette
+#
+# Constructs a data.frame mapping a column of variables to a hex colour
+#
+# @param lvls data variables
+# @param colours hex colours
+constructPalette <- function(lvls, colours){
   setNames(
-    data.frame(colName = lvls, colour = colours, stringsAsFactors = F),
-    c(colName, googleAttr)
+    data.frame(colName = lvls, colour = removeAlpha(colours), stringsAsFactors = F),
+    c("variable", "colour")
   )
 }
 
-
-
-
-#
-# mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
-#
-# df <- tram_stops
-#
-# df$group <- factor(sample(letters[1:5], size = nrow(df), replace = T))
-#
-#
-# google_map(key = mapKey) %>%
-#   add_circles(data = df, lat = "stop_lat", lon = "stop_lon",
-#               fill_colour = "group", stroke_weight = 0, fill_opacity = 0.8)
-#
-# google_map(key = mapKey) %>%
-#   add_circles(data = df, lat = "stop_lat", lon = "stop_lon",
-#               fill_colour = "stop_name", stroke_weight = 0, fill_opacity = 0.8)

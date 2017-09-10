@@ -42,4 +42,108 @@
 # lst <- google_reverse_geocode(location = c(38.36648, -76.48020), key = apiKey)
 #
 # geocode_type(lst)
+#
+# z <- 1
+# foo <- function(df, x, y = NULL, z){
+#   #mget(c("x", "y"))
+#   print(match.call(expand.dots = F))
+#   mf <- match.call(expand.dots = F)
+#   mf
+#   #m <- match(c("x","y"), names(mf), 0)
+#
+#   #mf <- mf[c(1, m)]
+#
+#   #mf$drop.unused.levels <- TRUE
+#   #mf[[1]] <- as.name("model.frame")
+#   #mf <- eval.parent(mf)
+#   #mf
+# }
+# df <- data.frame(val = 1, val2 = "a")
+#
+# res <- foo(df, x = "val", z = "val")
+#
+# str(res)
+# names(res)
+#
+# cols <- c('x','y','z')
+# m <- match(cols, names(res))
+#
+# n <- names(res)[m]
+# n <- n[!is.na(n)]
+# v <- vapply(m[!is.na(m)], function(x) res[[x]], "")
+# setNames(df[, v], n)
+#
+# circle <- function(data, stroke_colour = NULL, fill_colour = NULL,
+#                    stroke_weight = NULL){
+#
+#   objArgs <- match.call(expand.dots = F)
+#   dput(objArgs)
+#   cols <- c("stroke_colour", "fill_colour", "stroke_weight")
+#
+#   googleway:::createMapObject(data, cols, objArgs)
+#
+# }
+
+# df <- data.frame(lat = 1:20, lon = 11:30,
+#                  strings = sample(letters[1:5], 20, replace = T),
+#                  id = 1:5)
+#
+# df$colour <- viridisLite::viridis(nrow(df))
+# df$fac <- factor(df$colour)
+#
+# googleway:::add_shape(df, id = "id", stroke_colour = "colour")
+# googleway:::add_shape(df, id = "id", stroke_colour = "strings")
+# googleway:::add_shape(df, id = "id", stroke_colour = "id")
+
+# mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#
+# google_map(key = mapKey) %>%
+#   googleway:::add_shape(data = tram_stops, id = "stop_id", stroke_colour = "stop_name",
+#                         lat = "stop_lat", lon = "stop_lon", radius = 200,
+#                         fill_colour = "stop_name")
+
+
+## UP TO:
+# mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#
+# df <- tram_stops
+# df$rand <- rnorm(nrow(df))
+# google_map(key = mapKey) %>%
+#   googleway:::add_circle2(data = df[1:10,], id = "stop_id",
+#                         lat = "stop_lat", lon = "stop_lon", radius = 200, stroke_colour = "rand",
+#                         fill_colour = "stop_name", mouse_over_group = "stop_name")
+
+# google_map(key = mapKey) %>%
+#   googleway:::add_polygon2(data = melbourne,  fill_colour = "SA2_NAME",
+#                            fill_opacity = 0.8, mouse_over_group = "SA3_NAME",
+#                            polyline = "polyline", palette = viridisLite::inferno)
+#
+#
+#
+#
+
+# objArgs <- quote(googleway:::add_polygon2(data = melbourne,  fill_colour = "SA2_NAME", stroke_colour = "SA2_NAME",
+#                                             fill_opacity = 0.8, mouse_over_group = "SA3_NAME",
+#                                             polyline = "polyline", palette = viridisLite::inferno))
+#
+# fill_colour <- "SA2_NAME"
+# stroke_colour <- "SA2_NAME"
+#
+# allCols <- googleway:::polygonColumns()
+# requiredCols <- googleway:::requiredShapeColumns()
+# colourColumns <- googleway:::shapeAttributes(fill_colour, stroke_colour)
+#
+# shape <- googleway:::createMapObject(melbourne, allCols, objArgs)
+# colours <- googleway:::setupColours(melbourne, shape, colourColumns, viridisLite::inferno)
+#
+# if(length(colours) > 0){
+#   shape <- googleway:::replaceVariableColours(shape, colours)
+# }
+#
+# requiredDefaults <- setdiff(requiredCols, names(shape))
+#
+# if(length(requiredDefaults) > 0){
+#   shape <- googleway:::addDefaults(shape, requiredDefaults, "polygon")
+# }
+
 
