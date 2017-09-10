@@ -55,10 +55,17 @@ isHexColour <- function(cols){
   all(grepl(hexPattern, cols))
 }
 
+isRgba <- function(cols){
+  all(grepl("^#(?:[0-9a-fA-F]{4}){1,2}$", cols))
+}
+
 hexType <- function(cols){
   rgb <- "^#(?:[0-9a-fA-F]{3}){1,2}$"
   rgba <- "^#(?:[0-9a-fA-F]{4}){1,2}$"
 }
+
+# some browsers don't support the alpha channel
+removeAlpha <- function(cols) substr(cols, 1, 7)
 
 
 # Check opacities

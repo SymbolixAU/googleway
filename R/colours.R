@@ -222,7 +222,7 @@ generatePalette.default <- function(col) stop("I can't determine the colour for 
 
 constructPalette <- function(lvls, colours){
   setNames(
-    data.frame(colName = lvls, colour = colours, stringsAsFactors = F),
+    data.frame(colName = lvls, colour = removeAlpha(colours), stringsAsFactors = F),
     c("variable", "colour")
   )
 }
