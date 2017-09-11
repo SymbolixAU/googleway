@@ -35,6 +35,22 @@ createMapObject <- function(data, cols, objArgs){
   return(df)
 }
 
+# Setup Colours
+#
+# Helper-function that calls createPalettes and createColourPalettes, and
+# returns the list of colour palettes from \link{createColours}
+#
+# @param data data object passed into the map layer function
+# @param shape object created from the data for the map layer
+# @param colourColumns The columns of shape that are specified as a colour column
+# @param palette palette function
+setupColours <- function(data, shape, colourColumns, palette){
+
+  palettes = createPalettes(shape, colourColumns)
+  colour_palettes = createColourPalettes(data, palettes, colourColumns, palette)
+
+  return(createColours(shape, colour_palettes))
+}
 
 # Create Palettes
 #
@@ -146,7 +162,7 @@ generatePalette.logical <- function(colData, pal){
 }
 
 #' @export
-generatePalette.default <- function(col) stop("I can't determine the colour for ", class(col), " columns.")
+generatePalette.default <- function(col, pal) stop("I can't determine the colour for ", class(col), " columns.")
 
 # Construct Palette
 #

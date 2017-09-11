@@ -1,5 +1,79 @@
 context("colours")
 
+
+test_that("generate palette methods are called", {
+
+  dat <- data.frame(id = c(rep(1,3), rep(2, 2)),
+                    val = letters[1:5],
+                    val2 = letters[11:15],
+                    cplx = complex(5),
+                    bool = c(rep(T, 3), rep(F, 2)),
+                    stringsAsFactors = F)
+
+  ## numeric
+  expectedDf <- data.frame(variable = letters[1:5],
+                           colour = googleway:::removeAlpha(viridisLite::viridis(5)),
+                           stringsAsFactors = F)
+
+  res <- googleway:::generatePalette(dat[, 'val'], viridisLite::viridis)
+
+  expect_true(
+    identical(
+      expectedDf,
+      res
+    )
+  )
+
+  ## logical
+  tCols <- googleway:::removeAlpha(viridisLite::viridis(2))
+  expectedDf <- data.frame(variable = c(T,F),
+                           colour = tCols,
+                           stringsAsFactors = F)
+
+  res <- googleway:::generatePalette(dat[, 'bool'], viridisLite::viridis)
+
+  expect_true(
+    identical(
+      expectedDf,
+      res
+    )
+  )
+
+  ## default called
+  expect_error(
+    googleway:::generatePalette(dat[, 'cplx'], viridisLite::viridis),
+    "I can't determine the colour for complex columns."
+  )
+
+})
+
+
+test_that("setup colours ",{
+
+  dat <- data.frame(id = c(rep(1,3), rep(2, 2)),
+                    val = letters[1:5],
+                    val2 = letters[11:15],
+                    stringsAsFactors = F)
+
+  allCols <- c("id", "val", "val2")
+  objArgs <- quote(add_polygons(id = "id", stroke_colour = "id", fill_colour = NULL))
+  shape <- googleway:::createMapObject(dat, allCols, objArgs)
+
+  colourColumns <- c("stroke_colour" = 'id', "fill_colour" = NULL)
+
+  pal <- googleway:::createPalettes(shape, colourColumns)
+  colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, viridisLite::viridis)
+
+  expectedColours <- googleway:::createColours(shape, colour_palettes)
+
+  generatedColours <- googleway:::setupColours(dat, shape, colourColumns, viridisLite::viridis)
+
+  expect_true(
+    identical(expectedColours, generatedColours)
+  )
+
+})
+
 test_that("columns of colours are correctly mapped to shape object", {
 
   dat <- data.frame(id = c(rep(1,3), rep(2, 2)),

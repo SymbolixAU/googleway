@@ -1,12 +1,4 @@
 
-setupColours <- function(data, shape, colourColumns, palette){
-
-  palettes = createPalettes(shape, colourColumns)
-  colour_palettes = createColourPalettes(data, palettes, colourColumns, palette)
-
-  return(createColours(shape, colour_palettes))
-}
-
 
 replaceVariableColours <- function(shape, colours){
 
@@ -29,7 +21,6 @@ addDefaults <- function(shape, requiredDefaults, shapeType){
                      "polygon" = polygonDefaults(n),
                      "polyline" = polylineDefaults(n))
 
-  #  defaults <- polygonDefaults(nrow(shape))
   shape <- cbind(shape, defaults[, requiredDefaults])
 }
 
