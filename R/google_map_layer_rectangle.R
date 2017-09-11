@@ -1,4 +1,4 @@
-#' Add Rectangles 2
+#' Add Rectangles
 #'
 #' Adds a rectangle to a google map
 #'
@@ -84,7 +84,7 @@
 #'
 #' }
 #' @export
-add_rectangles2 <- function(map,
+add_rectangles <- function(map,
                            data = get_map_data(map),
                            north,
                            east,

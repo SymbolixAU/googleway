@@ -1,4 +1,4 @@
-#' Add markers
+#' Add markers dep
 #'
 #' Add markers to a google map
 #'
@@ -59,7 +59,7 @@
 #'
 #' }
 #' @export
-add_markers <- function(map,
+add_markers_dep <- function(map,
                         data = get_map_data(map),
                         id = NULL,
                         colour = NULL,
@@ -217,7 +217,7 @@ update_style <- function(map, styles = NULL){
 }
 
 
-#' Add circle
+#' Add circle dep
 #'
 #' Add circles to a google map
 #'
@@ -289,7 +289,7 @@ update_style <- function(map, styles = NULL){
 #'
 #'  }
 #' @export
-add_circles <- function(map,
+add_circles_dep <- function(map,
                         data = get_map_data(map),
                         id = NULL,
                         lat = NULL,
@@ -706,7 +706,7 @@ clear_bicycling <- function(map){
 }
 
 
-#' Add polyline
+#' Add polyline dep
 #'
 #' Add a polyline to a google map
 #'
@@ -804,7 +804,7 @@ clear_bicycling <- function(map){
 #'
 #' }
 #' @export
-add_polylines <- function(map,
+add_polylines_dep <- function(map,
                           data = get_map_data(map),
                           polyline = NULL,
                           lat = NULL,
@@ -1033,7 +1033,7 @@ clear_polylines <- function(map, layer_id = NULL){
   invoke_method(map, data = NULL, 'clear_polylines', layer_id)
 }
 
-#' Add polygon
+#' Add polygon dep
 #'
 #' Add a polygon to a google map.
 #'
@@ -1180,7 +1180,7 @@ clear_polylines <- function(map, layer_id = NULL){
 #' @seealso \link{encode_pl}
 #'
 #' @export
-add_polygons <- function(map,
+add_polygons_dep <- function(map,
                         data = get_map_data(map),
                         polyline = NULL,
                         lat = NULL,
@@ -1480,7 +1480,7 @@ clear_polygons <- function(map, layer_id = NULL){
 }
 
 
-#' Add Rectangles
+#' Add Rectangles dep
 #'
 #' Adds a rectangle to a google map
 #'
@@ -1564,7 +1564,7 @@ clear_polygons <- function(map, layer_id = NULL){
 #'
 #' }
 #' @export
-add_rectangles <- function(map,
+add_rectangles_dep <- function(map,
                            data = get_map_data(map),
                            north,
                            east,

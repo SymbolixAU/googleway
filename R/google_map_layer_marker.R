@@ -1,4 +1,4 @@
-#' Add markers 2
+#' Add markers
 #'
 #' Add markers to a google map
 #'
@@ -59,7 +59,7 @@
 #'
 #' }
 #' @export
-add_markers2 <- function(map,
+add_markers <- function(map,
                         data = get_map_data(map),
                         id = NULL,
                         colour = NULL,

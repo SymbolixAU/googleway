@@ -1,5 +1,5 @@
 
-#' Add polyline 2
+#' Add polyline
 #'
 #' Add a polyline to a google map
 #'
@@ -99,7 +99,7 @@
 #'
 #' }
 #' @export
-add_polyline2 <- function(map,
+add_polyline <- function(map,
                           data = get_map_data(map),
                           polyline = NULL,
                           lat = NULL,

@@ -1,4 +1,4 @@
-#' Add circle 2
+#' Add circle
 #'
 #' Add circles to a google map
 #'
@@ -72,7 +72,7 @@
 #'
 #'  }
 #' @export
-add_circle2 <- function(map,
+add_circles <- function(map,
                         data = get_map_data(map),
                         id = NULL,
                         lat = NULL,

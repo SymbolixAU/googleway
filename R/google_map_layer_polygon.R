@@ -1,5 +1,5 @@
 
-#' Add polygon 2
+#' Add polygon
 #'
 #' Add a polygon to a google map.
 #'
@@ -148,7 +148,7 @@
 #' @seealso \link{encode_pl}
 #'
 #' @export
-add_polygon2 <- function(map,
+add_polygon <- function(map,
                          data = get_map_data(map),
                          polyline = NULL,
                          lat = NULL,
