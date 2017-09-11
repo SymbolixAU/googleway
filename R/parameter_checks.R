@@ -14,18 +14,25 @@ LongitudeCheck <- function(lat, arg){
     stop(paste0(arg, " must be a value between -180 and 180 (inclusive)"))
 }
 
-latLonCheck <- function(objArgs, lat, lon, names, layer_call){
+# Lat Lon Check
+#
+# @param objArgs arguments of calling funciton
+# @param lat object specified by user
+# @param lon object specified by user
+# @param dataNames data names
+# @param layer_call the map layer funciton calling this function
+latLonCheck <- function(objArgs, lat, lon, dataNames, layer_call){
 
   ## change lon to lng
   names(objArgs)[which(names(objArgs) == "lon")] <- "lng"
 
   if(is.null(lat)){
-    lat <- find_lat_column(names(data), "add_circles", TRUE)
+    lat <- find_lat_column(dataNames, "add_circles", TRUE)
     objArgs[['lat']] <- lat
   }
 
   if(is.null(lon)){
-    lon <- find_lon_column(names(data), "add_circles", TRUE)
+    lon <- find_lon_column(dataNames, "add_circles", TRUE)
     objArgs[['lng']] <- lon
   }
   return(objArgs)

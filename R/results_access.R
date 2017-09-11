@@ -44,6 +44,11 @@ access_result <- function(res,
   do.call(func, list(res))
 }
 
+
+# Access Result
+#
+# @param res response from Google's API
+# @param accessor the accessor function required
 .access_result <- function(res, accessor) UseMethod(".access_result")
 
 #' @export

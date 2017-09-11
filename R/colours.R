@@ -45,7 +45,7 @@ createMapObject <- function(data, cols, objArgs){
 createPalettes <- function(shape, colourColumns){
 
   palettes <- unique(colourColumns)
-  v <- vapply(names(colourColumns), function(x) !googleway:::isHexColour(shape[, x]), 0L)
+  v <- vapply(names(colourColumns), function(x) !isHexColour(shape[, x]), 0L)
   palettes <- colourColumns[which(v == T)]
 
   return(palettes)

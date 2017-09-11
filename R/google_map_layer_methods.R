@@ -7,7 +7,6 @@ stopMessage <- function(obj) stop(paste0("I don't know how to deal with objects 
 
 ### validate GeoJSON -----------
 
-#' @export
 validateGeojson <- function(js) UseMethod("validateGeojson")
 
 #' @export
@@ -47,7 +46,6 @@ constructGeojsonSource <- function(geojson, source) {
 ### validate Style -----------
 
 
-#' @export
 validateStyle <- function(style) UseMethod("validateStyle")
 
 validateStyle.character <- function(style){
