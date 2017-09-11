@@ -17,10 +17,25 @@ add_markers2 <- function(map,
                         update_map_view = TRUE,
                         digits = 4){
 
+
+  ## TODO:
+  ## - parameter checks
+
+
+
   layer_id <- LayerId(layer_id)
   objArgs <- match.call(expand.dots = F)
 
   objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_markers")
+
+  if(!is.null(colour) & !is.null(marker_icon))
+    stop("only one of colour or icon can be used")
+
+  ## 'fix' icon url
+  if(!is.null(marker_icon)){
+    objArgs[['url']] <- marker_icon
+    objArgs[['marker_icon']] <- NULL
+  }
 
   allCols <- markerColumns()
   requiredCols <- requiredMarkerColumns()

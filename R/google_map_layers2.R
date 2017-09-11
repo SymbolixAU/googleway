@@ -71,7 +71,7 @@ requiredMarkerColumns <- function(){
 ## MARKERS ---------------------------------------------------------------------
 markerColumns <- function(){
   c('id', 'colour', 'lat', 'lng', 'title', 'draggable', 'opacity', 'label',
-    'info_window', 'mouse_over', 'mouse_over_group', 'marker_icon')
+    'info_window', 'mouse_over', 'mouse_over_group', 'url')
 }
 
 df_markerColours <- function(){
