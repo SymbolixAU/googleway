@@ -1609,8 +1609,9 @@ add_rectangles <- function(map,
   if(!is.null(draggable))
     Rectangle[, 'draggable'] <- as.logical(data[, draggable])
 
-  if(!is.null(editable))
+  if(!is.null(editable)){
     Rectangle[, 'editable'] <- as.logical(data[, editable])
+  }
 
   if(!is.null(info_window))
     Rectangle[, "info_window"] <- as.character(data[, info_window])

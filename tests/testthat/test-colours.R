@@ -76,6 +76,50 @@ test_that("setup colours ",{
 
 test_that("columns of colours are correctly mapped to shape object", {
 
+  ## one-row data.frame
+  dat <- data.frame(id = c(1),
+                    val = letters[1],
+                    val2 = letters[15],
+                    stringsAsFactors = F)
+
+  allCols <- c("id", "val", "val2")
+  objArgs <- quote(add_polygons(id = "id", stroke_colour = "id", fill_colour = NULL))
+  shape <- googleway:::createMapObject(dat, allCols, objArgs)
+
+  colourColumns <- c("stroke_colour" = 'id', "fill_colour" = NULL)
+  pal <- googleway:::createPalettes(shape, colourColumns)
+  colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, viridisLite::viridis)
+
+  colours <- googleway:::createColours(shape, colour_palettes)
+
+  expect_equal(
+    lapply(colours, length),
+    list(1, 1)
+  )
+
+  ## one row data.frame, two colours
+  dat <- data.frame(id = c(1),
+                    val = letters[1],
+                    val2 = letters[15],
+                    stringsAsFactors = F)
+
+  allCols <- c("id", "val", "val2")
+  objArgs <- quote(add_polygons(id = "id", stroke_colour = "id", fill_colour = "val"))
+  shape <- googleway:::createMapObject(dat, allCols, objArgs)
+
+  colourColumns <- c("stroke_colour" = 'id', "fill_colour" = "val")
+  pal <- googleway:::createPalettes(shape, colourColumns)
+  colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, viridisLite::viridis)
+
+  colours <- googleway:::createColours(shape, colour_palettes)
+
+  expect_equal(
+    lapply(colours, length),
+    list(1, 1)
+  )
+
+
+
   dat <- data.frame(id = c(rep(1,3), rep(2, 2)),
                       val = letters[1:5],
                       val2 = letters[11:15],
@@ -96,6 +140,11 @@ test_that("columns of colours are correctly mapped to shape object", {
 
   expect_true(
     sum(colours[[1]] == expectedColours) == 5
+  )
+
+  expect_equal(
+    lapply(colours, length),
+    list(5)
   )
 
   ## unordered data
@@ -120,6 +169,39 @@ test_that("columns of colours are correctly mapped to shape object", {
   expect_true(
     sum(colours[[1]] == expectedColours) == 5
   )
+
+  expect_equal(
+    lapply(colours, length),
+    list(5)
+  )
+
+  dat <- data.frame(id = c(rep(3,3), rep(2, 2)),
+                    val = letters[1:5],
+                    val2 = letters[11:15],
+                    stringsAsFactors = F)
+
+  allCols <- c("id", "val", "val2")
+  objArgs <- quote(add_polygons(id = "id", stroke_colour = "id", fill_colour = "val"))
+  shape <- googleway:::createMapObject(dat, allCols, objArgs)
+
+  colourColumns <- c("stroke_colour" = 'id', "fill_colour" = "val")
+  pal <- googleway:::createPalettes(shape, colourColumns)
+  colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, viridisLite::viridis)
+
+  expectedColours <- googleway:::removeAlpha(viridisLite::viridis(2))
+  colours <- googleway:::createColours(shape, colour_palettes)
+
+  expectedColours <- c(rep(expectedColours[2], 3), rep(expectedColours[1], 2))
+
+  expect_true(
+    sum(colours[[1]] == expectedColours) == 5
+  )
+
+  expect_equal(
+    lapply(colours, length),
+    list(5, 5)
+  )
+
 
 })
 

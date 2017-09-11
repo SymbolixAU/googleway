@@ -1,0 +1,141 @@
+#' Add Rectangles 2
+#'
+#' Adds a rectangle to a google map
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @param data data frame containing the bounds for the rectangles
+#' @param north String specifying the column of \code{data} that contains the
+#' northern most latitude coordinate
+#' @param east String specifying the column of \code{data} that contains the
+#' eastern most longitude
+#' @param south String specifying the column of \code{data} that contains the
+#' southern most latitude coordinate
+#' @param west String specifying the column of \code{data} that contains the
+#' western most longitude
+#' @param id string specifying the column containing an identifier for a rectangle
+#' @param draggable string specifying the column of \code{data} defining if the rectangle
+#' is 'draggable' (either TRUE or FALSE)
+#' @param editable string specifying the column of \code{data} defining if the rectangle
+#' is 'editable' (either TRUE or FALSE)
+#' @param stroke_colour either a string specifying the column of \code{data} containing
+#' the stroke colour of each rectangle, or a valid hexadecimal numeric HTML style to
+#' be applied to all the rectangle
+#' @param stroke_opacity either a string specifying the column of \code{data} containing
+#' the stroke opacity of each rectangle, or a value between 0 and 1 that will be
+#' applied to all the rectangle
+#' @param stroke_weight either a string specifying the column of \code{data} containing
+#' the stroke weight of each rectangle, or a number indicating the width of pixels
+#' in the line to be applied to all the rectangle
+#' @param fill_colour either a string specifying the column of \code{data} containing
+#' the fill colour of each rectangle, or a valid hexadecimal numeric HTML style to
+#' be applied to all the rectangle
+#' @param fill_opacity either a string specifying the column of \code{data} containing
+#' the fill opacity of each rectangle, or a value between 0 and 1 that will be applied to all the rectangles
+#' @param info_window string specifying the column of data to display in an info
+#' window when a rectangle is clicked
+#' @param mouse_over string specifying the column of data to display when the
+#' mouse rolls over the rectangle
+#' @param mouse_over_group string specifying the column of data specifying which
+#' groups of rectangle to highlight on mouseover
+#' @param layer_id single value specifying an id for the layer.
+#' @param update_map_view logical specifying if the map should re-centre according
+#' to the rectangles
+#' @param z_index single value specifying where the rectangles appear in the layering
+#' of the map objects. Layers with a higher \code{z_index} appear on top of those with
+#' a lower \code{z_index}. See details.
+#' @param digits integer. Use this parameter to specify how many digits (decimal places)
+#' should be used for the latitude / longitude coordinates.
+#' @param palette a function that generates hex RGB colours given a single number as an input.
+#' Used when a variable of \code{data} is specified as a colour
+#'
+#' @details
+#' \code{z_index} values define the order in which objects appear on the map.
+#' Those with a higher value appear on top of those with a lower value. The default
+#' order of objects is (1 being underneath all other objects)
+#'
+#' \itemize{
+#'   \item{1. Polygon}
+#'   \item{2. Rectangle}
+#'   \item{3. Polyline}
+#'   \item{4. Circle}
+#' }
+#'
+#' Markers are always the top layer
+#'
+#' @examples
+#' \dontrun{
+#'
+#' map_key <- 'your_api_key'
+#'
+#' df <- data.frame(north = 33.685, south = 33.671, east = -116.234, west = -116.251)
+#'
+#' google_map(key = map_key) %>%
+#'   add_rectangles(data = df, north = 'north', south = 'south',
+#'                  east = 'east', west = 'west')
+#'
+#' ## editable rectangle
+#' df <- data.frame(north = -37.8459, south = -37.8508, east = 144.9378,
+#'                   west = 144.9236, editable = T, draggable = T)
+#'
+#' google_map(key = map_key) %>%
+#'   add_rectangles(data = df, north = 'north', south = 'south',
+#'                  east = 'east', west = 'west',
+#'                  editable = 'editable', draggable = 'draggable')
+#'
+#' }
+#' @export
+add_rectangles2 <- function(map,
+                           data = get_map_data(map),
+                           north,
+                           east,
+                           south,
+                           west,
+                           id = NULL,
+                           draggable = NULL,
+                           editable = NULL,
+                           stroke_colour = NULL,
+                           stroke_opacity = NULL,
+                           stroke_weight = NULL,
+                           fill_colour = NULL,
+                           fill_opacity = NULL,
+                           mouse_over = NULL,
+                           mouse_over_group = NULL,
+                           info_window = NULL,
+                           layer_id = NULL,
+                           update_map_view = TRUE,
+                           z_index = NULL,
+                           digits = 4,
+                           palette = NULL){
+
+  if(is.null(palette)){
+    palette <- viridisLite::viridis
+  }else{
+    if(!is.function(palette)) stop("palette needs to be a function")
+  }
+
+  layer_id <- LayerId(layer_id)
+  objArgs <- match.call(expand.dots = F)
+
+  allCols <- rectangleColumns()
+  requiredCols <- requiredShapeColumns()
+  colourColumns <- shapeAttributes(fill_colour, stroke_colour)
+
+  shape <- createMapObject(data, allCols, objArgs)
+  colours <- setupColours(data, shape, colourColumns, palette)
+
+  if(length(colours) > 0){
+    shape <- replaceVariableColours(shape, colours)
+  }
+
+  requiredDefaults <- setdiff(requiredCols, names(shape))
+
+  if(length(requiredDefaults) > 0){
+    shape <- addDefaults(shape, requiredDefaults, "rectangle")
+  }
+
+  shape <- jsonlite::toJSON(shape, digits = digits)
+
+  print(" -- invoking rectangles -- ")
+  invoke_method(map, data, 'add_rectangles', shape, update_map_view, layer_id)
+
+}

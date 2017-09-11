@@ -101,6 +101,7 @@ createColours <- function(shape, colour_palettes){
     s <- sapply(attr(vars, 'names'), function(y) {
       pal[['colour']][ match(shape[[y]], pal[['variable']])]
     })
+    if(length(s) == 1) s <- t(s)
     s
   })
   lst

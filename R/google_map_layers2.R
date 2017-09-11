@@ -1,5 +1,10 @@
 
-
+# Replace Variable Colours
+#
+# Replaces the columns in shape object with the colours they have been mapped to
+#
+# @param shape object to be plotted on map
+# @param colours list of colours that will replace the data in shape
 replaceVariableColours <- function(shape, colours){
 
   eachColour <- do.call(cbind, colours)
@@ -12,6 +17,13 @@ replaceVariableColours <- function(shape, colours){
 
 }
 
+# Add Defaults
+#
+# adds the default object parameters to a shape
+#
+# @param shape object to be plotted on a map
+# @param requiredDefaults required columns of default data
+# @param shapeType the type of shape
 addDefaults <- function(shape, requiredDefaults, shapeType){
 
   n <- nrow(shape)
@@ -19,9 +31,11 @@ addDefaults <- function(shape, requiredDefaults, shapeType){
                      "marker" = markerDefaults(n),
                      "circle" = circleDefaults(n),
                      "polygon" = polygonDefaults(n),
-                     "polyline" = polylineDefaults(n))
+                     "polyline" = polylineDefaults(n),
+                     "rectangle" = rectangleDefaults(n))
 
   shape <- cbind(shape, defaults[, requiredDefaults])
+  return(shape)
 }
 
 lineAttributes <- function(stroke_colour){
@@ -83,7 +97,7 @@ polylineDefaults <- function(n){
 
 ## polygon ---------------------------------------------------------------------
 polygonColumns <- function(){
-  c('polyline', 'id', 'lat', 'lng', 'pathId', 'draggable', 'editable', 'stroke_colour',
+  c('polyline', 'id', 'lat', 'lng', 'pathId', 'draggable','stroke_colour',
     'stroke_opacity', 'stroke_weight', 'fill_colour', 'fill_opacity',
     'mouse_over', 'mouse_over_group', 'info_window')
 }
@@ -117,3 +131,20 @@ circleDefaults <- function(n){
              stringsAsFactors = FALSE)
 }
 
+## rectangle ---------------------------------------------------------------------
+rectangleColumns <- function(){
+  c("north", "east", "south", "west", 'id', 'lat', 'lng', "editable",
+    'draggable', 'stroke_colour', 'stroke_opacity', 'stroke_weight',
+    'fill_colour', 'fill_opacity', 'mouse_over', 'mouse_over_group',
+    'info_window')
+}
+
+rectangleDefaults <- function(n){
+  data.frame("stroke_colour" = rep("#FF0000", n),
+             "stroke_weight" = rep(1, n),
+             "stroke_opacity" = rep(0.8, n),
+             "fill_colour" = rep("#FF0000", n),
+             "fill_opacity" = rep(0.35, n),
+             "z_index" = rep(2, n),
+             stringsAsFactors = FALSE)
+}
