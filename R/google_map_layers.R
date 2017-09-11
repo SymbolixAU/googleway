@@ -354,7 +354,6 @@ add_circles <- function(map,
   # if(sum(is.na(Circles)) > 0)
   #   warning("There are some NAs in your data. These may affect the circles that have been plotted.")
 
-  print(str(Circles))
   Circles <- jsonlite::toJSON(Circles, digits = digits)
 
   invoke_method(map, data, 'add_circles', Circles, update_map_view, layer_id)

@@ -21,7 +21,7 @@ test_that("columns of colours are correctly mapped to shape object", {
   expectedColours <- c(rep(expectedColours[1], 3), rep(expectedColours[2], 2))
 
   expect_true(
-    sum(lst[[1]] == expectedColours) == 5
+    sum(colours[[1]] == expectedColours) == 5
   )
 
   ## unordered data
@@ -39,12 +39,12 @@ test_that("columns of colours are correctly mapped to shape object", {
   colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, viridisLite::viridis)
 
   expectedColours <- googleway:::removeAlpha(viridisLite::viridis(2))
-  lst <- googleway:::createColours(shape, colour_palettes)
+  colours <- googleway:::createColours(shape, colour_palettes)
 
   expectedColours <- c(rep(expectedColours[2], 3), rep(expectedColours[1], 2))
 
   expect_true(
-    sum(lst[[1]] == expectedColours) == 5
+    sum(colours[[1]] == expectedColours) == 5
   )
 
 })
@@ -70,11 +70,21 @@ test_that("replace Variable colours extracts correct names", {
   expectedColours <- googleway:::removeAlpha(viridisLite::viridis(2))
   colours <- googleway:::createColours(shape, colour_palettes)
 
-  expect_true(sum(sapply(colours, names) == "stroke_colour") == 1)
+  expect_true(
+    sum(sapply(colours, colnames) == "stroke_colour") == 1
+  )
 
+  expectedDf <- data.frame(id = dat$id,
+                           stroke_colour = c(rep(expectedColours[1],3), rep(expectedColours[2], 2)),
+                           stringsAsFactors = F)
 
-  googleway:::replaceVariableColours(shape, colours)
-
+  res <- googleway:::replaceVariableColours(shape, colours)
+  expect_true(
+    identical(
+      res,
+      expectedDf
+    )
+  )
 
 
   ## one variable used twice
@@ -94,8 +104,21 @@ test_that("replace Variable colours extracts correct names", {
   expectedColours <- googleway:::removeAlpha(viridisLite::viridis(2))
   colours <- googleway:::createColours(shape, colour_palettes)
 
+  expectedDf <- data.frame(id = dat$id,
+                           stroke_colour = c(rep(expectedColours[1],3), rep(expectedColours[2], 2)),
+                           fill_colour = c(rep(expectedColours[1],3), rep(expectedColours[2], 2)),
+                           stringsAsFactors = F)
 
-  googleway:::replaceVariableColours(shape, colours)
+  res <- googleway:::replaceVariableColours(shape, colours)
+
+  expect_true(
+    identical(
+      expectedDf,
+      res
+    )
+  )
+
+
 
 
   ## two variables used once each
@@ -112,10 +135,24 @@ test_that("replace Variable colours extracts correct names", {
   pal <- googleway:::createPalettes(shape, colourColumns)
   colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, viridisLite::viridis)
 
-  expectedColours <- googleway:::removeAlpha(viridisLite::viridis(2))
+  expectedIdColours <- googleway:::removeAlpha(viridisLite::viridis(2))
+  expectedValColours <- googleway:::removeAlpha(viridisLite::viridis(5))
+
   colours <- googleway:::createColours(shape, colour_palettes)
 
-  googleway:::replaceVariableColours(shape, colours)
+  expectedDf <- data.frame(id = dat$id,
+                           stroke_colour = c(rep(expectedIdColours[1],3), rep(expectedIdColours[2], 2)),
+                           fill_colour = expectedValColours,
+                           stringsAsFactors = F)
+
+  res <- googleway:::replaceVariableColours(shape, colours)
+
+  expect_true(
+    identical(
+      expectedDf,
+      res
+    )
+  )
 
 
 })
@@ -202,7 +239,7 @@ test_that("palettes generated", {
 
 
 
-test_that("hexcolour validatin", {
+test_that("hexcolour validation", {
 
   expect_true(googleway:::isHexColour("#0") == FALSE)
   expect_true(googleway:::isHexColour("#00") == FALSE)
@@ -230,7 +267,8 @@ test_that("RGBA colours remove alpha", {
   ## alpha not removed
   expect_true(
     identical(
-      googleway:::removeAlpha(c("#FFFFFF", "#000000"))
+      googleway:::removeAlpha(c("#FFFFFF", "#000000")),
+      c("#FFFFFF", "#000000")
     )
   )
 

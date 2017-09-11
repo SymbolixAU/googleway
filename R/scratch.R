@@ -114,7 +114,7 @@
 #                         mouse_over_group = "stop_name")
 #
 # google_map(key = mapKey) %>%
-#   googleway:::add_polygon2(data = melbourne, fill_colour = "SA2_NAME",
+#   googleway:::add_polygon2(data = melbourne, fill_colour = "SA2_NAME", stroke_colour = "SA2_NAME",
 #                            fill_opacity = 0.8, mouse_over_group = "SA2_NAME",
 #                            polyline = "polyline", palette = viridisLite::inferno)
 #

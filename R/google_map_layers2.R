@@ -44,10 +44,6 @@ add_circle2 <- function(map,
   colourColumns <- shapeAttributes(fill_colour, stroke_colour)
 
   shape <- createMapObject(data, allCols, objArgs)
-
-  # palettes <- createPalettes(shape, colourColumns)
-  # colour_palettes <- createColourPalettes(data, palettes, colourColumns, palette)
-  # colours <- createColours(shape, colour_palettes)
   colours <- setupColours(data, shape, colourColumns, palette)
 
   if(length(colours) > 0){
