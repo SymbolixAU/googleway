@@ -118,29 +118,17 @@
 #                            fill_opacity = 0.8, mouse_over_group = "SA2_NAME",
 #                            polyline = "polyline", palette = viridisLite::inferno)
 #
-# objArgs <- quote(googleway:::add_polygon2(data = melbourne,  fill_colour = "SA2_NAME",
-#                                           stroke_colour = "SA3_NAME",
-#                                             fill_opacity = 0.8, mouse_over_group = "SA3_NAME",
-#                                             polyline = "polyline", palette = viridisLite::inferno))
-#
-# fill_colour <- "SA2_NAME"
-# stroke_colour <- "SA2_NAME"
-#
-# allCols <- googleway:::polygonColumns()
-# requiredCols <- googleway:::requiredShapeColumns()
-# colourColumns <- googleway:::shapeAttributes(fill_colour, stroke_colour)
-#
-# shape <- googleway:::createMapObject(melbourne, allCols, objArgs)
-# colours <- googleway:::setupColours(melbourne, shape, colourColumns, viridisLite::inferno)
-#
-# if(length(colours) > 0){
-#   shape <- googleway:::replaceVariableColours(shape, colours)
-# }
-#
-# requiredDefaults <- setdiff(requiredCols, names(shape))
-#
-# if(length(requiredDefaults) > 0){
-#   shape <- googleway:::addDefaults(shape, requiredDefaults, "polygon")
-# }
+
+
+# google_map(key = mapKey, data = tram_route) %>%
+#   googleway:::add_polyline2(lat = "shape_pt_lat", lon = "shape_pt_lon")
+
+# google_map(key = mapKey, data = tram_stops) %>%
+#   googleway:::add_markes2(lat = "stop_lat", lon = "stop_lon", info_window = "stop_name")
+
+
+
+
+
 
 
