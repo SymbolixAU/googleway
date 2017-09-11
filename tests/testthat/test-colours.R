@@ -94,7 +94,7 @@ test_that("columns of colours are correctly mapped to shape object", {
 
   expect_equal(
     lapply(colours, length),
-    list(1, 1)
+    list(1)
   )
 
   ## one row data.frame, two colours
