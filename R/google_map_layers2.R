@@ -1,16 +1,3 @@
-## TODO:
-## re-define how the data is used inside each map layer function,
-## so that colours can be merged on.
-## i.e., don't rely on keeping the order of the data in the SetDefault function
-
-
-
-
-
-
-
-
-
 
 setupColours <- function(data, shape, colourColumns, palette){
 

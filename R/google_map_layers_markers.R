@@ -21,8 +21,6 @@ add_markers2 <- function(map,
   ## TODO:
   ## - parameter checks
 
-
-
   layer_id <- LayerId(layer_id)
   objArgs <- match.call(expand.dots = F)
 

@@ -85,34 +85,8 @@ createColours <- function(shape, colour_palettes){
     s <- sapply(attr(vars, 'names'), function(y) {
       pal[['colour']][ match(shape[[y]], pal[['variable']])]
     })
-
     s
-
-
-    # myVar <- unique(vars)
-    # if(length(myVar) != 1) stop("error mapping colour to variable")
-    #
-    # myColours <- pal[['colour']][ match(shape[[myVar]], pal[['variable']])]
-    #
-    # ## create a data.frame with the same number of columns as there are vars
-    # m <- matrix(myColours, nrow = length(myColours), ncol = length(names(vars)))
-    #
-    # colnames(m) <- attr(vars, 'names')
-    # m
-
-    # l <- lapply(attr(vars, 'names'), function(y) {
-    #   pal[['colour']][ match(shape[[y]], pal[['variable']]) ]
-    # })
-    #
-    # t(l)
-    # #unlist(l)
-    # names(l) <- attr(vars, 'names')
-    # l
-    ## collapse nested list into one list element
-
-    #names(myColours) <- attr(vars ,'names')
   })
-
   lst
 }
 
