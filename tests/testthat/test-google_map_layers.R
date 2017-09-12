@@ -8,7 +8,7 @@ test_that("markers correctly defined", {
   df <- data.frame(mylat = 1:4,
                    mylon = 1:4)
 
-  expect_error(add_markers(map = m), "Couldn't infer latitude column for add_markers")
+  expect_error(add_markers(map = m), "No data supplied")
   expect_error(add_markers(map = m, data = df), "Couldn't infer latitude column for add_markers")
 
 
@@ -51,6 +51,30 @@ test_that("markers correctly defined", {
   expect_true("mouse_over" %in% names(jsonlite::fromJSON(add_markers(map = m, data = df, mouse_over = "mouse_over")$x$calls[[1]]$args[[1]])))
 
 })
+
+test_that("marker exmaples work", {
+
+  map_key <- "api"
+
+  ## map specifying lat & lon, and using defaults for opacity and colour
+  g <- google_map(key = map_key, data = tram_stops[1, ]) %>%
+    add_markers(lat = "stop_lat", lon = "stop_lon", info_window = "stop_name")
+
+  expectedDf <- data.frame(lat = tram_stops[1, "stop_lat"],
+                           lng = tram_stops[1, "stop_lon"],
+                           info_window = tram_stops[1, "stop_name"],
+                           opacity = googleway:::markerDefaults(1)[, 'opacity'],
+                           colour = googleway:::markerDefaults(1)[, 'colour'],
+                           stringsAsFactors = F)
+
+  expect_equal(
+    expectedDf,
+    jsonlite::fromJSON(g$x$calls[[1]]$args[[1]])
+  )
+})
+
+
+
 
 test_that("clear markers invoked", {
 
@@ -214,8 +238,13 @@ test_that("polylines added and removed", {
 
   expect_error(
     add_polylines(m),
-    'please supply the either the column containing the polylines, or the lat/lon coordinate columns'
+    'No data supplied'
     )
+
+  expect_error(
+    add_polylines(map = m, data = df),
+    'please supply the either the column containing the polylines, or the lat/lon coordinate columns'
+  )
 
   df$id <- 1:nrow(df)
   expect_silent(add_polylines(map = m, data = df, id = 'id', lat = 'lat', lon = 'lon'))
@@ -292,9 +321,11 @@ test_that("polygons added and removed", {
     "No 'pathId' value defined, assuming one continuous line per polygon"
   )
 
+  expectedDf <- data.frame()
+
   expect_true(
     add_polygons(map = m, data = df, lat = 'lat', lon = 'lon', id = 'id')$x$calls[[1]]$args[[1]] ==
-    '[{"coords":[[{"lat":1,"lng":1},{"lat":2,"lng":2},{"lat":3,"lng":3},{"lat":4,"lng":4}]],"stroke_colour":"#0000FF","stroke_weight":1,"stroke_opacity":0.6,"fill_colour":"#FF0000","fill_opacity":0.35,"z_index":1,"id":"1"}]'
+    '[{"coords":[[{"lat":1,"lng":1},{"lat":2,"lng":2},{"lat":3,"lng":3},{"lat":4,"lng":4}]],"stroke_colour":"#0000FF","stroke_weight":1,"stroke_opacity":0.6,"fill_opacity":0.35,"fill_colour":"#FF0000","z_index":1,"id":"1"}]'
   )
 
   expect_true(clear_polygons(m)$x$calls[[1]]$functions == "clear_polygons")

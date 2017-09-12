@@ -180,7 +180,7 @@ add_markers_dep <- function(map,
 #'
 #' @name clear
 #' @export
-clear_markers <- function(map, layer_id = NULL){
+clear_markers_dep <- function(map, layer_id = NULL){
   layer_id <- LayerId(layer_id)
   invoke_method(map, data = NULL, 'clear_markers', layer_id)
 }
@@ -361,7 +361,7 @@ add_circles_dep <- function(map,
 
 #' @rdname clear
 #' @export
-clear_circles <- function(map, layer_id = NULL){
+clear_circles_dep <- function(map, layer_id = NULL){
 
   layer_id <- LayerId(layer_id)
 
@@ -1026,7 +1026,7 @@ update_polylines <- function(map, data, id,
 
 #' @rdname clear
 #' @export
-clear_polylines <- function(map, layer_id = NULL){
+clear_polylines_dep <- function(map, layer_id = NULL){
 
   layer_id <- LayerId(layer_id)
 
@@ -1472,7 +1472,7 @@ update_polygons <- function(map, data, id,
 
 #' @rdname clear
 #' @export
-clear_polygons <- function(map, layer_id = NULL){
+clear_polygons_dep <- function(map, layer_id = NULL){
 
   layer_id <- LayerId(layer_id)
 
@@ -1631,7 +1631,7 @@ add_rectangles_dep <- function(map,
 
 #' @rdname clear
 #' @export
-clear_rectangles <- function(map, layer_id = NULL){
+clear_rectangles_dep <- function(map, layer_id = NULL){
 
   layer_id <- LayerId(layer_id)
 

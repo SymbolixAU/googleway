@@ -75,7 +75,6 @@ function clear_circles(map_id, layer_id){
     window[map_id + 'googleCircles' + layer_id][i].setMap(null);
   }
   window[map_id + 'googleCircles' + layer_id] = null;
-
 }
 
 /**

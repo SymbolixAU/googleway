@@ -107,14 +107,18 @@ add_rectangles <- function(map,
                            digits = 4,
                            palette = NULL){
 
-  if(is.null(palette)){
-    palette <- viridisLite::viridis
-  }else{
-    if(!is.function(palette)) stop("palette needs to be a function")
-  }
-
-  layer_id <- LayerId(layer_id)
   objArgs <- match.call(expand.dots = F)
+
+  ## PARAMETER CHECKS
+  dataCheck(data)
+  layer_id <- layerId(layer_id)
+
+  objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_circles")
+  logicalCheck(update_map_view)
+  numericCheck(digits)
+  numericCheck(z_index)
+  palette <- paletteCheck(palette)
+  ## END PARAMETER CHECKS
 
   allCols <- rectangleColumns()
   requiredCols <- requiredShapeColumns()
@@ -135,7 +139,15 @@ add_rectangles <- function(map,
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  print(" -- invoking rectangles -- ")
   invoke_method(map, data, 'add_rectangles', shape, update_map_view, layer_id)
 
 }
+
+
+#' @rdname clear
+#' @export
+clear_rectangles <- function(map, layer_id = NULL){
+  layer_id <- layerId(layer_id)
+  invoke_method(map, data = NULL, 'clear_rectangles', layer_id)
+}
+

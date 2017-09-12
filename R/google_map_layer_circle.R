@@ -93,9 +93,6 @@ add_circles <- function(map,
                         digits = 4,
                         palette = NULL){
 
-  ## TODO:
-  ## parameter checks
-
   objArgs <- match.call(expand.dots = F)
 
   ## PARAMETER CHECKS
@@ -111,7 +108,7 @@ add_circles <- function(map,
 
 
   allCols <- circleColumns()
-  requiredCols <- requiredShapeColumns()
+  requiredCols <- requiredCircleColumns()
   colourColumns <- shapeAttributes(fill_colour, stroke_colour)
 
   shape <- createMapObject(data, allCols, objArgs)
@@ -128,6 +125,15 @@ add_circles <- function(map,
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  print(" -- invoking circles -- ")
   invoke_method(map, data, 'add_circles', shape, update_map_view, layer_id)
 }
+
+#' @rdname clear
+#' @export
+clear_circles <- function(map, layer_id = NULL){
+  layer_id <- layerId(layer_id)
+  invoke_method(map, data = NULL, 'clear_circles', layer_id)
+}
+
+
+

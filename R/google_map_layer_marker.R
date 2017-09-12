@@ -78,10 +78,6 @@ add_markers <- function(map,
                         update_map_view = TRUE,
                         digits = 4){
 
-
-  ## TODO:
-  ## - parameter checks
-
   objArgs <- match.call(expand.dots = F)
 
   ## PARAMETER CHECKS
@@ -89,7 +85,7 @@ add_markers <- function(map,
   layer_id <- layerId(layer_id)
 
   objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_markers")
-  objArgs <- markerColourIconCheck(objArgs, colour, marker_icon)
+  objArgs <- markerColourIconCheck(data, objArgs, colour, marker_icon)
 
   logicalCheck(cluster)
   logicalCheck(update_map_view)
@@ -113,6 +109,26 @@ add_markers <- function(map,
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  print(" -- invoking markers -- ")
   invoke_method(map, data, 'add_markers', shape, cluster, update_map_view, layer_id)
 }
+
+
+#' clear map elements
+#'
+#' clears elements from a map
+#'
+#' @note These operations are intended for use in conjunction with
+#' \link{google_map_update} in an interactive shiny environment
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @param layer_id id value of the layer to be removed from the map
+#'
+#' @name clear
+#' @export
+clear_markers <- function(map, layer_id = NULL){
+  layer_id <- layerId(layer_id)
+  invoke_method(map, data = NULL, 'clear_markers', layer_id)
+}
+
+
+

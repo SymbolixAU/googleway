@@ -99,7 +99,7 @@
 #'
 #' }
 #' @export
-add_polyline <- function(map,
+add_polylines <- function(map,
                           data = get_map_data(map),
                           polyline = NULL,
                           lat = NULL,
@@ -123,7 +123,7 @@ add_polyline <- function(map,
   ## PARAMETER CHECKS
   dataCheck(data)
   layer_id <- layerId(layer_id)
-  latLonPolyCheck(lat, lon, poly)
+  latLonPolyCheck(lat, lon, polyline)
 
   usePolyline <- isUsingPolyline(polyline)
 
@@ -177,6 +177,12 @@ add_polyline <- function(map,
     shape <- jsonlite::toJSON(shape, auto_unbox = T)
   }
 
-  print(" -- invoking polylines -- ")
   invoke_method(map, data, 'add_polylines', shape, update_map_view, layer_id, usePolyline)
+}
+
+#' @rdname clear
+#' @export
+clear_polylines <- function(map, layer_id = NULL){
+  layer_id <- layerId(layer_id)
+  invoke_method(map, data = NULL, 'clear_polylines', layer_id)
 }

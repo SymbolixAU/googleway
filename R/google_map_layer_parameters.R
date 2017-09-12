@@ -7,6 +7,10 @@
 # checks the data is the correct type(s)
 # @param data the data passed into the map layer funciton
 dataCheck <- function(data){
+
+  if(is.null(data))
+    stop("No data supplied")
+
   if(!inherits(data, "data.frame"))
     stop("Currently only data.frames are supported")
 }
@@ -55,6 +59,10 @@ latLonCheck <- function(objArgs, lat, lon, dataNames, layer_call){
 # @param lon longitude column
 # @param polyline polyline column
 latLonPolyCheck <- function(lat, lon, polyline){
+
+  if(!is.null(polyline) & !is.null(lat) & !is.null(lon))
+    stop('please use either a polyline colulmn, or lat/lon coordinate columns, not both')
+
   if(is.null(polyline) & (is.null(lat) | is.null(lon)))
     stop("please supply the either the column containing the polylines, or the lat/lon coordinate columns")
 }
@@ -89,10 +97,11 @@ logicalCheck <- function(arg){
 #
 # Checks for only one of colour or marker_icon, and fixes the 'marker_icon'
 # to be 'icon'
+# @param data the data supplied to the map layer
 # @param objArgs the arguments to the function
 # @param colour the colour argument for a marker
 # @param marker_icon the icon argument for a marker
-markerColourIconCheck <- function(objArgs, colour, marker_icon){
+markerColourIconCheck <- function(data, objArgs, colour, marker_icon){
 
   if(!is.null(colour) & !is.null(marker_icon))
     stop("only one of colour or icon can be used")

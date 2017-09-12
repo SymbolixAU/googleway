@@ -127,10 +127,42 @@
 #   googleway:::add_markes2(lat = "stop_lat", lon = "stop_lon", info_window = "stop_name")
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## TODO:
 ## TESTS
 ## - polylines - works with and withotu ID, for polyline and lat/lon columns
 ## - polygons - ditto
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

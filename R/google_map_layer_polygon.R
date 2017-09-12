@@ -148,7 +148,7 @@
 #' @seealso \link{encode_pl}
 #'
 #' @export
-add_polygon <- function(map,
+add_polygons <- function(map,
                          data = get_map_data(map),
                          polyline = NULL,
                          lat = NULL,
@@ -172,7 +172,6 @@ add_polygon <- function(map,
                          palette = NULL){
 
   ## TODO:
-  ## - parameter checks
   ## - holes must be wound in the opposite direction
 
   objArgs <- match.call(expand.dots = F)
@@ -180,7 +179,7 @@ add_polygon <- function(map,
   ## PARAMETER CHECKS
   dataCheck(data)
   layer_id <- layerId(layer_id)
-  latLonPolyCheck(lat, lon, poly)
+  latLonPolyCheck(lat, lon, polyline)
 
   usePolyline <- isUsingPolyline(polyline)
 
@@ -193,8 +192,6 @@ add_polygon <- function(map,
   numericCheck(z_index)
   palette <- paletteCheck(palette)
 
-  ## TODO:
-  ## if updating the ID, I also need to update objArgs with the new id value
   lst <- polyIdCheck(data, id, usePolyline, objArgs)
   data <- lst$data
   objArgs <- lst$objArgs
@@ -203,13 +200,6 @@ add_polygon <- function(map,
   data <- lst$data
   objArgs <- lst$objArgs
   ## END PARAMETER CHECKS
-
-  ## TODO: Polygon ID
-  ## - if coordinates, the id defines the sequence of coordinates that make up a polygon.
-  ## ---- if null, can only assume it's one long line
-  ## - if polyline, the id defines the polygon that each line belongs to
-  ## ---- if null the assumption is each row is a unique line
-
 
 
   allCols <- polygonColumns()
@@ -228,11 +218,6 @@ add_polygon <- function(map,
   if(length(requiredDefaults) > 0){
     shape <- addDefaults(shape, requiredDefaults, "polygon")
   }
-
-  ## TODO:
-  ## list columns
-  ## lat-lon values
-  ## (same os add_polygons)
 
   if(usePolyline){
 
@@ -254,6 +239,12 @@ add_polygon <- function(map,
     shape <- jsonlite::toJSON(lst_polygon, digits = digits, auto_unbox = T)
   }
 
-  print(" -- invoking polygons -- ")
   invoke_method(map, data, 'add_polygons', shape, update_map_view, layer_id, usePolyline)
+}
+
+#' @rdname clear
+#' @export
+clear_polygons <- function(map, layer_id = NULL){
+  layer_id <- layerId(layer_id)
+  invoke_method(map, data = NULL, 'clear_polygons', layer_id)
 }

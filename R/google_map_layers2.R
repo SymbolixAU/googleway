@@ -56,6 +56,10 @@ requiredShapeColumns <- function(){
     "fill_opacity", "fill_colour", "z_index")
 }
 
+requiredCircleColumns <- function(){
+  c(requiredShapeColumns(), "radius")
+}
+
 requiredMarkerColumns <- function(){
   c("opacity", "colour")
 }
@@ -76,7 +80,8 @@ df_markerColours <- function(){
 
 markerDefaults <- function(n){
   data.frame("opacity" = rep(1, n),
-             "colour" = rep("red", n))
+             "colour" = rep("red", n),
+             stringsAsFactors = F)
 }
 
 ## polyline ---------------------------------------------------------------------
@@ -128,6 +133,7 @@ circleDefaults <- function(n){
              "fill_colour" = rep("#FF0000",n),
              "fill_opacity" = rep(0.35,n),
              "z_index" = rep(4,n),
+             "radius" = rep(50, n),
              stringsAsFactors = FALSE)
 }
 
