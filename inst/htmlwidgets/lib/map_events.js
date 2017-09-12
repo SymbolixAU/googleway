@@ -61,7 +61,7 @@ function bounds_changed(map_id, mapObject, mapInfo){
 
 function zoom_changed(map_id, mapObject, mapInfo){
 
-    if(!HTMLWidgets.shinyMode) return;
+  if(!HTMLWidgets.shinyMode) return;
 
   google.maps.event.addListener(mapObject, 'bounds_changed', function(event){
     var eventInfo = $.extend(
@@ -72,10 +72,8 @@ function zoom_changed(map_id, mapObject, mapInfo){
       },
       mapInfo
     );
-
     Shiny.onInputChange(map_id + "_zoom_changed", eventInfo);
   });
-
 }
 
 /**
