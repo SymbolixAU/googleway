@@ -113,7 +113,6 @@ add_rectangles <- function(map,
   dataCheck(data)
   layer_id <- layerId(layer_id)
 
-  objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_circles")
   logicalCheck(update_map_view)
   numericCheck(digits)
   numericCheck(z_index)
