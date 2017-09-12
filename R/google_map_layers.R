@@ -856,3 +856,29 @@ clear_fusion <- function(map, layer_id = NULL){
   invoke_method(map, data = NULL, 'clear_fusion', layer_id)
 }
 
+
+
+#' Add Drawing
+#'
+#' Adds drawing tools to the map
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @examples
+#' \dontrun{
+#'
+#' google_map(key = "your_api_key") %>%
+#'   add_drawing()
+#'
+#' }
+#' @export
+add_drawing <- function(map){
+  invoke_method(map, data = NULL, 'add_drawing')
+}
+
+#' @rdname clear
+#' @export
+clear_drawing <- function(map){
+  invoke_method(map, data = NULL, 'clear_drawing')
+}
+
+
