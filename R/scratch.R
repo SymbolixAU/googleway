@@ -109,15 +109,15 @@
 # df <- tram_stops
 # df$rand <- rnorm(nrow(df))
 # google_map(key = mapKey) %>%
-#   googleway:::add_circle2(data = df[1:10,], id = "stop_id", stroke_colour = "stop_id",
+#   add_circles(data = df[1:10,], id = "stop_id", stroke_colour = "stop_id", fill_colour = "stop_lat",
 #                         lat = "stop_lat", lon = "stop_lon", radius = 200,
 #                         mouse_over_group = "stop_name")
 #
 # google_map(key = mapKey) %>%
-#   googleway:::add_polygon2(data = melbourne, fill_colour = "SA2_NAME", stroke_colour = "SA2_NAME",
+#   add_polygon(data = melbourne, fill_colour = "SA2_NAME", stroke_colour = "SA2_NAME",
 #                            fill_opacity = 0.8, mouse_over_group = "SA2_NAME",
 #                            polyline = "polyline", palette = viridisLite::inferno)
-#
+
 
 
 # google_map(key = mapKey, data = tram_route) %>%
@@ -125,6 +125,12 @@
 
 # google_map(key = mapKey, data = tram_stops) %>%
 #   googleway:::add_markes2(lat = "stop_lat", lon = "stop_lon", info_window = "stop_name")
+
+
+## TODO:
+## TESTS
+## - polylines - works with and withotu ID, for polyline and lat/lon columns
+## - polygons - ditto
 
 
 

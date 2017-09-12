@@ -1,7 +1,10 @@
 
 # Create Map Object
 #
-# Creates the map object from the input data and arguments
+# Creates the map object from the input data and arguments. If the arguments
+# are columns of the \code{data}, the column is used. Otherwise, the value
+# is assumed to be required for every row of \code{data} and is replicated
+# for the whole data set
 #
 # @param data data passed into the map layer function
 # @param cols all the columns required for the given map object

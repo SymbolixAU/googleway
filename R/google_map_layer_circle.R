@@ -96,16 +96,19 @@ add_circles <- function(map,
   ## TODO:
   ## parameter checks
 
-  if(is.null(palette)){
-    palette <- viridisLite::viridis
-  }else{
-    if(!is.function(palette)) stop("palette needs to be a function")
-  }
-
-  layer_id <- LayerId(layer_id)
   objArgs <- match.call(expand.dots = F)
 
+  ## PARAMETER CHECKS
+  dataCheck(data)
+  layer_id <- layerId(layer_id)
+
   objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_circles")
+  logicalCheck(update_map_view)
+  numericCheck(digits)
+  numericCheck(z_index)
+  palette <- paletteCheck(palette)
+  ## END PARAMETER CHECKS
+
 
   allCols <- circleColumns()
   requiredCols <- requiredShapeColumns()

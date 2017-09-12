@@ -1,3 +1,16 @@
+
+## TODO: deprecate
+LayerId <- function(layer_id){
+  if(!is.null(layer_id) & length(layer_id) != 1)
+    stop("please provide a single value for 'layer_id'")
+
+  if(is.null(layer_id)){
+    return("defaultLayerId")
+  }else{
+    return(layer_id)
+  }
+}
+
 # Latitude Check
 #
 # Checks that a value is between -90:90
@@ -14,29 +27,7 @@ LongitudeCheck <- function(lat, arg){
     stop(paste0(arg, " must be a value between -180 and 180 (inclusive)"))
 }
 
-# Lat Lon Check
-#
-# @param objArgs arguments of calling funciton
-# @param lat object specified by user
-# @param lon object specified by user
-# @param dataNames data names
-# @param layer_call the map layer funciton calling this function
-latLonCheck <- function(objArgs, lat, lon, dataNames, layer_call){
 
-  ## change lon to lng
-  names(objArgs)[which(names(objArgs) == "lon")] <- "lng"
-
-  if(is.null(lat)){
-    lat <- find_lat_column(dataNames, "add_circles", TRUE)
-    objArgs[['lat']] <- lat
-  }
-
-  if(is.null(lon)){
-    lon <- find_lon_column(dataNames, "add_circles", TRUE)
-    objArgs[['lng']] <- lon
-  }
-  return(objArgs)
-}
 
 ### url check ------------------
 urlCheck <- function(url) UseMethod("urlCheck")
@@ -57,7 +48,6 @@ urlCheck.default <- function(url) stopMessage(url)
 LogicalCheck <- function(param){
   if(!is.logical(param) | length(param) != 1)
     stop(paste0(deparse(substitute(param))," must be logical - TRUE or FALSE"))
-
 }
 
 # Check hex colours

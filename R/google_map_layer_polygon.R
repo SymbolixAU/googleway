@@ -175,38 +175,42 @@ add_polygon <- function(map,
   ## - parameter checks
   ## - holes must be wound in the opposite direction
 
-  ## palette argument:
-  ## a function that can generate a sequence of RGB HEX colours.
-  ## viridisLite::viridis is default
-  ##
-  ## if different palettes are required for different variables...
-  ## do something...
-
   objArgs <- match.call(expand.dots = F)
 
-  if(is.null(polyline) & (is.null(lat) | is.null(lon)))
-    stop("please supply the either the column containing the polylines, or the lat/lon coordinate columns")
+  ## PARAMETER CHECKS
+  dataCheck(data)
+  layer_id <- layerId(layer_id)
+  latLonPolyCheck(lat, lon, poly)
 
-  if(!is.null(polyline) & (!is.null(lat) | !is.null(lon)))
-    stop("please use either a polyline colulmn, or lat/lon coordinate columns, not both")
+  usePolyline <- isUsingPolyline(polyline)
 
-  if(!inherits(data, "data.frame"))
-    stop("Currently only data.frames are supported")
-
-  if(is.null(palette)){
-    palette <- viridisLite::viridis
-  }else{
-    if(!is.function(palette)) stop("palette needs to be a function")
+  if(!usePolyline){
+    objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_polyline")
   }
 
-  if(!is.null(polyline)){
-    usePolyline <- TRUE
-  }else{
-    usePolyline <- FALSE
-    objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_polygons")
-  }
+  logicalCheck(update_map_view)
+  numericCheck(digits)
+  numericCheck(z_index)
+  palette <- paletteCheck(palette)
 
-  layer_id <- LayerId(layer_id)
+  ## TODO:
+  ## if updating the ID, I also need to update objArgs with the new id value
+  lst <- polyIdCheck(data, id, usePolyline, objArgs)
+  data <- lst$data
+  objArgs <- lst$objArgs
+
+  lst <- pathIdCheck(data, pathId, usePolyline, objArgs)
+  data <- lst$data
+  objArgs <- lst$objArgs
+  ## END PARAMETER CHECKS
+
+  ## TODO: Polygon ID
+  ## - if coordinates, the id defines the sequence of coordinates that make up a polygon.
+  ## ---- if null, can only assume it's one long line
+  ## - if polyline, the id defines the polygon that each line belongs to
+  ## ---- if null the assumption is each row is a unique line
+
+
 
   allCols <- polygonColumns()
   requiredCols <- requiredShapeColumns()

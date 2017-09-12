@@ -120,40 +120,28 @@ add_polyline <- function(map,
 
   objArgs <- match.call(expand.dots = F)
 
-  if(is.null(polyline) & (is.null(lat) | is.null(lon)))
-    stop("please supply the either the column containing the polylines, or the lat/lon coordinate columns")
+  ## PARAMETER CHECKS
+  dataCheck(data)
+  layer_id <- layerId(layer_id)
+  latLonPolyCheck(lat, lon, poly)
 
-  if(!is.null(polyline) & (!is.null(lat) | !is.null(lon)))
-    stop("please use either a polyline colulmn, or lat/lon coordinate columns, not both")
+  usePolyline <- isUsingPolyline(polyline)
 
-  if(!inherits(data, "data.frame"))
-    stop("Currently only data.frames are supported")
-
-  if(is.null(palette)){
-    palette <- viridisLite::viridis
-  }else{
-    if(!is.function(palette)) stop("palette needs to be a function")
+  if(!usePolyline){
+    objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_polyline")
   }
 
-  if(!is.null(polyline)){
-    usePolyline <- TRUE
-  }else{
-    usePolyline <- FALSE
-    objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_polygons")
-  }
+  logicalCheck(update_map_view)
+  numericCheck(digits)
+  numericCheck(z_index)
+  palette <- paletteCheck(palette)
 
-  if(is.null(id)){
-    id <- 'id'
-    objArgs[['id']] <- id
+  lst <- polyIdCheck(data, id, usePolyline, objArgs)
+  data <- lst$data
+  objArgs <- lst$objArgs
+  ## END PARAMETER CHECKS
 
-    if(usePolyline){
-      data[, id] <- 1:nrow(data)
-    }else{
-      data[, id] <- 1
-    }
-  }
 
-  layer_id <- LayerId(layer_id)
 
   allCols <- polylineColumns()
   requiredCols <- requiredLineColumns()
