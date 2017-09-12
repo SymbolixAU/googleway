@@ -185,6 +185,10 @@ clear_rectangles <- function(map, layer_id = NULL){
 #' the fill opacity of each rectangle, or a value between 0 and 1 that will be applied
 #' to all the rectangles
 #' @param layer_id single value specifying an id for the layer.
+#' @param digits integer. Use this parameter to specify how many digits (decimal places)
+#' should be used for the latitude / longitude coordinates.
+#' @param palette a function that generates hex RGB colours given a single number as an input.
+#' Used when a variable of \code{data} is specified as a colour
 #'
 #' @export
 update_rectangles <- function(map, data, id,

@@ -41,6 +41,12 @@ the fill opacity of each rectangle, or a value between 0 and 1 that will be appl
 to all the rectangles}
 
 \item{layer_id}{single value specifying an id for the layer.}
+
+\item{digits}{integer. Use this parameter to specify how many digits (decimal places)
+should be used for the latitude / longitude coordinates.}
+
+\item{palette}{a function that generates hex RGB colours given a single number as an input.
+Used when a variable of \code{data} is specified as a colour}
 }
 \description{
 Updates specific colours and opacities of specified rectangles Designed to be

@@ -10,16 +10,10 @@
 \alias{clear_polygons}
 \alias{clear_polylines}
 \alias{clear_rectangles}
-\alias{clear}
-\alias{clear_markers_dep}
-\alias{clear_circles_dep}
 \alias{clear_heatmap}
 \alias{clear_traffic}
 \alias{clear_transit}
 \alias{clear_bicycling}
-\alias{clear_polylines_dep}
-\alias{clear_polygons_dep}
-\alias{clear_rectangles_dep}
 \alias{clear_fusion}
 \title{clear map elements}
 \usage{
@@ -33,10 +27,6 @@ clear_polylines(map, layer_id = NULL)
 
 clear_rectangles(map, layer_id = NULL)
 
-clear_markers_dep(map, layer_id = NULL)
-
-clear_circles_dep(map, layer_id = NULL)
-
 clear_heatmap(map, layer_id = NULL)
 
 clear_traffic(map)
@@ -44,12 +34,6 @@ clear_traffic(map)
 clear_transit(map)
 
 clear_bicycling(map)
-
-clear_polylines_dep(map, layer_id = NULL)
-
-clear_polygons_dep(map, layer_id = NULL)
-
-clear_rectangles_dep(map, layer_id = NULL)
 
 clear_fusion(map, layer_id = NULL)
 }
