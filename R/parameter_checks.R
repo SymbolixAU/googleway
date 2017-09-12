@@ -1,3 +1,16 @@
+
+## TODO: deprecate
+LayerId <- function(layer_id){
+  if(!is.null(layer_id) & length(layer_id) != 1)
+    stop("please provide a single value for 'layer_id'")
+
+  if(is.null(layer_id)){
+    return("defaultLayerId")
+  }else{
+    return(layer_id)
+  }
+}
+
 # Latitude Check
 #
 # Checks that a value is between -90:90
@@ -13,6 +26,7 @@ LongitudeCheck <- function(lat, arg){
   if(!is.numeric(lat) | lat < -180 | lat > 180)
     stop(paste0(arg, " must be a value between -180 and 180 (inclusive)"))
 }
+
 
 
 ### url check ------------------
@@ -34,7 +48,6 @@ urlCheck.default <- function(url) stopMessage(url)
 LogicalCheck <- function(param){
   if(!is.logical(param) | length(param) != 1)
     stop(paste0(deparse(substitute(param))," must be logical - TRUE or FALSE"))
-
 }
 
 # Check hex colours
@@ -44,13 +57,29 @@ LogicalCheck <- function(param){
 # @param df \code{data.frame}
 # @param cols string of columns to check
 check_hex_colours <- function(df, cols){
-  ## checks the columns of data that should be in HEX colours
-
   for(myCol in cols){
     if(!all(grepl("^#(?:[0-9a-fA-F]{3}){1,2}$", df[, myCol])))
       stop(paste0("Incorrect colour specified in ", myCol, ". Make sure the colours in the column are valid hexadecimal HTML colours"))
   }
 }
+
+isHexColour <- function(cols){
+  hexPattern <- "^#(?:[0-9a-fA-F]{3}){1,2}$|^#(?:[0-9a-fA-F]{4}){1,2}$"
+  all(grepl(hexPattern, cols))
+}
+
+isRgba <- function(cols){
+  all(grepl("^#(?:[0-9a-fA-F]{4}){1,2}$", cols))
+}
+
+hexType <- function(cols){
+  rgb <- "^#(?:[0-9a-fA-F]{3}){1,2}$"
+  rgba <- "^#(?:[0-9a-fA-F]{4}){1,2}$"
+}
+
+# some browsers don't support the alpha channel
+removeAlpha <- function(cols) substr(cols, 1, 7)
+
 
 # Check opacities
 #
@@ -132,18 +161,16 @@ find_lat_column = function(names, calling_function, stopOnFailure = TRUE) {
   lats = names[grep("^(lat|lats|latitude|latitudes)$", names, ignore.case = TRUE)]
 
   if (length(lats) == 1) {
-    # if (length(names) > 1) {
-    #   message("Assuming '", lats, " is the latitude column")
-    # }
-    ## passes
-    return(list(lat = lats))
+    # return(list(lat = lats))
+    return(lats)
   }
 
   if (stopOnFailure) {
     stop(paste0("Couldn't infer latitude column for ", calling_function))
   }
 
-  list(lat = NA)
+  return(NA)
+  # list(lat = NA)
 }
 
 # Find Lon Column
@@ -157,17 +184,15 @@ find_lon_column = function(names, calling_function, stopOnFailure = TRUE) {
   lons = names[grep("^(lon|lons|lng|lngs|long|longs|longitude|longitudes)$", names, ignore.case = TRUE)]
 
   if (length(lons) == 1) {
-    # if (length(names) > 1) {
-    #   message("Assuming '", lons, " is the longitude column")
-    # }
-    ## passes
-    return(list(lon = lons))
+    # return(list(lon = lons))
+    return(lons)
   }
 
   if (stopOnFailure) {
     stop(paste0("Couldn't infer longitude columns for ", calling_function))
   }
 
-  list(lon = NA)
+  #list(lon = NA)
+  return(NA)
 }
 

@@ -1,4 +1,4 @@
-#' Add markers
+#' Add markers dep
 #'
 #' Add markers to a google map
 #'
@@ -59,7 +59,7 @@
 #'
 #' }
 #' @export
-add_markers <- function(map,
+add_markers_dep <- function(map,
                         data = get_map_data(map),
                         id = NULL,
                         colour = NULL,
@@ -168,19 +168,9 @@ add_markers <- function(map,
   invoke_method(map, data, 'add_markers', markers, cluster, update_map_view, layer_id)
 }
 
-#' clear map elements
-#'
-#' clears elements from a map
-#'
-#' @note These operations are intended for use in conjunction with
-#' \link{google_map_update} in an interactive shiny environment
-#'
-#' @param map a googleway map object created from \code{google_map()}
-#' @param layer_id id value of the layer to be removed from the map
-#'
 #' @name clear
 #' @export
-clear_markers <- function(map, layer_id = NULL){
+clear_markers_dep <- function(map, layer_id = NULL){
   layer_id <- LayerId(layer_id)
   invoke_method(map, data = NULL, 'clear_markers', layer_id)
 }
@@ -217,7 +207,7 @@ update_style <- function(map, styles = NULL){
 }
 
 
-#' Add circle
+#' Add circle dep
 #'
 #' Add circles to a google map
 #'
@@ -289,7 +279,7 @@ update_style <- function(map, styles = NULL){
 #'
 #'  }
 #' @export
-add_circles <- function(map,
+add_circles_dep <- function(map,
                         data = get_map_data(map),
                         id = NULL,
                         lat = NULL,
@@ -361,7 +351,7 @@ add_circles <- function(map,
 
 #' @rdname clear
 #' @export
-clear_circles <- function(map, layer_id = NULL){
+clear_circles_dep <- function(map, layer_id = NULL){
 
   layer_id <- LayerId(layer_id)
 
@@ -408,7 +398,7 @@ clear_circles <- function(map, layer_id = NULL){
 #' @param layer_id single value specifying an id for the layer.
 #'
 #' @export
-update_circles <- function(map, data, id,
+update_circles_dep <- function(map, data, id,
                            radius = NULL,
                            draggable = NULL,
                            stroke_colour = NULL,
@@ -706,7 +696,7 @@ clear_bicycling <- function(map){
 }
 
 
-#' Add polyline
+#' Add polyline dep
 #'
 #' Add a polyline to a google map
 #'
@@ -804,7 +794,7 @@ clear_bicycling <- function(map){
 #'
 #' }
 #' @export
-add_polylines <- function(map,
+add_polylines_dep <- function(map,
                           data = get_map_data(map),
                           polyline = NULL,
                           lat = NULL,
@@ -1026,14 +1016,14 @@ update_polylines <- function(map, data, id,
 
 #' @rdname clear
 #' @export
-clear_polylines <- function(map, layer_id = NULL){
+clear_polylines_dep <- function(map, layer_id = NULL){
 
   layer_id <- LayerId(layer_id)
 
   invoke_method(map, data = NULL, 'clear_polylines', layer_id)
 }
 
-#' Add polygon
+#' Add polygon dep
 #'
 #' Add a polygon to a google map.
 #'
@@ -1180,7 +1170,7 @@ clear_polylines <- function(map, layer_id = NULL){
 #' @seealso \link{encode_pl}
 #'
 #' @export
-add_polygons <- function(map,
+add_polygons_dep <- function(map,
                         data = get_map_data(map),
                         polyline = NULL,
                         lat = NULL,
@@ -1472,7 +1462,7 @@ update_polygons <- function(map, data, id,
 
 #' @rdname clear
 #' @export
-clear_polygons <- function(map, layer_id = NULL){
+clear_polygons_dep <- function(map, layer_id = NULL){
 
   layer_id <- LayerId(layer_id)
 
@@ -1480,7 +1470,7 @@ clear_polygons <- function(map, layer_id = NULL){
 }
 
 
-#' Add Rectangles
+#' Add Rectangles dep
 #'
 #' Adds a rectangle to a google map
 #'
@@ -1564,7 +1554,7 @@ clear_polygons <- function(map, layer_id = NULL){
 #'
 #' }
 #' @export
-add_rectangles <- function(map,
+add_rectangles_dep <- function(map,
                            data = get_map_data(map),
                            north,
                            east,
@@ -1609,8 +1599,9 @@ add_rectangles <- function(map,
   if(!is.null(draggable))
     Rectangle[, 'draggable'] <- as.logical(data[, draggable])
 
-  if(!is.null(editable))
+  if(!is.null(editable)){
     Rectangle[, 'editable'] <- as.logical(data[, editable])
+  }
 
   if(!is.null(info_window))
     Rectangle[, "info_window"] <- as.character(data[, info_window])
@@ -1630,7 +1621,7 @@ add_rectangles <- function(map,
 
 #' @rdname clear
 #' @export
-clear_rectangles <- function(map, layer_id = NULL){
+clear_rectangles_dep <- function(map, layer_id = NULL){
 
   layer_id <- LayerId(layer_id)
 
@@ -1673,7 +1664,7 @@ clear_rectangles <- function(map, layer_id = NULL){
 #' @param layer_id single value specifying an id for the layer.
 #'
 #' @export
-update_rectangles <- function(map, data, id,
+update_rectangles_dep <- function(map, data, id,
                            draggable = NULL,
                            stroke_colour = NULL,
                            stroke_weight = NULL,

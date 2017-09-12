@@ -17,7 +17,7 @@ direction_steps <- function(res) .access_result(resultType(res), "steps")
 
 #' @describeIn access_result the points from a directions query
 #' @export
-direction_points <- function(res) .access_results(resultType(res), "points")
+direction_points <- function(res) .access_result(resultType(res), "points")
 
 #' @describeIn access_result the encoded polyline from a direction query
 #' @export

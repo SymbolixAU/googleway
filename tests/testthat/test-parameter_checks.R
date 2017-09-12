@@ -89,13 +89,12 @@ test_that("longitude column is found", {
 test_that("lat & lon are found", {
 
   df <- data.frame(lat = c(1), lon = c(1))
-  expect_equal(googleway:::find_lat_column(names(df), 'test'), list(lat = "lat"))
-  expect_equal(googleway:::find_lon_column(names(df), 'test'), list(lon = "lon"))
+  expect_equal(googleway:::find_lat_column(names(df), 'test'), "lat")
+  expect_equal(googleway:::find_lon_column(names(df), 'test'), "lon")
 
   df <- data.frame(latitude = c(1), lons = c(1))
-  expect_equal(googleway:::find_lat_column(names(df), 'test'), list(lat = "latitude"))
-  expect_equal(googleway:::find_lon_column(names(df), 'test'), list(lon = "lons"))
-
+  expect_equal(googleway:::find_lat_column(names(df), 'test'), "latitude")
+  expect_equal(googleway:::find_lon_column(names(df), 'test'), "lons")
 
 })
 

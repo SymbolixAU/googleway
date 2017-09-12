@@ -36,6 +36,8 @@ function add_circles(map_id, data_circles, update_map_view, layer_id){
         zIndex: circle.z_index
       });
 
+      console.log(Circle);
+
     window[map_id + 'googleCircles' + layer_id].push(Circle);
     Circle.setMap(window[map_id + 'map']);
 
@@ -73,7 +75,6 @@ function clear_circles(map_id, layer_id){
     window[map_id + 'googleCircles' + layer_id][i].setMap(null);
   }
   window[map_id + 'googleCircles' + layer_id] = null;
-
 }
 
 /**
