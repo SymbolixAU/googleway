@@ -20,10 +20,32 @@ function add_drawing(map_id){
 
   var drawingInfo;
 
+  marker_complete(map_id, drawingManager, drawingInfo);
   circle_complete(map_id, drawingManager, drawingInfo);
   rectangle_complete(map_id, drawingManager, drawingInfo);
   polyline_complete(map_id, drawingManager, drawingInfo);
   polygon_complete(map_id, drawingManager, drawingInfo);
+}
+
+
+function marker_complete(map_id, drawingManager, drawingInfo){
+
+  if(!HTMLWidgets.shinyMode) return;
+
+  google.maps.event.addListener(drawingManager, 'markercomplete', function(marker) {
+
+    var eventInfo = $.extend(
+      {
+        place: marker.getPlace(),
+        position: marker.getPosition(),
+        shape: marker.getShape(),
+        title: marker.getTitle(),
+        randomValue: Math.random()
+      },
+      drawingInfo
+    );
+  Shiny.onInputChange(map_id + "_markercomplete", eventInfo);
+  });
 }
 
 

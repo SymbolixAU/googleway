@@ -141,6 +141,10 @@
 #       add_drawing()
 #   })
 #
+#   observeEvent(input$map_markercomplete, {
+#     print(input$map_markercomplete)
+#   })
+#
 #   observeEvent(input$map_circlecomplete, {
 #     print(input$map_circlecomplete)
 #   })
