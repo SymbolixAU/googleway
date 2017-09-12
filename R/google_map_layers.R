@@ -881,4 +881,13 @@ clear_drawing <- function(map){
   invoke_method(map, data = NULL, 'clear_drawing')
 }
 
+#' Remove drawing
+#'
+#' Removes the drawing controls from a map
+#'
+#' @describeIn clear
+#' @export
+remove_drawing <- function(map){
+  invoke_method(map, data = NULL, 'remove_drawing')
+}
 

@@ -1,5 +1,8 @@
 ## Version 2.3.0 (development)
 
+* `decode_pl` updated to now handle `jqr`-parsed character vectors
+* `colours` - You can now map variables passed into the map layers to colours
+* `add_drawing` draw shapes and markers onto the map
 * `add_geojson` adds geojson to a map
 * `access_result` function for accessing specific elements of a Google API query
 * Down-graded R requirement to 3.3.0
