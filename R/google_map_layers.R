@@ -398,7 +398,7 @@ clear_circles_dep <- function(map, layer_id = NULL){
 #' @param layer_id single value specifying an id for the layer.
 #'
 #' @export
-update_circles <- function(map, data, id,
+update_circles_dep <- function(map, data, id,
                            radius = NULL,
                            draggable = NULL,
                            stroke_colour = NULL,
@@ -1664,7 +1664,7 @@ clear_rectangles_dep <- function(map, layer_id = NULL){
 #' @param layer_id single value specifying an id for the layer.
 #'
 #' @export
-update_rectangles <- function(map, data, id,
+update_rectangles_dep <- function(map, data, id,
                            draggable = NULL,
                            stroke_colour = NULL,
                            stroke_weight = NULL,

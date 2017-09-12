@@ -1,7 +1,3 @@
-
-## TODO:
-## move all functions that check map layer arguemnts into here
-
 # Data Check
 #
 # checks the data is the correct type(s)

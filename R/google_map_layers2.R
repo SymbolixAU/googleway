@@ -1,4 +1,43 @@
 
+# Create Map Object
+#
+# Creates the map object from the input data and arguments. If the arguments
+# are columns of the \code{data}, the column is used. Otherwise, the value
+# is assumed to be required for every row of \code{data} and is replicated
+# for the whole data set
+#
+# @param data data passed into the map layer function
+# @param cols all the columns required for the given map object
+# @param objArgs the arguments passed into the map layer function
+createMapObject <- function(data, cols, objArgs){
+
+  dataNames <- names(data)
+
+  argsIdx <- match(cols, names(objArgs)) ## those taht exist in 'cols'
+  argsIdx <- argsIdx[!is.na(argsIdx)]
+
+  argValues <- sapply(1:length(objArgs), function(x) objArgs[[x]])
+
+  dataArgs <- which(argValues %in% names(data)) ## those where there is a column of data
+
+  additionalValues <- setdiff(argsIdx, dataArgs)
+
+  dataCols <- vapply(dataArgs, function(x) objArgs[[x]], "")
+  dataNames <- names(objArgs)[dataArgs]
+
+  df <- setNames(data[, dataCols, drop = F], dataNames)
+
+  if(length(additionalValues) > 0){
+
+    extraCols <- lapply(additionalValues, function(x){
+      setNames(as.data.frame(rep(objArgs[[x]], nrow(df)), stringsAsFactors = F), names(objArgs)[x])
+    })
+
+    df <- cbind(df, do.call(cbind, extraCols))
+  }
+  return(df)
+}
+
 # Replace Variable Colours
 #
 # Replaces the columns in shape object with the colours they have been mapped to

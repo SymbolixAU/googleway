@@ -136,4 +136,85 @@ clear_circles <- function(map, layer_id = NULL){
 }
 
 
+#' Update circles
+#'
+#' Updates specific colours and opacities of specified circles Designed to be
+#' used in a shiny application.
+#'
+#' @note Any circles (as specified by the \code{id} argument) that do not exist
+#' in the \code{data} passed into \code{add_circles()} will not be added to the map.
+#' This function will only update the circles that currently exist on the map when
+#' the function is called.
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @param data data.frame containing the new values for the circles
+#' @param id string representing the column of \code{data} containing the id values
+#' for the circles. The id values must be present in the data supplied to
+#' \code{add_circles} in order for the polygons to be udpated
+#' @param radius either a string specifying the column of \code{data} containing
+#' the radius of each circle, OR a numeric value specifying the radius of all the
+#' circles (radius is expressed in metres)
+#' @param draggable string specifying the column of \code{data} defining if the
+#' circle is 'draggable' (either TRUE or FALSE)
+#' @param stroke_colour either a string specifying the column of \code{data} containing
+#' the stroke colour of each circle, or a valid hexadecimal numeric HTML style
+#' to be applied to all the circles
+#' @param stroke_opacity either a string specifying the column of \code{data} containing
+#' the stroke opacity of each circle, or a value between 0 and 1 that will be
+#' applied to all the circles
+#' @param stroke_weight either a string specifying the column of \code{data} containing
+#' the stroke weight of each circle, or a number indicating the width of pixels
+#' in the line to be applied to all the circles
+#' @param fill_colour either a string specifying the column of \code{data} containing
+#' the fill colour of each circle, or a valid hexadecimal numeric HTML style to
+#' be applied to all the cirlces
+#' @param fill_opacity either a string specifying the column of \code{data} containing
+#' the fill opacity of each circle, or a value between 0 and 1 that will be applied
+#' to all the circles
+#' @param layer_id single value specifying an id for the layer.
+#' @param digits integer. Use this parameter to specify how many digits (decimal places)
+#' should be used for the latitude / longitude coordinates.
+#' @param palette a function that generates hex RGB colours given a single number as an input.
+#' Used when a variable of \code{data} is specified as a colour
+#'
+#' @export
+update_circles <- function(map, data, id,
+                           radius = NULL,
+                           draggable = NULL,
+                           stroke_colour = NULL,
+                           stroke_weight = NULL,
+                           stroke_opacity = NULL,
+                           fill_colour = NULL,
+                           fill_opacity = NULL,
+                           layer_id = NULL,
+                           digits = 4,
+                           palette = NULL){
 
+  ## TODO: is 'info_window' required, if it was included in the original add_ call?
+
+  objArgs <- match.call(expand.dots = F)
+
+  layer_id <- layerId(layer_id)
+  numericCheck(digits)
+  palette <- paletteCheck(palette)
+
+  allCols <- circleColumns()
+  requiredCols <- requiredCircleColumns()
+  colourColumns <- shapeAttributes(fill_colour, stroke_colour)
+
+  shape <- createMapObject(data, allCols, objArgs)
+  colours <- setupColours(data, shape, colourColumns, palette)
+
+  if(length(colours) > 0){
+    shape <- replaceVariableColours(shape, colours)
+  }
+
+  requiredDefaults <- setdiff(requiredCols, names(shape))
+  if(length(requiredDefaults) > 0){
+    shape <- addDefaults(shape, requiredDefaults, "circle")
+  }
+
+  shape <- jsonlite::toJSON(shape, digits = digits)
+
+  invoke_method(map, data = NULL, 'update_circles', shape, layer_id)
+}

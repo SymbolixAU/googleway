@@ -111,7 +111,8 @@
 # google_map(key = mapKey) %>%
 #   add_circles(data = df[1:10,], id = "stop_id", stroke_colour = "stop_id", fill_colour = "stop_lat",
 #                         lat = "stop_lat", lon = "stop_lon", radius = 200,
-#                         mouse_over_group = "stop_name")
+#                         mouse_over_group = "stop_name") %>%
+#   update_circles(data = df[1:10,], id = "stop_id", fill_colour = "rand")
 #
 # google_map(key = mapKey) %>%
 #   add_polygon(data = melbourne, fill_colour = "SA2_NAME", stroke_colour = "SA2_NAME",
@@ -119,25 +120,12 @@
 #                            polyline = "polyline", palette = viridisLite::inferno)
 
 
-
-# google_map(key = mapKey, data = tram_route) %>%
-#   googleway:::add_polyline2(lat = "shape_pt_lat", lon = "shape_pt_lon")
-
-# google_map(key = mapKey, data = tram_stops) %>%
-#   googleway:::add_markes2(lat = "stop_lat", lon = "stop_lon", info_window = "stop_name")
-
-
-
-
-
-
-
-
-
-
-
-
-
+# df <- data.frame(id = 1, north = 33.685, south = 33.671, east = -116.234, west = -116.251)
+#
+# google_map(key = mapKey) %>%
+#   add_rectangles(data = df, id = "id", north = 'north', south = 'south',
+#                  east = 'east', west = 'west', fill_colour = "north") %>%
+#   update_rectangles(data = df, id = "id", stroke_colour = "#000000", fill_colour = "#FFAAFF")
 
 
 
