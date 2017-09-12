@@ -31,7 +31,7 @@ function map_click(map_id, mapObject, mapInfo){
 //    console.log(event.latLng.lat());
 
     Shiny.onInputChange(map_id + "_map_click", eventInfo);
-  })
+  });
 }
 
 function bounds_changed(map_id, mapObject, mapInfo){
@@ -56,7 +56,7 @@ function bounds_changed(map_id, mapObject, mapInfo){
     );
 
     Shiny.onInputChange(map_id + "_bounds_changed", eventInfo);
-  })
+  });
 }
 
 function zoom_changed(map_id, mapObject, mapInfo){
@@ -74,7 +74,7 @@ function zoom_changed(map_id, mapObject, mapInfo){
     );
 
     Shiny.onInputChange(map_id + "_zoom_changed", eventInfo);
-  })
+  });
 
 }
 
@@ -99,7 +99,7 @@ function marker_click(map_id, markerObject, marker_id, markerInfo){
     );
 
     Shiny.onInputChange(map_id + "_marker_click", eventInfo);
-  })
+  });
 }
 
 /**
@@ -296,7 +296,7 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
       if(layerType === 'googleMarkers'){
         this.setOptions({Opacity: mapObject.get('OpacityHolder')});
       }else if(layerType === 'googlePolyline'){
-        this.setOptions({strokeOpacity: mapObject.get('strokeOpacityHolder')})
+        this.setOptions({strokeOpacity: mapObject.get('strokeOpacityHolder')});
       }else{
         this.setOptions({fillOpacity: mapObject.get('fillOpacityHolder')});
       }

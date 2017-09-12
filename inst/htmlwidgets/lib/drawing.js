@@ -26,6 +26,21 @@ function add_drawing(map_id){
 
   window[map_id + 'googleDrawingManager'] = drawingManager;
   drawingManager.setMap(window[map_id + 'map']);
+
+
+//  google.maps.event.addListener(drawingManager, 'circlecomplete', function(circle){
+//    var radius = circle.getRadius();
+//    console.log(radius);
+//  });
+
+google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+  if (event.type == 'circle') {
+    var radius = event.overlay.getRadius();
+    console.log(radius);
+    console.log(event);
+  }
+});
+
 }
 
 function clear_drawing(map_id){
