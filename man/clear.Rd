@@ -57,20 +57,11 @@ clear_fusion(map, layer_id = NULL)
 \item{map}{a googleway map object created from \code{google_map()}}
 
 \item{layer_id}{id value of the layer to be removed from the map}
-
-\item{map}{a googleway map object created from \code{google_map()}}
-
-\item{layer_id}{id value of the layer to be removed from the map}
 }
 \description{
 clears elements from a map
-
-clears elements from a map
 }
 \note{
-These operations are intended for use in conjunction with
-\link{google_map_update} in an interactive shiny environment
-
 These operations are intended for use in conjunction with
 \link{google_map_update} in an interactive shiny environment
 }

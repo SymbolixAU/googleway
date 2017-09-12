@@ -168,16 +168,6 @@ add_markers_dep <- function(map,
   invoke_method(map, data, 'add_markers', markers, cluster, update_map_view, layer_id)
 }
 
-#' clear map elements
-#'
-#' clears elements from a map
-#'
-#' @note These operations are intended for use in conjunction with
-#' \link{google_map_update} in an interactive shiny environment
-#'
-#' @param map a googleway map object created from \code{google_map()}
-#' @param layer_id id value of the layer to be removed from the map
-#'
 #' @name clear
 #' @export
 clear_markers_dep <- function(map, layer_id = NULL){
