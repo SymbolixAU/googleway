@@ -860,7 +860,7 @@ clear_fusion <- function(map, layer_id = NULL){
 
 #' Add Drawing
 #'
-#' Adds drawing tools to the map
+#' Adds drawing tools to the map. Particularly useful when in an interactive (shiny) environment.
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param drawing_modes string vector giving the drawing controls required.
@@ -900,6 +900,7 @@ clear_drawing <- function(map){
 #'
 #' Removes the drawing controls from a map
 #'
+#' @param map a googleway map object created from \code{google_map()}
 #' @describeIn clear
 #' @export
 remove_drawing <- function(map){

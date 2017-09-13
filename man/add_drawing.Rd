@@ -14,7 +14,7 @@ add_drawing(map, drawing_modes = c("marker", "circle", "polygon", "polyline",
 One of one or more of marker, circle, polygon, polyline and rectangle}
 }
 \description{
-Adds drawing tools to the map
+Adds drawing tools to the map. Particularly useful when in an interactive (shiny) environment.
 }
 \examples{
 \dontrun{

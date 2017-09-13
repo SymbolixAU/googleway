@@ -6,6 +6,9 @@
 \usage{
 remove_drawing(map)
 }
+\arguments{
+\item{map}{a googleway map object created from \code{google_map()}}
+}
 \description{
 Removes the drawing controls from a map
 }
