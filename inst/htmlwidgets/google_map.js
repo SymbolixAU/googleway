@@ -10,29 +10,6 @@ HTMLWidgets.widget({
     return {
       renderValue: function(x) {
 
-//        DEBUGGING numeric / text
-//        myInfo = {id: "a"};
-//        let myVar = {
-//          myNumber: 123.45678,
-//          otherNumber: 987.654321
-//        };
-//        myInfo = $.extend(myVar, myInfo);
-//        Shiny.onInputChange("myData", myInfo);
-
-          // global map objects
-          // - display elements
-//          window[el.id + 'googleMarkers'] = [];
-//          window[el.id + 'googleMarkerClusterer'];
-//          window[el.id + 'googleHeatmapLayer'] = [];
-//          window[el.id + 'googleHeatmapLayerMVC'] = [];
-//          window[el.id + 'googleCircles'] = [];
-//          window[el.id + 'googlePolyline'] = [];
-//          window[el.id + 'googlePolygon'] = [];
-//          window[el.id + 'googlePolygonMVC'] = [];
-
-//          window[el.id + 'googleBounds'] = [];
-//          window[el.id + 'googleBounds'] = new google.maps.LatLngBounds();
-
           // visualisation layers
           window[el.id + 'googleTrafficLayer'] = [];
           window[el.id + 'googleBicyclingLayer'] = [];
@@ -44,8 +21,6 @@ HTMLWidgets.widget({
             console.log("search box");
             // create a place DOM element
             window[el.id + 'googleSearchBox'] = document.createElement("input");
-            // <input id="pac-input" class="controls" type="text" placeholder="Search place">
-            //window[el.id + 'googleSearchBox'].setAttribute('id', 'search-container');
             window[el.id + 'googleSearchBox'].setAttribute('id', 'pac-input');
             window[el.id + 'googleSearchBox'].setAttribute('class', 'controls');
             window[el.id + 'googleSearchBox'].setAttribute('type', 'text');
@@ -92,23 +67,20 @@ HTMLWidgets.widget({
           }else{
             console.log("not shiny mode");
 
-            //window.onload = function() {
+            var map = new google.maps.Map(mapDiv, {
+              center: {lat: x.lat, lng: x.lng},
+              zoom: x.zoom,
+              styles: JSON.parse(x.styles),
+              zoomControl: x.zoomControl,
+              mapTypeControl: x.mapTypeControl,
+              scaleControl: x.scaleControl,
+              streetViewControl: x.streetViewControl,
+              rotateControl: x.rotateControl,
+              fullscreenControl: x.fullscreenControl
+            });
 
-              var map = new google.maps.Map(mapDiv, {
-                center: {lat: x.lat, lng: x.lng},
-                zoom: x.zoom,
-                styles: JSON.parse(x.styles),
-                zoomControl: x.zoomControl,
-                mapTypeControl: x.mapTypeControl,
-                scaleControl: x.scaleControl,
-                streetViewControl: x.streetViewControl,
-                rotateControl: x.rotateControl,
-                fullscreenControl: x.fullscreenControl
-              });
-
-              window[el.id + 'map'] = map;
-              initialise_map(el, x);
-            //};
+            window[el.id + 'map'] = map;
+            initialise_map(el, x);
           }
       },
       resize: function(width, height) {

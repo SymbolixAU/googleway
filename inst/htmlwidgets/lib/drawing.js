@@ -4,7 +4,8 @@
  *
  * Adds drawing controls to the map
  **/
-function add_drawing(map_id){
+function add_drawing(map_id, drawing_modes,
+marker, circle, rectangle, polyline, polygon){
 
   window[map_id + 'googleDrawingOverlays'] = [];
 
@@ -15,8 +16,48 @@ function add_drawing(map_id){
 
     drawingControlOptions: {
       position: google.maps.ControlPosition.TOP_CENTER,
-      drawingModes: ['marker', 'circle', 'polygon', 'polyline', 'rectangle']
-    }
+      drawingModes: drawing_modes
+    },
+
+    markerOptions: {
+      icon: marker[0].icon
+    },
+
+    circleOptions: {
+      fillColor: circle[0].fill_colour,
+      fillOpacity: circle[0].fill_opacity,
+      strokeWeight: circle[0].stroke_weigth,
+      clickable: false,
+      editable: true,
+      zIndex: circle[0].z_index
+    },
+
+    polylineOptions: {
+      geodesic: polyline[0].geodesic,
+      strokeColor: polyline[0].stroke_colour,
+      strokeWeight: polyline[0].stroke_weight,
+      strokeOpacity: polyline[0].stroke_opacity,
+      zIndex: polyline[0].z_index
+      },
+
+    polygonOptions: {
+      strokeColor: polygon[0].stroke_colour,
+      strokeWeight: polygon[0].stroke_weight,
+      strokeOpacity: polygon[0].stroke_opacity,
+      fillColor: polygon[0].fill_colour,
+      fillOpacity: polygon[0].fill_opacity,
+      zIndex: polygon[0].z_index
+      },
+
+    rectangleOptions: {
+      strokeColor: rectangle[0].stroke_colour,
+      strokeWeight: rectangle[0].stroke_weight,
+      strokeOpacity: rectangle[0].stroke_opacity,
+      fillColor: rectangle[0].fill_colour,
+      fillOpacity: rectangle[0].fill_opacity,
+      zIndex: rectangle[0].z_index
+      }
+
   });
 
   window[map_id + 'googleDrawingManager'] = drawingManager;
@@ -72,6 +113,13 @@ function circle_complete(map_id, drawingManager, drawingInfo){
   if(!HTMLWidgets.shinyMode) return;
 
   google.maps.event.addListener(drawingManager, 'circlecomplete', function(circle) {
+
+//    google.maps.event.addListener(circle, 'click', function() {
+      //setSelection(newShape);
+//      console.log("circle click");
+//      console.log(circle);
+//    });
+
     window[map_id + 'googleDrawingOverlays'].push(circle);
 
     var eventInfo = $.extend(
@@ -83,6 +131,9 @@ function circle_complete(map_id, drawingManager, drawingInfo){
       },
       drawingInfo
     );
+
+
+
   Shiny.onInputChange(map_id + "_circlecomplete", JSON.stringify(eventInfo));
   });
 }

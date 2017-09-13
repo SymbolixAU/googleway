@@ -172,7 +172,6 @@ circleDefaults <- function(n){
              "fill_colour" = rep("#FF0000",n),
              "fill_opacity" = rep(0.35,n),
              "z_index" = rep(4,n),
-             "radius" = rep(50, n),
              stringsAsFactors = FALSE)
 }
 
