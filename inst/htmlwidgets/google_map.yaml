@@ -61,5 +61,9 @@ dependencies:
     version: 1.0.0
     src: "htmlwidgets/lib"
     script: map_layers.js
+  - name: drawing.js
+    version: 1.0.0
+    src: "htmlwidgets/lib"
+    script: drawing.js
 
 

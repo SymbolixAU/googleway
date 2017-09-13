@@ -20,12 +20,29 @@
 #' @param padding the padding of the map
 #' @param styles JSON string representation of a valid Google Maps styles Array. See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}
 #' @param search_box \code{boolean} indicating if a search box should be placed on the map
-#' @param zoom_control logical
-#' @param map_type_control logical
-#' @param scale_control logical
-#' @param street_view_control logical
-#' @param rotate_control logical
-#' @param fullscreen_control logical
+#' @param zoom_control logical indicating if the zoom control should be displayed
+#' @param map_type_control logical indicating if the map type control should be displayed
+#' @param scale_control logical indicating if the scale control should be displayed
+#' @param street_view_control logical indicating if the street view control should be displayed
+#' @param rotate_control logical indicating if the rotate control should be displayed
+#' @param fullscreen_control logical indicating if the full screen control should be displayed
+#' @param libraries vector containgin the libraries you want to load. See details
+#'
+#' @details
+#' The libraries argument can be used to turn-off certain libraries from being called.
+#' By default the map will load
+#' \itemize{
+#'  \item{visualization - includes the HeatmapLayer for visualising heatmaps
+#'  \url{https://developers.google.com/maps/documentation/javascript/visualization}}
+#'  \item{geometry - utility functions for computation of geometric data on the surface of
+#'  the earth, including plotting encoded polylines.
+#'  \url{https://developers.google.com/maps/documentation/javascript/geometry}}
+#'  \item{places - enables searching for places.
+#'  \url{https://developers.google.com/maps/documentation/javascript/places}}
+#'  \item{drawing - provides a graphical interface for users to draw polygons, rectangles,
+#'  circles and markers on the map. \url{https://developers.google.com/maps/documentation/javascript/drawinglayer}}
+#' }
+#'
 #' @examples
 #' \dontrun{
 #'
@@ -68,7 +85,18 @@ google_map <- function(key,
                        scale_control = FALSE,
                        street_view_control = TRUE,
                        rotate_control = TRUE,
-                       fullscreen_control = TRUE) {
+                       fullscreen_control = TRUE,
+                       libraries = NULL) {
+
+  logicalCheck(zoom_control)
+  logicalCheck(map_type_control)
+  logicalCheck(scale_control)
+  logicalCheck(street_view_control)
+  logicalCheck(rotate_control)
+  logicalCheck(fullscreen_control)
+
+  if(is.null(libraries))
+    libraries <- c("visualization", "geometry", "places", "drawing")
 
   if(is.null(location))
     location <- c(-37.9, 144.5)  ## Melbourne, Australia
@@ -112,7 +140,7 @@ google_map <- function(key,
 
   # if(search_box == TRUE){
     header <- paste0('<script src="https://maps.googleapis.com/maps/api/js?key=',
-                     key, '&libraries=visualization,geometry,places"></script>')
+                     key, '&libraries=', paste0(libraries, collapse = ","), '"></script>')
   # }else{
   #   header <- paste0('<script src="https://maps.googleapis.com/maps/api/js?key=',
   #                    key, '&libraries=visualization,geometry"></script>')

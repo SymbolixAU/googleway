@@ -15,6 +15,7 @@
 \alias{clear_transit}
 \alias{clear_bicycling}
 \alias{clear_fusion}
+\alias{clear_drawing}
 \title{clear map elements}
 \usage{
 clear_circles(map, layer_id = NULL)
@@ -36,6 +37,8 @@ clear_transit(map)
 clear_bicycling(map)
 
 clear_fusion(map, layer_id = NULL)
+
+clear_drawing(map)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}

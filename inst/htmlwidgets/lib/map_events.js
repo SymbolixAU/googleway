@@ -17,10 +17,10 @@ function map_click(map_id, mapObject, mapInfo){
       {
         id: map_id,
 //        latNumeric: event.latLng.lat(),
-        lat: event.latLng.lat().toFixed(4),
-        lon: event.latLng.lng().toFixed(4),
-        centerLat: mapObject.getCenter().lat().toFixed(4),
-        centerLng: mapObject.getCenter().lng().toFixed(4),
+        lat: event.latLng.lat(),
+        lon: event.latLng.lng(),
+        centerLat: mapObject.getCenter().lat(),
+        centerLng: mapObject.getCenter().lng(),
         zoom: mapObject.getZoom(),
         randomValue: Math.random()
       }
@@ -30,8 +30,8 @@ function map_click(map_id, mapObject, mapInfo){
 //    console.log("map clicked - event.latLng.lat(): ");
 //    console.log(event.latLng.lat());
 
-    Shiny.onInputChange(map_id + "_map_click", eventInfo);
-  })
+    Shiny.onInputChange(map_id + "_map_click", JSON.stringify(eventInfo));
+  });
 }
 
 function bounds_changed(map_id, mapObject, mapInfo){
@@ -41,27 +41,22 @@ function bounds_changed(map_id, mapObject, mapInfo){
     var eventInfo = $.extend(
       {
         id: map_id,
-//        bounds:mapObject.getBounds(),
-//        east: mapObject.getBounds().toJSON().east.toFixed(4),
-//        north: mapObject.getBounds().toJSON().north.toFixed(4),
-//        south: mapObject.getBounds().toJSON().south.toFixed(4),
-//        west: mapObject.getBounds().toJSON().west.toFixed(4),
-        northEastLat: mapObject.getBounds().getNorthEast().lat().toFixed(4),
-        northEastLon: mapObject.getBounds().getNorthEast().lng().toFixed(4),
-        southWestLat: mapObject.getBounds().getSouthWest().lat().toFixed(4),
-        southWestLon: mapObject.getBounds().getSouthWest().lng().toFixed(4),
+        northEastLat: mapObject.getBounds().getNorthEast().lat(),
+        northEastLon: mapObject.getBounds().getNorthEast().lng(),
+        southWestLat: mapObject.getBounds().getSouthWest().lat(),
+        southWestLon: mapObject.getBounds().getSouthWest().lng(),
         randomValue: Math.random()
       },
       mapInfo
     );
 
-    Shiny.onInputChange(map_id + "_bounds_changed", eventInfo);
-  })
+    Shiny.onInputChange(map_id + "_bounds_changed", JSON.stringify(eventInfo));
+  });
 }
 
 function zoom_changed(map_id, mapObject, mapInfo){
 
-    if(!HTMLWidgets.shinyMode) return;
+  if(!HTMLWidgets.shinyMode) return;
 
   google.maps.event.addListener(mapObject, 'bounds_changed', function(event){
     var eventInfo = $.extend(
@@ -72,10 +67,8 @@ function zoom_changed(map_id, mapObject, mapInfo){
       },
       mapInfo
     );
-
-    Shiny.onInputChange(map_id + "_zoom_changed", eventInfo);
-  })
-
+    Shiny.onInputChange(map_id + "_zoom_changed", JSON.stringify(eventInfo));
+  });
 }
 
 /**
@@ -91,15 +84,15 @@ function marker_click(map_id, markerObject, marker_id, markerInfo){
     var eventInfo = $.extend(
       {
         id: marker_id,
-        lat: event.latLng.lat().toFixed(4),
-        lon: event.latLng.lng().toFixed(4),
+        lat: event.latLng.lat(),
+        lon: event.latLng.lng(),
         randomValue: Math.random()
       },
       markerInfo
     );
 
-    Shiny.onInputChange(map_id + "_marker_click", eventInfo);
-  })
+    Shiny.onInputChange(map_id + "_marker_click", JSON.stringify(eventInfo));
+  });
 }
 
 /**
@@ -117,14 +110,14 @@ function shape_click(map_id, shapeObject, shape_id, shapeInfo){
     var eventInfo = $.extend(
       {
         id: shape_id,
-        lat: event.latLng.lat().toFixed(4),
-        lon: event.latLng.lng().toFixed(4),
+        lat: event.latLng.lat(),
+        lon: event.latLng.lng(),
         randomValue: Math.random() // force reactivity so that 'onInputChange' thinks the input has changed
       },
       shapeInfo
     );
 
-    Shiny.onInputChange(map_id + "_shape_click", eventInfo);
+    Shiny.onInputChange(map_id + "_shape_click", JSON.stringify(eventInfo));
   });
 
 }
@@ -138,15 +131,14 @@ function polyline_click(map_id, polylineObject, polyline_id, polylineInfo){
     var eventInfo = $.extend(
       {
         id: polyline_id,
-        lat: event.latLng.lat().toFixed(4),
-        lon: event.latLng.lng().toFixed(4),
+        lat: event.latLng.lat(),
+        lon: event.latLng.lng(),
         path: google.maps.geometry.encoding.encodePath(polylineObject.getPath()),
         randomValue: Math.random()
       },
       polylineInfo
     );
-
-    Shiny.onInputChange(map_id + "_polyline_click", eventInfo);
+    Shiny.onInputChange(map_id + "_polyline_click", JSON.stringify(eventInfo));
   });
 
 }
@@ -168,16 +160,15 @@ function polygon_click(map_id, polygonObject, polygon_id, polygonInfo){
     var eventInfo = $.extend(
       {
         id: polygon_id,
-        lat: event.latLng.lat().toFixed(4),
-        lon: event.latLng.lng().toFixed(4),
+        lat: event.latLng.lat(),
+        lon: event.latLng.lng(),
         path: polygonOuterPath,
         paths: polygonAllPaths,
         randomValue: Math.random()
       },
       polygonInfo
     );
-
-    Shiny.onInputChange(map_id + "_polygon_click", eventInfo);
+    Shiny.onInputChange(map_id + "_polygon_click", JSON.stringify(eventInfo));
   });
 
 }
@@ -296,7 +287,7 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
       if(layerType === 'googleMarkers'){
         this.setOptions({Opacity: mapObject.get('OpacityHolder')});
       }else if(layerType === 'googlePolyline'){
-        this.setOptions({strokeOpacity: mapObject.get('strokeOpacityHolder')})
+        this.setOptions({strokeOpacity: mapObject.get('strokeOpacityHolder')});
       }else{
         this.setOptions({fillOpacity: mapObject.get('fillOpacityHolder')});
       }

@@ -19,6 +19,10 @@ See [**vignettes**](https://github.com/SymbolixAU/googleway/blob/master/vignette
 
 ## v2.3.0 - development
 
+### Breaking Changes
+
+The objects returned from map events (e.g., `map_click`, `shape_clik`, `map_zoom`) currently return list objects. I am changing these to return raw JSON
+
 
 ## Installation
 

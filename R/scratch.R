@@ -129,6 +129,41 @@
 
 
 
+# library(shiny)
+# ui <- fluidPage(
+#   google_mapOutput(outputId = "map")
+# )
+# server <- function(input, output){
+#
+#   output$map <- renderGoogle_map({
+#     mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#     google_map(key = mapKey) %>%
+#       add_drawing()
+#   })
+#
+#   observeEvent(input$map_markercomplete, {
+#     print(input$map_markercomplete)
+#   })
+#
+#   observeEvent(input$map_circlecomplete, {
+#     print(input$map_circlecomplete)
+#   })
+#
+#   observeEvent(input$map_rectanglecomplete, {
+#     print(input$map_rectanglecomplete)
+#   })
+#
+#   observeEvent(input$map_polylinecomplete, {
+#     print(input$map_polylinecomplete)
+#   })
+#
+#   observeEvent(input$map_polygoncomplete, {
+#     print(input$map_polygoncomplete)
+#   })
+# }
+# shinyApp(ui, server)
+
+
 ## TODO:
 ## TESTS
 ## - polylines - works with and withotu ID, for polyline and lat/lon columns
