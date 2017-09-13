@@ -9,7 +9,7 @@ google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
   height = NULL, padding = 0, styles = NULL, search_box = FALSE,
   zoom_control = TRUE, map_type_control = TRUE, scale_control = FALSE,
   street_view_control = TRUE, rotate_control = TRUE,
-  fullscreen_control = TRUE)
+  fullscreen_control = TRUE, libraries = NULL)
 }
 \arguments{
 \item{key}{A valid Google Maps API key. see Details}
@@ -30,17 +30,19 @@ google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
 
 \item{search_box}{\code{boolean} indicating if a search box should be placed on the map}
 
-\item{zoom_control}{logical}
+\item{zoom_control}{logical indicating if the zoom control should be displayed}
 
-\item{map_type_control}{logical}
+\item{map_type_control}{logical indicating if the map type control should be displayed}
 
-\item{scale_control}{logical}
+\item{scale_control}{logical indicating if the scale control should be displayed}
 
-\item{street_view_control}{logical}
+\item{street_view_control}{logical indicating if the street view control should be displayed}
 
-\item{rotate_control}{logical}
+\item{rotate_control}{logical indicating if the rotate control should be displayed}
 
-\item{fullscreen_control}{logical}
+\item{fullscreen_control}{logical indicating if the full screen control should be displayed}
+
+\item{libraries}{vector containgin the libraries you want to load. See details}
 }
 \description{
 Generates a google map object
@@ -49,6 +51,21 @@ Generates a google map object
 The data argument is only needed if you call other functions to add layers to the map, such as \code{add_markers()} or \code{add_polylines}. However, the data argument can also be passed into those functions as well.
 
 In order to use Google Maps you need a valid Google Maps Web JavaScript API key. See the Google Maps API documentation \url{https://developers.google.com/maps/}
+
+
+The libraries argument can be used to turn-off certain libraries from being called.
+By default the map will load
+\itemize{
+ \item{visualization - includes the HeatmapLayer for visualising heatmaps
+ \url{https://developers.google.com/maps/documentation/javascript/visualization}}
+ \item{geometry - utility functions for computation of geometric data on the surface of
+ the earth, including plotting encoded polylines.
+ \url{https://developers.google.com/maps/documentation/javascript/geometry}}
+ \item{places - enables searching for places.
+ \url{https://developers.google.com/maps/documentation/javascript/places}}
+ \item{drawing - provides a graphical interface for users to draw polygons, rectangles,
+ circles and markers on the map. \url{https://developers.google.com/maps/documentation/javascript/drawinglayer}}
+}
 }
 \examples{
 \dontrun{

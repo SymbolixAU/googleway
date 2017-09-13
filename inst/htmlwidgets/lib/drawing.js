@@ -4,8 +4,7 @@
  *
  * Adds drawing controls to the map
  **/
-function add_drawing(map_id, drawing_modes,
-marker, circle, rectangle, polyline, polygon){
+function add_drawing(map_id, drawing_modes, marker, circle, rectangle, polyline, polygon){
 
   window[map_id + 'googleDrawingOverlays'] = [];
 
