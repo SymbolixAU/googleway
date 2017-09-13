@@ -31,6 +31,11 @@ function add_drawing(map_id){
   polygon_complete(map_id, drawingManager, drawingInfo);
 }
 
+/**
+ * Clear Drawing
+ *
+ * Clears all the drawn elements from the map
+ **/
 function clear_drawing(map_id){
 
   for(var i = 0; i < window[map_id + 'googleDrawingOverlays'].length; i++){
@@ -111,7 +116,8 @@ function polyline_complete(map_id, drawingManager, drawingInfo){
 
     var eventInfo = $.extend(
       {
-        path: google.maps.geometry.encoding.encodePath(polyline.getPath()),
+        path: polyline.getPath(),
+        encodedPath: google.maps.geometry.encoding.encodePath(polyline.getPath()),
         randomValue: Math.random()
       },
       drawingInfo
@@ -130,7 +136,8 @@ function polygon_complete(map_id, drawingManager, drawingInfo){
 
     var eventInfo = $.extend(
       {
-        path: google.maps.geometry.encoding.encodePath(polygon.getPath()),
+        path: polygon.getPath(),
+        encodedPath: google.maps.geometry.encoding.encodePath(polygon.getPath()),
         randomValue: Math.random()
       },
       drawingInfo
@@ -139,29 +146,11 @@ function polygon_complete(map_id, drawingManager, drawingInfo){
   });
 }
 
-
-//function marker_click(map_id, markerObject, marker_id, markerInfo){
-//  if(!HTMLWidgets.shinyMode) return;
-//
-//  google.maps.event.addListener(markerObject, 'click', function(event){
-//
-//    var eventInfo = $.extend(
-//      {
-//        id: marker_id,
-//        lat: event.latLng.lat().toFixed(4),
-//        lon: event.latLng.lng().toFixed(4),
-//        randomValue: Math.random()
-//      },
-//      markerInfo
-//    );
-//
-//    Shiny.onInputChange(map_id + "_marker_click", eventInfo);
-//  });
-//}
-
-
+/**
+ * Remove drawing
+ *
+ * Removes the drawing controls from the map
+ **/
 function remove_drawing(map_id){
-  // TODO:
-  // clear all drawn objects
   window[map_id + 'googleDrawingManager'].setMap(null);
 }
