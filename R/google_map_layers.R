@@ -865,6 +865,8 @@ clear_fusion <- function(map, layer_id = NULL){
 #' @param map a googleway map object created from \code{google_map()}
 #' @param drawing_modes string vector giving the drawing controls required.
 #' One of one or more of marker, circle, polygon, polyline and rectangle
+#' @param delete_on_change logical indicating if the currently drawn shapes
+#' should be deleted when a new drawing mode is selected
 #'
 #' @examples
 #' \dontrun{
@@ -875,7 +877,10 @@ clear_fusion <- function(map, layer_id = NULL){
 #' }
 #' @export
 add_drawing <- function(map,
-                        drawing_modes = c('marker', 'circle', 'polygon', 'polyline', 'rectangle')){
+                        drawing_modes = c('marker', 'circle', 'polygon', 'polyline', 'rectangle'),
+                        delete_on_change = FALSE){
+
+  logicalCheck(delete_on_change)
 
   drawing_modes <- jsonlite::toJSON(drawing_modes)
 
@@ -887,7 +892,7 @@ add_drawing <- function(map,
   polygon <- jsonlite::toJSON(polygonDefaults())
 
   invoke_method(map, data = NULL, 'add_drawing', drawing_modes,
-                marker, circle, rectangle, polyline, polygon)
+                marker, circle, rectangle, polyline, polygon, delete_on_change)
 }
 
 #' @rdname clear

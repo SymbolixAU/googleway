@@ -4,7 +4,7 @@
  *
  * Adds drawing controls to the map
  **/
-function add_drawing(map_id, drawing_modes, marker, circle, rectangle, polyline, polygon){
+function add_drawing(map_id, drawing_modes, marker, circle, rectangle, polyline, polygon, delete_on_change){
 
   window[map_id + 'googleDrawingOverlays'] = [];
 
@@ -69,6 +69,14 @@ function add_drawing(map_id, drawing_modes, marker, circle, rectangle, polyline,
   rectangle_complete(map_id, drawingManager, drawingInfo);
   polyline_complete(map_id, drawingManager, drawingInfo);
   polygon_complete(map_id, drawingManager, drawingInfo);
+
+   if(delete_on_change){
+    console.log(delete_on_change);
+    google.maps.event.addListener(drawingManager, "drawingmode_changed", function(){
+      clear_drawing(map_id);
+    });
+   }
+
 }
 
 /**
@@ -114,10 +122,13 @@ function circle_complete(map_id, drawingManager, drawingInfo){
   google.maps.event.addListener(drawingManager, 'circlecomplete', function(circle) {
 
 //    google.maps.event.addListener(circle, 'click', function() {
-      //setSelection(newShape);
 //      console.log("circle click");
 //      console.log(circle);
 //    });
+   var newShape = circle;
+   google.maps.event.addListener(newShape, 'click', function(){
+     console.log('click');
+   });
 
     window[map_id + 'googleDrawingOverlays'].push(circle);
 
@@ -130,8 +141,6 @@ function circle_complete(map_id, drawingManager, drawingInfo){
       },
       drawingInfo
     );
-
-
 
   Shiny.onInputChange(map_id + "_circlecomplete", JSON.stringify(eventInfo));
   });
