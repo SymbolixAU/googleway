@@ -9,7 +9,8 @@ google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
   height = NULL, padding = 0, styles = NULL, search_box = FALSE,
   zoom_control = TRUE, map_type_control = TRUE, scale_control = FALSE,
   street_view_control = TRUE, rotate_control = TRUE,
-  fullscreen_control = TRUE, libraries = NULL)
+  fullscreen_control = TRUE, libraries = NULL,
+  event_return_type = c("list", "JSON"))
 }
 \arguments{
 \item{key}{A valid Google Maps API key. see Details}
@@ -43,6 +44,9 @@ google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
 \item{fullscreen_control}{logical indicating if the full screen control should be displayed}
 
 \item{libraries}{vector containgin the libraries you want to load. See details}
+
+\item{event_return_type}{the type of data to return to R from an interactive environment (shiny),
+either an R list, or raw JSON string.}
 }
 \description{
 Generates a google map object

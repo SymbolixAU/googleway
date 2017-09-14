@@ -7,34 +7,28 @@ function map_click(map_id, mapObject, mapInfo){
 
   if(!HTMLWidgets.shinyMode) return;
 
-  //Shiny.onInputChange("myMapData", 123.7887);
-
   google.maps.event.addListener(mapObject, 'click', function(event){
-//   mapObject.addListener('click', function(){
-//
-    var eventInfo = $.extend(
-      mapInfo,
+
+      var eventInfo = $.extend(
       {
         id: map_id,
-//        latNumeric: event.latLng.lat(),
+
         lat: event.latLng.lat().toFixed(4),
         lon: event.latLng.lng().toFixed(4),
         centerLat: mapObject.getCenter().lat().toFixed(4),
         centerLng: mapObject.getCenter().lng().toFixed(4),
         zoom: mapObject.getZoom(),
         randomValue: Math.random()
-      }
+      },
+      mapInfo
     );
-
-    // logging messages for debugging numerics / text error
-//    console.log("map clicked - event.latLng.lat(): ");
-//    console.log(event.latLng.lat());
-
     Shiny.onInputChange(map_id + "_map_click", eventInfo);
+
   });
 }
 
 function bounds_changed(map_id, mapObject, mapInfo){
+
   if(!HTMLWidgets.shinyMode) return;
 
   google.maps.event.addListener(mapObject, 'bounds_changed', function(event){

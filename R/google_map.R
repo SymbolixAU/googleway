@@ -27,6 +27,8 @@
 #' @param rotate_control logical indicating if the rotate control should be displayed
 #' @param fullscreen_control logical indicating if the full screen control should be displayed
 #' @param libraries vector containgin the libraries you want to load. See details
+#' @param event_return_type the type of data to return to R from an interactive environment (shiny),
+#' either an R list, or raw JSON string.
 #'
 #' @details
 #' The libraries argument can be used to turn-off certain libraries from being called.
@@ -86,7 +88,8 @@ google_map <- function(key,
                        street_view_control = TRUE,
                        rotate_control = TRUE,
                        fullscreen_control = TRUE,
-                       libraries = NULL) {
+                       libraries = NULL,
+                       event_return_type = c("list", "JSON")) {
 
   logicalCheck(zoom_control)
   logicalCheck(map_type_control)
@@ -116,7 +119,8 @@ google_map <- function(key,
     scaleControl = scale_control,
     streetViewControl = street_view_control,
     rotateControl = rotate_control,
-    fullscreenControl = fullscreen_control
+    fullscreenControl = fullscreen_control,
+    event_return_type = event_return_type
   )
 
   # create widget
@@ -138,13 +142,8 @@ google_map <- function(key,
     )
   )
 
-  # if(search_box == TRUE){
-    header <- paste0('<script src="https://maps.googleapis.com/maps/api/js?key=',
-                     key, '&libraries=', paste0(libraries, collapse = ","), '"></script>')
-  # }else{
-  #   header <- paste0('<script src="https://maps.googleapis.com/maps/api/js?key=',
-  #                    key, '&libraries=visualization,geometry"></script>')
-  # }
+  header <- paste0('<script src="https://maps.googleapis.com/maps/api/js?key=',
+                  key, '&libraries=', paste0(libraries, collapse = ","), '"></script>')
 
   googlemap$dependencies <- c(
     googlemap$dependencies,

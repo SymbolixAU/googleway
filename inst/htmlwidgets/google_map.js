@@ -28,6 +28,8 @@ HTMLWidgets.widget({
             document.body.appendChild(window[el.id + 'googleSearchBox']);
           }
 
+          window[el.id + 'event_return_type'] = x.event_return_type;
+
           var mapDiv = document.getElementById(el.id);
           mapDiv.className = "googlemap";
 
