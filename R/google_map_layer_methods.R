@@ -7,6 +7,10 @@ stopMessage <- function(obj) stop(paste0("I don't know how to deal with objects 
 
 ### validate GeoJSON -----------
 
+# Validate GeoJSON
+#
+# Validates if the GeoJSON is a URL, character string that validates to JSON,
+# or simply GeoJSON itself
 validateGeojson <- function(js) UseMethod("validateGeojson")
 
 #' @export

@@ -615,6 +615,7 @@ add_kml <- function(map, kml_url, layer_id = NULL){
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param geojson A character string or JSON/geoJSON literal of correctly formatted geoJSON
+#' @param layer_id single value specifying an id for the layer.
 #' @param style Style options for the geoJSON. See details
 #' @param update_map_view logical specifying if the map should re-centre according
 #' to the geoJSON
@@ -736,12 +737,39 @@ add_kml <- function(map, kml_url, layer_id = NULL){
 #' See examples.
 #'
 #' @export
-add_geojson <- function(map, geojson, style = NULL, update_map_view = TRUE){
+add_geojson <- function(map, geojson, layer_id = NULL, style = NULL, update_map_view = TRUE){
 
   ## TODO:
   ## - better handler geojson source (url or local) and style (list or json)
   ## -- the current appraoch is limiting
   ## - update bounds (https://stackoverflow.com/questions/28507044/zoom-to-geojson-polygons-bounds-in-google-maps-api-v3)
+  ## - drag & drop geojson - https://developers.google.com/maps/documentation/javascript/examples/layer-data-dragndrop
+  ## - replicate blog: https://maps-apis.googleblog.com/2014/04/build-map-infographic-with-google-maps.html
+
+  ## the GeoJSON can be supplied as geojson string, or a URL pointing to valid GeoJSON
+  ## the style can either be defined in the geoJSON, or defined manually
+  ## geoJSON defined:
+  ## -- we need to know the mapping between the geoJSON and the style elements
+  ## -- e.g, which object is the fill_colour / stroke_colour, etc.
+  ## -- JSON / list / data.frame that provides the mapping?
+  ## -- or if the geoJSON contains 'stroke_colour', 'fill_colour' properties, it auto-detects
+
+  ## auto detect - Google seems to be able to do this, given keys are
+  ## - properties.fillColour, etc
+
+  ## manually defined:
+  ## -- JSON literal
+  ## -- list (that can convert to JSON)
+  ## -- data.frame (that can convert to JSON)
+
+  ## if styles are NULL, set defaults
+  ## if they are defined by the user, rename them to match what google expects?
+  ## or set a separate 'style' object?
+
+  ## 'style' argument will be a list/json/data.frame, where the names must be 'fillColor', 'strokeColor' etc.
+  ## - if provided, this will set teh style for all features (google auto-detects the properties)
+  ## - if not provided, the function will look for those within the geoJSON, and use if availabl.e
+  ##
 
   ## DataLayer events https://developers.google.com/maps/documentation/javascript/datalayer#add_event_handlers
   ## - addFeature
@@ -757,13 +785,33 @@ add_geojson <- function(map, geojson, style = NULL, update_map_view = TRUE){
   ## - setgeometry
   ## - setproperty
 
+  layer_id <- layerId(layer_id)
+
   geojson <- validateGeojson(geojson)
 
   if(!is.null(style))
     style <- validateStyle(style)
 
-  invoke_method(map, data = NULL, 'add_geojson', geojson[['geojson']], geojson[['source']],
-                style[['style']], style[['type']])
+  invoke_method(map,
+                data = NULL,
+                'add_geojson',
+                geojson[['geojson']],
+                geojson[['source']],
+                style[['style']],
+                "auto",
+                FALSE,
+                layer_id
+#                style[['type']]
+                )
+}
+
+
+
+clear_geojson <- function(map, layer_id = NULL){
+
+  layer_id <- layerId(layer_id)
+
+  invoke_method(map, data = NULL, "clear_geojson", layer_id)
 }
 
 

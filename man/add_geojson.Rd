@@ -4,12 +4,15 @@
 \alias{add_geojson}
 \title{Add GeoJson}
 \usage{
-add_geojson(map, geojson, style = NULL, update_map_view = TRUE)
+add_geojson(map, geojson, layer_id = NULL, style = NULL,
+  update_map_view = TRUE)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
 \item{geojson}{A character string or JSON/geoJSON literal of correctly formatted geoJSON}
+
+\item{layer_id}{single value specifying an id for the layer.}
 
 \item{style}{Style options for the geoJSON. See details}
 

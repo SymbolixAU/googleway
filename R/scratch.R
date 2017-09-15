@@ -154,9 +154,58 @@
 
 
 
+### geoJSON
 
-
-
+# geojson_txt <- '{
+#         "type" : "Feature",
+#         "properties" : {
+#           "fillColor" : "green",
+#           "strokeColor" : "blue"
+#         },
+#         "geometry" : {
+#           "type" : "Polygon", "coordinates" : [
+#             [
+#               [144.88, -37.85],
+#               [145.02, -37.85],
+#               [145.02, -37.80],
+#               [144.88, -37.80],
+#               [144.88, -37.85]
+#             ]
+#           ]
+#         }
+# }'
+#
+# geojson_txt2 <- '{
+#       "type" : "FeatureCollection",
+#       "features" : [
+#         {
+#         "type" : "Feature",
+#           "properties" : {
+#           "fillColor" : "red",
+#           "strokeColor" : "green",
+#           "strokeWeight" : 10
+#           },
+#           "geometry" : {
+#           "type" : "Polygon", "coordinates" : [
+#           [
+#               [144.80, -37.85],
+#               [144.88, -37.85],
+#               [144.88, -37.80],
+#               [144.80, -37.80],
+#               [144.80, -37.85]
+#           ]
+#         ]
+#           }
+#         }
+#     ]
+# }'
+#
+# mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#
+# google_map(key = mapKey) %>%
+#   add_geojson(geojson = geojson_txt, layer_id = "hi") %>%
+#   add_geojson(geojson = geojson_txt2, layer_id = "world") %>%
+#    googleway:::clear_geojson(layer_id = "hi")
 
 
 

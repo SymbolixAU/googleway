@@ -176,7 +176,6 @@ function initialise_map(el, x) {
   // if places
   if(x.search_box === true){
     var input = document.getElementById('pac-input');
-    //var input = document.getElementById('search-container');
 
     window[el.id + 'googleSearchBox'] = new google.maps.places.SearchBox(input);
     window[el.id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT].push(input);
@@ -185,8 +184,6 @@ function initialise_map(el, x) {
     window[el.id + 'map'].addListener('bounds_changed', function() {
       window[el.id + 'googleSearchBox'].setBounds(window[el.id + 'map'].getBounds());
     });
-
-    var markers = [];
 
     // listen for deleting the search bar
     input.addEventListener('input', function(){
