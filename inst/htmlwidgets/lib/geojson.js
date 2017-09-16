@@ -1,5 +1,57 @@
 
+function update_geojson(map_id, style, layer_id) {
+    
+    var operators = {
+        '>': function (a, b) { return a > b },
+        '>=': function (a, b) { return a >= b },
+        '<': function (a, b) { return a < b },
+        '<=': function (a, b) { return a <= b },
+        '=': function (a, b) { return a === b }
+    };
+    
+    var op = (style.operator === undefined ? "=" : style.operator);
+    console.log("operator: " + op);
 
+    var property = style.property,
+        value = style.value,
+        feature = style.feature,
+        styleValue = style.style;
+    
+    var newFeatures = style.features;
+    
+        
+    window[map_id + 'googleGeojson' + layer_id].setStyle(function (feature) {
+        
+        var featureFillColor = feature.getProperty("fillColor"),
+            featureFillOpacity = feature.getProperty("fillOpacity"),
+            featureStrokeColor = feature.getProperty("strokeColor"),
+            featureStrokeOpacity = feature.getProperty("strokeOpacity"),
+            featureStrokeWeight = feature.getProperty("strokeWeight"),
+            newFillColor = newFeatures.fillColor,
+            newFillOpacity = newFeatures.fillOpacity,
+            newStrokeColor = newFeatures.strokeColor,
+            newStrokeOpacity = newFeatures.strokeOpacity,
+            newStrokeWeight = newFeatures.strokeWeight;
+        
+        if (operators[op](feature.getProperty(property), value) ) {
+            // set the attribut if it exists, else, use the one that was already there!
+            featureFillColor = (newFillColor === undefined ? featureFillColor : newFillColor);
+            featureFillOpacity = (newFillOpacity === undefined ? featureFillOpacity : newFillOpacity);
+            featureStrokeColor = (newStrokeColor === undefined ? featureStrokeColor : newStrokeColor);
+            featureStrokeOpacity = (newStrokeOpacity === undefined ? featureStrokeOpacity : newStrokeOpacity);
+            featureStrokeWeight = (newStrokeWeight === undefined ? featureStrokeWeight : newStrokeWeight);
+        }
+        return {
+            fillColor : featureFillColor,
+            fillOpacity : featureFillOpacity,
+            strokeColor : featureStrokeColor,
+            strokeOpacity : featureStrokeOpacity,
+            strokeWeight : featureStrokeWeight
+        }
+        
+    });
+}
+                                                          
 function add_geojson(map_id, geojson, geojson_source, style, style_type, update_map_view, layer_id) {
     
     window[map_id + 'googleGeojson' + layer_id] = new google.maps.Data({ map: window[map_id + 'map'] });
@@ -17,7 +69,7 @@ function add_geojson(map_id, geojson, geojson_source, style, style_type, update_
     if (style_type === "auto") {
         // a function that computes the style for each feature
         window[map_id + 'googleGeojson' + layer_id].setStyle(function (feature) {
-
+            
             return ({
                 // all
                 clickable: feature.getProperty("clickable"),
@@ -69,6 +121,6 @@ function add_geojson(map_id, geojson, geojson_source, style, style_type, update_
 }
 
 
-function clear_geojson (map_id, layer_id) {
+function clear_geojson(map_id, layer_id) {
     window[map_id + 'googleGeojson' + layer_id].setMap(null);
 }

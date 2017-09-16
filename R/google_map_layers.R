@@ -630,8 +630,11 @@ add_kml <- function(map, kml_url, layer_id = NULL){
 #'      {
 #'        "type" : "Feature",
 #'        "properties" : {
-#'          "color" : "green",
-#'          "lineColor" : "blue"
+#'          "fillColor" : "green",
+#'          "strokeColor" : "blue",
+#'          "id" : "green_rectangle",
+#'          "location" : "melbourne",
+#'          "value" : 100
 #'        },
 #'        "geometry" : {
 #'          "type" : "Polygon", "coordinates" : [
@@ -648,7 +651,10 @@ add_kml <- function(map, kml_url, layer_id = NULL){
 #'      {
 #'        "type" : "Feature",
 #'        "properties" : {
-#'          "color" : "red"
+#'          "fillColor" : "red",
+#'          "id" : "red_rectangle",
+#'          "location" : "melbourne",
+#'          "value" : 200
 #'        },
 #'        "geometry" : {
 #'          "type" : "Polygon", "coordinates" : [
@@ -665,7 +671,9 @@ add_kml <- function(map, kml_url, layer_id = NULL){
 #'      {
 #'        "type" : "Feature",
 #'        "properties" : {
-#'          "title" : "a point"
+#'          "title" : "a point",
+#'          "location" : "melbourne",
+#'          "value" : 100
 #'        },
 #'        "geometry" : {
 #'          "type" : "Point", "coordinates" : [145.00, -37.82]
@@ -813,6 +821,46 @@ clear_geojson <- function(map, layer_id = NULL){
 
   invoke_method(map, data = NULL, "clear_geojson", layer_id)
 }
+
+
+## Style Object
+##
+## Used to style data layer objects (geojson, ..., ... )
+## applies to the entire set of objects, rather than iterating over each
+## feature individually
+##
+## It can be used to style based on feature value
+## -
+
+update_geojson <- function(map, layer_id = NULL, style = NULL){
+  ## TODO:
+  ## update a data layer with a given style object
+  ## the 'style' object needs to specify
+  ## which 'feature' property to update, adn the value to update
+
+  layer_id <- layerId(layer_id)
+
+  ## property : the property to select the feature by
+  ## value : the value that identifies the geoJSON object property
+  style <- '{
+    "property" : "value",
+    "operator" : ">",
+    "value" : 100,
+    "features" : {
+      "fillColor" : "white",
+      "strokeColor" : "white"
+    }
+  }'
+
+  ## what if we want to update based on a timestamp, or something else?
+
+
+
+  class(style) <- "json"
+
+  invoke_method(map, data = NULL, "update_geojson", style, layer_id)
+}
+
 
 
 #' Add Fusion

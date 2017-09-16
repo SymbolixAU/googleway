@@ -77,8 +77,11 @@ See examples.
      {
        "type" : "Feature",
        "properties" : {
-         "color" : "green",
-         "lineColor" : "blue"
+         "fillColor" : "green",
+         "strokeColor" : "blue",
+         "id" : "green_rectangle",
+         "location" : "melbourne",
+         "value" : 100
        },
        "geometry" : {
          "type" : "Polygon", "coordinates" : [
@@ -95,7 +98,10 @@ See examples.
      {
        "type" : "Feature",
        "properties" : {
-         "color" : "red"
+         "fillColor" : "red",
+         "id" : "red_rectangle",
+         "location" : "melbourne",
+         "value" : 200
        },
        "geometry" : {
          "type" : "Polygon", "coordinates" : [
@@ -112,7 +118,9 @@ See examples.
      {
        "type" : "Feature",
        "properties" : {
-         "title" : "a point"
+         "title" : "a point",
+         "location" : "melbourne",
+         "value" : 100
        },
        "geometry" : {
          "type" : "Point", "coordinates" : [145.00, -37.82]
