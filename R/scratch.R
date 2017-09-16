@@ -244,6 +244,13 @@
 #
 # google_map(key = mapKey, location = c(34.2, -80), zoom = 6) %>%
 #   add_geojson(geo_nc)
+# #
+#
+# style <- '{ "fillColor" : "green" , "strokeColor" : "blue"}'
+#
+# google_map(key = mapKey) %>%
+#   add_geojson(geo_nc, style = style)
+#
 #
 # style <- '{
 #   "property" : "AREA",
@@ -254,9 +261,15 @@
 #   }
 # }'
 #
-# google_map(key = mapKey, location = c(34.2, -80), zoom = 6) %>%
+#
+# google_map(key = mapKey) %>%
 #   add_geojson(geo_nc) %>%
 #   update_geojson(style = style)
+
+# google_map(key = mapKey) %>%
+#   add_polygons(data = melbourne, polyline = "polyline",
+#                fill_colour = "SA2_NAME", fill_opacity = 0.9)
+
 #
 #
 #

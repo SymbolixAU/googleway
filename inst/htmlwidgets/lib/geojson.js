@@ -71,52 +71,43 @@ function add_geojson(map_id, geojson, geojson_source, style, update_map_view, la
         
         window[map_id + 'googleGeojson' + layer_id].addGeoJson(geojson);
         
-        window[map_id + 'googleGeojson' + layer_id].forEach(function(feature) {
-            
-//            console.log('feature');
-            //console.log(feature.getGeometry());
-            feature.getGeometry().forEachLatLng(function(latLng){
-                console.log(latLng);
-                window[map_id + 'mapBounds'].extend(latLng);
-            });
-        });
-        
-        window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
-        
-
-        
     } else if (geojson_source === "url") {
 
         window[map_id + 'googleGeojson' + layer_id].loadGeoJson(geojson);
     }
     
-        // a function that computes the style for each feature
+    // a function that computes the style for each feature
     window[map_id + 'googleGeojson' + layer_id].setStyle(function (feature) {
-
+        
+        if (update_map_view === true) {
+            zoom(map_id, layer_id)
+        }
+        
         return ({
             // all
+            
             clickable: getAttribute(feature, style, 'clickable'),
-            visible: feature.getProperty("visible"),
-            zIndex: feature.getProperty("zIndex"),
+            visible: getAttribute(feature, style, 'visible'),
+            zIndex: getAttribute(feature, style, 'zIndex'),
             // point
-            cursor: feature.getProperty("cursor"),
-            icon: feature.getProperty("icon"),
-            shape: feature.getProperty("shape"),
-            title: feature.getProperty("title"),
+            cursor: getAttribute(feature, style, 'cursor'),
+            icon: getAttribute(feature, style, 'icon'),
+            shape: getAttribute(feature, style, 'shape'),
+            title: getAttribute(feature, style, 'title'),
             // lines
-            strokeColor: feature.getProperty("strokeColor"),
-            strokeOpacity: feature.getProperty("strokeOpacity"),
-            strokeWeight: feature.getProperty("strokeWeight"),
+            strokeColor: getAttribute(feature, style, 'strokeColor'),
+            strokeOpacity: getAttribute(feature, style, 'strokeOpacity'),
+            strokeWeight: getAttribute(feature, style, 'strokeWeight'),
             // polygons
             fillColor: getAttribute(feature, style, 'fillColor'),
-            fillOpacity: feature.getProperty("fillOpacity")
+            fillOpacity: getAttribute(feature, style, 'fillOpacity'),
         });
     });
     
     if (update_map_view === true) {
-        console.log("update map view is true")
+        
     // TODO: update bounds
-       // zoom(map_id, layer_id)
+       //zoom(map_id, layer_id)
     }
 }
 
@@ -126,31 +117,14 @@ function add_geojson(map_id, geojson, geojson_source, style, update_map_view, la
 */
 function zoom(map_id, layer_id) {
     
-//  if(update_map_view === true){
-//    window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
-//  }
-    
-    var bounds = new google.maps.LatLngBounds();
-
-    console.log(window[map_id + 'googleGeojson' + layer_id]);
-    
-     window[map_id + 'googleGeojson' + layer_id].data.forEach(function(feature) {
-         
-         console.log(feature.geometry());
-         
-         console.log("feature");
-         console.log(feature);
-         
-         processPoints(feature.getGeometry(), 
-                       //bounds.extend, 
-                       window[map_id + 'mapBounds'].extend,
-                       bounds);
+    window[map_id + 'googleGeojson' + layer_id].forEach(function(feature) {
+        
+        feature.getGeometry().forEachLatLng(function(latLng){
+            window[map_id + 'mapBounds'].extend(latLng);
+        });
     });
-    
-    console.log("bounds");
-    console.log(bounds);
-    window[map_id + 'map'].fitBounds(bounds);
-//    window[map_id + 'map'].fitBounds(bounds);
+
+    window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
 }
 
 function getAttribute(feature, style, attr){
@@ -160,9 +134,13 @@ function getAttribute(feature, style, attr){
     }
     
 	if (style[attr] !== undefined) {   // a style has been provided
+        console.log("style provided");
+        
 		if (feature.getProperty([style[attr]]) !== undefined) {   // the provided style doesn't exist in the feature
+            console.log("styel doesn't exist in feature");
 			return feature.getProperty([style[attr]]);
 		} else {                      // so assume the style is a valid colour/feature
+            console.log("use the style")
 			return style[attr];
 		}
 	} else { 
