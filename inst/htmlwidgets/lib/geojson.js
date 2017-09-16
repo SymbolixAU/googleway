@@ -1,23 +1,18 @@
-
 function update_geojson(map_id, style, layer_id) {
     
     var operators = {
-        '>': function (a, b) { return a > b },
-        '>=': function (a, b) { return a >= b },
-        '<': function (a, b) { return a < b },
-        '<=': function (a, b) { return a <= b },
-        '=': function (a, b) { return a === b }
-    };
-    
-    var op = (style.operator === undefined ? "=" : style.operator);
-    console.log("operator: " + op);
-
-    var property = style.property,
+        '>': function (a, b) { return a > b; },
+        '>=': function (a, b) { return a >= b; },
+        '<': function (a, b) { return a < b; },
+        '<=': function (a, b) { return a <= b; },
+        '=': function (a, b) { return a === b; }
+    },
+        op = (style.operator === undefined ? "=" : style.operator),
+        property = style.property,
         value = style.value,
         feature = style.feature,
-        styleValue = style.style;
-    
-    var newFeatures = style.features;
+        styleValue = style.style,
+        newFeatures = style.features;
     
         
     window[map_id + 'googleGeojson' + layer_id].setStyle(function (feature) {
@@ -41,7 +36,7 @@ function update_geojson(map_id, style, layer_id) {
             newShape = newFeatures.shape,
             newTitle = newFeatures.title;
         
-        if (operators[op](feature.getProperty(property), value) ) {
+        if (operators[op](feature.getProperty(property), value)) {
             featureFillColor = (newFillColor === undefined ? featureFillColor : newFillColor);
             featureFillOpacity = (newFillOpacity === undefined ? featureFillOpacity : newFillOpacity);
             featureStrokeColor = (newStrokeColor === undefined ? featureStrokeColor : newStrokeColor);
@@ -68,7 +63,7 @@ function update_geojson(map_id, style, layer_id) {
     });
 }
                                                           
-function add_geojson(map_id, geojson, geojson_source, style, style_type, update_map_view, layer_id) {
+function add_geojson(map_id, geojson, geojson_source, style, update_map_view, layer_id) {
     
     window[map_id + 'googleGeojson' + layer_id] = new google.maps.Data({ map: window[map_id + 'map'] });
     
@@ -76,64 +71,103 @@ function add_geojson(map_id, geojson, geojson_source, style, style_type, update_
         
         window[map_id + 'googleGeojson' + layer_id].addGeoJson(geojson);
         
+        window[map_id + 'googleGeojson' + layer_id].forEach(function(feature) {
+            
+//            console.log('feature');
+            //console.log(feature.getGeometry());
+            feature.getGeometry().forEachLatLng(function(latLng){
+                console.log(latLng);
+                window[map_id + 'mapBounds'].extend(latLng);
+            });
+        });
+        
+        window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+        
+
+        
     } else if (geojson_source === "url") {
 
         window[map_id + 'googleGeojson' + layer_id].loadGeoJson(geojson);
     }
     
-
-    if (style_type === "auto") {
         // a function that computes the style for each feature
-        window[map_id + 'googleGeojson' + layer_id].setStyle(function (feature) {
-            
-            return ({
-                // all
-                clickable: feature.getProperty("clickable"),
-                visible: feature.getProperty("visible"),
-                zIndex: feature.getProperty("zIndex"),
-                // point
-                cursor: feature.getProperty("cursor"),
-                icon: feature.getProperty("icon"),
-                shape: feature.getProperty("shape"),
-                title: feature.getProperty("title"),
-                // lines
-                strokeColor: feature.getProperty("strokeColor"),
-                strokeOpacity: feature.getProperty("strokeOpacity"),
-                strokeWeight: feature.getProperty("strokeWeight"),
-                // polygons
-                fillColor: feature.getProperty("fillColor"),
-                fillOpacity: feature.getProperty("fillOpacity")
-            });
-        });
+    window[map_id + 'googleGeojson' + layer_id].setStyle(function (feature) {
 
-    } else if (style_type === "all") {
-    //style each feature wtih the same styleOptions:
-
-        window[map_id + 'map'].data.setStyle({
-
-            clickable: style.clickable,
-            visible: style.visible,
-            zIndex: style.zIndex,
+        return ({
+            // all
+            clickable: getAttribute(feature, style, 'clickable'),
+            visible: feature.getProperty("visible"),
+            zIndex: feature.getProperty("zIndex"),
             // point
-            cursor: style.cursor,
-            icon: style.icon,
-            shape: style.shape,
-            title: style.title,
+            cursor: feature.getProperty("cursor"),
+            icon: feature.getProperty("icon"),
+            shape: feature.getProperty("shape"),
+            title: feature.getProperty("title"),
             // lines
-            strokeColor: style.strokeColor,
-            strokeOpacity: style.strokeOpacity,
-            strokeWeight: style.strokeWeight,
+            strokeColor: feature.getProperty("strokeColor"),
+            strokeOpacity: feature.getProperty("strokeOpacity"),
+            strokeWeight: feature.getProperty("strokeWeight"),
             // polygons
-            fillColor: style.fillColor,
-            fillOpacity: style.fillOpacity
-
+            fillColor: getAttribute(feature, style, 'fillColor'),
+            fillOpacity: feature.getProperty("fillOpacity")
         });
-    }
-
-
+    });
+    
     if (update_map_view === true) {
+        console.log("update map view is true")
     // TODO: update bounds
+       // zoom(map_id, layer_id)
     }
+}
+
+/**
+* Update a map's viewport to fit each geometry in a dataset
+* @param {google.maps.Map} map The map to adjust
+*/
+function zoom(map_id, layer_id) {
+    
+//  if(update_map_view === true){
+//    window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+//  }
+    
+    var bounds = new google.maps.LatLngBounds();
+
+    console.log(window[map_id + 'googleGeojson' + layer_id]);
+    
+     window[map_id + 'googleGeojson' + layer_id].data.forEach(function(feature) {
+         
+         console.log(feature.geometry());
+         
+         console.log("feature");
+         console.log(feature);
+         
+         processPoints(feature.getGeometry(), 
+                       //bounds.extend, 
+                       window[map_id + 'mapBounds'].extend,
+                       bounds);
+    });
+    
+    console.log("bounds");
+    console.log(bounds);
+    window[map_id + 'map'].fitBounds(bounds);
+//    window[map_id + 'map'].fitBounds(bounds);
+}
+
+function getAttribute(feature, style, attr){
+    
+    if (style == null){
+        return feature.getProperty(attr);
+    }
+    
+	if (style[attr] !== undefined) {   // a style has been provided
+		if (feature.getProperty([style[attr]]) !== undefined) {   // the provided style doesn't exist in the feature
+			return feature.getProperty([style[attr]]);
+		} else {                      // so assume the style is a valid colour/feature
+			return style[attr];
+		}
+	} else { 
+        return feature.getProperty(attr);
+	}
 }
 
 

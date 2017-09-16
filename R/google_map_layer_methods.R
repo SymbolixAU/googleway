@@ -61,6 +61,7 @@ validateStyleUpdate.list <- function(style){
   jsonlite::toJSON(style, auto_unbox = T)
 }
 
+
 validateStyle <- function(style) UseMethod("validateStyle")
 
 validateStyle.character <- function(style){

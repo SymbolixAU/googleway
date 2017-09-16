@@ -147,10 +147,7 @@ add_geojson <- function(map, geojson, layer_id = NULL, style = NULL, update_map_
   ## -- we need to know the mapping between the geoJSON and the style elements
   ## -- e.g, which object is the fill_colour / stroke_colour, etc.
   ## -- JSON / list / data.frame that provides the mapping?
-  ## -- or if the geoJSON contains 'stroke_colour', 'fill_colour' properties, it auto-detects
 
-  ## auto detect - Google seems to be able to do this, given keys are
-  ## - properties.fillColour, etc
 
   ## manually defined:
   ## -- JSON literal
@@ -193,15 +190,13 @@ add_geojson <- function(map, geojson, layer_id = NULL, style = NULL, update_map_
                 geojson[['geojson']],
                 geojson[['source']],
                 style[['style']],
-                "auto",
-                FALSE,
-                layer_id
-                #                style[['type']]
-  )
+                TRUE,
+                layer_id)
 }
 
 
-
+#' @rdname clear
+#' @export
 clear_geojson <- function(map, layer_id = NULL){
 
   layer_id <- layerId(layer_id)
