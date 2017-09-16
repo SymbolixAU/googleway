@@ -49,6 +49,17 @@ constructGeojsonSource <- function(geojson, source) {
 
 ### validate Style -----------
 
+validateStyleUpdate <- function(style) UseMethod("validateStyleUpdate")
+
+validateStyleUpdate.character <- function(style){
+  if(!jsonlite::validate(style)) stop("invalid JSON")
+  class(style) <- 'json'
+  return(style)
+}
+
+validateStyleUpdate.list <- function(style){
+  jsonlite::toJSON(style, auto_unbox = T)
+}
 
 validateStyle <- function(style) UseMethod("validateStyle")
 

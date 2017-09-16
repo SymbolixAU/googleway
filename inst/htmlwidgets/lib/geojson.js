@@ -27,26 +27,42 @@ function update_geojson(map_id, style, layer_id) {
             featureStrokeColor = feature.getProperty("strokeColor"),
             featureStrokeOpacity = feature.getProperty("strokeOpacity"),
             featureStrokeWeight = feature.getProperty("strokeWeight"),
+            featureCursor = feature.getProperty("cursor"),
+            featureIcon = feature.getProperty("icon"),
+            featureShape = feature.getProperty("shape"),
+            featureTitle = feature.getProperty("title"),
             newFillColor = newFeatures.fillColor,
             newFillOpacity = newFeatures.fillOpacity,
             newStrokeColor = newFeatures.strokeColor,
             newStrokeOpacity = newFeatures.strokeOpacity,
-            newStrokeWeight = newFeatures.strokeWeight;
+            newStrokeWeight = newFeatures.strokeWeight,
+            newCursor = newFeatures.cursor,
+            newIcon = newFeatures.icon,
+            newShape = newFeatures.shape,
+            newTitle = newFeatures.title;
         
         if (operators[op](feature.getProperty(property), value) ) {
-            // set the attribut if it exists, else, use the one that was already there!
             featureFillColor = (newFillColor === undefined ? featureFillColor : newFillColor);
             featureFillOpacity = (newFillOpacity === undefined ? featureFillOpacity : newFillOpacity);
             featureStrokeColor = (newStrokeColor === undefined ? featureStrokeColor : newStrokeColor);
             featureStrokeOpacity = (newStrokeOpacity === undefined ? featureStrokeOpacity : newStrokeOpacity);
             featureStrokeWeight = (newStrokeWeight === undefined ? featureStrokeWeight : newStrokeWeight);
+            featureCursor = (newCursor === undefined ? featureCursor : newCursor);
+            featureIcon = (newIcon === undefined ? featureIcon : newIcon);
+            featureShape = (newShape === undefined ? featureShape : newShape);
+            featureTitle = (newTitle === undefined ? featureTitle : newTitle);
         }
+        
         return {
             fillColor : featureFillColor,
             fillOpacity : featureFillOpacity,
             strokeColor : featureStrokeColor,
             strokeOpacity : featureStrokeOpacity,
-            strokeWeight : featureStrokeWeight
+            strokeWeight : featureStrokeWeight,
+            cursor: featureCursor,
+            icon : featureIcon,
+            shape : featureShape,
+            title : featureTitle
         }
         
     });
@@ -123,4 +139,5 @@ function add_geojson(map_id, geojson, geojson_source, style, style_type, update_
 
 function clear_geojson(map_id, layer_id) {
     window[map_id + 'googleGeojson' + layer_id].setMap(null);
+    window[map_id + 'googleGeojson' + layer_id] = null;
 }
