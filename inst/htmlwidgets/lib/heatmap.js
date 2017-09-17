@@ -9,55 +9,56 @@
  * @param layer_id
  *          the id of the layer
  */
-function add_heatmap(map_id, data_heatmap, heatmap_options, layer_id){
+function add_heatmap(map_id, data_heatmap, heatmap_options, update_map_view, layer_id){
+    heat_options = heatmap_options;
 
-  //heat = HTMLWidgets.dataframeToD3(data_heatmap);
-  //heat_options = HTMLWidgets.dataframeToD3(heatmap_options);
-  heat_options = heatmap_options;
+      // need an array of google.maps.LatLng points
+    var heatmapData = [];
+    var i;
+    window[map_id + 'googleHeatmap' + layer_id] = [];
+    window[map_id + 'googleHeatmapLayerMVC' + layer_id] = [];
+    //  var bounds = new google.maps.LatLngBounds();
 
-  // need an array of google.maps.LatLng points
-  var heatmapData = [];
-  var i;
-  window[map_id + 'googleHeatmap' + layer_id] = [];
-  window[map_id + 'googleHeatmapLayerMVC' + layer_id] = [];
-//  var bounds = new google.maps.LatLngBounds();
+    // turn row of the data into LatLng, and push it to the array
 
-  // turn row of the data into LatLng, and push it to the array
+    for(i = 0; i < Object.keys(data_heatmap).length; i++){
+        latlon = new google.maps.LatLng(data_heatmap[i].lat, data_heatmap[i].lng);
+        heatmapData[i] = {
+          location: latlon,
+          weight: data_heatmap[i].weight
+        };
 
-  for(i = 0; i < Object.keys(data_heatmap).length; i++){
-    latlon = new google.maps.LatLng(data_heatmap[i].lat, data_heatmap[i].lng);
-    heatmapData[i] = {
-      location: latlon,
-      weight: data_heatmap[i].weight
-    };
+        //bounds.extend(latlon);
+        if(update_map_view === true){
+            window[map_id + 'mapBounds'].extend(latlon);
+        }
+    }
 
-    //bounds.extend(latlon);
-    window[map_id + 'mapBounds'].extend(latlon);
-  }
+    // store in MVC array
+    window[map_id + 'googleHeatmapLayerMVC' + layer_id] = new google.maps.MVCArray(heatmapData);
 
-  // store in MVC array
-  window[map_id + 'googleHeatmapLayerMVC' + layer_id] = new google.maps.MVCArray(heatmapData);
+    var heatmap = new google.maps.visualization.HeatmapLayer({
+        data: window[map_id + 'googleHeatmapLayerMVC' + layer_id]
+    });
 
-  var heatmap = new google.maps.visualization.HeatmapLayer({
-    data: window[map_id + 'googleHeatmapLayerMVC' + layer_id]
-  });
+    heatmap.setOptions({
+        radius: heat_options[0].radius,
+        opacity: heat_options[0].opacity,
+        dissipating: heat_options[0].dissipating
+    });
 
-  heatmap.setOptions({
-    radius: heat_options[0].radius,
-    opacity: heat_options[0].opacity,
-    dissipating: heat_options[0].dissipating
-  });
+    if(heat_options[0].gradient !== undefined){
+        heatmap.set('gradient', heat_options[0].gradient);
+    }
 
-  if(heat_options[0].gradient !== undefined){
-    heatmap.set('gradient', heat_options[0].gradient);
-  }
+    if(update_map_view === true){
+        window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+    }
 
-  window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
-
-  // fill the heatmap variable with the MVC array of heatmap data
-  // when the MVC array is updated, the layer is also updated
-  window[map_id + 'googleHeatmap' + layer_id] = heatmap;
-  heatmap.setMap(window[map_id + 'map']);
+    // fill the heatmap variable with the MVC array of heatmap data
+    // when the MVC array is updated, the layer is also updated
+    window[map_id + 'googleHeatmap' + layer_id] = heatmap;
+    heatmap.setMap(window[map_id + 'map']);
 }
 
 /**

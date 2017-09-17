@@ -71,7 +71,8 @@ addDefaults <- function(shape, requiredDefaults, shapeType){
                      "circle" = circleDefaults(n),
                      "polygon" = polygonDefaults(n),
                      "polyline" = polylineDefaults(n),
-                     "rectangle" = rectangleDefaults(n))
+                     "rectangle" = rectangleDefaults(n),
+                     "heatmap" = heatmapDefaults(n))
 
   shape <- cbind(shape, defaults[, requiredDefaults])
   return(shape)
@@ -101,6 +102,10 @@ requiredCircleColumns <- function(){
 
 requiredMarkerColumns <- function(){
   c("opacity", "colour")
+}
+
+requiredHeatmapColumns <- function(){
+  c()
 }
 
 ## MARKERS ---------------------------------------------------------------------
@@ -191,4 +196,14 @@ rectangleDefaults <- function(n){
              "fill_opacity" = rep(0.35, n),
              "z_index" = rep(2, n),
              stringsAsFactors = FALSE)
+}
+
+## heatmap ---------------------------------------------------------------------
+heatmapColumns <- function(){
+  c('lat', 'lng', 'weight')
+}
+
+heatmapDefaults <- function(n){
+  data.frame('weight' = rep(1, n),
+             stringsAsFactors = F)
 }
