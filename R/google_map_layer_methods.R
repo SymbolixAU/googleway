@@ -1,5 +1,8 @@
 
-#isUrl <- function(txt) grepl("(((https?:\\/\\/)|(www\\.))[^\\s]+)", txt)
+get_map_data = function(map){
+  attr(map$x, "google_map_data", exact = TRUE)
+}
+
 isUrl <- function(txt) grepl("(^http)|(^www)", txt)
 
 stopMessage <- function(obj) stop(paste0("I don't know how to deal with objects of type ", class(obj)))

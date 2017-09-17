@@ -142,7 +142,6 @@ add_geojson <- function(map, data = get_map_data(map), layer_id = NULL, style = 
   ## TODO:
   ## - drag & drop geojson - https://developers.google.com/maps/documentation/javascript/examples/layer-data-dragndrop
   ## - replicate blog: https://maps-apis.googleblog.com/2014/04/build-map-infographic-with-google-maps.html
-  ## if styles are NULL, set defaults
 
   ## DataLayer events https://developers.google.com/maps/documentation/javascript/datalayer#add_event_handlers
   ## - addFeature
@@ -242,3 +241,11 @@ update_geojson <- function(map, layer_id = NULL, style){
 
   invoke_method(map, "update_geojson", style, layer_id)
 }
+
+#' @export
+drag_drop_geojson <- function(map){
+
+  invoke_method(map, "drag_drop_geojson")
+}
+
+

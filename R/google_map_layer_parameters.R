@@ -11,6 +11,22 @@ dataCheck <- function(data){
     stop("Currently only data.frames are supported")
 }
 
+# Latitude Check
+#
+# Checks that a value is between -90:90
+latitudeCheck <- function(lat, arg){
+  if(!is.numeric(lat) | lat < -90 | lat > 90)
+    stop(paste0(arg, " must be a value between -90 and 90 (inclusive)"))
+}
+
+# Longitude Check
+#
+# Checks that a value is between -90:90
+longitudeCheck <- function(lat, arg){
+  if(!is.numeric(lat) | lat < -180 | lat > 180)
+    stop(paste0(arg, " must be a value between -180 and 180 (inclusive)"))
+}
+
 # Is Using Polyline
 #
 # Checks if the polyline argument is null or not

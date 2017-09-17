@@ -10,6 +10,9 @@ HTMLWidgets.widget({
     return {
       renderValue: function(x) {
 
+          window.params = [];
+          window.params.push( {'map_id' : el.id } );
+
           // visualisation layers
           window[el.id + 'googleTrafficLayer'] = [];
           window[el.id + 'googleBicyclingLayer'] = [];

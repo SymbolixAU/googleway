@@ -161,8 +161,36 @@ google_map <- function(key,
   return(googlemap)
 }
 
-get_map_data = function(map){
-  attr(map$x, "google_map_data", exact = TRUE)
+#' Clear search
+#'
+#' clears the markers placed on the map after using the search box
+#' @param map a googleway map object created from \code{google_map()}
+#'
+#' @export
+clear_search <- function(map){
+  invoke_method(map, 'clear_search')
+}
+
+
+#' Update style
+#'
+#' Updates the map with the given styles
+#'
+#' @note This function is intended for use with \link{google_map_update} in an
+#' interactive shiny environment. You can set the styles of the original map
+#' using the \code{styles} argument of \link{google_map}
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @param styles JSON string representation of a valid Google Maps styles Array.
+#' See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}
+#'
+#' @export
+update_style <- function(map, styles = NULL){
+
+  if(!is.null(styles))
+    jsonlite::validate(styles)
+
+  invoke_method(map, 'update_style', styles)
 }
 
 #' Shiny bindings for google_map
@@ -221,15 +249,4 @@ renderGoogle_map <- function(expr, env = parent.frame(), quoted = FALSE) {
   if (!quoted) { expr <- substitute(expr) } # force quoted
   htmlwidgets::shinyRenderWidget(expr, google_mapOutput, env, quoted = TRUE)
 }
-
-
-# google_map_html <- function(id, style, class, ...){
-#   list(
-#       tags$div(id = id, class = class, style = style,
-#                tags$div(id = "search-container", class = "inner-addon right-addon",
-#                         tags$input(id = "pac-input", class = "controls", type = "text"),
-#                         tags$span(id = "search-clear", class="glyphicon glyphicon-remove-cirlce")))
-#       )
-# }
-
 

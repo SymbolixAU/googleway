@@ -9,27 +9,25 @@
  * @param layer_id
  *          the id of the layer
  */
-function add_heatmap(map_id, data_heatmap, heatmap_options, update_map_view, layer_id){
-    heat_options = heatmap_options;
-
-      // need an array of google.maps.LatLng points
-    var heatmapData = [];
-    var i;
+function add_heatmap(map_id, data_heatmap, heatmap_options, update_map_view, layer_id) {
+    
+    var heat_options = heatmap_options,
+        heatmapData = [],
+        i;
+    
     window[map_id + 'googleHeatmap' + layer_id] = [];
     window[map_id + 'googleHeatmapLayerMVC' + layer_id] = [];
-    //  var bounds = new google.maps.LatLngBounds();
-
-    // turn row of the data into LatLng, and push it to the array
-
-    for(i = 0; i < Object.keys(data_heatmap).length; i++){
+    
+    for (i = 0; i < Object.keys(data_heatmap).length; i++) {
+        
         latlon = new google.maps.LatLng(data_heatmap[i].lat, data_heatmap[i].lng);
         heatmapData[i] = {
-          location: latlon,
-          weight: data_heatmap[i].weight
+            location: latlon,
+            weight: data_heatmap[i].weight
         };
 
         //bounds.extend(latlon);
-        if(update_map_view === true){
+        if (update_map_view === true) {
             window[map_id + 'mapBounds'].extend(latlon);
         }
     }
@@ -47,11 +45,11 @@ function add_heatmap(map_id, data_heatmap, heatmap_options, update_map_view, lay
         dissipating: heat_options[0].dissipating
     });
 
-    if(heat_options[0].gradient !== undefined){
+    if (heat_options[0].gradient !== undefined) {
         heatmap.set('gradient', heat_options[0].gradient);
     }
 
-    if(update_map_view === true){
+    if (update_map_view === true) {
         window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
     }
 
@@ -70,33 +68,31 @@ function add_heatmap(map_id, data_heatmap, heatmap_options, update_map_view, lay
  * @param layer_id
  *          the heatmap layer to update
  */
-function update_heatmap(map_id, data_heatmap, layer_id){
+function update_heatmap(map_id, data_heatmap, layer_id) {
 
-  if(window[map_id + 'googleHeatmap' + layer_id] !== undefined){
+    if (window[map_id + 'googleHeatmap' + layer_id] !== undefined) {
 
-    // update the heatmap array
-    window[map_id + 'googleHeatmapLayerMVC' + layer_id].clear();
+        // update the heatmap array
+        window[map_id + 'googleHeatmapLayerMVC' + layer_id].clear();
 
-    var heatmapData = [];
-    var i;
+        var heatmapData = [];
+        var i;
 
-    // turn row of the data into LatLng, and push it to the array
-    for(i = 0; i < Object.keys(data_heatmap).length; i++){
-      var latlon = new google.maps.LatLng(data_heatmap[i].lat, data_heatmap[i].lng);
+        // turn row of the data into LatLng, and push it to the array
+        for (i = 0; i < Object.keys(data_heatmap).length; i++) {
+            var latlon = new google.maps.LatLng(data_heatmap[i].lat, data_heatmap[i].lng);
 
-      heatmapData[i] = {
-        location: latlon,
-        weight: data_heatmap[i].weight
-      };
+            heatmapData[i] = {
+                location: latlon,
+                weight: data_heatmap[i].weight
+            };
 
-      window[map_id + 'googleHeatmapLayerMVC' + layer_id].push(heatmapData[i]);
-      //bounds.extend(latlon);
-      window[map_id + 'mapBounds'].extend(latlon);
+            window[map_id + 'googleHeatmapLayerMVC' + layer_id].push(heatmapData[i]);
+            //bounds.extend(latlon);
+            window[map_id + 'mapBounds'].extend(latlon);
+        }
+        window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
     }
-
-    window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
-  }
-
 }
 
 /** Clear heatmap
@@ -108,7 +104,7 @@ function update_heatmap(map_id, data_heatmap, layer_id){
  * @param layer_id
  *          the id of the layer
  */
-function clear_heatmap(map_id, layer_id){
-  window[map_id + 'googleHeatmap' + layer_id].setMap(null);
-  window[map_id + 'googleHeatmap' + layer_id] = null;
+function clear_heatmap(map_id, layer_id) {
+    window[map_id + 'googleHeatmap' + layer_id].setMap(null);
+    window[map_id + 'googleHeatmap' + layer_id] = null;
 }

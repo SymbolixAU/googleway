@@ -1,37 +1,5 @@
 
 
-#' Clear search
-#'
-#' clears the markers placed on the map after using the search box
-#' @param map a googleway map object created from \code{google_map()}
-#'
-#' @export
-clear_search <- function(map){
-  invoke_method(map, 'clear_search')
-}
-
-#' Update style
-#'
-#' Updates the map with the given styles
-#'
-#' @note This function is intended for use with \link{google_map_update} in an
-#' interactive shiny environment. You can set the styles of the original map
-#' using the \code{styles} argument of \link{google_map}
-#'
-#' @param map a googleway map object created from \code{google_map()}
-#' @param styles JSON string representation of a valid Google Maps styles Array.
-#' See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}
-#'
-#' @export
-update_style <- function(map, styles = NULL){
-
-  if(!is.null(styles))
-    jsonlite::validate(styles)
-
-  invoke_method(map, 'update_style', styles)
-}
-
-
 #' update heatmap
 #'
 #' updates a heatmap layer
@@ -381,62 +349,6 @@ update_polygons <- function(map, data, id,
 
 }
 
-
-
-#' Add Overlay
-#'
-#' Adds a ground overlay to a map. The overlay can only be added from a URL
-#'
-#' @param map a googleway map object created from \code{google_map()}
-#' @param north northern-most latitude coordinate
-#' @param east eastern-most longitude
-#' @param south southern-most latitude coordinate
-#' @param west western-most longitude
-#' @param overlay_url URL string specifying the location of the overlay layer
-#' @param layer_id single value specifying an id for the layer.
-#' @param digits integer. Use this parameter to specify how many digits (decimal places)
-#' should be used for the latitude / longitude coordinates.
-#'
-#' @examples
-#' \dontrun{
-#'
-#' map_key <- 'your_api_key'
-#'
-#' google_map(key = map_key) %>%
-#'   add_overlay(north = 40.773941, south = 40.712216, east = -74.12544, west = -74.22655,
-#'                overlay_url = "https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg")
-#'
-#'
-#' }
-#' @export
-add_overlay <- function(map,
-                        north,
-                        east,
-                        south,
-                        west,
-                        overlay_url,
-                        layer_id = NULL,
-                        digits = 4){
-
-
-  urlCheck(overlay_url)
-
-  LatitudeCheck(north, "north")
-  LatitudeCheck(south, "south")
-  LongitudeCheck(east, "east")
-  LongitudeCheck(west, "west")
-
-  layer_id <- layerId(layer_id)
-
-  overlay <- jsonlite::toJSON(data.frame(url = overlay_url,
-                                       north = north,
-                                       south = south,
-                                       west = west,
-                                       east = east),
-                              digits = digits)
-
-  invoke_method(map, 'add_overlay', overlay, layer_id)
-}
 
 
 #' Add KML
