@@ -1,7 +1,7 @@
 #' Add GeoJson
 #'
 #' @param map a googleway map object created from \code{google_map()}
-#' @param geojson A character string or JSON/geoJSON literal of correctly formatted geoJSON
+#' @param geojson A character string or geoJSON literal of correctly formatted geoJSON
 #' @param layer_id single value specifying an id for the layer.
 #' @param style Style options for the geoJSON. See details
 #' @param update_map_view logical specifying if the map should re-centre according
@@ -71,27 +71,32 @@
 #'
 #' ## use the properties inside the geoJSON to style each feature
 #' google_map(key = map_key) %>%
-#'   add_geojson(geojson = geojson_txt,
-#'     style = list(fillColor = "color", strokeColor = "lineColor", title = "title"))
+#'   add_geojson(data = geojson_txt)
 #'
-#' ## use a JSON style literal to style all features
+#' ## use a JSON string to style all features
 #' style <- '{ "fillColor" : "green" , "strokeColor" : "black", "strokeWeight" : 0.5}'
 #' google_map(key = map_key) %>%
-#'   add_geojson(geojson = geojson_txt, style = style)
+#'   add_geojson(data = geojson_txt, style = style)
+#'
+#'
+#' ## use a named list to style all features
+#' style <- list(fillColor = "red" , strokeColor = "blue", strokeWeight = 0.5)
+#' google_map(key = map_key) %>%
+#'   add_geojson(data = geojson_txt, style = style)
 #'
 #' ## GeoJSON from a URL
 #' url <- 'https://storage.googleapis.com/mapsdevsite/json/google.json'
 #' google_map(key = map_key) %>%
-#'   add_geojson(geojson = url)
+#'   add_geojson(data = url)
 #'
 #' }
 #'
 #' @details
 #' The style of the geoJSON features can be defined inside the geoJSON itself,
-#' or specified as a JSON literal that's used to style all the features the same
+#' or specified as a JSON string or R list that's used to style all the features the same
 #'
 #' To use the properties in the geoJSON to define the styles, set the \code{style}
-#' argument to a named list, where each name is one of
+#' argument to a JSON string or a named list, where each name is one of
 #'
 #' All Geometries
 #'
@@ -126,42 +131,18 @@
 #' and where the values are the the properties of the geoJSON that contain the relevant style
 #' for those properties.
 #'
-#' To style all the features the same, supply a JSON literal that defines a value for each
-#' of the style options (listed above)
+#' To style all the features the same, supply a JSON string or R list that
+#' defines a value for each of the style options (listed above)
 #'
 #' See examples.
 #'
 #' @export
-add_geojson <- function(map, geojson, layer_id = NULL, style = NULL, update_map_view = TRUE){
+add_geojson <- function(map, data = get_map_data(map), layer_id = NULL, style = NULL, update_map_view = TRUE){
 
   ## TODO:
-  ## - better handler geojson source (url or local) and style (list or json)
-  ## -- the current appraoch is limiting
-  ## - update bounds (https://stackoverflow.com/questions/28507044/zoom-to-geojson-polygons-bounds-in-google-maps-api-v3)
   ## - drag & drop geojson - https://developers.google.com/maps/documentation/javascript/examples/layer-data-dragndrop
   ## - replicate blog: https://maps-apis.googleblog.com/2014/04/build-map-infographic-with-google-maps.html
-
-  ## the GeoJSON can be supplied as geojson string, or a URL pointing to valid GeoJSON
-  ## the style can either be defined in the geoJSON, or defined manually
-  ## geoJSON defined:
-  ## -- we need to know the mapping between the geoJSON and the style elements
-  ## -- e.g, which object is the fill_colour / stroke_colour, etc.
-  ## -- JSON / list / data.frame that provides the mapping?
-
-
-  ## manually defined:
-  ## -- JSON literal
-  ## -- list (that can convert to JSON)
-  ## -- data.frame (that can convert to JSON)
-
   ## if styles are NULL, set defaults
-  ## if they are defined by the user, rename them to match what google expects?
-  ## or set a separate 'style' object?
-
-  ## 'style' argument will be a list/json/data.frame, where the names must be 'fillColor', 'strokeColor' etc.
-  ## - if provided, this will set the style for all features (google auto-detects the properties)
-  ## - if not provided, the function will look for those within the geoJSON, and use if availabl.e
-  ##
 
   ## DataLayer events https://developers.google.com/maps/documentation/javascript/datalayer#add_event_handlers
   ## - addFeature
@@ -184,8 +165,7 @@ add_geojson <- function(map, geojson, layer_id = NULL, style = NULL, update_map_
   if(!is.null(style))
     style <- validateStyle(style)
 
-  invoke_method(map,
-                data = NULL,
+  invoke_method(map, data = NULL,
                 'add_geojson',
                 geojson[['geojson']],
                 geojson[['source']],
@@ -201,7 +181,7 @@ clear_geojson <- function(map, layer_id = NULL){
 
   layer_id <- layerId(layer_id)
 
-  invoke_method(map, data = NULL, "clear_geojson", layer_id)
+  invoke_method(map, data, "clear_geojson", layer_id)
 }
 
 
