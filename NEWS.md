@@ -1,5 +1,6 @@
 ## Version 2.3.0 (development)
 
+* `drag_drop_geojson` drag & drop geojson onto a map
 * `decode_pl` updated to now handle `jqr`-parsed character vectors
 * `colours` - You can now map variables passed into the map layers to colours
 * `add_drawing` draw shapes and markers onto the map

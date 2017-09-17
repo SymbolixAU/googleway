@@ -22,7 +22,7 @@ function loadGeoJsonString(geoString) {
     window[map_id + 'map'].data.addGeoJson(geojson);
     
     // TODO: update map bounds
-    zoom(map_id, window[map_id + 'map'].data);
+    zoomGeo(map_id, window[map_id + 'map'].data);
 }
 
 
@@ -30,8 +30,8 @@ function loadGeoJsonString(geoString) {
 
 function initEvents(map_id) {
     // set up the drag & drop events
-    var mapContainer = document.getElementById(map_id);
-    var dropContainer = document.getElementById('drop-container');
+    var mapContainer = document.getElementById(map_id),
+        dropContainer = document.getElementById('drop-container');
 
     // map-specific events
     mapContainer.addEventListener('dragenter', showPanel, false);
@@ -104,7 +104,7 @@ function add_geojson(map_id, geojson, geojson_source, style, update_map_view, la
     window[map_id + 'googleGeojson' + layer_id].setStyle(function (feature) {
         
         if (update_map_view === true) {
-            zoom(map_id, window[map_id + 'googleGeojson' + layer_id])
+            zoomGeo(map_id, window[map_id + 'googleGeojson' + layer_id])
         }
         
         return ({
@@ -131,10 +131,10 @@ function add_geojson(map_id, geojson, geojson_source, style, update_map_view, la
 
 /**
 * Update a map's viewport to fit each geometry in a dataset
-* @param {google.maps.Map} map The map to adjust
+* @param map_id the id of the map to adjust 
+* @param mapObj map object containing the geojson features
 */
-
-function zoom(map_id, mapObj) {
+function zoomGeo(map_id, mapObj) {
     
     mapObj.forEach(function(feature) {
         
@@ -147,18 +147,6 @@ function zoom(map_id, mapObj) {
 }
 
 
-function zoom2(map_id, layer_id) {
-    
-    window[map_id + 'googleGeojson' + layer_id].forEach(function(feature) {
-        
-        feature.getGeometry().forEachLatLng(function(latLng){
-            window[map_id + 'mapBounds'].extend(latLng);
-        });
-    });
-
-    window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
-}
-
 function getAttribute(feature, style, attr){
     
     if (style == null){
@@ -166,13 +154,10 @@ function getAttribute(feature, style, attr){
     }
     
 	if (style[attr] !== undefined) {   // a style has been provided
-        console.log("style provided");
         
 		if (feature.getProperty([style[attr]]) !== undefined) {   // the provided style doesn't exist in the feature
-            console.log("styel doesn't exist in feature");
 			return feature.getProperty([style[attr]]);
 		} else {                      // so assume the style is a valid colour/feature
-            console.log("use the style")
 			return style[attr];
 		}
 	} else { 
