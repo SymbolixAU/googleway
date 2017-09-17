@@ -109,7 +109,7 @@ add_markers <- function(map,
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  invoke_method(map, data, 'add_markers', shape, cluster, update_map_view, layer_id)
+  invoke_method(map, 'add_markers', shape, cluster, update_map_view, layer_id)
 }
 
 
@@ -127,7 +127,7 @@ add_markers <- function(map,
 #' @export
 clear_markers <- function(map, layer_id = NULL){
   layer_id <- layerId(layer_id)
-  invoke_method(map, data = NULL, 'clear_markers', layer_id)
+  invoke_method(map, 'clear_markers', layer_id)
 }
 
 

@@ -7,7 +7,7 @@
 #'
 #' @export
 clear_search <- function(map){
-  invoke_method(map, data = NULL, 'clear_search')
+  invoke_method(map, 'clear_search')
 }
 
 #' Update style
@@ -28,7 +28,7 @@ update_style <- function(map, styles = NULL){
   if(!is.null(styles))
     jsonlite::validate(styles)
 
-  invoke_method(map, data = NULL, 'update_style', styles)
+  invoke_method(map, 'update_style', styles)
 }
 
 
@@ -167,7 +167,7 @@ add_heatmap <- function(map,
   Heatmap <- jsonlite::toJSON(Heatmap, digits = digits)
   heatmap_options <- jsonlite::toJSON(heatmap_options)
 
-  invoke_method(map, data, 'add_heatmap', Heatmap, heatmap_options, layer_id)
+  invoke_method(map, 'add_heatmap', Heatmap, heatmap_options, layer_id)
 }
 
 
@@ -214,7 +214,7 @@ update_heatmap <- function(map,
 
   Heatmap <- jsonlite::toJSON(Heatmap)
 
-  invoke_method(map, data, 'update_heatmap', Heatmap, layer_id)
+  invoke_method(map, 'update_heatmap', Heatmap, layer_id)
 
 }
 
@@ -225,7 +225,7 @@ clear_heatmap <- function(map, layer_id = NULL){
 
   layer_id <- layerId(layer_id)
 
-  invoke_method(map, data = NULL, 'clear_heatmap', layer_id)
+  invoke_method(map, 'clear_heatmap', layer_id)
 }
 
 #' Add Traffic
@@ -242,14 +242,14 @@ clear_heatmap <- function(map, layer_id = NULL){
 #' }
 #' @export
 add_traffic <- function(map){
-  invoke_method(map, data = NULL, 'add_traffic')
+  invoke_method(map, 'add_traffic')
 }
 
 
 #' @rdname clear
 #' @export
 clear_traffic <- function(map){
-  invoke_method(map, data = NULL, 'clear_traffic')
+  invoke_method(map, 'clear_traffic')
 }
 
 #' Add transit
@@ -266,13 +266,13 @@ clear_traffic <- function(map){
 #' }
 #' @export
 add_transit <- function(map){
-  invoke_method(map, data = NULL, 'add_transit')
+  invoke_method(map, 'add_transit')
 }
 
 #' @rdname clear
 #' @export
 clear_transit <- function(map){
-  invoke_method(map, data = NULL, 'clear_transit')
+  invoke_method(map, 'clear_transit')
 }
 
 
@@ -290,13 +290,13 @@ clear_transit <- function(map){
 #' }
 #' @export
 add_bicycling <- function(map){
-  invoke_method(map, data = NULL, 'add_bicycling')
+  invoke_method(map, 'add_bicycling')
 }
 
 #' @rdname clear
 #' @export
 clear_bicycling <- function(map){
-  invoke_method(map, data = NULL, 'clear_bicycling')
+  invoke_method(map, 'clear_bicycling')
 }
 
 
@@ -392,7 +392,7 @@ update_polylines <- function(map, data, id,
 
   polylineUpdate <- jsonlite::toJSON(polylineUpdate, auto_unbox = T)
 
-  invoke_method(map, data = NULL, 'update_polylines', polylineUpdate, layer_id)
+  invoke_method(map, 'update_polylines', polylineUpdate, layer_id)
 }
 
 
@@ -516,7 +516,7 @@ update_polygons <- function(map, data, id,
 
   polygonUpdate <- jsonlite::toJSON(polygonUpdate, auto_unbox = T)
 
-  invoke_method(map, data = NULL, 'update_polygons', polygonUpdate, layer_id)
+  invoke_method(map, 'update_polygons', polygonUpdate, layer_id)
 
 }
 
@@ -574,7 +574,7 @@ add_overlay <- function(map,
                                        east = east),
                               digits = digits)
 
-  invoke_method(map, data = NULL, 'add_overlay', overlay, layer_id)
+  invoke_method(map, 'add_overlay', overlay, layer_id)
 }
 
 
@@ -607,7 +607,7 @@ add_kml <- function(map, kml_url, layer_id = NULL){
 
   kml <- jsonlite::toJSON(data.frame(url = kml_url))
 
-  invoke_method(map, data = NULL, 'add_kml', kml, layer_id)
+  invoke_method(map, 'add_kml', kml, layer_id)
 }
 
 
@@ -700,7 +700,7 @@ clear_fusion <- function(map, layer_id = NULL){
 
   layer_id <- layerId(layer_id)
 
-  invoke_method(map, data = NULL, 'clear_fusion', layer_id)
+  invoke_method(map, 'clear_fusion', layer_id)
 }
 
 
@@ -738,14 +738,14 @@ add_drawing <- function(map,
   polyline <- jsonlite::toJSON(polylineDefaults())
   polygon <- jsonlite::toJSON(polygonDefaults())
 
-  invoke_method(map, data = NULL, 'add_drawing', drawing_modes,
+  invoke_method(map,  'add_drawing', drawing_modes,
                 marker, circle, rectangle, polyline, polygon, delete_on_change)
 }
 
 #' @rdname clear
 #' @export
 clear_drawing <- function(map){
-  invoke_method(map, data = NULL, 'clear_drawing')
+  invoke_method(map, 'clear_drawing')
 }
 
 #' Remove drawing
@@ -756,6 +756,6 @@ clear_drawing <- function(map){
 #' @describeIn clear
 #' @export
 remove_drawing <- function(map){
-  invoke_method(map, data = NULL, 'remove_drawing')
+  invoke_method(map, 'remove_drawing')
 }
 

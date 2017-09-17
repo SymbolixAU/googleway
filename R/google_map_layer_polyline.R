@@ -177,12 +177,12 @@ add_polylines <- function(map,
     shape <- jsonlite::toJSON(shape, auto_unbox = T)
   }
 
-  invoke_method(map, data, 'add_polylines', shape, update_map_view, layer_id, usePolyline)
+  invoke_method(map, 'add_polylines', shape, update_map_view, layer_id, usePolyline)
 }
 
 #' @rdname clear
 #' @export
 clear_polylines <- function(map, layer_id = NULL){
   layer_id <- layerId(layer_id)
-  invoke_method(map, data = NULL, 'clear_polylines', layer_id)
+  invoke_method(map, 'clear_polylines', layer_id)
 }

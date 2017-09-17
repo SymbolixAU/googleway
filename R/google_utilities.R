@@ -119,8 +119,8 @@ google_dispatch = function(map,
 #' @param ... unnamed arguments to be passed to the JavaScript method
 #' @rdname google_dispatch
 #' @export
-invoke_method = function(map, data, method, ...) {
-  args = evalFormula(list(...), data)
+invoke_method = function(map, method, ...) {
+  args = evalFormula(list(...))
 
   google_dispatch(map,
                   method,

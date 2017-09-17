@@ -10,7 +10,8 @@ update_geojson(map, layer_id = NULL, style)
 \item{style}{}
 }
 \description{
-Updates a geojson layer by a specified style
+Updates a geojson layer by a specified style. Designed to work within an interactive
+environment (e.g. shiny)
 }
 \details{
 The style object can either be a valid JSON string, or a named list.
@@ -39,18 +40,19 @@ style <- '{
   }'
 
 google_map(key = mapKey) \%>\%
-    add_geojson(geojson = geojson_txt) \%>\%
-    update_geojson(style = lst_style)
+    add_geojson(data = geojson_txt) \%>\%
+    update_geojson(style = style)
 
 lst_style <- list(property = "value", operator = ">=", value = 100,
                   features = list(fillColor = "white",
                                   strokeColor = "white",
                                   icon = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"))
 
-}
 
 google_map(key = mapKey) \%>\%
-    add_geojson(geojson = geojson_txt) \%>\%
+    add_geojson(data = geojson_txt) \%>\%
     update_geojson(style = lst_style)
+}
+
 
 }

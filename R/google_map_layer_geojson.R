@@ -160,15 +160,12 @@ add_geojson <- function(map, data = get_map_data(map), layer_id = NULL, style = 
 
   layer_id <- layerId(layer_id)
 
-  geojson <- validateGeojson(geojson)
+  geojson <- validateGeojson(data)
 
   if(!is.null(style))
     style <- validateStyle(style)
 
-  invoke_method(map, data = NULL,
-                'add_geojson',
-                geojson[['geojson']],
-                geojson[['source']],
+  invoke_method(map, 'add_geojson', geojson[['geojson']], geojson[['source']],
                 style[['style']],
                 TRUE,
                 layer_id)
@@ -181,14 +178,15 @@ clear_geojson <- function(map, layer_id = NULL){
 
   layer_id <- layerId(layer_id)
 
-  invoke_method(map, data, "clear_geojson", layer_id)
+  invoke_method(map, "clear_geojson", layer_id)
 }
 
 
 
 #' update geojson
 #'
-#' Updates a geojson layer by a specified style
+#' Updates a geojson layer by a specified style. Designed to work within an interactive
+#' environment (e.g. shiny)
 #'
 #' @param map
 #' @param layer_id
@@ -221,19 +219,20 @@ clear_geojson <- function(map, layer_id = NULL){
 #'   }'
 #'
 #' google_map(key = mapKey) %>%
-#'     add_geojson(geojson = geojson_txt) %>%
-#'     update_geojson(style = lst_style)
+#'     add_geojson(data = geojson_txt) %>%
+#'     update_geojson(style = style)
 #'
 #' lst_style <- list(property = "value", operator = ">=", value = 100,
 #'                   features = list(fillColor = "white",
 #'                                   strokeColor = "white",
 #'                                   icon = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"))
 #'
-#' }
 #'
 #' google_map(key = mapKey) %>%
-#'     add_geojson(geojson = geojson_txt) %>%
+#'     add_geojson(data = geojson_txt) %>%
 #'     update_geojson(style = lst_style)
+#' }
+#'
 #'
 #' @export
 update_geojson <- function(map, layer_id = NULL, style){
@@ -241,5 +240,5 @@ update_geojson <- function(map, layer_id = NULL, style){
   layer_id <- layerId(layer_id)
   style <- validateStyleUpdate(style)
 
-  invoke_method(map, data = NULL, "update_geojson", style, layer_id)
+  invoke_method(map, "update_geojson", style, layer_id)
 }

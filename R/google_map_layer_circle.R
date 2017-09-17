@@ -68,7 +68,8 @@
 #' map_key <- 'your_api_key'
 #'
 #' google_map(key = map_key, data = tram_stops) %>%
-#'  add_circles(lat = "stop_lat", lon = "stop_lon")
+#'  add_circles(lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_name",
+#'  stroke_weight = 0.3, stroke_colour = "stop_name")
 #'
 #'  }
 #' @export
@@ -125,7 +126,7 @@ add_circles <- function(map,
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  invoke_method(map, data, 'add_circles', shape, update_map_view, layer_id)
+  invoke_method(map, 'add_circles', shape, update_map_view, layer_id)
 }
 
 #' @rdname clear
@@ -216,5 +217,5 @@ update_circles <- function(map, data, id,
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  invoke_method(map, data = NULL, 'update_circles', shape, layer_id)
+  invoke_method(map, 'update_circles', shape, layer_id)
 }

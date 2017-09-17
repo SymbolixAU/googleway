@@ -138,7 +138,7 @@ add_rectangles <- function(map,
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  invoke_method(map, data, 'add_rectangles', shape, update_map_view, layer_id)
+  invoke_method(map, 'add_rectangles', shape, update_map_view, layer_id)
 
 }
 
@@ -147,7 +147,7 @@ add_rectangles <- function(map,
 #' @export
 clear_rectangles <- function(map, layer_id = NULL){
   layer_id <- layerId(layer_id)
-  invoke_method(map, data = NULL, 'clear_rectangles', layer_id)
+  invoke_method(map, 'clear_rectangles', layer_id)
 }
 
 
@@ -227,7 +227,6 @@ update_rectangles <- function(map, data, id,
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  invoke_method(map, data = NULL, 'update_rectangles', shape, layer_id)
-
+  invoke_method(map, 'update_rectangles', shape, layer_id)
 }
 
