@@ -405,7 +405,7 @@ add_fusion <- function(map, query, styles = NULL, heatmap = FALSE, layer_id = NU
 
   layer_id <- layerId(layer_id)
 
-  invoke_method(map, data = NULL, 'add_fusion', query, style, heatmap, layer_id)
+  invoke_method(map, 'add_fusion', query, style, heatmap, layer_id)
 }
 
 #' @rdname clear
