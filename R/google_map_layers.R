@@ -95,6 +95,8 @@ clear_bicycling <- function(map){
 #' containing the stroke weight of each polyline, or a number indicating the width
 #' of pixels in the line to be applied to all the polyline
 #' @param layer_id single value specifying an id for the layer.
+#' @param palette a function that generates hex RGB colours given a single number as an input.
+#' Used when a variable of \code{data} is specified as a colour
 #'
 #' @examples
 #' \dontrun{
@@ -146,23 +148,47 @@ update_polylines <- function(map, data, id,
                              stroke_colour = NULL,
                              stroke_weight = NULL,
                              stroke_opacity = NULL,
-                             layer_id = NULL){
+                             layer_id = NULL,
+                             palette = NULL){
 
   ## TODO: is 'info_window' required, if it was included in the original add_polygons?
 
-  polylineUpdate <- data[, id, drop = FALSE]
-  polylineUpdate[, "id"] <- as.character(data[, id])
-  polylineUpdate <- stats::setNames(polylineUpdate, 'id')
-
+  objArgs <- match.call(expand.dots = F)
+  dataCheck(data)
   layer_id <- layerId(layer_id)
+  
+  ## we can only update shapes that already exist with new attributes
+  allCols <- polylineUpdateColumns()
+  requiredColumns <- requiredLineUpdateColumns()
+  colourColumns <- lineAttributes(stroke_colour)
+  
+  shape <- createMapObject(data, allCols, objArgs)
+  colours <- setupColours(data, shape, colourColumns, palette)
+  
+  if(length(colours) > 0){
+    shape <- replaceVariableColours(shape, colours)
+  }
+  
+  requiredDefaults <- setdiff(requiredCols, names(shape))
+  if(length(requiredDefaults) > 0){
+    shape <- addDefaults(shape, requiredDefaults, "polyline")
+  }
+  
+  
+  
+  # polylineUpdate <- data[, id, drop = FALSE]
+  # polylineUpdate[, "id"] <- as.character(data[, id])
+  # polylineUpdate <- stats::setNames(polylineUpdate, 'id')
+  # 
+  # layer_id <- layerId(layer_id)
+  # 
+  # polylineUpdate[, "stroke_colour"] <- SetDefault(stroke_colour, "#0000FF", data)
+  # polylineUpdate[, "stroke_weight"] <- SetDefault(stroke_weight, 1, data)
+  # polylineUpdate[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
+  # 
+  # polylineUpdate <- jsonlite::toJSON(polylineUpdate, auto_unbox = T)
 
-  polylineUpdate[, "stroke_colour"] <- SetDefault(stroke_colour, "#0000FF", data)
-  polylineUpdate[, "stroke_weight"] <- SetDefault(stroke_weight, 1, data)
-  polylineUpdate[, "stroke_opacity"] <- SetDefault(stroke_opacity, 0.6, data)
-
-  polylineUpdate <- jsonlite::toJSON(polylineUpdate, auto_unbox = T)
-
-  invoke_method(map, 'update_polylines', polylineUpdate, layer_id)
+  invoke_method(map, 'update_polylines', shape, layer_id)
 }
 
 

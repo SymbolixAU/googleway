@@ -134,13 +134,27 @@ polylineColumns <- function(){
     'stroke_weight', 'mouse_over', 'mouse_over_group', 'info_window')
 }
 
+polylineUpdateColumns <- function(){
+  c('id', 'stroke_colour', 'stroke_weight', 'stroke_opacity')
+}
+
 polylineDefaults <- function(n){
   data.frame(
     "geodesic" = rep(TRUE, n),
     "stroke_colour" = rep("#0000FF", n),
     "stroke_weight" = rep(2, n),
     "stroke_opacity" = rep(0.6, n),
-    "z_index" = rep(3, n)
+    "z_index" = rep(3, n),
+    stringsAsFactors = F
+  )
+}
+
+polylineUpdateDefaults <- function(n){
+  data.frame(
+    "stroke_colour" = rep("#0000FF", n),
+    "stroke_weight" = rep(2, n),
+    "stroke_opacity" = rep(0.6, n),
+    stringsAsFactors = F
   )
 }
 
