@@ -312,3 +312,51 @@
 #                id = "id", pathId = "group",
 #                fill_colour = "rate", stroke_weight = 0.1, palette = viridisLite::magma)
 
+
+
+
+
+# library(geojsonio)
+# library(sf)
+# library(spatialdatatable)
+# library(symbolix.utils)
+#
+# usCounties <- geojson_read("http://eric.clst.org/wupl/Stuff/gz_2010_us_050_00_500k.json")
+#
+#
+# sfCounties <- st_read("http://eric.clst.org/wupl/Stuff/gz_2010_us_050_00_500k.json")
+#
+# sdtCounties <- EncodeSF(sfCounties)
+#
+# sdtCounties
+#
+#
+# google_map(key = mapKey()) %>%
+#   add_polygons(data = sdtCounties, polyline = "polyline", fill_opacity = 0.8,
+#                stroke_weight = 0.3, stroke_colour = "#FFFFFF", fill_colour = "CENSUSAREA")
+#
+#
+# unemp <- read.csv("http://datasets.flowingdata.com/unemployment09.csv",
+#                   header = FALSE, stringsAsFactors = FALSE)
+# names(unemp) <- c("id", "state_fips", "county_fips", "name", "year",
+#                   "?", "?", "?", "rate")
+# unemp$county <- tolower(gsub(" County, [A-Z]{2}", "", unemp$name))
+# unemp$county <- gsub("^(.*) parish, ..$","\\1", unemp$county)
+# unemp$state <- gsub("^.*([A-Z]{2}).*$", "\\1", unemp$name)
+#
+# setDT(unemp)
+#
+# sdtCounties[, `:=`(COUNTY = as.numeric(COUNTY),
+#                    STATE = as.numeric(STATE))]
+#
+# sdt <- sdtCounties[
+#   unique(unemp[, .(state_fips, county_fips, rate)])
+#   , on = c(COUNTY = "county_fips", STATE = "state_fips")
+#   , nomatch = 0
+#   ]
+#
+# google_map(key = mapKey()) %>%
+#   add_polygons(data = sdt, polyline = "polyline", fill_opacity = 0.8,
+#                stroke_weight = 0.3, stroke_colour = "#FFFFFF", fill_colour = "rate")
+
+
