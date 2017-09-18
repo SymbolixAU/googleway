@@ -157,9 +157,12 @@ function hexToRgb(hex) {
   return arrByte[1] + "," + arrByte[2] + "," + arrByte[3];
 }
 
-
-
-
+/**
+ * Finds an object by the .id field
+ *
+ * @param source data object
+ * @param id the id to search for
+ **/
 function findById(source, id) {
   for (var i = 0; i < source.length; i++) {
     if (source[i].id === id) {

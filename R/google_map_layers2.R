@@ -71,10 +71,11 @@ addDefaults <- function(shape, requiredDefaults, shapeType){
                      "circle" = circleDefaults(n),
                      "polygon" = polygonDefaults(n),
                      "polyline" = polylineDefaults(n),
+                     "polylineUpdate" = polylineUpdateDefaults(n),
                      "rectangle" = rectangleDefaults(n),
                      "heatmap" = heatmapDefaults(n))
 
-  shape <- cbind(shape, defaults[, requiredDefaults])
+  shape <- cbind(shape, defaults[, requiredDefaults, drop = F])
   return(shape)
 }
 
@@ -89,6 +90,10 @@ shapeAttributes <- function(fill_colour, stroke_colour){
 
 requiredLineColumns <- function(){
   c("geodesic","stroke_colour","stroke_weight","stroke_opacity","z_index")
+}
+
+requiredLineUpdateColumns <- function(){
+  c("stroke_colour", "stroke_weight", "stroke_opacity")
 }
 
 requiredShapeColumns <- function(){

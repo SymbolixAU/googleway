@@ -195,9 +195,9 @@ polyIdCheck <- function(data, id, usePolyline, objArgs){
     if(is.null(id)){
       id <- 'id'
       objArgs[['id']] <- id
-      data[, id] <- as.character(1:nrow(data))
+      data[, id] <- 1:nrow(data)
     }else{
-      data[, id] <- as.character(data[, id])
+      data[, id] <- data[, id]
     }
   }else{
     if(is.null(id)){
@@ -206,7 +206,7 @@ polyIdCheck <- function(data, id, usePolyline, objArgs){
       data[, id] <- '1'
       objArgs[['id']] <- id
     }else{
-      data[, id] <- as.character(data[, id])
+      data[, id] <- data[, id]
     }
   }
   return(list(data = data, objArgs = objArgs))
