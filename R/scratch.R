@@ -320,34 +320,42 @@
 # library(sf)
 # library(spatialdatatable)
 # library(symbolix.utils)
+# library(googleway)
 #
-# usCounties <- geojson_read("http://eric.clst.org/wupl/Stuff/gz_2010_us_050_00_500k.json")
+# # usCounties <- geojson_read("http://eric.clst.org/wupl/Stuff/gz_2010_us_050_00_500k.json")
 #
+# # sfCounties <- st_read("http://eric.clst.org/wupl/Stuff/gz_2010_us_050_00_500k.json")
+# #
+# ## US census shapes
+# ## https://www.census.gov/geo/maps-data/data/cbf/cbf_counties.html
+# sf <- st_read("~/Downloads/cb_2016_us_county_500k/")
 #
-# sfCounties <- st_read("http://eric.clst.org/wupl/Stuff/gz_2010_us_050_00_500k.json")
-#
-# sdtCounties <- EncodeSF(sfCounties)
-#
+# sdtCounties <- EncodeSF(sf)
 # sdtCounties
 #
+# mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 #
-# google_map(key = mapKey()) %>%
-#   add_polygons(data = sdtCounties, polyline = "polyline", fill_opacity = 0.8,
-#                stroke_weight = 0.3, stroke_colour = "#FFFFFF", fill_colour = "CENSUSAREA")
+# google_map(key = mapKey) %>%
+#   add_polygons(data = sdtCounties, polyline = "polyline", id = ".id",
+#                fill_opacity = 0.8, stroke_weight = 0.3,
+#                stroke_colour = "#FFFFFF", fill_colour = "COUNTYFP")
+#
+# library(tidycensus)
+#
+# dt_fips <- fips_codes
+# setDT(dt_fips)
 #
 #
-# unemp <- read.csv("http://datasets.flowingdata.com/unemployment09.csv",
-#                   header = FALSE, stringsAsFactors = FALSE)
-# names(unemp) <- c("id", "state_fips", "county_fips", "name", "year",
-#                   "?", "?", "?", "rate")
-# unemp$county <- tolower(gsub(" County, [A-Z]{2}", "", unemp$name))
-# unemp$county <- gsub("^(.*) parish, ..$","\\1", unemp$county)
-# unemp$state <- gsub("^.*([A-Z]{2}).*$", "\\1", unemp$name)
 #
-# setDT(unemp)
 #
-# sdtCounties[, `:=`(COUNTY = as.numeric(COUNTY),
-#                    STATE = as.numeric(STATE))]
+# sdtCounties[, `:=`(COUNTYFP = as.numeric(COUNTYFP),
+#                    STATEFP = as.numeric(STATEFP))]
+#
+# sdtCounties[, `:=`(NAME = tolower(as.character(iconv(NAME))))]
+#
+# google_map(key = mapKey) %>%
+#   add_polygons(data = sdtCounties[STATEFP == 7], polyline = "polyline")
+#
 #
 # sdt <- sdtCounties[
 #   unique(unemp[, .(state_fips, county_fips, rate)])
@@ -358,5 +366,5 @@
 # google_map(key = mapKey()) %>%
 #   add_polygons(data = sdt, polyline = "polyline", fill_opacity = 0.8,
 #                stroke_weight = 0.3, stroke_colour = "#FFFFFF", fill_colour = "rate")
-
+#
 
