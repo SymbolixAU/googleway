@@ -109,7 +109,9 @@ function marker_complete(map_id, drawingManager, drawingInfo){
       },
       drawingInfo
     );
-  Shiny.onInputChange(map_id + "_markercomplete", JSON.stringify(eventInfo));
+          var event_return_type = window.params[1].event_return_type;
+      eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+  Shiny.onInputChange(map_id + "_markercomplete", eventInfo);
   });
 
 }
@@ -141,8 +143,9 @@ function circle_complete(map_id, drawingManager, drawingInfo){
       },
       drawingInfo
     );
-
-  Shiny.onInputChange(map_id + "_circlecomplete", JSON.stringify(eventInfo));
+      var event_return_type = window.params[1].event_return_type;
+      eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+  Shiny.onInputChange(map_id + "_circlecomplete", eventInfo);
   });
 }
 
@@ -161,7 +164,9 @@ function rectangle_complete(map_id, drawingManager, drawingInfo){
       },
       drawingInfo
     );
-  Shiny.onInputChange(map_id + "_rectanglecomplete", JSON.stringify(eventInfo));
+          var event_return_type = window.params[1].event_return_type;
+      eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+  Shiny.onInputChange(map_id + "_rectanglecomplete", eventInfo);
   });
 }
 
@@ -181,7 +186,9 @@ function polyline_complete(map_id, drawingManager, drawingInfo){
       },
       drawingInfo
     );
-  Shiny.onInputChange(map_id + "_polylinecomplete", JSON.stringify(eventInfo));
+          var event_return_type = window.params[1].event_return_type;
+      eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+  Shiny.onInputChange(map_id + "_polylinecomplete", eventInfo);
   });
 }
 
@@ -201,7 +208,9 @@ function polygon_complete(map_id, drawingManager, drawingInfo){
       },
       drawingInfo
     );
-  Shiny.onInputChange(map_id + "_polygoncomplete", JSON.stringify(eventInfo));
+          var event_return_type = window.params[1].event_return_type;
+      eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+  Shiny.onInputChange(map_id + "_polygoncomplete", eventInfo);
   });
 }
 

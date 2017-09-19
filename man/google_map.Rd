@@ -10,7 +10,7 @@ google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
   zoom_control = TRUE, map_type_control = TRUE, scale_control = FALSE,
   street_view_control = TRUE, rotate_control = TRUE,
   fullscreen_control = TRUE, libraries = NULL,
-  event_return_type = c("list", "JSON"))
+  event_return_type = c("list", "json"))
 }
 \arguments{
 \item{key}{A valid Google Maps API key. see Details}

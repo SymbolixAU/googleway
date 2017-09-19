@@ -12,6 +12,7 @@ HTMLWidgets.widget({
 
           window.params = [];
           window.params.push( {'map_id' : el.id } );
+          window.params.push( {'event_return_type' : x.event_return_type})
 
           // visualisation layers
           window[el.id + 'googleTrafficLayer'] = [];
@@ -272,3 +273,4 @@ function initialise_map(el, x) {
   bounds_changed(el.id, window[el.id + 'map'], mapInfo);
   zoom_changed(el.id, window[el.id + 'map'], mapInfo);
 }
+      

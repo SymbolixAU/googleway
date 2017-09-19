@@ -28,7 +28,7 @@
 #' @param fullscreen_control logical indicating if the full screen control should be displayed
 #' @param libraries vector containgin the libraries you want to load. See details
 #' @param event_return_type the type of data to return to R from an interactive environment (shiny),
-#' either an R list, or raw JSON string.
+#' either an R list, or raw json string.
 #'
 #' @details
 #' The libraries argument can be used to turn-off certain libraries from being called.
@@ -89,7 +89,7 @@ google_map <- function(key,
                        rotate_control = TRUE,
                        fullscreen_control = TRUE,
                        libraries = NULL,
-                       event_return_type = c("list", "JSON")) {
+                       event_return_type = c("list", "json")) {
 
   ## TODO(event_return_type)
 
@@ -99,6 +99,7 @@ google_map <- function(key,
   logicalCheck(street_view_control)
   logicalCheck(rotate_control)
   logicalCheck(fullscreen_control)
+  event_return_type <- match.arg(event_return_type)
 
   if(is.null(libraries))
     libraries <- c("visualization", "geometry", "places", "drawing")

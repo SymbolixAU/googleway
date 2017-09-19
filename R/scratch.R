@@ -368,3 +368,24 @@
 #                stroke_weight = 0.3, stroke_colour = "#FFFFFF", fill_colour = "rate")
 #
 
+
+# library(shiny)
+# ui <- fluidPage(
+#   google_mapOutput('map')
+# )
+# server <- function(input, output){
+#   output$map <- renderGoogle_map({
+#     google_map(key = mapKey)
+#   })
+#   observeEvent(input$map_map_click, {
+#     print(input$map_map_click)
+#   })
+#   observeEvent(input$map_bounds_changed, {
+#     print(input$map_bounds_changed)
+#   })
+#   observeEvent(input$map_zoom, {
+#     print(input$map_zoom)
+#   })
+# }
+# shinyApp(ui, server)
+

@@ -1,26 +1,26 @@
 
 function drag_drop_geojson(map_id) {
-    
+
     window[map_id + 'drop-container'] = document.createElement("div");
     window[map_id + 'drop-container'].setAttribute('id', 'drop-container');
     document.body.appendChild(window[map_id + 'drop-container']);
-    
+
     window[map_id + 'drop-silhouette'] = document.createElement("div");
     window[map_id + 'drop-silhouette'].setAttribute('id', 'drop-silhouette');
     window[map_id + 'drop-container'].appendChild(window[map_id + 'drop-silhouette']);
-    
+
     initEvents(map_id);
 }
 
 function loadGeoJsonString(geoString) {
-    
+
     // TODO: don't explicitely use the 0th argument of window.params
     // - find the object by name
     var geojson = JSON.parse(geoString),
         map_id = window.params[0].map_id;
-    
+
     window[map_id + 'map'].data.addGeoJson(geojson);
-    
+
     // TODO: update map bounds
     zoomGeo(map_id, window[map_id + 'map'].data);
 }
@@ -88,17 +88,17 @@ function handleDrop(e) {
 
 
 function geojson_click(map_id, layer_id, shapeInfo) {
-    
+
     if(!HTMLWidgets.shinyMode) return;
 
     // the 'click' event is assigned to the entire data layer
     // then when a click is listened, teh 'feature' that was clicked
     // is used in the function
-    
+
     window[map_id + 'googleGeojson' + layer_id].addListener('click', function(event) {
 
-        var myFeature = event.feature.getGeometry(); 
-        
+        var myFeature = event.feature.getGeometry();
+
         var eventInfo = $.extend(
         {
             feature: myFeature,
@@ -106,56 +106,58 @@ function geojson_click(map_id, layer_id, shapeInfo) {
         },
         shapeInfo
         );
-        Shiny.onInputChange(map_id + "_geojson_click", JSON.stringify(eventInfo));
-        
+        var event_return_type = window.params[1].event_return_type;
+      eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+        Shiny.onInputChange(map_id + "_geojson_click", eventInfo);
+
     });
 }
 
 function geojson_mouseover(map_id, layer_id) {
-    
+
     //if(!HTMLWidgets.shinyMode) return;
-    
+
     window[map_id + 'googleGeojson' + layer_id].addListener('mouseover', function(event){
         window[map_id + 'googleGeojson' + layer_id].revertStyle();
         window[map_id + 'googleGeojson' + layer_id].overrideStyle(event.feature, {fillOpacity : 1})
     });
-    
+
     window[map_id + 'googleGeojson' + layer_id].addListener('mouseout', function(event){
         window[map_id + 'googleGeojson' + layer_id].revertStyle();
     });
 }
-                                                          
+
 function add_geojson(map_id, geojson, geojson_source, style, update_map_view, mouse_over, layer_id) {
-    
+
     window[map_id + 'googleGeojson' + layer_id] = new google.maps.Data({ map: window[map_id + 'map'] });
-    
+
     if (geojson_source === "local") {
-        
+
         window[map_id + 'googleGeojson' + layer_id].addGeoJson(geojson);
-        
+
     } else if (geojson_source === "url") {
 
         window[map_id + 'googleGeojson' + layer_id].loadGeoJson(geojson);
     }
-    
+
     var geoInfo = {};
     geojson_click(map_id, layer_id, geoInfo);
-    
-    
+
+
     if(mouse_over === true) {
         geojson_mouseover(map_id, layer_id);
     }
-    
+
     // a function that computes the style for each feature
     window[map_id + 'googleGeojson' + layer_id].setStyle(function (feature) {
-        
+
         if (update_map_view === true) {
             zoomGeo(map_id, window[map_id + 'googleGeojson' + layer_id])
         }
-        
+
         return ({
             // all
-            
+
             clickable: getAttribute(feature, style, 'clickable'),
             visible: getAttribute(feature, style, 'visible'),
             zIndex: getAttribute(feature, style, 'zIndex'),
@@ -177,13 +179,13 @@ function add_geojson(map_id, geojson, geojson_source, style, update_map_view, mo
 
 /**
 * Update a map's viewport to fit each geometry in a dataset
-* @param map_id the id of the map to adjust 
+* @param map_id the id of the map to adjust
 * @param mapObj map object containing the geojson features
 */
 function zoomGeo(map_id, mapObj) {
-    
+
     mapObj.forEach(function(feature) {
-        
+
         feature.getGeometry().forEachLatLng(function(latLng){
             window[map_id + 'mapBounds'].extend(latLng);
         });
@@ -194,19 +196,19 @@ function zoomGeo(map_id, mapObj) {
 
 
 function getAttribute(feature, style, attr){
-    
+
     if (style == null){
         return feature.getProperty(attr);
     }
-    
+
 	if (style[attr] !== undefined) {   // a style has been provided
-        
+
 		if (feature.getProperty([style[attr]]) !== undefined) {   // the provided style doesn't exist in the feature
 			return feature.getProperty([style[attr]]);
 		} else {                      // so assume the style is a valid colour/feature
 			return style[attr];
 		}
-	} else { 
+	} else {
         return feature.getProperty(attr);
 	}
 }
@@ -218,7 +220,7 @@ function clear_geojson(map_id, layer_id) {
 }
 
 function update_geojson(map_id, style, layer_id) {
-    
+
     var operators = {
         '>': function (a, b) { return a > b; },
         '>=': function (a, b) { return a >= b; },
@@ -232,10 +234,10 @@ function update_geojson(map_id, style, layer_id) {
         feature = style.feature,
         styleValue = style.style,
         newFeatures = style.features;
-    
-        
+
+
     window[map_id + 'googleGeojson' + layer_id].setStyle(function (feature) {
-        
+
         var featureFillColor = feature.getProperty("fillColor"),
             featureFillOpacity = feature.getProperty("fillOpacity"),
             featureStrokeColor = feature.getProperty("strokeColor"),
@@ -254,7 +256,7 @@ function update_geojson(map_id, style, layer_id) {
             newIcon = newFeatures.icon,
             newShape = newFeatures.shape,
             newTitle = newFeatures.title;
-        
+
         if (operators[op](feature.getProperty(property), value)) {
             featureFillColor = (newFillColor === undefined ? featureFillColor : newFillColor);
             featureFillOpacity = (newFillOpacity === undefined ? featureFillOpacity : newFillOpacity);
@@ -266,7 +268,7 @@ function update_geojson(map_id, style, layer_id) {
             featureShape = (newShape === undefined ? featureShape : newShape);
             featureTitle = (newTitle === undefined ? featureTitle : newTitle);
         }
-        
+
         return {
             fillColor : featureFillColor,
             fillOpacity : featureFillOpacity,
@@ -278,6 +280,6 @@ function update_geojson(map_id, style, layer_id) {
             shape : featureShape,
             title : featureTitle
         }
-        
+
     });
 }
