@@ -375,16 +375,11 @@
 # )
 # server <- function(input, output){
 #   output$map <- renderGoogle_map({
-#     google_map(key = mapKey)
+#     google_map(key = mapKey, event_return_type = "json") %>%
+#       add_polygons(data = melbourne, polyline = "polyline")
 #   })
-#   observeEvent(input$map_map_click, {
-#     print(input$map_map_click)
-#   })
-#   observeEvent(input$map_bounds_changed, {
-#     print(input$map_bounds_changed)
-#   })
-#   observeEvent(input$map_zoom, {
-#     print(input$map_zoom)
+#   observeEvent(input$map_polygon_click, {
+#      print(input$map_polygon_click)
 #   })
 # }
 # shinyApp(ui, server)

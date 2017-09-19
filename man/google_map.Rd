@@ -46,7 +46,7 @@ google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
 \item{libraries}{vector containgin the libraries you want to load. See details}
 
 \item{event_return_type}{the type of data to return to R from an interactive environment (shiny),
-either an R list, or raw JSON string.}
+either an R list, or raw json string.}
 }
 \description{
 Generates a google map object
