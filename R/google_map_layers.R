@@ -80,6 +80,7 @@ clear_bicycling <- function(map){
 #' only supports GeoJSON files and text
 #'
 #' @param map a googleway map object created from \code{google_map()}
+#' @param type the type of layer being dragged onto the map
 #'
 #' @export
 add_dragdrop <- function(map, type = "geojson"){
