@@ -9,6 +9,10 @@ dataCheck <- function(data){
 
   if(!inherits(data, "data.frame"))
     stop("Currently only data.frames are supported")
+
+  if(nrow(data) == 0){
+
+  }
 }
 
 # Latitude Check

@@ -111,6 +111,19 @@ function geojson_click(map_id, layer_id, shapeInfo) {
     });
 }
 
+function geojson_mouseover(map_id, layer_id) {
+    
+    //if(!HTMLWidgets.shinyMode) return;
+    
+    window[map_id + 'googleGeojson' + layer_id].addListener('mouseover', function(event){
+        window[map_id + 'googleGeojson' + layer_id].revertStyle();
+        window[map_id + 'googleGeojson' + layer_id].overrideStyle(event.feature, {fillOpacity : 1})
+    });
+    
+    window[map_id + 'googleGeojson' + layer_id].addListener('mouseout', function(event){
+        window[map_id + 'googleGeojson' + layer_id].revertStyle();
+    });
+}
                                                           
 function add_geojson(map_id, geojson, geojson_source, style, update_map_view, layer_id) {
     
@@ -127,6 +140,7 @@ function add_geojson(map_id, geojson, geojson_source, style, update_map_view, la
     
     var geoInfo = {};
     geojson_click(map_id, layer_id, geoInfo);
+    geojson_mouseover(map_id, layer_id);
     
     // a function that computes the style for each feature
     window[map_id + 'googleGeojson' + layer_id].setStyle(function (feature) {

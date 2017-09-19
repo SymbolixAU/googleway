@@ -122,6 +122,11 @@ add_polylines <- function(map,
                           digits = 4,
                           palette = NULL){
 
+  ## TODO:
+  ## handle empty data.frame
+  ## google_map(data = tram_route[0, ], key = map_key) %>%
+  ##    add_polylines(lat = "shape_pt_lat", lon = "shape_pt_lon")
+
   objArgs <- match.call(expand.dots = F)
 
   ## PARAMETER CHECKS
