@@ -245,15 +245,6 @@ update_geojson <- function(map, layer_id = NULL, style){
   invoke_method(map, "update_geojson", style, layer_id)
 }
 
-#' Drag Drop Geojson
-#'
-#' A function that enables you to drag GeoJSON and drop it onto a map
-#'
-#' @param map a googleway map object created from \code{google_map()}
-#'
-#' @export
-drag_drop_geojson <- function(map){
-  invoke_method(map, "drag_drop_geojson")
-}
+
 
 
