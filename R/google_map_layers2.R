@@ -70,6 +70,7 @@ addDefaults <- function(shape, requiredDefaults, shapeType){
                      "marker" = markerDefaults(n),
                      "circle" = circleDefaults(n),
                      "polygon" = polygonDefaults(n),
+                     "polygonUpdate" = polygonUpdateDefaults(n),
                      "polyline" = polylineDefaults(n),
                      "polylineUpdate" = polylineUpdateDefaults(n),
                      "rectangle" = rectangleDefaults(n),
@@ -99,6 +100,11 @@ requiredLineUpdateColumns <- function(){
 requiredShapeColumns <- function(){
   c("stroke_colour", "stroke_weight", "stroke_opacity",
     "fill_opacity", "fill_colour", "z_index")
+}
+
+requiredShapeUpdateColumns <- function(){
+  c("stroke_colour", "stroke_weight", "stroke_opacity",
+    "fill_opacity", "fill_colour")
 }
 
 requiredCircleColumns <- function(){
@@ -170,6 +176,11 @@ polygonColumns <- function(){
     'mouse_over', 'mouse_over_group', 'info_window')
 }
 
+polygonUpdateColumns <- function(){
+  c('id', 'stroke_colour', 'stroke_weight', 'stroke_opacity', 'fill_colour',
+    'fill_opacity')
+}
+
 polygonDefaults <- function(n){
   data.frame("stroke_colour" = rep("#0000FF",n),
              "stroke_weight" = rep(1,n),
@@ -180,6 +191,14 @@ polygonDefaults <- function(n){
              stringsAsFactors = FALSE)
 }
 
+polygonUpdateDefaults <- function(n){
+  data.frame("stroke_colour" = rep("#0000FF",n),
+             "stroke_weight" = rep(1,n),
+             "stroke_opacity" = rep(0.6,n),
+             "fill_colour" = rep("#FF0000",n),
+             "fill_opacity" = rep(0.35,n),
+             stringsAsFactors = FALSE)
+}
 
 ## circle ---------------------------------------------------------------------
 circleColumns <- function(){

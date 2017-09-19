@@ -143,8 +143,8 @@ add_polylines <- function(map,
   lst <- polyIdCheck(data, id, usePolyline, objArgs)
   data <- lst$data
   objArgs <- lst$objArgs
+  id <- lst$id
   ## END PARAMETER CHECKS
-
 
 
   allCols <- polylineColumns()
@@ -281,7 +281,7 @@ update_polylines <- function(map, data, id,
   lst <- polyIdCheck(data, id, FALSE, objArgs)
   data <- lst$data
   objArgs <- lst$objArgs
-
+  id <- lst$id
 
   ## we can only update shapes that already exist with new attributes
   allCols <- polylineUpdateColumns()

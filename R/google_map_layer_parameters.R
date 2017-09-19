@@ -174,7 +174,7 @@ pathIdCheck <- function(data, pathId, usePolyline, objArgs){
     }
   }
 
-  return(list(data = data, objArgs = objArgs))
+  return(list(data = data, objArgs = objArgs, pathId = pathId))
 }
 
 # Poly Id Check
@@ -203,11 +203,11 @@ polyIdCheck <- function(data, id, usePolyline, objArgs){
     if(is.null(id)){
       message("No 'id' value defined, assuming one continuous line of coordinates")
       id <- 'id'
-      data[, id] <- '1'
+      data[, id] <- 1
       objArgs[['id']] <- id
     }else{
       data[, id] <- data[, id]
     }
   }
-  return(list(data = data, objArgs = objArgs))
+  return(list(data = data, objArgs = objArgs, id = id))
 }
