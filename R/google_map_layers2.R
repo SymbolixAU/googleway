@@ -255,3 +255,5 @@ heatmapUpdateDefaults <- function(n){
   data.frame('weight' = rep(1, n),
              stringsAsFactors = F)
 }
+
+
