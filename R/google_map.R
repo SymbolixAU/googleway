@@ -251,6 +251,16 @@ renderGoogle_map <- function(expr, env = parent.frame(), quoted = FALSE) {
   htmlwidgets::shinyRenderWidget(expr, google_mapOutput, env, quoted = TRUE)
 }
 
+# Get Map Data
+#
+# extracts teh data attribute from the map
+#
+# @param map a google_map object
+#
+get_map_data = function(map){
+  attr(map$x, "google_map_data", exact = TRUE)
+}
+
 
 #' Map Styles
 #'

@@ -8,7 +8,7 @@ test_that("markers correctly defined", {
   df <- data.frame(mylat = 1:4,
                    mylon = 1:4)
 
-  expect_error(add_markers(map = m), "No data supplied")
+#  expect_error(add_markers(map = m), "No data supplied") ## no longer relevent
   expect_error(add_markers(map = m, data = df), "Couldn't infer latitude column for add_markers")
 
 
@@ -236,10 +236,11 @@ test_that("polylines added and removed", {
                   info_window = letters[1:4],
                   mouse_over = letters[1:4])
 
-  expect_error(
-    add_polylines(m),
-    'No data supplied'
-    )
+  ## no longer valid
+  # expect_error(
+  #   add_polylines(m),
+  #   'No data supplied'
+  #   )
 
   expect_error(
     add_polylines(map = m, data = df),

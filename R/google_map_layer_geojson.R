@@ -1,6 +1,7 @@
 #' Add GeoJson
 #'
 #' @param map a googleway map object created from \code{google_map()}
+#' @param data valid geojson
 #' @param geojson A character string or geoJSON literal of correctly formatted geoJSON
 #' @param layer_id single value specifying an id for the layer.
 #' @param style Style options for the geoJSON. See details
@@ -188,9 +189,9 @@ clear_geojson <- function(map, layer_id = NULL){
 #' Updates a geojson layer by a specified style. Designed to work within an interactive
 #' environment (e.g. shiny)
 #'
-#' @param map
-#' @param layer_id
-#' @param style
+#' @param map a googleway map object created from \code{google_map()}
+#' @param layer_id single value specifying an id for the layer.
+#' @param style Style options for the geoJSON. See details
 #'
 #' @details
 #' The style object can either be a valid JSON string, or a named list.
@@ -243,9 +244,14 @@ update_geojson <- function(map, layer_id = NULL, style){
   invoke_method(map, "update_geojson", style, layer_id)
 }
 
+#' Drag Drop Geojson
+#'
+#' A function that enables you to drag GeoJSON and drop it onto a map
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#'
 #' @export
 drag_drop_geojson <- function(map){
-
   invoke_method(map, "drag_drop_geojson")
 }
 

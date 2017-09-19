@@ -10,6 +10,8 @@ add_geojson(map, data = get_map_data(map), layer_id = NULL, style = NULL,
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
+\item{data}{valid geojson}
+
 \item{layer_id}{single value specifying an id for the layer.}
 
 \item{style}{Style options for the geoJSON. See details}

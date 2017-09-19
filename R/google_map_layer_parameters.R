@@ -21,6 +21,9 @@ dataCheck <- function(data, callingFunc){
   return(TRUE)
 }
 
+isUrl <- function(txt) grepl("(^http)|(^www)", txt)
+
+
 # Latitude Check
 #
 # Checks that a value is between -90:90
@@ -201,3 +204,6 @@ polyIdCheck <- function(data, id, usePolyline, objArgs){
   }
   return(list(data = data, objArgs = objArgs, id = id))
 }
+
+# some browsers don't support the alpha channel
+removeAlpha <- function(cols) substr(cols, 1, 7)

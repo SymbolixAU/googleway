@@ -1,14 +1,5 @@
 
-get_map_data = function(map){
-  attr(map$x, "google_map_data", exact = TRUE)
-}
-
-isUrl <- function(txt) grepl("(^http)|(^www)", txt)
-
 stopMessage <- function(obj) stop(paste0("I don't know how to deal with objects of type ", class(obj)))
-
-# some browsers don't support the alpha channel
-removeAlpha <- function(cols) substr(cols, 1, 7)
 
 
 ### validate GeoJSON -----------

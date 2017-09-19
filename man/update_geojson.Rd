@@ -7,7 +7,11 @@
 update_geojson(map, layer_id = NULL, style)
 }
 \arguments{
-\item{style}{}
+\item{map}{a googleway map object created from \code{google_map()}}
+
+\item{layer_id}{single value specifying an id for the layer.}
+
+\item{style}{Style options for the geoJSON. See details}
 }
 \description{
 Updates a geojson layer by a specified style. Designed to work within an interactive
