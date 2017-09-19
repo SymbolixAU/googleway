@@ -10,7 +10,7 @@ add_geojson(map, data = get_map_data(map), layer_id = NULL, style = NULL,
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
-\item{data}{valid geojson}
+\item{data}{A character string or geoJSON literal of correctly formatted geoJSON}
 
 \item{layer_id}{single value specifying an id for the layer.}
 
@@ -21,8 +21,6 @@ the mouse passess over}
 
 \item{update_map_view}{logical specifying if the map should re-centre according
 to the geoJSON}
-
-\item{geojson}{A character string or geoJSON literal of correctly formatted geoJSON}
 }
 \description{
 Add GeoJson

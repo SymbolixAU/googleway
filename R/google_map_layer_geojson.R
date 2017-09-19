@@ -1,8 +1,7 @@
 #' Add GeoJson
 #'
 #' @param map a googleway map object created from \code{google_map()}
-#' @param data valid geojson
-#' @param geojson A character string or geoJSON literal of correctly formatted geoJSON
+#' @param data A character string or geoJSON literal of correctly formatted geoJSON
 #' @param layer_id single value specifying an id for the layer.
 #' @param style Style options for the geoJSON. See details
 #' @param mouse_over logical indicating if a feature should be highlighted when
@@ -208,25 +207,27 @@ clear_geojson <- function(map, layer_id = NULL){
 #' @examples
 #' \dontrun{
 #'
-#' style <- '{
+#' ## see ?add_geojson for the geojson_txt string
+#' flagIcon <- "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+#' style <- paste0('{
 #'     "property" : "value",
 #'     "value" : 100,
 #'     "operator" : ">=",
 #'     "features" : {
 #'       "fillColor" : "white",
 #'       "strokeColor" : "white",
-#'       "icon" : "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+#'       "icon" : "', flagIcon, '"
 #'     }
-#'   }'
+#'   }')
 #'
 #' google_map(key = mapKey) %>%
 #'     add_geojson(data = geojson_txt) %>%
 #'     update_geojson(style = style)
 #'
 #' lst_style <- list(property = "value", operator = ">=", value = 100,
-#'                   features = list(fillColor = "white",
-#'                                   strokeColor = "white",
-#'                                   icon = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"))
+#'    features = list(fillColor = "white",
+#'    strokeColor = "white",
+#'    icon = flagIcon))
 #'
 #'
 #' google_map(key = mapKey) %>%

@@ -32,25 +32,27 @@ see \link{add_geojson} for valid features
 \examples{
 \dontrun{
 
-style <- '{
+## see ?add_geojson for the geojson_txt string
+flagIcon <- "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+style <- paste0('{
     "property" : "value",
     "value" : 100,
     "operator" : ">=",
     "features" : {
       "fillColor" : "white",
       "strokeColor" : "white",
-      "icon" : "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+      "icon" : "', flagIcon, '"
     }
-  }'
+  }')
 
 google_map(key = mapKey) \%>\%
     add_geojson(data = geojson_txt) \%>\%
     update_geojson(style = style)
 
 lst_style <- list(property = "value", operator = ">=", value = 100,
-                  features = list(fillColor = "white",
-                                  strokeColor = "white",
-                                  icon = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"))
+   features = list(fillColor = "white",
+   strokeColor = "white",
+   icon = flagIcon))
 
 
 google_map(key = mapKey) \%>\%

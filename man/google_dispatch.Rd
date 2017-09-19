@@ -26,9 +26,6 @@ this \code{google_dispatch} call; for error message purposes}
 \item{method}{the name of the JavaScript method to invoke}
 
 \item{...}{unnamed arguments to be passed to the JavaScript method}
-
-\item{data}{a data object that will be used when evaluating formulas in
-\code{...}}
 }
 \value{
 \code{google_dispatch} returns the value of \code{google_map} or

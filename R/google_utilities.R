@@ -113,8 +113,6 @@ google_dispatch = function(map,
 }
 
 
-#' @param data a data object that will be used when evaluating formulas in
-#'   \code{...}
 #' @param method the name of the JavaScript method to invoke
 #' @param ... unnamed arguments to be passed to the JavaScript method
 #' @rdname google_dispatch
