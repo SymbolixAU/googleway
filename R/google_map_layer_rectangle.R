@@ -110,7 +110,7 @@ add_rectangles <- function(map,
   objArgs <- match.call(expand.dots = F)
 
   ## PARAMETER CHECKS
-  dataCheck(data)
+  if(!dataCheck(data, "add_rectangles")) data <- rectangleDefaults(1)
   layer_id <- layerId(layer_id)
 
   logicalCheck(update_map_view)

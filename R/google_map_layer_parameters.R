@@ -2,17 +2,23 @@
 #
 # checks the data is the correct type(s)
 # @param data the data passed into the map layer funciton
-dataCheck <- function(data){
+dataCheck <- function(data, callingFunc){
 
-  if(is.null(data))
-    stop("No data supplied")
+  if(is.null(data)){
+    message(paste0("no data supplied to ", callingFunc))
+    return(FALSE)
+  }
 
-  if(!inherits(data, "data.frame"))
-    stop("Currently only data.frames are supported")
+  if(!inherits(data, "data.frame")){
+    warning(paste0(callingFunc, ": currently only data.frames are supported"))
+    return(FALSE)
+  }
 
   if(nrow(data) == 0){
-
+    message(paste0("no data supplied to ", callingFunc))
+    return(FALSE)
   }
+  return(TRUE)
 }
 
 # Latitude Check

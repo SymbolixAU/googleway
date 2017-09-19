@@ -125,7 +125,7 @@ function geojson_mouseover(map_id, layer_id) {
     });
 }
                                                           
-function add_geojson(map_id, geojson, geojson_source, style, update_map_view, layer_id) {
+function add_geojson(map_id, geojson, geojson_source, style, update_map_view, mouse_over, layer_id) {
     
     window[map_id + 'googleGeojson' + layer_id] = new google.maps.Data({ map: window[map_id + 'map'] });
     
@@ -140,7 +140,11 @@ function add_geojson(map_id, geojson, geojson_source, style, update_map_view, la
     
     var geoInfo = {};
     geojson_click(map_id, layer_id, geoInfo);
-    geojson_mouseover(map_id, layer_id);
+    
+    
+    if(mouse_over === true) {
+        geojson_mouseover(map_id, layer_id);
+    }
     
     // a function that computes the style for each feature
     window[map_id + 'googleGeojson' + layer_id].setStyle(function (feature) {

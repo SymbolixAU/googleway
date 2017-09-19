@@ -4,6 +4,8 @@
 #' @param geojson A character string or geoJSON literal of correctly formatted geoJSON
 #' @param layer_id single value specifying an id for the layer.
 #' @param style Style options for the geoJSON. See details
+#' @param mouse_over logical indicating if a feature should be highlighted when
+#' the mouse passess over
 #' @param update_map_view logical specifying if the map should re-centre according
 #' to the geoJSON
 #'
@@ -87,7 +89,7 @@
 #' ## GeoJSON from a URL
 #' url <- 'https://storage.googleapis.com/mapsdevsite/json/google.json'
 #' google_map(key = map_key) %>%
-#'   add_geojson(data = url)
+#'   add_geojson(data = url, mouse_over = T)
 #'
 #' }
 #'
@@ -137,7 +139,8 @@
 #' See examples.
 #'
 #' @export
-add_geojson <- function(map, data = get_map_data(map), layer_id = NULL, style = NULL, update_map_view = TRUE){
+add_geojson <- function(map, data = get_map_data(map), layer_id = NULL, style = NULL,
+                        mouse_over = FALSE, update_map_view = TRUE){
 
   ## TODO:
   ## - replicate blog: https://maps-apis.googleblog.com/2014/04/build-map-infographic-with-google-maps.html
@@ -146,7 +149,7 @@ add_geojson <- function(map, data = get_map_data(map), layer_id = NULL, style = 
   ## - addFeature
   ## - click
   ## - dblclick
-  ## - mosuedown
+  ## - mousedown
   ## - mouseout
   ## - mouseover
   ## - mouseup
@@ -157,15 +160,14 @@ add_geojson <- function(map, data = get_map_data(map), layer_id = NULL, style = 
   ## - setproperty
 
   layer_id <- layerId(layer_id)
-
+  logicalCheck(mouse_over)
   geojson <- validateGeojson(data)
 
   if(!is.null(style))
     style <- validateStyle(style)
 
   invoke_method(map, 'add_geojson', geojson[['geojson']], geojson[['source']],
-                style[['style']],
-                TRUE,
+                style[['style']], update_map_view, mouse_over,
                 layer_id)
 }
 

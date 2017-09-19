@@ -79,7 +79,7 @@ add_heatmap <- function(map,
   objArgs <- match.call(expand.dots = F)
 
   ## PARAMETER CHECKS
-  dataCheck(data)
+  if(!dataCheck(data, "add_heatmap")) data <- heatmapDefaults(1)
   layer_id <- layerId(layer_id)
 
   objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_heatmap")
@@ -193,7 +193,7 @@ update_heatmap <- function(map,
   ## TODO: update_map_view options
 
   objArgs <- match.call(expand.dots = F)
-  dataCheck(data)
+  if(!dataCheck(data, "update_heatmap")) data <- heatmapDefaults(1)
   layer_id <- layerId(layer_id)
   objArgs <- latLonCheck(objArgs, lat, lon, names(data), "update_heatmap")
   numericCheck(digits)

@@ -97,7 +97,7 @@ add_circles <- function(map,
   objArgs <- match.call(expand.dots = F)
 
   ## PARAMETER CHECKS
-  dataCheck(data)
+  if(!dataCheck(data, "add_circles")) data <- circleDefaults(1)
   layer_id <- layerId(layer_id)
 
   objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_circles")

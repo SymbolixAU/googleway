@@ -124,13 +124,14 @@ add_polylines <- function(map,
 
   ## TODO:
   ## handle empty data.frame
-  ## google_map(data = tram_route[0, ], key = map_key) %>%
-  ##    add_polylines(lat = "shape_pt_lat", lon = "shape_pt_lon")
+  # google_map(data = tram_route[0, ], key = map_key) %>%
+  #    add_polylines(lat = "shape_pt_lat", lon = "shape_pt_lon")
 
   objArgs <- match.call(expand.dots = F)
 
   ## PARAMETER CHECKS
-  dataCheck(data)
+  if(!dataCheck(data, "add_polyline")) data <- polylineDefaults(1)
+
   layer_id <- layerId(layer_id)
   latLonPolyCheck(lat, lon, polyline)
 
@@ -278,7 +279,7 @@ update_polylines <- function(map, data, id,
   ## TODO: is 'info_window' required, if it was included in the original add_polygons?
 
   objArgs <- match.call(expand.dots = F)
-  dataCheck(data)
+  if(!dataCheck(data, "update_polylines")) data <- polylineUpdateDefaults(1)
   layer_id <- layerId(layer_id)
 
   palette <- paletteCheck(palette)

@@ -177,7 +177,7 @@ add_polygons <- function(map,
   objArgs <- match.call(expand.dots = F)
 
   ## PARAMETER CHECKS
-  dataCheck(data)
+  if(!dataCheck(data, "add_polygon")) data <- polygonDefaults(1)
   layer_id <- layerId(layer_id)
   latLonPolyCheck(lat, lon, polyline)
 
@@ -349,7 +349,7 @@ update_polygons <- function(map, data, id,
   ## TODO: is 'info_window' required, if it was included in the original add_polygons?
 
   objArgs <- match.call(expand.dots = F)
-  dataCheck(data)
+  if(!dataCheck(data, "update_polygon")) data <- polygonUpdateDefaults(1)
   layer_id <- layerId(layer_id)
 
   palette <- paletteCheck(palette)

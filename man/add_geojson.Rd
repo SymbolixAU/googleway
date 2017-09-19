@@ -5,7 +5,7 @@
 \title{Add GeoJson}
 \usage{
 add_geojson(map, data = get_map_data(map), layer_id = NULL, style = NULL,
-  update_map_view = TRUE)
+  mouse_over = FALSE, update_map_view = TRUE)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -13,6 +13,9 @@ add_geojson(map, data = get_map_data(map), layer_id = NULL, style = NULL,
 \item{layer_id}{single value specifying an id for the layer.}
 
 \item{style}{Style options for the geoJSON. See details}
+
+\item{mouse_over}{logical indicating if a feature should be highlighted when
+the mouse passess over}
 
 \item{update_map_view}{logical specifying if the map should re-centre according
 to the geoJSON}
@@ -147,7 +150,7 @@ google_map(key = map_key) \%>\%
 ## GeoJSON from a URL
 url <- 'https://storage.googleapis.com/mapsdevsite/json/google.json'
 google_map(key = map_key) \%>\%
-  add_geojson(data = url)
+  add_geojson(data = url, mouse_over = T)
 
 }
 
