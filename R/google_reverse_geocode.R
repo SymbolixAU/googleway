@@ -42,7 +42,7 @@ google_reverse_geocode <- function(location,
     stop("A Valid Google Developers API key is required")
 
 
-  LogicalCheck(simplify)
+  logicalCheck(simplify)
 
   ## check location
   if(!is.numeric(location))
@@ -90,6 +90,6 @@ google_reverse_geocode <- function(location,
                                      "result_type" = result_type,
                                      "key" = key))
 
-  return(fun_download_data(map_url, simplify, curl_proxy))
+  return(downloadData(map_url, simplify, curl_proxy))
 
 }

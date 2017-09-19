@@ -104,6 +104,10 @@ google_map(data = tram_route, key = map_key) \%>\%
   add_polylines(lat = "shape_pt_lat", lon = "shape_pt_lon")
 
 
+google_map(key = map_key) \%>\%
+  add_polylines(data = melbourne, polyline = "polyline", stroke_weight = 1,
+      stroke_colour = "SA4_NAME")
+
 ## using encoded polyline and various colour / fill options
 url <- 'https://raw.githubusercontent.com/plotly/datasets/master/2011_february_aa_flight_paths.csv'
 flights <- read.csv(url)

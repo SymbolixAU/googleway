@@ -60,8 +60,8 @@ google_snapToRoads <- function(df_path,
   if(nrow(df_path) > 100)
     stop("the maximum number of pairs of coordinates that can be supplied is 100")
 
-  LogicalCheck(interpolate)
-  LogicalCheck(simplify)
+  logicalCheck(interpolate)
+  logicalCheck(simplify)
 
   if(is.null(lat)){
     df_path <- latitude_column(df_path, lat, 'google_snapToRoads')
@@ -81,7 +81,7 @@ google_snapToRoads <- function(df_path,
                                      "interpolate" = interpolate,
                                      "key" = key))
 
-  return(fun_download_data(map_url, simplify, curl_proxy))
+  return(downloadData(map_url, simplify, curl_proxy))
 }
 
 
@@ -128,7 +128,7 @@ google_nearestRoads <- function(df_points,
                                 curl_proxy = NULL,
                                 key){
 
-  LogicalCheck(simplify)
+  logicalCheck(simplify)
 
   if(is.null(lat)){
     df_points <- latitude_column(df_points, lat, 'google_snapToRoads')
@@ -147,7 +147,7 @@ google_nearestRoads <- function(df_points,
   map_url <- constructURL(map_url, c("points" = points,
                                      "key" = key))
 
-  return(fun_download_data(map_url, simplify, curl_proxy))
+  return(downloadData(map_url, simplify, curl_proxy))
 
 }
 
@@ -192,7 +192,7 @@ google_speedLimits <- function(df_path = NULL,
     stop("please specify one of df_path or placeIds, not both")
 
   units <- match.arg(units)
-  LogicalCheck(simplify)
+  logicalCheck(simplify)
 
   map_url <- "https://roads.googleapis.com/v1/speedLimits?"
 
@@ -226,7 +226,7 @@ google_speedLimits <- function(df_path = NULL,
 
   }
 
-  return(fun_download_data(map_url, simplify, curl_proxy))
+  return(downloadData(map_url, simplify, curl_proxy))
 }
 
 

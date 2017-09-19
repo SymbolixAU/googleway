@@ -93,10 +93,10 @@ google_streetview <- function(location = NULL,
     stop("please provide one of location or panorama_id")
 
   if(!is.null(location)){
-    location <- fun_check_location(location, "location")
+    location <- check_location(location, "location")
   }
 
-  LogicalCheck(response_check)
+  logicalCheck(response_check)
 
   output <- match.arg(output)
 

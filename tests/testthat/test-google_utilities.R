@@ -49,17 +49,17 @@ test_that("google_map_update exists",{
 test_that("layer_id set to default", {
 
   expect_equal(
-    googleway:::LayerId(NULL),
+    googleway:::layerId(NULL),
     "defaultLayerId"
   )
 
   expect_error(
-    googleway:::LayerId(c(1,2)),
+    googleway:::layerId(c(1,2)),
     "please provide a single value for 'layer_id'"
   )
 
   expect_equal(
-    googleway:::LayerId(1),
+    googleway:::layerId(1),
     1
   )
 

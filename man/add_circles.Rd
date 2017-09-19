@@ -100,7 +100,8 @@ Markers are always the top layer
 map_key <- 'your_api_key'
 
 google_map(key = map_key, data = tram_stops) \%>\%
- add_circles(lat = "stop_lat", lon = "stop_lon")
+ add_circles(lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_name",
+ stroke_weight = 0.3, stroke_colour = "stop_name")
 
  }
 }

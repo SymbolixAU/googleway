@@ -1,12 +1,13 @@
 
-#isUrl <- function(txt) grepl("(((https?:\\/\\/)|(www\\.))[^\\s]+)", txt)
-isUrl <- function(txt) grepl("(^http)|(^www)", txt)
-
 stopMessage <- function(obj) stop(paste0("I don't know how to deal with objects of type ", class(obj)))
 
 
 ### validate GeoJSON -----------
 
+# Validate GeoJSON
+#
+# Validates if the GeoJSON is a URL, character string that validates to JSON,
+# or simply GeoJSON itself
 validateGeojson <- function(js) UseMethod("validateGeojson")
 
 #' @export
@@ -44,6 +45,18 @@ constructGeojsonSource <- function(geojson, source) {
 
 
 ### validate Style -----------
+
+validateStyleUpdate <- function(style) UseMethod("validateStyleUpdate")
+
+validateStyleUpdate.character <- function(style){
+  if(!jsonlite::validate(style)) stop("invalid JSON")
+  class(style) <- 'json'
+  return(style)
+}
+
+validateStyleUpdate.list <- function(style){
+  jsonlite::toJSON(style, auto_unbox = T)
+}
 
 
 validateStyle <- function(style) UseMethod("validateStyle")

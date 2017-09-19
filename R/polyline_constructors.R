@@ -66,3 +66,30 @@ objPolygonCoords <- function(obj, ids, otherColumns){
   return(lst_polygon)
 }
 
+# Object Columns
+#
+# Defines the columns used by the Maps API so only those required
+# are kept
+#
+# @param obj string specifying the type of object
+# @return vector of column names
+objectColumns <- function(obj = c("polylinePolyline",
+                                  "polylineCoords",
+                                  "polygonPolyline",
+                                  "polygonCoords")){
+
+  return(
+    switch(obj,
+           "polylineCoords" = c("id", "lat","lng", "geodesic","stroke_colour",
+                                "stroke_weight","stroke_opacity","mouse_over",
+                                "mouse_over_group", "info_window", "z_index"),
+           "polylinePolyline" = c("id", "polyline", "geodesic","stroke_colour",
+                                  "stroke_weight","stroke_opacity","mouse_over",
+                                  "mouse_over_group", "info_window", "z_index"),
+           "polygonCoords" = c("id","pathId","lat","lng","stroke_colour",
+                               "stroke_weight","stroke_opacity","fill_colour",
+                               "fill_opacity", "info_window","mouse_over",
+                               "mouse_over_group", "z_index"))
+  )
+}
+

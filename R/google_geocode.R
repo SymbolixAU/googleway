@@ -67,10 +67,10 @@ google_geocode <- function(address,
   if(is.null(key))
     stop("A Valid Google Developers API key is required")
 
-  LogicalCheck(simplify)
+  logicalCheck(simplify)
 
   ## address check
-  address <- fun_check_address(address)
+  address <- check_address(address)
   addres <- tolower(address)
 
   ## bounds check
@@ -118,6 +118,6 @@ google_geocode <- function(address,
                                      "components" = components,
                                      "key" = key))
 
-  return(fun_download_data(map_url, simplify, curl_proxy))
+  return(downloadData(map_url, simplify, curl_proxy))
 
 }

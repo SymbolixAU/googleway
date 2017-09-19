@@ -177,7 +177,7 @@ add_polygons <- function(map,
   objArgs <- match.call(expand.dots = F)
 
   ## PARAMETER CHECKS
-  dataCheck(data)
+  if(!dataCheck(data, "add_polygon")) data <- polygonDefaults(1)
   layer_id <- layerId(layer_id)
   latLonPolyCheck(lat, lon, polyline)
 
@@ -195,10 +195,12 @@ add_polygons <- function(map,
   lst <- polyIdCheck(data, id, usePolyline, objArgs)
   data <- lst$data
   objArgs <- lst$objArgs
+  id <- lst$id
 
   lst <- pathIdCheck(data, pathId, usePolyline, objArgs)
   data <- lst$data
   objArgs <- lst$objArgs
+  pathId <- lst$pathId
   ## END PARAMETER CHECKS
 
 
@@ -239,12 +241,152 @@ add_polygons <- function(map,
     shape <- jsonlite::toJSON(lst_polygon, digits = digits, auto_unbox = T)
   }
 
-  invoke_method(map, data, 'add_polygons', shape, update_map_view, layer_id, usePolyline)
+  invoke_method(map, 'add_polygons', shape, update_map_view, layer_id, usePolyline)
 }
+
+
+
+#' Update polygons
+#'
+#' Updates specific colours and opacities of specified polygons. Designed to be
+#' used in a shiny application.
+#'
+#' @note Any polygons (as specified by the \code{id} argument) that do not exist
+#' in the \code{data} passed into \code{add_polygons()} will not be added to the map.
+#' This function will only update the polygons that currently exist on the map
+#' when the function is called.
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#' @param data data.frame containing the new values for the polygons
+#' @param id string representing the column of \code{data} containing the id
+#' values for the polygons. The id values must be present in the data supplied
+#' to \code{add_polygons} in order for the polygons to be udpated
+#' @param stroke_colour either a string specifying the column of \code{data}
+#' containing the stroke colour of each polygon, or a valid hexadecimal numeric
+#' HTML style to be applied to all the polygons
+#' @param stroke_opacity either a string specifying the column of \code{data}
+#' containing the stroke opacity of each polygon, or a value between 0 and 1 that
+#' will be applied to all the polygons
+#' @param stroke_weight either a string specifying the column of \code{data}
+#' containing the stroke weight of each polygon, or a number indicating the width of
+#' pixels in the line to be applied to all the polygons
+#' @param fill_colour either a string specifying the column of \code{data}
+#' containing the fill colour of each polygon, or a valid hexadecimal numeric
+#' HTML style to be applied to all the polygons
+#' @param fill_opacity either a string specifying the column of \code{data}
+#' containing the fill opacity of each polygon, or a value between 0 and 1 that
+#' will be applied to all the polygons
+#' @param layer_id single value specifying an id for the layer.
+#' @param palette a function that generates hex RGB colours given a single number as an input.
+#' Used when a variable of \code{data} is specified as a colour
+#'
+#' @examples
+#' \dontrun{
+#'
+#' map_key <- 'your_api_key'
+#'
+#' pl_outer <- encode_pl(lat = c(25.774, 18.466,32.321),
+#'                       lon = c(-80.190, -66.118, -64.757))
+#'
+#' pl_inner <- encode_pl(lat = c(28.745, 29.570, 27.339),
+#'                       lon = c(-70.579, -67.514, -66.668))
+#'
+#' pl_other <- encode_pl(c(21,23,22), c(-50, -49, -51))
+#'
+#' ## using encoded polylines
+#' df <- data.frame(id = c(1,1,2),
+#'                  colour = c("#00FF00", "#00FF00", "#FFFF00"),
+#'                  polyline = c(pl_outer, pl_inner, pl_other),
+#'                  stringsAsFactors = FALSE)
+#'
+#' google_map(key = map_key) %>%
+#'   add_polygons(data = df, polyline = 'polyline', id = 'id', fill_colour = 'colour')
+#'
+#' df_update <- df[, c("id", "colour")]
+#' df_update$colour <- c("#FFFFFF", "#FFFFFF", "#000000")
+#'
+#' google_map(key = map_key) %>%
+#'   add_polygons(data = df, polyline = 'polyline', id = 'id', fill_colour = 'colour') %>%
+#'   update_polygons(data = df_update, id = 'id', fill_colour = 'colour')
+#'
+#'
+#' df <- aggregate(polyline ~ id + colour, data = df, list)
+#'
+#' google_map(key = map_key) %>%
+#'   add_polygons(data = df, polyline = 'polyline', fill_colour = 'colour')
+#'
+#' google_map(key = map_key) %>%
+#'   add_polygons(data = df, polyline = 'polyline', id = 'id', fill_colour = 'colour') %>%
+#'   update_polygons(data = df_update, id = 'id', fill_colour = 'colour')
+#'
+#'
+#' ## using coordinates
+#' df <- data.frame(id = c(rep(1, 6), rep(2, 3)),
+#'                  lineId = c(rep(1, 3), rep(2, 3), rep(1, 3)),
+#'                  lat = c(25.774, 18.466, 32.321, 28.745, 29.570, 27.339, 21, 23, 22),
+#'                  lon = c(-80.190, -66.118, -64.757, -70.579, -67.514, -66.668, -50, -49, -51))
+#'
+#' google_map(key = map_key) %>%
+#'   add_polygons(data = df, lat = 'lat', lon = 'lon', id = 'id', pathId = 'lineId')
+#'
+#' google_map(key = map_key) %>%
+#'   add_polygons(data = df, lat = 'lat', lon = 'lon', id = 'id', pathId = 'lineId') %>%
+#'   update_polygons(data = df_update, id = 'id', fill_colour = 'colour')
+#'
+#' }
+#'
+#' @export
+update_polygons <- function(map, data, id,
+                            stroke_colour = NULL,
+                            stroke_weight = NULL,
+                            stroke_opacity = NULL,
+                            fill_colour = NULL,
+                            fill_opacity = NULL,
+                            layer_id = NULL,
+                            palette = NULL
+){
+
+  ## TODO: is 'info_window' required, if it was included in the original add_polygons?
+
+  objArgs <- match.call(expand.dots = F)
+  if(!dataCheck(data, "update_polygon")) data <- polygonUpdateDefaults(1)
+  layer_id <- layerId(layer_id)
+
+  palette <- paletteCheck(palette)
+
+  lst <- polyIdCheck(data, id, FALSE, objArgs)
+  data <- lst$data
+  objArgs <- lst$objArgs
+  id <- lst$id
+
+
+  allCols <- polygonUpdateColumns()
+  requiredCols <- requiredShapeUpdateColumns()
+  colourColumns <- shapeAttributes(fill_colour, stroke_colour)
+
+  shape <- createMapObject(data, allCols, objArgs)
+  colours <- setupColours(data, shape, colourColumns, palette)
+
+  if(length(colours) > 0){
+    shape <- replaceVariableColours(shape, colours)
+  }
+
+  requiredDefaults <- setdiff(requiredCols, names(shape))
+
+  if(length(requiredDefaults) > 0){
+    shape <- addDefaults(shape, requiredDefaults, "polygonUpdate")
+  }
+
+  shape <- jsonlite::toJSON(shape, auto_unbox = T)
+
+  invoke_method(map, 'update_polygons', shape, layer_id)
+}
+
+
 
 #' @rdname clear
 #' @export
 clear_polygons <- function(map, layer_id = NULL){
   layer_id <- layerId(layer_id)
-  invoke_method(map, data = NULL, 'clear_polygons', layer_id)
+  invoke_method(map, 'clear_polygons', layer_id)
 }

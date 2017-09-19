@@ -62,7 +62,7 @@ google_place_autocomplete <- function(place_input,
 
   place_input <- gsub(" ", "+", place_input)
 
-  LogicalCheck(simplify)
+  logicalCheck(simplify)
 
   ## check location is valid
   if(!is.null(location)){
@@ -114,6 +114,6 @@ google_place_autocomplete <- function(place_input,
                                      "components" = components,
                                      "key" = key))
 
-  return(fun_download_data(map_url, simplify, curl_proxy))
+  return(downloadData(map_url, simplify, curl_proxy))
 
 }

@@ -1,55 +1,4 @@
 
-## TODO: deprecate
-LayerId <- function(layer_id){
-  if(!is.null(layer_id) & length(layer_id) != 1)
-    stop("please provide a single value for 'layer_id'")
-
-  if(is.null(layer_id)){
-    return("defaultLayerId")
-  }else{
-    return(layer_id)
-  }
-}
-
-# Latitude Check
-#
-# Checks that a value is between -90:90
-LatitudeCheck <- function(lat, arg){
-  if(!is.numeric(lat) | lat < -90 | lat > 90)
-    stop(paste0(arg, " must be a value between -90 and 90 (inclusive)"))
-}
-
-# Longitude Check
-#
-# Checks that a value is between -90:90
-LongitudeCheck <- function(lat, arg){
-  if(!is.numeric(lat) | lat < -180 | lat > 180)
-    stop(paste0(arg, " must be a value between -180 and 180 (inclusive)"))
-}
-
-
-
-### url check ------------------
-urlCheck <- function(url) UseMethod("urlCheck")
-
-#' @export
-urlCheck.character <- function(url) {
-  if(!isUrl(url)) stop("invalid url")
-}
-
-#' @export
-urlCheck.default <- function(url) stopMessage(url)
-
-
-# Logical Check
-#
-# Checks for the correct logical parameter
-# @param param parameter to check
-LogicalCheck <- function(param){
-  if(!is.logical(param) | length(param) != 1)
-    stop(paste0(deparse(substitute(param))," must be logical - TRUE or FALSE"))
-}
-
 # Check hex colours
 #
 # Checks for valid hexadecimal value
@@ -62,24 +11,6 @@ check_hex_colours <- function(df, cols){
       stop(paste0("Incorrect colour specified in ", myCol, ". Make sure the colours in the column are valid hexadecimal HTML colours"))
   }
 }
-
-isHexColour <- function(cols){
-  hexPattern <- "^#(?:[0-9a-fA-F]{3}){1,2}$|^#(?:[0-9a-fA-F]{4}){1,2}$"
-  all(grepl(hexPattern, cols))
-}
-
-isRgba <- function(cols){
-  all(grepl("^#(?:[0-9a-fA-F]{4}){1,2}$", cols))
-}
-
-hexType <- function(cols){
-  rgb <- "^#(?:[0-9a-fA-F]{3}){1,2}$"
-  rgba <- "^#(?:[0-9a-fA-F]{4}){1,2}$"
-}
-
-# some browsers don't support the alpha channel
-removeAlpha <- function(cols) substr(cols, 1, 7)
-
 
 # Check opacities
 #
@@ -98,6 +29,62 @@ check_opacities <- function(df, cols){
   }
 }
 
+
+isHexColour <- function(cols){
+  hexPattern <- "^#(?:[0-9a-fA-F]{3}){1,2}$|^#(?:[0-9a-fA-F]{4}){1,2}$"
+  all(grepl(hexPattern, cols))
+}
+
+isRgba <- function(cols){
+  all(grepl("^#(?:[0-9a-fA-F]{4}){1,2}$", cols))
+}
+
+# Logical Check
+#
+# Checks the argument is length 1 logical
+# @param arg
+logicalCheck <- function(arg){
+  if(!is.null(arg)){
+    if(!is.logical(arg) | length(arg) != 1)
+      stop(paste0(deparse(substitute(arg))," must be logical - TRUE or FALSE"))
+  }
+}
+
+# Numeric Check
+#
+# Checks the argument is lenght 1 numeric
+# @param arg
+numericCheck <- function(arg){
+  if(!is.null(arg)){
+    if(!is.numeric(arg) | length(arg) != 1)
+      stop(paste0(deparse(substitute(arg)), " must be a single numeric value"))
+  }
+}
+
+### url check ------------------
+urlCheck <- function(url) UseMethod("urlCheck")
+
+#' @export
+urlCheck.character <- function(url) {
+  if(!isUrl(url)) stop("invalid url")
+}
+
+urlCheck.url <- function(url) url
+
+#' @export
+urlCheck.default <- function(url) stopMessage(url)
+
+
+
+
+hexType <- function(cols){
+  rgb <- "^#(?:[0-9a-fA-F]{3}){1,2}$"
+  rgba <- "^#(?:[0-9a-fA-F]{4}){1,2}$"
+}
+
+
+
+
 # Check for columns
 #
 # Checks for valid columns
@@ -112,6 +99,33 @@ check_for_columns <- function(df, cols){
                 , paste0(cols[!cols %in% names(df)], collapse = ", ")
                 , " in the data"))
 
+}
+
+check_address <- function(address){
+  if(is.character(address) & length(address) == 1){
+    address <- gsub(" ", "+", address)
+  }else{
+    stop("address must be a string of length 1")
+  }
+  return(address)
+}
+
+check_location <- function(loc, type){
+  if(is.numeric(loc) & length(loc) == 2){
+    loc <- paste0(loc, collapse = ",")
+  }else if(is.character(loc) & length(loc) == 1){
+    loc <- gsub(" ", "+", loc)
+  }else{
+    stop(paste0(type, " must be either a numeric vector of lat/lon coordinates, or an address string"))
+  }
+  return(loc)
+}
+
+check_multiple_locations <- function(loc, type){
+  loc <- sapply(1:length(loc), function(x) {
+    check_location(loc[[x]], type)
+  })
+  loc <- paste0(loc, collapse = "|")
 }
 
 # Latitude column

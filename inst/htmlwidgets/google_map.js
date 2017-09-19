@@ -10,6 +10,10 @@ HTMLWidgets.widget({
     return {
       renderValue: function(x) {
 
+          window.params = [];
+          window.params.push( {'map_id' : el.id } );
+          window.params.push( {'event_return_type' : x.event_return_type})
+
           // visualisation layers
           window[el.id + 'googleTrafficLayer'] = [];
           window[el.id + 'googleBicyclingLayer'] = [];
@@ -154,9 +158,12 @@ function hexToRgb(hex) {
   return arrByte[1] + "," + arrByte[2] + "," + arrByte[3];
 }
 
-
-
-
+/**
+ * Finds an object by the .id field
+ *
+ * @param source data object
+ * @param id the id to search for
+ **/
 function findById(source, id) {
   for (var i = 0; i < source.length; i++) {
     if (source[i].id === id) {
@@ -176,7 +183,6 @@ function initialise_map(el, x) {
   // if places
   if(x.search_box === true){
     var input = document.getElementById('pac-input');
-    //var input = document.getElementById('search-container');
 
     window[el.id + 'googleSearchBox'] = new google.maps.places.SearchBox(input);
     window[el.id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT].push(input);
@@ -185,8 +191,6 @@ function initialise_map(el, x) {
     window[el.id + 'map'].addListener('bounds_changed', function() {
       window[el.id + 'googleSearchBox'].setBounds(window[el.id + 'map'].getBounds());
     });
-
-    var markers = [];
 
     // listen for deleting the search bar
     input.addEventListener('input', function(){
@@ -269,3 +273,4 @@ function initialise_map(el, x) {
   bounds_changed(el.id, window[el.id + 'map'], mapInfo);
   zoom_changed(el.id, window[el.id + 'map'], mapInfo);
 }
+      

@@ -70,10 +70,14 @@ addDefaults <- function(shape, requiredDefaults, shapeType){
                      "marker" = markerDefaults(n),
                      "circle" = circleDefaults(n),
                      "polygon" = polygonDefaults(n),
+                     "polygonUpdate" = polygonUpdateDefaults(n),
                      "polyline" = polylineDefaults(n),
-                     "rectangle" = rectangleDefaults(n))
+                     "polylineUpdate" = polylineUpdateDefaults(n),
+                     "rectangle" = rectangleDefaults(n),
+                     "heatmap" = heatmapDefaults(n),
+                     "heatmapUpdate" = heatmapUpdateDefaults(n))
 
-  shape <- cbind(shape, defaults[, requiredDefaults])
+  shape <- cbind(shape, defaults[, requiredDefaults, drop = F])
   return(shape)
 }
 
@@ -90,9 +94,18 @@ requiredLineColumns <- function(){
   c("geodesic","stroke_colour","stroke_weight","stroke_opacity","z_index")
 }
 
+requiredLineUpdateColumns <- function(){
+  c("stroke_colour", "stroke_weight", "stroke_opacity")
+}
+
 requiredShapeColumns <- function(){
   c("stroke_colour", "stroke_weight", "stroke_opacity",
     "fill_opacity", "fill_colour", "z_index")
+}
+
+requiredShapeUpdateColumns <- function(){
+  c("stroke_colour", "stroke_weight", "stroke_opacity",
+    "fill_opacity", "fill_colour")
 }
 
 requiredCircleColumns <- function(){
@@ -101,6 +114,14 @@ requiredCircleColumns <- function(){
 
 requiredMarkerColumns <- function(){
   c("opacity", "colour")
+}
+
+requiredHeatmapColumns <- function(){
+  c('weight')
+}
+
+requiredHeatmapUpdateColumns <- function(){
+  c()
 }
 
 ## MARKERS ---------------------------------------------------------------------
@@ -129,13 +150,27 @@ polylineColumns <- function(){
     'stroke_weight', 'mouse_over', 'mouse_over_group', 'info_window')
 }
 
+polylineUpdateColumns <- function(){
+  c('id', 'stroke_colour', 'stroke_weight', 'stroke_opacity')
+}
+
 polylineDefaults <- function(n){
   data.frame(
     "geodesic" = rep(TRUE, n),
     "stroke_colour" = rep("#0000FF", n),
     "stroke_weight" = rep(2, n),
     "stroke_opacity" = rep(0.6, n),
-    "z_index" = rep(3, n)
+    "z_index" = rep(3, n),
+    stringsAsFactors = F
+  )
+}
+
+polylineUpdateDefaults <- function(n){
+  data.frame(
+    "stroke_colour" = rep("#0000FF", n),
+    "stroke_weight" = rep(2, n),
+    "stroke_opacity" = rep(0.6, n),
+    stringsAsFactors = F
   )
 }
 
@@ -144,6 +179,11 @@ polygonColumns <- function(){
   c('polyline', 'id', 'lat', 'lng', 'pathId', 'draggable','stroke_colour',
     'stroke_opacity', 'stroke_weight', 'fill_colour', 'fill_opacity',
     'mouse_over', 'mouse_over_group', 'info_window')
+}
+
+polygonUpdateColumns <- function(){
+  c('id', 'stroke_colour', 'stroke_weight', 'stroke_opacity', 'fill_colour',
+    'fill_opacity')
 }
 
 polygonDefaults <- function(n){
@@ -156,6 +196,14 @@ polygonDefaults <- function(n){
              stringsAsFactors = FALSE)
 }
 
+polygonUpdateDefaults <- function(n){
+  data.frame("stroke_colour" = rep("#0000FF",n),
+             "stroke_weight" = rep(1,n),
+             "stroke_opacity" = rep(0.6,n),
+             "fill_colour" = rep("#FF0000",n),
+             "fill_opacity" = rep(0.35,n),
+             stringsAsFactors = FALSE)
+}
 
 ## circle ---------------------------------------------------------------------
 circleColumns <- function(){
@@ -192,3 +240,20 @@ rectangleDefaults <- function(n){
              "z_index" = rep(2, n),
              stringsAsFactors = FALSE)
 }
+
+## heatmap ---------------------------------------------------------------------
+heatmapColumns <- function(){
+  c('lat', 'lng', 'weight')
+}
+
+heatmapDefaults <- function(n){
+  data.frame('weight' = rep(1, n),
+             stringsAsFactors = F)
+}
+
+heatmapUpdateDefaults <- function(n){
+  data.frame('weight' = rep(1, n),
+             stringsAsFactors = F)
+}
+
+

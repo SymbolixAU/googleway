@@ -8,7 +8,7 @@ test_that("markers correctly defined", {
   df <- data.frame(mylat = 1:4,
                    mylon = 1:4)
 
-  expect_error(add_markers(map = m), "No data supplied")
+#  expect_error(add_markers(map = m), "No data supplied") ## no longer relevent
   expect_error(add_markers(map = m, data = df), "Couldn't infer latitude column for add_markers")
 
 
@@ -236,10 +236,11 @@ test_that("polylines added and removed", {
                   info_window = letters[1:4],
                   mouse_over = letters[1:4])
 
-  expect_error(
-    add_polylines(m),
-    'No data supplied'
-    )
+  ## no longer valid
+  # expect_error(
+  #   add_polylines(m),
+  #   'No data supplied'
+  #   )
 
   expect_error(
     add_polylines(map = m, data = df),
@@ -254,7 +255,7 @@ test_that("polylines added and removed", {
 
   expect_equal(
     as.character(js),
-    '[{"coords":[{"lat":1,"lng":1}],"geodesic":true,"stroke_colour":"#0000FF","stroke_weight":2,"stroke_opacity":0.6,"z_index":3,"id":"1"},{"coords":[{"lat":2,"lng":2}],"geodesic":true,"stroke_colour":"#0000FF","stroke_weight":2,"stroke_opacity":0.6,"z_index":3,"id":"2"},{"coords":[{"lat":3,"lng":3}],"geodesic":true,"stroke_colour":"#0000FF","stroke_weight":2,"stroke_opacity":0.6,"z_index":3,"id":"3"},{"coords":[{"lat":4,"lng":4}],"geodesic":true,"stroke_colour":"#0000FF","stroke_weight":2,"stroke_opacity":0.6,"z_index":3,"id":"4"}]'
+    '[{"coords":[{"lat":1,"lng":1}],"geodesic":true,"stroke_colour":"#0000FF","stroke_weight":2,"stroke_opacity":0.6,"z_index":3,"id":1},{"coords":[{"lat":2,"lng":2}],"geodesic":true,"stroke_colour":"#0000FF","stroke_weight":2,"stroke_opacity":0.6,"z_index":3,"id":2},{"coords":[{"lat":3,"lng":3}],"geodesic":true,"stroke_colour":"#0000FF","stroke_weight":2,"stroke_opacity":0.6,"z_index":3,"id":3},{"coords":[{"lat":4,"lng":4}],"geodesic":true,"stroke_colour":"#0000FF","stroke_weight":2,"stroke_opacity":0.6,"z_index":3,"id":4}]'
     )
 
   expect_message(
@@ -325,7 +326,7 @@ test_that("polygons added and removed", {
 
   expect_true(
     add_polygons(map = m, data = df, lat = 'lat', lon = 'lon', id = 'id')$x$calls[[1]]$args[[1]] ==
-    '[{"coords":[[{"lat":1,"lng":1},{"lat":2,"lng":2},{"lat":3,"lng":3},{"lat":4,"lng":4}]],"stroke_colour":"#0000FF","stroke_weight":1,"stroke_opacity":0.6,"fill_opacity":0.35,"fill_colour":"#FF0000","z_index":1,"id":"1"}]'
+    '[{"coords":[[{"lat":1,"lng":1},{"lat":2,"lng":2},{"lat":3,"lng":3},{"lat":4,"lng":4}]],"stroke_colour":"#0000FF","stroke_weight":1,"stroke_opacity":0.6,"fill_opacity":0.35,"fill_colour":"#FF0000","z_index":1,"id":1}]'
   )
 
   expect_true(clear_polygons(m)$x$calls[[1]]$functions == "clear_polygons")

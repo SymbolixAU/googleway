@@ -58,7 +58,7 @@ directions_data <- function(base_url,
   units <- match.arg(units)
   # traffic_model <- match.arg(traffic_model)
 
-  LogicalCheck(simplify)
+  logicalCheck(simplify)
 
   ## transit_mode is only valid where mode = transit
   if(!is.null(transit_mode) & mode != "transit"){
@@ -108,7 +108,7 @@ directions_data <- function(base_url,
   }
 
   ## check alternatives is valid
-  LogicalCheck(alternatives)
+  logicalCheck(alternatives)
 
   if(!is.null(alternatives))
     alternatives <- tolower(alternatives)
@@ -123,11 +123,11 @@ directions_data <- function(base_url,
 
   ## check origin/destinations are valid
   if(information_type == "directions"){
-    origin <- fun_check_location(origin, "Origin")
-    destination <- fun_check_location(destination, "Destination")
+    origin <- check_location(origin, "Origin")
+    destination <- check_location(destination, "Destination")
   }else if(information_type == "distance"){
-    origin <- fun_check_multiple_locations(origin, "Origins elements")
-    destination <- fun_check_multiple_locations(destination, "Destinations elements")
+    origin <- check_multiple_locations(origin, "Origins elements")
+    destination <- check_multiple_locations(destination, "Destinations elements")
   }
 
   ## check departure time is valid
@@ -157,13 +157,13 @@ directions_data <- function(base_url,
     waypoints <- sapply(1:length(waypoints), function(x) {
       if(length(names(waypoints)) > 0){
         if(names(waypoints)[x] == "via"){
-          paste0("via:", fun_check_location(waypoints[[x]]))
+          paste0("via:", check_location(waypoints[[x]]))
         }else{
           ## 'stop' is the default in google, and the 'stop' identifier is not needed
-          fun_check_location(waypoints[[x]])
+          check_location(waypoints[[x]])
         }
       }else{
-        fun_check_location(waypoints[[x]])
+        check_location(waypoints[[x]])
       }
     })
 
@@ -214,12 +214,12 @@ directions_data <- function(base_url,
   if(length(map_url) > 1)
     stop("invalid map_url")
 
-  return(fun_download_data(map_url, simplify, curl_proxy))
+  return(downloadData(map_url, simplify, curl_proxy))
 
 }
 
 
-fun_download_data <- function(map_url, simplify, curl_proxy = NULL){
+downloadData <- function(map_url, simplify, curl_proxy = NULL){
 
   out <- NULL
   ## check map_url is valid
@@ -256,34 +256,5 @@ fun_download_data <- function(map_url, simplify, curl_proxy = NULL){
     })
   }
   return(out)
-}
-
-
-fun_check_multiple_locations <- function(loc, type){
-  loc <- sapply(1:length(loc), function(x) {
-    fun_check_location(loc[[x]], type)
-  })
-  loc <- paste0(loc, collapse = "|")
-}
-
-
-fun_check_location <- function(loc, type){
-  if(is.numeric(loc) & length(loc) == 2){
-    loc <- paste0(loc, collapse = ",")
-  }else if(is.character(loc) & length(loc) == 1){
-    loc <- gsub(" ", "+", loc)
-  }else{
-    stop(paste0(type, " must be either a numeric vector of lat/lon coordinates, or an address string"))
-  }
-  return(loc)
-}
-
-fun_check_address <- function(address){
-  if(is.character(address) & length(address) == 1){
-    address <- gsub(" ", "+", address)
-  }else{
-    stop("address must be a string of length 1")
-  }
-  return(address)
 }
 

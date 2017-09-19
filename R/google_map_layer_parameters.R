@@ -2,13 +2,42 @@
 #
 # checks the data is the correct type(s)
 # @param data the data passed into the map layer funciton
-dataCheck <- function(data){
+dataCheck <- function(data, callingFunc){
 
-  if(is.null(data))
-    stop("No data supplied")
+  if(is.null(data)){
+    message(paste0("no data supplied to ", callingFunc))
+    return(FALSE)
+  }
 
-  if(!inherits(data, "data.frame"))
-    stop("Currently only data.frames are supported")
+  if(!inherits(data, "data.frame")){
+    warning(paste0(callingFunc, ": currently only data.frames are supported"))
+    return(FALSE)
+  }
+
+  if(nrow(data) == 0){
+    message(paste0("no data supplied to ", callingFunc))
+    return(FALSE)
+  }
+  return(TRUE)
+}
+
+isUrl <- function(txt) grepl("(^http)|(^www)", txt)
+
+
+# Latitude Check
+#
+# Checks that a value is between -90:90
+latitudeCheck <- function(lat, arg){
+  if(!is.numeric(lat) | lat < -90 | lat > 90)
+    stop(paste0(arg, " must be a value between -90 and 90 (inclusive)"))
+}
+
+# Longitude Check
+#
+# Checks that a value is between -90:90
+longitudeCheck <- function(lat, arg){
+  if(!is.numeric(lat) | lat < -180 | lat > 180)
+    stop(paste0(arg, " must be a value between -180 and 180 (inclusive)"))
 }
 
 # Is Using Polyline
@@ -78,17 +107,6 @@ layerId <- function(layer_id){
   }
 }
 
-# Logical Check
-#
-# Checks the argument is length 1 logical
-# @param arg
-logicalCheck <- function(arg){
-  if(!is.null(arg)){
-    if(!is.logical(arg) | length(arg) != 1)
-      stop(paste0(deparse(substitute(arg))," must be logical - TRUE or FALSE"))
-  }
-}
-
 # Marker Colour Icon Check
 #
 # Checks for only one of colour or marker_icon, and fixes the 'marker_icon'
@@ -116,16 +134,7 @@ markerColourIconCheck <- function(data, objArgs, colour, marker_icon){
   return(objArgs)
 }
 
-# Numeric Check
-#
-# Checks the argument is lenght 1 numeric
-# @param arg
-numericCheck <- function(arg){
-  if(!is.null(arg)){
-    if(!is.numeric(arg) | length(arg) != 1)
-      stop(paste0(deparse(substitute(arg)), " must be a single numeric value"))
-  }
-}
+
 
 # Palette Check
 #
@@ -158,7 +167,7 @@ pathIdCheck <- function(data, pathId, usePolyline, objArgs){
     }
   }
 
-  return(list(data = data, objArgs = objArgs))
+  return(list(data = data, objArgs = objArgs, pathId = pathId))
 }
 
 # Poly Id Check
@@ -179,19 +188,22 @@ polyIdCheck <- function(data, id, usePolyline, objArgs){
     if(is.null(id)){
       id <- 'id'
       objArgs[['id']] <- id
-      data[, id] <- as.character(1:nrow(data))
+      data[, id] <- 1:nrow(data)
     }else{
-      data[, id] <- as.character(data[, id])
+      data[, id] <- data[, id]
     }
   }else{
     if(is.null(id)){
       message("No 'id' value defined, assuming one continuous line of coordinates")
       id <- 'id'
-      data[, id] <- '1'
+      data[, id] <- 1
       objArgs[['id']] <- id
     }else{
-      data[, id] <- as.character(data[, id])
+      data[, id] <- data[, id]
     }
   }
-  return(list(data = data, objArgs = objArgs))
+  return(list(data = data, objArgs = objArgs, id = id))
 }
+
+# some browsers don't support the alpha channel
+removeAlpha <- function(cols) substr(cols, 1, 7)

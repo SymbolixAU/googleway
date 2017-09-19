@@ -264,7 +264,7 @@ google_places <- function(search_string = NULL,
       stop("page_token must be a string of length 1")
   }
 
-  LogicalCheck(simplify)
+  logicalCheck(simplify)
 
   ## construct the URL
   ## if search string is specified, use the 'textsearch' url
@@ -294,6 +294,6 @@ google_places <- function(search_string = NULL,
                                      "key" = key))
 
 
-  return(fun_download_data(map_url, simplify, curl_proxy))
+  return(downloadData(map_url, simplify, curl_proxy))
 
 }
