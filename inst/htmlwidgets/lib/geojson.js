@@ -86,6 +86,31 @@ function handleDrop(e) {
     return false;
 }
 
+
+function geojson_click(map_id, layer_id, shapeInfo) {
+    
+    if(!HTMLWidgets.shinyMode) return;
+
+    // the 'click' event is assigned to the entire data layer
+    // then when a click is listened, teh 'feature' that was clicked
+    // is used in the function
+    
+    window[map_id + 'googleGeojson' + layer_id].addListener('click', function(event) {
+
+        var myFeature = event.feature.getGeometry(); 
+        
+        var eventInfo = $.extend(
+        {
+            feature: myFeature,
+            randomValue: Math.random()
+        },
+        shapeInfo
+        );
+        Shiny.onInputChange(map_id + "_geojson_click", JSON.stringify(eventInfo));
+        
+    });
+}
+
                                                           
 function add_geojson(map_id, geojson, geojson_source, style, update_map_view, layer_id) {
     
@@ -99,6 +124,9 @@ function add_geojson(map_id, geojson, geojson_source, style, update_map_view, la
 
         window[map_id + 'googleGeojson' + layer_id].loadGeoJson(geojson);
     }
+    
+    var geoInfo = {};
+    geojson_click(map_id, layer_id, geoInfo);
     
     // a function that computes the style for each feature
     window[map_id + 'googleGeojson' + layer_id].setStyle(function (feature) {

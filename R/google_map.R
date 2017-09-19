@@ -91,6 +91,8 @@ google_map <- function(key,
                        libraries = NULL,
                        event_return_type = c("list", "JSON")) {
 
+  ## TODO(event_return_type)
+
   logicalCheck(zoom_control)
   logicalCheck(map_type_control)
   logicalCheck(scale_control)
