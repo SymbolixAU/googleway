@@ -48,7 +48,7 @@ google_place_details <- function(place_id,
   if(!is.null(language))
     language <- tolower(language)
 
-  LogicalCheck(simplify)
+  logicalCheck(simplify)
 
   map_url <- "https://maps.googleapis.com/maps/api/place/details/json?"
 
@@ -57,6 +57,6 @@ google_place_details <- function(place_id,
                                      "key" = key))
 
 
-  return(fun_download_data(map_url, simplify, curl_proxy))
+  return(downloadData(map_url, simplify, curl_proxy))
 
 }

@@ -31,3 +31,26 @@ should be used for the latitude / longitude coordinates.}
 \description{
 updates a heatmap layer
 }
+\examples{
+\dontrun{
+
+map_key <- 'your_api_key'
+
+set.seed(20170417)
+df <- tram_route
+df$weight <- sample(1:10, size = nrow(df), replace = T)
+
+google_map(key = map_key, data = df) \%>\%
+ add_heatmap(lat = "shape_pt_lat", lon = "shape_pt_lon", weight = "weight",
+              option_radius = 0.001)
+
+## update by adding the same data again to double the number of points at each location
+df_update <- df
+google_map(key = map_key, data = df) \%>\%
+ add_heatmap(lat = "shape_pt_lat", lon = "shape_pt_lon", weight = "weight",
+              option_radius = 0.001) \%>\%
+ update_heatmap(df_update, lat = "shape_pt_lat", lon = "shape_pt_lon")
+
+}
+
+}

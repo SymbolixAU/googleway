@@ -74,7 +74,8 @@ addDefaults <- function(shape, requiredDefaults, shapeType){
                      "polyline" = polylineDefaults(n),
                      "polylineUpdate" = polylineUpdateDefaults(n),
                      "rectangle" = rectangleDefaults(n),
-                     "heatmap" = heatmapDefaults(n))
+                     "heatmap" = heatmapDefaults(n),
+                     "heatmapUpdate" = heatmapUpdateDefaults(n))
 
   shape <- cbind(shape, defaults[, requiredDefaults, drop = F])
   return(shape)
@@ -116,6 +117,10 @@ requiredMarkerColumns <- function(){
 }
 
 requiredHeatmapColumns <- function(){
+  c('weight')
+}
+
+requiredHeatmapUpdateColumns <- function(){
   c()
 }
 
@@ -242,6 +247,11 @@ heatmapColumns <- function(){
 }
 
 heatmapDefaults <- function(n){
+  data.frame('weight' = rep(1, n),
+             stringsAsFactors = F)
+}
+
+heatmapUpdateDefaults <- function(n){
   data.frame('weight' = rep(1, n),
              stringsAsFactors = F)
 }

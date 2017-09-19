@@ -94,17 +94,6 @@ layerId <- function(layer_id){
   }
 }
 
-# Logical Check
-#
-# Checks the argument is length 1 logical
-# @param arg
-logicalCheck <- function(arg){
-  if(!is.null(arg)){
-    if(!is.logical(arg) | length(arg) != 1)
-      stop(paste0(deparse(substitute(arg))," must be logical - TRUE or FALSE"))
-  }
-}
-
 # Marker Colour Icon Check
 #
 # Checks for only one of colour or marker_icon, and fixes the 'marker_icon'
@@ -132,16 +121,7 @@ markerColourIconCheck <- function(data, objArgs, colour, marker_icon){
   return(objArgs)
 }
 
-# Numeric Check
-#
-# Checks the argument is lenght 1 numeric
-# @param arg
-numericCheck <- function(arg){
-  if(!is.null(arg)){
-    if(!is.numeric(arg) | length(arg) != 1)
-      stop(paste0(deparse(substitute(arg)), " must be a single numeric value"))
-  }
-}
+
 
 # Palette Check
 #

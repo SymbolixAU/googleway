@@ -40,9 +40,9 @@ test_that("hex colours works", {
 
 test_that("LogicalCheck handles various arguments", {
 
-  expect_silent(googleway:::LogicalCheck(TRUE))
-  expect_error(googleway:::LogicalCheck("TRUE"), 'TRUE" must be logical - TRUE or FALSE')
-  expect_error(googleway:::LogicalCheck(c(T, F)))
+  expect_silent(googleway:::logicalCheck(TRUE))
+  expect_error(googleway:::logicalCheck("TRUE"), 'TRUE" must be logical - TRUE or FALSE')
+  expect_error(googleway:::logicalCheck(c(T, F)))
 
 })
 

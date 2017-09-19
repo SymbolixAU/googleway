@@ -26,7 +26,7 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
             }
         }
         add_lines(map_id, data_polyline[i], layer_id, thisPath);
-  }
+    }
 
 
     function add_lines(map_id, polyline, layer_id, thisPath){
@@ -42,8 +42,7 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
             mouseOver: polyline.mouse_over,
             mouseOverGroup: polyline.mouse_over_group,
             zIndex: polyline.z_index
-
-    });
+        });
 
     // TODO(polyline length) calculate and log the distance
 //    polyLengthInMeters = google.maps.geometry.spherical.computeLength(Polyline.getPath().getArray());
@@ -59,29 +58,28 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
             for (var n = 0; n < points.length; n++){
                 window[map_id + 'mapBounds'].extend(points[n]);
             }
+        }
+
+        if(polyline.info_window) {
+            add_infoWindow(map_id, Polyline, infoWindow, '_information', polyline.info_window);
+        }
+
+        // need to add the listener once so it's not overwritten?
+        if(polyline.mouse_over || polyline.mouse_over_group) {
+            add_mouseOver(map_id, Polyline, infoWindow, "_mouse_over", polyline.mouse_over, layer_id, 'googlePolyline');
+        }
+
+        polylineInfo = { layerId : layer_id };
+        polyline_click(map_id, Polyline, polyline.id, polylineInfo);
+
+        //shapeInfo = { layerId : layer_id };
+        //shape_click(map_id, Polyline, polyline.id, shapeInfo);
+
     }
-
-    if(polyline.info_window) {
-        add_infoWindow(map_id, Polyline, infoWindow, '_information', polyline.info_window);
+    
+    if (update_map_view === true) {
+        window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
     }
-
-    // need to add the listener once so it's not overwritten?
-    if(polyline.mouse_over || polyline.mouse_over_group) {
-        add_mouseOver(map_id, Polyline, infoWindow, "_mouse_over", polyline.mouse_over, layer_id, 'googlePolyline');
-    }
-
-    polylineInfo = { layerId : layer_id };
-    polyline_click(map_id, Polyline, polyline.id, polylineInfo);
-
-    //shapeInfo = { layerId : layer_id };
-    //shape_click(map_id, Polyline, polyline.id, shapeInfo);
-
-  }
-
-  if(update_map_view === true){
-    window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
-  }
-
 }
 
 

@@ -6,7 +6,8 @@
 #' @examples
 #' \dontrun{
 #'
-#' google_map(key = "your_api_key") %>%
+#' map_key <- 'your_api_key'
+#' google_map(key = map_key) %>%
 #'   add_traffic()
 #'
 #' }
@@ -30,7 +31,8 @@ clear_traffic <- function(map){
 #' @examples
 #' \dontrun{
 #'
-#' google_map(key = "your_api_key") %>%
+#' map_key <- 'your_api_key'
+#' google_map(key = map_key) %>%
 #'   add_transit()
 #'
 #' }
@@ -54,7 +56,8 @@ clear_transit <- function(map){
 #' @examples
 #' \dontrun{
 #'
-#' google_map(key = "your_api_key") %>%
+#' map_key <- "your_api_key"
+#' google_map(key = map_key) %>%
 #'   add_bicycling()
 #'
 #' }
@@ -68,11 +71,6 @@ add_bicycling <- function(map){
 clear_bicycling <- function(map){
   invoke_method(map, 'clear_bicycling')
 }
-
-
-
-
-
 
 
 
@@ -179,7 +177,7 @@ add_fusion <- function(map, query, styles = NULL, heatmap = FALSE, layer_id = NU
   ## The Google Maps API can't use values inside arrays, so we need
   ## to get rid of any arrays.
   ## - remove square brackets around value
-  LogicalCheck(heatmap)
+  logicalCheck(heatmap)
 
   query <- gsub("\\[|\\]", "", jsonlite::toJSON(query))
 

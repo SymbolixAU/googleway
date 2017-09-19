@@ -94,7 +94,7 @@ add_heatmap <- function(map,
 
   requiredDefaults <- setdiff(requiredCols, names(shape))
   if(length(requiredDefaults) > 0){
-    shape <- addDefaults(shape, requiredDefaults, "circle")
+    shape <- addDefaults(shape, requiredDefaults, "heatmap")
   }
 
   shape <- jsonlite::toJSON(shape, digits = digits)
@@ -159,6 +159,28 @@ add_heatmap <- function(map,
 #' @param digits integer. Use this parameter to specify how many digits (decimal places)
 #' should be used for the latitude / longitude coordinates.
 #'
+#' @examples
+#' \dontrun{
+#'
+#' map_key <- 'your_api_key'
+#'
+#' set.seed(20170417)
+#' df <- tram_route
+#' df$weight <- sample(1:10, size = nrow(df), replace = T)
+#'
+#' google_map(key = map_key, data = df) %>%
+#'  add_heatmap(lat = "shape_pt_lat", lon = "shape_pt_lon", weight = "weight",
+#'               option_radius = 0.001)
+#'
+#' ## update by adding the same data again to double the number of points at each location
+#' df_update <- df
+#' google_map(key = map_key, data = df) %>%
+#'  add_heatmap(lat = "shape_pt_lat", lon = "shape_pt_lon", weight = "weight",
+#'               option_radius = 0.001) %>%
+#'  update_heatmap(df_update, lat = "shape_pt_lat", lon = "shape_pt_lon")
+#'
+#' }
+#'
 #' @export
 update_heatmap <- function(map,
                            data,
@@ -177,12 +199,12 @@ update_heatmap <- function(map,
   numericCheck(digits)
 
   allCols <- heatmapColumns()
-  requiredCols <- requiredHeatmapColumns()
+  requiredCols <- requiredHeatmapUpdateColumns()
   shape <- createMapObject(data, allCols, objArgs)
 
   requiredDefaults <- setdiff(requiredCols, names(shape))
   if(length(requiredDefaults) > 0){
-    shape <- addDefaults(shape, requiredDefaults, "circle")
+    shape <- addDefaults(shape, requiredDefaults, "heatmapUpdate")
   }
 
   shape <- jsonlite::toJSON(shape, digits = digits)

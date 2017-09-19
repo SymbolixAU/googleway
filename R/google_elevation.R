@@ -102,7 +102,7 @@ google_elevation <- function(df_locations = NULL,
   ## check location_type
   location_type <- match.arg(location_type)
 
-  LogicalCheck(simplify)
+  logicalCheck(simplify)
 
   ## check samples
 
@@ -139,5 +139,5 @@ google_elevation <- function(df_locations = NULL,
                      "\nConsider decoding your polyline into coordinates, then sending subsets of the data into the elevation function."))
     }
 
-  return(fun_download_data(map_url, simplify, curl_proxy))
+  return(downloadData(map_url, simplify, curl_proxy))
 }
