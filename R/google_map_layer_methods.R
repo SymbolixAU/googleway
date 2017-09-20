@@ -48,19 +48,27 @@ constructGeojsonSource <- function(geojson, source) {
 
 validateStyleUpdate <- function(style) UseMethod("validateStyleUpdate")
 
+#' @export
 validateStyleUpdate.character <- function(style){
   if(!jsonlite::validate(style)) stop("invalid JSON")
   class(style) <- 'json'
   return(style)
 }
 
+#' @export
 validateStyleUpdate.list <- function(style){
   jsonlite::toJSON(style, auto_unbox = T)
+}
+
+#' @export
+validateStyleUpdate.default <- function(style){
+  stopMessage(style)
 }
 
 
 validateStyle <- function(style) UseMethod("validateStyle")
 
+#' @export
 validateStyle.character <- function(style){
   if(!jsonlite::validate(style)) stop("invalid JSON")
   class(style) <- 'json'
@@ -87,6 +95,7 @@ validateStyle.list <- function(style){
   )
 }
 
+#' @export
 validateStyle.default <- function(style){
   stopMessage(style)
 }

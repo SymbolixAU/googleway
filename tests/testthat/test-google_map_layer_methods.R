@@ -25,4 +25,38 @@ test_that("goejson is validated", {
 
   expect_error(googleway:::validateGeojson(data.frame()))
 
+  ## invalid json
+  expect_error(
+    googleway:::validateGeojson('{ "invalid" , json }'),
+    "invalid JSON"
+    )
+
 })
+
+test_that("style is validated", {
+
+  ## invalid JSON
+  style <- '{ "invalid" , "JSON" }'
+
+  expect_error(
+    googleway:::validateStyleUpdate(style),
+    "invalid JSON"
+  )
+
+  style <- '{ "fillColor" : "color" }'
+
+  expect_true(class(googleway:::validateStyleUpdate(style)) == "json")
+
+
+  style <- list(fillColor = "color")
+  expect_true(class(googleway:::validateStyleUpdate(style)) == "json")
+
+  expect_error(
+    googleway:::validateStyleUpdate(data.frame())
+  )
+
+})
+
+
+
+
