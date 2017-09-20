@@ -66,7 +66,7 @@ test_that("directions results are accessed", {
                   status = "OK"), .Names = c("geocoded_waypoints", "routes",
                   "status"))
 
-  expect_true(direction_instructions(lst) == "instructions")
+  expect_true(class(direction_instructions(lst)) == "character")
   expect_true(class(direction_routes(lst)) == "data.frame")
   expect_true(class(direction_legs(lst)) == "data.frame")
   expect_true(class(direction_points(lst)) == "list")
@@ -414,6 +414,15 @@ test_that("places results are accessed", {
 
 
 test_that("nearest roads results are accessed", {
+
+  res <- structure(list(snappedPoints = structure(list(location = structure(list(
+    latitude = c(60.1707025219662, 60.1708066945441, 60.1709086844695
+    ), longitude = c(24.9427153240764, 24.9427061169717, 24.9426971027202
+    )), .Names = c("latitude", "longitude"), class = "data.frame", row.names = c(NA,
+    3L)), originalIndex = 0:2, placeId = c("ChIJNX9BrM0LkkYRIM-cQg265e8",
+    "ChIJNX9BrM0LkkYRIM-cQg265e8", "ChIJNX9BrM0LkkYRIM-cQg265e8")), .Names = c("location",
+    "originalIndex", "placeId"), class = "data.frame", row.names = c(NA,
+    3L))), .Names = "snappedPoints")
 
   expect_true(class(nearest_roads_coordinates(res)) == "data.frame")
 
