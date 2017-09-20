@@ -84,7 +84,7 @@ clear_bicycling <- function(map){
 #'
 #' @export
 add_dragdrop <- function(map, type = "geojson"){
-  type <- match.arg("geojson")
+  type <- match.arg(type)
   invoke_method(map, "drag_drop_geojson")
 }
 

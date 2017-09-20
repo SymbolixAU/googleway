@@ -6,77 +6,72 @@
  **/
 function add_drawing(map_id, drawing_modes, marker, circle, rectangle, polyline, polygon, delete_on_change){
 
-  window[map_id + 'googleDrawingOverlays'] = [];
+    window[map_id + 'googleDrawingOverlays'] = [];
+    var drawingInfo, 
+        drawingManager = new google.maps.drawing.DrawingManager({
 
-  var drawingManager = new google.maps.drawing.DrawingManager({
+            drawingMode: google.maps.drawing.OverlayType.MARKER,
+            drawingControl: true,
 
-    drawingMode: google.maps.drawing.OverlayType.MARKER,
-    drawingControl: true,
+            drawingControlOptions: {
+                position: google.maps.ControlPosition.TOP_CENTER,
+                drawingModes: drawing_modes
+            },
 
-    drawingControlOptions: {
-      position: google.maps.ControlPosition.TOP_CENTER,
-      drawingModes: drawing_modes
-    },
+            markerOptions: {
+                icon: marker[0].icon
+            },
 
-    markerOptions: {
-      icon: marker[0].icon
-    },
+            circleOptions: {
+                fillColor: circle[0].fill_colour,
+                fillOpacity: circle[0].fill_opacity,
+                strokeWeight: circle[0].stroke_weigth,
+                clickable: false,
+                editable: true,
+                zIndex: circle[0].z_index
+            },
 
-    circleOptions: {
-      fillColor: circle[0].fill_colour,
-      fillOpacity: circle[0].fill_opacity,
-      strokeWeight: circle[0].stroke_weigth,
-      clickable: false,
-      editable: true,
-      zIndex: circle[0].z_index
-    },
+            polylineOptions: {
+                geodesic: polyline[0].geodesic,
+                strokeColor: polyline[0].stroke_colour,
+                strokeWeight: polyline[0].stroke_weight,
+                strokeOpacity: polyline[0].stroke_opacity,
+                zIndex: polyline[0].z_index
+            },
 
-    polylineOptions: {
-      geodesic: polyline[0].geodesic,
-      strokeColor: polyline[0].stroke_colour,
-      strokeWeight: polyline[0].stroke_weight,
-      strokeOpacity: polyline[0].stroke_opacity,
-      zIndex: polyline[0].z_index
-      },
+            polygonOptions: {
+                strokeColor: polygon[0].stroke_colour,
+                strokeWeight: polygon[0].stroke_weight,
+                strokeOpacity: polygon[0].stroke_opacity,
+                fillColor: polygon[0].fill_colour,
+                fillOpacity: polygon[0].fill_opacity,
+                zIndex: polygon[0].z_index
+            },
 
-    polygonOptions: {
-      strokeColor: polygon[0].stroke_colour,
-      strokeWeight: polygon[0].stroke_weight,
-      strokeOpacity: polygon[0].stroke_opacity,
-      fillColor: polygon[0].fill_colour,
-      fillOpacity: polygon[0].fill_opacity,
-      zIndex: polygon[0].z_index
-      },
+            rectangleOptions: {
+                strokeColor: rectangle[0].stroke_colour,
+                strokeWeight: rectangle[0].stroke_weight,
+                strokeOpacity: rectangle[0].stroke_opacity,
+                fillColor: rectangle[0].fill_colour,
+                fillOpacity: rectangle[0].fill_opacity,
+                zIndex: rectangle[0].z_index
+            }
+        });
+    
+    window[map_id + 'googleDrawingManager'] = drawingManager;
+    drawingManager.setMap(window[map_id + 'map']);
 
-    rectangleOptions: {
-      strokeColor: rectangle[0].stroke_colour,
-      strokeWeight: rectangle[0].stroke_weight,
-      strokeOpacity: rectangle[0].stroke_opacity,
-      fillColor: rectangle[0].fill_colour,
-      fillOpacity: rectangle[0].fill_opacity,
-      zIndex: rectangle[0].z_index
-      }
-
-  });
-
-  window[map_id + 'googleDrawingManager'] = drawingManager;
-  drawingManager.setMap(window[map_id + 'map']);
-
-  var drawingInfo;
-
-  marker_complete(map_id, drawingManager, drawingInfo);
-  circle_complete(map_id, drawingManager, drawingInfo);
-  rectangle_complete(map_id, drawingManager, drawingInfo);
-  polyline_complete(map_id, drawingManager, drawingInfo);
-  polygon_complete(map_id, drawingManager, drawingInfo);
+    marker_complete(map_id, drawingManager, drawingInfo);
+    circle_complete(map_id, drawingManager, drawingInfo);
+    rectangle_complete(map_id, drawingManager, drawingInfo);
+    polyline_complete(map_id, drawingManager, drawingInfo);
+    polygon_complete(map_id, drawingManager, drawingInfo);
 
    if(delete_on_change){
-    console.log(delete_on_change);
-    google.maps.event.addListener(drawingManager, "drawingmode_changed", function(){
-      clear_drawing(map_id);
-    });
+        google.maps.event.addListener(drawingManager, "drawingmode_changed", function(){
+            clear_drawing(map_id);
+        });
    }
-
 }
 
 /**
@@ -94,26 +89,27 @@ function clear_drawing(map_id){
 
 function marker_complete(map_id, drawingManager, drawingInfo){
 
-  if(!HTMLWidgets.shinyMode) return;
+    if(!HTMLWidgets.shinyMode) return;
 
-  google.maps.event.addListener(drawingManager, 'markercomplete', function(marker) {
-    window[map_id + 'googleDrawingOverlays'].push(marker);
+    google.maps.event.addListener(drawingManager, 'markercomplete', function(marker) {
+        window[map_id + 'googleDrawingOverlays'].push(marker);
 
-    var eventInfo = $.extend(
-      {
-        place: marker.getPlace(),
-        position: marker.getPosition(),
-        shape: marker.getShape(),
-        title: marker.getTitle(),
-        randomValue: Math.random()
-      },
-      drawingInfo
-    );
-          var event_return_type = window.params[1].event_return_type;
-      eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
-  Shiny.onInputChange(map_id + "_markercomplete", eventInfo);
-  });
-
+        var eventInfo = $.extend(
+            {
+//        var eventInfo = {
+                place: marker.getPlace(),
+                position: marker.getPosition(),
+                shape: marker.getShape(),
+                title: marker.getTitle(),
+                randomValue: Math.random()
+            },
+            drawingInfo
+        );
+        
+        var event_return_type = window.params[1].event_return_type;
+        eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+        Shiny.onInputChange(map_id + "_markercomplete", eventInfo);
+    });
 }
 
 
@@ -123,10 +119,6 @@ function circle_complete(map_id, drawingManager, drawingInfo){
 
   google.maps.event.addListener(drawingManager, 'circlecomplete', function(circle) {
 
-//    google.maps.event.addListener(circle, 'click', function() {
-//      console.log("circle click");
-//      console.log(circle);
-//    });
    var newShape = circle;
    google.maps.event.addListener(newShape, 'click', function(){
      console.log('click');
@@ -220,5 +212,5 @@ function polygon_complete(map_id, drawingManager, drawingInfo){
  * Removes the drawing controls from the map
  **/
 function remove_drawing(map_id){
-  window[map_id + 'googleDrawingManager'].setMap(null);
+    window[map_id + 'googleDrawingManager'].setMap(null);
 }

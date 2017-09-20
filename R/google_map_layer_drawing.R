@@ -6,12 +6,13 @@
 #' @param drawing_modes string vector giving the drawing controls required.
 #' One of one or more of marker, circle, polygon, polyline and rectangle
 #' @param delete_on_change logical indicating if the currently drawn shapes
-#' should be deleted when a new drawing mode is selected
+#' should be deleted when a new drawing mode is selected (only works in a reactive environment)
 #'
 #' @examples
 #' \dontrun{
 #'
-#' google_map(key = "your_api_key") %>%
+#' map_key <- 'your_api_key
+#' google_map(key = map_key) %>%
 #'   add_drawing()
 #'
 #' }

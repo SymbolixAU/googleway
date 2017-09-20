@@ -14,16 +14,8 @@ add_drawing(map, drawing_modes = c("marker", "circle", "polygon", "polyline",
 One of one or more of marker, circle, polygon, polyline and rectangle}
 
 \item{delete_on_change}{logical indicating if the currently drawn shapes
-should be deleted when a new drawing mode is selected}
+should be deleted when a new drawing mode is selected (only works in a reactive environment)}
 }
 \description{
 Adds drawing tools to the map. Particularly useful when in an interactive (shiny) environment.
-}
-\examples{
-\dontrun{
-
-google_map(key = "your_api_key") \%>\%
-  add_drawing()
-
-}
 }
