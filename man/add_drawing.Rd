@@ -19,3 +19,12 @@ should be deleted when a new drawing mode is selected (only works in a reactive 
 \description{
 Adds drawing tools to the map. Particularly useful when in an interactive (shiny) environment.
 }
+\examples{
+\dontrun{
+
+map_key <- 'your_api_key'
+google_map(key = map_key) \%>\%
+  add_drawing()
+
+}
+}

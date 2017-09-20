@@ -11,7 +11,7 @@
 #' @examples
 #' \dontrun{
 #'
-#' map_key <- 'your_api_key
+#' map_key <- 'your_api_key'
 #' google_map(key = map_key) %>%
 #'   add_drawing()
 #'
@@ -44,10 +44,8 @@ clear_drawing <- function(map){
 
 #' Remove drawing
 #'
-#' Removes the drawing controls from a map
-#'
 #' @param map a googleway map object created from \code{google_map()}
-#' @describeIn clear
+#' @describeIn clear removes drawing controls from a map
 #' @export
 remove_drawing <- function(map){
   invoke_method(map, 'remove_drawing')

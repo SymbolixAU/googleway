@@ -8,6 +8,7 @@
 \name{clear_circles}
 \alias{clear_circles}
 \alias{clear_drawing}
+\alias{remove_drawing}
 \alias{clear_fusion}
 \alias{clear_geojson}
 \alias{clear_heatmap}
@@ -19,11 +20,13 @@
 \alias{clear_traffic}
 \alias{clear_transit}
 \alias{clear_bicycling}
-\title{clear map elements}
+\title{Remove drawing}
 \usage{
 clear_circles(map, layer_id = NULL)
 
 clear_drawing(map)
+
+remove_drawing(map)
 
 clear_fusion(map, layer_id = NULL)
 
@@ -49,10 +52,19 @@ clear_bicycling(map)
 \item{map}{a googleway map object created from \code{google_map()}}
 
 \item{layer_id}{id value of the layer to be removed from the map}
+
+\item{map}{a googleway map object created from \code{google_map()}}
 }
 \description{
+Remove drawing
+
 clears elements from a map
 }
+\section{Functions}{
+\itemize{
+\item \code{remove_drawing}: removes drawing controls from a map
+}}
+
 \note{
 These operations are intended for use in conjunction with
 \link{google_map_update} in an interactive shiny environment
