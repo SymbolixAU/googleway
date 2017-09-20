@@ -75,6 +75,10 @@ test_that("style is validated", {
   style <- list(fillColor = "color")
   expect_true(googleway:::validateStyle(style)$type == "individual")
 
+  expect_error(
+    googleway:::validateStyle(data.frame())
+  )
+
 })
 
 
