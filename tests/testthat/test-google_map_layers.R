@@ -357,3 +357,31 @@ test_that("map overlays coordinates are accurate", {
 
 })
 
+
+
+test_that("map layer parameter checks work", {
+
+  df <- data.frame(north = 33.685, south = 33.671, east = -116.234, west = -116.251)
+
+  m <- google_map(key = "abc")
+  r <- add_rectangles(m, data = df, north = "north", south = "south", east = "east", west = "west")
+
+  expect_true(r$x$calls[[1]]$functions == "add_rectangles")
+  expect_true(r$x$calls[[1]]$args[[1]] == '[{"north":33.685,"east":-116.234,"south":33.671,"west":-116.251,"stroke_colour":"#FF0000","stroke_weight":1,"stroke_opacity":0.8,"fill_opacity":0.35,"fill_colour":"#FF0000","z_index":2}]')
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
