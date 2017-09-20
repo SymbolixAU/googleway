@@ -2,7 +2,6 @@ context("accessors")
 
 test_that("access result helper methods work", {
 
-  resJS <- '{ "routes" : { "overview_polyline" : { "points" : "nkyeFi_ysZz@[VOI]KsDI{EGs@A{COwNCoAHgBACAI]aJ@OEW?c@dAgRf@mFz@i@~Ah@f@LHWVy@" }  } }'
   vecJs <- c("{", "\"geocoded_waypoints\":[", "{", "\"geocoder_status\":\"OK\",",
              "\"place_id\":\"ChIJSSKDr7ZC1moRTsSnSV5BnuM\",", "\"types\":[",
              "\"establishment\",", "\"point_of_interest\",", "\"train_station\",",
@@ -34,7 +33,7 @@ test_that("access result", {
 
 
 
-  resJS <- '{  }'
+  resJS <- '{ "routes" : [ { "overview_polyline" : { "points" : "nkyeFi_ysZz@[VOI]KsDI{EGs@A{COwNCoAHgBACAI]aJ@OEW?c@dAgRf@mFz@i@~Ah@f@LHWVy@" }  }] }'
   resLst <- list(
     routes = list(
       overview_polyline = list(
@@ -45,6 +44,10 @@ test_that("access result", {
   expect_true(
     access_result(resLst, "polyline") ==
     "nkyeFi_ysZz@[VOI]KsDI{EGs@A{COwNCoAHgBACAI]aJ@OEW?c@dAgRf@mFz@i@~Ah@f@LHWVy@"
+  )
+
+  expect_true(
+   access_result(resJS, "polyline") == "nkyeFi_ysZz@[VOI]KsDI{EGs@A{COwNCoAHgBACAI]aJ@OEW?c@dAgRf@mFz@i@~Ah@f@LHWVy@"
   )
 
 
