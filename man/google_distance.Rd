@@ -11,11 +11,13 @@ google_distance(origins, destinations, mode = c("driving", "walking",
   key, simplify = TRUE, curl_proxy = NULL)
 }
 \arguments{
-\item{origins}{list of unnamed elements, each element is either a numeric
-vector of lat/lon coordinates, or an address string}
+\item{origins}{Origin locations as either a one or two column data.frame, a
+list of unnamed elements, each element is either a numeric vector of lat/lon
+coordinates, or an address string, or a vector of a pair of lat / lon coordinates}
 
-\item{destinations}{list of unnamed elements, each element is either a vector
-of lat/lon coordinates, or an address string}
+\item{destinations}{destination locations as either a one or two column data.frame, a
+list of unnamed elements, each element is either a numeric vector of lat/lon
+coordinates, or an address string, or a vector of a pair of lat / lon coordinates}
 
 \item{mode}{\code{string} One of 'driving', 'walking', 'bicycling' or 'transit'.}
 
@@ -65,14 +67,22 @@ route between start and end points.
 }
 \examples{
 \dontrun{
+
+api_key <- 'your_api_key'
 google_distance(origins = list(c("Melbourne Airport, Australia"),
                              c("MCG, Melbourne, Australia"),
                              c(-37.81659, 144.9841)),
                              destinations = c("Portsea, Melbourne, Australia"),
-                             key = "<your valid api key>",
+                             key = api_key,
                              simplify = FALSE)
 
+google_distance(origins = c(-37.816, 144.9841),
+    destinations = c("Melbourne Airport, Australia", "Flinders Street Station, Melbourne"),
+    key = api_key)
 
+google_distance(origins = tram_stops[1:5, c("stop_lat", "stop_lon")],
+     destinations = tram_stops[10:12, c("stop_lat", "stop_lon")],
+     key = api_key)
 
 }
 }

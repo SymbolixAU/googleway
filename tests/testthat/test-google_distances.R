@@ -109,6 +109,26 @@ test_that("warning when both arrival and departure times supplied", {
 })
 
 
+test_that("data frames are accepted", {
+
+  g <- google_distance(origins = tram_stops[1:5, c("stop_lat", "stop_lon")],
+                       destinations = tram_stops[10:12, c("stop_lat", "stop_lon")],
+                       key = "abc")
+
+  expect_true( g$status == "REQUEST_DENIED")
+
+
+  expect_error(
+    google_distance(origins = tram_stops[1:5, ],
+                    destinations = tram_stops[10:12, c("stop_lat", "stop_lon")],
+                    key = "abc"),
+    "A data.frame can have a maximum of two columns"
+  )
+
+})
+
+
+
 
 
 
