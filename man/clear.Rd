@@ -52,8 +52,6 @@ clear_bicycling(map)
 \item{map}{a googleway map object created from \code{google_map()}}
 
 \item{layer_id}{id value of the layer to be removed from the map}
-
-\item{map}{a googleway map object created from \code{google_map()}}
 }
 \description{
 Remove drawing

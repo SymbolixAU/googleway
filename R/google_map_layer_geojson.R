@@ -208,7 +208,9 @@ clear_geojson <- function(map, layer_id = NULL){
 #' \dontrun{
 #'
 #' ## see ?add_geojson for the geojson_txt string
-#' flagIcon <- "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+#' flagIcon <- paste0("https://developers.google.com/maps/documentation/",
+#'  "javascript/examples/full/images/beachflag.png")
+#'
 #' style <- paste0('{
 #'     "property" : "value",
 #'     "value" : 100,

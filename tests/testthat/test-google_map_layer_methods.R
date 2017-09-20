@@ -1,13 +1,28 @@
 context("map layer methods")
 
 
-test_that("regex detects urls", {
+test_that("goejson is validated", {
 
-  expect_true(googleway:::isUrl("http://www.link.com"))
-  expect_true(googleway:::isUrl("https://www.link.com"))
-  expect_true(googleway:::isUrl("www.link.com"))
-  expect_false(googleway:::isUrl("link.com"))
-  expect_true(googleway:::isUrl("https://storage.googleapis.com/mapsdevsite/json/google.json"))
+  ## url is validated
+  url <- 'https://storage.googleapis.com/mapsdevsite/json/google.json'
+  expect_true(
+    googleway:::validateGeojson(url)$geojson ==
+      url
+    )
+  expect_true(
+    googleway:::validateGeojson(url)$source == "url"
+  )
+
+  ## JSON
+  js <- '{ }'
+  expect_true(
+    googleway:::validateGeojson(js)$geojson == "{ }"
+  )
+
+  expect_true(
+    googleway:::validateGeojson(js)$source == "local"
+  )
+
+  expect_error(googleway:::validateGeojson(data.frame()))
 
 })
-

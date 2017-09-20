@@ -44,7 +44,6 @@ clear_drawing <- function(map){
 
 #' Remove drawing
 #'
-#' @param map a googleway map object created from \code{google_map()}
 #' @describeIn clear removes drawing controls from a map
 #' @export
 remove_drawing <- function(map){
