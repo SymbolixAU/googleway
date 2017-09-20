@@ -46,8 +46,12 @@ test_that("access result", {
     "nkyeFi_ysZz@[VOI]KsDI{EGs@A{COwNCoAHgBACAI]aJ@OEW?c@dAgRf@mFz@i@~Ah@f@LHWVy@"
   )
 
+  pl <- "nkyeFi_ysZz@[VOI]KsDI{EGs@A{COwNCoAHgBACAI]aJ@OEW?c@dAgRf@mFz@i@~Ah@f@LHWVy@"
+  x <- access_result(resJS, "polyline")
+  attributes(x) <- NULL
+  x <- gsub("\"", "", x)
   expect_true(
-   access_result(resJS, "polyline") == "nkyeFi_ysZz@[VOI]KsDI{EGs@A{COwNCoAHgBACAI]aJ@OEW?c@dAgRf@mFz@i@~Ah@f@LHWVy@"
+    x == pl
   )
 
 
