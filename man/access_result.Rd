@@ -30,8 +30,9 @@
 \usage{
 access_result(res, result = c("instructions", "routes", "legs", "steps",
   "points", "polyline", "coordinates", "address", "address_components",
-  "geo_place_id", "dist_origin", "elevation", "elev_location", "place",
-  "place_name", "next_page", "place_location", "place_type"))
+  "geo_place_id", "dist_origins", "dist_destinations", "elevation",
+  "elev_location", "place", "place_name", "next_page", "place_location",
+  "place_type"))
 
 direction_instructions(res)
 

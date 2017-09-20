@@ -39,8 +39,6 @@ test_that("access result", {
       overview_polyline = list(
         points = "nkyeFi_ysZz@[VOI]KsDI{EGs@A{COwNCoAHgBACAI]aJ@OEW?c@dAgRf@mFz@i@~Ah@f@LHWVy@")))
 
-
-
   expect_true(
     access_result(resLst, "polyline") ==
     "nkyeFi_ysZz@[VOI]KsDI{EGs@A{COwNCoAHgBACAI]aJ@OEW?c@dAgRf@mFz@i@~Ah@f@LHWVy@"
@@ -53,7 +51,5 @@ test_that("access result", {
   expect_true(
     x == pl
   )
-
-
 
 })
