@@ -33,7 +33,7 @@ test_that("goejson is validated", {
 
 })
 
-test_that("style is validated", {
+test_that("update style is validated", {
 
   ## invalid JSON
   style <- '{ "invalid" , "JSON" }'
@@ -56,6 +56,30 @@ test_that("style is validated", {
   )
 
 })
+
+
+test_that("style is validated", {
+
+  style <- '{ "invalid" , "JSON"  }'
+  expect_error(
+    googleway:::validateStyle(style),
+    "invalid JSON"
+  )
+
+  style <- '{ "fillColor" : "color" }'
+  expect_true(class(googleway:::validateStyle(style)) == "list")
+  expect_true(googleway:::validateStyle(style)$type == "all")
+  expect_true(googleway:::validateStyle(style)$style == style)
+
+
+  style <- list(fillColor = "color")
+  expect_true(googleway:::validateStyle(style)$type == "individual")
+
+})
+
+
+
+
 
 
 
