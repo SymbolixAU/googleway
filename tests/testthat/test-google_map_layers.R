@@ -355,12 +355,30 @@ test_that("map overlays coordinates are accurate", {
                              overlay_url = "https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg")
   )
 
+  g <- google_map(key = 'abc') %>%
+    add_overlay(north = 40.773941, south = 40.712216, east = -74.12544, west = -74.22655,
+                overlay_url = "https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg")
+
+  expect_true(
+    sum(class(g) == c("google_map", "htmlwidget")) == 2
+  )
+
 })
 
 
 
 test_that("map layer parameter checks work", {
 
+
+  ## Drawing
+  g <- google_map(key = 'abc') %>%
+    add_drawing()
+
+  expect_true(
+    sum(class(g) == c("google_map", "htmlwidget")) == 2
+  )
+
+  ## Rectangles
   df <- data.frame(north = 33.685, south = 33.671, east = -116.234, west = -116.251)
 
   m <- google_map(key = "abc")

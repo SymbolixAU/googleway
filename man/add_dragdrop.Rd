@@ -4,14 +4,12 @@
 \alias{add_dragdrop}
 \title{Drag Drop Geojson}
 \usage{
-add_dragdrop(map, type = "geojson")
+add_dragdrop(map)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
-
-\item{type}{the type of layer being dragged onto the map}
 }
 \description{
 A function that enables you to drag data and drop it onto a map. Currently
-only supports GeoJSON files and text
+only supports GeoJSON files / text
 }
