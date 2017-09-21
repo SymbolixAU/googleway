@@ -115,10 +115,14 @@ directions_data <- function(base_url,
 
   ## check traffic model is valid
   if(!is.null(traffic_model) & is.null(departure_time))
-    stop("traffic_model is only accepted with a valid departure_time")
+    departure_time <- Sys.time()
+
+#    stop("traffic_model is only accepted with a valid departure_time")
 
   if(!is.null(traffic_model)){
-    traffic_model <- match.arg(traffic_model, choices = c("best_guess", "pessimistic","optimistic"))
+    ## allow an underscore to pass
+    traffic_model <- match.arg(gsub("_", " ", traffic_model), choices = c("best guess", "pessimistic","optimistic"))
+    traffic_model <- gsub(" ", "_", traffic_model)
   }
 
   ## check origin/destinations are valid

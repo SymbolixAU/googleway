@@ -201,13 +201,29 @@ test_that("transit_routing_preferences are valid",{
 
 test_that("traffic model is valid",{
 
-  expect_error(
-    google_directions(origin = "Melbourne Airport, Australia",
+
+  d <- google_directions(origin = "Melbourne Airport, Australia",
                       destination = "Portsea, Melbourne, Australia",
                       departure_time = Sys.time() + (24 * 60 * 60),
                       traffic_model = "best guess",
                       key = "abc")
-  )
+
+  expect_true(d$status == "REQUEST_DENIED")
+
+  d <- google_directions(origin = "Melbourne Airport, Australia",
+                    destination = "Portsea, Melbourne, Australia",
+                    departure_time = Sys.time() + (24 * 60 * 60),
+                    traffic_model = "best_guess",
+                    key = "abc")
+
+  expect_true(d$status == "REQUEST_DENIED")
+
+  ## depature time is set if omitted
+  d <- google_directions(origin = "Melbourne Airport, Australia",
+                    destination = "Portsea, Melbourne, Australia",
+                    traffic_model = "best_guess",
+                    key = "abc")
+  expect_true(d$status == "REQUEST_DENIED")
 
 })
 

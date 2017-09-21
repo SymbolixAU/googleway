@@ -378,6 +378,14 @@ test_that("map layer parameter checks work", {
     sum(class(g) == c("google_map", "htmlwidget")) == 2
   )
 
+  g <- google_map(key = 'abc') %>%
+    clear_drawing()
+
+  expect_true(
+    sum(class(g) == c("google_map", "htmlwidget")) == 2
+  )
+
+
   ## Rectangles
   df <- data.frame(north = 33.685, south = 33.671, east = -116.234, west = -116.251)
 
