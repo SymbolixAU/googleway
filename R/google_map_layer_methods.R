@@ -82,7 +82,7 @@ validateFusionQuery.data.frame <- function(query){
 
   names(query) <- tolower(names(query))
   if(!all(c("select","from") %in% names(query))){
-    stop("the columsn of a fusion query must contain 'select' and 'where'")
+    stop("the columns of a fusion query must contain 'select' and 'where'")
   }
   ## need to unbox
   ## The Google Maps API can't use values inside arrays, so we need

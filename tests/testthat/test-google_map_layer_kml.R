@@ -13,4 +13,12 @@ test_that("kml layer works", {
     sum(class(g) == c("google_map", "htmlwidget")) == 2
   )
 
+  g <- google_map(key = 'abc') %>%
+    add_kml(kml_url = kmlUrl) %>%
+    clear_kml()
+
+  expect_true(
+    g$x$calls[[2]]$functions == "clear_kml"
+  )
+
 })
