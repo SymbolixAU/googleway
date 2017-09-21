@@ -111,15 +111,62 @@ test_that("locations are valid", {
 
   d_pass <- googleway:::validateLocation(df_pass)
   v_pass <- googleway:::validateLocation(vec_pass)
+  n_pass <- googleway:::validateLocation(num_pass)
   l_pass <- googleway:::validateLocation(lst_pass)
 
-  expect_error(googleway:::validateLocation(df_fail))
-  expect_error(googleway:::validateLocation(vec_fail))
+  expect_error(
+    googleway:::validateLocation(df_fail),
+    "Only a single location is allowed inside google_directions for origin or destination"
+    )
+
+  expect_error(
+    googleway:::validateLocation(vec_fail),
+    "Only a single location is allowed inside google_directions for origin or destination"
+    )
+
+  expect_error(
+    googleway:::validateLocation(num_fail),
+    "Only a single location is allowed inside google_directions for origin or destination"
+  )
 
   expect_true(googleway:::check_location( d_pass , "origin") == "Melbourne")
-  expect_true(googleway:::check_location( vec_pass, "origin") == "Melbourne")
-  expect_true(googleway:::check_location( num_pass, "origin") == "-37,144")
-  expect_true(googleway:::check_location( lst_pass, "origin") == "-37,144")
+  expect_true(googleway:::check_location( v_pass, "origin") == "Melbourne")
+  expect_true(googleway:::check_location( n_pass, "origin") == "-37,144")
+  expect_true(googleway:::check_location( l_pass, "origin") == "-37,144")
+
+  ## Distance: multiple locations permitted
+
+  df_pass <- data.frame(location = "Melbourne", stringsAsFactors = F)
+  df_fail <- data.frame(location = c("Melbourne", "Sydney"), stringsAsFactors = F)
+  vec_pass <- c("Melbourne")
+  vec_fail <- c("Melbourne", "Sydney")
+  num_pass <- c(-37, 144)
+  num_fail <- c(-37, 144, -36, 146)
+  lst_pass <- list(c(-37, 144))
+
+  expect_true(
+    googleway:::validateLocations(df_pass)[[1]] == "Melbourne"
+  )
+
+  expect_true(
+    googleway:::validateLocations(df_fail)[[1]] == "Melbourne"
+  )
+
+  expect_true(
+    googleway:::validateLocations(df_fail)[[2]] == "Sydney"
+  )
+
+  expect_true(
+    googleway:::validateLocations(vec_pass) == "Melbourne"
+  )
+  expect_true(
+    sum(googleway:::validateLocations(vec_fail) == c("Melbourne", "Sydney")) == 2
+  )
+
+  expect_true(
+    sum(googleway:::validateLocations(vec_fail) == c("Melbourne", "Sydney")) == 2
+  )
+
 
 
 })

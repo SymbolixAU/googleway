@@ -55,30 +55,32 @@
 #' @return Either list or JSON string of the route between origin and destination
 #' @examples
 #' \dontrun{
+#'
+#' api_key <- "your_api_key
 #' ## using lat/long coordinates
 #' google_directions(origin = c(-37.8179746, 144.9668636),
 #'           destination = c(-37.81659, 144.9841),
 #'           mode = "walking",
-#'           key = "<your valid api key>")
+#'           key = api_key)
 #'
 #'
 #'## using address string
 #'google_directions(origin = "Flinders Street Station, Melbourne",
 #'          destination = "MCG, Melbourne",
 #'          mode = "walking",
-#'          key = "<your valid api key>")
+#'          key = api_key)
 #'
 #'
 #'google_directions(origin = "Melbourne Airport, Australia",
 #'          destination = "Portsea, Melbourne, Australia",
 #'          departure_time =  Sys.time() + (24 * 60 * 60),
-#'          waypoints = list(c(-37.81659, 144.9841),
+#'          waypoints = list(stop = c(-37.81659, 144.9841),
 #'                            via = "Ringwood, Victoria"),
 #'          mode = "driving",
 #'          alternatives = FALSE,
 #'          avoid = c("TOLLS", "highways"),
 #'          units = "imperial",
-#'          key = "<your valid api key>",
+#'          key = api_key,
 #'          simplify = TRUE)
 #'
 #' ## using bus and less walking
@@ -88,7 +90,7 @@
 #'          mode = "transit",
 #'          transit_mode = "bus",
 #'          transit_routing_preference = "less_walking",
-#'          key = "<your valid api key>",
+#'          key = api_key,
 #'          simplify = FALSE)
 #'
 #' ## using arrival time
@@ -98,7 +100,7 @@
 #'          mode = "transit",
 #'          transit_mode = "bus",
 #'          transit_routing_preference = "less_walking",
-#'          key = "<your valid api key>",
+#'          key = api_key,
 #'          simplify = FALSE)
 #'
 #' ## return results in French
@@ -109,7 +111,7 @@
 #'          transit_mode = "bus",
 #'          transit_routing_preference = "less_walking",
 #'          language = "fr",
-#'          key = key,
+#'          key = api_key,
 #'          simplify = FALSE)
 #'
 #' }
@@ -133,8 +135,8 @@ google_directions <- function(origin,
                               simplify = TRUE,
                               curl_proxy = NULL){
 
-  origins <- validateLocation(origin)
-  destinations <- validateLocation(destination)
+  origin <- validateLocation(origin)
+  destination <- validateLocation(destination)
 
   directions_data(base_url = "https://maps.googleapis.com/maps/api/directions/json?",
                 information_type = "directions",
@@ -163,7 +165,7 @@ google_directions <- function(origin,
 validateLocation <- function(location) UseMethod("validateLocation")
 
 #' @export
-validateLocations.list <- function(location){
+validateLocation.list <- function(location){
   if(length(location) > 1)
     stop(locationStopMessage())
 
@@ -175,12 +177,13 @@ validateLocations.list <- function(location){
 validateLocation.character <- function(location) {
   if(length(location) > 1)
     stop(locationStopMessage())
+  location
 }
 
 #' @export
 validateLocation.numeric <- function(location) {
   ## a vector has to be put into a list
-  if(length(location) > 2) stop("A vector can have a maximum of two elements")
+  if(length(location) > 2) stop(locationStopMessage())
   location
 }
 
