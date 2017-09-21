@@ -30,4 +30,13 @@ add_kml <- function(map, kml_url, layer_id = NULL){
   invoke_method(map, 'add_kml', kml, layer_id)
 }
 
-## TODO(clear kml)
+
+
+#' @rdname clear
+#' @export
+clear_kml <- function(map, layer_id = NULL){
+  layer_id <- layerId(layer_id)
+  invoke_method(map, 'clear_kml', layer_id)
+}
+
+

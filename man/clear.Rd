@@ -2,9 +2,9 @@
 % Please edit documentation in R/google_map_layer_circle.R,
 %   R/google_map_layer_drawing.R, R/google_map_layer_fusion.R,
 %   R/google_map_layer_geojson.R, R/google_map_layer_heatmap.R,
-%   R/google_map_layer_marker.R, R/google_map_layer_polygon.R,
-%   R/google_map_layer_polyline.R, R/google_map_layer_rectangle.R,
-%   R/google_map_layers.R
+%   R/google_map_layer_kml.R, R/google_map_layer_marker.R,
+%   R/google_map_layer_polygon.R, R/google_map_layer_polyline.R,
+%   R/google_map_layer_rectangle.R, R/google_map_layers.R
 \name{clear_circles}
 \alias{clear_circles}
 \alias{clear_drawing}
@@ -12,6 +12,7 @@
 \alias{clear_fusion}
 \alias{clear_geojson}
 \alias{clear_heatmap}
+\alias{clear_kml}
 \alias{clear}
 \alias{clear_markers}
 \alias{clear_polygons}
@@ -33,6 +34,8 @@ clear_fusion(map, layer_id = NULL)
 clear_geojson(map, layer_id = NULL)
 
 clear_heatmap(map, layer_id = NULL)
+
+clear_kml(map, layer_id = NULL)
 
 clear_markers(map, layer_id = NULL)
 
