@@ -9,15 +9,11 @@ add_fusion(map, query, styles = NULL, heatmap = FALSE, layer_id = NULL)
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
-\item{query}{a \code{data.frame} of 2 or 3 columns, and only 1 row. Two columns
-must be 'select' and 'from', and the third 'where'. The 'select' value is the column
-name (from the fusion table) containing the location information, and the
-'from' value is the encrypted table Id. The 'where' value is a string specifying the
-'where' condition on the data query.}
+\item{query}{a fusion layer query. See details.}
 
-\item{styles}{a \code{list} object used to apply colour, stroke weight and
-opacity to lines and polygons. See examples to see how the list should be
-constructed.}
+\item{styles}{a \code{list} object or character string used to apply colour,
+stroke weight and opacity to lines and polygons. See examples to see how
+the list should be constructed.}
 
 \item{heatmap}{logical indicating whether to show a heatmap.}
 
@@ -25,6 +21,15 @@ constructed.}
 }
 \description{
 Adds a fusion table layer to a map.
+}
+\details{
+The query must have a 'select' and a 'from' property, and optionally a 'where'.
+This can be specified as a JSON string or a \code{data.frame} of 2 (or 3 columns),
+and only 1 row. Two columns must be 'select' and 'from', and the third 'where'.
+
+The 'select' value is the column name (from the fusion table) containing the
+location information, and the 'from' value is the encrypted table Id.
+The 'where' value is a string specifying the 'where' condition on the data query.
 }
 \examples{
 \dontrun{
@@ -54,6 +59,13 @@ styles <- list(
     polygonOptions = list( fillOpacity = 1.0 )
  )
 )
+
+google_map(key = map_key, location = c(-25.3, 133), zoom = 4) \%>\%
+  add_fusion(query = qry, styles = styles)
+
+qry <- '{"select":"geometry","from":"1ertEwm-1bMBhpEwHhtNYT47HQ9k2ki_6sRa-UQ"}'
+
+styles <- '[{"polygonOptions":{"fillColor":"#00FF00","fillOpacity":0.3}},{"where":"birds > 300","polygonOptions":{"fillColor":"#0000FF"}},{"where":"population > 5","polygonOptions":{"fillOpacity":1}}]'
 
 google_map(key = map_key, location = c(-25.3, 133), zoom = 4) \%>\%
   add_fusion(query = qry, styles = styles)

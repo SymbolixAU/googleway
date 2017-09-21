@@ -3,16 +3,22 @@
 #' Adds a fusion table layer to a map.
 #'
 #' @param map a googleway map object created from \code{google_map()}
-#' @param query a \code{data.frame} of 2 or 3 columns, and only 1 row. Two columns
-#' must be 'select' and 'from', and the third 'where'. The 'select' value is the column
-#' name (from the fusion table) containing the location information, and the
-#' 'from' value is the encrypted table Id. The 'where' value is a string specifying the
-#' 'where' condition on the data query.
-#' @param styles a \code{list} object used to apply colour, stroke weight and
-#' opacity to lines and polygons. See examples to see how the list should be
-#' constructed.
+#' @param query a fusion layer query. See details.
+#' @param styles a \code{list} object or character string used to apply colour,
+#' stroke weight and opacity to lines and polygons. See examples to see how
+#' the list should be constructed.
 #' @param heatmap logical indicating whether to show a heatmap.
 #' @param layer_id single value specifying an id for the layer.
+#'
+#' @details
+#' The query must have a 'select' and a 'from' property, and optionally a 'where'.
+#' This can be specified as a JSON string or a \code{data.frame} of 2 (or 3 columns),
+#' and only 1 row. Two columns must be 'select' and 'from', and the third 'where'.
+#'
+#' The 'select' value is the column name (from the fusion table) containing the
+#' location information, and the 'from' value is the encrypted table Id.
+#' The 'where' value is a string specifying the 'where' condition on the data query.
+#'
 #' @examples
 #' \dontrun{
 #'
@@ -45,6 +51,13 @@
 #' google_map(key = map_key, location = c(-25.3, 133), zoom = 4) %>%
 #'   add_fusion(query = qry, styles = styles)
 #'
+#' qry <- '{"select":"geometry","from":"1ertEwm-1bMBhpEwHhtNYT47HQ9k2ki_6sRa-UQ"}'
+#'
+#' styles <- '[{"polygonOptions":{"fillColor":"#00FF00","fillOpacity":0.3}},{"where":"birds > 300","polygonOptions":{"fillColor":"#0000FF"}},{"where":"population > 5","polygonOptions":{"fillOpacity":1}}]'
+#'
+#' google_map(key = map_key, location = c(-25.3, 133), zoom = 4) %>%
+#'   add_fusion(query = qry, styles = styles)
+#'
 #' qry <- data.frame(select = 'location',
 #'     from = '1xWyeuAhIFK_aED1ikkQEGmR8mINSCJO9Vq-BPQ')
 #'
@@ -57,32 +70,24 @@
 add_fusion <- function(map, query, styles = NULL, heatmap = FALSE, layer_id = NULL){
 
   ## TODO:
-  ## - check each 'value' is a single value
   ## - update bounds on layer
   ## - info window
   ## - allow JSON style
 
-  ## The Google Maps API can't use values inside arrays, so we need
-  ## to get rid of any arrays.
-  ## - remove square brackets around value
   logicalCheck(heatmap)
-
-  query <- gsub("\\[|\\]", "", jsonlite::toJSON(query))
-
-  style <- jsonlite::toJSON(styles)
-  style <- gsub("\\[|\\]", "", substr(style, 2, (nchar(style) - 1)))
-  style <- paste0("[", style, "]")
-
   layer_id <- layerId(layer_id)
 
-  invoke_method(map, 'add_fusion', query, style, heatmap, layer_id)
+  query <- validateFusionQuery(query)
+
+  if(!is.null(styles))
+    styles <- validateFusionStyle(styles)
+
+  invoke_method(map, 'add_fusion', query, styles, heatmap, layer_id)
 }
 
 #' @rdname clear
 #' @export
 clear_fusion <- function(map, layer_id = NULL){
-
   layer_id <- layerId(layer_id)
-
   invoke_method(map, 'clear_fusion', layer_id)
 }
