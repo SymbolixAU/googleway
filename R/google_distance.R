@@ -104,11 +104,8 @@ validateLocations <- function(locations) UseMethod("validateLocations")
 # validateLocations.list <- function(locations) locations
 #
 #' @export
-validateLocations.character <- function(locations) {
+validateLocations.character <- function(locations) locations
 
-  locations
-
-}
 
 #' @export
 validateLocations.numeric <- function(locations) {
@@ -123,8 +120,15 @@ validateLocations.data.frame <- function(locations){
   ## A dataframe can be used, and can be one column or two
   ##
   if(ncol(locations) > 2) stop("A data.frame can have a maximum of two columns")
-  locations <- lapply(1:nrow(locations), function(x) as.numeric(locations[x, ]))
-  return(locations)
+
+  ## two-columns indicate lat/lons
+  if(ncol(locations) == 2){
+    locations <- lapply(1:nrow(locations), function(x) as.numeric(locations[x, ]))
+    return(locations)
+  }else{
+    locations <- lapply(1:nrow(locations), function(x) as.character(locations[x,]))
+    return(locations)
+  }
 }
 
 #' @export

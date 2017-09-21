@@ -98,3 +98,33 @@ test_that("lat & lon are found", {
 
 })
 
+test_that("locations are valid", {
+
+  ## directions: a single location is required
+  df_pass <- data.frame(location = "Melbourne", stringsAsFactors = F)
+  df_fail <- data.frame(location = c("Melbourne", "Sydney"), stringsAsFactors = F)
+  vec_pass <- c("Melbourne")
+  vec_fail <- c("Melbourne", "Sydney")
+  num_pass <- c(-37, 144)
+  num_fail <- c(-37, 144, -36, 146)
+  lst_pass <- list(c(-37, 144))
+
+  d_pass <- googleway:::validateLocation(df_pass)
+  v_pass <- googleway:::validateLocation(vec_pass)
+  l_pass <- googleway:::validateLocation(lst_pass)
+
+  expect_error(googleway:::validateLocation(df_fail))
+  expect_error(googleway:::validateLocation(vec_fail))
+
+  expect_true(googleway:::check_location( d_pass , "origin") == "Melbourne")
+  expect_true(googleway:::check_location( vec_pass, "origin") == "Melbourne")
+  expect_true(googleway:::check_location( num_pass, "origin") == "-37,144")
+  expect_true(googleway:::check_location( lst_pass, "origin") == "-37,144")
+
+
+})
+
+
+
+
+

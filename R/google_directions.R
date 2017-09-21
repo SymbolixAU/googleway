@@ -133,6 +133,9 @@ google_directions <- function(origin,
                               simplify = TRUE,
                               curl_proxy = NULL){
 
+  origins <- validateLocation(origin)
+  destinations <- validateLocation(destination)
+
   directions_data(base_url = "https://maps.googleapis.com/maps/api/directions/json?",
                 information_type = "directions",
                 origin,
@@ -157,8 +160,52 @@ google_directions <- function(origin,
 }
 
 
+validateLocation <- function(location) UseMethod("validateLocation")
+
+#' @export
+validateLocations.list <- function(location){
+  if(length(location) > 1)
+    stop(locationStopMessage())
+
+  location[[1]]
+}
 
 
+#' @export
+validateLocation.character <- function(location) {
+  if(length(location) > 1)
+    stop(locationStopMessage())
+}
+
+#' @export
+validateLocation.numeric <- function(location) {
+  ## a vector has to be put into a list
+  if(length(location) > 2) stop("A vector can have a maximum of two elements")
+  location
+}
+
+#' @export
+validateLocation.data.frame <- function(location){
+
+  ## A dataframe can be used, and can be one column or two
+  ##
+  if(ncol(location) > 2) stop("A data.frame can have a maximum of two columns")
+  if(nrow(location) > 1) stop(locationStopMessage())
+
+  ## two-columns indicate lat/lons
+  if(ncol(location) == 2){
+    # location <- lapply(1:nrow(location), function(x) as.numeric(location[x, ]))
+    return(as.numeric(location))
+  }else{
+#    location <- lapply(1:nrow(location), function(x) as.character(location[x,]))
+    return(as.character(location))
+  }
+}
+
+#' @export
+validateLocation.default <- function(location) location
+
+locationStopMessage <- function() "Only a single location is allowed inside google_directions for origin or destination"
 
 
 
