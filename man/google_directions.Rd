@@ -12,9 +12,13 @@ google_directions(origin, destination, mode = c("driving", "walking",
   region = NULL, key, simplify = TRUE, curl_proxy = NULL)
 }
 \arguments{
-\item{origin}{\code{numeric} vector of lat/lon coordinates, or an address string}
+\item{origin}{Origin location as either a one or two column data.frame, a
+list of unnamed elements, each element is either a numeric vector of lat/lon
+coordinates, an address string or a place_id, or a vector of a pair of lat / lon coordinates}
 
-\item{destination}{\code{numeric} vector of lat/lon coordinates, or an address string}
+\item{destination}{destination location as either a one or two column data.frame, a
+list of unnamed elements, each element is either a numeric vector of lat/lon
+coordinates, an address string or place_id, or a vector of a pair of lat / lon coordinates}
 
 \item{mode}{string. One of 'driving', 'walking', 'bicycling' or 'transit'.}
 

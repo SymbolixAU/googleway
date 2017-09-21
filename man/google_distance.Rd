@@ -13,11 +13,11 @@ google_distance(origins, destinations, mode = c("driving", "walking",
 \arguments{
 \item{origins}{Origin locations as either a one or two column data.frame, a
 list of unnamed elements, each element is either a numeric vector of lat/lon
-coordinates, or an address string, or a vector of a pair of lat / lon coordinates}
+coordinates, an address string or a place_id, or a vector of a pair of lat / lon coordinates}
 
 \item{destinations}{destination locations as either a one or two column data.frame, a
 list of unnamed elements, each element is either a numeric vector of lat/lon
-coordinates, or an address string, or a vector of a pair of lat / lon coordinates}
+coordinates, an address string or place_id, or a vector of a pair of lat / lon coordinates}
 
 \item{mode}{\code{string} One of 'driving', 'walking', 'bicycling' or 'transit'.}
 

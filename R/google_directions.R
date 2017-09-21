@@ -4,8 +4,12 @@
 #' locations. You can search for directions for several modes of transportation,
 #' including transit, driving, walking, or cycling.
 #'
-#' @param origin  \code{numeric} vector of lat/lon coordinates, or an address string
-#' @param destination \code{numeric} vector of lat/lon coordinates, or an address string
+#' @param origin Origin location as either a one or two column data.frame, a
+#' list of unnamed elements, each element is either a numeric vector of lat/lon
+#' coordinates, an address string or a place_id, or a vector of a pair of lat / lon coordinates
+#' @param destination destination location as either a one or two column data.frame, a
+#' list of unnamed elements, each element is either a numeric vector of lat/lon
+#' coordinates, an address string or place_id, or a vector of a pair of lat / lon coordinates
 #' @param mode string. One of 'driving', 'walking', 'bicycling' or 'transit'.
 #' @param departure_time  \code{POSIXct}. Specifies the desired time of departure.
 #' Must be in the future (i.e. greater than \code{sys.time()}). If no value

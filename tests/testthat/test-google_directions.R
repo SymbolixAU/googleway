@@ -165,6 +165,7 @@ test_that("waypoints are optimised", {
 
 test_that("transit_routing_preferences are valid",{
 
+
   expect_error(
     google_directions(origin = "Melbourne Airport, Australia",
                       destination = "Portsea, Melbourne, Australia",
@@ -174,7 +175,11 @@ test_that("transit_routing_preferences are valid",{
                       transit_routing_preference = 'less walking',
                       key = "abc")
   )
+})
 
+test_that("routing preferences are valid2", {
+
+  skip("call to api")
 
   expect_silent(
     google_directions(origin = "Melbourne Airport, Australia",
@@ -201,6 +206,7 @@ test_that("transit_routing_preferences are valid",{
 
 test_that("traffic model is valid",{
 
+  skip("request to api")
 
   d <- google_directions(origin = "Melbourne Airport, Australia",
                       destination = "Portsea, Melbourne, Australia",
@@ -223,6 +229,17 @@ test_that("traffic model is valid",{
                     destination = "Portsea, Melbourne, Australia",
                     traffic_model = "best_guess",
                     key = "abc")
+
+  expect_true(d$status == "REQUEST_DENIED")
+
+  origin <- "ChIJFzmq66lZ1moRkPAvBXZWBA8" # melbourne airport
+  destination <- "ChIJUZN5TAg21GoRQOWMIXVWBAU" # protsea
+
+  d <- google_directions(origin = origin,
+                         destination = destination,
+                         traffic_model = "best_guess",
+                         key = 'abc')
+
   expect_true(d$status == "REQUEST_DENIED")
 
 })

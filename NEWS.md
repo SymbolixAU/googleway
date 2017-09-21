@@ -1,5 +1,6 @@
 ## Version 2.3.0 (development)
 
+* `departure_time` defaults to `Sys.time()` if omitted when using `traffic_model`
 * `google_distance()` now accepts a data.frame of locations
 * `drag_drop_geojson` drag & drop geojson onto a map
 * `decode_pl` updated to now handle `jqr`-parsed character vectors
