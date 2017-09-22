@@ -292,7 +292,16 @@ test_that("map layer parameter checks work", {
 })
 
 
+test_that("drag drop geojson invoked", {
 
+  m <- google_map(key = 'abc') %>%
+    add_dragdrop()
+
+  expect_true(
+    m$x$calls[[1]]$functions == "drag_drop_geojson"
+  )
+
+})
 
 
 
