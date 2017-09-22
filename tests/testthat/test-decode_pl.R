@@ -7,6 +7,7 @@ test_that("polyline decoded correctly", {
 
 })
 
+
 test_that("error message for invalid encoded type", {
   pl <- c("a","b")
   expect_error(decode_pl(pl),
@@ -34,4 +35,16 @@ test_that("polyline encoded correctly", {
 
 })
 
+test_that("polyline encoding error message", {
 
+  expect_error(
+    encode_pl(lat = c(-91, -90, -89), lon = c(0, 1)),
+    "lat and lon must be the same length"
+  )
+
+  expect_message(
+    encode_pl(lat = "a", lon = "b"),
+    "The coordinates could not be encoded"
+  )
+
+})
