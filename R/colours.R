@@ -91,7 +91,7 @@ generatePalette.numeric <- function(colData, pal){
   ##
   ## also, handle floating point errors by using factors?
 
-  vals <- unique(colData)
+  vals <- sort(unique(colData))
   scaledVals <- scales::rescale(vals)
   rng = range(scaledVals)
   s <- seq(rng[1], rng[2], length.out = length(scaledVals) + 1)
@@ -113,7 +113,7 @@ generatePalette.factor <- function(colData, pal){
 #' @export
 generatePalette.character <- function(colData, pal){
 
-  charLvls <- unique(colData)
+  charLvls <- sort(unique(colData))
   colours <- do.call(pal, list(length(charLvls)))
   constructPalette(charLvls, colours)
 }
@@ -121,10 +121,9 @@ generatePalette.character <- function(colData, pal){
 #' @export
 generatePalette.logical <- function(colData, pal){
 
-  logLvls <- unique(colData)
+  logLvls <- sort(unique(colData))
   colours <- do.call(pal, list(length(logLvls)))
   constructPalette(logLvls, colours)
-
 }
 
 #' @export

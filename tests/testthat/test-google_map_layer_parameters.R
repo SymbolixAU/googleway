@@ -10,3 +10,79 @@ test_that("regex detects urls", {
 
 })
 
+test_that("data checks work", {
+
+  expect_message(
+    googleway:::dataCheck(data.frame(), "test"),
+    "no data supplied to test"
+  )
+
+  expect_warning(
+    googleway:::dataCheck(matrix(), "test"),
+    "test: currently only data.frames are supported"
+  )
+
+})
+
+
+test_that("marker icon check", {
+
+  df <- tram_stops[1:5,]
+  objArgs <- quote(add_markers(data = df, marker_icon = "http"))
+  colour <- NULL
+  marker_icon <- 'marker_icon'
+
+
+  expect_true(
+    googleway:::markerColourIconCheck(data = df, objArgs = objArgs,
+      colour = colour, marker_icon = marker_icon) == 'add_markers(data = df, url = "marker_icon")'
+  )
+
+})
+
+test_that("palette check identifies a function", {
+
+  pal <- function(){}
+
+  expect_true(
+    is.function(googleway:::paletteCheck(pal))
+  )
+
+  pal <- c("#00FF00")
+
+  expect_error(
+    googleway:::paletteCheck(pal),
+    "palette needs to be a function"
+  )
+
+})
+
+
+test_that("pathId check corrects the id", {
+
+  df <- tram_route[1:10,]
+  df$path <- 'myPath'
+
+  res <- googleway:::pathIdCheck(data = df, pathId = "path", usePolyline = FALSE, NULL)
+
+  expect_true(
+    sum(res$data$path == c("myPath")) == 10
+  )
+
+})
+
+test_that("polyId check corrects the id", {
+
+  df <- tram_route[1:10,]
+  df$path <- 'myPath'
+
+  res <- googleway:::polyIdCheck(data = df, id = "path", usePolyline = FALSE, NULL)
+
+  expect_true(
+    sum(res$data$path == c("myPath")) == 10
+  )
+
+})
+
+
+
