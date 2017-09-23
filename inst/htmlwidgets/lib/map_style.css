@@ -20,6 +20,33 @@
   padding: 0 11px 0 13px;
 }
 
+#legend {
+    font-family: Arial, sans-serif;
+    background: #fff;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #b8b9ba; 
+    border-radius: 8px;
+    height: 50px;
+    width: 25px;
+}
+#legend h3 {
+    margin-top: 0;
+}
+#legend img {
+    vertical-align: middle;
+}
+
+#grad2 {
+    height: 50px;
+    width: 10px;
+  background: red; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(red, yellow, green); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(red, yellow, green); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(red, yellow, green); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(red, yellow, green); /* Standard syntax */
+}
+
 #drop-container {
     display: none;
     height: 100%;

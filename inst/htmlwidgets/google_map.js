@@ -1,41 +1,40 @@
 HTMLWidgets.widget({
 
-  name: 'google_map',
-  type: 'output',
-
-  factory: function(el, width, height) {
+    name: 'google_map',
+    type: 'output',
+    
+    factory: function(el, width, height) {
 
     // TODO: define shared variables for this instance
 
     return {
-      renderValue: function(x) {
+        renderValue: function(x) {
+            window.params = [];
+            window.params.push( {'map_id' : el.id } );
+            window.params.push( {'event_return_type' : x.event_return_type})
 
-          window.params = [];
-          window.params.push( {'map_id' : el.id } );
-          window.params.push( {'event_return_type' : x.event_return_type})
+            // visualisation layers
+            window[el.id + 'googleTrafficLayer'] = [];
+            window[el.id + 'googleBicyclingLayer'] = [];
+            window[el.id + 'googleTransitLayer'] = [];
+            window[el.id + 'googleSearchBox'] = [];
+            window[el.id + 'googlePlaceMarkers'] = [];
 
-          // visualisation layers
-          window[el.id + 'googleTrafficLayer'] = [];
-          window[el.id + 'googleBicyclingLayer'] = [];
-          window[el.id + 'googleTransitLayer'] = [];
-          window[el.id + 'googleSearchBox'] = [];
-          window[el.id + 'googlePlaceMarkers'] = [];
+            if(x.search_box === true){
+                console.log("search box");
+                // create a place DOM element
+                window[el.id + 'googleSearchBox'] = document.createElement("input");
+                window[el.id + 'googleSearchBox'].setAttribute('id', 'pac-input');
+                window[el.id + 'googleSearchBox'].setAttribute('class', 'controls');
+                window[el.id + 'googleSearchBox'].setAttribute('type', 'text');
+                window[el.id + 'googleSearchBox'].setAttribute('placeholder', 'Search location');
+                document.body.appendChild(window[el.id + 'googleSearchBox']);
+            }
 
-          if(x.search_box === true){
-            console.log("search box");
-            // create a place DOM element
-            window[el.id + 'googleSearchBox'] = document.createElement("input");
-            window[el.id + 'googleSearchBox'].setAttribute('id', 'pac-input');
-            window[el.id + 'googleSearchBox'].setAttribute('class', 'controls');
-            window[el.id + 'googleSearchBox'].setAttribute('type', 'text');
-            window[el.id + 'googleSearchBox'].setAttribute('placeholder', 'Search location');
-            document.body.appendChild(window[el.id + 'googleSearchBox']);
-          }
+            window[el.id + 'event_return_type'] = x.event_return_type;
 
-          window[el.id + 'event_return_type'] = x.event_return_type;
-
-          var mapDiv = document.getElementById(el.id);
-          mapDiv.className = "googlemap";
+            var mapDiv = document.getElementById(el.id);
+            mapDiv.className = "googlemap";
 
           if (HTMLWidgets.shinyMode){
 
@@ -182,95 +181,124 @@ function initialise_map(el, x) {
 
   // if places
   if(x.search_box === true){
-    var input = document.getElementById('pac-input');
-
-    window[el.id + 'googleSearchBox'] = new google.maps.places.SearchBox(input);
-    window[el.id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-    // Bias the SearchBox results towards current map's viewport.
-    window[el.id + 'map'].addListener('bounds_changed', function() {
-      window[el.id + 'googleSearchBox'].setBounds(window[el.id + 'map'].getBounds());
-    });
-
-    // listen for deleting the search bar
-    input.addEventListener('input', function(){
-      if(input.value.length === 0){
-        clear_search(el.id);
-      }
-    });
-
-    // Listen for the event fired when the user selects a prediction and retrieve
-    // more details for that place.
-    window[el.id + 'googleSearchBox'].addListener('places_changed', function() {
-      var places = window[el.id + 'googleSearchBox'].getPlaces();
-      if (places.length == 0) {
-        return;
-      }
-
-      // Clear out the old markers.
-      window[el.id + 'googlePlaceMarkers'].forEach(function(marker) {
-        marker.setMap(null);
-      });
-      window[el.id + 'googlePlaceMarkers'] = [];
-
-      // For each place, get the icon, name and location.
-      var bounds = new google.maps.LatLngBounds();
-
-      places.forEach(function(place) {
-        if (!place.geometry) {
-          console.log("Returned place contains no geometry");
-          return;
-        }
-        var icon = {
-          url: place.icon,
-          size: new google.maps.Size(71, 71),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(17, 34),
-          scaledSize: new google.maps.Size(25, 25)
-        };
-
-        // Create a marker for each place.
-        window[el.id + 'googlePlaceMarkers'].push(new google.maps.Marker({
-          map: window[el.id + 'map'],
-          icon: icon,
-          title: place.name,
-          position: place.geometry.location
-        }));
-
-        if (place.geometry.viewport) {
-          // Only geocodes have viewport.
-          bounds.union(place.geometry.viewport);
-        } else {
-          bounds.extend(place.geometry.location);
-        }
-      });
-      window[el.id + 'map'].fitBounds(bounds);
-    });
-  }
-
-  // call initial layers
-  if(x.calls !== undefined){
-
-    for(layerCalls = 0; layerCalls < x.calls.length; layerCalls++){
-
-      //push the map_id into the call.args
-      x.calls[layerCalls].args.unshift(el.id);
-
-      if (window[x.calls[layerCalls].functions]){
-
-        window[x.calls[layerCalls].functions].apply(window[el.id + 'map'], x.calls[layerCalls].args);
-      }else{
-        console.log("Unknown function " + x.calls[layerCalls]);
-
-      }
-    }
-  }
-
-  // listeners
-  mapInfo = {};
-
-  map_click(el.id, window[el.id + 'map'], mapInfo);
-  bounds_changed(el.id, window[el.id + 'map'], mapInfo);
-  zoom_changed(el.id, window[el.id + 'map'], mapInfo);
-}
+      var input = document.getElementById('pac-input');
       
+      window[el.id + 'googleSearchBox'] = new google.maps.places.SearchBox(input);
+      window[el.id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+      // Bias the SearchBox results towards current map's viewport.
+      window[el.id + 'map'].addListener('bounds_changed', function() {
+          window[el.id + 'googleSearchBox'].setBounds(window[el.id + 'map'].getBounds());
+      });
+
+      // listen for deleting the search bar
+      input.addEventListener('input', function(){
+          if(input.value.length === 0){
+              clear_search(el.id);
+          }
+      });
+
+      // Listen for the event fired when the user selects a prediction and retrieve
+      // more details for that place.
+      window[el.id + 'googleSearchBox'].addListener('places_changed', function() {
+          var places = window[el.id + 'googleSearchBox'].getPlaces();
+          if (places.length == 0) {
+              return;
+          }
+          
+          // Clear out the old markers.
+          window[el.id + 'googlePlaceMarkers'].forEach(function(marker) {
+              marker.setMap(null);
+          });
+          window[el.id + 'googlePlaceMarkers'] = [];
+
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+
+          places.forEach(function(place) {
+              if (!place.geometry) {
+                  console.log("Returned place contains no geometry");
+                  return;
+              }
+              
+              var icon = {
+                  url: place.icon,
+                  size: new google.maps.Size(71, 71),
+                  origin: new google.maps.Point(0, 0),
+                  anchor: new google.maps.Point(17, 34),
+                  scaledSize: new google.maps.Size(25, 25)
+              };
+
+              // Create a marker for each place.
+              window[el.id + 'googlePlaceMarkers'].push(new google.maps.Marker({
+                  map: window[el.id + 'map'],
+                  icon: icon,
+                  title: place.name,
+                  position: place.geometry.location
+              }));
+
+              if (place.geometry.viewport) {
+                  // Only geocodes have viewport.
+                  bounds.union(place.geometry.viewport);
+              } else {
+                  bounds.extend(place.geometry.location);
+              }
+          });
+          window[el.id + 'map'].fitBounds(bounds);
+      });
+  }
+
+    // call initial layers
+    if(x.calls !== undefined){
+
+        for(layerCalls = 0; layerCalls < x.calls.length; layerCalls++){
+
+            //push the map_id into the call.args
+            x.calls[layerCalls].args.unshift(el.id);
+
+            if (window[x.calls[layerCalls].functions]){
+
+                window[x.calls[layerCalls].functions].apply(window[el.id + 'map'], x.calls[layerCalls].args);
+            }else{
+                console.log("Unknown function " + x.calls[layerCalls]);
+            }
+        }
+    }
+
+    // listeners
+    mapInfo = {};
+    map_click(el.id, window[el.id + 'map'], mapInfo);
+    bounds_changed(el.id, window[el.id + 'map'], mapInfo);
+    zoom_changed(el.id, window[el.id + 'map'], mapInfo);
+    
+    add_legend(el.id);
+}
+
+
+function add_legend(map_id){
+    
+    window[map_id + 'legend'] = document.createElement("div");
+    window[map_id + 'legend'].setAttribute('id', 'legend');
+    document.body.appendChild(window[map_id + 'legend']);
+    
+    var legend = document.getElementById('legend');
+    
+    var div = document.createElement('div');
+    
+    // "#440154FF" "#443A83FF" "#31688EFF" "#21908CFF" "#35B779FF" "#8FD744FF" "#FDE725FF"
+    var colours = '(#440154, #443A83, #31688E, #21908C, #35B779, #8FD744, #FDE725)'
+    
+    style = 'height: 50px; width: 10px; ';
+    style += 'background: red;';
+    style += 'background: -webkit-linear-gradient' + colours + ';'
+    style += 'background: -o-linear-gradient' + colours + ';'
+    style += 'background: -moz-linear-gradient' + colours + ';' 
+    style += 'background: linear-gradient' + colours + ';'
+    
+    div.setAttribute('style', style);
+    
+    legend.appendChild(div);
+    
+    window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
+    
+}
