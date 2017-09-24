@@ -282,23 +282,50 @@ function add_legend(map_id){
     document.body.appendChild(window[map_id + 'legend']);
     
     var legend = document.getElementById('legend');
+    //var legendContainer = document.createElement('div');
     
-    var div = document.createElement('div');
+    //legendContainer.setAttribute('style', 'legendContainer');
     
-    // "#440154FF" "#443A83FF" "#31688EFF" "#21908CFF" "#35B779FF" "#8FD744FF" "#FDE725FF"
-    var colours = '(#440154, #443A83, #31688E, #21908C, #35B779, #8FD744, #FDE725)'
+    var divColours = document.createElement('div');   
+
+    var jsColours = ["#440154", "#443A83", "#31688E", "#21908C", "#35B779", "#8FD744", "#FDE725"];
+    var colours = '(' + jsColours.join() + ')';
     
-    style = 'height: 50px; width: 10px; ';
-    style += 'background: red;';
+    style = 'height: ' + jsColours.length * 10 + 'px; width: 10px; ';
+    style += 'background: ' + jsColours[1] + ';';
     style += 'background: -webkit-linear-gradient' + colours + ';'
     style += 'background: -o-linear-gradient' + colours + ';'
     style += 'background: -moz-linear-gradient' + colours + ';' 
     style += 'background: linear-gradient' + colours + ';'
     
-    div.setAttribute('style', style);
+    divColours.setAttribute('style', style);
+    legend.appendChild(divColours);
+    //legendContainer.appendChild(divColours);
     
-    legend.appendChild(div);
+    // numeric legend:
+    // - the tick needs to be in the centre of the colour block. the height of each block is 10,
+    // - so the tick should be at 5
+    for (var i = 0; i < jsColours.length; i++) {
+        var left = 10 + 10 + 1;   // #legend margin + colour bar width + some padding
+        var top = 10 + (i * 10) + 5;
+        var tick = 'top: ' + top + 'px; left: ' + left + 'px; width: 3px; height: 1px; background: #b8b9ba;';
+        var tickVal = 'top: ' + (top - 5) + 'px; left: ' + (left + 5) + 'px; display: inline-block;  background: red; color: #b8b9ba;';
+
+        var divTicks = document.createElement('div');
+        var divVal = document.createElement('div');
+        
+        divTicks.setAttribute('style', tick);
+        divVal.setAttribute('style', tickVal);
+        divVal.innerHTML = ' this is a variable ' +i;
+
+        legend.appendChild(divTicks);
+        legend.appendChild(divVal);
+        //legendContainer.appendChild(divTicks);
+        //legendContainer.appendChild(divVal);
+    }
+    
+    //console.log(legendContainer);
+    //legend.appendChild(legendContainer);
     
     window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
-    
 }

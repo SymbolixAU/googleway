@@ -26,9 +26,11 @@
     padding: 10px;
     margin: 10px;
     border: 1px solid #b8b9ba; 
-    border-radius: 8px;
-    height: 50px;
-    width: 25px;
+    border-radius: 4px;
+    height: auto;
+/*    width: auto; */
+    display: inline-block; 
+/*    white-space: nowrap; */
 }
 #legend h3 {
     margin-top: 0;
@@ -37,14 +39,14 @@
     vertical-align: middle;
 }
 
-#grad2 {
-    height: 50px;
-    width: 10px;
-  background: red; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(red, yellow, green); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(red, yellow, green); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(red, yellow, green); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(red, yellow, green); /* Standard syntax */
+#legendContainer {
+    border: 1px solid #b8b9ba;
+    padding: 10px;
+    border: 10px;
+    position: relative;
+    background: blue;
+    display: inline-block;
+    height: auto;
 }
 
 #drop-container {
