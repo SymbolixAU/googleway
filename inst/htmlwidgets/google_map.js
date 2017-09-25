@@ -272,6 +272,7 @@ function initialise_map(el, x) {
     zoom_changed(el.id, window[el.id + 'map'], mapInfo);
     
     add_legend(el.id);
+    add_legend_category(el.id);
 }
 
 
@@ -307,7 +308,7 @@ function add_legend(map_id){
     var jsColours = ["#440154", "#443A83", "#31688E", "#21908C", "#35B779", "#8FD744", "#FDE725"];
     var colours = '(' + jsColours.join() + ')';
 
-    style = 'display: inline-block; height: ' + jsColours.length * 20 + 'px; width: 10px;';
+    style = 'display: inline-block; height: ' + jsColours.length * 20 + 'px; width: 15px;';
     style += 'background: ' + jsColours[1] + ';';
     style += 'background: -webkit-linear-gradient' + colours + ';'
     style += 'background: -o-linear-gradient' + colours + ';'
@@ -332,6 +333,58 @@ function add_legend(map_id){
         labelContainer.appendChild(divVal);
     }
 
+    legend.appendChild(tickContainer);
+    legend.appendChild(labelContainer);
+    
+    window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
+}
+
+
+function add_legend_category(map_id) {
+    
+    var legend = document.createElement("div");
+    legend.setAttribute('class', 'legend');
+    legend.setAttribute('id', 'legend');
+    
+    var colourContainer = document.createElement("div");
+    colourContainer.setAttribute('class', 'labelContainer');
+
+    var tickContainer = document.createElement("div");
+    tickContainer.setAttribute('class', 'labelContainer');
+
+    var labelContainer = document.createElement("div");
+    labelContainer.setAttribute('class', 'labelContainer');
+
+
+    document.body.appendChild(tickContainer);
+    document.body.appendChild(labelContainer);
+    
+    var legendColours = document.createElement('div');
+    var jsColours = ["#440154", "#443A83", "#31688E", "#21908C", "#35B779", "#8FD744", "#FDE725"];
+    var colours = '(' + jsColours.join() + ')';
+
+    for (var i = 0; i < 2; i++) {
+
+        var tickVal = 'text-align: center; color: #b8b9ba; font-size: 12px; height: 20px;';
+
+        var divCol = document.createElement('div');
+        var divTicks = document.createElement('div');
+        var divVal = document.createElement('div');
+
+        colourBox = 'height: 20px; width: 15px; background: ' + jsColours[i];
+        divCol.setAttribute('style', colourBox);
+        colourContainer.appendChild(divCol);
+
+        divTicks.setAttribute('style', tickVal);
+        divTicks.innerHTML = '-';
+        tickContainer.appendChild(divTicks);
+
+        divVal.setAttribute('style', tickVal);
+        divVal.innerHTML = ' this is a variable ' + i;
+        labelContainer.appendChild(divVal);
+    }
+
+    legend.appendChild(colourContainer);
     legend.appendChild(tickContainer);
     legend.appendChild(labelContainer);
     
