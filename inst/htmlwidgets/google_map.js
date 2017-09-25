@@ -282,13 +282,14 @@ function initialise_map(el, x) {
 // - the javascript needs to know if it's numeric or categorical
 // - when the layer calls 'add_legend', the code will need to create a new 'window[map_id + 'legend' + layer_id]' legend
 // and push it onto the map
-//
-//
-// if a numeric legend, it's a continuous gradient, with 'n' bins
-// if a categorical legend, it's 'n' coloured boxes
-// if more than one legend, append another legend under the other legents.
-// legend title == variable name
+// 
+// Need stroke colours too
+// 
+// TODO:
+// - legend title == variable name
+// - label formats
 function add_legend(map_id){
+    // fill gradient
     
     var legend = document.createElement("div");
     legend.setAttribute('class', 'legend');
@@ -341,6 +342,7 @@ function add_legend(map_id){
 
 
 function add_legend_category(map_id) {
+    // fill category
     
     var legend = document.createElement("div");
     legend.setAttribute('class', 'legend');
