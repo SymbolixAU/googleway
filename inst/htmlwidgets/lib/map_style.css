@@ -20,18 +20,23 @@
   padding: 0 11px 0 13px;
 }
 
-#legend {
-    font-family: Arial, sans-serif;
-    background: #fff;
-    padding: 10px;
-    margin: 10px;
-    border: 1px solid #b8b9ba; 
-    border-radius: 4px;
-    height: auto;
-/*    width: auto; */
-    display: inline-block; 
-/*    white-space: nowrap; */
+.legend {
+  font-family: Arial, sans-serif;
+  background: #fff;
+  padding: 8px;
+  margin: 8px;
+  border: 1px solid #b8b8b8; 
+  border-radius: 4px;
+  display:inline-flex;
 }
+
+.labelContainer{
+/*  border: 1px solid #00FF00; */
+  padding-left: 4px;
+  height: auto;
+  display: inline-block;
+}
+
 #legend h3 {
     margin-top: 0;
 }
