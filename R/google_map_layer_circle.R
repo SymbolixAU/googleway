@@ -130,15 +130,14 @@ add_circles <- function(map,
     legendIdx <- which(names(colourColumns) == 'fill_colour')
     legend <- colour_palettes[[legendIdx]]$palette
     type <- getLegendType(legend$variable)
-#    legendType <- getLegendType(legend$variable)
-#     legend <- constructLegend(colour_palettes, colourColumns, legendType)
     legend <- constructLegend(legend, type)
 
     ## legend options:
     ## css
     ## position
     ## text format
-    legend_options = list(css = 'max-width : 120px; max-height : 160px; overflow : auto;',
+    legend_options = list(type = type,
+                          # css = 'max-width : 120px; max-height : 160px; overflow : auto;',
                           position = "BOTTOM_LEFT")
     legend_options <- jsonlite::toJSON(legend_options, auto_unbox = T)
   }

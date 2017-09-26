@@ -15,8 +15,22 @@ getLegendType.default <- function(colourColumn) "category"
 constructLegend <- function(legend, type){
 
   if(type == "category"){
-    #legendIdx <- which(names(colourColumns) == 'fill_colour')
-    #legend <- colour_palettes[[legendIdx]]$palette
+    return(jsonlite::toJSON(legend))
+  }else{
+    ## create bins and stuff
+    cuts <- base::pretty(myPalette$variable, n = 7)
+    n <- length(cuts)
+    r <- range(myPalette$variable)
+
+    innerCuts <- cuts[cuts >= r[1] & cuts <= r[2]]
+    n <- length(innerCuts)
+
+    p <- (innerCuts - r[1]) / (r[2] - r[1])
+
+    ## translate 'p' into 'row of palette'
+    rw <- c(1, round(p[p > 0] * nrow(myPalette)), nrow(myPalette))
+    legend <- data.frame("variable" = cuts, "colour" = myPalette[rw, c("colour")])
+
     return(jsonlite::toJSON(legend))
   }
 

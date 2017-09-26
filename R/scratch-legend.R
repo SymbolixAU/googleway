@@ -12,11 +12,11 @@
 #
 # df$rand <- rnorm(n = nrow(df), 0, 1)
 #
-# allCols <- c("stop_id", "stop_name", "stop_lat", "stop_lon", "rand")
-# objArgs <- quote(add_circles(id = "stop_id", fill_colour = "rand"))
+# allCols <- c("stop_id", "stop_name", "stop_lat", "stop_lon", "stop_lat")
+# objArgs <- quote(add_circles(id = "stop_id", fill_colour = "stop_lat"))
 # shape <- googleway:::createMapObject(df, allCols, objArgs)
 #
-# colourColumns <- c("stroke_colour" = NULL, "fill_colour" = 'rand')
+# colourColumns <- c("stroke_colour" = NULL, "fill_colour" = 'stop_lat')
 #
 # ### These three steps are executed in 'setupColours'
 # pal <- googleway:::createPalettes(shape, colourColumns)
@@ -29,13 +29,13 @@
 # legendIdx <- which(names(colourColumns) == 'fill_colour')
 # legend <- colour_palettes[[legendIdx]]$palette
 #
-# getLegendType <- function(colourColumn) UseMethod("getLegendType")
-# getLegendType.numeric <- function() "gradient"
-# getLegendType.default <- function() "category"
+# # getLegendType <- function(colourColumn) UseMethod("getLegendType")
+# # getLegendType.numeric <- function() "gradient"
+# # getLegendType.default <- function() "category"
 #
-# legendType <- getLegendType(legend$variable)
+# legendType <- googleway:::getLegendType(legend$variable)
 #
-# jsonlite::toJSON(legend)
+# # jsonlite::toJSON(legend)
 #
 #
 # ## given a colour palette, take the 'fill_colour' palettes and create the legend
@@ -53,28 +53,28 @@
 #
 # # cut(x = myPalette$variable, breaks = 7)
 #
-# ## the tick legend points
-# base::pretty(myPalette$variable, n = 7)
-# ## this funciton may generate values outside the range of 'variable'
-#
-#
-# ## colours at equally spaced points in the palette
-# ## and need the min & max
-# nrow(myPalette)
-#
-# range(myPalette$variable)
+# # ## the tick legend points
+# # base::pretty(myPalette$variable, n = 7)
+# # ## this funciton may generate values outside the range of 'variable'
+# #
+# #
+# # ## colours at equally spaced points in the palette
+# # ## and need the min & max
+# # nrow(myPalette)
+# #
+# # range(myPalette$variable)
 #
 # cuts <- base::pretty(myPalette$variable, n = 7)
 # n <- length(cuts)
 # r <- range(myPalette$variable)
 #
 # innerCuts <- cuts[cuts >= r[1] & cuts <= r[2]]
-# n <- length(cuts)
+# n <- length(innerCuts)
 #
 # p <- (innerCuts - r[1]) / (r[2] - r[1])
 #
 # ## translate 'p' into 'row of palette'
-# rw <- c(1, round(p * nrow(myPalette)), nrow(myPalette))
+# rw <- c(1, round(p[p > 0] * nrow(myPalette)), nrow(myPalette))
 # legend <- data.frame("value" = cuts, "colour" = myPalette[rw, c("colour")])
 #
 # diff(rw)
@@ -92,14 +92,5 @@
 #
 # ## categorical legend
 # ## just JSONify the colour_palette for 'fill_colour'
-#
-#
-#
-#
-#
-#
-#
-#
-#
 #
 #

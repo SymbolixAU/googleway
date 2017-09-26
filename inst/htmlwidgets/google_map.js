@@ -276,17 +276,9 @@ function initialise_map(el, x) {
 }
 
 
-// legend logic:
-// - it will be added during each 'add_layer' call.
-// - the layer will have an associated palette list, containing the variable name and the colours
-// - the javascript needs to know if it's numeric or categorical
-// - when the layer calls 'add_legend', the code will need to create a new 'window[map_id + 'legend' + layer_id]' legend
-// and push it onto the map
-// 
-// Need stroke colours too
-// 
 // TODO:
 // - legend title == variable name
+// - stroke colour
 // - label formats
 function add_legend_gradient(map_id, layer_id, legendValues, legendOptions){
     // fill gradient
@@ -299,7 +291,7 @@ function add_legend_gradient(map_id, layer_id, legendValues, legendOptions){
     
     var colourContainer = document.createElement("div");
     colourContainer.setAttribute('class', 'labelContainer');
-
+    
     var tickContainer = document.createElement("div");
     tickContainer.setAttribute('class', 'labelContainer');
 
@@ -310,22 +302,14 @@ function add_legend_gradient(map_id, layer_id, legendValues, legendOptions){
         window[map_id + 'legend' + layer_id].setAttribute('style', legendOptions.css);
     }
 
-    document.body.appendChild(tickContainer);
-    document.body.appendChild(labelContainer);
-
     // for numeric gradient...
     var legendColours = document.createElement('div');
-    // create array of colours
-    console.log(legendValues);
+
     var jsColours = [];
     for(var i = 0; i < legendValues.length; i++){
         jsColours.push(legendValues[i].colour);
     }
-//    var jsColours = Object.values(legendValues.colour);
-    console.log(jsColours);
-//    var jsColours = ["#440154", "#443A83", "#31688E", "#21908C", "#35B779", "#8FD744", "#FDE725"];
     var colours = '(' + jsColours.join() + ')';
-    console.log(colours);
 
     style = 'display: inline-block; height: ' + jsColours.length * 20 + 'px; width: 15px;';
     style += 'background: ' + jsColours[1] + ';';
@@ -335,10 +319,10 @@ function add_legend_gradient(map_id, layer_id, legendValues, legendOptions){
     style += 'background: linear-gradient' + colours + ';'
 
     legendColours.setAttribute('style', style);
-    window[map_id + 'legend' + layer_id].appendChild(legendColours);
+    colourContainer.appendChild(legendColours);
 
     for (var i = 0; i < legendValues.length; i++) {
-        var legendValue = 'text-align: center; color: #b8b9ba; font-size: 12px; height: 20px;';
+        var legendValue = 'text-align: left; color: #b8b9ba; font-size: 12px; height: 20px;';
 
         var divTicks = document.createElement('div');
         var divVal = document.createElement('div');
@@ -352,7 +336,7 @@ function add_legend_gradient(map_id, layer_id, legendValues, legendOptions){
         labelContainer.appendChild(divVal);
     }
 
-    //window[map_id + 'legend' + layer_id].appendChild(colourContainer);
+    window[map_id + 'legend' + layer_id].appendChild(colourContainer);
     window[map_id + 'legend' + layer_id].appendChild(tickContainer);
     window[map_id + 'legend' + layer_id].appendChild(labelContainer);
     
@@ -380,9 +364,6 @@ function add_legend_category(map_id, layer_id, legendValues, legendOptions) {
     if(legendOptions.css !== null){
         window[map_id + 'legend' + layer_id].setAttribute('style', legendOptions.css);
     }
-
-    document.body.appendChild(tickContainer);
-    document.body.appendChild(labelContainer);
     
     var legendColours = document.createElement('div');
 
