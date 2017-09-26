@@ -271,8 +271,8 @@ function initialise_map(el, x) {
     bounds_changed(el.id, window[el.id + 'map'], mapInfo);
     zoom_changed(el.id, window[el.id + 'map'], mapInfo);
     
-    add_legend(el.id);
-    add_legend_category(el.id);
+    //add_legend(el.id);
+    //add_legend_category(el.id);
 }
 
 
@@ -288,7 +288,7 @@ function initialise_map(el, x) {
 // TODO:
 // - legend title == variable name
 // - label formats
-function add_legend(map_id){
+function add_legend_gradient(map_id, legendValues){
     // fill gradient
     
     var legend = document.createElement("div");
@@ -341,12 +341,21 @@ function add_legend(map_id){
 }
 
 
-function add_legend_category(map_id) {
-    // fill category
+function add_legend_category(map_id, layer_id, legendValues, legendOptions) {
     
-    var legend = document.createElement("div");
-    legend.setAttribute('class', 'legend');
-    legend.setAttribute('id', 'legend');
+    console.log(window[map_id + 'legend' + layer_id]);
+    
+    if(window[map_id + 'legend' + layer_id] === undefined){
+        window[map_id + 'legend' + layer_id] = document.createElement("div");
+        window[map_id + 'legend' + layer_id].setAttribute('id', map_id + 'legend' + layer_id);
+        window[map_id + 'legend' + layer_id].setAttribute('class', 'legend');   
+    }
+
+//    var legend = document.getElementById(map_id + 'legend' + layer_id);
+    
+//    var legend = document.createElement("div");
+//    legend.setAttribute('class', 'legend');
+//    legend.setAttribute('id', 'legend');
     
     var colourContainer = document.createElement("div");
     colourContainer.setAttribute('class', 'labelContainer');
@@ -357,23 +366,28 @@ function add_legend_category(map_id) {
     var labelContainer = document.createElement("div");
     labelContainer.setAttribute('class', 'labelContainer');
 
+    if(legendOptions.css !== null){
+        // legend.setAttribute('style', legendOptions);
+        window[map_id + 'legend' + layer_id].setAttribute('style', legendOptions.css);
+    }
 
     document.body.appendChild(tickContainer);
     document.body.appendChild(labelContainer);
     
     var legendColours = document.createElement('div');
-    var jsColours = ["#440154", "#443A83", "#31688E", "#21908C", "#35B779", "#8FD744", "#FDE725"];
-    var colours = '(' + jsColours.join() + ')';
 
-    for (var i = 0; i < 2; i++) {
+    //var jsColours = ["#440154", "#443A83", "#31688E", "#21908C", "#35B779", "#8FD744", "#FDE725"];
+    //var colours = '(' + jsColours.join() + ')';
 
-        var tickVal = 'text-align: center; color: #b8b9ba; font-size: 12px; height: 20px;';
+    for (var i = 0; i < legendValues.length; i++) {
+
+        var tickVal = 'text-left: center; color: #b8b9ba; font-size: 12px; height: 20px;';
 
         var divCol = document.createElement('div');
         var divTicks = document.createElement('div');
         var divVal = document.createElement('div');
 
-        colourBox = 'height: 20px; width: 15px; background: ' + jsColours[i];
+        colourBox = 'height: 20px; width: 15px; background: ' + legendValues[i].colour;
         divCol.setAttribute('style', colourBox);
         colourContainer.appendChild(divCol);
 
@@ -382,13 +396,61 @@ function add_legend_category(map_id) {
         tickContainer.appendChild(divTicks);
 
         divVal.setAttribute('style', tickVal);
-        divVal.innerHTML = ' this is a variable ' + i;
+        divVal.innerHTML = legendValues[i].variable;
         labelContainer.appendChild(divVal);
     }
 
-    legend.appendChild(colourContainer);
-    legend.appendChild(tickContainer);
-    legend.appendChild(labelContainer);
+    //legend.appendChild(colourContainer);
+    //legend.appendChild(tickContainer);
+    //legend.appendChild(labelContainer);
     
-    window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
+    window[map_id + 'legend' + layer_id].appendChild(colourContainer);
+    window[map_id + 'legend' + layer_id].appendChild(tickContainer);
+    window[map_id + 'legend' + layer_id].appendChild(labelContainer);
+    
+    placeLegend(map_id, window[map_id + 'legend' + layer_id], legendOptions.position);
+    
 }
+
+function placeLegend(map_id, legend, position){
+
+    switch(position){
+        case 'RIGHT_BOTTOM':
+            window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
+            break;
+        case 'TOP_CENTER':
+            window[map_id + 'map'].controls[google.maps.ControlPosition.TOP_CENTER].push(legend);
+            break;
+        case 'TOP_LEFT':
+            window[map_id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT].push(legend);
+            break;
+        case 'LEFT_TOP':
+            window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_TOP].push(legend);
+            break;
+        case 'RIGHT_TOP':
+            window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_TOP].push(legend);
+            break;
+        case 'LEFT_CENTER':
+            window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_CENTER].push(legend);
+            break;
+        case 'RIGHT_CENTER':
+            window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_CENTER].push(legend);
+            break;
+        case 'LEFT_BOTTOM':
+            window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
+            break;
+        case 'BOTTOM_CENTER':
+            window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_CENTER].push(legend);
+            break;
+        case 'BOTTOM_LEFT':
+            window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_LEFT].push(legend);
+            break;
+        case 'BOTTOM_RIGHT':
+            window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(legend);
+            break;
+        default:
+            window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
+            break;
+    }
+}
+

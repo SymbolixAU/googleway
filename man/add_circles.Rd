@@ -9,7 +9,8 @@ add_circles(map, data = get_map_data(map), id = NULL, lat = NULL,
   stroke_opacity = NULL, stroke_weight = NULL, fill_colour = NULL,
   fill_opacity = NULL, mouse_over = NULL, mouse_over_group = NULL,
   info_window = NULL, layer_id = NULL, update_map_view = TRUE,
-  z_index = NULL, digits = 4, palette = NULL)
+  z_index = NULL, digits = 4, palette = NULL, legend = F,
+  legend_options = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -76,6 +77,10 @@ should be used for the latitude / longitude coordinates.}
 
 \item{palette}{a function that generates hex RGB colours given a single number as an input.
 Used when a variable of \code{data} is specified as a colour}
+
+\item{legend}{logical indicating if a legend should be included on the map}
+
+\item{legend_options}{}
 }
 \description{
 Add circles to a google map

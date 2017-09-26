@@ -7,7 +7,7 @@
  * @param data_circles
  * @param layer_id
  */
-function add_circles(map_id, data_circles, update_map_view, layer_id){
+function add_circles(map_id, data_circles, update_map_view, layer_id, legendValues, legendOptions){
 
   var i;
   window[map_id + 'googleCircles' + layer_id] = [];
@@ -58,6 +58,10 @@ function add_circles(map_id, data_circles, update_map_view, layer_id){
   if(update_map_view === true){
     window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
   }
+    
+    if(legendValues !== false){
+        add_legend_category(map_id, layer_id, legendValues, legendOptions);
+    }
 
 }
 

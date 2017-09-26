@@ -21,20 +21,23 @@
 }
 
 .legend {
-  font-family: Arial, sans-serif;
-  background: #fff;
-  padding: 8px;
-  margin: 8px;
-  border: 1px solid #b8b8b8; 
-  border-radius: 4px;
-  display:inline-flex;
+    font-family: Arial, sans-serif;
+    background: #fff;
+    padding: 8px;
+    margin: 8px;
+    border: 1px solid #b8b8b8; 
+    border-radius: 4px;
+    display:inline-flex;
+    max-height: 200px;
+    max-width: 200px;
+    overflow: auto;
 }
 
 .labelContainer{
-/*  border: 1px solid #00FF00; */
-  padding-left: 4px;
-  height: auto;
-  display: inline-block;
+    padding-left: 4px;
+    height: auto;
+    display: inline-block;
+    white-space: nowrap;
 }
 
 #legend h3 {
@@ -42,16 +45,6 @@
 }
 #legend img {
     vertical-align: middle;
-}
-
-#legendContainer {
-    border: 1px solid #b8b9ba;
-    padding: 10px;
-    border: 10px;
-    position: relative;
-    background: blue;
-    display: inline-block;
-    height: auto;
 }
 
 #drop-container {

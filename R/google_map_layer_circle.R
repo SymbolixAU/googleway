@@ -47,6 +47,8 @@
 #' should be used for the latitude / longitude coordinates.
 #' @param palette a function that generates hex RGB colours given a single number as an input.
 #' Used when a variable of \code{data} is specified as a colour
+#' @param legend logical indicating if a legend should be included on the map
+#' @param legend_options
 #'
 #' @details
 #' \code{z_index} values define the order in which objects appear on the map.
@@ -92,7 +94,9 @@ add_circles <- function(map,
                         update_map_view = TRUE,
                         z_index = NULL,
                         digits = 4,
-                        palette = NULL){
+                        palette = NULL,
+                        legend = F,
+                        legend_options = NULL){
 
   objArgs <- match.call(expand.dots = F)
 
@@ -113,10 +117,30 @@ add_circles <- function(map,
   colourColumns <- shapeAttributes(fill_colour, stroke_colour)
 
   shape <- createMapObject(data, allCols, objArgs)
-  colours <- setupColours(data, shape, colourColumns, palette)
+  pal <- createPalettes(shape, colourColumns)
+  colour_palettes <- createColourPalettes(data, pal, colourColumns, viridisLite::viridis)
+  colours <- createColours(shape, colour_palettes)
 
+  # colours <- setupColours(data, shape, colourColumns, palette)
   if(length(colours) > 0){
     shape <- replaceVariableColours(shape, colours)
+  }
+
+  if(legend){
+    legendIdx <- which(names(colourColumns) == 'fill_colour')
+    legend <- colour_palettes[[legendIdx]]$palette
+    type <- getLegendType(legend$variable)
+#    legendType <- getLegendType(legend$variable)
+#     legend <- constructLegend(colour_palettes, colourColumns, legendType)
+    legend <- constructLegend(legend, type)
+
+    ## legend options:
+    ## css
+    ## position
+    ## text format
+    legend_options = list(css = 'max-width : 120px; max-height : 160px; overflow : auto;',
+                          position = "BOTTOM_LEFT")
+    legend_options <- jsonlite::toJSON(legend_options, auto_unbox = T)
   }
 
   requiredDefaults <- setdiff(requiredCols, names(shape))
@@ -126,7 +150,7 @@ add_circles <- function(map,
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  invoke_method(map, 'add_circles', shape, update_map_view, layer_id)
+  invoke_method(map, 'add_circles', shape, update_map_view, layer_id, legend, legend_options)
 }
 
 #' @rdname clear
