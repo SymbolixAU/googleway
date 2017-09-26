@@ -27,17 +27,30 @@
     margin: 8px;
     border: 1px solid #b8b8b8; 
     border-radius: 4px;
-    display:inline-flex;
+    display:inline-block;
     max-height: 200px;
     max-width: 200px;
     overflow: auto;
 }
 
-.labelContainer{
-    padding-left: 4px;
-    height: auto;
-    display: inline-block;
+.legendTitle {
+/*  border: 1px solid #FF00FF; */
+  font-size: 14px;
+  height: auto;
+  left: float;
+}
+
+.legendContent{
+/*  border: 1px solid #000000; */
+    display: inline-flex;
     white-space: nowrap;
+}
+
+.labelContainer{
+/*  border: 1px solid #00FF00; */
+  padding-left:2px;
+  height: auto;
+  display: inline-block;
 }
 
 #legend h3 {

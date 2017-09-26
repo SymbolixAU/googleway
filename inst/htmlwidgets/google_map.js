@@ -289,8 +289,17 @@ function add_legend_gradient(map_id, layer_id, legendValues, legendOptions){
         window[map_id + 'legend' + layer_id].setAttribute('class', 'legend');   
     }
     
-    var colourContainer = document.createElement("div");
-    colourContainer.setAttribute('class', 'labelContainer');
+//    var colourContainer = document.createElement("div");
+//    colourContainer.setAttribute('class', 'labelContainer');
+    
+    var legendContent = document.createElement("div");
+    legendContent.setAttribute('class', 'legendContent');
+    
+    var legendTitle = document.createElement("div");
+    legendTitle.setAttribute('class', 'legendTitle');
+    legendTitle.innerHTML = "title";
+    window[map_id + 'legend' + layer_id].appendChild(legendTitle);
+    
     
     var tickContainer = document.createElement("div");
     tickContainer.setAttribute('class', 'labelContainer');
@@ -319,7 +328,7 @@ function add_legend_gradient(map_id, layer_id, legendValues, legendOptions){
     style += 'background: linear-gradient' + colours + ';'
 
     legendColours.setAttribute('style', style);
-    colourContainer.appendChild(legendColours);
+    legendContent.appendChild(legendColours);
 
     for (var i = 0; i < legendValues.length; i++) {
         var legendValue = 'text-align: left; color: #b8b9ba; font-size: 12px; height: 20px;';
@@ -335,10 +344,11 @@ function add_legend_gradient(map_id, layer_id, legendValues, legendOptions){
         divVal.innerHTML = legendValues[i].variable;
         labelContainer.appendChild(divVal);
     }
+    
+    legendContent.appendChild(tickContainer);
+    legendContent.appendChild(labelContainer);
 
-    window[map_id + 'legend' + layer_id].appendChild(colourContainer);
-    window[map_id + 'legend' + layer_id].appendChild(tickContainer);
-    window[map_id + 'legend' + layer_id].appendChild(labelContainer);
+    window[map_id + 'legend' + layer_id].appendChild(legendContent);
     
     placeLegend(map_id, window[map_id + 'legend' + layer_id], legendOptions.position);
 }
@@ -351,6 +361,15 @@ function add_legend_category(map_id, layer_id, legendValues, legendOptions) {
         window[map_id + 'legend' + layer_id].setAttribute('id', map_id + 'legend' + layer_id);
         window[map_id + 'legend' + layer_id].setAttribute('class', 'legend');   
     }
+    
+    var legendContent = document.createElement("div");
+    legendContent.setAttribute('class', 'legendContent');
+    
+    var legendTitle = document.createElement("div");
+    legendTitle.setAttribute('class', 'legendTitle');
+    legendTitle.innerHTML = "title";
+    window[map_id + 'legend' + layer_id].appendChild(legendTitle);
+    
     
     var colourContainer = document.createElement("div");
     colourContainer.setAttribute('class', 'labelContainer');
@@ -388,9 +407,11 @@ function add_legend_category(map_id, layer_id, legendValues, legendOptions) {
         labelContainer.appendChild(divVal);
     }
 
-    window[map_id + 'legend' + layer_id].appendChild(colourContainer);
-    window[map_id + 'legend' + layer_id].appendChild(tickContainer);
-    window[map_id + 'legend' + layer_id].appendChild(labelContainer);
+    legendContent.appendChild(colourContainer);
+    legendContent.appendChild(tickContainer);
+    legendContent.appendChild(labelContainer);
+    
+    window[map_id + 'legend' + layer_id].appendChild(legendContent);
     
     placeLegend(map_id, window[map_id + 'legend' + layer_id], legendOptions.position);
 }
