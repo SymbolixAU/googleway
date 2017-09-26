@@ -94,3 +94,28 @@
 # ## just JSONify the colour_palette for 'fill_colour'
 #
 #
+
+
+## create gradient legend for 1,2,3,+ values
+
+# n <- 1
+# df <- data.frame(variable = 1:n, colour = viridisLite::viridis(n))
+#
+#
+# cuts <- if(nrow(df) < 3) nrow(df) else base::pretty(df$variable, n = 7)
+# n <- length(cuts)
+# r <- range(df$variable)
+#
+# innerCuts <- cuts[cuts >= r[1] & cuts <= r[2]]
+# n <- length(innerCuts)
+#
+# p <- (innerCuts - r[1]) / (r[2] - r[1])
+#
+# ## translate 'p' into 'row of palette'
+# rw <- c(1, round(p[p > 0] * nrow(myPalette)), nrow(myPalette))
+# legend <- data.frame("value" = cuts, "colour" = myPalette[rw, c("colour")])
+
+
+
+
+
