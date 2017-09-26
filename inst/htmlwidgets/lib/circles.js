@@ -60,7 +60,7 @@ function add_circles(map_id, data_circles, update_map_view, layer_id, legendValu
   }
     
     if(legendValues !== false){
-        add_legend_category(map_id, layer_id, legendValues, legendOptions);
+        add_legend_gradient(map_id, layer_id, legendValues, legendOptions);
     }
 
 }

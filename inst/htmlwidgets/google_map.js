@@ -288,74 +288,14 @@ function initialise_map(el, x) {
 // TODO:
 // - legend title == variable name
 // - label formats
-function add_legend_gradient(map_id, legendValues){
+function add_legend_gradient(map_id, layer_id, legendValues, legendOptions){
     // fill gradient
-    
-    var legend = document.createElement("div");
-    legend.setAttribute('class', 'legend');
-    legend.setAttribute('id', 'legend');
-    
-    var tickContainer = document.createElement("div");
-    tickContainer.setAttribute('class', 'labelContainer');
-
-    var labelContainer = document.createElement("div");
-    labelContainer.setAttribute('class', 'labelContainer');
-        
-    document.body.appendChild(tickContainer);
-    document.body.appendChild(labelContainer);
-
-    // for numeric gradient...
-    var legendColours = document.createElement('div');
-    var jsColours = ["#440154", "#443A83", "#31688E", "#21908C", "#35B779", "#8FD744", "#FDE725"];
-    var colours = '(' + jsColours.join() + ')';
-
-    style = 'display: inline-block; height: ' + jsColours.length * 20 + 'px; width: 15px;';
-    style += 'background: ' + jsColours[1] + ';';
-    style += 'background: -webkit-linear-gradient' + colours + ';'
-    style += 'background: -o-linear-gradient' + colours + ';'
-    style += 'background: -moz-linear-gradient' + colours + ';' 
-    style += 'background: linear-gradient' + colours + ';'
-
-    legendColours.setAttribute('style', style);
-    legend.appendChild(legendColours);
-
-    for (var i = 0; i < jsColours.length; i++) {
-        var legendValue = 'text-align: center; color: #b8b9ba; font-size: 12px; height: 20px;';
-
-        var divTicks = document.createElement('div');
-        var divVal = document.createElement('div');
-
-        divTicks.setAttribute('style', legendValue);
-        divTicks.innerHTML = '-';
-        tickContainer.appendChild(divTicks);
-
-        divVal.setAttribute('style', legendValue);
-        divVal.innerHTML = ' this is a variable ' + i;
-        labelContainer.appendChild(divVal);
-    }
-
-    legend.appendChild(tickContainer);
-    legend.appendChild(labelContainer);
-    
-    window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
-}
-
-
-function add_legend_category(map_id, layer_id, legendValues, legendOptions) {
-    
-    console.log(window[map_id + 'legend' + layer_id]);
     
     if(window[map_id + 'legend' + layer_id] === undefined){
         window[map_id + 'legend' + layer_id] = document.createElement("div");
         window[map_id + 'legend' + layer_id].setAttribute('id', map_id + 'legend' + layer_id);
         window[map_id + 'legend' + layer_id].setAttribute('class', 'legend');   
     }
-
-//    var legend = document.getElementById(map_id + 'legend' + layer_id);
-    
-//    var legend = document.createElement("div");
-//    legend.setAttribute('class', 'legend');
-//    legend.setAttribute('id', 'legend');
     
     var colourContainer = document.createElement("div");
     colourContainer.setAttribute('class', 'labelContainer');
@@ -367,7 +307,77 @@ function add_legend_category(map_id, layer_id, legendValues, legendOptions) {
     labelContainer.setAttribute('class', 'labelContainer');
 
     if(legendOptions.css !== null){
-        // legend.setAttribute('style', legendOptions);
+        window[map_id + 'legend' + layer_id].setAttribute('style', legendOptions.css);
+    }
+
+    document.body.appendChild(tickContainer);
+    document.body.appendChild(labelContainer);
+
+    // for numeric gradient...
+    var legendColours = document.createElement('div');
+    // create array of colours
+    console.log(legendValues);
+    var jsColours = [];
+    for(var i = 0; i < legendValues.length; i++){
+        jsColours.push(legendValues[i].colour);
+    }
+//    var jsColours = Object.values(legendValues.colour);
+    console.log(jsColours);
+//    var jsColours = ["#440154", "#443A83", "#31688E", "#21908C", "#35B779", "#8FD744", "#FDE725"];
+    var colours = '(' + jsColours.join() + ')';
+    console.log(colours);
+
+    style = 'display: inline-block; height: ' + jsColours.length * 20 + 'px; width: 15px;';
+    style += 'background: ' + jsColours[1] + ';';
+    style += 'background: -webkit-linear-gradient' + colours + ';'
+    style += 'background: -o-linear-gradient' + colours + ';'
+    style += 'background: -moz-linear-gradient' + colours + ';' 
+    style += 'background: linear-gradient' + colours + ';'
+
+    legendColours.setAttribute('style', style);
+    window[map_id + 'legend' + layer_id].appendChild(legendColours);
+
+    for (var i = 0; i < legendValues.length; i++) {
+        var legendValue = 'text-align: center; color: #b8b9ba; font-size: 12px; height: 20px;';
+
+        var divTicks = document.createElement('div');
+        var divVal = document.createElement('div');
+
+        divTicks.setAttribute('style', legendValue);
+        divTicks.innerHTML = '-';
+        tickContainer.appendChild(divTicks);
+
+        divVal.setAttribute('style', legendValue);
+        divVal.innerHTML = legendValues[i].variable;
+        labelContainer.appendChild(divVal);
+    }
+
+    //window[map_id + 'legend' + layer_id].appendChild(colourContainer);
+    window[map_id + 'legend' + layer_id].appendChild(tickContainer);
+    window[map_id + 'legend' + layer_id].appendChild(labelContainer);
+    
+    placeLegend(map_id, window[map_id + 'legend' + layer_id], legendOptions.position);
+}
+
+
+function add_legend_category(map_id, layer_id, legendValues, legendOptions) {
+    
+    if(window[map_id + 'legend' + layer_id] === undefined){
+        window[map_id + 'legend' + layer_id] = document.createElement("div");
+        window[map_id + 'legend' + layer_id].setAttribute('id', map_id + 'legend' + layer_id);
+        window[map_id + 'legend' + layer_id].setAttribute('class', 'legend');   
+    }
+    
+    var colourContainer = document.createElement("div");
+    colourContainer.setAttribute('class', 'labelContainer');
+
+    var tickContainer = document.createElement("div");
+    tickContainer.setAttribute('class', 'labelContainer');
+
+    var labelContainer = document.createElement("div");
+    labelContainer.setAttribute('class', 'labelContainer');
+
+    if(legendOptions.css !== null){
         window[map_id + 'legend' + layer_id].setAttribute('style', legendOptions.css);
     }
 
@@ -375,9 +385,6 @@ function add_legend_category(map_id, layer_id, legendValues, legendOptions) {
     document.body.appendChild(labelContainer);
     
     var legendColours = document.createElement('div');
-
-    //var jsColours = ["#440154", "#443A83", "#31688E", "#21908C", "#35B779", "#8FD744", "#FDE725"];
-    //var colours = '(' + jsColours.join() + ')';
 
     for (var i = 0; i < legendValues.length; i++) {
 
@@ -400,16 +407,11 @@ function add_legend_category(map_id, layer_id, legendValues, legendOptions) {
         labelContainer.appendChild(divVal);
     }
 
-    //legend.appendChild(colourContainer);
-    //legend.appendChild(tickContainer);
-    //legend.appendChild(labelContainer);
-    
     window[map_id + 'legend' + layer_id].appendChild(colourContainer);
     window[map_id + 'legend' + layer_id].appendChild(tickContainer);
     window[map_id + 'legend' + layer_id].appendChild(labelContainer);
     
     placeLegend(map_id, window[map_id + 'legend' + layer_id], legendOptions.position);
-    
 }
 
 function placeLegend(map_id, legend, position){
