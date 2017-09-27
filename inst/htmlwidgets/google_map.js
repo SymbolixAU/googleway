@@ -100,32 +100,32 @@ HTMLWidgets.widget({
 
 if (HTMLWidgets.shinyMode) {
 
-  Shiny.addCustomMessageHandler("googlemap-calls", function(data) {
+    Shiny.addCustomMessageHandler("googlemap-calls", function(data) {
 
-    var id = data.id;   // the div id of the map
-    var el = document.getElementById(id);
-    var map = el;
-    if (!map) {
-      console.log("Couldn't find map with id " + id);
-      return;
-    }
+        var id = data.id;   // the div id of the map
+        var el = document.getElementById(id);
+        var map = el;
+        if (!map) {
+            console.log("Couldn't find map with id " + id);
+            return;
+        }
 
-    for (var i = 0; i < data.calls.length; i++) {
+        for (var i = 0; i < data.calls.length; i++) {
 
-      var call = data.calls[i];
+            var call = data.calls[i];
 
-      //push the mapId into the call.args
-      call.args.unshift(id);
+            //push the mapId into the call.args
+            call.args.unshift(id);
 
-      if (call.dependencies) {
-        Shiny.renderDependencies(call.dependencies);
-      }
+            if (call.dependencies) {
+                Shiny.renderDependencies(call.dependencies);
+            }
 
-      if (window[call.method])
-        window[call.method].apply(window[id + 'map'], call.args);
-      else
-        console.log("Unknown function " + call.method);
-    }
+            if (window[call.method])
+                window[call.method].apply(window[id + 'map'], call.args);
+            else
+                console.log("Unknown function " + call.method);
+        }
   });
 }
 
@@ -138,8 +138,8 @@ if (HTMLWidgets.shinyMode) {
  * @param style
  *          style to apply (in the form of JSON)
  */
-function update_style(map_id, style){
-  window[map_id + 'map'].set('styles', JSON.parse(style));
+function update_style(map_id, style) {
+    window[map_id + 'map'].set('styles', JSON.parse(style));
 }
 
 
@@ -149,12 +149,12 @@ function update_style(map_id, style){
  * Converts hex colours to rgb
  */
 function hexToRgb(hex) {
-  var arrBuff = new ArrayBuffer(4);
-  var vw = new DataView(arrBuff);
-  vw.setUint32(0, parseInt(hex, 16), false);
-  var arrByte = new Uint8Array(arrBuff);
+    var arrBuff = new ArrayBuffer(4);
+    var vw = new DataView(arrBuff);
+    vw.setUint32(0, parseInt(hex, 16), false);
+    var arrByte = new Uint8Array(arrBuff);
 
-  return arrByte[1] + "," + arrByte[2] + "," + arrByte[3];
+    return arrByte[1] + "," + arrByte[2] + "," + arrByte[3];
 }
 
 /**
@@ -164,12 +164,12 @@ function hexToRgb(hex) {
  * @param id the id to search for
  **/
 function findById(source, id) {
-  for (var i = 0; i < source.length; i++) {
-    if (source[i].id === id) {
-      return source[i];
+    for (var i = 0; i < source.length; i++) {
+        if (source[i].id === id) {
+            return source[i];
+        }
     }
-  }
-  return;
+    return;
 }
 
 function initialise_map(el, x) {
@@ -270,9 +270,6 @@ function initialise_map(el, x) {
     map_click(el.id, window[el.id + 'map'], mapInfo);
     bounds_changed(el.id, window[el.id + 'map'], mapInfo);
     zoom_changed(el.id, window[el.id + 'map'], mapInfo);
-    
-    //add_legend(el.id);
-    //add_legend_category(el.id);
 }
 
 

@@ -115,26 +115,39 @@
 #
 #
 #
-# ## create gradient legend for 1,2,3,+ values
+## create gradient legend for 1,2,3,+ values
+## need the fisrt & last, and equi-spaced rows of the data
+# n <- 33
+# df <- data.frame(variable = 1:n, colour = viridisLite::viridis(n))
+# df <- df[with(df, order(variable)), ]
 #
-# # n <- 1
-# # df <- data.frame(variable = 1:n, colour = viridisLite::viridis(n))
-# #
-# #
-# # cuts <- if(nrow(df) < 3) nrow(df) else base::pretty(df$variable, n = 7)
-# # n <- length(cuts)
-# # r <- range(df$variable)
-# #
-# # innerCuts <- cuts[cuts >= r[1] & cuts <= r[2]]
-# # n <- length(innerCuts)
-# #
-# # p <- (innerCuts - r[1]) / (r[2] - r[1])
-# #
-# # ## translate 'p' into 'row of palette'
-# # rw <- c(1, round(p[p > 0] * nrow(myPalette)), nrow(myPalette))
-# # legend <- data.frame("value" = cuts, "colour" = myPalette[rw, c("colour")])
+# rows <- 1:n
+#
+# rw <- c(seq(1, nrow(df), by = round(nrow(df) / 7)), nrow(df))
+#
+# diff(rw)
 #
 #
+# #cuts <- pretty(df[2:(n-1), 'variable'])
+# cuts <- pretty(1:nrow(df), n = pmin(nrow(df), 7))
+# rowRange <- range(1:nrow(df))
+# rw <- unique(c(1, cuts[cuts >= rowRange[1] & cuts <= rowRange[2]]))
+#
+# diff(rw)
 #
 #
 #
+#
+# cuts <- if(nrow(df) < 3) nrow(df) else base::pretty(df$variable, n = 7)
+# n <- length(cuts)
+# r <- range(df$variable)
+#
+# innerCuts <- cuts[cuts >= r[1] & cuts <= r[2]]
+# n <- length(innerCuts)
+#
+# p <- (innerCuts - r[1]) / (r[2] - r[1])
+#
+# ## translate 'p' into 'row of palette'
+# rw <- c(1, round(p[p > 0] * nrow(myPalette)), nrow(myPalette))
+# legend <- data.frame("value" = cuts, "colour" = myPalette[rw, c("colour")])
+

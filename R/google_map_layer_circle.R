@@ -129,11 +129,12 @@ add_circles <- function(map,
   if(legend){
     ## TODO:
     ## - map all fills, stroke, weight, opacity to legend?
+    ## - assign different palettes to different aesthetics (fill & stroke) ?
 
     legend <- lapply(colour_palettes, function(x){
       list(
         colourType = ifelse('fill_colour' %in% names(x$variables), 'fill_colour', 'stroke_colour'),
-        type = googleway:::getLegendType(x$palette[['variable']]),
+        type = getLegendType(x$palette[['variable']]),
         title = unique(x$variable),
         legend = x$palette
       )
