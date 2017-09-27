@@ -127,17 +127,31 @@ add_circles <- function(map,
   }
 
   if(legend){
-    legendIdx <- which(names(colourColumns) == 'fill_colour')
-    legend <- colour_palettes[[legendIdx]]$palette
-    type <- getLegendType(legend$variable)
-    legend <- constructLegend(legend, type)
+    ## TODO:
+    ## - map all fills, stroke, weight, opacity to legend?
 
-    ## legend options:
-    ## css
-    ## position
-    ## text format
-    legend_options = list(type = type,
-                          # css = 'max-width : 120px; max-height : 160px; overflow : auto;',
+    legend <- lapply(colour_palettes, function(x){
+      list(
+        colourType = ifelse('fill_colour' %in% names(x$variables), 'fill_colour', 'stroke_colour'),
+        type = googleway:::getLegendType(x$palette[['variable']]),
+        title = unique(x$variable),
+        legend = x$palette
+      )
+    })
+    # legendIdx <- which(names(colourColumns) == 'fill_colour')
+    # legend <- colour_palettes[[legendIdx]]$palette
+    # title <- colour_palettes[[legendIdx]]$variables
+    # type <- getLegendType(legend$variable)
+    # legend <- constructLegend(legend, type)
+    #
+    # ## legend options:
+    # ## title
+    # ## css
+    # ## position
+    # ## text format
+    legend_options = list(#type = type,
+                          #title = title,
+                          #css = 'max-width : 120px; max-height : 160px; overflow : auto;',
                           position = "BOTTOM_LEFT")
     legend_options <- jsonlite::toJSON(legend_options, auto_unbox = T)
   }

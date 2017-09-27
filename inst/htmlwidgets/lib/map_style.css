@@ -35,9 +35,10 @@
 
 .legendTitle {
 /*  border: 1px solid #FF00FF; */
-  font-size: 14px;
-  height: auto;
-  left: float;
+    font-size: 14px;
+    padding-bottom: 4px;
+    height: auto;
+    left: float;
 }
 
 .legendContent{

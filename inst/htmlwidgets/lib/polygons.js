@@ -4,7 +4,7 @@
  * @param map_id
  * @param data_polygon
  */
-function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyline){
+function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyline, legendValues, legendOptions){
 
   window[map_id + 'googlePolygon' + layer_id] = [];
   var infoWindow = new google.maps.InfoWindow();
@@ -81,6 +81,10 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
   if(update_map_view === true){
     window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
   }
+    
+    if(legendValues !== false){
+        add_legend(map_id, layer_id, legendValues, legendOptions);
+    }
 
 }
 

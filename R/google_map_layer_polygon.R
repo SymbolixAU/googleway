@@ -169,7 +169,9 @@ add_polygons <- function(map,
                          layer_id = NULL,
                          z_index = NULL,
                          digits = 4,
-                         palette = NULL){
+                         palette = NULL,
+                         legend = F,
+                         legend_options = NULL){
 
   ## TODO:
   ## - holes must be wound in the opposite direction
@@ -209,11 +211,38 @@ add_polygons <- function(map,
   colourColumns <- shapeAttributes(fill_colour, stroke_colour)
 
   shape <- createMapObject(data, allCols, objArgs)
-  colours <- setupColours(data, shape, colourColumns, palette)
+  pal <- createPalettes(shape, colourColumns)
+  colour_palettes <- createColourPalettes(data, pal, colourColumns, viridisLite::viridis)
+  colours <- createColours(shape, colour_palettes)
 
   if(length(colours) > 0){
     shape <- replaceVariableColours(shape, colours)
   }
+
+  # if(legend){
+  #   ## TODO:
+  #   ## - map all fills, stroke, weight, opacity to legend?
+  #
+  #   legendIdx <- which(names(colourColumns) == 'fill_colour')
+  #   print(colourColumns)
+  #   print(legend)
+  #   print(legendIdx)
+  #   legend <- colour_palettes[[1]]$palette
+  #   title <- colour_palettes[[1]]$variables
+  #   type <- getLegendType(legend$variable)
+  #   legend <- constructLegend(legend, type)
+  #
+  #   ## legend options:
+  #   ## title
+  #   ## css
+  #   ## position
+  #   ## text format
+  #   legend_options = list(type = type,
+  #                         title = "SA4 Name",
+  #                         #                       css = 'max-width : 120px; max-height : 160px; overflow : auto;',
+  #                         position = "RIGHT_BOTTOM")
+  #   legend_options <- jsonlite::toJSON(legend_options, auto_unbox = T)
+  # }
 
   requiredDefaults <- setdiff(requiredCols, names(shape))
 
@@ -241,7 +270,7 @@ add_polygons <- function(map,
     shape <- jsonlite::toJSON(lst_polygon, digits = digits, auto_unbox = T)
   }
 
-  invoke_method(map, 'add_polygons', shape, update_map_view, layer_id, usePolyline)
+  invoke_method(map, 'add_polygons', shape, update_map_view, layer_id, usePolyline, legend, legend_options)
 }
 
 

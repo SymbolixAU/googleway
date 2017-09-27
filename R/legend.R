@@ -18,6 +18,7 @@ constructLegend <- function(legend, type){
     return(jsonlite::toJSON(legend))
   }else{
     ## create bins and stuff
+    legend <- legend[with(legend, order(variable)), ]
     cuts <- base::pretty(legend$variable, n = 7)
     n <- length(cuts)
     r <- range(legend$variable)
