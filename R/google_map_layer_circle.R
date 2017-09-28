@@ -164,12 +164,12 @@ add_circles <- function(map,
     # ## css
     # ## position
     # ## text format
-    legend_options = list(
-      fill_colour = list(
-        title = "new title",
-        css = 'max-width : 120px; max-height : 160px; overflow : auto;',
-        position = "LEFT_BOTTOM")
-    )
+    # legend_options = list(
+    #   fill_colour = list(
+    #     title = "new title",
+    #     css = 'max-width : 120px; max-height : 160px; overflow : auto;',
+    #     position = "LEFT_BOTTOM")
+    # )
 
     if(!is.null(legend_options)){
       print(legend)
