@@ -42,24 +42,16 @@ constructLegend <- function(colour_palettes, legend){
   ## remove any colour_palettes not needed
   cp <- sapply(colour_palettes, function(x) names(x[['variables']]))
 
-#   l1 <- T
-#   l2 <- c(F)
-# #  l3 <- c(fill_colour = T, stroke_colour = F)
-#   l4 <- list(fill_colour = T, stroke_colour = F)
-#
-#   unlist(l1)
-#   unlist(l2)
-# #  unlist(l3)
-#   unlist(l4)
-#
-#   l4 <- unlist(l4)
-#   names(l4)[l4 == T]
-#
   if(is.list(legend)){
     legend <- unlist(legend)
     legend <- names(legend)[legend == T]
   }else{
-    legend <- c("fill_colour", "stroke_colour")[legend]
+    if(length(names(legend)) > 0){
+      ## it's a named vector
+      legend <- names(legend)[legend]
+    }else{
+      legend <- c("fill_colour", "stroke_colour")[legend]
+    }
   }
 
   cp <- cp[cp %in% legend]
@@ -123,35 +115,6 @@ addLegendOptions <- function(legend, legend_options){
     })
 
   }
-
-  # ## if named list, check those names exist in the legend
-  # ##
-  # ## will only work if these elements are also lists
-  # toMapDirectly <- names(legend_options)[names(legend_options) %in% c("fill_colour", "stroke_colour")]
-  # toMapDirectly <- toMapDirectly[vapply(toMapDirectly, function(x) is.list(legend_options[[x]]), T)]
-  #
-  # if(length(toMapDirectly) > 0){
-  #   ## there are some options to mape directly to legend elements
-  #   ## this will udpate the elements with the options directly
-  #   # aesthetic <- toMapDirectly[1]
-  #   # idx <- which(vapply(legend, function(x) x$colourType == aesthetic, T))
-  #   # legend[[idx]]
-  #   # legend_options[[aesthetic]]
-  #
-  #   ## valid options
-  #   ## title, css, position, prefix, suffix
-  #   #legend[[idx]] <- replaceLegendOption(legend[[idx]], legend_options[[aesthetic]])
-  #
-  #   legend_direct <- lapply(toMapDirectly, function(x){
-  #     idx <- which(vapply(legend, function(y) y$colourType == x, T))
-  #     replaceLegendOption(legend[[idx]], legend_options[[x]])
-  #   })
-  # }
-  #
-  #
-  # ## if legend_options are not named either fill or stroke, they get applied
-  # ## to ALL legend elements
-  # toMapToAll <- names(which(vapply(names(legend_options), function(x) !x %in% c("fill_colour", "stroke_colour"), T)))
 
   return(legend)
 }

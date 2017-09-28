@@ -115,11 +115,6 @@ add_circles <- function(map,
                         legend = F,
                         legend_options = NULL){
 
-  ## TODO:
-  ## - why is the legened duplicated?
-  # google_map(key = mapKey) %>%
-  #   add_circles(data = tram_stops, lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_name", legend = list(stroke_colour = F, fill_colour = T))
-
   objArgs <- match.call(expand.dots = F)
 
   ## PARAMETER CHECKS
@@ -148,7 +143,6 @@ add_circles <- function(map,
   }
 
   if(any(vapply(legend, isTRUE, T))){
-
     legend <- constructLegend(colour_palettes, legend)
     if(!is.null(legend_options)){
       legend <- addLegendOptions(legend, legend_options)

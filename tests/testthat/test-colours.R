@@ -118,44 +118,34 @@ test_that("only the specified legend is created for different variables", {
   legend <- googleway:::constructLegend(colour_palettes, legend)
 
   expect_true(
-    is.null(legend[[1]])
+    length(legend) == 0
+  )
+
+  legend <- c(stroke_colour = T, fil_colour = F)
+  legend <- googleway:::constructLegend(colour_palettes, legend)
+
+  expect_true(
+    legend[[1]]$colourType == "stroke_colour"
   )
 
   expect_true(
-    is.null(legend[[2]])
+    length(legend) == 1
   )
-
-  # legend <- c(stroke_colour = T, fil_colour = F)
-  # legend <- googleway:::constructLegend(colour_palettes, legend)
-  #
-  # expect_true(
-  #   legend[[1]]$colourType == "stroke_colour"
-  # )
-  #
-  # expect_true(
-  #   is.null(legend[[2]])
-  # )
 
   legend <- list(stroke_colour = F, fil_colour = T)
   legend <- googleway:::constructLegend(colour_palettes, legend)
 
   expect_true(
-    is.null(legend[[1]])
-  )
-
-  expect_true(
-    legend[[2]]$colourType == "fill_colour"
+    length(legend) == 0
   )
 
   legend <- F
   legend <- googleway:::constructLegend(colour_palettes, legend)
 
   expect_true(
-    is.null(legend[[1]])
+    length(legend) == 0
   )
-  expect_true(
-    is.null(legend[[2]])
-  )
+
 
   # legend <- c(stroke_colour = F, fill_colour = F)
   # legend <- googleway:::constructLegend(colour_palettes, legend)
@@ -212,11 +202,7 @@ test_that("only the specified legend is created for one variable mapped twice", 
   legend <- googleway:::constructLegend(colour_palettes, legend)
 
   expect_true(
-    is.null(legend[[1]])
-  )
-
-  expect_true(
-    length(legend) == 1
+    length(legend) == 0
   )
 
   ## we're turning one off, but one variable is mapped... what does this mean..?
@@ -224,34 +210,24 @@ test_that("only the specified legend is created for one variable mapped twice", 
   legend <- googleway:::constructLegend(colour_palettes, legend)
 
   expect_true(
-    is.null(legend[[1]])
-  )
-
-  expect_true(
-    length(legend) == 1
+    length(legend) == 0
   )
 
   legend <- list(stroke_colour = F, fil_colour = T)
   legend <- googleway:::constructLegend(colour_palettes, legend)
 
   expect_true(
-    is.null(legend[[1]])
-  )
-
-  expect_true(
-    length(legend) == 1
+    length(legend) == 0
   )
 
   legend <- F
   legend <- googleway:::constructLegend(colour_palettes, legend)
 
   expect_true(
-    is.null(legend[[1]])
+    length(legend) == 0
   )
-  expect_true(
-    length(legend) == 1
-  )
-#
+
+  #
 #   legend <- c(stroke_colour = F, fill_colour = F)
 #   legend <- googleway:::constructLegend(colour_palettes, legend)
 #
@@ -308,34 +284,22 @@ test_that("only the specified legend is created for one variable, the other is N
   legend <- googleway:::constructLegend(colour_palettes, legend)
 
   expect_true(
-    is.null(legend[[1]])
-  )
-
-  expect_true(
-    length(legend) == 1
+    length(legend) == 0
   )
 
   legend <- list(stroke_colour = F, fil_colour = T)
   legend <- googleway:::constructLegend(colour_palettes, legend)
 
   expect_true(
-    is.null(legend[[1]])
-  )
-
-  expect_true(
-    length(legend) == 1
+    length(legend) == 0
   )
 
   legend <- F
   legend <- googleway:::constructLegend(colour_palettes, legend)
 
   expect_true(
-    is.null(legend[[1]])
+    length(legend) == 0
   )
-  expect_true(
-    length(legend) == 1
-  )
-
 
   allCols <- c("id", "val", "val2")
   objArgs <- quote(add_polygons(id = "id", stroke_colour = NULL, fill_colour = "id"))
@@ -348,7 +312,15 @@ test_that("only the specified legend is created for one variable, the other is N
   colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, lstPalette)
 
   legend <- list(fill_colour = T, stroke_colour = T)
-  googleway:::constructLegend(colour_palettes, legend)
+  legend <- googleway:::constructLegend(colour_palettes, legend)
+
+  expect_true(
+    length(legend) == 1
+  )
+
+  expect_true(
+    legend[[1]]$colourType == "fill_colour"
+  )
 
 })
 
