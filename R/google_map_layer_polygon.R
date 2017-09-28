@@ -175,6 +175,8 @@ add_polygons <- function(map,
 
   ## TODO:
   ## - holes must be wound in the opposite direction
+  ##
+  ## - melbourne data - remove factor levels?
 
   objArgs <- match.call(expand.dots = F)
 
@@ -219,30 +221,12 @@ add_polygons <- function(map,
     shape <- replaceVariableColours(shape, colours)
   }
 
-  # if(legend){
-  #   ## TODO:
-  #   ## - map all fills, stroke, weight, opacity to legend?
-  #
-  #   legendIdx <- which(names(colourColumns) == 'fill_colour')
-  #   print(colourColumns)
-  #   print(legend)
-  #   print(legendIdx)
-  #   legend <- colour_palettes[[1]]$palette
-  #   title <- colour_palettes[[1]]$variables
-  #   type <- getLegendType(legend$variable)
-  #   legend <- constructLegend(legend, type)
-  #
-  #   ## legend options:
-  #   ## title
-  #   ## css
-  #   ## position
-  #   ## text format
-  #   legend_options = list(type = type,
-  #                         title = "SA4 Name",
-  #                         #                       css = 'max-width : 120px; max-height : 160px; overflow : auto;',
-  #                         position = "RIGHT_BOTTOM")
-  #   legend_options <- jsonlite::toJSON(legend_options, auto_unbox = T)
-  # }
+  if(any(vapply(legend, isTRUE, T))){
+    legend <- constructLegend(colour_palettes, legend)
+    if(!is.null(legend_options)){
+      legend <- addLegendOptions(legend, legend_options)
+    }
+  }
 
   requiredDefaults <- setdiff(requiredCols, names(shape))
 
