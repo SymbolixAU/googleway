@@ -47,9 +47,15 @@
     white-space: nowrap;
 }
 
+.tickContainer{
+    padding-left: 2px;
+    height: auto;
+    display: inline-block;
+}
+
 .labelContainer{
 /*  border: 1px solid #00FF00; */
-  padding-left:2px;
+  padding-left: 6px;
   height: auto;
   display: inline-block;
 }

@@ -138,14 +138,30 @@ markerColourIconCheck <- function(data, objArgs, colour, marker_icon){
 
 # Palette Check
 #
-# Checks if the palette is a function
+# Checks if the palette is a function, or a list of functions
 # @param arg palette to test
 paletteCheck <- function(arg){
   if(is.null(arg)) return(viridisLite::viridis)
-  if(!is.function(arg)) stop("palette needs to be a function")
-
+  arg <- checkPalettes(arg)
   return(arg)
 }
+
+checkPalettes <- function(arg) UseMethod("checkPalettes")
+
+#' @export
+checkPalettes.function <- function(arg) return(arg)
+
+#' @export
+checkPalettes.list <- function(arg){
+  ## names must be either 'fill_colour' or 'stroke_colour'
+  if(length(setdiff(names(arg), c("fill_colour", "stroke_colour"))) > 0)
+    stop("unrecognised colour mappings")
+
+  lapply(arg, paletteCheck)
+}
+#' @export
+checkPalettes.default <- function(arg) stop("I don't recognise the type of palette you've supplied")
+
 
 # Path Id Check
 #

@@ -1,8 +1,11 @@
 
 function add_legend(map_id, layer_id, legendValues, legendOptions) {
+    
+    'use strict';
+    
     var i = 0;
     
-    for (i = 0; i < legendValues.length; i++){
+    for (i = 0; i < legendValues.length; i++) {
 
         if (legendValues[i].type === "category") {
             add_legend_category(map_id, layer_id, legendValues[i], legendOptions);
@@ -23,6 +26,8 @@ function add_legend(map_id, layer_id, legendValues, legendOptions) {
 function add_legend_gradient(map_id, layer_id, legendValues, legendOptions) {
     // fill gradient
     
+    'use strict';
+    
     if (window[map_id + 'legend' + layer_id + legendValues.colourType] === undefined) {
         window[map_id + 'legend' + layer_id + legendValues.colourType] = document.createElement("div");
         window[map_id + 'legend' + layer_id + legendValues.colourType].setAttribute('id', map_id + 'legend' + layer_id + legendValues.colourType);
@@ -37,6 +42,7 @@ function add_legend_gradient(map_id, layer_id, legendValues, legendOptions) {
         jsColours = [],
         colours = '',
         i = 0,
+        legendTextColour = '#828282',
         style = '';
     
     legendContent.setAttribute('class', 'legendContent');
@@ -46,7 +52,7 @@ function add_legend_gradient(map_id, layer_id, legendValues, legendOptions) {
     //legendTitle.innerHTML = (legendOptions.title !== undefined) ? legendOptions.title : "placeholder title";
     window[map_id + 'legend' + layer_id + legendValues.colourType].appendChild(legendTitle);
      
-    tickContainer.setAttribute('class', 'labelContainer');
+    tickContainer.setAttribute('class', 'tickContainer');
     labelContainer.setAttribute('class', 'labelContainer');
 
     if (legendOptions.css !== null) {
@@ -71,7 +77,7 @@ function add_legend_gradient(map_id, layer_id, legendValues, legendOptions) {
 
     for (i = 0; i < legendValues.legend.colour.length; i++) {
         
-        var legendValue = 'text-align: left; color: #b8b9ba; font-size: 12px; height: 20px;',
+        var legendValue = 'text-align: left; color: ' + legendTextColour + '; font-size: 12px; height: 20px;',
             divTicks = document.createElement('div'),
             divVal = document.createElement('div');
 
@@ -89,19 +95,23 @@ function add_legend_gradient(map_id, layer_id, legendValues, legendOptions) {
 
     window[map_id + 'legend' + layer_id + legendValues.colourType].appendChild(legendContent);
     
-    placeLegend(map_id, window[map_id + 'legend' + layer_id + legendValues.colourType], legendOptions.position);
+    placeControl(map_id, window[map_id + 'legend' + layer_id + legendValues.colourType], legendOptions.position);
 }
 
-function generateColourBox(colourType, colour){
-    if(colourType === "fill_colour"){
+function generateColourBox(colourType, colour) {
+    'use strict';
+    
+    if (colourType === "fill_colour") {
         return ('height: 20px; width: 15px; background: ' + colour);
-    }else{
+    } else {
         // http://jsfiddle.net/UES6U/2/
-        return ('height: 20px; width: 15px; background: linear-gradient(to bottom, white 40%, ' + colour + ' 40%, ' + colour + ' 60%, ' + 'white 60%)')
+        return ('height: 20px; width: 15px; background: linear-gradient(to bottom, white 25%, ' + colour + ' 25%, ' + colour + ' 45%, ' + 'white 45%)');
     }
 }
 
 function add_legend_category(map_id, layer_id, legendValues, legendOptions) {
+    
+    'use strict';
 
     if (window[map_id + 'legend' + layer_id + legendValues.colourType] === undefined) {
         window[map_id + 'legend' + layer_id + legendValues.colourType] = document.createElement("div");
@@ -115,8 +125,10 @@ function add_legend_category(map_id, layer_id, legendValues, legendOptions) {
         tickContainer = document.createElement("div"),
         labelContainer = document.createElement("div"),
         legendColours = document.createElement('div'),
+        colourBox = '',
         //colourAttribute = '',
-        i = 0;
+        i = 0,
+        legendTextColour = '#828282';
     
     legendContent.setAttribute('class', 'legendContent');
     
@@ -126,12 +138,12 @@ function add_legend_category(map_id, layer_id, legendValues, legendOptions) {
     window[map_id + 'legend' + layer_id + legendValues.colourType].appendChild(legendTitle);
     
     colourContainer.setAttribute('class', 'labelContainer');
-    tickContainer.setAttribute('class', 'labelContainer');
+    tickContainer.setAttribute('class', 'tickContainer');
     labelContainer.setAttribute('class', 'labelContainer');
 
     for (i = 0; i < legendValues.legend.colour.length; i++) {
 
-        var tickVal = 'text-left: center; color: #b8b9ba; font-size: 12px; height: 20px;',
+        var tickVal = 'text-left: center; color: ' + legendTextColour + '; font-size: 12px; height: 20px;',
             divCol = document.createElement('div'),
             divTicks = document.createElement('div'),
             divVal = document.createElement('div');
@@ -156,48 +168,6 @@ function add_legend_category(map_id, layer_id, legendValues, legendOptions) {
     
     window[map_id + 'legend' + layer_id + legendValues.colourType].appendChild(legendContent);
     
-    placeLegend(map_id, window[map_id + 'legend' + layer_id + legendValues.colourType], legendOptions.position); 
-}
-
-function placeLegend(map_id, legend, position) {
-
-    switch (position) {
-    case 'RIGHT_BOTTOM':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
-        break;
-    case 'TOP_CENTER':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.TOP_CENTER].push(legend);
-        break;
-    case 'TOP_LEFT':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT].push(legend);
-        break;
-    case 'LEFT_TOP':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_TOP].push(legend);
-        break;
-    case 'RIGHT_TOP':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_TOP].push(legend);
-        break;
-    case 'LEFT_CENTER':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_CENTER].push(legend);
-        break;
-    case 'RIGHT_CENTER':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_CENTER].push(legend);
-        break;
-    case 'LEFT_BOTTOM':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
-        break;
-    case 'BOTTOM_CENTER':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_CENTER].push(legend);
-        break;
-    case 'BOTTOM_LEFT':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_LEFT].push(legend);
-        break;
-    case 'BOTTOM_RIGHT':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(legend);
-        break;
-    default:
-        window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
-        break;
-    }
+    placeControl(map_id, window[map_id + 'legend' + layer_id + legendValues.colourType], legendOptions.position);
 }
 

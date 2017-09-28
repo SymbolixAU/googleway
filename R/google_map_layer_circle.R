@@ -45,12 +45,18 @@
 #' a lower \code{z_index}. See details.
 #' @param digits integer. Use this parameter to specify how many digits (decimal places)
 #' should be used for the latitude / longitude coordinates.
-#' @param palette a function that generates hex RGB colours given a single number as an input.
-#' Used when a variable of \code{data} is specified as a colour
+#' @param palette a function, or list of functions, that generates hex colours
+#' given a single number as an input. See details.
 #' @param legend logical indicating if a legend should be included on the map
 #' @param legend_options
 #'
 #' @details
+#' The palette is used to specify the colours that will map to variables.
+#' You can specify a single function to map to all variables, or a named list
+#' that specifies a separate function to map to each variable. The elements must
+#' be named either \code{fill_colour} or \code{stroke_colour}, and their values
+#' are the colour generating functions. The default is \code{viridisLite::viridis}
+#'
 #' \code{z_index} values define the order in which objects appear on the map.
 #' Those with a higher value appear on top of those with a lower value. The default
 #' order of objects is (1 being underneath all other objects)
@@ -72,6 +78,15 @@
 #' google_map(key = map_key, data = tram_stops) %>%
 #'  add_circles(lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_name",
 #'  stroke_weight = 0.3, stroke_colour = "stop_name")
+#'
+#' ## different colour palettes
+#' lstPalette <- list(fill_colour = colorRampPalette(c("red","blue")),
+#'     stroke_colour = viridisLite::plasma)
+#'
+#' google_map(key = map_key, data = tram_stops) %>%
+#'  add_circles(lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_lat",
+#'  stroke_weight = 2, stroke_colour = "stop_name", palette = lstPalette, legend = T)
+#'
 #'
 #'  }
 #' @export
@@ -98,6 +113,9 @@ add_circles <- function(map,
                         legend = F,
                         legend_options = NULL){
 
+  ## TODO:
+  ## - pal can be a lsit of palettes  list(fill_colour = viridisLite::inferno, stroke_colour = viridisLite::plasma)
+
   objArgs <- match.call(expand.dots = F)
 
   ## PARAMETER CHECKS
@@ -118,27 +136,61 @@ add_circles <- function(map,
 
   shape <- createMapObject(data, allCols, objArgs)
   pal <- createPalettes(shape, colourColumns)
-  colour_palettes <- createColourPalettes(data, pal, colourColumns, viridisLite::viridis)
+  colour_palettes <- createColourPalettes(data, pal, colourColumns, palette)
   colours <- createColours(shape, colour_palettes)
+
+  # print(colours)
 
   # colours <- setupColours(data, shape, colourColumns, palette)
   if(length(colours) > 0){
     shape <- replaceVariableColours(shape, colours)
   }
 
+  formatPalette <- function(palette, type){
+    ## palette shoudl be a data.frame
+    if(type == "gradient"){
+      palette <- palette[with(palette, order(variable)), ]
+
+      ## cut the palette
+      rows <- 1:nrow(palette)
+      rowRange <- range(rows)
+      rw <- unique(round(pretty(rows, n = 5)))
+      rw <- rw[rw >= rowRange[1] & rw <= rowRange[2]]
+      if(rw[1] != 1) rw <- c(1, rw)
+      if(rw[length(rw)] != nrow(palette)) rw <- c(rw, nrow(palette))
+
+      print(rw)
+
+      palette <- palette[rw, ]
+    }
+
+    return(palette)
+  }
+
   if(legend){
     ## TODO:
     ## - map all fills, stroke, weight, opacity to legend?
     ## - assign different palettes to different aesthetics (fill & stroke) ?
+    ## - legend options used to update the legend...
+    ## --- css, title, position
+    ## --- can specify which aesthetic it applies to (fill or stroke)
 
+    ## depending on the type, if it's a 'gradient', the colour palette needs to be
+    ## binified
     legend <- lapply(colour_palettes, function(x){
+
+      ## format the palette - needs binning if it's gradient
+      type <- getLegendType(x$palette[['variable']])
+      x$palette <- formatPalette(x$palette, type)
+
       list(
         colourType = ifelse('fill_colour' %in% names(x$variables), 'fill_colour', 'stroke_colour'),
-        type = getLegendType(x$palette[['variable']]),
+        type = type,
         title = unique(x$variable),
         legend = x$palette
       )
     })
+
     # legendIdx <- which(names(colourColumns) == 'fill_colour')
     # legend <- colour_palettes[[legendIdx]]$palette
     # title <- colour_palettes[[legendIdx]]$variables
@@ -151,9 +203,9 @@ add_circles <- function(map,
     # ## position
     # ## text format
     legend_options = list(#type = type,
-                          #title = title,
-                          #css = 'max-width : 120px; max-height : 160px; overflow : auto;',
-                          position = "BOTTOM_LEFT")
+                          title = "new title",
+                          css = 'max-width : 120px; max-height : 160px; overflow : auto;',
+                          position = "TOP_RIGHT")
     legend_options <- jsonlite::toJSON(legend_options, auto_unbox = T)
   }
 

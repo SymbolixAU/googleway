@@ -122,6 +122,19 @@
 # df <- df[with(df, order(variable)), ]
 #
 # rows <- 1:n
+# rowRange <- range(1:nrow(df))
+# rw <- pretty(rows, n = 7)
+# rw <- rw[rw >= rowRange[1] & rw <= rowRange[2]]
+#
+# ## the extremities give the min & max colours
+# if(rw[1] != 1) rw <- c(1, rw)
+# if(rw[length(rw)] != nrow(df)) rw <- c(rw, nrow(df))
+#
+# rw
+# diff(rw)
+#
+# df[rw,]
+#
 #
 # rw <- c(seq(1, nrow(df), by = round(nrow(df) / 7)), nrow(df))
 #

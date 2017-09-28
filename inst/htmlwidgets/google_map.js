@@ -273,3 +273,47 @@ function initialise_map(el, x) {
 }
 
 
+function placeControl(map_id, object, position) {
+
+    switch (position) {
+    case 'RIGHT_BOTTOM':
+        window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(object);
+        break;
+    case 'TOP_CENTER':
+        window[map_id + 'map'].controls[google.maps.ControlPosition.TOP_CENTER].push(object);
+        break;
+    case 'TOP_LEFT':
+        window[map_id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT].push(object);
+        break;
+    case 'LEFT_TOP':
+        window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_TOP].push(object);
+        break;
+    case 'TOP_RIGHT':
+        window[map_id + 'map'].controls[google.maps.ControlPosition.TOP_RIGHT].push(object);
+        break;
+    case 'RIGHT_TOP':
+        window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_TOP].push(object);
+        break;
+    case 'LEFT_CENTER':
+        window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_CENTER].push(object);
+        break;
+    case 'RIGHT_CENTER':
+        window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_CENTER].push(object);
+        break;
+    case 'LEFT_BOTTOM':
+        window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_BOTTOM].push(object);
+        break;
+    case 'BOTTOM_CENTER':
+        window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_CENTER].push(object);
+        break;
+    case 'BOTTOM_LEFT':
+        window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_LEFT].push(object);
+        break;
+    case 'BOTTOM_RIGHT':
+        window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(object);
+        break;
+    default:
+        window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(object);
+        break;
+    }
+}

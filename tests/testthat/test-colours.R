@@ -47,6 +47,36 @@ test_that("generate palette methods are called", {
 
 })
 
+test_that("list of palettes correctly applied", {
+
+  dat <- data.frame(id = c(rep(1,3), rep(2, 2)),
+                    val = letters[1:5],
+                    val2 = letters[11:15],
+                    stringsAsFactors = F)
+
+  lstPalette <- list(stroke_colour = viridisLite::viridis,
+                     fill_colour = viridisLite::inferno)
+
+  allCols <- c("id", "val", "val2")
+  objArgs <- quote(add_polygons(id = "id", stroke_colour = "id", fill_colour = "val"))
+  shape <- googleway:::createMapObject(dat, allCols, objArgs)
+
+  colourColumns <- c("stroke_colour" = 'id', "fill_colour" = "val")
+
+  pal <- googleway:::createPalettes(shape, colourColumns)
+
+  colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, lstPalette)
+
+  expectedColours <- googleway:::createColours(shape, colour_palettes)
+
+  generatedColours <- googleway:::setupColours(dat, shape, colourColumns, lstPalette)
+
+  expect_true(
+    identical(expectedColours, generatedColours)
+  )
+
+})
+
 
 test_that("setup colours ",{
 
@@ -484,6 +514,25 @@ test_that("generate palette works on all data types", {
       df[, 'colour'],
       googleway:::removeAlpha(colours)
     )
+  )
+
+})
+
+test_that("correct palette is determined", {
+
+  pal <- list(fill_colour = viridisLite::inferno,
+              stroke_colour = viridisLite::viridis)
+
+  v <- googleway:::determinePalette(pal, 'fill_colour')
+
+  expect_true(
+    v(1) == "#000004FF"
+  )
+
+  v <- googleway:::determinePalette(pal, 'stroke_colour')
+
+  expect_true(
+    v(1) == "#440154FF"
   )
 
 })

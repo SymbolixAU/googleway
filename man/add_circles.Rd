@@ -75,8 +75,8 @@ a lower \code{z_index}. See details.}
 \item{digits}{integer. Use this parameter to specify how many digits (decimal places)
 should be used for the latitude / longitude coordinates.}
 
-\item{palette}{a function that generates hex RGB colours given a single number as an input.
-Used when a variable of \code{data} is specified as a colour}
+\item{palette}{a function, or list of functions, that generates hex colours
+given a single number as an input. See details.}
 
 \item{legend}{logical indicating if a legend should be included on the map}
 
@@ -86,6 +86,12 @@ Used when a variable of \code{data} is specified as a colour}
 Add circles to a google map
 }
 \details{
+The palette is used to specify the colours that will map to variables.
+You can specify a single function to map to all variables, or a named list
+that specifies a separate function to map to each variable. The elements must
+be named either \code{fill_colour} or \code{stroke_colour}, and their values
+are the colour generating functions. The default is \code{viridisLite::viridis}
+
 \code{z_index} values define the order in which objects appear on the map.
 Those with a higher value appear on top of those with a lower value. The default
 order of objects is (1 being underneath all other objects)
@@ -107,6 +113,15 @@ map_key <- 'your_api_key'
 google_map(key = map_key, data = tram_stops) \%>\%
  add_circles(lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_name",
  stroke_weight = 0.3, stroke_colour = "stop_name")
+
+## different colour palettes
+lstPalette <- list(fill_colour = colorRampPalette(c("red","blue")),
+    stroke_colour = viridisLite::plasma)
+
+google_map(key = map_key, data = tram_stops) \%>\%
+ add_circles(lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_lat",
+ stroke_weight = 2, stroke_colour = "stop_name", palette = lstPalette, legend = T)
+
 
  }
 }
