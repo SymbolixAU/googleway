@@ -37,23 +37,30 @@ getLegendType.numeric <- function(colourColumn) "gradient"
 getLegendType.default <- function(colourColumn) "category"
 
 
-constructLegend <- function(colour_palettes){
+constructLegend <- function(colour_palettes, legend){
 
+  ## remove any colour_palettes not needed
+  cp <- sapply(colour_palettes, function(x) names(x[['variables']]))[unlist(legend)]
+
+  ## cp are now the valid colours
   lapply(colour_palettes, function(x){
 
-    ## format the palette - needs binning if it's gradient
-    type <- getLegendType(x$palette[['variable']])
-    x$palette <- formatPalette(x$palette, type)
+    if(all(names(x[['variables']]) %in% cp)){
 
-    list(
-      ## if both a fill and stroke are used, fill takes precedence
-      colourType = ifelse('fill_colour' %in% names(x$variables), 'fill_colour', 'stroke_colour'),
-      type = type,
-      title = unique(x$variable),
-      legend = x$palette,
-      css = NULL,
-      position = NULL
-    )
+      ## format the palette - needs binning if it's gradient
+      type <- getLegendType(x$palette[['variable']])
+      x$palette <- formatPalette(x$palette, type)
+
+      list(
+        ## if both a fill and stroke are used, fill takes precedence
+        colourType = ifelse('fill_colour' %in% names(x$variables), 'fill_colour', 'stroke_colour'),
+        type = type,
+        title = unique(x$variable),
+        legend = x$palette,
+        css = NULL,
+        position = NULL
+      )
+    }
   })
 
 }

@@ -78,8 +78,6 @@ should be used for the latitude / longitude coordinates.}
 \item{palette}{a function, or list of functions, that generates hex colours
 given a single number as an input. See details.}
 
-\item{legend}{logical indicating if a legend should be included on the map}
-
 \item{legend_options}{}
 }
 \description{

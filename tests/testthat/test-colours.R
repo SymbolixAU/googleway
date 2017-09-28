@@ -77,6 +77,293 @@ test_that("list of palettes correctly applied", {
 
 })
 
+test_that("only the specified legend is created for different variables", {
+
+  ## where different variables are mapped
+  dat <- data.frame(id = c(rep(1,3), rep(2, 2)),
+                    val = letters[1:5],
+                    val2 = letters[11:15],
+                    stringsAsFactors = F)
+
+  lstPalette <- list(
+    stroke_colour = viridisLite::viridis,
+    fill_colour = viridisLite::inferno
+    )
+
+  allCols <- c("id", "val", "val2")
+  objArgs <- quote(add_polygons(id = "id", stroke_colour = "id", fill_colour = "val"))
+  shape <- googleway:::createMapObject(dat, allCols, objArgs)
+
+  colourColumns <- c("stroke_colour" = 'id', "fill_colour" = "val")
+
+  pal <- googleway:::createPalettes(shape, colourColumns)
+
+  colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, lstPalette)
+
+  ## we only want to construct the legend if the user wants it
+
+  ## all legends
+  legend <- T
+  legend <- googleway:::constructLegend(colour_palettes, legend)
+
+  expect_true(
+    legend[[1]]$colourType == "stroke_colour"
+  )
+
+  expect_true(
+    legend[[2]]$colourType == "fill_colour"
+  )
+
+  ## no legends
+  legend <- F
+  legend <- googleway:::constructLegend(colour_palettes, legend)
+
+  expect_true(
+    is.null(legend[[1]])
+  )
+
+  expect_true(
+    is.null(legend[[2]])
+  )
+
+  legend <- c(stroke_colour = T, fil_colour = F)
+  legend <- googleway:::constructLegend(colour_palettes, legend)
+
+  expect_true(
+    legend[[1]]$colourType == "stroke_colour"
+  )
+
+  expect_true(
+    is.null(legend[[2]])
+  )
+
+  legend <- list(stroke_colour = F, fil_colour = T)
+  legend <- googleway:::constructLegend(colour_palettes, legend)
+
+  expect_true(
+    is.null(legend[[1]])
+  )
+
+  expect_true(
+    legend[[2]]$colourType == "fill_colour"
+  )
+
+  legend <- F
+  legend <- googleway:::constructLegend(colour_palettes, legend)
+
+  expect_true(
+    is.null(legend[[1]])
+  )
+  expect_true(
+    is.null(legend[[2]])
+  )
+
+  legend <- c(stroke_colour = F, fill_colour = F)
+  legend <- googleway:::constructLegend(colour_palettes, legend)
+
+  expect_true(
+    is.null(legend[[1]])
+  )
+  expect_true(
+    is.null(legend[[2]])
+  )
+
+})
+
+
+test_that("only the specified legend is created for one variable mapped twice", {
+
+  ## where different variables are mapped
+  dat <- data.frame(id = c(rep(1,3), rep(2, 2)),
+                    val = letters[1:5],
+                    val2 = letters[11:15],
+                    stringsAsFactors = F)
+
+  lstPalette <- list(
+    stroke_colour = viridisLite::viridis,
+    fill_colour = viridisLite::inferno
+  )
+
+  allCols <- c("id", "val", "val2")
+  objArgs <- quote(add_polygons(id = "id", stroke_colour = "id", fill_colour = "id"))
+  shape <- googleway:::createMapObject(dat, allCols, objArgs)
+
+  colourColumns <- c("stroke_colour" = 'id', "fill_colour" = "id")
+
+  pal <- googleway:::createPalettes(shape, colourColumns)
+
+  colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, lstPalette)
+
+  ## we only want to construct the legend if the user wants it
+
+  ## all legends
+  legend <- T
+  legend <- googleway:::constructLegend(colour_palettes, legend)
+
+  expect_true(
+    legend[[1]]$colourType == "fill_colour"
+  )
+
+  expect_true(
+    length(legend) == 1
+  )
+
+  ## no legends
+  legend <- F
+  legend <- googleway:::constructLegend(colour_palettes, legend)
+
+  expect_true(
+    is.null(legend[[1]])
+  )
+
+  expect_true(
+    length(legend) == 1
+  )
+
+  ## we're turning one off, but one variable is mapped... what does this mean..?
+  legend <- c(stroke_colour = T, fill_colour = F)
+  legend <- googleway:::constructLegend(colour_palettes, legend)
+
+  expect_true(
+    is.null(legend[[1]])
+  )
+
+  expect_true(
+    length(legend) == 1
+  )
+
+  legend <- list(stroke_colour = F, fil_colour = T)
+  legend <- googleway:::constructLegend(colour_palettes, legend)
+
+  expect_true(
+    is.null(legend[[1]])
+  )
+
+  expect_true(
+    length(legend) == 1
+  )
+
+  legend <- F
+  legend <- googleway:::constructLegend(colour_palettes, legend)
+
+  expect_true(
+    is.null(legend[[1]])
+  )
+  expect_true(
+    length(legend) == 1
+  )
+
+  legend <- c(stroke_colour = F, fill_colour = F)
+  legend <- googleway:::constructLegend(colour_palettes, legend)
+
+  expect_true(
+    is.null(legend[[1]])
+  )
+  expect_true(
+    length(legend) == 1
+  )
+
+})
+
+
+
+test_that("only the specified legend is created for one variable, the other is NULL", {
+
+  ## where different variables are mapped
+  dat <- data.frame(id = c(rep(1,3), rep(2, 2)),
+                    val = letters[1:5],
+                    val2 = letters[11:15],
+                    stringsAsFactors = F)
+
+  lstPalette <- list(
+    stroke_colour = viridisLite::viridis,
+    fill_colour = viridisLite::inferno
+  )
+
+  allCols <- c("id", "val", "val2")
+  objArgs <- quote(add_polygons(id = "id", stroke_colour = "id", fill_colour = NULL))
+  shape <- googleway:::createMapObject(dat, allCols, objArgs)
+
+  colourColumns <- c("stroke_colour" = 'id', "fill_colour" = NULL)
+
+  pal <- googleway:::createPalettes(shape, colourColumns)
+
+  colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, lstPalette)
+
+  ## we only want to construct the legend if the user wants it
+
+  ## all legends
+  legend <- T
+  legend <- googleway:::constructLegend(colour_palettes, legend)
+
+  expect_true(
+    legend[[1]]$colourType == "stroke_colour"
+  )
+
+  expect_true(
+    length(legend) == 1
+  )
+
+  ## no legends
+  legend <- F
+  legend <- googleway:::constructLegend(colour_palettes, legend)
+
+  expect_true(
+    is.null(legend[[1]])
+  )
+
+  expect_true(
+    length(legend) == 1
+  )
+
+  ## we're turning one off, but one variable is mapped... what does this mean..?
+  legend <- c(stroke_colour = T, fill_colour = F)
+  legend <- googleway:::constructLegend(colour_palettes, legend)
+
+  expect_true(
+    legend[[1]]$colourType == "stroke_colour"
+  )
+
+  expect_true(
+    length(legend) == 1
+  )
+
+  legend <- list(stroke_colour = F, fil_colour = T)
+  legend <- googleway:::constructLegend(colour_palettes, legend)
+
+  expect_true(
+    is.null(legend[[1]])
+  )
+
+  expect_true(
+    length(legend) == 1
+  )
+
+  legend <- F
+  legend <- googleway:::constructLegend(colour_palettes, legend)
+
+  expect_true(
+    is.null(legend[[1]])
+  )
+  expect_true(
+    length(legend) == 1
+  )
+
+  legend <- c(stroke_colour = F, fill_colour = F)
+  legend <- googleway:::constructLegend(colour_palettes, legend)
+
+  expect_true(
+    is.null(legend[[1]])
+  )
+  expect_true(
+    length(legend) == 1
+  )
+
+})
+
+
+
+
 test_that("legend options are assigned to legends", {
 
   ## TODO:
@@ -102,7 +389,7 @@ test_that("legend options are assigned to legends", {
 
   colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, lstPalette)
 
-  legend <- googleway:::constructLegend(colour_palettes)
+  legend <- googleway:::constructLegend(colour_palettes, legend = T)
 
 
   ## options to apply to both palettes
@@ -159,7 +446,7 @@ test_that("legend options are assigned to legends", {
     )
   )
 
-  legend <- googleway:::constructLegend(colour_palettes)
+  legend <- googleway:::constructLegend(colour_palettes, legend = T)
   legend <- googleway:::addLegendOptions(legend, legend_options)
 
   expect_true(
@@ -190,7 +477,7 @@ test_that("legend options are assigned to legends", {
     )
   )
 
-  legend <- googleway:::constructLegend(colour_palettes)
+  legend <- googleway:::constructLegend(colour_palettes, legend = T)
   legend <- googleway:::addLegendOptions(legend, legend_options)
 
   expect_true(
@@ -219,7 +506,7 @@ test_that("legend options are assigned to legends", {
     stroke_colour = "blue"
   )
 
-  legend <- googleway:::constructLegend(colour_palettes)
+  legend <- googleway:::constructLegend(colour_palettes, legend = T)
   legend <- googleway:::addLegendOptions(legend, legend_options)
 
   expect_true(
@@ -236,7 +523,7 @@ test_that("legend options are assigned to legends", {
     )
   )
 
-  legend <- googleway:::constructLegend(colour_palettes)
+  legend <- googleway:::constructLegend(colour_palettes, legend = T)
   legend <- googleway:::addLegendOptions(legend, legend_options)
 
   expect_true(
@@ -267,7 +554,7 @@ test_that("legend options are assigned to legends", {
     )
   )
 
-  legend <- googleway:::constructLegend(colour_palettes)
+  legend <- googleway:::constructLegend(colour_palettes, legend = T)
   legend <- googleway:::addLegendOptions(legend, legend_options)
 
 
@@ -736,6 +1023,40 @@ test_that("correct palette is determined", {
     v(1) == "#440154FF"
   )
 
+
+
+  # dat <- data.frame(id = c(rep(1,3), rep(2, 2)),
+  #                   val = letters[1:5],
+  #                   val2 = letters[11:15],
+  #                   stringsAsFactors = F)
+  #
+  # lstPalette <- list(
+  #   stroke_colour = viridisLite::viridis,
+  #   fill_colour = viridisLite::inferno
+  # )
+  #
+  # allCols <- c("id", "val", "val2")
+  # objArgs <- quote(add_polygons(id = "id", stroke_colour = "id", fill_colour = "id"))
+  # shape <- googleway:::createMapObject(dat, allCols, objArgs)
+  #
+  # colourColumns <- c("stroke_colour" = 'id', "fill_colour" = "id")
+  #
+  # pal <- googleway:::createPalettes(shape, colourColumns)
+  #
+  # unique(pal)
+  #
+  # lapply(unique(pal), function(x){
+  #   list(
+  #     variables = colourColumns[colourColumns == x],
+  #     palette = googleway:::generatePalette(
+  #       dat[, x],
+  #       ## if one variable is mapped to two
+  #       googleway:::determinePalette(lstPalette, names(colourColumns[colourColumns == x])[1])
+  #       )
+  #   )
+  # })
+  #
+  # colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, lstPalette)
 })
 
 

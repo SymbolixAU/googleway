@@ -47,7 +47,7 @@
 #' should be used for the latitude / longitude coordinates.
 #' @param palette a function, or list of functions, that generates hex colours
 #' given a single number as an input. See details.
-#' @param legend logical indicating if a legend should be included on the map
+#' @param legend
 #' @param legend_options
 #'
 #' @details
@@ -113,6 +113,17 @@ add_circles <- function(map,
                         legend = F,
                         legend_options = NULL){
 
+  ## TODO:
+  ## - handle this JSON message
+  # google_map(key = mapKey) %>%
+  #   add_circles(data = tram_stops, lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_name", legend = c(fill_colour = F))
+  ## - why is the legend shown in this example?
+  # google_map(key = mapKey) %>%
+  #   +     add_circles(data = tram_stops, lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_name", legend = c(stroke_colour = T, fill_colour = F))
+  # ## - and not shown in this example
+  # google_map(key = mapKey) %>%
+  #   add_circles(data = tram_stops, lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_name", legend = list(stroke_colour = F, fill_colour = T))
+
   objArgs <- match.call(expand.dots = F)
 
   ## PARAMETER CHECKS
@@ -140,12 +151,12 @@ add_circles <- function(map,
     shape <- replaceVariableColours(shape, colours)
   }
 
-  if(legend){
+  if(any(vapply(legend, isTRUE, T))){
     ## TODO:
     ## - legend can indiicate if a variable shoudl or should not be on the legend
     ## ---- e.g. legend = list(fill_colour = T, stroke_colour = F)
 
-    legend <- constructLegend(colour_palettes)
+    legend <- constructLegend(colour_palettes, legend)
 
     if(!is.null(legend_options)){
       legend <- addLegendOptions(legend, legend_options)
