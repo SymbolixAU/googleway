@@ -77,7 +77,7 @@ test_that("list of palettes correctly applied", {
 
 })
 
-test_that("legend options are assigned to legends"{
+test_that("legend options are assigned to legends", {
 
   ## TODO:
   ## different legend options for stroke & fill
@@ -104,6 +104,7 @@ test_that("legend options are assigned to legends"{
 
   legend <- googleway:::constructLegend(colour_palettes)
 
+
   ## options to apply to both palettes
   legend_options <- list(
     title = "new legend title",
@@ -113,18 +114,32 @@ test_that("legend options are assigned to legends"{
     suffix = NULL
   )
 
+  legend <- googleway:::addLegendOptions(legend, legend_options)
 
   expect_true(
-    legend$title == legend_options$title
+    legend[[1]]$title == legend_options$title
   )
 
   expect_true(
-    legend$css == legend_options$css
+    legend[[2]]$title == legend_options$title
   )
 
   expect_true(
-    legend$position == legend_options$position
+    legend[[1]]$css == legend_options$css
   )
+
+  expect_true(
+    legend[[2]]$css == legend_options$css
+  )
+
+  expect_true(
+    legend[[1]]$position == legend_options$position
+  )
+
+  expect_true(
+    legend[[2]]$position == legend_options$position
+  )
+
 
   ## options to apply to individual palettes
   legend_options <- list(
@@ -138,14 +153,56 @@ test_that("legend options are assigned to legends"{
     stroke_colour = list(
       title = "stroke title",
       css = 'max-width : 120px; max-height : 160px; overflow : auto;',
-      position = "BOTTOM_LEFT",
+      position = "LEFT_TOP",
       prefix = "$",
       suffix = NULL
     )
   )
 
+  legend <- googleway:::constructLegend(colour_palettes)
+  legend <- googleway:::addLegendOptions(legend, legend_options)
 
-  ## one to be mapped individually, the other not
+  expect_true(
+    legend[[1]]$prefix == legend_options$fill_colour$prefix
+  )
+
+  expect_true(
+    legend[[2]]$prefix == legend_options$stroke_colour$prefix
+  )
+
+  expect_true(
+    legend[[1]]$position == legend_options$fill_colour$position
+  )
+
+  expect_true(
+    legend[[2]]$position == legend_options$stroke_colour$position
+  )
+
+
+  ## map just one option
+  legend_options <- list(
+    fill_colour = list(
+      title = "fill title",
+      css = 'max-width : 120px; max-height : 160px; overflow : auto;',
+      position = "BOTTOM_LEFT",
+      prefix = "--",
+      suffix = "%"
+    )
+  )
+
+  legend <- googleway:::constructLegend(colour_palettes)
+  legend <- googleway:::addLegendOptions(legend, legend_options)
+
+  expect_true(
+    legend[[1]]$suffix == "%"
+  )
+
+  expect_true(
+    is.null(legend[[2]]$suffix)
+  )
+
+  ## one to be mapped individually, the other not, so only
+  ## the non-direct one will be applied
   legend_options <- list(
     fill_colour = list(
       title = "fill title",
@@ -162,7 +219,61 @@ test_that("legend options are assigned to legends"{
     stroke_colour = "blue"
   )
 
+  legend <- googleway:::constructLegend(colour_palettes)
+  legend <- googleway:::addLegendOptions(legend, legend_options)
 
+  expect_true(
+    legend[[1]]$prefix == "$"
+  )
+
+  expect_true(
+    legend[[2]]$prefix == "$"
+  )
+
+  legend_options <- list(
+    fill_colour = list(
+      position = "TOP_LEFT"
+    )
+  )
+
+  legend <- googleway:::constructLegend(colour_palettes)
+  legend <- googleway:::addLegendOptions(legend, legend_options)
+
+  expect_true(
+    legend[[1]]$position == "TOP_LEFT"
+  )
+
+  dat <- data.frame(id = c(rep(1,3), rep(2, 2)),
+                    val = letters[1:5],
+                    val2 = letters[11:15],
+                    stringsAsFactors = F)
+
+  lstPalette <- list(stroke_colour = viridisLite::viridis,
+                     fill_colour = viridisLite::inferno)
+
+  allCols <- c("id", "val", "val2")
+  objArgs <- quote(add_polygons(id = "id", stroke_colour = NULL, fill_colour = "val"))
+  shape <- googleway:::createMapObject(dat, allCols, objArgs)
+
+  colourColumns <- c("stroke_colour" = NULL, "fill_colour" = "val")
+
+  pal <- googleway:::createPalettes(shape, colourColumns)
+
+  colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, lstPalette)
+
+  legend_options <- list(
+    fill_colour = list(
+      position = "TOP_LEFT"
+    )
+  )
+
+  legend <- googleway:::constructLegend(colour_palettes)
+  legend <- googleway:::addLegendOptions(legend, legend_options)
+
+
+  expect_true(
+    legend[[1]]$position == "TOP_LEFT"
+  )
 
 })
 

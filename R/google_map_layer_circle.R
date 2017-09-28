@@ -142,42 +142,14 @@ add_circles <- function(map,
 
   if(legend){
     ## TODO:
-    ## - map all fills, stroke, weight, opacity to legend?
-    ## - legend options used to update the legend...
-    ## --- css, title, position
-    ## --- can specify which aesthetic it applies to (fill or stroke)
     ## - legend can indiicate if a variable shoudl or should not be on the legend
     ## ---- e.g. legend = list(fill_colour = T, stroke_colour = F)
 
-    ## depending on the type, if it's a 'gradient', the colour palette needs to be
-    ## binified
     legend <- constructLegend(colour_palettes)
 
-    # legendIdx <- which(names(colourColumns) == 'fill_colour')
-    # legend <- colour_palettes[[legendIdx]]$palette
-    # title <- colour_palettes[[legendIdx]]$variables
-    # type <- getLegendType(legend$variable)
-    # legend <- constructLegend(legend, type)
-    #
-    # ## legend options:
-    # ## title
-    # ## css
-    # ## position
-    # ## text format
-    # legend_options = list(
-    #   fill_colour = list(
-    #     title = "new title",
-    #     css = 'max-width : 120px; max-height : 160px; overflow : auto;',
-    #     position = "LEFT_BOTTOM")
-    # )
-
     if(!is.null(legend_options)){
-      print(legend)
       legend <- addLegendOptions(legend, legend_options)
-      print(legend)
     }
-
-    # legend_options <- jsonlite::toJSON(legend_options, auto_unbox = T)
   }
 
   requiredDefaults <- setdiff(requiredCols, names(shape))

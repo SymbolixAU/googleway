@@ -70,35 +70,59 @@ addLegendOptions <- function(legend, legend_options){
   ## - if the legend_options is a single unnamed list, update all the legends
   ## - if the legend is a named list, update the specific legends
 
-  ## if named list, check those names exist in the legend
-  ##
-  ## will only work if these elements are also lists
-  toMapDirectly <- names(legend_options)[names(legend_options) %in% c("fill_colour", "stroke_colour")]
-  toMapDirectly <- toMapDirectly[vapply(toMapDirectly, function(x) is.list(legend_options[[x]]), T)]
+  ## If any names of legend_options not in c("fill_colour", "stroke_colour")
+  ## then those will be applied to all
 
-  if(length(toMapDirectly) > 0){
-    ## there are some options to mape directly to legend elements
-    ## this will udpate the elements with the options directly
-    # aesthetic <- toMapDirectly[1]
-    # idx <- which(vapply(legend, function(x) x$colourType == aesthetic, T))
-    # legend[[idx]]
-    # legend_options[[aesthetic]]
+  ## otherwise, it will be either a fill_colour or a stroke_colour
+  nonAesthetics <- names(legend_options)[!names(legend_options) %in% c("fill_colour", "stroke_colour")]
 
-    ## valid options
-    ## title, css, position, prefix, suffix
-    #legend[[idx]] <- replaceLegendOption(legend[[idx]], legend_options[[aesthetic]])
+  if(length(nonAesthetics) > 0){
+    ## then we can't use the individual mappings
+    legend <- lapply(legend, replaceLegendOption, legend_options)
+  }else{
+    ## apply the mappings directly to the aesthetics
+    toMapDirectly <- names(legend_options)[names(legend_options) %in% c("fill_colour", "stroke_colour")]
+    toMapDirectly <- toMapDirectly[vapply(toMapDirectly, function(x) is.list(legend_options[[x]]), T)]
 
-    legend <- lapply(toMapDirectly, function(x){
+    legend <- lapply(c("fill_colour", "stroke_colour"), function(x){
       idx <- which(vapply(legend, function(y) y$colourType == x, T))
-      replaceLegendOption(legend[[idx]], legend_options[[x]])
+      if(length(idx) > 0){
+        replaceLegendOption(legend[[idx]], legend_options[[x]])
+      }
     })
+
   }
 
-  ## if legend_options are not named either fill or stroke, they get applied
-  ## to ALL legend elements
+  # ## if named list, check those names exist in the legend
+  # ##
+  # ## will only work if these elements are also lists
+  # toMapDirectly <- names(legend_options)[names(legend_options) %in% c("fill_colour", "stroke_colour")]
+  # toMapDirectly <- toMapDirectly[vapply(toMapDirectly, function(x) is.list(legend_options[[x]]), T)]
+  #
+  # if(length(toMapDirectly) > 0){
+  #   ## there are some options to mape directly to legend elements
+  #   ## this will udpate the elements with the options directly
+  #   # aesthetic <- toMapDirectly[1]
+  #   # idx <- which(vapply(legend, function(x) x$colourType == aesthetic, T))
+  #   # legend[[idx]]
+  #   # legend_options[[aesthetic]]
+  #
+  #   ## valid options
+  #   ## title, css, position, prefix, suffix
+  #   #legend[[idx]] <- replaceLegendOption(legend[[idx]], legend_options[[aesthetic]])
+  #
+  #   legend_direct <- lapply(toMapDirectly, function(x){
+  #     idx <- which(vapply(legend, function(y) y$colourType == x, T))
+  #     replaceLegendOption(legend[[idx]], legend_options[[x]])
+  #   })
+  # }
+  #
+  #
+  # ## if legend_options are not named either fill or stroke, they get applied
+  # ## to ALL legend elements
+  # toMapToAll <- names(which(vapply(names(legend_options), function(x) !x %in% c("fill_colour", "stroke_colour"), T)))
 
   return(legend)
-
 }
 
 replaceLegendOption <- function(legend, legend_option){
