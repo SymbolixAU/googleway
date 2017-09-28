@@ -113,9 +113,6 @@ add_circles <- function(map,
                         legend = F,
                         legend_options = NULL){
 
-  ## TODO:
-  ## - pal can be a lsit of palettes  list(fill_colour = viridisLite::inferno, stroke_colour = viridisLite::plasma)
-
   objArgs <- match.call(expand.dots = F)
 
   ## PARAMETER CHECKS
@@ -139,57 +136,22 @@ add_circles <- function(map,
   colour_palettes <- createColourPalettes(data, pal, colourColumns, palette)
   colours <- createColours(shape, colour_palettes)
 
-  # print(colours)
-
-  # colours <- setupColours(data, shape, colourColumns, palette)
   if(length(colours) > 0){
     shape <- replaceVariableColours(shape, colours)
-  }
-
-  formatPalette <- function(palette, type){
-    ## palette shoudl be a data.frame
-    if(type == "gradient"){
-      palette <- palette[with(palette, order(variable)), ]
-
-      ## cut the palette
-      rows <- 1:nrow(palette)
-      rowRange <- range(rows)
-      rw <- unique(round(pretty(rows, n = 5)))
-      rw <- rw[rw >= rowRange[1] & rw <= rowRange[2]]
-      if(rw[1] != 1) rw <- c(1, rw)
-      if(rw[length(rw)] != nrow(palette)) rw <- c(rw, nrow(palette))
-
-      print(rw)
-
-      palette <- palette[rw, ]
-    }
-
-    return(palette)
   }
 
   if(legend){
     ## TODO:
     ## - map all fills, stroke, weight, opacity to legend?
-    ## - assign different palettes to different aesthetics (fill & stroke) ?
     ## - legend options used to update the legend...
     ## --- css, title, position
     ## --- can specify which aesthetic it applies to (fill or stroke)
+    ## - legend can indiicate if a variable shoudl or should not be on the legend
+    ## ---- e.g. legend = list(fill_colour = T, stroke_colour = F)
 
     ## depending on the type, if it's a 'gradient', the colour palette needs to be
     ## binified
-    legend <- lapply(colour_palettes, function(x){
-
-      ## format the palette - needs binning if it's gradient
-      type <- getLegendType(x$palette[['variable']])
-      x$palette <- formatPalette(x$palette, type)
-
-      list(
-        colourType = ifelse('fill_colour' %in% names(x$variables), 'fill_colour', 'stroke_colour'),
-        type = type,
-        title = unique(x$variable),
-        legend = x$palette
-      )
-    })
+    legend <- constructLegend(colour_palettes)
 
     # legendIdx <- which(names(colourColumns) == 'fill_colour')
     # legend <- colour_palettes[[legendIdx]]$palette
@@ -202,11 +164,20 @@ add_circles <- function(map,
     # ## css
     # ## position
     # ## text format
-    legend_options = list(#type = type,
-                          title = "new title",
-                          css = 'max-width : 120px; max-height : 160px; overflow : auto;',
-                          position = "TOP_RIGHT")
-    legend_options <- jsonlite::toJSON(legend_options, auto_unbox = T)
+    legend_options = list(
+      fill_colour = list(
+        title = "new title",
+        css = 'max-width : 120px; max-height : 160px; overflow : auto;',
+        position = "LEFT_BOTTOM")
+    )
+
+    if(!is.null(legend_options)){
+      print(legend)
+      legend <- addLegendOptions(legend, legend_options)
+      print(legend)
+    }
+
+    # legend_options <- jsonlite::toJSON(legend_options, auto_unbox = T)
   }
 
   requiredDefaults <- setdiff(requiredCols, names(shape))
@@ -216,7 +187,7 @@ add_circles <- function(map,
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  invoke_method(map, 'add_circles', shape, update_map_view, layer_id, legend, legend_options)
+  invoke_method(map, 'add_circles', shape, update_map_view, layer_id, legend)
 }
 
 #' @rdname clear

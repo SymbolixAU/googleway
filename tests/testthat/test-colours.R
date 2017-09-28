@@ -77,6 +77,96 @@ test_that("list of palettes correctly applied", {
 
 })
 
+test_that("legend options are assigned to legends"{
+
+  ## TODO:
+  ## different legend options for stroke & fill
+  ## one legend option to apply to both stroke & fill
+
+  # given a constructed legend, update it with legend_options
+  dat <- data.frame(id = c(rep(1,3), rep(2, 2)),
+                    val = letters[1:5],
+                    val2 = letters[11:15],
+                    stringsAsFactors = F)
+
+  lstPalette <- list(stroke_colour = viridisLite::viridis,
+                     fill_colour = viridisLite::inferno)
+
+  allCols <- c("id", "val", "val2")
+  objArgs <- quote(add_polygons(id = "id", stroke_colour = "id", fill_colour = "val"))
+  shape <- googleway:::createMapObject(dat, allCols, objArgs)
+
+  colourColumns <- c("stroke_colour" = 'id', "fill_colour" = "val")
+
+  pal <- googleway:::createPalettes(shape, colourColumns)
+
+  colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, lstPalette)
+
+  legend <- googleway:::constructLegend(colour_palettes)
+
+  ## options to apply to both palettes
+  legend_options <- list(
+    title = "new legend title",
+    css = 'max-width : 120px; max-height : 160px; overflow : auto;',
+    position = "BOTTOM_LEFT",
+    prefix = NULL,
+    suffix = NULL
+  )
+
+
+  expect_true(
+    legend$title == legend_options$title
+  )
+
+  expect_true(
+    legend$css == legend_options$css
+  )
+
+  expect_true(
+    legend$position == legend_options$position
+  )
+
+  ## options to apply to individual palettes
+  legend_options <- list(
+    fill_colour = list(
+      title = "fill title",
+      css = 'max-width : 120px; max-height : 160px; overflow : auto;',
+      position = "BOTTOM_LEFT",
+      prefix = "--",
+      suffix = "%"
+    ),
+    stroke_colour = list(
+      title = "stroke title",
+      css = 'max-width : 120px; max-height : 160px; overflow : auto;',
+      position = "BOTTOM_LEFT",
+      prefix = "$",
+      suffix = NULL
+    )
+  )
+
+
+  ## one to be mapped individually, the other not
+  legend_options <- list(
+    fill_colour = list(
+      title = "fill title",
+      css = 'max-width : 120px; max-height : 160px; overflow : auto;',
+      position = "BOTTOM_LEFT",
+      prefix = "--",
+      suffix = "%"
+    ),
+    title = "stroke title",
+    css = 'max-width : 120px; max-height : 160px; overflow : auto;',
+    position = "BOTTOM_LEFT",
+    prefix = "$",
+    suffix = NULL,
+    stroke_colour = "blue"
+  )
+
+
+
+})
+
+
 
 test_that("setup colours ",{
 

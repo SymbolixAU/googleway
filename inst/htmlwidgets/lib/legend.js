@@ -1,29 +1,24 @@
 
-function add_legend(map_id, layer_id, legendValues, legendOptions) {
+function add_legend(map_id, layer_id, legendValues) {
     
     'use strict';
     
     var i = 0;
+    console.log(legendValues);
     
     for (i = 0; i < legendValues.length; i++) {
 
         if (legendValues[i].type === "category") {
-            add_legend_category(map_id, layer_id, legendValues[i], legendOptions);
+            add_legend_category(map_id, layer_id, legendValues[i]);
         } else {
-            add_legend_gradient(map_id, layer_id, legendValues[i], legendOptions);
+            add_legend_gradient(map_id, layer_id, legendValues[i]);
         }
     }
-    
-//    if (legendOptions.type === "gradient") {
-//        add_legend_gradient(map_id, layer_id, legendValues, legendOptions);
-//    } else {
-//        add_legend_category(map_id, layer_id, legendValues, legendOptions);
-//    }
 }
 
 // TODO:
 // - label formats
-function add_legend_gradient(map_id, layer_id, legendValues, legendOptions) {
+function add_legend_gradient(map_id, layer_id, legendValues) {
     // fill gradient
     
     'use strict';
@@ -49,14 +44,13 @@ function add_legend_gradient(map_id, layer_id, legendValues, legendOptions) {
     
     legendTitle.setAttribute('class', 'legendTitle');
     legendTitle.innerHTML = legendValues.title;
-    //legendTitle.innerHTML = (legendOptions.title !== undefined) ? legendOptions.title : "placeholder title";
     window[map_id + 'legend' + layer_id + legendValues.colourType].appendChild(legendTitle);
      
     tickContainer.setAttribute('class', 'tickContainer');
     labelContainer.setAttribute('class', 'labelContainer');
 
-    if (legendOptions.css !== null) {
-        window[map_id + 'legend' + layer_id + legendValues.colourType].setAttribute('style', legendOptions.css);
+    if (legendValues.css !== null) {
+        window[map_id + 'legend' + layer_id + legendValues.colourType].setAttribute('style', legendValues.css);
     }
 
     for (i = 0; i < legendValues.legend.colour.length; i++) {
@@ -95,7 +89,7 @@ function add_legend_gradient(map_id, layer_id, legendValues, legendOptions) {
 
     window[map_id + 'legend' + layer_id + legendValues.colourType].appendChild(legendContent);
     
-    placeControl(map_id, window[map_id + 'legend' + layer_id + legendValues.colourType], legendOptions.position);
+    placeControl(map_id, window[map_id + 'legend' + layer_id + legendValues.colourType], legendValues.position);
 }
 
 function generateColourBox(colourType, colour) {
@@ -109,7 +103,7 @@ function generateColourBox(colourType, colour) {
     }
 }
 
-function add_legend_category(map_id, layer_id, legendValues, legendOptions) {
+function add_legend_category(map_id, layer_id, legendValues) {
     
     'use strict';
 
@@ -133,13 +127,16 @@ function add_legend_category(map_id, layer_id, legendValues, legendOptions) {
     legendContent.setAttribute('class', 'legendContent');
     
     legendTitle.setAttribute('class', 'legendTitle');
-    //legendTitle.innerHTML = (legendOptions.title !== null) ? legendOptions.title : legendValues.title;
     legendTitle.innerHTML = legendValues.title;
     window[map_id + 'legend' + layer_id + legendValues.colourType].appendChild(legendTitle);
     
     colourContainer.setAttribute('class', 'labelContainer');
     tickContainer.setAttribute('class', 'tickContainer');
     labelContainer.setAttribute('class', 'labelContainer');
+    
+    if (legendValues.css !== null) {
+        window[map_id + 'legend' + layer_id + legendValues.colourType].setAttribute('style', legendValues.css);
+    }
 
     for (i = 0; i < legendValues.legend.colour.length; i++) {
 
@@ -168,6 +165,6 @@ function add_legend_category(map_id, layer_id, legendValues, legendOptions) {
     
     window[map_id + 'legend' + layer_id + legendValues.colourType].appendChild(legendContent);
     
-    placeControl(map_id, window[map_id + 'legend' + layer_id + legendValues.colourType], legendOptions.position);
+    placeControl(map_id, window[map_id + 'legend' + layer_id + legendValues.colourType], legendValues.position);
 }
 
