@@ -78,17 +78,21 @@ should be used for the latitude / longitude coordinates.}
 \item{palette}{a function, or list of functions, that generates hex colours
 given a single number as an input. See details.}
 
+\item{legend}{either a logical indiciating if a legend should be displayed, or
+a named list indicating which colour(s) should be included in the legend.}
+
 \item{legend_options}{}
 }
 \description{
 Add circles to a google map
 }
 \details{
-The palette is used to specify the colours that will map to variables.
+The \code{palette} is used to specify the colours that will map to variables.
 You can specify a single function to map to all variables, or a named list
 that specifies a separate function to map to each variable. The elements must
 be named either \code{fill_colour} or \code{stroke_colour}, and their values
 are the colour generating functions. The default is \code{viridisLite::viridis}
+
 
 \code{z_index} values define the order in which objects appear on the map.
 Those with a higher value appear on top of those with a lower value. The default

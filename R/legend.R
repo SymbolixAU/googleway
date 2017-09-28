@@ -40,10 +40,32 @@ getLegendType.default <- function(colourColumn) "category"
 constructLegend <- function(colour_palettes, legend){
 
   ## remove any colour_palettes not needed
-  cp <- sapply(colour_palettes, function(x) names(x[['variables']]))[unlist(legend)]
+  cp <- sapply(colour_palettes, function(x) names(x[['variables']]))
+
+#   l1 <- T
+#   l2 <- c(F)
+# #  l3 <- c(fill_colour = T, stroke_colour = F)
+#   l4 <- list(fill_colour = T, stroke_colour = F)
+#
+#   unlist(l1)
+#   unlist(l2)
+# #  unlist(l3)
+#   unlist(l4)
+#
+#   l4 <- unlist(l4)
+#   names(l4)[l4 == T]
+#
+  if(is.list(legend)){
+    legend <- unlist(legend)
+    legend <- names(legend)[legend == T]
+  }else{
+    legend <- c("fill_colour", "stroke_colour")[legend]
+  }
+
+  cp <- cp[cp %in% legend]
 
   ## cp are now the valid colours
-  lapply(colour_palettes, function(x){
+  lst <- lapply(colour_palettes, function(x){
 
     if(all(names(x[['variables']]) %in% cp)){
 
@@ -63,6 +85,8 @@ constructLegend <- function(colour_palettes, legend){
     }
   })
 
+  lst[sapply(lst, is.null)] <- NULL
+  return(lst)
 }
 
 # add legend options
