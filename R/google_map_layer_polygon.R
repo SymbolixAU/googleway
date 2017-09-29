@@ -235,29 +235,7 @@ add_polygons <- function(map,
 #' This function will only update the polygons that currently exist on the map
 #' when the function is called.
 #'
-#' @param map a googleway map object created from \code{google_map()}
-#' @param data data.frame containing the new values for the polygons
-#' @param id string representing the column of \code{data} containing the id
-#' values for the polygons. The id values must be present in the data supplied
-#' to \code{add_polygons} in order for the polygons to be udpated
-#' @param stroke_colour either a string specifying the column of \code{data}
-#' containing the stroke colour of each polygon, or a valid hexadecimal numeric
-#' HTML style to be applied to all the polygons
-#' @param stroke_opacity either a string specifying the column of \code{data}
-#' containing the stroke opacity of each polygon, or a value between 0 and 1 that
-#' will be applied to all the polygons
-#' @param stroke_weight either a string specifying the column of \code{data}
-#' containing the stroke weight of each polygon, or a number indicating the width of
-#' pixels in the line to be applied to all the polygons
-#' @param fill_colour either a string specifying the column of \code{data}
-#' containing the fill colour of each polygon, or a valid hexadecimal numeric
-#' HTML style to be applied to all the polygons
-#' @param fill_opacity either a string specifying the column of \code{data}
-#' containing the fill opacity of each polygon, or a value between 0 and 1 that
-#' will be applied to all the polygons
-#' @param layer_id single value specifying an id for the layer.
-#' @param palette a function that generates hex RGB colours given a single number as an input.
-#' Used when a variable of \code{data} is specified as a colour
+#' @inheritParams update_circles
 #'
 #' @examples
 #' \dontrun{
@@ -322,8 +300,10 @@ update_polygons <- function(map, data, id,
                             fill_colour = NULL,
                             fill_opacity = NULL,
                             layer_id = NULL,
-                            palette = NULL
-){
+                            palette = NULL,
+                            legend = F,
+                            legend_options = NULL
+                            ){
 
   ## TODO: is 'info_window' required, if it was included in the original add_polygons?
 
@@ -338,20 +318,28 @@ update_polygons <- function(map, data, id,
   objArgs <- lst$objArgs
   id <- lst$id
 
-
   allCols <- polygonUpdateColumns()
   requiredCols <- requiredShapeUpdateColumns()
   colourColumns <- shapeAttributes(fill_colour, stroke_colour)
 
   shape <- createMapObject(data, allCols, objArgs)
-  colours <- setupColours(data, shape, colourColumns, palette)
+  pal <- createPalettes(shape, colourColumns)
+  colour_palettes <- createColourPalettes(data, pal, colourColumns, palette)
+  colours <- createColours(shape, colour_palettes)
 
   if(length(colours) > 0){
     shape <- replaceVariableColours(shape, colours)
   }
 
-  requiredDefaults <- setdiff(requiredCols, names(shape))
+  ## LEGEND
+  if(any(vapply(legend, isTRUE, T))){
+    legend <- constructLegend(colour_palettes, legend)
+    if(!is.null(legend_options)){
+      legend <- addLegendOptions(legend, legend_options)
+    }
+  }
 
+  requiredDefaults <- setdiff(requiredCols, names(shape))
   if(length(requiredDefaults) > 0){
     shape <- addDefaults(shape, requiredDefaults, "polygonUpdate")
   }

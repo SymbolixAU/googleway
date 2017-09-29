@@ -27,22 +27,36 @@ function add_legend_gradient(map_id, layer_id, legendValues) {
     
     'use strict';
     
-    if (window[map_id + 'legend' + layer_id + legendValues.colourType] === undefined) {
-        window[map_id + 'legend' + layer_id + legendValues.colourType] = document.createElement("div");
-        window[map_id + 'legend' + layer_id + legendValues.colourType].setAttribute('id', map_id + 'legend' + layer_id + legendValues.colourType);
-        window[map_id + 'legend' + layer_id + legendValues.colourType].setAttribute('class', 'legend');
-    }
-
-    var legendContent = document.createElement("div"),
-        legendTitle = document.createElement("div"),
-        tickContainer = document.createElement("div"),
+    var legendContent,
+        legendTitle,
+        tickContainer,
         labelContainer = document.createElement("div"),
         legendColours = document.createElement('div'),
         jsColours = [],
         colours = '',
         i = 0,
         legendTextColour = '#828282',
-        style = '';
+        style = '',
+        isUpdating = false;
+    
+    
+    if (window[map_id + 'legend' + layer_id + legendValues.colourType] === undefined) {
+        window[map_id + 'legend' + layer_id + legendValues.colourType] = document.createElement("div");
+        window[map_id + 'legend' + layer_id + legendValues.colourType].setAttribute('id', map_id + 'legend' + layer_id + legendValues.colourType);
+        window[map_id + 'legend' + layer_id + legendValues.colourType].setAttribute('class', 'legend');
+    }  else {
+        isUpdating = true;
+        
+        while (window[map_id + 'legend' + layer_id + legendValues.colourType].hasChildNodes()) {
+            window[map_id + 'legend' + layer_id + legendValues.colourType].removeChild(window[map_id + 'legend' + layer_id + legendValues.colourType].lastChild);
+        }
+    }
+
+    legendContent = document.createElement("div"),
+    legendTitle = document.createElement("div"),
+    tickContainer = document.createElement("div"),
+    labelContainer = document.createElement("div"),
+    legendColours = document.createElement('div'),
     
     legendContent.setAttribute('class', 'legendContent');
     
@@ -93,7 +107,9 @@ function add_legend_gradient(map_id, layer_id, legendValues) {
 
     window[map_id + 'legend' + layer_id + legendValues.colourType].appendChild(legendContent);
     
-    placeControl(map_id, window[map_id + 'legend' + layer_id + legendValues.colourType], legendValues.position);
+    if (isUpdating === false) {
+        placeControl(map_id, window[map_id + 'legend' + layer_id + legendValues.colourType], legendValues.position);
+    }
 }
 
 function generateColourBox(colourType, colour) {
@@ -111,32 +127,56 @@ function add_legend_category(map_id, layer_id, legendValues) {
     
     'use strict';
 
+    var legendContent,
+        legendTitle,
+        colourContainer,
+        tickContainer,
+        labelContainer,
+        legendColours,
+        colourBox = '',
+        //colourAttribute = '',
+        i = 0,
+        legendTextColour = '#828282',
+        isUpdating = false;
+    
+    
     if (window[map_id + 'legend' + layer_id + legendValues.colourType] === undefined) {
         window[map_id + 'legend' + layer_id + legendValues.colourType] = document.createElement("div");
         window[map_id + 'legend' + layer_id + legendValues.colourType].setAttribute('id', map_id + 'legend' + layer_id + legendValues.colourType);
         window[map_id + 'legend' + layer_id + legendValues.colourType].setAttribute('class', 'legend');
+        
+    } else {
+        isUpdating = true;
+        
+        while (window[map_id + 'legend' + layer_id + legendValues.colourType].hasChildNodes()) {
+            window[map_id + 'legend' + layer_id + legendValues.colourType].removeChild(window[map_id + 'legend' + layer_id + legendValues.colourType].lastChild);
+        }
     }
     
-    var legendContent = document.createElement("div"),
-        legendTitle = document.createElement("div"),
-        colourContainer = document.createElement("div"),
-        tickContainer = document.createElement("div"),
-        labelContainer = document.createElement("div"),
-        legendColours = document.createElement('div'),
-        colourBox = '',
-        //colourAttribute = '',
-        i = 0,
-        legendTextColour = '#828282';
+    legendContent = document.createElement("div");
+    legendTitle = document.createElement("div");
+    colourContainer = document.createElement("div");
+    tickContainer = document.createElement("div");
+    labelContainer = document.createElement("div");
+    legendColours = document.createElement('div');
     
     legendContent.setAttribute('class', 'legendContent');
+    legendContent.setAttribute('id', 'legendContentId' + map_id + layer_id);
     
     legendTitle.setAttribute('class', 'legendTitle');
     legendTitle.innerHTML = legendValues.title;
     window[map_id + 'legend' + layer_id + legendValues.colourType].appendChild(legendTitle);
     
+    console.log('defining colourContainer');
     colourContainer.setAttribute('class', 'labelContainer');
+    colourContainer.setAttribute('id', 'colourContainerId' + map_id + layer_id);
+    console.log(colourContainer);
+    
     tickContainer.setAttribute('class', 'tickContainer');
+    tickContainer.setAttribute('id', 'tickContainerId' + map_id + layer_id);
+    
     labelContainer.setAttribute('class', 'labelContainer');
+    labelContainer.setAttribute('id', 'labelContainerId' + map_id + layer_id);
     
     if (legendValues.css !== null) {
         window[map_id + 'legend' + layer_id + legendValues.colourType].setAttribute('style', legendValues.css);
@@ -169,6 +209,8 @@ function add_legend_category(map_id, layer_id, legendValues) {
     
     window[map_id + 'legend' + layer_id + legendValues.colourType].appendChild(legendContent);
     
-    placeControl(map_id, window[map_id + 'legend' + layer_id + legendValues.colourType], legendValues.position);
+    if (isUpdating === false) {
+        placeControl(map_id, window[map_id + 'legend' + layer_id + legendValues.colourType], legendValues.position);
+    }
 }
 

@@ -11,28 +11,37 @@ update_polylines(map, data, id, stroke_colour = NULL, stroke_weight = NULL,
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
-\item{data}{data.frame containing the new values for the polylines}
+\item{data}{data frame containing at least two columns, one specifying the
+latitude coordinates, and the other specifying the longitude. If Null, the
+data passed into \code{google_map()} will be used.}
 
-\item{id}{string representing the column of \code{data} containing the id
-values for the polylines The id values must be present in the data supplied
-to \code{add_polylines} in order for the polylines to be udpated}
+\item{id}{string representing the column of \code{data} containing the id values
+for the shapes. The id values must be present in the original data supplied to in order
+for the shape to be udpated.}
 
-\item{stroke_colour}{either a string specifying the column of \code{data}
-containing the stroke colour of each polyline, or a valid hexadecimal numeric
-HTML style to be applied to all the polylines}
+\item{stroke_colour}{either a string specifying the column of \code{data} containing
+the stroke colour of each shape, or a valid hexadecimal numeric HTML style to
+be applied to all the shapes}
 
-\item{stroke_weight}{either a string specifying the column of \code{data}
-containing the stroke weight of each polyline, or a number indicating the width
-of pixels in the line to be applied to all the polyline}
+\item{stroke_weight}{either a string specifying the column of \code{data} containing
+the stroke weight of each shape, or a number indicating the width of pixels
+in the line to be applied to all the shapes}
 
-\item{stroke_opacity}{either a string specifying the column of \code{data}
-containing the stroke opacity of each polyline, or a value between 0 and 1
-that will be applied to all the polyline}
+\item{stroke_opacity}{either a string specifying the column of \code{data} containing
+the stroke opacity of each shape, or a value between 0 and 1 that will be
+applied to all the shapes}
 
-\item{layer_id}{single value specifying an id for the layer.}
+\item{layer_id}{single value specifying an id for the layer. Use this value to
+distinguish between shape layers for when using any \code{update_} function, and
+for separating legends.}
 
-\item{palette}{a function that generates hex RGB colours given a single number as an input.
-Used when a variable of \code{data} is specified as a colour}
+\item{palette}{a function, or list of functions, that generates hex colours
+given a single number as an input. See details.}
+
+\item{legend}{either a logical indiciating if the legend(s) should be displayed, or
+a named list indicating which colour attributes should be included in the legend.}
+
+\item{legend_options}{A list of options for controlling the legend.}
 }
 \description{
 Updates specific attributes of polylines. Designed to be

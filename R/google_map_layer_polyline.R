@@ -125,10 +125,20 @@ add_polylines <- function(map,
   colourColumns <- lineAttributes(stroke_colour)
 
   shape <- createMapObject(data, allCols, objArgs)
-  colours <- setupColours(data, shape, colourColumns, palette)
+  pal <- createPalettes(shape, colourColumns)
+  colour_palettes <- createColourPalettes(data, pal, colourColumns, viridisLite::viridis)
+  colours <- createColours(shape, colour_palettes)
 
   if(length(colours) > 0){
     shape <- replaceVariableColours(shape, colours)
+  }
+
+  ## LEGEND
+  if(any(vapply(legend, isTRUE, T))){
+    legend <- constructLegend(colour_palettes, legend)
+    if(!is.null(legend_options)){
+      legend <- addLegendOptions(legend, legend_options)
+    }
   }
 
   requiredDefaults <- setdiff(requiredCols, names(shape))
@@ -168,23 +178,7 @@ add_polylines <- function(map,
 #' map. This function will only update the polylines that currently exist on
 #' the map when the function is called.
 #'
-#' @param map a googleway map object created from \code{google_map()}
-#' @param data data.frame containing the new values for the polylines
-#' @param id string representing the column of \code{data} containing the id
-#' values for the polylines The id values must be present in the data supplied
-#' to \code{add_polylines} in order for the polylines to be udpated
-#' @param stroke_colour either a string specifying the column of \code{data}
-#' containing the stroke colour of each polyline, or a valid hexadecimal numeric
-#' HTML style to be applied to all the polylines
-#' @param stroke_opacity either a string specifying the column of \code{data}
-#' containing the stroke opacity of each polyline, or a value between 0 and 1
-#' that will be applied to all the polyline
-#' @param stroke_weight either a string specifying the column of \code{data}
-#' containing the stroke weight of each polyline, or a number indicating the width
-#' of pixels in the line to be applied to all the polyline
-#' @param layer_id single value specifying an id for the layer.
-#' @param palette a function that generates hex RGB colours given a single number as an input.
-#' Used when a variable of \code{data} is specified as a colour
+#' @inheritParams update_polygons
 #'
 #' @examples
 #' \dontrun{
@@ -265,7 +259,9 @@ update_polylines <- function(map, data, id,
   colourColumns <- lineAttributes(stroke_colour)
 
   shape <- createMapObject(data, allCols, objArgs)
-  colours <- setupColours(data, shape, colourColumns, palette)
+  pal <- createPalettes(shape, colourColumns)
+  colour_palettes <- createColourPalettes(data, pal, colourColumns, palette)
+  colours <- createColours(shape, colour_palettes)
 
   if(length(colours) > 0){
     shape <- replaceVariableColours(shape, colours)

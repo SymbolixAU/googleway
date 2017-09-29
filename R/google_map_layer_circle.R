@@ -37,8 +37,9 @@
 #' mouse rolls over the shape
 #' @param mouse_over_group string specifying the column of data specifying which
 #' groups of shapes to highlight on mouseover
-#' @param layer_id single value specifying an id for the layer.
-#'  layer.
+#' @param layer_id single value specifying an id for the layer. Use this value to
+#' distinguish between shape layers for when using any \code{update_} function, and
+#' for separating legends.
 #' @param update_map_view logical specifying if the map should re-centre according to
 #' the circles
 #' @param z_index single value specifying where the circles appear in the layering
@@ -212,36 +213,10 @@ clear_circles <- function(map, layer_id = NULL){
 #' This function will only update the circles that currently exist on the map when
 #' the function is called.
 #'
-#' @param map a googleway map object created from \code{google_map()}
-#' @param data data.frame containing the new values for the circles
+#' @inheritParams add_circles
 #' @param id string representing the column of \code{data} containing the id values
-#' for the circles. The id values must be present in the data supplied to
-#' \code{add_circles} in order for the polygons to be udpated
-#' @param radius either a string specifying the column of \code{data} containing
-#' the radius of each circle, OR a numeric value specifying the radius of all the
-#' circles (radius is expressed in metres)
-#' @param draggable string specifying the column of \code{data} defining if the
-#' circle is 'draggable' (either TRUE or FALSE)
-#' @param stroke_colour either a string specifying the column of \code{data} containing
-#' the stroke colour of each circle, or a valid hexadecimal numeric HTML style
-#' to be applied to all the circles
-#' @param stroke_opacity either a string specifying the column of \code{data} containing
-#' the stroke opacity of each circle, or a value between 0 and 1 that will be
-#' applied to all the circles
-#' @param stroke_weight either a string specifying the column of \code{data} containing
-#' the stroke weight of each circle, or a number indicating the width of pixels
-#' in the line to be applied to all the circles
-#' @param fill_colour either a string specifying the column of \code{data} containing
-#' the fill colour of each circle, or a valid hexadecimal numeric HTML style to
-#' be applied to all the cirlces
-#' @param fill_opacity either a string specifying the column of \code{data} containing
-#' the fill opacity of each circle, or a value between 0 and 1 that will be applied
-#' to all the circles
-#' @param layer_id single value specifying an id for the layer.
-#' @param digits integer. Use this parameter to specify how many digits (decimal places)
-#' should be used for the latitude / longitude coordinates.
-#' @param palette a function that generates hex RGB colours given a single number as an input.
-#' Used when a variable of \code{data} is specified as a colour
+#' for the shapes. The id values must be present in the original data supplied to in order
+#' for the shape to be udpated.
 #'
 #' @export
 update_circles <- function(map, data, id,
@@ -254,9 +229,17 @@ update_circles <- function(map, data, id,
                            fill_opacity = NULL,
                            layer_id = NULL,
                            digits = 4,
-                           palette = NULL){
+                           palette = NULL,
+                           legend = F,
+                           legend_options = NULL
+                           ){
 
-  ## TODO: is 'info_window' required, if it was included in the original add_ call?
+  ## TODO:
+  ## - is 'info_window' required, if it was included in the original add_ call?
+  ## - update legend:
+  ## --- if a legend was plotted as part of the original layer, need to
+  ## --- get the reference to it, then overwrite the containers
+  ## ---
 
   objArgs <- match.call(expand.dots = F)
 
@@ -269,10 +252,20 @@ update_circles <- function(map, data, id,
   colourColumns <- shapeAttributes(fill_colour, stroke_colour)
 
   shape <- createMapObject(data, allCols, objArgs)
-  colours <- setupColours(data, shape, colourColumns, palette)
+  pal <- createPalettes(shape, colourColumns)
+  colour_palettes <- createColourPalettes(data, pal, colourColumns, palette)
+  colours <- createColours(shape, colour_palettes)
 
   if(length(colours) > 0){
     shape <- replaceVariableColours(shape, colours)
+  }
+
+  ## LEGEND
+  if(any(vapply(legend, isTRUE, T))){
+    legend <- constructLegend(colour_palettes, legend)
+    if(!is.null(legend_options)){
+      legend <- addLegendOptions(legend, legend_options)
+    }
   }
 
   requiredDefaults <- setdiff(requiredCols, names(shape))
@@ -282,5 +275,5 @@ update_circles <- function(map, data, id,
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  invoke_method(map, 'update_circles', shape, layer_id)
+  invoke_method(map, 'update_circles', shape, layer_id, legend)
 }

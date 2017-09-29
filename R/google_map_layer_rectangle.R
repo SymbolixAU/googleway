@@ -91,7 +91,9 @@ add_rectangles <- function(map,
   colourColumns <- shapeAttributes(fill_colour, stroke_colour)
 
   shape <- createMapObject(data, allCols, objArgs)
-  colours <- setupColours(data, shape, colourColumns, palette)
+  pal <- createPalettes(shape, colourColumns)
+  colour_palettes <- createColourPalettes(data, pal, colourColumns, viridisLite::viridis)
+  colours <- createColours(shape, colour_palettes)
 
   if(length(colours) > 0){
     shape <- replaceVariableColours(shape, colours)
@@ -136,33 +138,7 @@ clear_rectangles <- function(map, layer_id = NULL){
 #' This function will only update the rectangles that currently exist on the map when
 #' the function is called.
 #'
-#' @param map a googleway map object created from \code{google_map()}
-#' @param data data.frame containing the new values for the rectangles
-#' @param id string representing the column of \code{data} containing the id values
-#' for the rectangles The id values must be present in the data supplied to
-#' \code{add_rectangles} in order for the polygons to be udpated
-#' @param draggable string specifying the column of \code{data} defining if the
-#' rectangle is 'draggable' (either TRUE or FALSE)
-#' @param stroke_colour either a string specifying the column of \code{data} containing
-#' the stroke colour of each rectangle, or a valid hexadecimal numeric HTML style
-#' to be applied to all the rectangles
-#' @param stroke_opacity either a string specifying the column of \code{data} containing
-#' the stroke opacity of each rectangle, or a value between 0 and 1 that will be
-#' applied to all the rectangles
-#' @param stroke_weight either a string specifying the column of \code{data} containing
-#' the stroke weight of each rectangle, or a number indicating the width of pixels
-#' in the line to be applied to all the rectangles
-#' @param fill_colour either a string specifying the column of \code{data} containing
-#' the fill colour of each rectangle, or a valid hexadecimal numeric HTML style to
-#' be applied to all the cirlces
-#' @param fill_opacity either a string specifying the column of \code{data} containing
-#' the fill opacity of each rectangle, or a value between 0 and 1 that will be applied
-#' to all the rectangles
-#' @param layer_id single value specifying an id for the layer.
-#' @param digits integer. Use this parameter to specify how many digits (decimal places)
-#' should be used for the latitude / longitude coordinates.
-#' @param palette a function that generates hex RGB colours given a single number as an input.
-#' Used when a variable of \code{data} is specified as a colour
+#' @inheritParams update_circles
 #'
 #' @export
 update_rectangles <- function(map, data, id,
@@ -188,10 +164,20 @@ update_rectangles <- function(map, data, id,
   colourColumns <- shapeAttributes(fill_colour, stroke_colour)
 
   shape <- createMapObject(data, allCols, objArgs)
-  colours <- setupColours(data, shape, colourColumns, palette)
+  pal <- createPalettes(shape, colourColumns)
+  colour_palettes <- createColourPalettes(data, pal, colourColumns, viridisLite::viridis)
+  colours <- createColours(shape, colour_palettes)
 
   if(length(colours) > 0){
     shape <- replaceVariableColours(shape, colours)
+  }
+
+  ## LEGEND
+  if(any(vapply(legend, isTRUE, T))){
+    legend <- constructLegend(colour_palettes, legend)
+    if(!is.null(legend_options)){
+      legend <- addLegendOptions(legend, legend_options)
+    }
   }
 
   requiredDefaults <- setdiff(requiredCols, names(shape))

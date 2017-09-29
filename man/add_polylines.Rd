@@ -55,8 +55,9 @@ groups of shapes to highlight on mouseover}
 \item{update_map_view}{logical specifying if the map should re-centre according to
 the circles}
 
-\item{layer_id}{single value specifying an id for the layer.
-layer.}
+\item{layer_id}{single value specifying an id for the layer. Use this value to
+distinguish between shape layers for when using any \code{update_} function, and
+for separating legends.}
 
 \item{z_index}{single value specifying where the circles appear in the layering
 of the map objects. Layers with a higher \code{z_index} appear on top of those with

@@ -54,8 +54,9 @@ groups of shapes to highlight on mouseover}
 \item{marker_icon}{string specifying the column of data containing a link/URL to
 an image to use for a marker}
 
-\item{layer_id}{single value specifying an id for the layer.
-layer.}
+\item{layer_id}{single value specifying an id for the layer. Use this value to
+distinguish between shape layers for when using any \code{update_} function, and
+for separating legends.}
 
 \item{cluster}{logical indicating if co-located markers should be clustered
 when the map zoomed out}

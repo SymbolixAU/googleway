@@ -63,8 +63,9 @@ groups of shapes to highlight on mouseover}
 \item{info_window}{string specifying the column of data to display in an info
 window when a shape is clicked}
 
-\item{layer_id}{single value specifying an id for the layer.
-layer.}
+\item{layer_id}{single value specifying an id for the layer. Use this value to
+distinguish between shape layers for when using any \code{update_} function, and
+for separating legends.}
 
 \item{update_map_view}{logical specifying if the map should re-centre according to
 the circles}

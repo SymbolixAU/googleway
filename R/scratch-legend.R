@@ -164,3 +164,49 @@
 # rw <- c(1, round(p[p > 0] * nrow(myPalette)), nrow(myPalette))
 # legend <- data.frame("value" = cuts, "colour" = myPalette[rw, c("colour")])
 
+
+
+# library(shiny)
+# ui <- fluidRow(
+#   google_mapOutput(outputId = "map"),
+#   sliderInput(inputId = "slider", label = "rows", min = 1, max = 20, value = 20)
+# )
+# server <- function(input, output){
+#
+#   mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#   df <- tram_stops
+#
+#   legendOptions <- list(
+#     fill_colour = list(
+#       position = "LEFT_BOTTOM"
+#     ),
+#     stroke_colour = list(
+#       position = "TOP_RIGHT"
+#     )
+#   )
+#
+#   output$map <- renderGoogle_map({
+#
+#     google_map(key = mapKey) %>%
+#       add_circles(data = df, id = "stop_id", lat = "stop_lat", lon = "stop_lon",
+#                   stroke_colour = "stop_name", fill_colour = "stop_lat", legend = T,
+#                   legend_options = legendOptions) %>%
+#       add_polylines(data = tram_route, lat = "shape_pt_lat", lon = "shape_pt_lon")
+#   })
+#
+#   observeEvent(input$slider, {
+#
+#     df <- tram_stops[1:input$slider, ]
+#
+#     google_map_update(map_id = "map") %>%
+#       update_circles(data = df, id = "stop_id", fill_colour = "stop_lat",
+#                      stroke_colour = "stop_name", legend = T)
+#
+#   })
+#
+# }
+# shinyApp(ui, server)
+
+
+
+
