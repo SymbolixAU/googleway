@@ -85,7 +85,9 @@ add_polylines <- function(map,
                           layer_id = NULL,
                           z_index = NULL,
                           digits = 4,
-                          palette = NULL){
+                          palette = NULL,
+                          legend = F,
+                          legend_options = NULL){
 
   ## TODO:
   ## handle empty data.frame

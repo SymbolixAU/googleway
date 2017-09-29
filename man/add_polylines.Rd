@@ -8,7 +8,8 @@ add_polylines(map, data = get_map_data(map), polyline = NULL, lat = NULL,
   lon = NULL, id = NULL, geodesic = NULL, stroke_colour = NULL,
   stroke_weight = NULL, stroke_opacity = NULL, info_window = NULL,
   mouse_over = NULL, mouse_over_group = NULL, update_map_view = TRUE,
-  layer_id = NULL, z_index = NULL, digits = 4, palette = NULL)
+  layer_id = NULL, z_index = NULL, digits = 4, palette = NULL,
+  legend = F, legend_options = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -66,6 +67,11 @@ should be used for the latitude / longitude coordinates.}
 
 \item{palette}{a function, or list of functions, that generates hex colours
 given a single number as an input. See details.}
+
+\item{legend}{either a logical indiciating if the legend(s) should be displayed, or
+a named list indicating which colour attributes should be included in the legend.}
+
+\item{legend_options}{A list of options for controlling the legend.}
 }
 \description{
 Add a polyline to a google map

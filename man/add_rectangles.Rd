@@ -80,10 +80,9 @@ should be used for the latitude / longitude coordinates.}
 given a single number as an input. See details.}
 
 \item{legend}{either a logical indiciating if the legend(s) should be displayed, or
-a named list indicating which colour attributes should be included in the legend.
-See examples}
+a named list indicating which colour attributes should be included in the legend.}
 
-\item{legend_options}{A list of options for controlling the legend. See details}
+\item{legend_options}{A list of options for controlling the legend.}
 }
 \description{
 Adds a rectangle to a google map

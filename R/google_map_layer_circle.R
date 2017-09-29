@@ -50,11 +50,11 @@
 #' given a single number as an input. See details.
 #' @param legend either a logical indiciating if the legend(s) should be displayed, or
 #' a named list indicating which colour attributes should be included in the legend.
-#' See examples
-#' @param legend_options A list of options for controlling the legend. See details
+#' @param legend_options A list of options for controlling the legend.
 #'
 #' @details
-#' @inheritParams
+#'
+#'
 #' The \code{palette} is used to specify the colours that will map to variables.
 #' You can specify a single function to map to all variables, or a named list
 #' that specifies a separate function to map to each variable. The elements must
