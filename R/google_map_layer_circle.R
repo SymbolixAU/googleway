@@ -47,9 +47,10 @@
 #' should be used for the latitude / longitude coordinates.
 #' @param palette a function, or list of functions, that generates hex colours
 #' given a single number as an input. See details.
-#' @param legend either a logical indiciating if a legend should be displayed, or
-#' a named list indicating which colour(s) should be included in the legend.
-#' @param legend_options
+#' @param legend either a logical indiciating if the legend(s) should be displayed, or
+#' a named list indicating which colour attributes should be included in the legend.
+#' See examples
+#' @param legend_options A list of options for controlling the legend. See details
 #'
 #' @details
 #' The \code{palette} is used to specify the colours that will map to variables.
@@ -57,6 +58,21 @@
 #' that specifies a separate function to map to each variable. The elements must
 #' be named either \code{fill_colour} or \code{stroke_colour}, and their values
 #' are the colour generating functions. The default is \code{viridisLite::viridis}
+#'
+#' The \code{legend_options} can be used to control the appearance of the legend.
+#' This should be a named list, where the names are one of
+#' \itemize{
+#'   \item{position - one of \code{c("TOP_CENTER", "TOP_LEFT", "TOP_RIGHT","RIGHT_TOP",
+#'     "LEFT_CENTER", "RIGHT_CENTER", "LEFT_BOTTOM", "BOTTOM_CENTER", "RIGHT_BOTTOM",
+#'     "BOTTOM_LEFT","BOTTOM_RIGHT")}}
+#'   \item{css - a string of valid \code{css} for controlling the appearance of the legend}
+#'   \item{title - a string to use for the title of the legend}
+#'}
+#'if \code{legend_options} are NULL, the default values will apply
+#'
+#' If you are displaying two legends, one for \code{stroke_colour} and one
+#' for \code{fill_colour}, you can specify different options for the different
+#' colour attributes. See examples.
 #'
 #'
 #' \code{z_index} values define the order in which objects appear on the map.
@@ -88,6 +104,22 @@
 #' google_map(key = map_key, data = tram_stops) %>%
 #'  add_circles(lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_lat",
 #'  stroke_weight = 2, stroke_colour = "stop_name", palette = lstPalette, legend = T)
+#'
+#' ## controlling the legend
+#' google_map(key = map_key, data = tram_stops) %>%
+#'  add_circles(lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_lat",
+#'  stroke_weight = 2, stroke_colour = "stop_name",
+#'  legend = c(fill_colour = T, stroke_colour = F),
+#'  legend_options = list(position = "TOP_RIGHT", css = "max-height: 100px;"))
+#'
+#'google_map(key = map_key, data = tram_stops) %>%
+#'  add_circles(lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_lat",
+#'  stroke_weight = 2, stroke_colour = "stop_name",
+#'  legend = T,
+#'  legend_options = list(
+#'    fill_colour = list(position = "TOP_RIGHT", css = "max-height: 100px;"),
+#'    stroke_colour = list(position = "LEFT_BOTTOM", title = "Stop Name")
+#'    ))
 #'
 #'
 #'  }
@@ -142,6 +174,7 @@ add_circles <- function(map,
     shape <- replaceVariableColours(shape, colours)
   }
 
+  ## LEGEND
   if(any(vapply(legend, isTRUE, T))){
     legend <- constructLegend(colour_palettes, legend)
     if(!is.null(legend_options)){

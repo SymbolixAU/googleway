@@ -274,7 +274,10 @@ update_polylines <- function(map, data, id,
                              stroke_weight = NULL,
                              stroke_opacity = NULL,
                              layer_id = NULL,
-                             palette = NULL){
+                             palette = NULL,
+                             legend = F,
+                             legend_options = NULL
+                             ){
 
   ## TODO: is 'info_window' required, if it was included in the original add_polygons?
 
@@ -301,8 +304,15 @@ update_polylines <- function(map, data, id,
     shape <- replaceVariableColours(shape, colours)
   }
 
-  requiredDefaults <- setdiff(requiredCols, names(shape))
+  ## LEGEND
+  if(any(vapply(legend, isTRUE, T))){
+    legend <- constructLegend(colour_palettes, legend)
+    if(!is.null(legend_options)){
+      legend <- addLegendOptions(legend, legend_options)
+    }
+  }
 
+  requiredDefaults <- setdiff(requiredCols, names(shape))
   if(length(requiredDefaults) > 0){
     shape <- addDefaults(shape, requiredDefaults, "polylineUpdate")
   }

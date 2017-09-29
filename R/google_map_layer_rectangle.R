@@ -105,7 +105,9 @@ add_rectangles <- function(map,
                            update_map_view = TRUE,
                            z_index = NULL,
                            digits = 4,
-                           palette = NULL){
+                           palette = NULL,
+                           legend = F,
+                           legend_options = NULL){
 
   objArgs <- match.call(expand.dots = F)
 
@@ -130,8 +132,15 @@ add_rectangles <- function(map,
     shape <- replaceVariableColours(shape, colours)
   }
 
-  requiredDefaults <- setdiff(requiredCols, names(shape))
+  ## LEGEND
+  if(any(vapply(legend, isTRUE, T))){
+    legend <- constructLegend(colour_palettes, legend)
+    if(!is.null(legend_options)){
+      legend <- addLegendOptions(legend, legend_options)
+    }
+  }
 
+  requiredDefaults <- setdiff(requiredCols, names(shape))
   if(length(requiredDefaults) > 0){
     shape <- addDefaults(shape, requiredDefaults, "rectangle")
   }

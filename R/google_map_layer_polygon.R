@@ -221,6 +221,7 @@ add_polygons <- function(map,
     shape <- replaceVariableColours(shape, colours)
   }
 
+  ## LEGEND
   if(any(vapply(legend, isTRUE, T))){
     legend <- constructLegend(colour_palettes, legend)
     if(!is.null(legend_options)){

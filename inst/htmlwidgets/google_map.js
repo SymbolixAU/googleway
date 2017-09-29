@@ -313,7 +313,7 @@ function placeControl(map_id, object, position) {
         window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(object);
         break;
     default:
-        window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(object);
+        window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_BOTTOM].push(object);
         break;
     }
 }
