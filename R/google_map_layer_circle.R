@@ -6,7 +6,7 @@
 #' @param data data frame containing at least two columns, one specifying the
 #' latitude coordinates, and the other specifying the longitude. If Null, the
 #' data passed into \code{google_map()} will be used.
-#' @param id string specifying the column containing an identifier for a circle
+#' @param id string specifying the column containing an identifier for a shape
 #' @param lat string specifying the column of \code{data} containing the 'latitude'
 #' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude'
@@ -17,25 +17,26 @@
 #' @param draggable string specifying the column of \code{data} defining if the circle
 #' is 'draggable' (either TRUE or FALSE)
 #' @param stroke_colour either a string specifying the column of \code{data} containing
-#' the stroke colour of each circle, or a valid hexadecimal numeric HTML style to
-#' be applied to all the circles
+#' the stroke colour of each shape, or a valid hexadecimal numeric HTML style to
+#' be applied to all the shapes
 #' @param stroke_opacity either a string specifying the column of \code{data} containing
-#' the stroke opacity of each circle, or a value between 0 and 1 that will be
-#' applied to all the circles
+#' the stroke opacity of each shape, or a value between 0 and 1 that will be
+#' applied to all the shapes
 #' @param stroke_weight either a string specifying the column of \code{data} containing
-#' the stroke weight of each circle, or a number indicating the width of pixels
-#' in the line to be applied to all the circles
+#' the stroke weight of each shape, or a number indicating the width of pixels
+#' in the line to be applied to all the shapes
 #' @param fill_colour either a string specifying the column of \code{data} containing
-#' the fill colour of each circle, or a valid hexadecimal numeric HTML style to
-#' be applied to all the cirlces
+#' the fill colour of each shape, or a valid hexadecimal numeric HTML style to
+#' be applied to all the shapes
 #' @param fill_opacity either a string specifying the column of \code{data} containing
-#' the fill opacity of each circle, or a value between 0 and 1 that will be applied to all the circles
+#' the fill opacity of each shape, or a value between 0 and 1 that will be applied
+#' to all the shapes
 #' @param info_window string specifying the column of data to display in an info
-#' window when a circle is clicked
+#' window when a shape is clicked
 #' @param mouse_over string specifying the column of data to display when the
-#' mouse rolls over the circle
+#' mouse rolls over the shape
 #' @param mouse_over_group string specifying the column of data specifying which
-#' groups of circles to highlight on mouseover
+#' groups of shapes to highlight on mouseover
 #' @param layer_id single value specifying an id for the layer.
 #'  layer.
 #' @param update_map_view logical specifying if the map should re-centre according to
@@ -53,6 +54,7 @@
 #' @param legend_options A list of options for controlling the legend. See details
 #'
 #' @details
+#' @inheritParams
 #' The \code{palette} is used to specify the colours that will map to variables.
 #' You can specify a single function to map to all variables, or a named list
 #' that specifies a separate function to map to each variable. The elements must

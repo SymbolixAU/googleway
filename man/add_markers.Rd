@@ -13,11 +13,11 @@ add_markers(map, data = get_map_data(map), id = NULL, colour = NULL,
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
-\item{data}{data frame containing at least two columns, one specifying the latitude
-coordinates, and the other specifying the longitude. If Null, the data passed
-into \code{google_map()} will be used.}
+\item{data}{data frame containing at least two columns, one specifying the
+latitude coordinates, and the other specifying the longitude. If Null, the
+data passed into \code{google_map()} will be used.}
 
-\item{id}{string specifying the column containing an identifier for a marker}
+\item{id}{string specifying the column containing an identifier for a shape}
 
 \item{colour}{string specifying the column containing the 'colour' to use for
 the markers. One of 'red', 'blue', 'green' or 'lavender'.}
@@ -43,24 +43,25 @@ to appear in the centre of the marker. Values will be coerced to strings, and
 only the first character will be used.}
 
 \item{info_window}{string specifying the column of data to display in an info
-window when a marker is clicked}
+window when a shape is clicked}
 
 \item{mouse_over}{string specifying the column of data to display when the
-mouse rolls over the marker}
+mouse rolls over the shape}
 
 \item{mouse_over_group}{string specifying the column of data specifying which
-groups of markers to highlight on mouseover}
+groups of shapes to highlight on mouseover}
 
 \item{marker_icon}{string specifying the column of data containing a link/URL to
 an image to use for a marker}
 
-\item{layer_id}{single value specifying an id for the layer.}
+\item{layer_id}{single value specifying an id for the layer.
+layer.}
 
 \item{cluster}{logical indicating if co-located markers should be clustered
 when the map zoomed out}
 
-\item{update_map_view}{logical specifying if the map should re-centre according
-to the markers}
+\item{update_map_view}{logical specifying if the map should re-centre according to
+the circles}
 
 \item{digits}{integer. Use this parameter to specify how many digits (decimal places)
 should be used for the latitude / longitude coordinates.}

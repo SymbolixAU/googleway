@@ -13,58 +13,59 @@ add_polylines(map, data = get_map_data(map), polyline = NULL, lat = NULL,
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
-\item{data}{data frame containing at least a \code{polyline} column, or a
-\code{lat} and a \code{lon} column. If Null, the data passed into
+\item{data}{data frame containing at least a \code{polyline} column,
+or a \code{lat} and a \code{lon} column. If Null, the data passed into
 \code{google_map()} will be used.}
 
-\item{polyline}{string specifying the column of \code{data} containing the
-encoded 'polyline'.}
+\item{polyline}{string specifying the column of \code{data} containing
+the encoded polyline}
 
 \item{lat}{string specifying the column of \code{data} containing the 'latitude'
-coordinates. Coordinates must be in the order that defines the path.}
+coordinates. If left NULL, a best-guess will be made}
 
 \item{lon}{string specifying the column of \code{data} containing the 'longitude'
-coordinates. Coordinates must be in the order that defines the path.}
+coordinates. If left NULL, a best-guess will be made}
 
-\item{id}{string specifying the column containing an identifier for a polyline}
+\item{id}{string specifying the column containing an identifier for a shape}
 
 \item{geodesic}{logical}
 
-\item{stroke_colour}{either a string specifying the column of \code{data}
-containing the stroke colour of each polyline, or a valid hexadecimal numeric
-HTML style to be applied to all the polylines}
+\item{stroke_colour}{either a string specifying the column of \code{data} containing
+the stroke colour of each shape, or a valid hexadecimal numeric HTML style to
+be applied to all the shapes}
 
-\item{stroke_weight}{either a string specifying the column of \code{data}
-containing the stroke weight of each polyline, or a number indicating the width
-of pixels in the line to be applied to all the polylines}
+\item{stroke_weight}{either a string specifying the column of \code{data} containing
+the stroke weight of each shape, or a number indicating the width of pixels
+in the line to be applied to all the shapes}
 
-\item{stroke_opacity}{either a string specifying the column of \code{data}
-containing the stroke opacity of each polyline, or a value between 0 and 1 that
-will be applied to all the polylines}
+\item{stroke_opacity}{either a string specifying the column of \code{data} containing
+the stroke opacity of each shape, or a value between 0 and 1 that will be
+applied to all the shapes}
 
 \item{info_window}{string specifying the column of data to display in an info
-window when a polyline is clicked}
+window when a shape is clicked}
 
 \item{mouse_over}{string specifying the column of data to display when the
-mouse rolls over the polyline}
+mouse rolls over the shape}
 
 \item{mouse_over_group}{string specifying the column of data specifying which
-groups of polylines to highlight on mouseover}
+groups of shapes to highlight on mouseover}
 
-\item{update_map_view}{logical specifying if the map should re-centre according
-to the polyline.}
+\item{update_map_view}{logical specifying if the map should re-centre according to
+the circles}
 
-\item{layer_id}{single value specifying an id for the layer.}
+\item{layer_id}{single value specifying an id for the layer.
+layer.}
 
-\item{z_index}{single value specifying where the polylines appear in the layering
+\item{z_index}{single value specifying where the circles appear in the layering
 of the map objects. Layers with a higher \code{z_index} appear on top of those with
 a lower \code{z_index}. See details.}
 
 \item{digits}{integer. Use this parameter to specify how many digits (decimal places)
 should be used for the latitude / longitude coordinates.}
 
-\item{palette}{a function that generates hex RGB colours given a single number as an input.
-Used when a variable of \code{data} is specified as a colour}
+\item{palette}{a function, or list of functions, that generates hex colours
+given a single number as an input. See details.}
 }
 \description{
 Add a polyline to a google map

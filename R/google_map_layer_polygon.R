@@ -80,55 +80,20 @@
 #'
 #' }
 #'
-#' @param map a googleway map object created from \code{google_map()}
+#' @inheritParams add_circles
+#'
 #' @param data data frame containing at least a \code{polyline} column,
 #' or a \code{lat} and a \code{lon} column. If Null, the data passed into
 #' \code{google_map()} will be used.
 #' @param polyline string specifying the column of \code{data} containing
 #' the encoded polyline
-#' @param lat string specifying the column of \code{data} containing the
-#' 'latitude' coordinates. Coordinates must be in the order that defines the path.
-#' @param lon string specifying the column of \code{data} containing the
-#' 'longitude' coordinates. Coordinates must be in the order that defines the path.
-#' @param id string specifying the column containing an identifier for a polygon.
 #' @param pathId string specifying the column containing an identifer for each
 #' path that forms the complete polygon. Not required when using \code{polyline},
 #' as each polyline is itself a path.
-#' @param stroke_colour either a string specifying the column of \code{data}
-#' containing the stroke colour of each polygon, or a valid hexadecimal numeric
-#' HTML style to be applied to all the polygons
-#' @param stroke_opacity either a string specifying the column of \code{data}
-#' containing the stroke opacity of each polygon, or a value between 0 and 1
-#' that will be applied to all the polygons
-#' @param stroke_weight either a string specifying the column of \code{data}
-#' containing the stroke weight of each polygon, or a number indicating the
-#' width of pixels in the line to be applied to all the polygons
-#' @param fill_colour either a string specifying the column of \code{data}
-#' containing the fill colour of each polygon, or a valid hexadecimal numeric
-#' HTML style to be applied to all the polygons
-#' @param fill_opacity either a string specifying the column of \code{data}
-#' containing the fill opacity of each polygon, or a value between 0 and 1 that
-#' will be applied to all the polygons
-#' @param info_window string specifying the column of data to display in an
-#' info window when a polygon is clicked
-#' @param mouse_over string specifying the column of data to display when the
-#' mouse rolls over the polygon
-#' @param mouse_over_group string specifying the column of data specifying
-#' which groups of polygons to highlight on mouseover
 #' @param draggable string specifying the column of \code{data} defining if
 #' the polygon is 'draggable'. The column of data should be logical (either TRUE or FALSE)
 #' @param editable string specifying the column of \code{data} defining if the polygon
 #' is 'editable' (either TRUE or FALSE)
-#' @param update_map_view logical specifying if the map should re-centre
-#' according to the polyline.
-#' @param layer_id single value specifying an id for the layer.
-#' @param z_index single value specifying where the polygons appear in the layering
-#' of the map objects. Layers with a higher \code{z_index} appear on top of those with
-#' a lower \code{z_index}. See details.
-#' @param digits integer. Use this parameter to specify how many digits (decimal places)
-#' should be used for the latitude / longitude coordinates.
-#' @param palette a function that generates hex RGB colours given a single number as an input.
-#' Used when a variable of \code{data} is specified as a colour
 #'
 #' @details
 #' \code{z_index} values define the order in which objects appear on the map.

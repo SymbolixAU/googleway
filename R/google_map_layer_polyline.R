@@ -3,43 +3,8 @@
 #'
 #' Add a polyline to a google map
 #'
-#' @param map a googleway map object created from \code{google_map()}
-#' @param data data frame containing at least a \code{polyline} column, or a
-#' \code{lat} and a \code{lon} column. If Null, the data passed into
-#' \code{google_map()} will be used.
-#' @param polyline string specifying the column of \code{data} containing the
-#' encoded 'polyline'.
-#' @param lat string specifying the column of \code{data} containing the 'latitude'
-#' coordinates. Coordinates must be in the order that defines the path.
-#' @param lon string specifying the column of \code{data} containing the 'longitude'
-#' coordinates. Coordinates must be in the order that defines the path.
-#' @param id string specifying the column containing an identifier for a polyline
+#' @inheritParams add_polygons
 #' @param geodesic logical
-#' @param stroke_colour either a string specifying the column of \code{data}
-#' containing the stroke colour of each polyline, or a valid hexadecimal numeric
-#' HTML style to be applied to all the polylines
-#' @param stroke_opacity either a string specifying the column of \code{data}
-#' containing the stroke opacity of each polyline, or a value between 0 and 1 that
-#' will be applied to all the polylines
-#' @param stroke_weight either a string specifying the column of \code{data}
-#' containing the stroke weight of each polyline, or a number indicating the width
-#' of pixels in the line to be applied to all the polylines
-#' @param info_window string specifying the column of data to display in an info
-#' window when a polyline is clicked
-#' @param mouse_over string specifying the column of data to display when the
-#' mouse rolls over the polyline
-#' @param mouse_over_group string specifying the column of data specifying which
-#' groups of polylines to highlight on mouseover
-#' @param update_map_view logical specifying if the map should re-centre according
-#' to the polyline.
-#' @param layer_id single value specifying an id for the layer.
-#' @param z_index single value specifying where the polylines appear in the layering
-#' of the map objects. Layers with a higher \code{z_index} appear on top of those with
-#' a lower \code{z_index}. See details.
-#' @param digits integer. Use this parameter to specify how many digits (decimal places)
-#' should be used for the latitude / longitude coordinates.
-#' @param palette a function that generates hex RGB colours given a single number as an input.
-#' Used when a variable of \code{data} is specified as a colour
 #'
 #' @details
 #' \code{z_index} values define the order in which objects appear on the map.

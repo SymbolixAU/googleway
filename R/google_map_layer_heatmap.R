@@ -2,14 +2,7 @@
 #'
 #' Adds a heatmap to a google map
 #'
-#' @param map a googleway map object created from \code{google_map()}
-#' @param data data frame containing at least two columns, one specifying the
-#' latitude coordinates, and the other specifying the longitude. If Null, the
-#' data passed into \code{google_map()} will be used.
-#' @param lat string specifying the column of \code{data} containing the 'latitude'
-#' coordinates. If left NULL, a best-guess will be made
-#' @param lon string specifying the column of \code{data} containing the 'longitude'
-#' coordinates. If left NULL, a best-guess will be made
+#' @inheritParams add_circles
 #' @param option_gradient vector of colours to use as the gradient colours. see Details
 #' @param weight string specifying the column of \code{data} containing the 'weight'
 #' associated with each point. If NULL, each point will get a weight of 1.
@@ -20,11 +13,6 @@
 #' @param option_radius numeric. The radius of influence for each data point, in pixels.
 #' @param option_opacity The opacity of the heatmap, expressed as a number between
 #' 0 and 1. Defaults to 0.6.
-#' @param update_map_view logical specifying if the map should re-centre according to
-#' the circles
-#' @param layer_id single value specifying an id for the layer.
-#' @param digits integer. Use this parameter to specify how many digits (decimal places)
-#' should be used for the latitude / longitude coordinates.
 #'
 #' @details
 #' \code{option_gradient} colours can be two of the R colour specifications;
