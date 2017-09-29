@@ -4,14 +4,18 @@ function add_legend(map_id, layer_id, legendValues) {
     'use strict';
     
     var i = 0;
-    console.log(legendValues);
     
     for (i = 0; i < legendValues.length; i++) {
 
         if (legendValues[i].type === "category") {
             add_legend_category(map_id, layer_id, legendValues[i]);
         } else {
-            add_legend_gradient(map_id, layer_id, legendValues[i]);
+            if (legendValues[i].legend.colour.length === 1) {
+                add_legend_category(map_id, layer_id, legendValues[i]);
+            } else {
+                add_legend_gradient(map_id, layer_id, legendValues[i]);                
+            }
+
         }
     }
 }
