@@ -4,7 +4,7 @@
  * @param map_id
  * @param data_polygon
  */
-function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyline, legendValues, legendOptions){
+function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyline, legendValues){
 
   window[map_id + 'googlePolygon' + layer_id] = [];
   var infoWindow = new google.maps.InfoWindow();
@@ -97,7 +97,7 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
  * @param addRemove
  *          boolean specifying if polygons should be added or removed if they are / are not included in the udpated data set
  */
-function update_polygons(map_id, data_polygon, layer_id){
+function update_polygons(map_id, data_polygon, layer_id, legendValues){
 
   // for a given polygon_id, change the options
   var objectAttribute;
@@ -163,6 +163,10 @@ function update_polygons(map_id, data_polygon, layer_id){
         // (but don't clear it from the arrray?)
         window[map_id + 'googlePolygon' + layer_id][i].setMap(null);
       //}
+    }
+      
+    if(legendValues !== false){
+        add_legend(map_id, layer_id, legendValues);
     }
   }
 

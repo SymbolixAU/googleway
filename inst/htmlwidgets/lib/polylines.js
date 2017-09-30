@@ -9,7 +9,7 @@
  * @param use_polyline
  *          boolean indicating if the data is an encoded polyline
  */
-function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_polyline) {
+function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_polyline, legendValues) {
 
     window[map_id + 'googlePolyline' + layer_id] = [];
     var infoWindow = new google.maps.InfoWindow();
@@ -80,6 +80,11 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
     if (update_map_view === true) {
         window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
     }
+    
+    if(legendValues !== false){
+        add_legend(map_id, layer_id, legendValues);
+    }
+    
 }
 
 
@@ -90,7 +95,7 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
  * @param data_polylines
  *          polyline data to update
  */
-function update_polylines(map_id, data_polyline, layer_id) {
+function update_polylines(map_id, data_polyline, layer_id, legendValues) {
 
   // for a given polygon_id, change the options
     var objectAttribute,
@@ -155,6 +160,10 @@ function update_polylines(map_id, data_polyline, layer_id) {
             //}
             }
         }
+    }
+    
+    if(legendValues !== false){
+        add_legend(map_id, layer_id, legendValues);
     }
 
 }

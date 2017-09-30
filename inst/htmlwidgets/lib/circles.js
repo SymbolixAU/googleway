@@ -88,7 +88,7 @@ function clear_circles(map_id, layer_id){
  * @param addRemove
  *          boolean specifying if circles should be added or removed if they are / are not included in the udpated data set
  */
-function update_circles(map_id, data_circle, layer_id, legendValues, legendOptions){
+function update_circles(map_id, data_circle, layer_id, legendValues){
 
   // for a given circle_id, change the options
   var objectAttribute;
@@ -169,5 +169,4 @@ function update_circles(map_id, data_circle, layer_id, legendValues, legendOptio
         console.log("updating legend");
         add_legend(map_id, layer_id, legendValues);
     }
-    
 }

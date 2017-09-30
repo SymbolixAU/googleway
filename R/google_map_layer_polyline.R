@@ -164,7 +164,7 @@ add_polylines <- function(map,
     shape <- jsonlite::toJSON(shape, auto_unbox = T)
   }
 
-  invoke_method(map, 'add_polylines', shape, update_map_view, layer_id, usePolyline)
+  invoke_method(map, 'add_polylines', shape, update_map_view, layer_id, usePolyline, legend, legend_options)
 }
 
 

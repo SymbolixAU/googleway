@@ -1,4 +1,4 @@
-function add_rectangles(map_id, data_rectangles, update_map_view, layer_id){
+function add_rectangles(map_id, data_rectangles, update_map_view, layer_id, legendValues){
 
   var i;
   window[map_id + 'googleRectangles' + layer_id] = [];
@@ -56,6 +56,10 @@ function add_rectangles(map_id, data_rectangles, update_map_view, layer_id){
   if(update_map_view === true){
     window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
   }
+    
+    if(legendValues !== false){
+        add_legend(map_id, layer_id, legendValues);
+    }
 
 }
 
@@ -76,7 +80,7 @@ function clear_rectangles(map_id, layer_id){
 
 
 
-function update_rectangles(map_id, data_rectangles, layer_id){
+function update_rectangles(map_id, data_rectangles, layer_id, legendValues){
 
   // for a given circle_id, change the options
   var objectAttribute;
@@ -142,4 +146,8 @@ function update_rectangles(map_id, data_rectangles, layer_id){
         window[map_id + 'googleRectangles' + layer_id][i].setMap(null);
     }
   }
+    
+    if(legendValues !== false){
+        add_legend(map_id, layer_id, legendValues);
+    }
 }
