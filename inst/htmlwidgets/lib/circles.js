@@ -166,7 +166,6 @@ function update_circles(map_id, data_circle, layer_id, legendValues){
   }
     
     if(legendValues !== false){
-        console.log("updating legend");
         add_legend(map_id, layer_id, legendValues);
     }
 }

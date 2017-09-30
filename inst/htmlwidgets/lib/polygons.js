@@ -83,7 +83,7 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
   }
     
     if(legendValues !== false){
-        add_legend(map_id, layer_id, legendValues, legendOptions);
+        add_legend(map_id, layer_id, legendValues);
     }
 
 }
