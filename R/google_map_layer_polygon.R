@@ -144,6 +144,7 @@ add_polygons <- function(map,
   ## - melbourne data - remove factor levels?
 
   objArgs <- match.call(expand.dots = F)
+  callingFunc <- as.character(objArgs[[1]])
 
   ## PARAMETER CHECKS
   if(!dataCheck(data, "add_polygon")) data <- polygonDefaults(1)
@@ -174,8 +175,8 @@ add_polygons <- function(map,
 
 
   allCols <- polygonColumns()
-  requiredCols <- requiredShapeColumns()
-  colourColumns <- shapeAttributes(fill_colour, stroke_colour)
+  requiredCols <- requiredColumns(callingFunc)
+  colourColumns <- shapeAttributes(list(fill_colour = fill_colour, stroke_colour = stroke_colour))
 
   shape <- createMapObject(data, allCols, objArgs)
   pal <- createPalettes(shape, colourColumns)

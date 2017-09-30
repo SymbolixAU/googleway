@@ -86,36 +86,9 @@ add_rectangles <- function(map,
   palette <- paletteCheck(palette)
   ## END PARAMETER CHECKS
 
-  allCols <- rectangleColumns()
-  requiredCols <- requiredShapeColumns()
-  colourColumns <- shapeAttributes(fill_colour, stroke_colour)
-
-  shape <- createMapObject(data, allCols, objArgs)
-  pal <- createPalettes(shape, colourColumns)
-  colour_palettes <- createColourPalettes(data, pal, colourColumns, viridisLite::viridis)
-  colours <- createColours(shape, colour_palettes)
-
-  if(length(colours) > 0){
-    shape <- replaceVariableColours(shape, colours)
-  }
-
-  ## LEGEND
-  if(any(vapply(legend, isTRUE, T))){
-    legend <- constructLegend(colour_palettes, legend)
-    if(!is.null(legend_options)){
-      legend <- addLegendOptions(legend, legend_options)
-    }
-  }
-
-  requiredDefaults <- setdiff(requiredCols, names(shape))
-  if(length(requiredDefaults) > 0){
-    shape <- addDefaults(shape, requiredDefaults, "rectangle")
-  }
-
-  shape <- jsonlite::toJSON(shape, digits = digits)
-
-  invoke_method(map, 'add_rectangles', shape, update_map_view, layer_id)
-
+  mapObject(map, data, legend, legend_options, palette, digits, update_map_view,
+            layer_id, objArgs, list("fill_colour" = fill_colour,
+                                    "stroke_colour" = stroke_colour))
 }
 
 

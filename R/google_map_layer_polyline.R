@@ -95,6 +95,7 @@ add_polylines <- function(map,
   #    add_polylines(lat = "shape_pt_lat", lon = "shape_pt_lon")
 
   objArgs <- match.call(expand.dots = F)
+  callingFunc <- as.character(objArgs[[1]])
 
   ## PARAMETER CHECKS
   if(!dataCheck(data, "add_polyline")) data <- polylineDefaults(1)
@@ -119,9 +120,8 @@ add_polylines <- function(map,
   id <- lst$id
   ## END PARAMETER CHECKS
 
-
   allCols <- polylineColumns()
-  requiredCols <- requiredLineColumns()
+  requiredCols <- requiredColumns(callingFunc)
   colourColumns <- lineAttributes(stroke_colour)
 
   shape <- createMapObject(data, allCols, objArgs)
