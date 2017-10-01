@@ -34,45 +34,12 @@ getLegendType.numeric <- function(colourColumn) "gradient"
 #' @export
 getLegendType.default <- function(colourColumn) "category"
 
-
-flattenLegend <- function(legend) UseMethod("flattenLegend")
-
-#' @export
-flattenLegend.list <- function(legend){
-  legend <- unlist(legend)
-  legend <- names(legend)[legend == T]
-  return(legend)
-}
-
-#' @export
-flattenLegend.logical <- function(legend){
-  if(length(names(legend)) > 0){
-    ## it's a named vector
-    legend <- names(legend)[legend]
-  }else{
-    legend <- c("fill_colour", "stroke_colour")[legend]
-  }
-  return(legend)
-}
-
 constructLegend <- function(colour_palettes, legend){
 
   ## remove any colour_palettes not needed
   cp <- sapply(colour_palettes, function(x) names(x[['variables']]))
 
   legend <- flattenLegend(legend)
-
-  # if(is.list(legend)){
-  #   legend <- unlist(legend)
-  #   legend <- names(legend)[legend == T]
-  # }else{
-  #   if(length(names(legend)) > 0){
-  #     ## it's a named vector
-  #     legend <- names(legend)[legend]
-  #   }else{
-  #     legend <- c("fill_colour", "stroke_colour")[legend]
-  #   }
-  # }
 
   cp <- cp[cp %in% legend]
 
@@ -101,6 +68,26 @@ constructLegend <- function(colour_palettes, legend){
   return(lst)
 }
 
+flattenLegend <- function(legend) UseMethod("flattenLegend")
+
+#' @export
+flattenLegend.list <- function(legend){
+  legend <- unlist(legend)
+  legend <- names(legend)[legend == T]
+  return(legend)
+}
+
+#' @export
+flattenLegend.logical <- function(legend){
+  if(length(names(legend)) > 0){
+    ## it's a named vector
+    legend <- names(legend)[legend]
+  }else{
+    legend <- c("fill_colour", "stroke_colour")[legend]
+  }
+  return(legend)
+}
+
 # add legend options
 #
 # updates a legend with various options
@@ -109,13 +96,8 @@ constructLegend <- function(colour_palettes, legend){
 # @param legend_options list of user defined legend options
 addLegendOptions <- function(legend, legend_options){
 
-  ## TODO:
-  ## - if the legend_options is a single unnamed list, update all the legends
-  ## - if the legend is a named list, update the specific legends
-
   ## If any names of legend_options not in c("fill_colour", "stroke_colour")
   ## then those will be applied to all
-
   ## otherwise, it will be either a fill_colour or a stroke_colour
   nonAesthetics <- names(legend_options)[!names(legend_options) %in% c("fill_colour", "stroke_colour")]
 
@@ -133,7 +115,6 @@ addLegendOptions <- function(legend, legend_options){
         replaceLegendOption(legend[[idx]], legend_options[[x]])
       }
     })
-
   }
 
   return(legend)
