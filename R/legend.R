@@ -18,7 +18,7 @@ formatPalette <- function(palette, type){
     if(rw[1] != 1) rw <- c(1, rw)
     if(rw[length(rw)] != nrow(palette)) rw <- c(rw, nrow(palette))
 
-    print(rw)
+    #print(rw)
 
     palette <- palette[rw, ]
   }
