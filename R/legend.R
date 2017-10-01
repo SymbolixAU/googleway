@@ -17,9 +17,7 @@ formatPalette <- function(palette, type){
     rw <- rw[rw >= rowRange[1] & rw <= rowRange[2]]
     if(rw[1] != 1) rw <- c(1, rw)
     if(rw[length(rw)] != nrow(palette)) rw <- c(rw, nrow(palette))
-
     #print(rw)
-
     palette <- palette[rw, ]
   }
   return(palette)
@@ -37,22 +35,44 @@ getLegendType.numeric <- function(colourColumn) "gradient"
 getLegendType.default <- function(colourColumn) "category"
 
 
+flattenLegend <- function(legend) UseMethod("flattenLegend")
+
+#' @export
+flattenLegend.list <- function(legend){
+  legend <- unlist(legend)
+  legend <- names(legend)[legend == T]
+  return(legend)
+}
+
+#' @export
+flattenLegend.logical <- function(legend){
+  if(length(names(legend)) > 0){
+    ## it's a named vector
+    legend <- names(legend)[legend]
+  }else{
+    legend <- c("fill_colour", "stroke_colour")[legend]
+  }
+  return(legend)
+}
+
 constructLegend <- function(colour_palettes, legend){
 
   ## remove any colour_palettes not needed
   cp <- sapply(colour_palettes, function(x) names(x[['variables']]))
 
-  if(is.list(legend)){
-    legend <- unlist(legend)
-    legend <- names(legend)[legend == T]
-  }else{
-    if(length(names(legend)) > 0){
-      ## it's a named vector
-      legend <- names(legend)[legend]
-    }else{
-      legend <- c("fill_colour", "stroke_colour")[legend]
-    }
-  }
+  legend <- flattenLegend(legend)
+
+  # if(is.list(legend)){
+  #   legend <- unlist(legend)
+  #   legend <- names(legend)[legend == T]
+  # }else{
+  #   if(length(names(legend)) > 0){
+  #     ## it's a named vector
+  #     legend <- names(legend)[legend]
+  #   }else{
+  #     legend <- c("fill_colour", "stroke_colour")[legend]
+  #   }
+  # }
 
   cp <- cp[cp %in% legend]
 
