@@ -6,7 +6,8 @@
 \usage{
 update_rectangles(map, data, id, draggable = NULL, stroke_colour = NULL,
   stroke_weight = NULL, stroke_opacity = NULL, fill_colour = NULL,
-  fill_opacity = NULL, layer_id = NULL, digits = 4, palette = NULL)
+  fill_opacity = NULL, layer_id = NULL, digits = 4, palette = NULL,
+  legend = F, legend_options = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -51,6 +52,11 @@ should be used for the latitude / longitude coordinates.}
 
 \item{palette}{a function, or list of functions, that generates hex colours
 given a single number as an input. See details.}
+
+\item{legend}{either a logical indiciating if the legend(s) should be displayed, or
+a named list indicating which colour attributes should be included in the legend.}
+
+\item{legend_options}{A list of options for controlling the legend.}
 }
 \description{
 Updates specific colours and opacities of specified rectangles Designed to be

@@ -144,7 +144,7 @@ add_polygons <- function(map,
   ## - melbourne data - remove factor levels?
 
   objArgs <- match.call(expand.dots = F)
-  callingFunc <- as.character(objArgs[[1]])
+#  callingFunc <- as.character(objArgs[[1]])
 
   ## PARAMETER CHECKS
   if(!dataCheck(data, "add_polygon")) data <- polygonDefaults(1)
@@ -175,8 +175,8 @@ add_polygons <- function(map,
 
 
   allCols <- polygonColumns()
-  requiredCols <- requiredColumns(callingFunc)
-  colourColumns <- shapeAttributes(list(fill_colour = fill_colour, stroke_colour = stroke_colour))
+  requiredCols <- requiredShapeColumns()
+  colourColumns <- shapeAttributes(fill_colour = fill_colour, stroke_colour = stroke_colour)
 
   shape <- createMapObject(data, allCols, objArgs)
   pal <- createPalettes(shape, colourColumns)
@@ -221,7 +221,7 @@ add_polygons <- function(map,
     shape <- jsonlite::toJSON(lst_polygon, digits = digits, auto_unbox = T)
   }
 
-  invoke_method(map, 'add_polygons', shape, update_map_view, layer_id, usePolyline, legend, legend_options)
+  invoke_method(map, 'add_polygons', shape, update_map_view, layer_id, usePolyline, legend)
 }
 
 
@@ -347,7 +347,7 @@ update_polygons <- function(map, data, id,
 
   shape <- jsonlite::toJSON(shape, auto_unbox = T)
 
-  invoke_method(map, 'update_polygons', shape, layer_id)
+  invoke_method(map, 'update_polygons', shape, layer_id, legend)
 }
 
 

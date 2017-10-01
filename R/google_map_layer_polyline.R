@@ -95,7 +95,6 @@ add_polylines <- function(map,
   #    add_polylines(lat = "shape_pt_lat", lon = "shape_pt_lon")
 
   objArgs <- match.call(expand.dots = F)
-  callingFunc <- as.character(objArgs[[1]])
 
   ## PARAMETER CHECKS
   if(!dataCheck(data, "add_polyline")) data <- polylineDefaults(1)
@@ -121,7 +120,7 @@ add_polylines <- function(map,
   ## END PARAMETER CHECKS
 
   allCols <- polylineColumns()
-  requiredCols <- requiredColumns(callingFunc)
+  requiredCols <- requiredLineColumns()
   colourColumns <- lineAttributes(stroke_colour)
 
   shape <- createMapObject(data, allCols, objArgs)
@@ -164,7 +163,7 @@ add_polylines <- function(map,
     shape <- jsonlite::toJSON(shape, auto_unbox = T)
   }
 
-  invoke_method(map, 'add_polylines', shape, update_map_view, layer_id, usePolyline, legend, legend_options)
+  invoke_method(map, 'add_polylines', shape, update_map_view, layer_id, usePolyline, legend)
 }
 
 
@@ -282,7 +281,7 @@ update_polylines <- function(map, data, id,
 
   shape <- jsonlite::toJSON(shape, auto_unbox = T)
 
-  invoke_method(map, 'update_polylines', shape, layer_id)
+  invoke_method(map, 'update_polylines', shape, layer_id, legend)
 }
 
 
