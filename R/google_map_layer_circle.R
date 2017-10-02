@@ -179,10 +179,10 @@ add_circles <- function(map,
   ## LEGEND
   if(any(vapply(legend, isTRUE, T))){
     legend <- constructLegend(colour_palettes, legend)
-      if(!is.null(legend_options)){
-        legend <- addLegendOptions(legend, legend_options)
-      }
+    if(!is.null(legend_options)){
+      legend <- addLegendOptions(legend, legend_options)
     }
+  }
 
   requiredDefaults <- setdiff(requiredCols, names(shape))
   if(length(requiredDefaults) > 0){
@@ -192,14 +192,20 @@ add_circles <- function(map,
     shape <- jsonlite::toJSON(shape, digits = digits)
 
   invoke_method(map, 'add_circles', shape, update_map_view, layer_id, legend)
-
 }
 
 #' @rdname clear
 #' @export
 clear_circles <- function(map, layer_id = NULL){
+
+  ## TODO:
+  ## - clear legend
+  ## -- need a reference to the position at which the legend was placed.
+  ## -- the iterate that control position and 'removeAt(index)'
+  ## -- then remove from teh reference array
+
   layer_id <- layerId(layer_id)
-  invoke_method(map, data = NULL, 'clear_circles', layer_id)
+  invoke_method(map, 'clear_circles', layer_id)
 }
 
 

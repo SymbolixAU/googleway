@@ -56,7 +56,7 @@ function add_rectangles(map_id, data_rectangles, update_map_view, layer_id, lege
   if(update_map_view === true){
     window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
   }
-    
+
     if(legendValues !== false){
         add_legend(map_id, layer_id, legendValues);
     }
@@ -95,7 +95,7 @@ function update_rectangles(map_id, data_rectangles, layer_id, legendValues){
     currentIds.push(_id);
 
     // find if there is a matching id in the new polygon data set
-    thisUpdateRectangle = findById(data_rectangles, _id);
+    thisUpdateRectangle = findById(data_rectangles, _id, "object");
     if(thisUpdateRectangle !== undefined){
 
 //    if(data_rectangles.find(x => x.id === _id)){
@@ -146,7 +146,7 @@ function update_rectangles(map_id, data_rectangles, layer_id, legendValues){
         window[map_id + 'googleRectangles' + layer_id][i].setMap(null);
     }
   }
-    
+
     if(legendValues !== false){
         add_legend(map_id, layer_id, legendValues);
     }

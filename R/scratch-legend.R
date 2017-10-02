@@ -207,6 +207,38 @@
 # }
 # shinyApp(ui, server)
 
-
+#
+# library(shiny)
+#
+# ui <- fluidPage(
+#   google_mapOutput(outputId = "map"),
+#   actionButton(inputId = "btn", label = "button")
+# )
+# server <- function(input, output){
+#
+#   mapKey <- symbolix.utils::mapKey()
+#
+#   output$map <- renderGoogle_map({
+#
+#     google_map(key = mapKey)
+#
+#   })
+#
+#
+#   observeEvent(input$btn, {
+#
+#     if(input$btn %% 2 == 0){
+#       google_map_update(map_id = "map") %>%
+#         add_circles(data = tram_stops, lat = "stop_lat", lon = "stop_lon",
+#                     fill_colour = "stop_name", legend = T)
+#     }else{
+#       google_map_update(map_id = "map") %>%
+#         clear_circles()
+#     }
+#
+#   })
+#
+# }
+# shinyApp(ui, server)
 
 

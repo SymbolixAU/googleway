@@ -19,6 +19,7 @@ HTMLWidgets.widget({
             window[el.id + 'googleTransitLayer'] = [];
             window[el.id + 'googleSearchBox'] = [];
             window[el.id + 'googlePlaceMarkers'] = [];
+            window[el.id + 'legendPositions'] = [];     // array for keeping a referene to legend positions
 
             if(x.search_box === true){
                 console.log("search box");
@@ -163,21 +164,25 @@ function hexToRgb(hex) {
  * @param source data object
  * @param id the id to search for
  **/
-function findById(source, id) {
+function findById(source, id, returnType) {
     for (var i = 0; i < source.length; i++) {
         if (source[i].id === id) {
-            return source[i];
+            if(returnType === "object"){
+                return source[i];
+            }else{
+                return i;
+            }
         }
     }
     return;
 }
 
 function initialise_map(el, x) {
-
-  // map bounds object
-  //console.log("initialising map: el.id: ");
-  //console.log(el.id);
-  window[el.id + 'mapBounds'] = new google.maps.LatLngBounds();
+    
+    // map bounds object
+    //console.log("initialising map: el.id: ");
+    //console.log(el.id);
+    window[el.id + 'mapBounds'] = new google.maps.LatLngBounds();
 
   // if places
   if(x.search_box === true){
@@ -274,7 +279,9 @@ function initialise_map(el, x) {
 
 
 function placeControl(map_id, object, position) {
-
+    
+    var ledge = {};
+    
     switch (position) {
     case 'RIGHT_BOTTOM':
         window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(object);
@@ -313,7 +320,98 @@ function placeControl(map_id, object, position) {
         window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(object);
         break;
     default:
+        position = "LEFT_BOTTOM"
         window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_BOTTOM].push(object);
         break;
     }
+    
+//    console.log("object");
+//    console.log(object.getAttribute('id'));
+//    removeControl(map_id, object.getAttribute('id'), position)
+
+    ledge = {
+        id: object.getAttribute('id'),
+        position: position
+    }
+    window[map_id + 'legendPositions'].push(ledge);
+    
+    console.log(window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_BOTTOM]);
+    
+//    console.log(window[map_id + 'legendPositions']);
+//    console.log(window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_BOTTOM]);
+
+//    console.log("iterating");
+//    window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_BOTTOM].forEach(function(item){
+//        console.log(item);
+//    })
+    
+}
+
+function removeControl(map_id, legend_id, position){
+    switch (position) {
+    case 'RIGHT_BOTTOM':
+        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_BOTTOM], legend_id);
+        break;
+    case 'TOP_CENTER':
+        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.TOP_CENTER], legend_id);
+        break;
+    case 'TOP_LEFT':
+        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT], legend_id);
+        break;
+    case 'LEFT_TOP':
+        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_TOP], legend_id);
+        break;
+    case 'TOP_RIGHT':
+        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.TOP_RIGHT], legend_id);
+        break;
+    case 'RIGHT_TOP':
+        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_TOP], legend_id);
+        break;
+    case 'LEFT_CENTER':
+        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_CENTER], legend_id);
+        break;
+    case 'RIGHT_CENTER':
+        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_CENTER], legend_id);
+        break;
+    case 'LEFT_BOTTOM':
+        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_BOTTOM], legend_id);
+        break;
+    case 'BOTTOM_CENTER':
+        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_CENTER], legend_id);
+        break;
+    case 'BOTTOM_LEFT':
+        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_LEFT], legend_id);
+        break;
+    case 'BOTTOM_RIGHT':
+        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_RIGHT], legend_id);
+        break;
+    default:
+        position = "LEFT_BOTTOM"
+        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_BOTTOM], legend_id);
+        break;
+    }
+}
+
+function clearControl(control, legend_id) {
+    
+//    console.log("clear control");
+//    console.log(control);
+//    console.log(legend_id);
+    
+    control.forEach(function(item, index){
+        if (item.getAttribute('id') === legend_id) {
+            //console.log("found item index: " + index);
+            //control.splice(index, 1);
+            control.removeAt(index);
+        }
+    })
+    
+//    for (var i = control.length - 1; i >= 0; i--) {
+//        if (control[i].getAttribute('id') === legend_id) {
+//            control.removeAt(i);
+//        }
+//    }
+    //console.log("after removing");
+    //console.log(control);
+    
 }

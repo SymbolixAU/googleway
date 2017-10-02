@@ -9,6 +9,7 @@
  */
 function add_circles(map_id, data_circles, update_map_view, layer_id, legendValues, legendOptions){
 
+    console.log("adding circles");
   var i;
   window[map_id + 'googleCircles' + layer_id] = [];
   var infoWindow = new google.maps.InfoWindow();
@@ -73,10 +74,30 @@ function add_circles(map_id, data_circles, update_map_view, layer_id, legendValu
  *          the layer to clear
  */
 function clear_circles(map_id, layer_id){
-  for (i = 0; i < window[map_id + 'googleCircles' + layer_id].length; i++){
-    window[map_id + 'googleCircles' + layer_id][i].setMap(null);
-  }
-  window[map_id + 'googleCircles' + layer_id] = null;
+
+    console.log("clearing circles");
+    
+    for (i = 0; i < window[map_id + 'googleCircles' + layer_id].length; i++){
+        window[map_id + 'googleCircles' + layer_id][i].setMap(null);
+    }
+    window[map_id + 'googleCircles' + layer_id] = null;
+
+    // find reference to this layer in the legends
+    var id = map_id + 'legend' + layer_id + 'fill_colour'
+    var objIndex = findById(window[map_id + 'legendPositions'], id, "index" );
+    
+    if(objIndex !== undefined) {
+        removeControl(map_id, id, window[map_id + 'legendPositions'][objIndex].position);
+        window[map_id + 'legendPositions'].splice(objIndex, 1);
+    }
+    
+    var id = map_id + 'legend' + layer_id + 'stroke_colour'
+    var objIndex = findById(window[map_id + 'legendPositions'], id, "index" );
+    
+    if(objIndex !== undefined) {
+        removeControl(map_id, id, window[map_id + 'legendPositions'][objIndex].position);
+        window[map_id + 'legendPositions'].splice(objIndex, 1);
+    }
 }
 
 /**
@@ -110,7 +131,7 @@ function update_circles(map_id, data_circle, layer_id, legendValues){
     // array is date_circles[],
     // value to find is _id,
 
-    thisUpdateCircle = findById(data_circle, _id);
+    thisUpdateCircle = findById(data_circle, _id, "object");
     if(thisUpdateCircle !== undefined){
 
     //if(data_circle.find(x => x.id === _id)){
