@@ -117,7 +117,6 @@ add_polylines <- function(map,
   data <- lst$data
   objArgs <- lst$objArgs
   id <- lst$id
-  print(id)
   ## END PARAMETER CHECKS
 
   allCols <- polylineColumns()
