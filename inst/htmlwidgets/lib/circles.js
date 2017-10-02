@@ -61,6 +61,7 @@ function add_circles(map_id, data_circles, update_map_view, layer_id, legendValu
     }
     
     if(legendValues !== false){
+        console.log("adding circle legend");
         add_legend(map_id, layer_id, legendValues, legendOptions);
     }
 
@@ -76,27 +77,31 @@ function add_circles(map_id, data_circles, update_map_view, layer_id, legendValu
 function clear_circles(map_id, layer_id){
 
     console.log("clearing circles");
-    
-    for (i = 0; i < window[map_id + 'googleCircles' + layer_id].length; i++){
-        window[map_id + 'googleCircles' + layer_id][i].setMap(null);
-    }
-    window[map_id + 'googleCircles' + layer_id] = null;
+    if (window[map_id + 'googleCircles' + layer_id] && window[map_id + 'googleCircles' + layer_id].length){
+        
+        for (i = 0; i < window[map_id + 'googleCircles' + layer_id].length; i++){
+            window[map_id + 'googleCircles' + layer_id][i].setMap(null);
+        }
+        window[map_id + 'googleCircles' + layer_id] = null;
 
-    // find reference to this layer in the legends
-    var id = map_id + 'legend' + layer_id + 'fill_colour'
-    var objIndex = findById(window[map_id + 'legendPositions'], id, "index" );
-    
-    if(objIndex !== undefined) {
-        removeControl(map_id, id, window[map_id + 'legendPositions'][objIndex].position);
-        window[map_id + 'legendPositions'].splice(objIndex, 1);
-    }
-    
-    var id = map_id + 'legend' + layer_id + 'stroke_colour'
-    var objIndex = findById(window[map_id + 'legendPositions'], id, "index" );
-    
-    if(objIndex !== undefined) {
-        removeControl(map_id, id, window[map_id + 'legendPositions'][objIndex].position);
-        window[map_id + 'legendPositions'].splice(objIndex, 1);
+        // find reference to this layer in the legends
+        var id = map_id + 'legend' + layer_id + 'fill_colour'
+        var objIndex = findById(window[map_id + 'legendPositions'], id, "index" );
+
+        if(objIndex !== undefined) {
+            removeControl(map_id, id, window[map_id + 'legendPositions'][objIndex].position);
+            window[map_id + 'legendPositions'].splice(objIndex, 1);
+            window[id] = null;
+        }
+
+        var id = map_id + 'legend' + layer_id + 'stroke_colour'
+        var objIndex = findById(window[map_id + 'legendPositions'], id, "index" );
+
+        if(objIndex !== undefined) {
+            removeControl(map_id, id, window[map_id + 'legendPositions'][objIndex].position);
+            window[map_id + 'legendPositions'].splice(objIndex, 1);
+            window[id] = null;
+        }
     }
 }
 

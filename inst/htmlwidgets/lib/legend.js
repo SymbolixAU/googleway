@@ -40,7 +40,7 @@ function add_legend_gradient(map_id, layer_id, legendValues) {
         isUpdating = false;
     
     
-    if (window[map_id + 'legend' + layer_id + legendValues.colourType] === undefined) {
+    if (window[map_id + 'legend' + layer_id + legendValues.colourType] == null) {
         window[map_id + 'legend' + layer_id + legendValues.colourType] = document.createElement("div");
         window[map_id + 'legend' + layer_id + legendValues.colourType].setAttribute('id', map_id + 'legend' + layer_id + legendValues.colourType);
         window[map_id + 'legend' + layer_id + legendValues.colourType].setAttribute('class', 'legend');
@@ -126,6 +126,8 @@ function generateColourBox(colourType, colour) {
 function add_legend_category(map_id, layer_id, legendValues) {
     
     'use strict';
+    
+    console.log("adding category legend");
 
     var legendContent,
         legendTitle,
@@ -139,13 +141,16 @@ function add_legend_category(map_id, layer_id, legendValues) {
         legendTextColour = '#828282',
         isUpdating = false;
     
-    
-    if (window[map_id + 'legend' + layer_id + legendValues.colourType] === undefined) {
+    // catch undefined OR null
+    // https://stackoverflow.com/questions/2647867/how-to-determine-if-variable-is-undefined-or-null
+    if (window[map_id + 'legend' + layer_id + legendValues.colourType] == null) {
+        console.log("circle legend undefined");
         window[map_id + 'legend' + layer_id + legendValues.colourType] = document.createElement("div");
         window[map_id + 'legend' + layer_id + legendValues.colourType].setAttribute('id', map_id + 'legend' + layer_id + legendValues.colourType);
         window[map_id + 'legend' + layer_id + legendValues.colourType].setAttribute('class', 'legend');
         
     } else {
+        console.log("circle legend already exists");
         isUpdating = true;
         
         while (window[map_id + 'legend' + layer_id + legendValues.colourType].hasChildNodes()) {
