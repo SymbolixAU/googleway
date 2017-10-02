@@ -114,7 +114,7 @@ function update_polygons(map_id, data_polygon, layer_id, legendValues){
     currentIds.push(_id);
 
     // find if there is a matching id in the new polygon data set
-    thisUpdatePolygon = findById(data_polygon, _id);
+    thisUpdatePolygon = findById(data_polygon, _id, "object");
     if(thisUpdatePolygon !== undefined){
     //if(data_polygon.find(x => x.id === _id)){
       //thisUpdatePolygon = data_polygon.find(x => x.id === _id);

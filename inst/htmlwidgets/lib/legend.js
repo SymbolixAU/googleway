@@ -210,5 +210,20 @@ function add_legend_category(map_id, layer_id, legendValues) {
     if (isUpdating === false) {
         placeControl(map_id, window[map_id + 'legend' + layer_id + legendValues.colourType], legendValues.position);
     }
+    
+    //console.log(window[map_id + 'map'].controls);
+
+    
+    
+}
+
+
+function clear_legend(map_id, layer_id){
+  
+    //console.log(window[map_id + 'map'].controls);
+    
+//    if (window[map_id + 'legend' + layer_id + "gradient"] !== undefined) {
+//        
+//    }
 }
 

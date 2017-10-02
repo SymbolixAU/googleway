@@ -13,7 +13,7 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
 
     window[map_id + 'googlePolyline' + layer_id] = [];
     var infoWindow = new google.maps.InfoWindow();
-    
+
     for (i = 0; i < Object.keys(data_polyline).length; i++) {
 
         if (use_polyline) {
@@ -76,15 +76,15 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
         //shape_click(map_id, Polyline, polyline.id, shapeInfo);
 
     }
-    
+
     if (update_map_view === true) {
         window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
     }
-    
+
     if(legendValues !== false){
         add_legend(map_id, layer_id, legendValues);
     }
-    
+
 }
 
 
@@ -115,8 +115,8 @@ function update_polylines(map_id, data_polyline, layer_id, legendValues) {
             currentIds.push(_id);
 
             // find if there is a matching id in the new polyline data set
-            thisUpdatePolyline = findById(data_polyline, _id);
-            
+            thisUpdatePolyline = findById(data_polyline, _id, "object");
+
             if(thisUpdatePolyline !== undefined){
                 //if(data_polyline.find(x => x.id === _id)){
                 //thisUpdatePolyline = data_polyline.find(x => x.id === _id);
@@ -161,7 +161,7 @@ function update_polylines(map_id, data_polyline, layer_id, legendValues) {
             }
         }
     }
-    
+
     if(legendValues !== false){
         add_legend(map_id, layer_id, legendValues);
     }
