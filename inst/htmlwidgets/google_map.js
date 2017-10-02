@@ -155,23 +155,6 @@ function createWindowObject(map_id, objType, layer_id){
 }
 
 /**
-* clears an object from it's window-array, and then the map
-* and then calls 'clear_legend'
-*/
-function clear_object (map_id, objType, layer_id) {
-     
-    if (window[map_id + objType + layer_id] && window[map_id + objType + layer_id].length){
-        
-        for (i = 0; i < window[map_id + objType + layer_id].length; i++){
-            window[map_id + objType + layer_id][i].setMap(null);
-        }
-        window[map_id + objType + layer_id] = null;
-
-        clear_legend(map_id, layer_id);
-    }
-}
-
-/**
  * hex to rgb
  *
  * Converts hex colours to rgb
@@ -418,5 +401,22 @@ function clearControl(control, legend_id) {
                 }
             }
         })    
+    }
+}
+
+/**
+* clears an object from it's window-array, and then the map
+* and then calls 'clear_legend'
+*/
+function clear_object (map_id, objType, layer_id) {
+     
+    if (window[map_id + objType + layer_id] && window[map_id + objType + layer_id].length){
+        
+        for (i = 0; i < window[map_id + objType + layer_id].length; i++){
+            window[map_id + objType + layer_id][i].setMap(null);
+        }
+        window[map_id + objType + layer_id] = null;
+
+        clear_legend(map_id, layer_id);
     }
 }

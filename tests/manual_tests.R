@@ -104,7 +104,7 @@
 #     if(input$btnPolygons %% 2 == 1){
 #       google_map_update(map_id = "map") %>%
 #         add_polygons(data = melbourne, polyline = "polyline", fill_colour = "SA4_NAME",
-#                       legend = T, layer_id = 'polygons')
+#                       legend = T, layer_id = 'polygons', legend_options = list(position = "BOTTOM_RIGHT"))
 #     }else{
 #       google_map_update(map_id = "map") %>%
 #         clear_polygons(layer_id = 'polygons')

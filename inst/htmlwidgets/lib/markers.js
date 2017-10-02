@@ -20,11 +20,7 @@ function add_markers(map_id, data_markers, cluster, update_map_view, layer_id){
     var markers = [],
         i,
         infoWindow = new google.maps.InfoWindow();
-  
-//    if(window[map_id + 'googleMarkers' + layer_id] == null){
-//        window[map_id + 'googleMarkers' + layer_id] = [];
-//    }
-    
+
     createWindowObject(map_id, 'googleMarkers', layer_id);
 
 
@@ -119,18 +115,14 @@ function add_markers(map_id, data_markers, cluster, update_map_view, layer_id){
  */
 function clear_markers(map_id, layer_id){
 
-  // the markers know which map they're on
-  // http://stackoverflow.com/questions/7961522/removing-a-marker-in-google-maps-api-v3
-  for (i = 0; i < window[map_id + 'googleMarkers' + layer_id ].length; i++){
-      window[map_id + 'googleMarkers' + layer_id][i].setMap(null);
-  }
-  window[map_id + 'googleMarkers' + layer_id] = null;
+    // the markers know which map they're on
+    // http://stackoverflow.com/questions/7961522/removing-a-marker-in-google-maps-api-v3
+    clear_object(map_id, 'googleMarkers', layer_id);
 
-  if(window[map_id + 'googleMarkerClusterer' + layer_id]){
-      window[map_id + 'googleMarkerClusterer' + layer_id].clearMarkers();
-      window[map_id + 'googleMarkerClusterer' + layer_id] = null;
-  }
-
+    if(window[map_id + 'googleMarkerClusterer' + layer_id]){
+        window[map_id + 'googleMarkerClusterer' + layer_id].clearMarkers();
+        window[map_id + 'googleMarkerClusterer' + layer_id] = null;
+    }
 }
 
 

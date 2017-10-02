@@ -203,10 +203,5 @@ function update_polygons(map_id, data_polygon, layer_id, legendValues){
  * @param layer_id
  */
 function clear_polygons(map_id, layer_id){
-
-//    for (i = 0; i < window[map_id + 'googlePolygon' + layer_id].length; i++){
-//        window[map_id + 'googlePolygon' + layer_id][i].setMap(null);
-//    }
-//    window[map_id + 'googlePolygon' + layer_id] = null;
     clear_object(map_id, 'googlePolygon', layer_id);
 }

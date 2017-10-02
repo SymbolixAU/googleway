@@ -175,12 +175,6 @@ function update_polylines(map_id, data_polyline, layer_id, legendValues) {
 
 
 
-function clear_polylines(map_id, layer_id) {
-
-//    for (i = 0; i < window[map_id + 'googlePolyline' + layer_id].length; i++){
-//        window[map_id + 'googlePolyline' + layer_id][i].setMap(null);
-//    }
-//    window[map_id + 'googlePolyline' + layer_id] = null;
-//    
+function clear_polylines(map_id, layer_id) {  
     clear_object(map_id, 'googlePolyline', layer_id);
 }

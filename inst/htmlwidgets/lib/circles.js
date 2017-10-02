@@ -75,19 +75,8 @@ function add_circles(map_id, data_circles, update_map_view, layer_id, legendValu
  * @param layer_id
  *          the layer to clear
  */
-function clear_circles(map_id, layer_id){
-    
+function clear_circles(map_id, layer_id){ 
     clear_object(map_id, 'googleCircles', layer_id);
-    
-//    if (window[map_id + 'googleCircles' + layer_id] && window[map_id + 'googleCircles' + layer_id].length){
-//        
-//        for (i = 0; i < window[map_id + 'googleCircles' + layer_id].length; i++){
-//            window[map_id + 'googleCircles' + layer_id][i].setMap(null);
-//        }
-//        window[map_id + 'googleCircles' + layer_id] = null;
-//
-//        clear_legend(map_id, layer_id);
-//    }
 }
 
 
@@ -115,12 +104,6 @@ function update_circles(map_id, data_circle, layer_id, legendValues){
 
     _id = window[map_id + 'googleCircles' + layer_id][i].id;
     currentIds.push(_id);
-
-    // find if there is a matching id in the new circle data set
-
-
-    // array is date_circles[],
-    // value to find is _id,
 
     thisUpdateCircle = findById(data_circle, _id, "object");
     if(thisUpdateCircle !== undefined){

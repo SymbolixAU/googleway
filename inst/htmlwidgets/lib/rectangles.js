@@ -76,10 +76,6 @@ function add_rectangles(map_id, data_rectangles, update_map_view, layer_id, lege
  *          the layer to clear
  */
 function clear_rectangles(map_id, layer_id){
-    //for (i = 0; i < window[map_id + 'googleRectangles' + layer_id].length; i++){
-    //    window[map_id + 'googleRectangles' + layer_id][i].setMap(null);
-    //}
-    //window[map_id + 'googleRectangles' + layer_id] = null;
     clear_object(map_id, 'googleRectangles', layer_id);
 }
 
