@@ -145,6 +145,33 @@ function update_style(map_id, style) {
 
 
 /**
+* Creates a window object for a given shape type if it doens't exist
+*
+*/
+function createWindowObject(map_id, objType, layer_id){
+    if(window[map_id + objType + layer_id] == null){
+        window[map_id + objType + layer_id] = [];
+    }
+}
+
+/**
+* clears an object from it's window-array, and then the map
+* and then calls 'clear_legend'
+*/
+function clear_object (map_id, objType, layer_id) {
+     
+    if (window[map_id + objType + layer_id] && window[map_id + objType + layer_id].length){
+        
+        for (i = 0; i < window[map_id + objType + layer_id].length; i++){
+            window[map_id + objType + layer_id][i].setMap(null);
+        }
+        window[map_id + objType + layer_id] = null;
+
+        clear_legend(map_id, layer_id);
+    }
+}
+
+/**
  * hex to rgb
  *
  * Converts hex colours to rgb
@@ -325,29 +352,18 @@ function placeControl(map_id, object, position) {
         break;
     }
     
-//    console.log("object");
-//    console.log(object.getAttribute('id'));
-//    removeControl(map_id, object.getAttribute('id'), position)
-
     ledge = {
         id: object.getAttribute('id'),
         position: position
     }
     window[map_id + 'legendPositions'].push(ledge);
-    
-    console.log(window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_BOTTOM]);
-    
-//    console.log(window[map_id + 'legendPositions']);
-//    console.log(window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_BOTTOM]);
-
-//    console.log("iterating");
-//    window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_BOTTOM].forEach(function(item){
-//        console.log(item);
-//    })
-    
 }
 
 function removeControl(map_id, legend_id, position){
+    
+    console.log("removeControl()");
+    console.log(position);
+    
     switch (position) {
     case 'RIGHT_BOTTOM':
         clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_BOTTOM], legend_id);
@@ -394,24 +410,13 @@ function removeControl(map_id, legend_id, position){
 
 function clearControl(control, legend_id) {
     
-//    console.log("clear control");
-//    console.log(control);
-//    console.log(legend_id);
-    
-    control.forEach(function(item, index){
-        if (item.getAttribute('id') === legend_id) {
-            //console.log("found item index: " + index);
-            //control.splice(index, 1);
-            control.removeAt(index);
-        }
-    })
-    
-//    for (var i = control.length - 1; i >= 0; i--) {
-//        if (control[i].getAttribute('id') === legend_id) {
-//            control.removeAt(i);
-//        }
-//    }
-    //console.log("after removing");
-    //console.log(control);
-    
+    if(control != null){
+        control.forEach(function(item, index){
+            if(item != null){
+                if (item.getAttribute('id') === legend_id) {
+                    control.removeAt(index);
+                }
+            }
+        })    
+    }
 }

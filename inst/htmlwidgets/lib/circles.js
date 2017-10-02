@@ -9,62 +9,63 @@
  */
 function add_circles(map_id, data_circles, update_map_view, layer_id, legendValues, legendOptions){
 
-    console.log("adding circles");
-  var i;
-  window[map_id + 'googleCircles' + layer_id] = [];
-  var infoWindow = new google.maps.InfoWindow();
+    var i;
+    //if(window[map_id + 'googleCircles' + layer_id] == null){
+    //    window[map_id + 'googleCircles' + layer_id] = [];
+    //}
+    createWindowObject(map_id, 'googleCircles', layer_id);
+    
+    var infoWindow = new google.maps.InfoWindow();
 
-  for (i = 0; i < Object.keys(data_circles).length; i++) {
-    add_circle(map_id, data_circles[i]);
-  }
-
-  function add_circle(map_id, circle){
-
-    var latlon = new google.maps.LatLng(circle.lat, circle.lng);
-
-    var Circle = new google.maps.Circle({
-        id: circle.id,
-        strokeColor: circle.stroke_colour,
-        strokeOpacity: circle.stroke_opacity,
-        strokeWeight: circle.stroke_weight,
-        fillColor: circle.fill_colour,
-        fillOpacity: circle.fill_opacity,
-        fillOpacityHolder: circle.fill_opacity,
-        draggable: circle.draggable,
-        center: latlon,
-        radius: circle.radius,
-        mouseOverGroup: circle.mouse_over_group,
-        zIndex: circle.z_index
-      });
-
-    window[map_id + 'googleCircles' + layer_id].push(Circle);
-    Circle.setMap(window[map_id + 'map']);
-
-    if(circle.info_window){
-      add_infoWindow(map_id, Circle, infoWindow, '_information', circle.info_window);
+    for (i = 0; i < Object.keys(data_circles).length; i++) {
+        add_circle(map_id, data_circles[i]);
     }
 
-    if(circle.mouse_over || circle.mouse_over_group){
-      add_mouseOver(map_id, Circle, infoWindow, "_mouse_over", circle.mouse_over, layer_id, 'googleCircles');
-    }
+    function add_circle(map_id, circle){
 
-    shapeInfo = { layerId : layer_id };
-    shape_click(map_id, Circle, circle.id, shapeInfo);
+        var latlon = new google.maps.LatLng(circle.lat, circle.lng);
 
-    if(update_map_view === true){
-      window[map_id + 'mapBounds'].extend(latlon);
+        var Circle = new google.maps.Circle({
+            id: circle.id,
+            strokeColor: circle.stroke_colour,
+            strokeOpacity: circle.stroke_opacity,
+            strokeWeight: circle.stroke_weight,
+            fillColor: circle.fill_colour,
+            fillOpacity: circle.fill_opacity,
+            fillOpacityHolder: circle.fill_opacity,
+            draggable: circle.draggable,
+            center: latlon,
+            radius: circle.radius,
+            mouseOverGroup: circle.mouse_over_group,
+            zIndex: circle.z_index
+          });
+
+        window[map_id + 'googleCircles' + layer_id].push(Circle);
+        Circle.setMap(window[map_id + 'map']);
+
+        if(circle.info_window){
+            add_infoWindow(map_id, Circle, infoWindow, '_information', circle.info_window);
+        }
+
+        if(circle.mouse_over || circle.mouse_over_group){
+            add_mouseOver(map_id, Circle, infoWindow, "_mouse_over", circle.mouse_over, layer_id, 'googleCircles');
+        }
+
+        shapeInfo = { layerId : layer_id };
+        shape_click(map_id, Circle, circle.id, shapeInfo);
+
+        if(update_map_view === true){
+            window[map_id + 'mapBounds'].extend(latlon);
+        }
     }
-  }
 
     if(update_map_view === true){
         window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
     }
     
     if(legendValues !== false){
-        console.log("adding circle legend");
         add_legend(map_id, layer_id, legendValues, legendOptions);
     }
-
 }
 
 /**
@@ -75,35 +76,20 @@ function add_circles(map_id, data_circles, update_map_view, layer_id, legendValu
  *          the layer to clear
  */
 function clear_circles(map_id, layer_id){
-
-    console.log("clearing circles");
-    if (window[map_id + 'googleCircles' + layer_id] && window[map_id + 'googleCircles' + layer_id].length){
-        
-        for (i = 0; i < window[map_id + 'googleCircles' + layer_id].length; i++){
-            window[map_id + 'googleCircles' + layer_id][i].setMap(null);
-        }
-        window[map_id + 'googleCircles' + layer_id] = null;
-
-        // find reference to this layer in the legends
-        var id = map_id + 'legend' + layer_id + 'fill_colour'
-        var objIndex = findById(window[map_id + 'legendPositions'], id, "index" );
-
-        if(objIndex !== undefined) {
-            removeControl(map_id, id, window[map_id + 'legendPositions'][objIndex].position);
-            window[map_id + 'legendPositions'].splice(objIndex, 1);
-            window[id] = null;
-        }
-
-        var id = map_id + 'legend' + layer_id + 'stroke_colour'
-        var objIndex = findById(window[map_id + 'legendPositions'], id, "index" );
-
-        if(objIndex !== undefined) {
-            removeControl(map_id, id, window[map_id + 'legendPositions'][objIndex].position);
-            window[map_id + 'legendPositions'].splice(objIndex, 1);
-            window[id] = null;
-        }
-    }
+    
+    clear_object(map_id, 'googleCircles', layer_id);
+    
+//    if (window[map_id + 'googleCircles' + layer_id] && window[map_id + 'googleCircles' + layer_id].length){
+//        
+//        for (i = 0; i < window[map_id + 'googleCircles' + layer_id].length; i++){
+//            window[map_id + 'googleCircles' + layer_id][i].setMap(null);
+//        }
+//        window[map_id + 'googleCircles' + layer_id] = null;
+//
+//        clear_legend(map_id, layer_id);
+//    }
 }
+
 
 /**
  * Updates polygon options

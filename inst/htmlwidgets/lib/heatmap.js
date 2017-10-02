@@ -15,8 +15,10 @@ function add_heatmap(map_id, data_heatmap, heatmap_options, update_map_view, lay
         heatmapData = [],
         i;
     
-    window[map_id + 'googleHeatmap' + layer_id] = [];
-    window[map_id + 'googleHeatmapLayerMVC' + layer_id] = [];
+    createWindowObject(map_id, 'googleHeatmap', layer_id);
+    createWindowObject(map_id, 'googleHeatmapLayerMVC', layer_id);
+//    window[map_id + 'googleHeatmap' + layer_id] = [];
+//    window[map_id + 'googleHeatmapLayerMVC' + layer_id] = [];
     
     for (i = 0; i < Object.keys(data_heatmap).length; i++) {
         

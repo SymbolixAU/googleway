@@ -17,11 +17,16 @@
  */
 function add_markers(map_id, data_markers, cluster, update_map_view, layer_id){
 
-  var markers = [];
-  var i;
-  var infoWindow = new google.maps.InfoWindow();
-//  var bounds = new google.maps.LatLngBounds();
-  window[map_id + 'googleMarkers' + layer_id] = [];
+    var markers = [],
+        i,
+        infoWindow = new google.maps.InfoWindow();
+  
+//    if(window[map_id + 'googleMarkers' + layer_id] == null){
+//        window[map_id + 'googleMarkers' + layer_id] = [];
+//    }
+    
+    createWindowObject(map_id, 'googleMarkers', layer_id);
+
 
   for (i = 0; i < Object.keys(data_markers).length; i++){
 
@@ -122,8 +127,8 @@ function clear_markers(map_id, layer_id){
   window[map_id + 'googleMarkers' + layer_id] = null;
 
   if(window[map_id + 'googleMarkerClusterer' + layer_id]){
-    window[map_id + 'googleMarkerClusterer' + layer_id].clearMarkers();
-    window[map_id + 'googleMarkerClusterer' + layer_id] = null;
+      window[map_id + 'googleMarkerClusterer' + layer_id].clearMarkers();
+      window[map_id + 'googleMarkerClusterer' + layer_id] = null;
   }
 
 }

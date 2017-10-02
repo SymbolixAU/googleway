@@ -207,16 +207,16 @@
 # }
 # shinyApp(ui, server)
 
-#
+
 # library(shiny)
 #
 # ui <- fluidPage(
-#   google_mapOutput(outputId = "map"),
+#   google_mapOutput(outputId = "map", height = "800px"),
 #   actionButton(inputId = "btn", label = "button")
 # )
 # server <- function(input, output){
 #
-#   mapKey <- symbolix.utils::mapKey()
+#   mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 #
 #   output$map <- renderGoogle_map({
 #
@@ -227,17 +227,21 @@
 #
 #   observeEvent(input$btn, {
 #
-#     if(input$btn %% 2 == 0){
+#     ## TODO:
+#     ## Why is only one layer deleted if no layer_ids are present
+#     ## what is going on when more than one layer_id is specified?
+#     if(input$btn %% 2 == 1){
 #       google_map_update(map_id = "map") %>%
 #         add_circles(data = tram_stops, lat = "stop_lat", lon = "stop_lon",
-#                     fill_colour = "stop_name", legend = T)
+#                     fill_colour = "stop_name", stroke_colour = "stop_id", legend = T, layer_id = 1) %>%
+#         add_circles(data = tram_route, lat = "shape_pt_lat", lon = "shape_pt_lon",
+#                     fill_colour = "shape_pt_sequence", legend = T, layer_id = 2)
 #     }else{
 #       google_map_update(map_id = "map") %>%
-#         clear_circles()
+#         clear_circles(layer_id = 1) %>%
+#         clear_circles(layer_id = 2)
 #     }
-#
 #   })
-#
 # }
 # shinyApp(ui, server)
 

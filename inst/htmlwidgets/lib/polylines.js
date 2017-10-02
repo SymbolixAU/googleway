@@ -11,7 +11,11 @@
  */
 function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_polyline, legendValues) {
 
-    window[map_id + 'googlePolyline' + layer_id] = [];
+    //if (window[map_id + 'googlePolyline' + layer_id] == null) {
+    //    window[map_id + 'googlePolyline' + layer_id] = [];    
+    //}
+    createWindowObject(map_id, 'googlePolyline', layer_id);
+    
     var infoWindow = new google.maps.InfoWindow();
 
     for (i = 0; i < Object.keys(data_polyline).length; i++) {
@@ -173,8 +177,10 @@ function update_polylines(map_id, data_polyline, layer_id, legendValues) {
 
 function clear_polylines(map_id, layer_id) {
 
-    for (i = 0; i < window[map_id + 'googlePolyline' + layer_id].length; i++){
-        window[map_id + 'googlePolyline' + layer_id][i].setMap(null);
-    }
-    window[map_id + 'googlePolyline' + layer_id] = null;
+//    for (i = 0; i < window[map_id + 'googlePolyline' + layer_id].length; i++){
+//        window[map_id + 'googlePolyline' + layer_id][i].setMap(null);
+//    }
+//    window[map_id + 'googlePolyline' + layer_id] = null;
+//    
+    clear_object(map_id, 'googlePolyline', layer_id);
 }
