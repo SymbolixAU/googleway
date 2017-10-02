@@ -1,6 +1,7 @@
 ## Version 2.3.0 (development)
 
 * `legend` available for all shape layers
+* `melbourne` data factor levels corrected
 * `place_id` accepted as origin/destination in `google_direction` and `google_distance`
 * `departure_time` defaults to `Sys.time()` if omitted when using `traffic_model`
 * `google_distance()` now accepts a data.frame of locations
