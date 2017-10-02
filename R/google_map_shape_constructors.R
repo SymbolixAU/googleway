@@ -1,3 +1,42 @@
+# # Map Object
+# # Generates teh map object from the given arguemnts, for the given calling function
+# mapObject <- function(map, data, legend, legend_options, palette, digits, update_map_view,
+#                       layer_id, objArgs, colour_attributes){
+#
+#   callingFunc <- as.character(objArgs[[1]])
+#
+#   allCols <- shapeColumns(callingFunc)
+#   requiredCols <- requiredColumns(callingFunc)
+#   colourColumns <- shapeAttributes(colour_attributes)
+#
+#   shape <- createMapObject(data, allCols, objArgs)
+#
+#   pal <- createPalettes(shape, colourColumns)
+#   colour_palettes <- createColourPalettes(data, pal, colourColumns, palette)
+#   colours <- createColours(shape, colour_palettes)
+#
+#   if(length(colours) > 0){
+#     shape <- replaceVariableColours(shape, colours)
+#   }
+#
+#   ## LEGEND
+#   if(any(vapply(legend, isTRUE, T))){
+#     legend <- constructLegend(colour_palettes, legend)
+#     if(!is.null(legend_options)){
+#       legend <- addLegendOptions(legend, legend_options)
+#     }
+#   }
+#
+#   requiredDefaults <- setdiff(requiredCols, names(shape))
+#   if(length(requiredDefaults) > 0){
+#     shape <- addDefaults(shape, requiredDefaults, "circle")
+#   }
+#
+#   shape <- jsonlite::toJSON(shape, digits = digits)
+#
+#   invoke_method(map, callingFunc, shape, update_map_view, layer_id, legend)
+# }
+
 
 # Create Map Object
 #
@@ -86,8 +125,32 @@ lineAttributes <- function(stroke_colour){
 }
 
 shapeAttributes <- function(fill_colour, stroke_colour){
+
+#  stroke_colour = colour_attributes[['stroke_colour']]
+#  fill_colour = colour_attributes[['fill_colour']]
+
   c("stroke_colour" = stroke_colour,
     "fill_colour" = fill_colour)
+}
+
+# requiredColumns <- function(func){
+#   print("calling func: ")
+#   print(func)
+#   switch(func,
+#     "add_circles" = requiredCircleColumns(),
+#     "add_rectangles" = requiredShapeColumns(),
+#     "add_polylines" = requiredLineColumns(),
+#     "add_polygons" = requiredShapeColumns()
+#   )
+# }
+
+shapeColumns <- function(func){
+  switch(func,
+         "add_circles" = circleColumns(),
+         "add_rectangles" = rectangleColumns(),
+         "add_polylines" = polylineColumns(),
+         "add_polygons" = polygonColumns()
+         )
 }
 
 requiredLineColumns <- function(){

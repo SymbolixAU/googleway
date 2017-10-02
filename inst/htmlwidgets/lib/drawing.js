@@ -7,6 +7,9 @@
 function add_drawing(map_id, drawing_modes, marker, circle, rectangle, polyline, polygon, delete_on_change){
 
     window[map_id + 'googleDrawingOverlays'] = [];
+    
+    //createWindowObject(map_id, 'googleDrawingOverlays', layer_id);
+    
     var drawingInfo, 
         drawingManager = new google.maps.drawing.DrawingManager({
 

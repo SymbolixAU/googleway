@@ -6,7 +6,9 @@ function add_fusion(map_id, query, styles, heat, layer_id) {
 
 // TODO: extend map bounds
 
-    window[map_id + 'googleFusion' + layer_id] = [];
+    //window[map_id + 'googleFusion' + layer_id] = [];
+    
+    createWindowObject(map_id, 'googleFusion', layer_id);
     
     var s = JSON.parse(styles),
         layer = new google.maps.FusionTablesLayer({

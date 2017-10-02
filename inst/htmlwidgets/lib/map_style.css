@@ -20,6 +20,53 @@
   padding: 0 11px 0 13px;
 }
 
+.legend {
+    font-family: Arial, sans-serif;
+    background: #fff;
+    padding: 8px;
+    margin: 8px;
+    border: 1px solid #b8b8b8; 
+    border-radius: 4px;
+    display:inline-block;
+    max-height: 200px;
+    max-width: 200px;
+    overflow: auto;
+}
+
+.legendTitle {
+/*  border: 1px solid #FF00FF; */
+    font-size: 14px;
+    padding-bottom: 4px;
+    height: auto;
+    left: float;
+}
+
+.legendContent{
+/*  border: 1px solid #000000; */
+    display: inline-flex;
+    white-space: nowrap;
+}
+
+.tickContainer{
+    padding-left: 2px;
+    height: auto;
+    display: inline-block;
+}
+
+.labelContainer{
+/*  border: 1px solid #00FF00; */
+  padding-left: 6px;
+  height: auto;
+  display: inline-block;
+}
+
+#legend h3 {
+    margin-top: 0;
+}
+#legend img {
+    vertical-align: middle;
+}
+
 #drop-container {
     display: none;
     height: 100%;

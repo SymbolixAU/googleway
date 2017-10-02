@@ -9,11 +9,15 @@
  * @param use_polyline
  *          boolean indicating if the data is an encoded polyline
  */
-function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_polyline) {
+function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_polyline, legendValues) {
 
-    window[map_id + 'googlePolyline' + layer_id] = [];
-    var infoWindow = new google.maps.InfoWindow();
+    //if (window[map_id + 'googlePolyline' + layer_id] == null) {
+    //    window[map_id + 'googlePolyline' + layer_id] = [];    
+    //}
+    createWindowObject(map_id, 'googlePolyline', layer_id);
     
+    var infoWindow = new google.maps.InfoWindow();
+
     for (i = 0; i < Object.keys(data_polyline).length; i++) {
 
         if (use_polyline) {
@@ -76,10 +80,15 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
         //shape_click(map_id, Polyline, polyline.id, shapeInfo);
 
     }
-    
+
     if (update_map_view === true) {
         window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
     }
+
+    if(legendValues !== false){
+        add_legend(map_id, layer_id, legendValues);
+    }
+
 }
 
 
@@ -90,7 +99,7 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
  * @param data_polylines
  *          polyline data to update
  */
-function update_polylines(map_id, data_polyline, layer_id) {
+function update_polylines(map_id, data_polyline, layer_id, legendValues) {
 
   // for a given polygon_id, change the options
     var objectAttribute,
@@ -110,8 +119,8 @@ function update_polylines(map_id, data_polyline, layer_id) {
             currentIds.push(_id);
 
             // find if there is a matching id in the new polyline data set
-            thisUpdatePolyline = findById(data_polyline, _id);
-            
+            thisUpdatePolyline = findById(data_polyline, _id, "object");
+
             if(thisUpdatePolyline !== undefined){
                 //if(data_polyline.find(x => x.id === _id)){
                 //thisUpdatePolyline = data_polyline.find(x => x.id === _id);
@@ -157,15 +166,15 @@ function update_polylines(map_id, data_polyline, layer_id) {
         }
     }
 
+    if(legendValues !== false){
+        add_legend(map_id, layer_id, legendValues);
+    }
+
 }
 
 
 
 
-function clear_polylines(map_id, layer_id) {
-
-    for (i = 0; i < window[map_id + 'googlePolyline' + layer_id].length; i++){
-        window[map_id + 'googlePolyline' + layer_id][i].setMap(null);
-    }
-    window[map_id + 'googlePolyline' + layer_id] = null;
+function clear_polylines(map_id, layer_id) {  
+    clear_object(map_id, 'googlePolyline', layer_id);
 }

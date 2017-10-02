@@ -2,7 +2,7 @@
 #'
 #' Adds a rectangle to a google map
 #'
-#' @param map a googleway map object created from \code{google_map()}
+#' @inheritParams add_circles
 #' @param data data frame containing the bounds for the rectangles
 #' @param north String specifying the column of \code{data} that contains the
 #' northern most latitude coordinate
@@ -12,41 +12,6 @@
 #' southern most latitude coordinate
 #' @param west String specifying the column of \code{data} that contains the
 #' western most longitude
-#' @param id string specifying the column containing an identifier for a rectangle
-#' @param draggable string specifying the column of \code{data} defining if the rectangle
-#' is 'draggable' (either TRUE or FALSE)
-#' @param editable string specifying the column of \code{data} defining if the rectangle
-#' is 'editable' (either TRUE or FALSE)
-#' @param stroke_colour either a string specifying the column of \code{data} containing
-#' the stroke colour of each rectangle, or a valid hexadecimal numeric HTML style to
-#' be applied to all the rectangle
-#' @param stroke_opacity either a string specifying the column of \code{data} containing
-#' the stroke opacity of each rectangle, or a value between 0 and 1 that will be
-#' applied to all the rectangle
-#' @param stroke_weight either a string specifying the column of \code{data} containing
-#' the stroke weight of each rectangle, or a number indicating the width of pixels
-#' in the line to be applied to all the rectangle
-#' @param fill_colour either a string specifying the column of \code{data} containing
-#' the fill colour of each rectangle, or a valid hexadecimal numeric HTML style to
-#' be applied to all the rectangle
-#' @param fill_opacity either a string specifying the column of \code{data} containing
-#' the fill opacity of each rectangle, or a value between 0 and 1 that will be applied to all the rectangles
-#' @param info_window string specifying the column of data to display in an info
-#' window when a rectangle is clicked
-#' @param mouse_over string specifying the column of data to display when the
-#' mouse rolls over the rectangle
-#' @param mouse_over_group string specifying the column of data specifying which
-#' groups of rectangle to highlight on mouseover
-#' @param layer_id single value specifying an id for the layer.
-#' @param update_map_view logical specifying if the map should re-centre according
-#' to the rectangles
-#' @param z_index single value specifying where the rectangles appear in the layering
-#' of the map objects. Layers with a higher \code{z_index} appear on top of those with
-#' a lower \code{z_index}. See details.
-#' @param digits integer. Use this parameter to specify how many digits (decimal places)
-#' should be used for the latitude / longitude coordinates.
-#' @param palette a function that generates hex RGB colours given a single number as an input.
-#' Used when a variable of \code{data} is specified as a colour
 #'
 #' @details
 #' \code{z_index} values define the order in which objects appear on the map.
@@ -105,7 +70,9 @@ add_rectangles <- function(map,
                            update_map_view = TRUE,
                            z_index = NULL,
                            digits = 4,
-                           palette = NULL){
+                           palette = NULL,
+                           legend = F,
+                           legend_options = NULL){
 
   objArgs <- match.call(expand.dots = F)
 
@@ -124,22 +91,30 @@ add_rectangles <- function(map,
   colourColumns <- shapeAttributes(fill_colour, stroke_colour)
 
   shape <- createMapObject(data, allCols, objArgs)
-  colours <- setupColours(data, shape, colourColumns, palette)
+  pal <- createPalettes(shape, colourColumns)
+  colour_palettes <- createColourPalettes(data, pal, colourColumns, viridisLite::viridis)
+  colours <- createColours(shape, colour_palettes)
 
   if(length(colours) > 0){
     shape <- replaceVariableColours(shape, colours)
   }
 
-  requiredDefaults <- setdiff(requiredCols, names(shape))
+  ## LEGEND
+  if(any(vapply(legend, isTRUE, T))){
+    legend <- constructLegend(colour_palettes, legend)
+    if(!is.null(legend_options)){
+      legend <- addLegendOptions(legend, legend_options)
+    }
+  }
 
+  requiredDefaults <- setdiff(requiredCols, names(shape))
   if(length(requiredDefaults) > 0){
     shape <- addDefaults(shape, requiredDefaults, "rectangle")
   }
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  invoke_method(map, 'add_rectangles', shape, update_map_view, layer_id)
-
+  invoke_method(map, 'add_rectangles', shape, update_map_view, layer_id, legend)
 }
 
 
@@ -162,33 +137,7 @@ clear_rectangles <- function(map, layer_id = NULL){
 #' This function will only update the rectangles that currently exist on the map when
 #' the function is called.
 #'
-#' @param map a googleway map object created from \code{google_map()}
-#' @param data data.frame containing the new values for the rectangles
-#' @param id string representing the column of \code{data} containing the id values
-#' for the rectangles The id values must be present in the data supplied to
-#' \code{add_rectangles} in order for the polygons to be udpated
-#' @param draggable string specifying the column of \code{data} defining if the
-#' rectangle is 'draggable' (either TRUE or FALSE)
-#' @param stroke_colour either a string specifying the column of \code{data} containing
-#' the stroke colour of each rectangle, or a valid hexadecimal numeric HTML style
-#' to be applied to all the rectangles
-#' @param stroke_opacity either a string specifying the column of \code{data} containing
-#' the stroke opacity of each rectangle, or a value between 0 and 1 that will be
-#' applied to all the rectangles
-#' @param stroke_weight either a string specifying the column of \code{data} containing
-#' the stroke weight of each rectangle, or a number indicating the width of pixels
-#' in the line to be applied to all the rectangles
-#' @param fill_colour either a string specifying the column of \code{data} containing
-#' the fill colour of each rectangle, or a valid hexadecimal numeric HTML style to
-#' be applied to all the cirlces
-#' @param fill_opacity either a string specifying the column of \code{data} containing
-#' the fill opacity of each rectangle, or a value between 0 and 1 that will be applied
-#' to all the rectangles
-#' @param layer_id single value specifying an id for the layer.
-#' @param digits integer. Use this parameter to specify how many digits (decimal places)
-#' should be used for the latitude / longitude coordinates.
-#' @param palette a function that generates hex RGB colours given a single number as an input.
-#' Used when a variable of \code{data} is specified as a colour
+#' @inheritParams update_circles
 #'
 #' @export
 update_rectangles <- function(map, data, id,
@@ -200,7 +149,9 @@ update_rectangles <- function(map, data, id,
                               fill_opacity = NULL,
                               layer_id = NULL,
                               digits = 4,
-                              palette = NULL){
+                              palette = NULL,
+                              legend = F,
+                              legend_options = NULL){
 
   ## TODO: is 'info_window' required, if it was included in the original add_polygons?
   objArgs <- match.call(expand.dots = F)
@@ -214,10 +165,20 @@ update_rectangles <- function(map, data, id,
   colourColumns <- shapeAttributes(fill_colour, stroke_colour)
 
   shape <- createMapObject(data, allCols, objArgs)
-  colours <- setupColours(data, shape, colourColumns, palette)
+  pal <- createPalettes(shape, colourColumns)
+  colour_palettes <- createColourPalettes(data, pal, colourColumns, viridisLite::viridis)
+  colours <- createColours(shape, colour_palettes)
 
   if(length(colours) > 0){
     shape <- replaceVariableColours(shape, colours)
+  }
+
+  ## LEGEND
+  if(any(vapply(legend, isTRUE, T))){
+    legend <- constructLegend(colour_palettes, legend)
+    if(!is.null(legend_options)){
+      legend <- addLegendOptions(legend, legend_options)
+    }
   }
 
   requiredDefaults <- setdiff(requiredCols, names(shape))
@@ -227,6 +188,6 @@ update_rectangles <- function(map, data, id,
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  invoke_method(map, 'update_rectangles', shape, layer_id)
+  invoke_method(map, 'update_rectangles', shape, layer_id, legend)
 }
 

@@ -1,60 +1,68 @@
-function add_rectangles(map_id, data_rectangles, update_map_view, layer_id){
+function add_rectangles(map_id, data_rectangles, update_map_view, layer_id, legendValues){
 
-  var i;
-  window[map_id + 'googleRectangles' + layer_id] = [];
-  var infoWindow = new google.maps.InfoWindow();
+    var i;
+    //if(window[map_id + 'googleRectangles' + layer_id] == null){
+    //    window[map_id + 'googleRectangles' + layer_id] = [];
+    //}
+    createWindowObject(map_id, 'googleRectangles', layer_id);
 
- for (i = 0; i < Object.keys(data_rectangles).length; i++) {
-    add_rectangle(map_id, data_rectangles[i]);
-  }
+    var infoWindow = new google.maps.InfoWindow();
 
-  function add_rectangle(map_id, rectangle){
-
-    var latlonNorthEast = new google.maps.LatLng(rectangle.north, rectangle.east);
-    var latlonSouthWest = new google.maps.LatLng(rectangle.south, rectangle.west);
-
-    var bounds = new google.maps.LatLngBounds(
-      latlonSouthWest,
-      latlonNorthEast
-    )
-
-    var Rectangle = new google.maps.Rectangle({
-        id: rectangle.id,
-        bounds: bounds,
-        strokeColor: rectangle.stroke_colour,
-        strokeOpacity: rectangle.stroke_opacity,
-        strokeWeight: rectangle.stroke_weight,
-        fillColor: rectangle.fill_colour,
-        fillOpacity: rectangle.fill_opacity,
-        draggable: rectangle.draggable,
-        editable: rectangle.editable,
-        radius: rectangle.radius,
-        mouseOverGroup: rectangle.mouse_over_group,
-        zIndex: rectangle.z_index
-      });
-
-    window[map_id + 'googleRectangles' + layer_id].push(Rectangle);
-    Rectangle.setMap(window[map_id + 'map']);
-
-    if(rectangle.info_window){
-      add_infoWindow(map_id, Rectangle, infoWindow, '_information', rectangle.info_window);
+    for (i = 0; i < Object.keys(data_rectangles).length; i++) {
+        add_rectangle(map_id, data_rectangles[i]);
     }
 
-    if(rectangle.mouse_over || rectangle.mouse_over_group){
-      add_mouseOver(map_id, Rectangle, infoWindow, "_mouse_over", rectangle.mouse_over, layer_id, 'googleRectangles');
-    }
+    function add_rectangle(map_id, rectangle){
 
-    shapeInfo = { layerId : layer_id };
-    shape_click(map_id, Rectangle, rectangle.id, shapeInfo);
+        var latlonNorthEast = new google.maps.LatLng(rectangle.north, rectangle.east);
+        var latlonSouthWest = new google.maps.LatLng(rectangle.south, rectangle.west);
 
-    if(update_map_view === true){
-      window[map_id + 'mapBounds'].extend(latlonNorthEast);
-      window[map_id + 'mapBounds'].extend(latlonSouthWest);
-    }
+        var bounds = new google.maps.LatLngBounds(
+            latlonSouthWest,
+            latlonNorthEast
+        )
+
+        var Rectangle = new google.maps.Rectangle({
+            id: rectangle.id,
+            bounds: bounds,
+            strokeColor: rectangle.stroke_colour,
+            strokeOpacity: rectangle.stroke_opacity,
+            strokeWeight: rectangle.stroke_weight,
+            fillColor: rectangle.fill_colour,
+            fillOpacity: rectangle.fill_opacity,
+            draggable: rectangle.draggable,
+            editable: rectangle.editable,
+            radius: rectangle.radius,
+            mouseOverGroup: rectangle.mouse_over_group,
+            zIndex: rectangle.z_index
+          });
+
+        window[map_id + 'googleRectangles' + layer_id].push(Rectangle);
+        Rectangle.setMap(window[map_id + 'map']);
+
+        if(rectangle.info_window){
+            add_infoWindow(map_id, Rectangle, infoWindow, '_information', rectangle.info_window);
+        }
+
+        if(rectangle.mouse_over || rectangle.mouse_over_group){
+            add_mouseOver(map_id, Rectangle, infoWindow, "_mouse_over", rectangle.mouse_over, layer_id, 'googleRectangles');
+        }
+
+        shapeInfo = { layerId : layer_id };
+        shape_click(map_id, Rectangle, rectangle.id, shapeInfo);
+
+        if(update_map_view === true){
+            window[map_id + 'mapBounds'].extend(latlonNorthEast);
+            window[map_id + 'mapBounds'].extend(latlonSouthWest);
+        }
   }
 
   if(update_map_view === true){
-    window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+      window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+  }
+
+  if(legendValues !== false){
+      add_legend(map_id, layer_id, legendValues);
   }
 
 }
@@ -68,15 +76,12 @@ function add_rectangles(map_id, data_rectangles, update_map_view, layer_id){
  *          the layer to clear
  */
 function clear_rectangles(map_id, layer_id){
-  for (i = 0; i < window[map_id + 'googleRectangles' + layer_id].length; i++){
-    window[map_id + 'googleRectangles' + layer_id][i].setMap(null);
-  }
-  window[map_id + 'googleRectangles' + layer_id] = null;
+    clear_object(map_id, 'googleRectangles', layer_id);
 }
 
 
 
-function update_rectangles(map_id, data_rectangles, layer_id){
+function update_rectangles(map_id, data_rectangles, layer_id, legendValues){
 
   // for a given circle_id, change the options
   var objectAttribute;
@@ -91,7 +96,7 @@ function update_rectangles(map_id, data_rectangles, layer_id){
     currentIds.push(_id);
 
     // find if there is a matching id in the new polygon data set
-    thisUpdateRectangle = findById(data_rectangles, _id);
+    thisUpdateRectangle = findById(data_rectangles, _id, "object");
     if(thisUpdateRectangle !== undefined){
 
 //    if(data_rectangles.find(x => x.id === _id)){
@@ -142,4 +147,8 @@ function update_rectangles(map_id, data_rectangles, layer_id){
         window[map_id + 'googleRectangles' + layer_id][i].setMap(null);
     }
   }
+
+    if(legendValues !== false){
+        add_legend(map_id, layer_id, legendValues);
+    }
 }

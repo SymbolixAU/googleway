@@ -9,7 +9,8 @@ add_rectangles(map, data = get_map_data(map), north, east, south, west,
   stroke_opacity = NULL, stroke_weight = NULL, fill_colour = NULL,
   fill_opacity = NULL, mouse_over = NULL, mouse_over_group = NULL,
   info_window = NULL, layer_id = NULL, update_map_view = TRUE,
-  z_index = NULL, digits = 4, palette = NULL)
+  z_index = NULL, digits = 4, palette = NULL, legend = F,
+  legend_options = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -28,56 +29,61 @@ southern most latitude coordinate}
 \item{west}{String specifying the column of \code{data} that contains the
 western most longitude}
 
-\item{id}{string specifying the column containing an identifier for a rectangle}
+\item{id}{string specifying the column containing an identifier for a shape}
 
-\item{draggable}{string specifying the column of \code{data} defining if the rectangle
+\item{draggable}{string specifying the column of \code{data} defining if the circle
 is 'draggable' (either TRUE or FALSE)}
 
-\item{editable}{string specifying the column of \code{data} defining if the rectangle
-is 'editable' (either TRUE or FALSE)}
-
 \item{stroke_colour}{either a string specifying the column of \code{data} containing
-the stroke colour of each rectangle, or a valid hexadecimal numeric HTML style to
-be applied to all the rectangle}
+the stroke colour of each shape, or a valid hexadecimal numeric HTML style to
+be applied to all the shapes}
 
 \item{stroke_opacity}{either a string specifying the column of \code{data} containing
-the stroke opacity of each rectangle, or a value between 0 and 1 that will be
-applied to all the rectangle}
+the stroke opacity of each shape, or a value between 0 and 1 that will be
+applied to all the shapes}
 
 \item{stroke_weight}{either a string specifying the column of \code{data} containing
-the stroke weight of each rectangle, or a number indicating the width of pixels
-in the line to be applied to all the rectangle}
+the stroke weight of each shape, or a number indicating the width of pixels
+in the line to be applied to all the shapes}
 
 \item{fill_colour}{either a string specifying the column of \code{data} containing
-the fill colour of each rectangle, or a valid hexadecimal numeric HTML style to
-be applied to all the rectangle}
+the fill colour of each shape, or a valid hexadecimal numeric HTML style to
+be applied to all the shapes}
 
 \item{fill_opacity}{either a string specifying the column of \code{data} containing
-the fill opacity of each rectangle, or a value between 0 and 1 that will be applied to all the rectangles}
+the fill opacity of each shape, or a value between 0 and 1 that will be applied
+to all the shapes}
 
 \item{mouse_over}{string specifying the column of data to display when the
-mouse rolls over the rectangle}
+mouse rolls over the shape}
 
 \item{mouse_over_group}{string specifying the column of data specifying which
-groups of rectangle to highlight on mouseover}
+groups of shapes to highlight on mouseover}
 
 \item{info_window}{string specifying the column of data to display in an info
-window when a rectangle is clicked}
+window when a shape is clicked}
 
-\item{layer_id}{single value specifying an id for the layer.}
+\item{layer_id}{single value specifying an id for the layer. Use this value to
+distinguish between shape layers for when using any \code{update_} function, and
+for separating legends.}
 
-\item{update_map_view}{logical specifying if the map should re-centre according
-to the rectangles}
+\item{update_map_view}{logical specifying if the map should re-centre according to
+the circles}
 
-\item{z_index}{single value specifying where the rectangles appear in the layering
+\item{z_index}{single value specifying where the circles appear in the layering
 of the map objects. Layers with a higher \code{z_index} appear on top of those with
 a lower \code{z_index}. See details.}
 
 \item{digits}{integer. Use this parameter to specify how many digits (decimal places)
 should be used for the latitude / longitude coordinates.}
 
-\item{palette}{a function that generates hex RGB colours given a single number as an input.
-Used when a variable of \code{data} is specified as a colour}
+\item{palette}{a function, or list of functions, that generates hex colours
+given a single number as an input. See details.}
+
+\item{legend}{either a logical indiciating if the legend(s) should be displayed, or
+a named list indicating which colour attributes should be included in the legend.}
+
+\item{legend_options}{A list of options for controlling the legend.}
 }
 \description{
 Adds a rectangle to a google map

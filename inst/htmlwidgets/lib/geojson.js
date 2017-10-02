@@ -129,7 +129,9 @@ function geojson_mouseover(map_id, layer_id) {
 
 function add_geojson(map_id, geojson, geojson_source, style, update_map_view, mouse_over, layer_id) {
 
-    window[map_id + 'googleGeojson' + layer_id] = new google.maps.Data({ map: window[map_id + 'map'] });
+    if(window[map_id + 'googleGeojson' + layer_id] == null) {
+        window[map_id + 'googleGeojson' + layer_id] = new google.maps.Data({ map: window[map_id + 'map'] });
+    }
 
     if (geojson_source === "local") {
 

@@ -45,7 +45,10 @@ createColourPalettes <- function(data, palettes, colourColumns, palette){
   lapply(unique(palettes), function(x){
     list(
       variables = colourColumns[colourColumns == x],
-      palette = generatePalette(data[, x], palette)
+      palette = generatePalette(
+        data[, x],
+        determinePalette(palette, names(colourColumns[colourColumns == x])[1])  ## in case the same variable is mapped to two aesthetics
+        )
     )
   })
 }
@@ -70,6 +73,21 @@ createColours <- function(shape, colour_palettes){
     s
   })
   lst
+}
+
+determinePalette <- function(pal, aesthetic) UseMethod("determinePalette")
+
+#' @export
+determinePalette.function <- function(pal, aesthetic) return(pal)
+
+#' @export
+determinePalette.list <- function(pal, aesthetic){
+  ## TODO:
+  ## - given a list of palettes, extract the correct one for the given aesthetic
+  ## - handle if a palette of both fill_colour and stroke_colour is supplied, but only
+  ## one is mapped to a varaible
+
+  return(pal[[aesthetic]])
 }
 
 

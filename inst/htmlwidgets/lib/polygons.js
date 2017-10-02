@@ -4,9 +4,13 @@
  * @param map_id
  * @param data_polygon
  */
-function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyline){
+function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyline, legendValues){
 
-  window[map_id + 'googlePolygon' + layer_id] = [];
+    //if(window[map_id + 'googlePolygon' + layer_id == null]){
+    //    window[map_id + 'googlePolygon' + layer_id] = [];
+    //}
+    createWindowObject(map_id, 'googlePolygon', layer_id);
+  
   var infoWindow = new google.maps.InfoWindow();
 
   for(i = 0; i < Object.keys(data_polygon).length; i++){
@@ -81,6 +85,10 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
   if(update_map_view === true){
     window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
   }
+    
+    if(legendValues !== false){
+        add_legend(map_id, layer_id, legendValues);
+    }
 
 }
 
@@ -93,7 +101,7 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
  * @param addRemove
  *          boolean specifying if polygons should be added or removed if they are / are not included in the udpated data set
  */
-function update_polygons(map_id, data_polygon, layer_id){
+function update_polygons(map_id, data_polygon, layer_id, legendValues){
 
   // for a given polygon_id, change the options
   var objectAttribute;
@@ -110,7 +118,7 @@ function update_polygons(map_id, data_polygon, layer_id){
     currentIds.push(_id);
 
     // find if there is a matching id in the new polygon data set
-    thisUpdatePolygon = findById(data_polygon, _id);
+    thisUpdatePolygon = findById(data_polygon, _id, "object");
     if(thisUpdatePolygon !== undefined){
     //if(data_polygon.find(x => x.id === _id)){
       //thisUpdatePolygon = data_polygon.find(x => x.id === _id);
@@ -160,6 +168,10 @@ function update_polygons(map_id, data_polygon, layer_id){
         window[map_id + 'googlePolygon' + layer_id][i].setMap(null);
       //}
     }
+      
+    if(legendValues !== false){
+        add_legend(map_id, layer_id, legendValues);
+    }
   }
 
 
@@ -191,9 +203,5 @@ function update_polygons(map_id, data_polygon, layer_id){
  * @param layer_id
  */
 function clear_polygons(map_id, layer_id){
-
- for (i = 0; i < window[map_id + 'googlePolygon' + layer_id].length; i++){
-    window[map_id + 'googlePolygon' + layer_id][i].setMap(null);
-  }
-  window[map_id + 'googlePolygon' + layer_id] = null;
+    clear_object(map_id, 'googlePolygon', layer_id);
 }

@@ -2,17 +2,9 @@
 #'
 #' Add markers to a google map
 #'
-#' @param map a googleway map object created from \code{google_map()}
-#' @param data data frame containing at least two columns, one specifying the latitude
-#' coordinates, and the other specifying the longitude. If Null, the data passed
-#' into \code{google_map()} will be used.
-#' @param id string specifying the column containing an identifier for a marker
+#' @inheritParams add_circles
 #' @param colour string specifying the column containing the 'colour' to use for
 #' the markers. One of 'red', 'blue', 'green' or 'lavender'.
-#' @param lat string specifying the column of \code{data} containing the 'latitude'
-#' coordinates. If left NULL, a best-guess will be made
-#' @param lon string specifying the column of \code{data} containing the 'longitude'
-#' coordinates. If left NULL, a best-guess will be made
 #' @param title string specifying the column of \code{data} containing the 'title'
 #' of the markers. The title is displayed when you hover over a marker. If blank,
 #' no title will be displayed for the markers.
@@ -25,19 +17,8 @@
 #' only the first character will be used.
 #' @param cluster logical indicating if co-located markers should be clustered
 #' when the map zoomed out
-#' @param info_window string specifying the column of data to display in an info
-#' window when a marker is clicked
-#' @param mouse_over string specifying the column of data to display when the
-#' mouse rolls over the marker
-#' @param mouse_over_group string specifying the column of data specifying which
-#' groups of markers to highlight on mouseover
 #' @param marker_icon string specifying the column of data containing a link/URL to
 #' an image to use for a marker
-#' @param layer_id single value specifying an id for the layer.
-#' @param update_map_view logical specifying if the map should re-centre according
-#' to the markers
-#' @param digits integer. Use this parameter to specify how many digits (decimal places)
-#' should be used for the latitude / longitude coordinates.
 #'
 #' @examples
 #' \dontrun{

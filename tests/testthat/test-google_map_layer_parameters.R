@@ -52,7 +52,7 @@ test_that("palette check identifies a function", {
 
   expect_error(
     googleway:::paletteCheck(pal),
-    "palette needs to be a function"
+    "I don't recognise the type of palette you've supplied"
   )
 
 })

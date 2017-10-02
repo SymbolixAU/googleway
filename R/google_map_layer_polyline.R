@@ -3,43 +3,8 @@
 #'
 #' Add a polyline to a google map
 #'
-#' @param map a googleway map object created from \code{google_map()}
-#' @param data data frame containing at least a \code{polyline} column, or a
-#' \code{lat} and a \code{lon} column. If Null, the data passed into
-#' \code{google_map()} will be used.
-#' @param polyline string specifying the column of \code{data} containing the
-#' encoded 'polyline'.
-#' @param lat string specifying the column of \code{data} containing the 'latitude'
-#' coordinates. Coordinates must be in the order that defines the path.
-#' @param lon string specifying the column of \code{data} containing the 'longitude'
-#' coordinates. Coordinates must be in the order that defines the path.
-#' @param id string specifying the column containing an identifier for a polyline
+#' @inheritParams add_polygons
 #' @param geodesic logical
-#' @param stroke_colour either a string specifying the column of \code{data}
-#' containing the stroke colour of each polyline, or a valid hexadecimal numeric
-#' HTML style to be applied to all the polylines
-#' @param stroke_opacity either a string specifying the column of \code{data}
-#' containing the stroke opacity of each polyline, or a value between 0 and 1 that
-#' will be applied to all the polylines
-#' @param stroke_weight either a string specifying the column of \code{data}
-#' containing the stroke weight of each polyline, or a number indicating the width
-#' of pixels in the line to be applied to all the polylines
-#' @param info_window string specifying the column of data to display in an info
-#' window when a polyline is clicked
-#' @param mouse_over string specifying the column of data to display when the
-#' mouse rolls over the polyline
-#' @param mouse_over_group string specifying the column of data specifying which
-#' groups of polylines to highlight on mouseover
-#' @param update_map_view logical specifying if the map should re-centre according
-#' to the polyline.
-#' @param layer_id single value specifying an id for the layer.
-#' @param z_index single value specifying where the polylines appear in the layering
-#' of the map objects. Layers with a higher \code{z_index} appear on top of those with
-#' a lower \code{z_index}. See details.
-#' @param digits integer. Use this parameter to specify how many digits (decimal places)
-#' should be used for the latitude / longitude coordinates.
-#' @param palette a function that generates hex RGB colours given a single number as an input.
-#' Used when a variable of \code{data} is specified as a colour
 #'
 #' @details
 #' \code{z_index} values define the order in which objects appear on the map.
@@ -120,7 +85,9 @@ add_polylines <- function(map,
                           layer_id = NULL,
                           z_index = NULL,
                           digits = 4,
-                          palette = NULL){
+                          palette = NULL,
+                          legend = F,
+                          legend_options = NULL){
 
   ## TODO:
   ## handle empty data.frame
@@ -150,18 +117,28 @@ add_polylines <- function(map,
   data <- lst$data
   objArgs <- lst$objArgs
   id <- lst$id
+  print(id)
   ## END PARAMETER CHECKS
-
 
   allCols <- polylineColumns()
   requiredCols <- requiredLineColumns()
   colourColumns <- lineAttributes(stroke_colour)
 
   shape <- createMapObject(data, allCols, objArgs)
-  colours <- setupColours(data, shape, colourColumns, palette)
+  pal <- createPalettes(shape, colourColumns)
+  colour_palettes <- createColourPalettes(data, pal, colourColumns, viridisLite::viridis)
+  colours <- createColours(shape, colour_palettes)
 
   if(length(colours) > 0){
     shape <- replaceVariableColours(shape, colours)
+  }
+
+  ## LEGEND
+  if(any(vapply(legend, isTRUE, T))){
+    legend <- constructLegend(colour_palettes, legend)
+    if(!is.null(legend_options)){
+      legend <- addLegendOptions(legend, legend_options)
+    }
   }
 
   requiredDefaults <- setdiff(requiredCols, names(shape))
@@ -171,7 +148,7 @@ add_polylines <- function(map,
 
   if(!usePolyline){
 
-    ids <- unique(shape[, id])
+    ids <- unique(shape[, 'id'])
     n <- names(shape)[names(shape) %in% objectColumns("polylineCoords")]
     keep <- setdiff(n, c('id', 'lat', 'lng'))
 
@@ -183,11 +160,10 @@ add_polylines <- function(map,
 
     n <- names(shape)[names(shape) %in% objectColumns("polylinePolyline")]
     shape <- shape[, n, drop = FALSE]
-
     shape <- jsonlite::toJSON(shape, auto_unbox = T)
   }
 
-  invoke_method(map, 'add_polylines', shape, update_map_view, layer_id, usePolyline)
+  invoke_method(map, 'add_polylines', shape, update_map_view, layer_id, usePolyline, legend)
 }
 
 
@@ -201,23 +177,7 @@ add_polylines <- function(map,
 #' map. This function will only update the polylines that currently exist on
 #' the map when the function is called.
 #'
-#' @param map a googleway map object created from \code{google_map()}
-#' @param data data.frame containing the new values for the polylines
-#' @param id string representing the column of \code{data} containing the id
-#' values for the polylines The id values must be present in the data supplied
-#' to \code{add_polylines} in order for the polylines to be udpated
-#' @param stroke_colour either a string specifying the column of \code{data}
-#' containing the stroke colour of each polyline, or a valid hexadecimal numeric
-#' HTML style to be applied to all the polylines
-#' @param stroke_opacity either a string specifying the column of \code{data}
-#' containing the stroke opacity of each polyline, or a value between 0 and 1
-#' that will be applied to all the polyline
-#' @param stroke_weight either a string specifying the column of \code{data}
-#' containing the stroke weight of each polyline, or a number indicating the width
-#' of pixels in the line to be applied to all the polyline
-#' @param layer_id single value specifying an id for the layer.
-#' @param palette a function that generates hex RGB colours given a single number as an input.
-#' Used when a variable of \code{data} is specified as a colour
+#' @inheritParams update_polygons
 #'
 #' @examples
 #' \dontrun{
@@ -274,7 +234,10 @@ update_polylines <- function(map, data, id,
                              stroke_weight = NULL,
                              stroke_opacity = NULL,
                              layer_id = NULL,
-                             palette = NULL){
+                             palette = NULL,
+                             legend = F,
+                             legend_options = NULL
+                             ){
 
   ## TODO: is 'info_window' required, if it was included in the original add_polygons?
 
@@ -295,21 +258,30 @@ update_polylines <- function(map, data, id,
   colourColumns <- lineAttributes(stroke_colour)
 
   shape <- createMapObject(data, allCols, objArgs)
-  colours <- setupColours(data, shape, colourColumns, palette)
+  pal <- createPalettes(shape, colourColumns)
+  colour_palettes <- createColourPalettes(data, pal, colourColumns, palette)
+  colours <- createColours(shape, colour_palettes)
 
   if(length(colours) > 0){
     shape <- replaceVariableColours(shape, colours)
   }
 
-  requiredDefaults <- setdiff(requiredCols, names(shape))
+  ## LEGEND
+  if(any(vapply(legend, isTRUE, T))){
+    legend <- constructLegend(colour_palettes, legend)
+    if(!is.null(legend_options)){
+      legend <- addLegendOptions(legend, legend_options)
+    }
+  }
 
+  requiredDefaults <- setdiff(requiredCols, names(shape))
   if(length(requiredDefaults) > 0){
     shape <- addDefaults(shape, requiredDefaults, "polylineUpdate")
   }
 
   shape <- jsonlite::toJSON(shape, auto_unbox = T)
 
-  invoke_method(map, 'update_polylines', shape, layer_id)
+  invoke_method(map, 'update_polylines', shape, layer_id, legend)
 }
 
 

@@ -10,7 +10,7 @@ add_polygons(map, data = get_map_data(map), polyline = NULL, lat = NULL,
   fill_opacity = NULL, info_window = NULL, mouse_over = NULL,
   mouse_over_group = NULL, draggable = NULL, editable = NULL,
   update_map_view = TRUE, layer_id = NULL, z_index = NULL, digits = 4,
-  palette = NULL)
+  palette = NULL, legend = F, legend_options = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -22,46 +22,46 @@ or a \code{lat} and a \code{lon} column. If Null, the data passed into
 \item{polyline}{string specifying the column of \code{data} containing
 the encoded polyline}
 
-\item{lat}{string specifying the column of \code{data} containing the
-'latitude' coordinates. Coordinates must be in the order that defines the path.}
+\item{lat}{string specifying the column of \code{data} containing the 'latitude'
+coordinates. If left NULL, a best-guess will be made}
 
-\item{lon}{string specifying the column of \code{data} containing the
-'longitude' coordinates. Coordinates must be in the order that defines the path.}
+\item{lon}{string specifying the column of \code{data} containing the 'longitude'
+coordinates. If left NULL, a best-guess will be made}
 
-\item{id}{string specifying the column containing an identifier for a polygon.}
+\item{id}{string specifying the column containing an identifier for a shape}
 
 \item{pathId}{string specifying the column containing an identifer for each
 path that forms the complete polygon. Not required when using \code{polyline},
 as each polyline is itself a path.}
 
-\item{stroke_colour}{either a string specifying the column of \code{data}
-containing the stroke colour of each polygon, or a valid hexadecimal numeric
-HTML style to be applied to all the polygons}
+\item{stroke_colour}{either a string specifying the column of \code{data} containing
+the stroke colour of each shape, or a valid hexadecimal numeric HTML style to
+be applied to all the shapes}
 
-\item{stroke_weight}{either a string specifying the column of \code{data}
-containing the stroke weight of each polygon, or a number indicating the
-width of pixels in the line to be applied to all the polygons}
+\item{stroke_weight}{either a string specifying the column of \code{data} containing
+the stroke weight of each shape, or a number indicating the width of pixels
+in the line to be applied to all the shapes}
 
-\item{stroke_opacity}{either a string specifying the column of \code{data}
-containing the stroke opacity of each polygon, or a value between 0 and 1
-that will be applied to all the polygons}
+\item{stroke_opacity}{either a string specifying the column of \code{data} containing
+the stroke opacity of each shape, or a value between 0 and 1 that will be
+applied to all the shapes}
 
-\item{fill_colour}{either a string specifying the column of \code{data}
-containing the fill colour of each polygon, or a valid hexadecimal numeric
-HTML style to be applied to all the polygons}
+\item{fill_colour}{either a string specifying the column of \code{data} containing
+the fill colour of each shape, or a valid hexadecimal numeric HTML style to
+be applied to all the shapes}
 
-\item{fill_opacity}{either a string specifying the column of \code{data}
-containing the fill opacity of each polygon, or a value between 0 and 1 that
-will be applied to all the polygons}
+\item{fill_opacity}{either a string specifying the column of \code{data} containing
+the fill opacity of each shape, or a value between 0 and 1 that will be applied
+to all the shapes}
 
-\item{info_window}{string specifying the column of data to display in an
-info window when a polygon is clicked}
+\item{info_window}{string specifying the column of data to display in an info
+window when a shape is clicked}
 
 \item{mouse_over}{string specifying the column of data to display when the
-mouse rolls over the polygon}
+mouse rolls over the shape}
 
-\item{mouse_over_group}{string specifying the column of data specifying
-which groups of polygons to highlight on mouseover}
+\item{mouse_over_group}{string specifying the column of data specifying which
+groups of shapes to highlight on mouseover}
 
 \item{draggable}{string specifying the column of \code{data} defining if
 the polygon is 'draggable'. The column of data should be logical (either TRUE or FALSE)}
@@ -69,20 +69,27 @@ the polygon is 'draggable'. The column of data should be logical (either TRUE or
 \item{editable}{string specifying the column of \code{data} defining if the polygon
 is 'editable' (either TRUE or FALSE)}
 
-\item{update_map_view}{logical specifying if the map should re-centre
-according to the polyline.}
+\item{update_map_view}{logical specifying if the map should re-centre according to
+the circles}
 
-\item{layer_id}{single value specifying an id for the layer.}
+\item{layer_id}{single value specifying an id for the layer. Use this value to
+distinguish between shape layers for when using any \code{update_} function, and
+for separating legends.}
 
-\item{z_index}{single value specifying where the polygons appear in the layering
+\item{z_index}{single value specifying where the circles appear in the layering
 of the map objects. Layers with a higher \code{z_index} appear on top of those with
 a lower \code{z_index}. See details.}
 
 \item{digits}{integer. Use this parameter to specify how many digits (decimal places)
 should be used for the latitude / longitude coordinates.}
 
-\item{palette}{a function that generates hex RGB colours given a single number as an input.
-Used when a variable of \code{data} is specified as a colour}
+\item{palette}{a function, or list of functions, that generates hex colours
+given a single number as an input. See details.}
+
+\item{legend}{either a logical indiciating if the legend(s) should be displayed, or
+a named list indicating which colour attributes should be included in the legend.}
+
+\item{legend_options}{A list of options for controlling the legend.}
 }
 \description{
 Add a polygon to a google map.
