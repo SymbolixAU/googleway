@@ -1,3 +1,31 @@
+## TODO:
+
+
+# library(shiny)
+#
+# ui <- fluidPage(
+#   google_mapOutput(outputId = "map")
+# )
+# server <- function(input, output){
+#   df <- data.frame(north = -37.8459, south = -37.8508, east = 144.9378,
+#                     west = 144.9236, editable = T, draggable = T)
+#
+#   output$map <- renderGoogle_map({
+#     google_map(key = map_key) %>%
+#       add_rectangles(data = df, north = 'north', south = 'south',
+#                      east = 'east', west = 'west',
+#                      editable = 'editable', draggable = 'draggable')
+#   })
+#
+#   observeEvent(input$map_shape_click, {
+#     print(input$map_shape_click)
+#   })
+#
+# }
+# shinyApp(ui, server)
+
+
+
 # df <- tram_route
 # df$grp <- c(rep(1, 27), rep(2, 28))
 #

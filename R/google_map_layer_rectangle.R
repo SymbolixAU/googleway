@@ -12,6 +12,8 @@
 #' southern most latitude coordinate
 #' @param west String specifying the column of \code{data} that contains the
 #' western most longitude
+#' @editable String specifying the column of \code{data} that indicates if the
+#' rectangle is editable. The value in the column should be logical
 #'
 #' @details
 #' \code{z_index} values define the order in which objects appear on the map.
