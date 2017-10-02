@@ -1,3 +1,11 @@
+# df <- tram_route
+# df$grp <- c(rep(1, 27), rep(2, 28))
+#
+# library(googleway)
+# google_map(key = symbolix.utils::mapKey()) %>%
+#   add_polylines(data = df, lat = "shape_pt_lat", lon = "shape_pt_lon", id = "grp")
+
+
 # library(shiny)
 #
 # ui <- fluidPage(

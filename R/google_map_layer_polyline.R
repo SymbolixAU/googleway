@@ -117,6 +117,7 @@ add_polylines <- function(map,
   data <- lst$data
   objArgs <- lst$objArgs
   id <- lst$id
+  print(id)
   ## END PARAMETER CHECKS
 
   allCols <- polylineColumns()
@@ -147,7 +148,7 @@ add_polylines <- function(map,
 
   if(!usePolyline){
 
-    ids <- unique(shape[, id])
+    ids <- unique(shape[, 'id'])
     n <- names(shape)[names(shape) %in% objectColumns("polylineCoords")]
     keep <- setdiff(n, c('id', 'lat', 'lng'))
 
@@ -159,7 +160,6 @@ add_polylines <- function(map,
 
     n <- names(shape)[names(shape) %in% objectColumns("polylinePolyline")]
     shape <- shape[, n, drop = FALSE]
-
     shape <- jsonlite::toJSON(shape, auto_unbox = T)
   }
 
