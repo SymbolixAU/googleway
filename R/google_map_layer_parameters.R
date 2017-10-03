@@ -77,6 +77,16 @@ latLonCheck <- function(objArgs, lat, lon, dataNames, layer_call){
   return(objArgs)
 }
 
+# heatWeightCheck
+# Converts the 'weight' argument to 'fill_colour' so the remaining
+# legend functions will work
+heatWeightCheck <- function(objArgs){
+  names(objArgs)[which(names(objArgs) == "weight")] <- "fill_colour"
+  return(objArgs)
+}
+
+
+
 # Lat Lon Poly Check
 #
 # Check to ensure either the polyline or the lat & lon columns are specified

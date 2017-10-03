@@ -9,7 +9,7 @@
  * @param layer_id
  *          the id of the layer
  */
-function add_heatmap(map_id, data_heatmap, heatmap_options, update_map_view, layer_id) {
+function add_heatmap(map_id, data_heatmap, heatmap_options, update_map_view, layer_id, legendValues) {
     
     var heat_options = heatmap_options,
         heatmapData = [],
@@ -17,8 +17,6 @@ function add_heatmap(map_id, data_heatmap, heatmap_options, update_map_view, lay
     
     createWindowObject(map_id, 'googleHeatmap', layer_id);
     createWindowObject(map_id, 'googleHeatmapLayerMVC', layer_id);
-//    window[map_id + 'googleHeatmap' + layer_id] = [];
-//    window[map_id + 'googleHeatmapLayerMVC' + layer_id] = [];
     
     for (i = 0; i < Object.keys(data_heatmap).length; i++) {
         
@@ -59,6 +57,11 @@ function add_heatmap(map_id, data_heatmap, heatmap_options, update_map_view, lay
     // when the MVC array is updated, the layer is also updated
     window[map_id + 'googleHeatmap' + layer_id] = heatmap;
     heatmap.setMap(window[map_id + 'map']);
+    
+    if(legendValues !== false){
+        add_legend(map_id, layer_id, legendValues);
+    }
+    
 }
 
 /**

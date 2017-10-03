@@ -7,7 +7,7 @@
 add_heatmap(map, data = get_map_data(map), lat = NULL, lon = NULL,
   weight = NULL, option_gradient = NULL, option_dissipating = FALSE,
   option_radius = 0.01, option_opacity = 0.6, layer_id = NULL,
-  update_map_view = TRUE, digits = 4)
+  update_map_view = TRUE, digits = 4, legend = F, legend_options = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -46,6 +46,11 @@ the circles}
 
 \item{digits}{integer. Use this parameter to specify how many digits (decimal places)
 should be used for the latitude / longitude coordinates.}
+
+\item{legend}{either a logical indiciating if the legend(s) should be displayed, or
+a named list indicating which colour attributes should be included in the legend.}
+
+\item{legend_options}{A list of options for controlling the legend.}
 }
 \description{
 Adds a heatmap to a google map
@@ -64,18 +69,18 @@ map_key <- 'your_api_key'
 
 set.seed(20170417)
 df <- tram_route
-df$weight <- sample(1:10, size = nrow(df), replace = T)
+df$weights <- sample(1:10, size = nrow(df), replace = T)
 
 google_map(key = map_key, data = df) \%>\%
  add_heatmap(lat = "shape_pt_lat", lon = "shape_pt_lon", weight = "weight",
-              option_radius = 0.001)
+              option_radius = 0.001, legend = T)
 
 ## specifying different colour gradient
 option_gradient <- c('orange', 'blue', 'mediumpurple4', 'snow4', 'thistle1')
 
 google_map(key = map_key, data = df) \%>\%
  add_heatmap(lat = "shape_pt_lat", lon = "shape_pt_lon", weight = "weight",
-              option_radius = 0.001, option_gradient = option_gradient)
+              option_radius = 0.001, option_gradient = option_gradient, legend = T)
 
  }
 }
