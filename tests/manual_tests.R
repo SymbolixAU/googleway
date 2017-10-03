@@ -1,7 +1,7 @@
 ## TODO:
 ## editable multi-polygons: which paths get updated?
 
-### Editable rectangles
+## Editable rectangles
 # library(shiny)
 #
 # ui <- fluidPage(
@@ -20,8 +20,10 @@
 #       add_rectangles(data = df, north = 'north', south = 'south',
 #                      east = 'east', west = 'west',
 #                      editable = 'editable', draggable = 'draggable') %>%
-#       add_polygons(data = df_poly, polyline = "polyline", editable = 'editable',
-#                    draggable = 'draggable')
+#       # add_polygons(data = df_poly, polyline = "polyline", editable = 'editable',
+#       #              draggable = 'draggable') %>%
+#       add_polylines(data = df_poly, polyline = "polyline", editable = "editable",
+#                    draggable = "draggable")
 #   })
 #
 #   observeEvent(input$map_rectangle_click, {
@@ -32,8 +34,8 @@
 #     print(input$map_rectangle_edit)
 #   })
 #
-#   observeEvent(input$map_polygon_edit, {
-#     print(input$map_polygon_edit)
+#   observeEvent(input$map_polyline_edit, {
+#     print(input$map_polyline_edit)
 #   })
 #
 # }

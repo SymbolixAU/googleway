@@ -140,7 +140,6 @@ function rectangle_click(map_id, shapeObject, shape_id, shapeInfo) {
     }
     google.maps.event.addListener(shapeObject, 'click', function(event){
 
-        console.log(event);
         var eventInfo = $.extend(
             {
                 id: shape_id,
@@ -234,6 +233,55 @@ function rectangle_edited(map_id, rectangleObject) {
     });
 }
 
+
+function polyline_edited(map_id, polylineObject) {
+    
+    var path = polylineObject.getPath(),
+        i = 0;
+        
+    if (!HTMLWidgets.shinyMode) {
+        return;
+    }
+        
+    path.addListener('insert_at', function() {
+        var polylinePath = google.maps.geometry.encoding.encodePath(polylineObject.getPath()),
+            eventInfo = {
+                id: polylineObject.id,
+                path: polylinePath
+            },
+            event_return_type = window.params[1].event_return_type;
+
+        eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+        Shiny.onInputChange(map_id + "_polyline_edit", eventInfo);
+    });
+
+
+    path.addListener('remove_at', function() {
+        var polylinePath = google.maps.geometry.encoding.encodePath(polylineObject.getPath()),
+            eventInfo = {
+                id: polylineObject.id,
+                path: polylinePath
+            },
+            event_return_type = window.params[1].event_return_type;
+
+        eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+        Shiny.onInputChange(map_id + "_polyline_edit", eventInfo);
+    });
+
+    path.addListener('set_at', function() {
+        var polylinePath = google.maps.geometry.encoding.encodePath(polylineObject.getPath()),
+            eventInfo = {
+                id: polylineObject.id,
+                path: polylinePath
+            },
+            event_return_type = window.params[1].event_return_type;
+
+        eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+        Shiny.onInputChange(map_id + "_polyline_edit", eventInfo);
+    }); 
+}
+
+
 function polygon_edited(map_id, polygonObject) {
     
     var paths = polygonObject.getPaths(),
@@ -255,7 +303,6 @@ function polygon_edited(map_id, polygonObject) {
                 polygonAllPaths.push(google.maps.geometry.encoding.encodePath(paths.getAt(i)));
             }
 
-            console.log(polygonObject.getPath());
             var eventInfo = {
                 id: polygonObject.id,
                 outerPath: polygonOuterPath,
@@ -278,7 +325,6 @@ function polygon_edited(map_id, polygonObject) {
                 polygonAllPaths.push(google.maps.geometry.encoding.encodePath(paths.getAt(i)));
             }
 
-            console.log(polygonObject.getPath());
             var eventInfo = {
                 id: polygonObject.id,
                 outerPath: polygonOuterPath,
@@ -300,7 +346,6 @@ function polygon_edited(map_id, polygonObject) {
                 polygonAllPaths.push(google.maps.geometry.encoding.encodePath(paths.getAt(i)));
             }
 
-            console.log(polygonObject.getPath());
             var eventInfo = {
                 id: polygonObject.id,
                 outerPath: polygonOuterPath,

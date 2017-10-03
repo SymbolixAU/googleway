@@ -81,7 +81,6 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
                   remove_vertex(event.vertex, Polygon);
               }
           })
-          
       }
       
       

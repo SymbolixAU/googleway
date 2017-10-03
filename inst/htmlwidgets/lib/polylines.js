@@ -39,6 +39,8 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
             path: thisPath,
             id: polyline.id,
             geodesic: polyline.geodesic,
+            editable: polyline.editable,
+            draggable: polyline.draggable,
             strokeColor: polyline.stroke_colour,
             strokeOpacity: polyline.stroke_opacity,
             strokeOpacityHolder: polyline.stroke_opacity,
@@ -75,9 +77,20 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
 
         polylineInfo = { layerId : layer_id };
         polyline_click(map_id, Polyline, polyline.id, polylineInfo);
-
-        //shapeInfo = { layerId : layer_id };
-        //shape_click(map_id, Polyline, polyline.id, shapeInfo);
+        
+        if(Polyline.editable) {
+            // edit listeners must be set on paths
+            polyline_edited(map_id, Polyline);
+          
+            // right-click listener for deleting vetices
+            google.maps.event.addListener(Polyline, 'rightclick', function(event) {
+                if (event.vertex === undefined) {
+                    return;
+                } else {
+                    remove_vertex(event.vertex, Polyline);
+                }
+            })
+      }
 
     }
 

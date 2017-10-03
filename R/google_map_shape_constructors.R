@@ -209,8 +209,8 @@ markerDefaults <- function(n){
 
 ## polyline ---------------------------------------------------------------------
 polylineColumns <- function(){
-  c('polyline', 'id', 'lat', 'lng', 'stroke_colour', 'stroke_opacity',
-    'stroke_weight', 'mouse_over', 'mouse_over_group', 'info_window')
+  c('polyline', 'id', 'lat', 'lng', 'editable', 'draggable', 'stroke_colour',
+    'stroke_opacity', 'stroke_weight', 'mouse_over', 'mouse_over_group', 'info_window')
 }
 
 polylineUpdateColumns <- function(){
@@ -239,7 +239,7 @@ polylineUpdateDefaults <- function(n){
 
 ## polygon ---------------------------------------------------------------------
 polygonColumns <- function(){
-  c('polyline', 'id', 'lat', 'lng', 'pathId', 'draggable','stroke_colour',
+  c('polyline', 'id', 'lat', 'lng', 'pathId', 'editable', 'draggable', 'stroke_colour',
     'stroke_opacity', 'stroke_weight', 'fill_colour', 'fill_opacity',
     'mouse_over', 'mouse_over_group', 'info_window')
 }
