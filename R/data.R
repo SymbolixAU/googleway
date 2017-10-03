@@ -50,3 +50,12 @@
 #'   \item{polyline}{encoded polyline that defines each \code{pathId}}
 #' }
 "melbourne"
+
+#' geo_melbourne
+#'
+#' GeoJSON data of Melbourne's Inner suburbs.
+#'
+#' This is a subset of the \code{melbourne} data.
+"geo_melbourne"
+
+

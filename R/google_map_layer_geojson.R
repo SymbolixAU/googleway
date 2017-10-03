@@ -12,79 +12,21 @@
 #' @examples
 #' \dontrun{
 #'
-#' ## Rectangle polygons and a point over melbourne
-#'  geojson_txt <- '{
-#'    "type" : "FeatureCollection",
-#'    "features" : [
-#'      {
-#'        "type" : "Feature",
-#'        "properties" : {
-#'          "fillColor" : "green",
-#'          "strokeColor" : "blue",
-#'          "id" : "green_rectangle",
-#'          "location" : "melbourne",
-#'          "value" : 100
-#'        },
-#'        "geometry" : {
-#'          "type" : "Polygon", "coordinates" : [
-#'            [
-#'              [144.88, -37.85],
-#'              [145.02, -37.85],
-#'              [145.02, -37.80],
-#'              [144.88, -37.80],
-#'              [144.88, -37.85]
-#'            ]
-#'          ]
-#'        }
-#'      },
-#'      {
-#'        "type" : "Feature",
-#'        "properties" : {
-#'          "fillColor" : "red",
-#'          "id" : "red_rectangle",
-#'          "location" : "melbourne",
-#'          "value" : 200
-#'        },
-#'        "geometry" : {
-#'          "type" : "Polygon", "coordinates" : [
-#'            [
-#'              [144.80, -37.85],
-#'              [144.88, -37.85],
-#'              [144.88, -37.80],
-#'              [144.80, -37.80],
-#'              [144.80, -37.85]
-#'            ]
-#'          ]
-#'        }
-#'      },
-#'      {
-#'        "type" : "Feature",
-#'        "properties" : {
-#'          "title" : "a point",
-#'          "location" : "melbourne",
-#'          "value" : 100
-#'        },
-#'        "geometry" : {
-#'          "type" : "Point", "coordinates" : [145.00, -37.82]
-#'        }
-#'      }
-#'    ]
-#'  }'
 #'
 #' ## use the properties inside the geoJSON to style each feature
 #' google_map(key = map_key) %>%
-#'   add_geojson(data = geojson_txt)
+#'   add_geojson(data = geo_melbourne)
 #'
 #' ## use a JSON string to style all features
 #' style <- '{ "fillColor" : "green" , "strokeColor" : "black", "strokeWeight" : 0.5}'
 #' google_map(key = map_key) %>%
-#'   add_geojson(data = geojson_txt, style = style)
+#'   add_geojson(data = geo_melbourne, style = style)
 #'
 #'
 #' ## use a named list to style all features
 #' style <- list(fillColor = "red" , strokeColor = "blue", strokeWeight = 0.5)
 #' google_map(key = map_key) %>%
-#'   add_geojson(data = geojson_txt, style = style)
+#'   add_geojson(data = geo_melbourne, style = style)
 #'
 #' ## GeoJSON from a URL
 #' url <- 'https://storage.googleapis.com/mapsdevsite/json/google.json'
@@ -207,33 +149,26 @@ clear_geojson <- function(map, layer_id = NULL){
 #' @examples
 #' \dontrun{
 #'
-#' ## see ?add_geojson for the geojson_txt string
-#' flagIcon <- paste0("https://developers.google.com/maps/documentation/",
-#'  "javascript/examples/full/images/beachflag.png")
-#'
 #' style <- paste0('{
-#'     "property" : "value",
-#'     "value" : 100,
+#'     "property" : "AREASQKM",
+#'     "value" : 5,
 #'     "operator" : ">=",
 #'     "features" : {
-#'       "fillColor" : "white",
-#'       "strokeColor" : "white",
-#'       "icon" : "', flagIcon, '"
+#'       "fillColor" : "red",
+#'       "strokeColor" : "red"
 #'     }
 #'   }')
 #'
-#' google_map(key = mapKey) %>%
-#'     add_geojson(data = geojson_txt) %>%
+#' google_map(key = map_key) %>%
+#'     add_geojson(data = geo_melbourne) %>%
 #'     update_geojson(style = style)
 #'
-#' lst_style <- list(property = "value", operator = ">=", value = 100,
-#'    features = list(fillColor = "white",
-#'    strokeColor = "white",
-#'    icon = flagIcon))
+#' lst_style <- list(property = "AREASQKM", operator = "<=", value = 5,
+#'    features = list(fillColor = "red",
+#'    strokeColor = "red"))
 #'
-#'
-#' google_map(key = mapKey) %>%
-#'     add_geojson(data = geojson_txt) %>%
+#' google_map(key = map_key) %>%
+#'     add_geojson(data = geo_melbourne) %>%
 #'     update_geojson(style = lst_style)
 #' }
 #'
