@@ -200,13 +200,6 @@ add_circles <- function(map,
 #' @rdname clear
 #' @export
 clear_circles <- function(map, layer_id = NULL){
-
-  ## TODO:
-  ## - clear legend
-  ## -- need a reference to the position at which the legend was placed.
-  ## -- the iterate that control position and 'removeAt(index)'
-  ## -- then remove from teh reference array
-
   layer_id <- layerId(layer_id)
   invoke_method(map, 'clear_circles', layer_id)
 }

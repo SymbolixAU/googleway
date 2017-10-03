@@ -12,10 +12,10 @@
 function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_polyline, legendValues) {
 
     //if (window[map_id + 'googlePolyline' + layer_id] == null) {
-    //    window[map_id + 'googlePolyline' + layer_id] = [];    
+    //    window[map_id + 'googlePolyline' + layer_id] = [];
     //}
     createWindowObject(map_id, 'googlePolyline', layer_id);
-    
+
     var infoWindow = new google.maps.InfoWindow();
 
     for (i = 0; i < Object.keys(data_polyline).length; i++) {
@@ -52,7 +52,6 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
 
     // TODO(polyline length) calculate and log the distance
 //    polyLengthInMeters = google.maps.geometry.spherical.computeLength(Polyline.getPath().getArray());
-//    console.log(polyLengthInMeters);
 
         window[map_id + 'googlePolyline' + layer_id].push(Polyline);
         Polyline.setMap(window[map_id + 'map']);
@@ -77,11 +76,11 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
 
         polylineInfo = { layerId : layer_id };
         polyline_click(map_id, Polyline, polyline.id, polylineInfo);
-        
+
         if(Polyline.editable) {
             // edit listeners must be set on paths
             polyline_edited(map_id, Polyline);
-          
+
             // right-click listener for deleting vetices
             google.maps.event.addListener(Polyline, 'rightclick', function(event) {
                 if (event.vertex === undefined) {
@@ -91,7 +90,7 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
                 }
             })
         }
-        
+
         if(Polyline.draggable) {
             polyline_dragged(map_id, Polyline)
         }
@@ -192,6 +191,6 @@ function update_polylines(map_id, data_polyline, layer_id, legendValues) {
 
 
 
-function clear_polylines(map_id, layer_id) {  
+function clear_polylines(map_id, layer_id) {
     clear_object(map_id, 'googlePolyline', layer_id);
 }

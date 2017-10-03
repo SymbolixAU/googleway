@@ -82,11 +82,6 @@ determinePalette.function <- function(pal, aesthetic) return(pal)
 
 #' @export
 determinePalette.list <- function(pal, aesthetic){
-  ## TODO:
-  ## - given a list of palettes, extract the correct one for the given aesthetic
-  ## - handle if a palette of both fill_colour and stroke_colour is supplied, but only
-  ## one is mapped to a varaible
-
   return(pal[[aesthetic]])
 }
 

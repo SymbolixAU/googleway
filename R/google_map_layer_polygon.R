@@ -136,8 +136,7 @@ add_polygons <- function(map,
 
   ## TODO:
   ## - holes must be wound in the opposite direction
-  ##
-  ## - melbourne data - remove factor levels?
+
 
   objArgs <- match.call(expand.dots = F)
 #  callingFunc <- as.character(objArgs[[1]])
