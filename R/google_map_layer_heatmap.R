@@ -28,18 +28,18 @@
 #'
 #' set.seed(20170417)
 #' df <- tram_route
-#' df$weight <- sample(1:10, size = nrow(df), replace = T)
+#' df$weights <- sample(1:10, size = nrow(df), replace = T)
 #'
 #' google_map(key = map_key, data = df) %>%
 #'  add_heatmap(lat = "shape_pt_lat", lon = "shape_pt_lon", weight = "weight",
-#'               option_radius = 0.001)
+#'               option_radius = 0.001, legend = T)
 #'
 #' ## specifying different colour gradient
 #' option_gradient <- c('orange', 'blue', 'mediumpurple4', 'snow4', 'thistle1')
 #'
 #' google_map(key = map_key, data = df) %>%
 #'  add_heatmap(lat = "shape_pt_lat", lon = "shape_pt_lon", weight = "weight",
-#'               option_radius = 0.001, option_gradient = option_gradient)
+#'               option_radius = 0.001, option_gradient = option_gradient, legend = T)
 #'
 #'  }
 #' @export
@@ -54,18 +54,24 @@ add_heatmap <- function(map,
                         option_opacity = 0.6,
                         layer_id = NULL,
                         update_map_view = TRUE,
-                        digits = 4
-){
+                        digits = 4,
+                        legend = F,
+                        legend_options = NULL
+                        ){
   ## TODO:
   ## - max intensity
 
   objArgs <- match.call(expand.dots = F)
+
 
   ## PARAMETER CHECKS
   if(!dataCheck(data, "add_heatmap")) data <- heatmapDefaults(1)
   layer_id <- layerId(layer_id)
 
   objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_heatmap")
+  objArgs <- heatWeightCheck(objArgs)
+
+  fill_colour <- weight
   logicalCheck(update_map_view)
   numericCheck(digits)
   ## END PARAMETER CHECKS
@@ -73,14 +79,9 @@ add_heatmap <- function(map,
   allCols <- heatmapColumns()
   requiredCols <- requiredHeatmapColumns()
 
+
+
   shape <- createMapObject(data, allCols, objArgs)
-
-  requiredDefaults <- setdiff(requiredCols, names(shape))
-  if(length(requiredDefaults) > 0){
-    shape <- addDefaults(shape, requiredDefaults, "heatmap")
-  }
-
-  shape <- jsonlite::toJSON(shape, digits = digits)
 
   ## Heatmap Options
   if(!is.null(option_opacity))
@@ -113,13 +114,51 @@ add_heatmap <- function(map,
       }
     })
 
+    rampColours <- option_gradient[2:length(option_gradient)]
     heatmap_options$gradient <- list(g)
+  }else{
+    rampColours <- c("green", "red")
   }
+
+
+  colourColumns <- shapeAttributes(fill_colour, NULL)
+  pal <- createPalettes(shape, colourColumns)
+  colour_palettes <- createColourPalettes(data, pal, colourColumns, colorRampPalette(rampColours))
+
+  ## colours are handled by google
+#  colours <- createColours(shape, colour_palettes)
+
+
+  requiredDefaults <- setdiff(requiredCols, names(shape))
+  if(length(requiredDefaults) > 0){
+    shape <- addDefaults(shape, requiredDefaults, "heatmap")
+  }
+
+  ## TODO:
+  ## HEATMAP legend
+  ## The regular legends map the colour palette to the variables. Here we have
+  ## either the default colour palette (red -> green assigned by google)
+  ## or the rgb colours
+  ##
+  ## google constructs the gradient according to the 'weights'
+  ## and the lowest is always 0
+  ## so we just need the max intensity, and create a gradient colour palette
+  ## using the rgb colours defined
+
+  ## LEGEND
+  if(any(vapply(legend, isTRUE, T))){
+    legend <- constructLegend(colour_palettes, legend)
+    if(!is.null(legend_options)){
+      legend <- addLegendOptions(legend, legend_options)
+    }
+  }
+
+  shape <- jsonlite::toJSON(shape, digits = digits)
 
   # Heatmap <- jsonlite::toJSON(Heatmap, digits = digits)
   heatmap_options <- jsonlite::toJSON(heatmap_options)
 
-  invoke_method(map, 'add_heatmap', shape, heatmap_options, update_map_view, layer_id)
+  invoke_method(map, 'add_heatmap', shape, heatmap_options, update_map_view, layer_id, legend)
 }
 
 
