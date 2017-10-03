@@ -2,16 +2,14 @@ HTMLWidgets.widget({
 
     name: 'google_map',
     type: 'output',
-    
-    factory: function(el, width, height) {
 
-    // TODO: define shared variables for this instance
+    factory: function(el, width, height) {
 
     return {
         renderValue: function(x) {
             window.params = [];
             window.params.push( {'map_id' : el.id } );
-            window.params.push( {'event_return_type' : x.event_return_type})
+            window.params.push( {'event_return_type' : x.event_return_type});
 
             // visualisation layers
             window[el.id + 'googleTrafficLayer'] = [];
@@ -92,7 +90,6 @@ HTMLWidgets.widget({
       resize: function(width, height) {
         // TODO: code to re-render the widget with a new size
       },
-
     };
   }
 });
@@ -188,7 +185,7 @@ function findById(source, id, returnType) {
 }
 
 function initialise_map(el, x) {
-    
+
     // map bounds object
     //console.log("initialising map: el.id: ");
     //console.log(el.id);
@@ -197,7 +194,7 @@ function initialise_map(el, x) {
   // if places
   if(x.search_box === true){
       var input = document.getElementById('pac-input');
-      
+
       window[el.id + 'googleSearchBox'] = new google.maps.places.SearchBox(input);
       window[el.id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
@@ -220,7 +217,7 @@ function initialise_map(el, x) {
           if (places.length == 0) {
               return;
           }
-          
+
           // Clear out the old markers.
           window[el.id + 'googlePlaceMarkers'].forEach(function(marker) {
               marker.setMap(null);
@@ -235,7 +232,7 @@ function initialise_map(el, x) {
                   console.log("Returned place contains no geometry");
                   return;
               }
-              
+
               var icon = {
                   url: place.icon,
                   size: new google.maps.Size(71, 71),
@@ -289,9 +286,9 @@ function initialise_map(el, x) {
 
 
 function placeControl(map_id, object, position) {
-    
+
     var ledge = {};
-    
+
     switch (position) {
     case 'RIGHT_BOTTOM':
         window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(object);
@@ -334,7 +331,7 @@ function placeControl(map_id, object, position) {
         window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_BOTTOM].push(object);
         break;
     }
-    
+
     ledge = {
         id: object.getAttribute('id'),
         position: position
@@ -343,10 +340,10 @@ function placeControl(map_id, object, position) {
 }
 
 function removeControl(map_id, legend_id, position){
-    
+
     console.log("removeControl()");
     console.log(position);
-    
+
     switch (position) {
     case 'RIGHT_BOTTOM':
         clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_BOTTOM], legend_id);
@@ -392,7 +389,7 @@ function removeControl(map_id, legend_id, position){
 }
 
 function clearControl(control, legend_id) {
-    
+
     if(control != null){
         control.forEach(function(item, index){
             if(item != null){
@@ -400,7 +397,7 @@ function clearControl(control, legend_id) {
                     control.removeAt(index);
                 }
             }
-        })    
+        })
     }
 }
 
@@ -409,9 +406,9 @@ function clearControl(control, legend_id) {
 * and then calls 'clear_legend'
 */
 function clear_object (map_id, objType, layer_id) {
-     
+
     if (window[map_id + objType + layer_id] && window[map_id + objType + layer_id].length){
-        
+
         for (i = 0; i < window[map_id + objType + layer_id].length; i++){
             window[map_id + objType + layer_id][i].setMap(null);
         }
