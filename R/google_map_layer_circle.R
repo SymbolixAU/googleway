@@ -14,8 +14,10 @@
 #' @param radius either a string specifying the column of \code{data} containing the
 #' radius of each circle, OR a numeric value specifying the radius of all the circles
 #' (radius is expressed in metres)
-#' @param draggable string specifying the column of \code{data} defining if the circle
-#' is 'draggable' (either TRUE or FALSE)
+#' @param draggable string specifying the column of \code{data} defining if
+#' the polygon is 'draggable'. The column of data should be logical (either TRUE or FALSE)
+#' @param editable string specifying the column of \code{data} defining if the polygon
+#' is 'editable' (either TRUE or FALSE)
 #' @param stroke_colour either a string specifying the column of \code{data} containing
 #' the stroke colour of each shape, or a valid hexadecimal numeric HTML style to
 #' be applied to all the shapes
@@ -133,6 +135,7 @@ add_circles <- function(map,
                         lat = NULL,
                         lon = NULL,
                         radius = NULL,
+                        editable = NULL,
                         draggable = NULL,
                         stroke_colour = NULL,
                         stroke_opacity = NULL,

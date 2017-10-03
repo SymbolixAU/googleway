@@ -20,8 +20,8 @@ data passed into \code{google_map()} will be used.}
 for the shapes. The id values must be present in the original data supplied to in order
 for the shape to be udpated.}
 
-\item{draggable}{string specifying the column of \code{data} defining if the circle
-is 'draggable' (either TRUE or FALSE)}
+\item{draggable}{string specifying the column of \code{data} defining if
+the polygon is 'draggable'. The column of data should be logical (either TRUE or FALSE)}
 
 \item{stroke_colour}{either a string specifying the column of \code{data} containing
 the stroke colour of each shape, or a valid hexadecimal numeric HTML style to

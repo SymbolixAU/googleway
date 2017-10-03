@@ -1,5 +1,15 @@
 ## TODO:
-## editable multi-polygons: which paths get updated?
+## - editable multi-polygons: which paths get updated?
+## - update shpaes in a shiny
+## --- polygons
+## --- polylines
+## --- circles
+## --- rectangles
+## --- markers
+## --- heatmap
+##
+## - separate listeners for draggable and editable??
+
 
 ## Editable rectangles
 # library(shiny)
@@ -15,28 +25,38 @@
 #   df_poly$editable <- T
 #   df_poly$draggable <- T
 #
+#
+#   tram_stops$editable <- T
+#   tram_stops$draggable <- T
+#
 #   output$map <- renderGoogle_map({
 #     google_map(key = map_key) %>%
 #       add_rectangles(data = df, north = 'north', south = 'south',
 #                      east = 'east', west = 'west',
 #                      editable = 'editable', draggable = 'draggable') %>%
+#       add_circles(data = tram_stops, lat = "stop_lat", lon = "stop_lon",
+#                   editable = "editable", draggable = "draggable")
 #       # add_polygons(data = df_poly, polyline = "polyline", editable = 'editable',
 #       #              draggable = 'draggable') %>%
-#       add_polylines(data = df_poly, polyline = "polyline", editable = "editable",
-#                    draggable = "draggable")
+#       # add_polylines(data = df_poly, polyline = "polyline", editable = "editable",
+#       #              draggable = "draggable")
 #   })
 #
-#   observeEvent(input$map_rectangle_click, {
-#     print(input$map_rectangle_click)
+#   observeEvent(input$map_circle_edit, {
+#     print(input$map_circle_edit)
 #   })
 #
-#   observeEvent(input$map_rectangle_edit, {
-#     print(input$map_rectangle_edit)
-#   })
-#
-#   observeEvent(input$map_polyline_edit, {
-#     print(input$map_polyline_edit)
-#   })
+#   # observeEvent(input$map_rectangle_click, {
+#   #   print(input$map_rectangle_click)
+#   # })
+#   #
+#   # observeEvent(input$map_rectangle_edit, {
+#   #   print(input$map_rectangle_edit)
+#   # })
+#   #
+#   # observeEvent(input$map_polyline_edit, {
+#   #   print(input$map_polyline_edit)
+#   # })
 #
 # }
 # shinyApp(ui, server)

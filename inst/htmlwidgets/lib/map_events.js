@@ -233,6 +233,39 @@ function rectangle_edited(map_id, rectangleObject) {
     });
 }
 
+/**
+* Returns bounds of edited circle back to shiny
+*
+*/
+function circle_edited(map_id, circleObject) {
+    
+    if (!HTMLWidgets.shinyMode) {
+        return;
+    }
+    
+    circleObject.addListener('center_changed', function () {
+        var eventInfo = {
+            id: circleObject.id,
+            newCenter: circleObject.getCenter(),
+            newRadius: circleObject.getRadius()
+        }
+        var event_return_type = window.params[1].event_return_type;
+        eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+        Shiny.onInputChange(map_id + "_circle_edit", eventInfo);
+    });
+    
+    circleObject.addListener('radius_changed', function () {
+        var eventInfo = {
+            id: circleObject.id,
+            newCenter: circleObject.getCenter(),
+            newRadius: circleObject.getRadius()
+        }
+        var event_return_type = window.params[1].event_return_type;
+        eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+        Shiny.onInputChange(map_id + "_circle_edit", eventInfo);
+    });
+}
+
 
 function polyline_edited(map_id, polylineObject) {
     

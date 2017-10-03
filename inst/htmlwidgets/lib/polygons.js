@@ -11,26 +11,25 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
     //}
     createWindowObject(map_id, 'googlePolygon', layer_id);
   
-  var infoWindow = new google.maps.InfoWindow(),
-      aPath,
-      paths = [];
+    var infoWindow = new google.maps.InfoWindow(),
+        paths = [];
 
-  for(i = 0; i < Object.keys(data_polygon).length; i++){
-      add_gons(map_id, data_polygon[i]);
-  }
+    for(i = 0; i < Object.keys(data_polygon).length; i++){
+        //console.log("adding polygon");
+        //console.log(data_polygon[i]);
+        add_gons(map_id, data_polygon[i]);
+    }
 
   function add_gons(map_id, polygon){
+      var paths = [];
 
       if(use_polyline){
           for(j = 0; j < polygon.polyline.length; j ++){
-              aPath = google.maps.geometry.encoding.decodePath(polygon.polyline[j]);
-              paths.push(aPath);
+              paths.push(google.maps.geometry.encoding.decodePath(polygon.polyline[j]));
           }
       }else{
-
           for(j = 0; j < polygon.coords.length; j++){
-              aPath = polygon.coords[j];
-              paths.push(aPath);
+              paths.push(polygon.coords[j]);
           }
       }
 
@@ -56,7 +55,6 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
     //      visible: true
           //zIndex:1
       });
-      //console.log(Polygon);
       
       if(polygon.info_window){
           add_infoWindow(map_id, Polygon, infoWindow, '_information', polygon.info_window);
@@ -82,9 +80,6 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
               }
           })
       }
-      
-      
-      
       
     window[map_id + 'googlePolygon' + layer_id].push(Polygon);
     Polygon.setMap(window[map_id + 'map']);

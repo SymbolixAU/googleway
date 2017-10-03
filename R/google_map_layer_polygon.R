@@ -90,10 +90,6 @@
 #' @param pathId string specifying the column containing an identifer for each
 #' path that forms the complete polygon. Not required when using \code{polyline},
 #' as each polyline is itself a path.
-#' @param draggable string specifying the column of \code{data} defining if
-#' the polygon is 'draggable'. The column of data should be logical (either TRUE or FALSE)
-#' @param editable string specifying the column of \code{data} defining if the polygon
-#' is 'editable' (either TRUE or FALSE)
 #'
 #' @details
 #' \code{z_index} values define the order in which objects appear on the map.

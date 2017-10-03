@@ -24,8 +24,8 @@ for the shape to be udpated.}
 radius of each circle, OR a numeric value specifying the radius of all the circles
 (radius is expressed in metres)}
 
-\item{draggable}{string specifying the column of \code{data} defining if the circle
-is 'draggable' (either TRUE or FALSE)}
+\item{draggable}{string specifying the column of \code{data} defining if
+the polygon is 'draggable'. The column of data should be logical (either TRUE or FALSE)}
 
 \item{stroke_colour}{either a string specifying the column of \code{data} containing
 the stroke colour of each shape, or a valid hexadecimal numeric HTML style to
