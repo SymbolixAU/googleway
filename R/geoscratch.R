@@ -1,4 +1,6 @@
 #
+# library(data.table)
+# library(googleway)
 # dt_inner <- as.data.table(melbourne[melbourne$SA4_NAME == "Melbourne - Inner", ])
 #
 # dt_coords <- dt_inner[, decode_pl(polyline), by = polygonId]
@@ -33,7 +35,6 @@
 #   match.ID = F
 #   )
 #
-# plot(spPolyData)
 #
 # sf <- sf::st_as_sf(spPolyData)
 #
@@ -43,7 +44,12 @@
 #
 # sf <- merge(sf, pal, by.x = "SA2_NAME", by.y = "variable")
 # sf <- setNames(sf, c("SA2_NAME", "polygonId", "SA3_NAME", "AREASQKM", "fillColor", "geometry"))
+# sf$strokeColor <- sf$fillColor
+# sf$strokeWeight <- 1
 #
+#
+# # sf$properties <- as.list(sf$fillColor)
+# # sf$properties$strokeColor <- sf$properties$fillColor
 # geo_melbourne <- geojsonio::geojson_json(sf)
 #
 # # geojson <- geojsonio::geojson_atomize(geojson)
