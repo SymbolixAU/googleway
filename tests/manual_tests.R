@@ -1,24 +1,39 @@
 ## TODO:
+## editable multi-polygons: which paths get updated?
 
-
+### Editable rectangles
 # library(shiny)
 #
 # ui <- fluidPage(
-#   google_mapOutput(outputId = "map")
+#   google_mapOutput(outputId = "map", height = "800px")
 # )
 # server <- function(input, output){
 #   df <- data.frame(north = -37.8459, south = -37.8508, east = 144.9378,
 #                     west = 144.9236, editable = T, draggable = T)
 #
+#   df_poly <- melbourne[41, ]  ## a small polygon
+#   df_poly$editable <- T
+#   df_poly$draggable <- T
+#
 #   output$map <- renderGoogle_map({
 #     google_map(key = map_key) %>%
 #       add_rectangles(data = df, north = 'north', south = 'south',
 #                      east = 'east', west = 'west',
-#                      editable = 'editable', draggable = 'draggable')
+#                      editable = 'editable', draggable = 'draggable') %>%
+#       add_polygons(data = df_poly, polyline = "polyline", editable = 'editable',
+#                    draggable = 'draggable')
 #   })
 #
-#   observeEvent(input$map_shape_click, {
-#     print(input$map_shape_click)
+#   observeEvent(input$map_rectangle_click, {
+#     print(input$map_rectangle_click)
+#   })
+#
+#   observeEvent(input$map_rectangle_edit, {
+#     print(input$map_rectangle_edit)
+#   })
+#
+#   observeEvent(input$map_polygon_edit, {
+#     print(input$map_polygon_edit)
 #   })
 #
 # }

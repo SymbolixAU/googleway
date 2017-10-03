@@ -4,7 +4,7 @@
  *
  * Adds drawing controls to the map
  **/
-function add_drawing(map_id, drawing_modes, marker, circle, rectangle, polyline, polygon, delete_on_change){
+function add_drawing (map_id, drawing_modes, marker, circle, rectangle, polyline, polygon, delete_on_change) {
 
     window[map_id + 'googleDrawingOverlays'] = [];
     
@@ -82,15 +82,15 @@ function add_drawing(map_id, drawing_modes, marker, circle, rectangle, polyline,
  *
  * Clears all the drawn elements from the map
  **/
-function clear_drawing(map_id){
+function clear_drawing (map_id) {
 
-  for(var i = 0; i < window[map_id + 'googleDrawingOverlays'].length; i++){
-    window[map_id + 'googleDrawingOverlays'][i].setMap(null);
-  }
-  window[map_id + 'googleDrawingOverlays'] = [];
+    for (var i = 0; i < window[map_id + 'googleDrawingOverlays'].length; i++) {
+        window[map_id + 'googleDrawingOverlays'][i].setMap(null);
+    }
+    window[map_id + 'googleDrawingOverlays'] = [];
 }
 
-function marker_complete(map_id, drawingManager, drawingInfo){
+function marker_complete (map_id, drawingManager, drawingInfo) {
 
     if(!HTMLWidgets.shinyMode) return;
 
@@ -116,32 +116,32 @@ function marker_complete(map_id, drawingManager, drawingInfo){
 }
 
 
-function circle_complete(map_id, drawingManager, drawingInfo){
+function circle_complete (map_id, drawingManager, drawingInfo) {
 
-  if(!HTMLWidgets.shinyMode) return;
+    if(!HTMLWidgets.shinyMode) return;
 
-  google.maps.event.addListener(drawingManager, 'circlecomplete', function(circle) {
+    google.maps.event.addListener(drawingManager, 'circlecomplete', function(circle) {
 
-   var newShape = circle;
-   google.maps.event.addListener(newShape, 'click', function(){
-     console.log('click');
-   });
+    var newShape = circle;
+    google.maps.event.addListener(newShape, 'click', function(){
+        console.log('click');
+    });
 
     window[map_id + 'googleDrawingOverlays'].push(circle);
 
     var eventInfo = $.extend(
-      {
-        center: circle.getCenter(),
-        radius: circle.getRadius(),
-        bounds: circle.getBounds(),
-        randomValue: Math.random()
-      },
-      drawingInfo
+        {
+            center: circle.getCenter(),
+            radius: circle.getRadius(),
+            bounds: circle.getBounds(),
+            randomValue: Math.random()
+        },
+        drawingInfo
     );
-      var event_return_type = window.params[1].event_return_type;
-      eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
-  Shiny.onInputChange(map_id + "_circlecomplete", eventInfo);
-  });
+    var event_return_type = window.params[1].event_return_type;
+    eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+    Shiny.onInputChange(map_id + "_circlecomplete", eventInfo);
+    });
 }
 
 
@@ -159,9 +159,9 @@ function rectangle_complete(map_id, drawingManager, drawingInfo){
       },
       drawingInfo
     );
-          var event_return_type = window.params[1].event_return_type;
-      eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
-  Shiny.onInputChange(map_id + "_rectanglecomplete", eventInfo);
+    var event_return_type = window.params[1].event_return_type;
+    eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+    Shiny.onInputChange(map_id + "_rectanglecomplete", eventInfo);
   });
 }
 

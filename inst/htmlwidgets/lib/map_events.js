@@ -3,37 +3,38 @@
  *
  * Returns details of the click even on a map
  **/
-function map_click(map_id, mapObject, mapInfo){
+function map_click(map_id, mapObject, mapInfo) {
 
-  if(!HTMLWidgets.shinyMode) return;
+    if (!HTMLWidgets.shinyMode) {
+        return;
+    }
 
-  google.maps.event.addListener(mapObject, 'click', function(event){
+    google.maps.event.addListener(mapObject, 'click', function(event){
 
-      var eventInfo = $.extend(
-      {
-        id: map_id,
-
-        lat: event.latLng.lat(),
-        lon: event.latLng.lng(),
-        centerLat: mapObject.getCenter().lat(),
-        centerLng: mapObject.getCenter().lng(),
-        zoom: mapObject.getZoom(),
-        randomValue: Math.random()
-      },
-      mapInfo
+    var eventInfo = $.extend(
+        {
+            id: map_id,
+            lat: event.latLng.lat(),
+            lon: event.latLng.lng(),
+            centerLat: mapObject.getCenter().lat(),
+            centerLng: mapObject.getCenter().lng(),
+            zoom: mapObject.getZoom(),
+            randomValue: Math.random()
+        },
+        mapInfo
     );
-      var event_return_type = window.params[1].event_return_type;
-      eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
-      Shiny.onInputChange(map_id + "_map_click", eventInfo);
-
-  });
+    var event_return_type = window.params[1].event_return_type;
+    eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+    Shiny.onInputChange(map_id + "_map_click", eventInfo);
+    });
 }
 
 
-function bounds_changed(map_id, mapObject, mapInfo){
+function bounds_changed(map_id, mapObject, mapInfo) {
 
-  if(!HTMLWidgets.shinyMode) return;
-
+    if (!HTMLWidgets.shinyMode) {
+        return;
+    }
   google.maps.event.addListener(mapObject, 'bounds_changed', function(event){
     var eventInfo = $.extend(
       {
@@ -52,10 +53,11 @@ function bounds_changed(map_id, mapObject, mapInfo){
   });
 }
 
-function zoom_changed(map_id, mapObject, mapInfo){
+function zoom_changed(map_id, mapObject, mapInfo) {
 
-  if(!HTMLWidgets.shinyMode) return;
-
+    if (!HTMLWidgets.shinyMode) {
+        return;
+    }
   google.maps.event.addListener(mapObject, 'bounds_changed', function(event){
     var eventInfo = $.extend(
       {
@@ -76,9 +78,10 @@ function zoom_changed(map_id, mapObject, mapInfo){
  *
  * Returns details of the marker that was clicked
  **/
-function marker_click(map_id, markerObject, marker_id, markerInfo){
-  if(!HTMLWidgets.shinyMode) return;
-
+function marker_click(map_id, markerObject, marker_id, markerInfo) {
+    if (!HTMLWidgets.shinyMode) {
+        return;
+    }
   google.maps.event.addListener(markerObject, 'click', function(event){
 
     var eventInfo = $.extend(
@@ -100,87 +103,229 @@ function marker_click(map_id, markerObject, marker_id, markerInfo){
  * Shape Click
  *
  * Returns the 'id' of the shape that was clicked back to shiny
+ **/
+function shape_click(map_id, shapeObject, shape_id, shapeInfo) {
+
+    if (!HTMLWidgets.shinyMode) {
+        return;
+    }
+    google.maps.event.addListener(shapeObject, 'click', function(event){
+
+    var eventInfo = $.extend(
+        {
+            id: shape_id,
+            lat: event.latLng.lat(),
+            lon: event.latLng.lng(),
+            randomValue: Math.random() // force reactivity so that 'onInputChange' thinks the input has changed
+        },
+        shapeInfo
+    );
+
+    var event_return_type = window.params[1].event_return_type;
+    eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+    Shiny.onInputChange(map_id + "_shape_click", eventInfo);
+    });
+}
+
+/**
+ * Rectangle Click
+ *
+ * Returns the 'id' of the shape that was clicked back to shiny
  *
  **/
-function shape_click(map_id, shapeObject, shape_id, shapeInfo){
+function rectangle_click(map_id, shapeObject, shape_id, shapeInfo) {
 
-  if(!HTMLWidgets.shinyMode) return;
-
-  google.maps.event.addListener(shapeObject, 'click', function(event){
-
-    var eventInfo = $.extend(
-      {
-        id: shape_id,
-        lat: event.latLng.lat(),
-        lon: event.latLng.lng(),
-        randomValue: Math.random() // force reactivity so that 'onInputChange' thinks the input has changed
-      },
-      shapeInfo
-    );
-
-      var event_return_type = window.params[1].event_return_type;
-      eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
-    Shiny.onInputChange(map_id + "_shape_click", eventInfo);
-  });
-
-}
-
-function polyline_click(map_id, polylineObject, polyline_id, polylineInfo){
-
-  if(!HTMLWidgets.shinyMode) return;
-
-  google.maps.event.addListener(polylineObject, 'click', function(event){
-
-    var eventInfo = $.extend(
-      {
-        id: polyline_id,
-        lat: event.latLng.lat(),
-        lon: event.latLng.lng(),
-        path: google.maps.geometry.encoding.encodePath(polylineObject.getPath()),
-        randomValue: Math.random()
-      },
-      polylineInfo
-    );
-          var event_return_type = window.params[1].event_return_type;
-      eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
-    Shiny.onInputChange(map_id + "_polyline_click", eventInfo);
-  });
-
-}
-
-function polygon_click(map_id, polygonObject, polygon_id, polygonInfo){
-
-  if(!HTMLWidgets.shinyMode) return;
-
-  google.maps.event.addListener(polygonObject, 'click', function(event){
-
-    var polygonOuterPath = google.maps.geometry.encoding.encodePath(polygonObject.getPath());
-    var polygonAllPaths = [];
-    var paths = polygonObject.getPaths();
-
-    for(i = 0; i < paths.getLength(); i++){
-      polygonAllPaths.push(google.maps.geometry.encoding.encodePath(paths.getAt(i)));
+    if (!HTMLWidgets.shinyMode) {
+        return;
     }
+    google.maps.event.addListener(shapeObject, 'click', function(event){
 
-    var eventInfo = $.extend(
-      {
-        id: polygon_id,
-        lat: event.latLng.lat(),
-        lon: event.latLng.lng(),
-        path: polygonOuterPath,
-        paths: polygonAllPaths,
-        randomValue: Math.random()
-      },
-      polygonInfo
-    );
-      var event_return_type = window.params[1].event_return_type;
-      eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
-    Shiny.onInputChange(map_id + "_polygon_click", eventInfo);
-  });
+        console.log(event);
+        var eventInfo = $.extend(
+            {
+                id: shape_id,
+                lat: event.latLng.lat(),
+                lon: event.latLng.lng(),
+                randomValue: Math.random() // force reactivity so that 'onInputChange' thinks the input has changed
+            },
+            shapeInfo
+        );
 
+    var event_return_type = window.params[1].event_return_type;
+    eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+    Shiny.onInputChange(map_id + "_rectangle_click", eventInfo);
+    });
 }
 
-function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attributeValue, layer_id, layerType){
+function polyline_click(map_id, polylineObject, polyline_id, polylineInfo) {
+
+    if (!HTMLWidgets.shinyMode) {
+        return;
+    }
+    google.maps.event.addListener(polylineObject, 'click', function(event){
+
+    var eventInfo = $.extend(
+        {
+            id: polyline_id,
+            lat: event.latLng.lat(),
+            lon: event.latLng.lng(),
+            path: google.maps.geometry.encoding.encodePath(polylineObject.getPath()),
+            randomValue: Math.random()
+        },
+        polylineInfo
+        );
+        var event_return_type = window.params[1].event_return_type;
+        eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+        Shiny.onInputChange(map_id + "_polyline_click", eventInfo);
+    });
+}
+
+function polygon_click(map_id, polygonObject, polygon_id, polygonInfo) {
+
+    if (!HTMLWidgets.shinyMode) {
+        return;
+    }
+    
+    google.maps.event.addListener(polygonObject, 'click', function(event){
+
+        var polygonOuterPath = google.maps.geometry.encoding.encodePath(polygonObject.getPath()),
+            polygonAllPaths = [],
+            paths = polygonObject.getPaths();
+
+        for(i = 0; i < paths.getLength(); i++){
+            polygonAllPaths.push(google.maps.geometry.encoding.encodePath(paths.getAt(i)));
+        }
+
+        var eventInfo = $.extend(
+            {
+                id: polygon_id,
+                lat: event.latLng.lat(),
+                lon: event.latLng.lng(),
+                outerPath: polygonOuterPath,
+                allPaths: polygonAllPaths,
+                randomValue: Math.random()
+            },
+            polygonInfo
+        );
+        var event_return_type = window.params[1].event_return_type;
+        eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+        Shiny.onInputChange(map_id + "_polygon_click", eventInfo);
+  });
+}
+
+/**
+* Returns bounds of edited rectangle back to shiny
+*
+*/
+function rectangle_edited(map_id, rectangleObject) {
+    
+    if (!HTMLWidgets.shinyMode) {
+        return;
+    }
+    
+    rectangleObject.addListener('bounds_changed', function () {
+        var eventInfo = {
+            id: rectangleObject.id,
+            newBounds: rectangleObject.getBounds()
+        }
+        var event_return_type = window.params[1].event_return_type;
+        eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+        Shiny.onInputChange(map_id + "_rectangle_edit", eventInfo);
+    });
+}
+
+function polygon_edited(map_id, polygonObject) {
+    
+    var paths = polygonObject.getPaths(),
+        i = 0;
+        
+    if (!HTMLWidgets.shinyMode) {
+        return;
+    }
+    
+    for (i = 0; i < paths.getLength(); i++) {
+        
+        paths.getAt(i).addListener('insert_at', function() {
+            
+            var polygonOuterPath = google.maps.geometry.encoding.encodePath(polygonObject.getPath()),
+                polygonAllPaths = [],
+                paths = polygonObject.getPaths();
+
+            for(i = 0; i < paths.getLength(); i++){
+                polygonAllPaths.push(google.maps.geometry.encoding.encodePath(paths.getAt(i)));
+            }
+
+            console.log(polygonObject.getPath());
+            var eventInfo = {
+                id: polygonObject.id,
+                outerPath: polygonOuterPath,
+                allPaths: polygonAllPaths
+            }
+            
+            var event_return_type = window.params[1].event_return_type;
+            eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+            Shiny.onInputChange(map_id + "_polygon_edit", eventInfo);
+        });
+        
+        
+        paths.getAt(i).addListener('remove_at', function() {
+            
+            var polygonOuterPath = google.maps.geometry.encoding.encodePath(polygonObject.getPath()),
+                polygonAllPaths = [],
+                paths = polygonObject.getPaths();
+
+            for(i = 0; i < paths.getLength(); i++){
+                polygonAllPaths.push(google.maps.geometry.encoding.encodePath(paths.getAt(i)));
+            }
+
+            console.log(polygonObject.getPath());
+            var eventInfo = {
+                id: polygonObject.id,
+                outerPath: polygonOuterPath,
+                allPaths: polygonAllPaths
+            }
+            
+            var event_return_type = window.params[1].event_return_type;
+            eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+            Shiny.onInputChange(map_id + "_polygon_edit", eventInfo);
+        });
+        
+        paths.getAt(i).addListener('set_at', function() {
+            
+            var polygonOuterPath = google.maps.geometry.encoding.encodePath(polygonObject.getPath()),
+                polygonAllPaths = [],
+                paths = polygonObject.getPaths();
+
+            for(i = 0; i < paths.getLength(); i++){
+                polygonAllPaths.push(google.maps.geometry.encoding.encodePath(paths.getAt(i)));
+            }
+
+            console.log(polygonObject.getPath());
+            var eventInfo = {
+                id: polygonObject.id,
+                outerPath: polygonOuterPath,
+                allPaths: polygonAllPaths
+            }
+            
+            var event_return_type = window.params[1].event_return_type;
+            eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+            Shiny.onInputChange(map_id + "_polygon_edit", eventInfo);
+        });
+        
+    }   
+}
+
+/* 
+* Removes vertices from polylines
+*
+*/
+function remove_vertex(vertex, polyObject) {
+    var path = polyObject.getPath();
+    path.removeAt(vertex);
+}
+
+
+function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attributeValue, layer_id, layerType) {
 
   // notes
   // - mouseOver and mosueOverGroup need to have the same listener.
@@ -270,7 +415,7 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
 
   });
 
-  google.maps.event.addListener(mapObject, 'mouseout', function(event){
+  google.maps.event.addListener(mapObject, 'mouseout', function(event) {
 
     if(mapObject.get("mouseOverGroup") !== undefined){
       // reset highlights
@@ -319,20 +464,20 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
  * @param attributeValue
  *          the value of the attribute
  */
-function add_infoWindow(map_id, mapObject, infoWindow, objectAttribute, attributeValue){
+function add_infoWindow(map_id, mapObject, infoWindow, objectAttribute, attributeValue) {
 
-  mapObject.set(objectAttribute, attributeValue);
+    mapObject.set(objectAttribute, attributeValue);
 
-  google.maps.event.addListener(mapObject, 'click', function(event){
+    google.maps.event.addListener(mapObject, 'click', function(event){
 
-    // the listener is being bound to the mapObject. So, when the infowindow
-    // contents are updated, the 'click' listener will need to see the new information
-    // ref: http://stackoverflow.com/a/13504662/5977215
-    mapObject.setOptions({"_information": mapObject.get(objectAttribute)});
+        // the listener is being bound to the mapObject. So, when the infowindow
+        // contents are updated, the 'click' listener will need to see the new information
+        // ref: http://stackoverflow.com/a/13504662/5977215
+        mapObject.setOptions({"_information": mapObject.get(objectAttribute)});
 
-    infoWindow.setContent(mapObject.get(objectAttribute));
+        infoWindow.setContent(mapObject.get(objectAttribute));
 
-    infoWindow.setPosition(event.latLng);
-    infoWindow.open(window[map_id + 'map']);
-  });
+        infoWindow.setPosition(event.latLng);
+        infoWindow.open(window[map_id + 'map']);
+      });
 }

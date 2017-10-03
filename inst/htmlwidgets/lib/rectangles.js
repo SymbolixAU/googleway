@@ -48,8 +48,15 @@ function add_rectangles(map_id, data_rectangles, update_map_view, layer_id, lege
             add_mouseOver(map_id, Rectangle, infoWindow, "_mouse_over", rectangle.mouse_over, layer_id, 'googleRectangles');
         }
 
-        shapeInfo = { layerId : layer_id };
-        shape_click(map_id, Rectangle, rectangle.id, shapeInfo);
+        shapeInfo = { layerId : layer_id, originalBounds : Rectangle.getBounds() };
+        rectangle_click(map_id, Rectangle, rectangle.id, shapeInfo);
+        
+        if (rectangle.editable) {
+            //Rectangle.addListener('bounds_changed', function () {
+            //    console.log("rectangle boudns changed");
+            //})
+            rectangle_edited(map_id, Rectangle);
+        }
 
         if(update_map_view === true){
             window[map_id + 'mapBounds'].extend(latlonNorthEast);
