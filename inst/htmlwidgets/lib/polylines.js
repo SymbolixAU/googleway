@@ -90,7 +90,11 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
                     remove_vertex(event.vertex, Polyline);
                 }
             })
-      }
+        }
+        
+        if(Polyline.draggable) {
+            polyline_dragged(map_id, Polyline)
+        }
 
     }
 

@@ -55,10 +55,14 @@ function add_circles(map_id, data_circles, update_map_view, layer_id, legendValu
         shapeInfo = { layerId : layer_id };
         shape_click(map_id, Circle, circle.id, shapeInfo);
 
-        if(Circle.editable) {
+        if (Circle.editable) {
           // edit listeners must be set on paths
           circle_edited(map_id, Circle);
-      }
+        }
+        
+        if (Circle.draggable) {
+           circle_dragged(map_id, Circle); 
+        }
         
         if(update_map_view === true){
             window[map_id + 'mapBounds'].extend(latlon);

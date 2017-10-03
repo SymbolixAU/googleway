@@ -52,9 +52,6 @@ function add_rectangles(map_id, data_rectangles, update_map_view, layer_id, lege
         rectangle_click(map_id, Rectangle, rectangle.id, shapeInfo);
         
         if (rectangle.editable) {
-            //Rectangle.addListener('bounds_changed', function () {
-            //    console.log("rectangle boudns changed");
-            //})
             rectangle_edited(map_id, Rectangle);
         }
 

@@ -81,6 +81,10 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
           })
       }
       
+      if(Polygon.draggable) {
+          polygon_dragged(map_id, Polygon);
+      }
+      
     window[map_id + 'googlePolygon' + layer_id].push(Polygon);
     Polygon.setMap(window[map_id + 'map']);
 

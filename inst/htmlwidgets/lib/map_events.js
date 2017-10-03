@@ -241,19 +241,7 @@ function circle_edited(map_id, circleObject) {
     
     if (!HTMLWidgets.shinyMode) {
         return;
-    }
-    
-    circleObject.addListener('center_changed', function () {
-        var eventInfo = {
-            id: circleObject.id,
-            newCenter: circleObject.getCenter(),
-            newRadius: circleObject.getRadius()
-        }
-        var event_return_type = window.params[1].event_return_type;
-        eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
-        Shiny.onInputChange(map_id + "_circle_edit", eventInfo);
-    });
-    
+    }    
     circleObject.addListener('radius_changed', function () {
         var eventInfo = {
             id: circleObject.id,
@@ -266,16 +254,55 @@ function circle_edited(map_id, circleObject) {
     });
 }
 
-
-function polyline_edited(map_id, polylineObject) {
+function circle_dragged(map_id, circleObject) {
     
-    var path = polylineObject.getPath(),
-        i = 0;
+    if (!HTMLWidgets.shinyMode) {
+        return;
+    }
+    circleObject.addListener('center_changed', function () {
+        var eventInfo = {
+            id: circleObject.id,
+            newCenter: circleObject.getCenter(),
+            newRadius: circleObject.getRadius()
+        }
+        var event_return_type = window.params[1].event_return_type;
+        eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+        Shiny.onInputChange(map_id + "_circle_drag", eventInfo);
+    });
+}
+
+function polyline_dragged(map_id, polylineObject) {
         
     if (!HTMLWidgets.shinyMode) {
         return;
     }
-        
+    
+    var path = polylineObject.getPath(),
+        i = 0;
+    
+    path.addListener('set_at', function() {
+        var polylinePath = google.maps.geometry.encoding.encodePath(polylineObject.getPath()),
+            eventInfo = {
+                id: polylineObject.id,
+                path: polylinePath
+            },
+            event_return_type = window.params[1].event_return_type;
+
+        eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+        Shiny.onInputChange(map_id + "_polyline_drag", eventInfo);
+    }); 
+    
+}
+
+function polyline_edited(map_id, polylineObject) {
+    
+    if (!HTMLWidgets.shinyMode) {
+        return;
+    }
+    
+    var path = polylineObject.getPath(),
+        i = 0;
+    
     path.addListener('insert_at', function() {
         var polylinePath = google.maps.geometry.encoding.encodePath(polylineObject.getPath()),
             eventInfo = {
@@ -300,30 +327,47 @@ function polyline_edited(map_id, polylineObject) {
         eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
         Shiny.onInputChange(map_id + "_polyline_edit", eventInfo);
     });
-
-    path.addListener('set_at', function() {
-        var polylinePath = google.maps.geometry.encoding.encodePath(polylineObject.getPath()),
-            eventInfo = {
-                id: polylineObject.id,
-                path: polylinePath
-            },
-            event_return_type = window.params[1].event_return_type;
-
-        eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
-        Shiny.onInputChange(map_id + "_polyline_edit", eventInfo);
-    }); 
 }
 
-
-function polygon_edited(map_id, polygonObject) {
-    
-    var paths = polygonObject.getPaths(),
-        i = 0;
+function polygon_dragged(map_id, polygonObject) {
         
     if (!HTMLWidgets.shinyMode) {
         return;
     }
-    
+    var paths = polygonObject.getPaths(),
+        i = 0;
+
+    for (i = 0; i < paths.getLength(); i++) {
+        paths.getAt(i).addListener('set_at', function() {
+            
+            var polygonOuterPath = google.maps.geometry.encoding.encodePath(polygonObject.getPath()),
+                polygonAllPaths = [],
+                paths = polygonObject.getPaths();
+
+            for(i = 0; i < paths.getLength(); i++){
+                polygonAllPaths.push(google.maps.geometry.encoding.encodePath(paths.getAt(i)));
+            }
+
+            var eventInfo = {
+                id: polygonObject.id,
+                outerPath: polygonOuterPath,
+                allPaths: polygonAllPaths
+            }
+            
+            var event_return_type = window.params[1].event_return_type;
+            eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+            Shiny.onInputChange(map_id + "_polygon_drag", eventInfo);
+        });
+    }
+}
+function polygon_edited(map_id, polygonObject) {
+        
+    if (!HTMLWidgets.shinyMode) {
+        return;
+    }
+    var paths = polygonObject.getPaths(),
+        i = 0;
+
     for (i = 0; i < paths.getLength(); i++) {
         
         paths.getAt(i).addListener('insert_at', function() {
@@ -367,29 +411,7 @@ function polygon_edited(map_id, polygonObject) {
             var event_return_type = window.params[1].event_return_type;
             eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
             Shiny.onInputChange(map_id + "_polygon_edit", eventInfo);
-        });
-        
-        paths.getAt(i).addListener('set_at', function() {
-            
-            var polygonOuterPath = google.maps.geometry.encoding.encodePath(polygonObject.getPath()),
-                polygonAllPaths = [],
-                paths = polygonObject.getPaths();
-
-            for(i = 0; i < paths.getLength(); i++){
-                polygonAllPaths.push(google.maps.geometry.encoding.encodePath(paths.getAt(i)));
-            }
-
-            var eventInfo = {
-                id: polygonObject.id,
-                outerPath: polygonOuterPath,
-                allPaths: polygonAllPaths
-            }
-            
-            var event_return_type = window.params[1].event_return_type;
-            eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
-            Shiny.onInputChange(map_id + "_polygon_edit", eventInfo);
-        });
-        
+        }); 
     }   
 }
 

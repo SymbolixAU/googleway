@@ -7,19 +7,14 @@
 ## --- rectangles
 ## --- markers
 ## --- heatmap
-##
-## - separate listeners for draggable and editable??
 
-
-## Editable rectangles
-# library(shiny)
 #
 # ui <- fluidPage(
 #   google_mapOutput(outputId = "map", height = "800px")
 # )
 # server <- function(input, output){
 #   df <- data.frame(north = -37.8459, south = -37.8508, east = 144.9378,
-#                     west = 144.9236, editable = T, draggable = T)
+#                     west = 144.9236, editable = T, draggable = F)
 #
 #   df_poly <- melbourne[41, ]  ## a small polygon
 #   df_poly$editable <- T
@@ -35,28 +30,52 @@
 #                      east = 'east', west = 'west',
 #                      editable = 'editable', draggable = 'draggable') %>%
 #       add_circles(data = tram_stops, lat = "stop_lat", lon = "stop_lon",
-#                   editable = "editable", draggable = "draggable")
-#       # add_polygons(data = df_poly, polyline = "polyline", editable = 'editable',
-#       #              draggable = 'draggable') %>%
-#       # add_polylines(data = df_poly, polyline = "polyline", editable = "editable",
-#       #              draggable = "draggable")
+#                   editable = "editable", draggable = "draggable") %>%
+#       add_polygons(data = df_poly, polyline = "polyline", editable = 'editable',
+#                   draggable = 'draggable') %>%
+#       add_polylines(data = df_poly, polyline = "polyline", editable = "editable",
+#                   draggable = "draggable")
 #   })
 #
 #   observeEvent(input$map_circle_edit, {
+#     print("circle edited")
 #     print(input$map_circle_edit)
 #   })
 #
-#   # observeEvent(input$map_rectangle_click, {
-#   #   print(input$map_rectangle_click)
-#   # })
-#   #
-#   # observeEvent(input$map_rectangle_edit, {
-#   #   print(input$map_rectangle_edit)
-#   # })
-#   #
-#   # observeEvent(input$map_polyline_edit, {
-#   #   print(input$map_polyline_edit)
-#   # })
+#   observeEvent(input$map_circle_drag, {
+#     print("circle dragged")
+#     # print(input$map_circle_drag)
+#   })
+#
+#   observeEvent(input$map_rectangle_click, {
+#     print("rectangle clicked")
+#     print(input$map_rectangle_click)
+#   })
+#
+#   observeEvent(input$map_rectangle_edit, {
+#     print("rectangle edited")
+#     print(input$map_rectangle_edit)
+#   })
+#
+#   observeEvent(input$map_polyline_edit, {
+#     print("polyline edited")
+#     print(input$map_polyline_edit)
+#   })
+#
+#   observeEvent(input$map_polyline_drag, {
+#     print("polyline dragged")
+#     #print(input$map_polyline_drag)
+#   })
+#
+#   observeEvent(input$map_polygon_edit, {
+#     print("polygon edited")
+#     print(input$map_polygon_edit)
+#   })
+#
+#   observeEvent(input$map_polygon_drag, {
+#     print("polygon dragged")
+#     #print(input$map_polyline_drag)
+#   })
 #
 # }
 # shinyApp(ui, server)
