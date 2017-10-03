@@ -4,20 +4,17 @@
  */
 function add_fusion(map_id, query, styles, heat, layer_id) {
 
-// TODO: extend map bounds
+    // TODO: extend map bounds
+    // - currenlty haven't found any resources that explains if this is even possible
 
-    //window[map_id + 'googleFusion' + layer_id] = [];
-    
     createWindowObject(map_id, 'googleFusion', layer_id);
-    
+
     var s = JSON.parse(styles),
         layer = new google.maps.FusionTablesLayer({
             query: query,
             styles: s,
             heatmap: { enabled: heat }
         });
-    
-    console.log(layer);
 
     window[map_id + 'googleFusion' + layer_id] = layer;
     layer.setMap(window[map_id + 'map']);

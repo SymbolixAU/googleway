@@ -154,7 +154,7 @@ function add_geojson(map_id, geojson, geojson_source, style, update_map_view, mo
     window[map_id + 'googleGeojson' + layer_id].setStyle(function (feature) {
 
         if (update_map_view === true) {
-            zoomGeo(map_id, window[map_id + 'googleGeojson' + layer_id])
+            zoomGeo(map_id, window[map_id + 'googleGeojson' + layer_id]);
         }
 
         return ({
