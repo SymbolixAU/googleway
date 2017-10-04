@@ -1,3 +1,4 @@
+
 resolveLegend <- function(legend, legend_options, colour_palettes){
   if(any(vapply(legend, isTRUE, T))){
     legend <- constructLegend(colour_palettes, legend)
@@ -145,10 +146,12 @@ replaceLegendOption <- function(legend, legend_option){
     legend[['position']] <- legend_option[['position']]
 
   if(!is.null(legend_option[['prefix']]))
-    legend[['prefix']] <- legend_option[['prefix']]
+    legend[['legend']][, 'variable'] <- paste0(legend_option[['prefix']], legend[['legend']][, 'variable'])
 
   if(!is.null(legend_option[['suffix']]))
-    legend[['suffix']] <- legend_option[['suffix']]
+    legend[['legend']][, 'variable'] <- paste0(legend[['legend']][, 'variable'], legend_option[['suffix']])
+
+  print(legend)
 
   return(legend)
 }

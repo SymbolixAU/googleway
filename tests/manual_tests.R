@@ -8,7 +8,6 @@
 ## --- markers
 ## --- heatmap
 
-
 ## updating heatmap legend
 # library(shiny)
 #

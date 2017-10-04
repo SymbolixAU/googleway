@@ -21,24 +21,16 @@ dataCheck <- function(data, callingFunc){
   return(TRUE)
 }
 
+# heatWeightCheck
+# Converts the 'weight' argument to 'fill_colour' so the remaining
+# legend functions will work
+heatWeightCheck <- function(objArgs){
+  names(objArgs)[which(names(objArgs) == "weight")] <- "fill_colour"
+  return(objArgs)
+}
+
 isUrl <- function(txt) grepl("(^http)|(^www)", txt)
 
-
-# Latitude Check
-#
-# Checks that a value is between -90:90
-latitudeCheck <- function(lat, arg){
-  if(!is.numeric(lat) | lat < -90 | lat > 90)
-    stop(paste0(arg, " must be a value between -90 and 90 (inclusive)"))
-}
-
-# Longitude Check
-#
-# Checks that a value is between -90:90
-longitudeCheck <- function(lat, arg){
-  if(!is.numeric(lat) | lat < -180 | lat > 180)
-    stop(paste0(arg, " must be a value between -180 and 180 (inclusive)"))
-}
 
 # Is Using Polyline
 #
@@ -46,7 +38,6 @@ longitudeCheck <- function(lat, arg){
 # @param polyline
 isUsingPolyline <- function(polyline){
   if(!is.null(polyline)) return(TRUE)
-
   return(FALSE)
 }
 
@@ -77,15 +68,21 @@ latLonCheck <- function(objArgs, lat, lon, dataNames, layer_call){
   return(objArgs)
 }
 
-# heatWeightCheck
-# Converts the 'weight' argument to 'fill_colour' so the remaining
-# legend functions will work
-heatWeightCheck <- function(objArgs){
-  names(objArgs)[which(names(objArgs) == "weight")] <- "fill_colour"
-  return(objArgs)
+# Latitude Check
+#
+# Checks that a value is between -90:90
+latitudeCheck <- function(lat, arg){
+  if(!is.numeric(lat) | lat < -90 | lat > 90)
+    stop(paste0(arg, " must be a value between -90 and 90 (inclusive)"))
 }
 
-
+# Longitude Check
+#
+# Checks that a value is between -90:90
+longitudeCheck <- function(lat, arg){
+  if(!is.numeric(lat) | lat < -180 | lat > 180)
+    stop(paste0(arg, " must be a value between -180 and 180 (inclusive)"))
+}
 
 # Lat Lon Poly Check
 #
