@@ -28,7 +28,7 @@
 #'
 #' set.seed(20170417)
 #' df <- tram_route
-#' df$weights <- sample(1:10, size = nrow(df), replace = T)
+#' df$weight <- sample(1:10, size = nrow(df), replace = T)
 #'
 #' google_map(key = map_key, data = df) %>%
 #'  add_heatmap(lat = "shape_pt_lat", lon = "shape_pt_lon", weight = "weight",
