@@ -151,8 +151,6 @@ replaceLegendOption <- function(legend, legend_option){
   if(!is.null(legend_option[['suffix']]))
     legend[['legend']][, 'variable'] <- paste0(legend[['legend']][, 'variable'], legend_option[['suffix']])
 
-  print(legend)
-
   return(legend)
 }
 
