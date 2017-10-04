@@ -8,7 +8,48 @@
 ## --- markers
 ## --- heatmap
 
+
+# ## updating heatmap legend
+# library(shiny)
 #
+# ui <- fluidPage(
+#   sliderInput(inputId = "sample", label = "sample", min = 1, max = 10,
+#               step = 1, value = 10),
+#   google_mapOutput(outputId = "map")
+# )
+#
+# server <- function(input, output){
+#
+#   #map_key <- 'your_api_key'
+#
+#   # set.seed(20170417)
+#   df <- tram_route[sample(1:nrow(tram_route), size = 10 * 100, replace = T), ]
+#   df$weight <- 1:nrow(df)
+#   option_gradient <- c('orange', 'blue', 'mediumpurple4', 'snow4', 'thistle1')
+#
+#   output$map <- renderGoogle_map({
+#     google_map(key = map_key) %>%
+#       add_heatmap(data = df, weight = "weight", lat = "shape_pt_lat", lon = "shape_pt_lon",
+#                   option_gradient = option_gradient,
+#                   option_radius = 0.001, legend = T)
+#   })
+#
+#   observeEvent(input$sample,{
+#
+#     df <- tram_route[sample(1:nrow(tram_route), size = input$sample * 100, replace = T), ]
+#     df$weight <- 1:nrow(df)
+#     print(nrow(df))
+#
+#     google_map_update(map_id = "map") %>%
+#       update_heatmap(data = df, weight = "weight", lat = "shape_pt_lat",
+#                      lon = "shape_pt_lon", legend = T)
+#   })
+# }
+#
+# shinyApp(ui, server)
+
+
+## observing map edits
 # ui <- fluidPage(
 #   google_mapOutput(outputId = "map", height = "800px")
 # )
@@ -89,7 +130,7 @@
 # google_map(key = symbolix.utils::mapKey()) %>%
 #   add_polylines(data = df, lat = "shape_pt_lat", lon = "shape_pt_lon", id = "grp")
 
-
+## Circle legend add/remove
 # library(shiny)
 #
 # ui <- fluidPage(
@@ -128,7 +169,7 @@
 
 
 
-
+## Multiple legends
 # library(shiny)
 #
 # ui <- fluidPage(

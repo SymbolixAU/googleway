@@ -1,3 +1,48 @@
+resolveLegend <- function(legend, legend_options, colour_palettes){
+  if(any(vapply(legend, isTRUE, T))){
+    legend <- constructLegend(colour_palettes, legend)
+    if(!is.null(legend_options)){
+      legend <- addLegendOptions(legend, legend_options)
+    }
+  }
+  return(legend)
+}
+
+
+constructLegend <- function(colour_palettes, legend){
+
+  ## remove any colour_palettes not needed
+  cp <- sapply(colour_palettes, function(x) names(x[['variables']]))
+
+  legend <- flattenLegend(legend)
+
+  cp <- cp[cp %in% legend]
+
+  ## cp are now the valid colours
+  lst <- lapply(colour_palettes, function(x){
+
+    if(all(names(x[['variables']]) %in% cp)){
+
+      ## format the palette - needs binning if it's gradient
+      type <- getLegendType(x$palette[['variable']])
+      x$palette <- formatPalette(x$palette, type)
+
+      list(
+        ## if both a fill and stroke are used, fill takes precedence
+        colourType = ifelse('fill_colour' %in% names(x$variables), 'fill_colour', 'stroke_colour'),
+        type = type,
+        title = unique(x$variable),
+        legend = x$palette,
+        css = NULL,
+        position = NULL
+      )
+    }
+  })
+
+  lst[sapply(lst, is.null)] <- NULL
+  return(lst)
+}
+
 # Format Palette
 #
 # Formats the palette ready for the legend. A gradient palette is reduced
@@ -34,39 +79,7 @@ getLegendType.numeric <- function(colourColumn) "gradient"
 #' @export
 getLegendType.default <- function(colourColumn) "category"
 
-constructLegend <- function(colour_palettes, legend){
 
-  ## remove any colour_palettes not needed
-  cp <- sapply(colour_palettes, function(x) names(x[['variables']]))
-
-  legend <- flattenLegend(legend)
-
-  cp <- cp[cp %in% legend]
-
-  ## cp are now the valid colours
-  lst <- lapply(colour_palettes, function(x){
-
-    if(all(names(x[['variables']]) %in% cp)){
-
-      ## format the palette - needs binning if it's gradient
-      type <- getLegendType(x$palette[['variable']])
-      x$palette <- formatPalette(x$palette, type)
-
-      list(
-        ## if both a fill and stroke are used, fill takes precedence
-        colourType = ifelse('fill_colour' %in% names(x$variables), 'fill_colour', 'stroke_colour'),
-        type = type,
-        title = unique(x$variable),
-        legend = x$palette,
-        css = NULL,
-        position = NULL
-      )
-    }
-  })
-
-  lst[sapply(lst, is.null)] <- NULL
-  return(lst)
-}
 
 flattenLegend <- function(legend) UseMethod("flattenLegend")
 

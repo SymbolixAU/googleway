@@ -28,7 +28,7 @@
 #'
 #' set.seed(20170417)
 #' df <- tram_route
-#' df$weights <- sample(1:10, size = nrow(df), replace = T)
+#' df$weight <- sample(1:10, size = nrow(df), replace = T)
 #'
 #' google_map(key = map_key, data = df) %>%
 #'  add_heatmap(lat = "shape_pt_lat", lon = "shape_pt_lon", weight = "weight",
@@ -79,8 +79,6 @@ add_heatmap <- function(map,
   allCols <- heatmapColumns()
   requiredCols <- requiredHeatmapColumns()
 
-
-
   shape <- createMapObject(data, allCols, objArgs)
 
   ## Heatmap Options
@@ -125,10 +123,6 @@ add_heatmap <- function(map,
   pal <- createPalettes(shape, colourColumns)
   colour_palettes <- createColourPalettes(data, pal, colourColumns, colorRampPalette(rampColours))
 
-  ## colours are handled by google
-#  colours <- createColours(shape, colour_palettes)
-
-
   requiredDefaults <- setdiff(requiredCols, names(shape))
   if(length(requiredDefaults) > 0){
     shape <- addDefaults(shape, requiredDefaults, "heatmap")
@@ -145,13 +139,7 @@ add_heatmap <- function(map,
   ## so we just need the max intensity, and create a gradient colour palette
   ## using the rgb colours defined
 
-  ## LEGEND
-  if(any(vapply(legend, isTRUE, T))){
-    legend <- constructLegend(colour_palettes, legend)
-    if(!is.null(legend_options)){
-      legend <- addLegendOptions(legend, legend_options)
-    }
-  }
+  legend <- resolveLegend(legend, legend_options, colour_palettes)
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
@@ -177,9 +165,17 @@ add_heatmap <- function(map,
 #' coordinates. If left NULL, a best-guess will be made
 #' @param weight string specifying the column of \code{data} containing the 'weight'
 #' associated with each point. If NULL, each point will get a weight of 1.
+#' @param option_gradient vector of colours to use as the gradient colours in the legend.
+#' See details
 #' @param layer_id single value specifying an id for the layer.
 #' @param digits integer. Use this parameter to specify how many digits (decimal places)
 #' should be used for the latitude / longitude coordinates.
+#'
+#' @details
+#' The \code{option_gradient} is only used to craete the legend, and not to change
+#' the colours of the heat layer. If you are not displaying
+#' a legend this argument is not needed. If you are displaying a legend, you should
+#' provide the same gardient as in the \code{add_heatmap} call.
 #'
 #' @examples
 #' \dontrun{
@@ -209,8 +205,11 @@ update_heatmap <- function(map,
                            lat = NULL,
                            lon = NULL,
                            weight = NULL,
+                           option_gradient = NULL,
                            layer_id = NULL,
-                           digits = 4){
+                           digits = 4,
+                           legend = F,
+                           legend_options = NULL){
 
   ## TODO: update_map_view options
 
@@ -218,20 +217,37 @@ update_heatmap <- function(map,
   if(!dataCheck(data, "update_heatmap")) data <- heatmapDefaults(1)
   layer_id <- layerId(layer_id)
   objArgs <- latLonCheck(objArgs, lat, lon, names(data), "update_heatmap")
+  objArgs <- heatWeightCheck(objArgs)
+
+  fill_colour <- weight
   numericCheck(digits)
 
   allCols <- heatmapColumns()
   requiredCols <- requiredHeatmapUpdateColumns()
+
+
   shape <- createMapObject(data, allCols, objArgs)
+
+  if(!is.null(option_gradient)){
+    rampColours <- option_gradient[2:length(option_gradient)]
+  }else{
+    rampColours <- c("green", "red")
+  }
+
+  colourColumns <- shapeAttributes(fill_colour, NULL)
+  pal <- createPalettes(shape, colourColumns)
+  colour_palettes <- createColourPalettes(data, pal, colourColumns, colorRampPalette(rampColours))
 
   requiredDefaults <- setdiff(requiredCols, names(shape))
   if(length(requiredDefaults) > 0){
     shape <- addDefaults(shape, requiredDefaults, "heatmapUpdate")
   }
 
+  legend <- resolveLegend(legend, legend_options, colour_palettes)
+
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  invoke_method(map, 'update_heatmap', shape, layer_id)
+  invoke_method(map, 'update_heatmap', shape, layer_id, legend)
 }
 
 
