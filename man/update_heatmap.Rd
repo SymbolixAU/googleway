@@ -12,8 +12,8 @@ update_heatmap(map, data, lat = NULL, lon = NULL, weight = NULL,
 \item{map}{a googleway map object created from \code{google_map()}}
 
 \item{data}{data frame containing at least two columns, one specifying the
-latitude coordinates, and the other specifying the longitude. If Null,
-the data passed into \code{google_map()} will be used.}
+latitude coordinates, and the other specifying the longitude. If Null, the
+data passed into \code{google_map()} will be used.}
 
 \item{lat}{string specifying the column of \code{data} containing the 'latitude'
 coordinates. If left NULL, a best-guess will be made}
@@ -24,13 +24,19 @@ coordinates. If left NULL, a best-guess will be made}
 \item{weight}{string specifying the column of \code{data} containing the 'weight'
 associated with each point. If NULL, each point will get a weight of 1.}
 
-\item{option_gradient}{vector of colours to use as the gradient colours in the legend.
-See details}
+\item{option_gradient}{vector of colours to use as the gradient colours. see Details}
 
-\item{layer_id}{single value specifying an id for the layer.}
+\item{layer_id}{single value specifying an id for the layer. Use this value to
+distinguish between shape layers for when using any \code{update_} function, and
+for separating legends.}
 
 \item{digits}{integer. Use this parameter to specify how many digits (decimal places)
 should be used for the latitude / longitude coordinates.}
+
+\item{legend}{either a logical indiciating if the legend(s) should be displayed, or
+a named list indicating which colour attributes should be included in the legend.}
+
+\item{legend_options}{A list of options for controlling the legend.}
 }
 \description{
 updates a heatmap layer

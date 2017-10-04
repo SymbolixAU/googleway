@@ -144,6 +144,24 @@ markerColourIconCheck <- function(data, objArgs, colour, marker_icon){
   return(objArgs)
 }
 
+optionDissipatingCheck <- function(option_dissipating){
+  if(!is.null(option_dissipating))
+    if(!is.logical(option_dissipating))
+      stop("option_dissipating must be logical")
+}
+
+optionOpacityCheck <- function(option_opacity){
+  if(!is.null(option_opacity))
+    if(!is.numeric(option_opacity) | (option_opacity < 0 | option_opacity > 1))
+      stop("option_opacity must be a numeric between 0 and 1")
+}
+
+optionRadiusCheck <- function(option_radius){
+  if(!is.null(option_radius))
+    if(!is.numeric(option_radius))
+      stop("option_radius must be numeric")
+}
+
 
 
 # Palette Check

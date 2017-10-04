@@ -9,7 +9,7 @@
 ## --- heatmap
 
 
-# ## updating heatmap legend
+## updating heatmap legend
 # library(shiny)
 #
 # ui <- fluidPage(
@@ -38,11 +38,10 @@
 #
 #     df <- tram_route[sample(1:nrow(tram_route), size = input$sample * 100, replace = T), ]
 #     df$weight <- 1:nrow(df)
-#     print(nrow(df))
-#
 #     google_map_update(map_id = "map") %>%
 #       update_heatmap(data = df, weight = "weight", lat = "shape_pt_lat",
-#                      lon = "shape_pt_lon", legend = T)
+#                      lon = "shape_pt_lon", legend = T,
+#                      option_gradient = option_gradient)
 #   })
 # }
 #

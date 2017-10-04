@@ -13,8 +13,13 @@
 #' @param option_radius numeric. The radius of influence for each data point, in pixels.
 #' @param option_opacity The opacity of the heatmap, expressed as a number between
 #' 0 and 1. Defaults to 0.6.
+#' @param legend either a logical indiciating if the legend(s) should be displayed, or
+#' a named list indicating which colour attributes should be included in the legend.
+#' @param legend_options A list of options for controlling the legend.
 #'
 #' @details
+#' The legend will only show if you supply a \code{weight} variable.
+#'
 #' \code{option_gradient} colours can be two of the R colour specifications;
 #' either a colour name (as listed by \code{colors()}, or a hexadecimal string of the
 #' form \code{"#rrggbb"}).
@@ -70,29 +75,21 @@ add_heatmap <- function(map,
 
   objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_heatmap")
   objArgs <- heatWeightCheck(objArgs)
-
   fill_colour <- weight
+
   logicalCheck(update_map_view)
   numericCheck(digits)
+
+  ## Heatmap Options
+  optionOpacityCheck(option_opacity)
+  optionRadiusCheck(option_radius)
+  optionDissipatingCheck(option_dissipating)
   ## END PARAMETER CHECKS
 
   allCols <- heatmapColumns()
   requiredCols <- requiredHeatmapColumns()
 
   shape <- createMapObject(data, allCols, objArgs)
-
-  ## Heatmap Options
-  if(!is.null(option_opacity))
-    if(!is.numeric(option_opacity) | (option_opacity < 0 | option_opacity > 1))
-      stop("option_opacity must be a numeric between 0 and 1")
-
-  if(!is.null(option_radius))
-    if(!is.numeric(option_radius))
-      stop("option_radius must be numeric")
-
-  if(!is.null(option_dissipating))
-    if(!is.logical(option_dissipating))
-      stop("option_dissipating must be logical")
 
   heatmap_options <- data.frame(dissipating = option_dissipating,
                                 radius = option_radius,
@@ -118,15 +115,17 @@ add_heatmap <- function(map,
     rampColours <- c("green", "red")
   }
 
-
-  colourColumns <- shapeAttributes(fill_colour, NULL)
-  pal <- createPalettes(shape, colourColumns)
-  colour_palettes <- createColourPalettes(data, pal, colourColumns, colorRampPalette(rampColours))
-
   requiredDefaults <- setdiff(requiredCols, names(shape))
   if(length(requiredDefaults) > 0){
     shape <- addDefaults(shape, requiredDefaults, "heatmap")
   }
+
+  colourColumns <- shapeAttributes(fill_colour, NULL)
+  pal <- createPalettes(shape, colourColumns)
+  ## heatmap works differntly to other layers as the data/shape is not updated with
+  ## colours, rather the colours are only used to construct a legend. Google
+  ## takes care of creating the colour heatmap
+  colour_palettes <- createColourPalettes(data, pal, colourColumns, colorRampPalette(rampColours))
 
   ## TODO:
   ## HEATMAP legend
@@ -155,21 +154,7 @@ add_heatmap <- function(map,
 #'
 #' updates a heatmap layer
 #'
-#' @param map a googleway map object created from \code{google_map()}
-#' @param data data frame containing at least two columns, one specifying the
-#' latitude coordinates, and the other specifying the longitude. If Null,
-#' the data passed into \code{google_map()} will be used.
-#' @param lat string specifying the column of \code{data} containing the 'latitude'
-#' coordinates. If left NULL, a best-guess will be made
-#' @param lon string specifying the column of \code{data} containing the 'longitude'
-#' coordinates. If left NULL, a best-guess will be made
-#' @param weight string specifying the column of \code{data} containing the 'weight'
-#' associated with each point. If NULL, each point will get a weight of 1.
-#' @param option_gradient vector of colours to use as the gradient colours in the legend.
-#' See details
-#' @param layer_id single value specifying an id for the layer.
-#' @param digits integer. Use this parameter to specify how many digits (decimal places)
-#' should be used for the latitude / longitude coordinates.
+#' @inheritParams add_heatmap
 #'
 #' @details
 #' The \code{option_gradient} is only used to craete the legend, and not to change

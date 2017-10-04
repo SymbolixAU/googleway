@@ -56,6 +56,8 @@ a named list indicating which colour attributes should be included in the legend
 Adds a heatmap to a google map
 }
 \details{
+The legend will only show if you supply a \code{weight} variable.
+
 \code{option_gradient} colours can be two of the R colour specifications;
 either a colour name (as listed by \code{colors()}, or a hexadecimal string of the
 form \code{"#rrggbb"}).
