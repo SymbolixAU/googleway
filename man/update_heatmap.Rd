@@ -5,7 +5,8 @@
 \title{update heatmap}
 \usage{
 update_heatmap(map, data, lat = NULL, lon = NULL, weight = NULL,
-  layer_id = NULL, digits = 4)
+  option_gradient = NULL, layer_id = NULL, digits = 4, legend = F,
+  legend_options = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -23,6 +24,9 @@ coordinates. If left NULL, a best-guess will be made}
 \item{weight}{string specifying the column of \code{data} containing the 'weight'
 associated with each point. If NULL, each point will get a weight of 1.}
 
+\item{option_gradient}{vector of colours to use as the gradient colours in the legend.
+See details}
+
 \item{layer_id}{single value specifying an id for the layer.}
 
 \item{digits}{integer. Use this parameter to specify how many digits (decimal places)
@@ -30,6 +34,12 @@ should be used for the latitude / longitude coordinates.}
 }
 \description{
 updates a heatmap layer
+}
+\details{
+The \code{option_gradient} is only used to craete the legend, and not to change
+the colours of the heat layer. If you are not displaying
+a legend this argument is not needed. If you are displaying a legend, you should
+provide the same gardient as in the \code{add_heatmap} call.
 }
 \examples{
 \dontrun{

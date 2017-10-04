@@ -73,7 +73,7 @@ function add_heatmap(map_id, data_heatmap, heatmap_options, update_map_view, lay
  * @param layer_id
  *          the heatmap layer to update
  */
-function update_heatmap(map_id, data_heatmap, layer_id) {
+function update_heatmap(map_id, data_heatmap, layer_id, legendValues) {
 
     if (window[map_id + 'googleHeatmap' + layer_id] !== undefined) {
 
@@ -97,6 +97,10 @@ function update_heatmap(map_id, data_heatmap, layer_id) {
             window[map_id + 'mapBounds'].extend(latlon);
         }
         window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+        
+        if(legendValues !== false){
+            add_legend(map_id, layer_id, legendValues);
+        }
     }
 }
 

@@ -180,12 +180,7 @@ add_circles <- function(map,
   }
 
   ## LEGEND
-  if(any(vapply(legend, isTRUE, T))){
-    legend <- constructLegend(colour_palettes, legend)
-    if(!is.null(legend_options)){
-      legend <- addLegendOptions(legend, legend_options)
-    }
-  }
+  legend <- resolveLegend(legend, legend_options, colour_palettes)
 
   requiredDefaults <- setdiff(requiredCols, names(shape))
   if(length(requiredDefaults) > 0){
@@ -260,12 +255,7 @@ update_circles <- function(map, data, id,
   }
 
   ## LEGEND
-  if(any(vapply(legend, isTRUE, T))){
-    legend <- constructLegend(colour_palettes, legend)
-    if(!is.null(legend_options)){
-      legend <- addLegendOptions(legend, legend_options)
-    }
-  }
+  legend <- resolveLegend(legend, legend_options, colour_palettes)
 
   requiredDefaults <- setdiff(requiredCols, names(shape))
   if(length(requiredDefaults) > 0){
