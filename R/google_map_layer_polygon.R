@@ -135,7 +135,7 @@ add_polygons <- function(map,
                          legend_options = NULL){
 
   ## TODO:
-  ## - holes must be wound in the opposite direction
+  ## - holes must be wound in the opposite direction?
 
 
   objArgs <- match.call(expand.dots = F)

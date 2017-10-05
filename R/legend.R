@@ -154,11 +154,6 @@ replaceLegendOption <- function(legend, legend_option){
 
 
   #### Formatting values
-  ## TODO:
-  ## if numeric, use big.mark
-  ## if Date, leave
-  ## if POSIXct, yyyy-mm-dd
-  ## if char, leave
   legend[['legend']][, 'variable'] <- formatLegendValue(legend[['legend']][, 'variable'])
 
   if(!is.null(legend_option[['prefix']]))

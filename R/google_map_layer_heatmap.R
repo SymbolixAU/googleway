@@ -127,7 +127,6 @@ add_heatmap <- function(map,
   ## takes care of creating the colour heatmap
   colour_palettes <- createColourPalettes(data, pal, colourColumns, grDevices::colorRampPalette(rampColours))
 
-  ## TODO:
   ## HEATMAP legend
   ## The regular legends map the colour palette to the variables. Here we have
   ## either the default colour palette (red -> green assigned by google)

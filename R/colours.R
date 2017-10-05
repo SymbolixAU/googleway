@@ -94,9 +94,6 @@ determinePalette.list <- function(pal, aesthetic){
 # @param pal function palette
 generatePalette <- function(colData, pal) UseMethod("generatePalette")
 
-## TODO:
-## - posix & date
-
 #' @export
 generatePalette.numeric <- function(colData, pal){
 

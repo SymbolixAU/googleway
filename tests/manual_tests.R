@@ -1,13 +1,3 @@
-## TODO:
-## - editable multi-polygons: which paths get updated?
-## - update shpaes in a shiny
-## --- polygons
-## --- polylines
-## --- circles
-## --- rectangles
-## --- markers
-## --- heatmap
-
 ## updating heatmap legend
 # library(shiny)
 #
@@ -148,9 +138,6 @@
 #
 #   observeEvent(input$btn, {
 #
-#     ## TODO:
-#     ## Why is only one layer deleted if no layer_ids are present
-#     ## what is going on when more than one layer_id is specified?
 #     if(input$btn %% 2 == 1){
 #       google_map_update(map_id = "map") %>%
 #         add_circles(data = tram_stops, lat = "stop_lat", lon = "stop_lon",

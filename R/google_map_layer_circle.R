@@ -233,7 +233,6 @@ update_circles <- function(map, data, id,
 
   ## TODO:
   ## - is 'info_window' required, if it was included in the original add_ call?
-  ## - clear_circles: remove legend too
 
   objArgs <- match.call(expand.dots = F)
 
