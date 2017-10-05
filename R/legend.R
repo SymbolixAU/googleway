@@ -145,6 +145,14 @@ replaceLegendOption <- function(legend, legend_option){
   if(!is.null(legend_option[['position']]))
     legend[['position']] <- legend_option[['position']]
 
+  #### Formatting values
+  ## TODO:
+  ## if numeric, use big.mark
+  ## if Date, leave
+  ## if POSIXct, yyyy-mm-dd
+  ## if char, leave
+  legend[['legend']][, 'variable'] <- formatLegendValue(legend[['legend']][, 'variable'])
+
   if(!is.null(legend_option[['prefix']]))
     legend[['legend']][, 'variable'] <- paste0(legend_option[['prefix']], legend[['legend']][, 'variable'])
 
@@ -153,4 +161,21 @@ replaceLegendOption <- function(legend, legend_option){
 
   return(legend)
 }
+
+
+formatLegendValue <- function(legendValue) UseMethod("formatLegendValue")
+
+#' @export
+formatLegendValue.numeric <- function(legendValue) format(legendValue, big.mark = ",")
+
+#' @export
+formatLegendValue.POSIXct <- function(legendValue){
+  tz <- attr(legendValue, 'tzone')
+  as.Date(legendValue, tz = tz)
+}
+
+#' @export
+formatLegendValue.default <- function(legendValue) legendValue
+
+
 

@@ -94,6 +94,9 @@ determinePalette.list <- function(pal, aesthetic){
 # @param pal function palette
 generatePalette <- function(colData, pal) UseMethod("generatePalette")
 
+## TODO:
+## - posix & date
+
 #' @export
 generatePalette.numeric <- function(colData, pal){
 
@@ -138,6 +141,20 @@ generatePalette.logical <- function(colData, pal){
   colours <- do.call(pal, list(length(logLvls)))
   constructPalette(logLvls, colours)
 }
+
+#' @export
+generatePalette.POSIXct <- function(colData, pal){
+  logLvls <- unique(colData)
+  colours <- do.call(pal, list(length(logLvls)))
+  constructPalette(logLvls, colours)
+}
+
+generatePalette.Date <- function(colData, pal){
+  logLvls <- unique(colData)
+  colours <- do.call(pal, list(length(logLvls)))
+  constructPalette(logLvls, colours)
+}
+
 
 #' @export
 generatePalette.default <- function(col, pal) stop("I can't determine the colour for ", class(col), " columns.")
