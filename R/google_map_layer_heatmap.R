@@ -210,7 +210,6 @@ update_heatmap <- function(map,
   allCols <- heatmapColumns()
   requiredCols <- requiredHeatmapUpdateColumns()
 
-
   shape <- createMapObject(data, allCols, objArgs)
 
   if(!is.null(option_gradient)){

@@ -126,26 +126,6 @@ generatePalette.factor <- function(colData, pal){
 }
 
 #' @export
-generatePalette.character <- function(colData, pal){
-  genericPalette(colData, pal)
-}
-
-#' @export
-generatePalette.logical <- function(colData, pal){
-  genericPalette(colData, pal)
-}
-
-#' @export
-generatePalette.POSIXct <- function(colData, pal){
-  genericPalette(colData, pal)
-}
-
-#' @export
-generatePalette.Date <- function(colData, pal){
-  genericPalette(colData, pal)
-}
-
-#' @export
 generatePalette.default <- function(colData, pal){
   genericPalette(colData, pal)
 }

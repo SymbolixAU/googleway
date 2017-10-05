@@ -145,6 +145,14 @@ replaceLegendOption <- function(legend, legend_option){
   if(!is.null(legend_option[['position']]))
     legend[['position']] <- legend_option[['position']]
 
+
+  ## reverse
+  if(isTRUE(legend_option[['reverse']])){
+    df <- legend[['legend']]
+    legend[['legend']] <- df[dim(df)[1]:1,]
+  }
+
+
   #### Formatting values
   ## TODO:
   ## if numeric, use big.mark
