@@ -120,7 +120,6 @@ generatePalette.numeric <- function(colData, pal){
 
 #' @export
 generatePalette.factor <- function(colData, pal){
-
   facLvls <- levels(colData)
   colours <- do.call(pal, list(nlevels(colData)))
   constructPalette(facLvls, colours)
@@ -128,36 +127,34 @@ generatePalette.factor <- function(colData, pal){
 
 #' @export
 generatePalette.character <- function(colData, pal){
-
-  charLvls <- unique(colData)
-  colours <- do.call(pal, list(length(charLvls)))
-  constructPalette(charLvls, colours)
+  genericPalette(colData, pal)
 }
 
 #' @export
 generatePalette.logical <- function(colData, pal){
-
-  logLvls <- unique(colData)
-  colours <- do.call(pal, list(length(logLvls)))
-  constructPalette(logLvls, colours)
+  genericPalette(colData, pal)
 }
 
 #' @export
 generatePalette.POSIXct <- function(colData, pal){
-  logLvls <- unique(colData)
-  colours <- do.call(pal, list(length(logLvls)))
-  constructPalette(logLvls, colours)
+  genericPalette(colData, pal)
 }
-
-generatePalette.Date <- function(colData, pal){
-  logLvls <- unique(colData)
-  colours <- do.call(pal, list(length(logLvls)))
-  constructPalette(logLvls, colours)
-}
-
 
 #' @export
-generatePalette.default <- function(col, pal) stop("I can't determine the colour for ", class(col), " columns.")
+generatePalette.Date <- function(colData, pal){
+  genericPalette(colData, pal)
+}
+
+#' @export
+generatePalette.default <- function(colData, pal){
+  genericPalette(colData, pal)
+}
+
+genericPalette <- function(colData, pal){
+  logLvls <- unique(colData)
+  colours <- do.call(pal, list(length(logLvls)))
+  constructPalette(logLvls, colours)
+}
 
 # Construct Palette
 #

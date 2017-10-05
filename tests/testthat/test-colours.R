@@ -39,9 +39,8 @@ test_that("generate palette methods are called", {
   )
 
   ## default called
-  expect_error(
-    googleway:::generatePalette(dat[, 'cplx'], viridisLite::viridis),
-    "I can't determine the colour for complex columns."
+  expect_true(
+    googleway:::generatePalette(dat[, 'cplx'], viridisLite::viridis)$colour == "#440154"
   )
 
 })
@@ -396,29 +395,17 @@ test_that("legend options are assigned to legends", {
     fill_colour = list(
       title = "fill title",
       css = 'max-width : 120px; max-height : 160px; overflow : auto;',
-      position = "BOTTOM_LEFT",
-      prefix = "--",
-      suffix = "%"
+      position = "BOTTOM_LEFT"
     ),
     stroke_colour = list(
       title = "stroke title",
       css = 'max-width : 120px; max-height : 160px; overflow : auto;',
-      position = "LEFT_TOP",
-      prefix = "$",
-      suffix = NULL
+      position = "LEFT_TOP"
     )
   )
 
   legend <- googleway:::constructLegend(colour_palettes, legend = T)
   legend <- googleway:::addLegendOptions(legend, legend_options)
-
-  expect_true(
-    legend[[1]]$prefix == legend_options$fill_colour$prefix
-  )
-
-  expect_true(
-    legend[[2]]$prefix == legend_options$stroke_colour$prefix
-  )
 
   expect_true(
     legend[[1]]$position == legend_options$fill_colour$position
@@ -426,58 +413,6 @@ test_that("legend options are assigned to legends", {
 
   expect_true(
     legend[[2]]$position == legend_options$stroke_colour$position
-  )
-
-
-  ## map just one option
-  legend_options <- list(
-    fill_colour = list(
-      title = "fill title",
-      css = 'max-width : 120px; max-height : 160px; overflow : auto;',
-      position = "BOTTOM_LEFT",
-      prefix = "--",
-      suffix = "%"
-    )
-  )
-
-  legend <- googleway:::constructLegend(colour_palettes, legend = T)
-  legend <- googleway:::addLegendOptions(legend, legend_options)
-
-  expect_true(
-    legend[[1]]$suffix == "%"
-  )
-
-  expect_true(
-    is.null(legend[[2]]$suffix)
-  )
-
-  ## one to be mapped individually, the other not, so only
-  ## the non-direct one will be applied
-  legend_options <- list(
-    fill_colour = list(
-      title = "fill title",
-      css = 'max-width : 120px; max-height : 160px; overflow : auto;',
-      position = "BOTTOM_LEFT",
-      prefix = "--",
-      suffix = "%"
-    ),
-    title = "stroke title",
-    css = 'max-width : 120px; max-height : 160px; overflow : auto;',
-    position = "BOTTOM_LEFT",
-    prefix = "$",
-    suffix = NULL,
-    stroke_colour = "blue"
-  )
-
-  legend <- googleway:::constructLegend(colour_palettes, legend = T)
-  legend <- googleway:::addLegendOptions(legend, legend_options)
-
-  expect_true(
-    legend[[1]]$prefix == "$"
-  )
-
-  expect_true(
-    legend[[2]]$prefix == "$"
   )
 
   legend_options <- list(
