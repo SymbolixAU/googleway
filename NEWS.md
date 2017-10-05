@@ -1,5 +1,8 @@
 ## Version 2.3.0 (development)
 
+* map layers auto-recognise [GTFS](https://developers.google.com/transit/gtfs/) column names: `stop_lat`, `stop_lon`, `shape_pt_lat`, `shape_pt_lon`
+* `legend` values are formatted
+* `legend_options` accepts `title`, `css`, `position`, `prefix`, `suffix`, `reverse`
 * `legend` available for all shape layers
 * `melbourne` data factor levels corrected
 * `place_id` accepted as origin/destination in `google_direction` and `google_distance`
