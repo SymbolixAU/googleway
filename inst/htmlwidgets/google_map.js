@@ -255,7 +255,26 @@ function initialise_map(el, x) {
               } else {
                   bounds.extend(place.geometry.location);
               }
+              
+              if (HTMLWidgets.shinyMode) {
+                  
+              var event_return_type = window.params[1].event_return_type,
+                  eventInfo = {
+                      address_components: place.address_components,
+                      lat: place.geometry.location.lat(),
+                      lon: place.geometry.location.lng(),
+                      name: place.name,
+                      address: place.formatted_address,
+                      place_id: place.place_id,
+                      vicinity: place.vicinity
+                  };
+              eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+              Shiny.onInputChange(el.id + "_place_search", eventInfo);
+          };  
+          
+          console.log(places);
           });
+
           window[el.id + 'map'].fitBounds(bounds);
       });
   }

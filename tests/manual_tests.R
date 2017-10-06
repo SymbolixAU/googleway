@@ -1,3 +1,24 @@
+# # place details returned to shiny
+# library(shiny)
+#
+# ui <- fluidPage(
+#   google_mapOutput(outputId = "map")
+# )
+# server <- function(input, output){
+#
+#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#
+#   output$map <- renderGoogle_map({
+#     google_map(key = map_key, search_box = T, event_return_type = 'json')
+#   })
+#
+#   observeEvent(input$map_place_search, {
+#     event <- input$map_place_search
+#     print(event)
+#   })
+# }
+# shinyApp(ui, server)
+
 ## updating heatmap legend
 # library(shiny)
 #

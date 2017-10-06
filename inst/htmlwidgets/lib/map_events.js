@@ -19,7 +19,7 @@ function map_click(map_id, mapObject, mapInfo) {
                 lat: event.latLng.lat(),
                 lon: event.latLng.lng(),
                 centerLat: mapObject.getCenter().lat(),
-                centerLng: mapObject.getCenter().lng(),
+                centerLon: mapObject.getCenter().lng(),
                 zoom: mapObject.getZoom(),
                 randomValue: Math.random()
             },
@@ -550,6 +550,10 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
                 infoWindow.open(window[map_id + 'map']);
             }
         }
+        
+        //google.maps.event.addListenerOnce(window[map_id + 'map'], 'mousemove', function(event){
+        //    infoWoindow.close();
+        //})
 
     });
     
