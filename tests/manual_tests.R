@@ -1,3 +1,41 @@
+## Info windows are updated
+
+
+# library(shiny)
+#
+# ui <- fluidPage(
+#   google_mapOutput(outputId = "map"),
+#   actionButton(inputId = "btn", label = "randNumber")
+# )
+#
+# server <- function(input, output){
+#
+#
+#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#   df <- melbourne
+#   df$rand <- as.character(rnorm(nrow(df)))
+#
+#   output$map <- renderGoogle_map({
+#     google_map(key = map_key) %>%
+#       add_polygons(data = df, polyline = "polyline",
+#                    info_window = "rand", id = "polygonId")
+#   })
+#
+#   observeEvent(input$btn, {
+#
+#     df <- melbourne
+#     df$rand <- as.character(rnorm(nrow(df)))
+#
+#     google_map_update(map_id = "map") %>%
+#       update_polygons(data = df,
+#                       info_window = "rand", id = "polygonId")
+#
+#   })
+#
+# }
+# shinyApp(ui, server)
+
+
 # # place details returned to shiny
 # library(shiny)
 #

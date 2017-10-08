@@ -1,5 +1,6 @@
 ## Version 2.3.0 (development)
 
+* `info_window` argument for all `update_` shape methods
 * map layers auto-recognise [GTFS](https://developers.google.com/transit/gtfs/) column names: `stop_lat`, `stop_lon`, `shape_pt_lat`, `shape_pt_lon`
 * `legend` values are formatted
 * `legend_options` accepts `title`, `css`, `position`, `prefix`, `suffix`, `reverse`

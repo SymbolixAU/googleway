@@ -214,7 +214,7 @@ polylineColumns <- function(){
 }
 
 polylineUpdateColumns <- function(){
-  c('id', 'stroke_colour', 'stroke_weight', 'stroke_opacity')
+  c('id', 'stroke_colour', 'stroke_weight', 'stroke_opacity', 'info_window')
 }
 
 polylineDefaults <- function(n){
@@ -246,7 +246,7 @@ polygonColumns <- function(){
 
 polygonUpdateColumns <- function(){
   c('id', 'stroke_colour', 'stroke_weight', 'stroke_opacity', 'fill_colour',
-    'fill_opacity')
+    'fill_opacity', 'info_window')
 }
 
 polygonDefaults <- function(n){

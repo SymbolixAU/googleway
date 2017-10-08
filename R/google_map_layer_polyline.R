@@ -224,13 +224,12 @@ update_polylines <- function(map, data, id,
                              stroke_colour = NULL,
                              stroke_weight = NULL,
                              stroke_opacity = NULL,
+                             info_window = NULL,
                              layer_id = NULL,
                              palette = NULL,
                              legend = F,
                              legend_options = NULL
                              ){
-
-  ## TODO: is 'info_window' required, if it was included in the original add_polygons?
 
   objArgs <- match.call(expand.dots = F)
   if(!dataCheck(data, "update_polylines")) data <- polylineUpdateDefaults(1)

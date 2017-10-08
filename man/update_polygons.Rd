@@ -6,7 +6,8 @@
 \usage{
 update_polygons(map, data, id, stroke_colour = NULL, stroke_weight = NULL,
   stroke_opacity = NULL, fill_colour = NULL, fill_opacity = NULL,
-  layer_id = NULL, palette = NULL, legend = F, legend_options = NULL)
+  info_window = NULL, layer_id = NULL, palette = NULL, legend = F,
+  legend_options = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -38,6 +39,9 @@ be applied to all the shapes}
 \item{fill_opacity}{either a string specifying the column of \code{data} containing
 the fill opacity of each shape, or a value between 0 and 1 that will be applied
 to all the shapes}
+
+\item{info_window}{string specifying the column of data to display in an info
+window when a shape is clicked}
 
 \item{layer_id}{single value specifying an id for the layer. Use this value to
 distinguish between shape layers for when using any \code{update_} function, and

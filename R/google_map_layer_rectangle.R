@@ -144,13 +144,13 @@ update_rectangles <- function(map, data, id,
                               stroke_opacity = NULL,
                               fill_colour = NULL,
                               fill_opacity = NULL,
+                              info_window = NULL,
                               layer_id = NULL,
                               digits = 4,
                               palette = NULL,
                               legend = F,
                               legend_options = NULL){
 
-  ## TODO: is 'info_window' required, if it was included in the original add_polygons?
   objArgs <- match.call(expand.dots = F)
 
   layer_id <- layerId(layer_id)
