@@ -110,8 +110,6 @@ add_fusion <- function(map, query, styles = NULL, heatmap = FALSE, layer_id = NU
 
   query <- validateFusionQuery(query)
 
-  print(query)
-
   if(!is.null(styles))
     styles <- validateFusionStyle(styles)
 
