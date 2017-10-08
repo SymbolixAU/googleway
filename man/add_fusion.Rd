@@ -42,6 +42,14 @@ qry <- data.frame(select = 'address',
 google_map(key = map_key, location = c(41.8, -87.7), zoom = 9) \%>\%
   add_fusion(query = qry)
 
+
+qry <- list(select = 'address',
+    from = '1d7qpn60tAvG4LEg4jvClZbc1ggp8fIGGvpMGzA',
+    where = 'ridership > 200')
+
+google_map(key = map_key, location = c(41.8, -87.7), zoom = 9) \%>\%
+  add_fusion(query = qry)
+
 qry <- data.frame(select = 'geometry',
    from = '1ertEwm-1bMBhpEwHhtNYT47HQ9k2ki_6sRa-UQ')
 
@@ -67,14 +75,14 @@ qry <- '{"select":"geometry","from":"1ertEwm-1bMBhpEwHhtNYT47HQ9k2ki_6sRa-UQ"}'
 styles <- '[
   {
     "polygonOptions":{
-      "fillColor":"#00FF00",
+      "fillColor":"#FFFF00",
       "fillOpacity":0.3
       }
     },
     {
       "where":"birds > 300",
        "polygonOptions":{
-         "fillColor":"#0000FF"
+         "fillColor":"#000000"
        }
      },
      {
@@ -84,6 +92,12 @@ styles <- '[
          }
      }
    ]'
+
+google_map(key = map_key, location = c(-25.3, 133), zoom = 4) \%>\%
+  add_fusion(query = qry, styles = styles)
+
+## using a JSON style
+attr(styles, 'class') <- 'json'
 
 google_map(key = map_key, location = c(-25.3, 133), zoom = 4) \%>\%
   add_fusion(query = qry, styles = styles)

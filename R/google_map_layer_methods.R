@@ -52,7 +52,7 @@ validateFusionStyle.list <- function(styles){
   ## to get rid of any arrays.
   ## - remove square brackets around value
   styles <- jsonlite::toJSON(styles)
-  styles <- gsub("\\[|\\]", "", substr(styles, 2, (nchar(styles) - 1)))
+  styles <- stripBrackets(substr(styles, 2, (nchar(styles) - 1)))
   styles <- paste0("[", styles, "]")
   return(styles)
 }
@@ -64,6 +64,9 @@ validateFusionStyle.character <- function(styles){
 }
 
 #' @export
+validateFusionStyle.json <- function(styles) as.character(styles)
+
+#' @export
 validateFusionStyle.default <- function(styles) stopMessage(styles)
 
 
@@ -72,8 +75,9 @@ validateFusionStyle.default <- function(styles) stopMessage(styles)
 validateFusionQuery <- function(query) UseMethod("validateFusionQuery")
 
 #' @export
-validateFusionQuery.list <- function(query){
-
+validateFusionQuery.list <- function(query) {
+  query <- stripBrackets(jsonlite::toJSON(query))
+  return(query)
 }
 
 #' @export
@@ -88,7 +92,10 @@ validateFusionQuery.data.frame <- function(query){
   ## The Google Maps API can't use values inside arrays, so we need
   ## to get rid of any arrays.
   ## - remove square brackets around value
-  gsub("\\[|\\]", "", jsonlite::toJSON(query))
+  # gsub("\\[|\\]", "", jsonlite::toJSON(query))
+  return(
+    stripBrackets(jsonlite::toJSON(query))
+  )
 }
 
 #' @export
@@ -158,5 +165,7 @@ validateStyle.default <- function(style){
 }
 
 constructStyleType <- function(style, type) return(list(style = style, type = type))
+
+stripBrackets <- function(js) gsub("\\[|\\]", "", js)
 
 

@@ -45,7 +45,7 @@ the stroke opacity of each shape, or a value between 0 and 1 that will be
 applied to all the shapes}
 
 \item{info_window}{string specifying the column of data to display in an info
-window when a shape is clicked}
+window when a shape is clicked. The data needs to be a character}
 
 \item{mouse_over}{string specifying the column of data to display when the
 mouse rolls over the shape}

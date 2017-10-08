@@ -27,8 +27,7 @@
 #     df$rand <- as.character(rnorm(nrow(df)))
 #
 #     google_map_update(map_id = "map") %>%
-#       update_polygons(data = df,
-#                       info_window = "rand", id = "polygonId")
+#       update_polygons(data = df, id = "polygonId")
 #
 #   })
 #

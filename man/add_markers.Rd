@@ -43,7 +43,7 @@ to appear in the centre of the marker. Values will be coerced to strings, and
 only the first character will be used.}
 
 \item{info_window}{string specifying the column of data to display in an info
-window when a shape is clicked}
+window when a shape is clicked. The data needs to be a character}
 
 \item{mouse_over}{string specifying the column of data to display when the
 mouse rolls over the shape}

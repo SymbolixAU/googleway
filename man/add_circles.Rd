@@ -64,7 +64,7 @@ mouse rolls over the shape}
 groups of shapes to highlight on mouseover}
 
 \item{info_window}{string specifying the column of data to display in an info
-window when a shape is clicked}
+window when a shape is clicked. The data needs to be a character}
 
 \item{layer_id}{single value specifying an id for the layer. Use this value to
 distinguish between shape layers for when using any \code{update_} function, and
