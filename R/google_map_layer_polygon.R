@@ -139,7 +139,7 @@ add_polygons <- function(map,
 
 
   objArgs <- match.call(expand.dots = F)
-#  callingFunc <- as.character(objArgs[[1]])
+  #  callingFunc <- as.character(objArgs[[1]])
 
   ## PARAMETER CHECKS
   if(!dataCheck(data, "add_polygon")) data <- polygonDefaults(1)
@@ -198,7 +198,7 @@ add_polygons <- function(map,
       shape <- stats::aggregate(stats::formula(f), data = shape, list)
     }
 
-    shape <- jsonlite::toJSON(shape, digits = digits, auto_unbox = T)
+    shape <- jsonlite::toJSON(shape, digits = digits)
 
   }else{
 
@@ -210,7 +210,6 @@ add_polygons <- function(map,
 
     shape <- jsonlite::toJSON(lst_polygon, digits = digits, auto_unbox = T)
   }
-
 
   invoke_method(map, 'add_polygons', shape, update_map_view, layer_id, usePolyline, legend)
 }
