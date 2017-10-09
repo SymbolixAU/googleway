@@ -198,7 +198,7 @@ add_polygons <- function(map,
       shape <- stats::aggregate(stats::formula(f), data = shape, list)
     }
 
-    #shape <- jsonlite::toJSON(shape, digits = digits, auto_unbox = T)
+    shape <- jsonlite::toJSON(shape, digits = digits, auto_unbox = T)
 
   }else{
 
@@ -206,10 +206,12 @@ add_polygons <- function(map,
     n <- names(shape)[names(shape) %in% objectColumns("polygonCoords")]
     keep <- setdiff(n, c("id", "pathId", "lat", "lng"))
 
-    shape <- objPolygonCoords(shape, ids, keep)
+    lst_polygon <- objPolygonCoords(shape, ids, keep)
+
+    shape <- jsonlite::toJSON(lst_polygon, digits = digits, auto_unbox = T)
   }
 
-  shape <- jsonlite::toJSON(shape, digits = digits, auto_unbox = T)
+
   invoke_method(map, 'add_polygons', shape, update_map_view, layer_id, usePolyline, legend)
 }
 
