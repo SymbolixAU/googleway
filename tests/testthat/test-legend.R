@@ -1,6 +1,21 @@
 context("legend")
 
 
+test_that("gradient legends return correct rows",{
+
+  ## A gradient legend should have an even number of bins and spacing between numbers
+  ##
+  ## we want to keep the min & max colours
+  ## but we may not want to use the values associated wtih those colours because the
+  ## numbers may not space nicely
+
+  n <- 234
+  palette <- data.frame(variable = 1:n, colour = viridisLite::inferno(n) )
+
+})
+
+
+
 test_that("legend values are prefixed & suffixed", {
 
 

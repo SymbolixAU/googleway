@@ -21,6 +21,31 @@ function loadGeoJsonString(geoString) {
 
     window[map_id + 'map'].data.addGeoJson(geojson);
 
+    window[map_id + 'map'].data.setStyle(function (feature) {
+        
+        var featureFillColor = feature.getProperty("fillColor"),
+            featureFillOpacity = feature.getProperty("fillOpacity"),
+            featureStrokeColor = feature.getProperty("strokeColor"),
+            featureStrokeOpacity = feature.getProperty("strokeOpacity"),
+            featureStrokeWeight = feature.getProperty("strokeWeight"),
+            featureCursor = feature.getProperty("cursor"),
+            featureIcon = feature.getProperty("icon"),
+            featureShape = feature.getProperty("shape"),
+            featureTitle = feature.getProperty("title")
+
+        return {
+            fillColor : featureFillColor,
+            fillOpacity : featureFillOpacity,
+            strokeColor : featureStrokeColor,
+            strokeOpacity : featureStrokeOpacity,
+            strokeWeight : featureStrokeWeight,
+            cursor: featureCursor,
+            icon : featureIcon,
+            shape : featureShape,
+            title : featureTitle
+        }
+    });
+
     // TODO: update map bounds
     zoomGeo(map_id, window[map_id + 'map'].data);
 }
