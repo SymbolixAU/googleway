@@ -58,7 +58,7 @@ add_markers <- function(map,
                         cluster = FALSE,
                         update_map_view = TRUE,
                         digits = 4,
-                        interval = 0){
+                        load_interval = 0){
 
   objArgs <- match.call(expand.dots = F)
 
@@ -69,6 +69,7 @@ add_markers <- function(map,
   objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_markers")
   objArgs <- markerColourIconCheck(data, objArgs, colour, marker_icon)
 
+  loadIntervalCheck(load_interval)
   logicalCheck(cluster)
   logicalCheck(update_map_view)
   numericCheck(digits)
@@ -91,7 +92,7 @@ add_markers <- function(map,
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  invoke_method(map, 'add_markers', shape, cluster, update_map_view, layer_id, interval)
+  invoke_method(map, 'add_markers', shape, cluster, update_map_view, layer_id, load_interval)
 }
 
 

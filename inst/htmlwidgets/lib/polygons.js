@@ -14,7 +14,6 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
     var infoWindow = new google.maps.InfoWindow(),
         paths = [];
 
-    console.log(data_polygon);
     for(i = 0; i < Object.keys(data_polygon).length; i++){
         set_polygons(map_id, data_polygon[i], update_map_view, layer_id, use_polyline, i * interval);
     }
@@ -25,8 +24,7 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
 }
 
 function set_polygons(map_id, polygon, update_map_view, layer_id, use_polyline, timeout) {
-    
-    console.log(polygon);
+
     window.setTimeout(function() {
         
         var paths = [];

@@ -8,7 +8,8 @@ add_markers(map, data = get_map_data(map), id = NULL, colour = NULL,
   lat = NULL, lon = NULL, title = NULL, draggable = NULL,
   opacity = NULL, label = NULL, info_window = NULL, mouse_over = NULL,
   mouse_over_group = NULL, marker_icon = NULL, layer_id = NULL,
-  cluster = FALSE, update_map_view = TRUE, digits = 4, interval = 0)
+  cluster = FALSE, update_map_view = TRUE, digits = 4,
+  load_interval = 0)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -66,6 +67,8 @@ the circles}
 
 \item{digits}{integer. Use this parameter to specify how many digits (decimal places)
 should be used for the latitude / longitude coordinates.}
+
+\item{load_interval}{time in miliseconds to wait between plotting each shape}
 }
 \description{
 Add markers to a google map

@@ -133,7 +133,7 @@ add_polygons <- function(map,
                          palette = NULL,
                          legend = F,
                          legend_options = NULL,
-                         interval = 0){
+                         load_interval = 0){
 
   ## TODO:
   ## - holes must be wound in the opposite direction?
@@ -156,6 +156,7 @@ add_polygons <- function(map,
   logicalCheck(update_map_view)
   numericCheck(digits)
   numericCheck(z_index)
+  loadIntervalCheck(load_interval)
   palette <- paletteCheck(palette)
 
   lst <- polyIdCheck(data, id, usePolyline, objArgs)
@@ -212,7 +213,7 @@ add_polygons <- function(map,
     shape <- jsonlite::toJSON(lst_polygon, digits = digits, auto_unbox = T)
   }
 
-  invoke_method(map, 'add_polygons', shape, update_map_view, layer_id, usePolyline, legend, interval)
+  invoke_method(map, 'add_polygons', shape, update_map_view, layer_id, usePolyline, legend, load_interval)
 }
 
 

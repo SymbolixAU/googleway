@@ -1,28 +1,28 @@
-function add_rectangles(map_id, data_rectangles, update_map_view, layer_id, legendValues){
+function add_rectangles(map_id, data_rectangles, update_map_view, layer_id, legendValues, interval) {
 
-    var i;
-    //if(window[map_id + 'googleRectangles' + layer_id] == null){
-    //    window[map_id + 'googleRectangles' + layer_id] = [];
-    //}
+    var i,
+        infoWindow = new google.maps.InfoWindow();
+
     createWindowObject(map_id, 'googleRectangles', layer_id);
 
-    var infoWindow = new google.maps.InfoWindow();
-
     for (i = 0; i < Object.keys(data_rectangles).length; i++) {
-        add_rectangle(map_id, data_rectangles[i]);
+        set_rectangle(map_id, data_rectangles[i], update_map_view, layer_id, i * interval);
     }
 
-    function add_rectangle(map_id, rectangle){
+    if (legendValues !== false) {
+        add_legend(map_id, layer_id, legendValues);
+    }
+}
 
-        var latlonNorthEast = new google.maps.LatLng(rectangle.north, rectangle.east);
-        var latlonSouthWest = new google.maps.LatLng(rectangle.south, rectangle.west);
 
-        var bounds = new google.maps.LatLngBounds(
-            latlonSouthWest,
-            latlonNorthEast
-        )
+function set_rectangle(map_id, rectangle, update_map_view, layer_id, timeout) {
+    
+    window.setTimeout(function () {
 
-        var Rectangle = new google.maps.Rectangle({
+        var latlonNorthEast = new google.maps.LatLng(rectangle.north, rectangle.east),
+            latlonSouthWest = new google.maps.LatLng(rectangle.south, rectangle.west),
+            bounds = new google.maps.LatLngBounds(latlonSouthWest, latlonNorthEast),
+            Rectangle = new google.maps.Rectangle({
             id: rectangle.id,
             bounds: bounds,
             strokeColor: rectangle.stroke_colour,
@@ -35,7 +35,7 @@ function add_rectangles(map_id, data_rectangles, update_map_view, layer_id, lege
             radius: rectangle.radius,
             mouseOverGroup: rectangle.mouse_over_group,
             zIndex: rectangle.z_index
-          });
+            });
 
         window[map_id + 'googleRectangles' + layer_id].push(Rectangle);
         Rectangle.setMap(window[map_id + 'map']);
@@ -44,7 +44,7 @@ function add_rectangles(map_id, data_rectangles, update_map_view, layer_id, lege
             add_infoWindow(map_id, Rectangle, infoWindow, '_information', rectangle.info_window);
         }
 
-        if(rectangle.mouse_over || rectangle.mouse_over_group){
+        if(rectangle.mouse_over || rectangle.mouse_over_group) {
             add_mouseOver(map_id, Rectangle, infoWindow, "_mouse_over", rectangle.mouse_over, layer_id, 'googleRectangles');
         }
 
@@ -55,22 +55,13 @@ function add_rectangles(map_id, data_rectangles, update_map_view, layer_id, lege
             rectangle_edited(map_id, Rectangle);
         }
 
-        if(update_map_view === true){
+        if (update_map_view === true) {
             window[map_id + 'mapBounds'].extend(latlonNorthEast);
             window[map_id + 'mapBounds'].extend(latlonSouthWest);
+            window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
         }
-  }
-
-  if(update_map_view === true){
-      window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
-  }
-
-  if(legendValues !== false){
-      add_legend(map_id, layer_id, legendValues);
-  }
-
+     }, timeout);
 }
-
 
 /**
  * clears rectangles from a google map object
@@ -85,74 +76,71 @@ function clear_rectangles(map_id, layer_id){
 
 
 
-function update_rectangles(map_id, data_rectangles, layer_id, legendValues){
+function update_rectangles(map_id, data_rectangles, layer_id, legendValues) {
 
-  // for a given circle_id, change the options
-  var objectAttribute;
-  var attributeValue;
-  var _id;
-  var thisUpdateRectangle;
-  var currentIds = [];
+    // for a given circle_id, change the options
+    var objectAttribute,
+        attributeValue,
+        thisId,
+        thisUpdateRectangle,
+        currentIds = [];
 
-  for(i = 0; i < Object.keys(window[map_id + 'googleRectangles' + layer_id]).length; i++){
+    for (i = 0; i < Object.keys(window[map_id + 'googleRectangles' + layer_id]).length; i++) {
 
-    _id = window[map_id + 'googleRectangles' + layer_id][i].id;
-    currentIds.push(_id);
+        thisId = window[map_id + 'googleRectangles' + layer_id][i].id;
+        currentIds.push(thisId);
 
-    // find if there is a matching id in the new polygon data set
-    thisUpdateRectangle = findById(data_rectangles, _id, "object");
-    if(thisUpdateRectangle !== undefined){
+        // find if there is a matching id in the new polygon data set
+        thisUpdateRectangle = findById(data_rectangles, thisId, "object");
+        if (thisUpdateRectangle !== undefined) {
 
-//    if(data_rectangles.find(x => x.id === _id)){
-//      thisUpdateRectangle = data_rectangles.find(x => x.id === _id);
+            // if(data_rectangles.find(x => x.id === _id)){
+            //     thisUpdateRectangle = data_rectangles.find(x => x.id === _id);
 
-      //if the polygon is currently set to Null, re-put it on the map
-      if(window[map_id + 'googleRectangles' + layer_id][i].getMap() === null){
-        window[map_id + 'googleRectangles' + layer_id][i].setMap(window[map_id + 'map']);
-      }
+            //if the polygon is currently set to Null, re-put it on the map
+            if (window[map_id + 'googleRectangles' + layer_id][i].getMap() === null) {
+                window[map_id + 'googleRectangles' + layer_id][i].setMap(window[map_id + 'map']);
+            }
 
-      // the new id exists in the current data set
-      // update the values for this polygon
+            // the new id exists in the current data set
+            // update the values for this polygon
 
-      // for each of the options in data_polygon, update the polygons
-      for(j = 0; j < Object.keys(thisUpdateRectangle).length; j++){
+            // for each of the options in data_polygon, update the polygons
+            for(j = 0; j < Object.keys(thisUpdateRectangle).length; j++){
 
-        objectAttribute = Object.keys(thisUpdateRectangle)[j];
+                objectAttribute = Object.keys(thisUpdateRectangle)[j];
+                attributeValue = thisUpdateRectangle[objectAttribute];
 
-        attributeValue = thisUpdateRectangle[objectAttribute];
-
-        switch(objectAttribute){
-          case "draggable":
-            window[map_id + 'googleRectangles' + layer_id][i].setOptions({draggable: attributeValue});
-            break;
-          case "fill_colour":
-            window[map_id + 'googleRectangles' + layer_id][i].setOptions({fillColor: attributeValue});
-            break;
-          case "fill_opacity":
-            window[map_id + 'googleRectangles' + layer_id][i].setOptions({fillOpacity: attributeValue});
-            window[map_id + 'googleRectangles' + layer_id][i].setOptions({fillOpacityHolder: attributeValue});
-            break;
-          case "stroke_colour":
-            window[map_id + 'googleRectangles' + layer_id][i].setOptions({strokeColor: attributeValue});
-            break;
-          case "stroke_weight":
-            window[map_id + 'googleRectangles' + layer_id][i].setOptions({strokeWeight: attributeValue});
-            break;
-          case "stroke_opacity":
-            window[map_id + 'googleRectangles' + layer_id][i].setOptions({strokeOpacity: attributeValue});
-            break;
-          case "info_window":
-            window[map_id + 'googleRectangles' + layer_id][i].setOptions({_information: attributeValue});
-            break;
+                switch(objectAttribute){
+                case "draggable":
+                    window[map_id + 'googleRectangles' + layer_id][i].setOptions({draggable: attributeValue});
+                    break;
+                case "fill_colour":
+                    window[map_id + 'googleRectangles' + layer_id][i].setOptions({fillColor: attributeValue});
+                    break;
+                case "fill_opacity":
+                    window[map_id + 'googleRectangles' + layer_id][i].setOptions({fillOpacity: attributeValue});
+                    window[map_id + 'googleRectangles' + layer_id][i].setOptions({fillOpacityHolder: attributeValue});
+                    break;
+                case "stroke_colour":
+                    window[map_id + 'googleRectangles' + layer_id][i].setOptions({strokeColor: attributeValue});
+                    break;
+                case "stroke_weight":
+                    window[map_id + 'googleRectangles' + layer_id][i].setOptions({strokeWeight: attributeValue});
+                    break;
+                case "stroke_opacity":
+                    window[map_id + 'googleRectangles' + layer_id][i].setOptions({strokeOpacity: attributeValue});
+                    break;
+                case "info_window":
+                    window[map_id + 'googleRectangles' + layer_id][i].setOptions({_information: attributeValue});
+                    break;
+                }
+            }
+        } else {
+            window[map_id + 'googleRectangles' + layer_id][i].setMap(null);
         }
-      }
-
-    }else{
-        window[map_id + 'googleRectangles' + layer_id][i].setMap(null);
     }
-  }
-
-    if(legendValues !== false){
+    if (legendValues !== false) {
         add_legend(map_id, layer_id, legendValues);
     }
 }

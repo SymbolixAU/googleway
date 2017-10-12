@@ -89,7 +89,9 @@ add_polylines <- function(map,
                           digits = 4,
                           palette = NULL,
                           legend = F,
-                          legend_options = NULL){
+                          legend_options = NULL,
+                          load_interval = 0
+                          ){
 
   objArgs <- match.call(expand.dots = F)
 
@@ -108,6 +110,7 @@ add_polylines <- function(map,
   logicalCheck(update_map_view)
   numericCheck(digits)
   numericCheck(z_index)
+  loadIntervalCheck(load_interval)
   palette <- paletteCheck(palette)
 
   lst <- polyIdCheck(data, id, usePolyline, objArgs)
@@ -154,7 +157,7 @@ add_polylines <- function(map,
     shape <- jsonlite::toJSON(shape, auto_unbox = T)
   }
 
-  invoke_method(map, 'add_polylines', shape, update_map_view, layer_id, usePolyline, legend)
+  invoke_method(map, 'add_polylines', shape, update_map_view, layer_id, usePolyline, legend, load_interval)
 }
 
 

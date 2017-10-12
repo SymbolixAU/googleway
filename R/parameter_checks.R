@@ -50,6 +50,13 @@ logicalCheck <- function(arg){
   }
 }
 
+loadIntervalCheck <- function(load_interval){
+  numericCheck(load_interval)
+  if(!is.null(load_interval))
+    if(load_interval < 0)
+      stop("load_interval needs to be a positive number")
+}
+
 # Numeric Check
 #
 # Checks the argument is lenght 1 numeric
