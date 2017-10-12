@@ -1,3 +1,6 @@
+// TODO:
+// - if not using an interval, don't update map bounds in the loop
+
 /**
  * Add circles
  *
@@ -7,39 +10,45 @@
  * @param data_circles
  * @param layer_id
  */
-function add_circles(map_id, data_circles, update_map_view, layer_id, legendValues) {
 
-    var i;
+function add_circles(map_id, data_circles, update_map_view, layer_id, legendValues, interval) {
+
+    var i,
+        infoWindow = new google.maps.InfoWindow();
     //if(window[map_id + 'googleCircles' + layer_id] == null){
     //    window[map_id + 'googleCircles' + layer_id] = [];
     //}
     createWindowObject(map_id, 'googleCircles', layer_id);
     
-    var infoWindow = new google.maps.InfoWindow();
-
     for (i = 0; i < Object.keys(data_circles).length; i++) {
-        add_circle(map_id, data_circles[i]);
+        set_circle(map_id, data_circles[i], infoWindow, update_map_view, layer_id, i * interval);
     }
 
-    function add_circle(map_id, circle){
+    if(legendValues !== false){
+        add_legend(map_id, layer_id, legendValues);
+    }
+}
 
-        var latlon = new google.maps.LatLng(circle.lat, circle.lng);
-
-        var Circle = new google.maps.Circle({
-            id: circle.id,
-            strokeColor: circle.stroke_colour,
-            strokeOpacity: circle.stroke_opacity,
-            strokeWeight: circle.stroke_weight,
-            fillColor: circle.fill_colour,
-            fillOpacity: circle.fill_opacity,
-            fillOpacityHolder: circle.fill_opacity,
-            draggable: circle.draggable,
-            editable: circle.editable,
-            center: latlon,
-            radius: circle.radius,
-            mouseOverGroup: circle.mouse_over_group,
-            zIndex: circle.z_index
-          });
+function set_circle(map_id, circle, infoWindow, update_map_view, layer_id, timeout){
+    
+    window.setTimeout(function() {
+    
+        var latlon = new google.maps.LatLng(circle.lat, circle.lng),
+            Circle = new google.maps.Circle({
+                id: circle.id,
+                strokeColor: circle.stroke_colour,
+                strokeOpacity: circle.stroke_opacity,
+                strokeWeight: circle.stroke_weight,
+                fillColor: circle.fill_colour,
+                fillOpacity: circle.fill_opacity,
+                fillOpacityHolder: circle.fill_opacity,
+                draggable: circle.draggable,
+                editable: circle.editable,
+                center: latlon,
+                radius: circle.radius,
+                mouseOverGroup: circle.mouse_over_group,
+                zIndex: circle.z_index
+            });
 
         window[map_id + 'googleCircles' + layer_id].push(Circle);
         Circle.setMap(window[map_id + 'map']);
@@ -56,27 +65,22 @@ function add_circles(map_id, data_circles, update_map_view, layer_id, legendValu
         shape_click(map_id, Circle, circle.id, shapeInfo);
 
         if (Circle.editable) {
-          // edit listeners must be set on paths
-          circle_edited(map_id, Circle);
+            // edit listeners must be set on paths
+            circle_edited(map_id, Circle);
         }
-        
+
         if (Circle.draggable) {
-           circle_dragged(map_id, Circle); 
+            circle_dragged(map_id, Circle); 
         }
-        
+
         if(update_map_view === true){
             window[map_id + 'mapBounds'].extend(latlon);
+            window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
         }
-    }
-
-    if(update_map_view === true){
-        window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
-    }
-    
-    if(legendValues !== false){
-        add_legend(map_id, layer_id, legendValues);
-    }
+    }, timeout);
 }
+
+
 
 /**
  * clears circles from a google map object

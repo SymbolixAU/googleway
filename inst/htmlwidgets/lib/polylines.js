@@ -9,7 +9,7 @@
  * @param use_polyline
  *          boolean indicating if the data is an encoded polyline
  */
-function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_polyline, legendValues) {
+function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_polyline, legendValues, interval) {
 
     //if (window[map_id + 'googlePolyline' + layer_id] == null) {
     //    window[map_id + 'googlePolyline' + layer_id] = [];
@@ -29,12 +29,20 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
                 thisPath.push(data_polyline[i].coords[j]);
             }
         }
-        add_lines(map_id, data_polyline[i], layer_id, thisPath);
+        set_lines(map_id, data_polyline[i], thisPath, infoWindow, update_map_view, layer_id, i * interval);
     }
 
+    if(legendValues !== false){
+        add_legend(map_id, layer_id, legendValues);
+    }
 
-    function add_lines(map_id, polyline, layer_id, thisPath){
+}
 
+
+function set_lines(map_id, polyline, thisPath, infoWindow, update_map_view, layer_id, timeout){
+
+    window.setTimeout(function() {
+        
         var Polyline = new google.maps.Polyline({
             path: thisPath,
             id: polyline.id,
@@ -50,8 +58,8 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
             zIndex: polyline.z_index
         });
 
-    // TODO(polyline length) calculate and log the distance
-//    polyLengthInMeters = google.maps.geometry.spherical.computeLength(Polyline.getPath().getArray());
+        // TODO(polyline length) calculate and log the distance
+        //    polyLengthInMeters = google.maps.geometry.spherical.computeLength(Polyline.getPath().getArray());
 
         window[map_id + 'googlePolyline' + layer_id].push(Polyline);
         Polyline.setMap(window[map_id + 'map']);
@@ -63,8 +71,9 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
             for (var n = 0; n < points.length; n++){
                 window[map_id + 'mapBounds'].extend(points[n]);
             }
+            window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
         }
-
+        
         if(polyline.info_window) {
             add_infoWindow(map_id, Polyline, infoWindow, '_information', polyline.info_window);
         }
@@ -94,19 +103,9 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
         if(Polyline.draggable) {
             polyline_dragged(map_id, Polyline)
         }
-
-    }
-
-    if (update_map_view === true) {
-        window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
-    }
-
-    if(legendValues !== false){
-        add_legend(map_id, layer_id, legendValues);
-    }
+    }, timeout);
 
 }
-
 
 /**
  * Updates polyline options

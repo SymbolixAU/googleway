@@ -74,7 +74,9 @@ add_rectangles <- function(map,
                            digits = 4,
                            palette = NULL,
                            legend = F,
-                           legend_options = NULL){
+                           legend_options = NULL,
+                           load_interval = 0
+                           ){
 
   objArgs <- match.call(expand.dots = F)
 
@@ -85,6 +87,7 @@ add_rectangles <- function(map,
   logicalCheck(update_map_view)
   numericCheck(digits)
   numericCheck(z_index)
+  loadIntervalCheck(load_interval)
   palette <- paletteCheck(palette)
   ## END PARAMETER CHECKS
 
@@ -111,7 +114,7 @@ add_rectangles <- function(map,
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  invoke_method(map, 'add_rectangles', shape, update_map_view, layer_id, legend)
+  invoke_method(map, 'add_rectangles', shape, update_map_view, layer_id, legend, load_interval)
 }
 
 

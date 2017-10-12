@@ -1,4 +1,6 @@
-## Info windows are updated
+
+# ## Info windows are updated
+
 # library(shiny)
 #
 # ui <- fluidPage(
@@ -65,7 +67,7 @@
 #
 # server <- function(input, output){
 #
-#   #map_key <- 'your_api_key'
+#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 #
 #   # set.seed(20170417)
 #   df <- tram_route[sample(1:nrow(tram_route), size = 10 * 100, replace = T), ]
@@ -93,11 +95,14 @@
 # shinyApp(ui, server)
 
 
-## observing map edits
+# observing map edits
 # ui <- fluidPage(
 #   google_mapOutput(outputId = "map", height = "800px")
 # )
 # server <- function(input, output){
+#
+#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#
 #   df <- data.frame(north = -37.8459, south = -37.8508, east = 144.9378,
 #                     west = 144.9236, editable = T, draggable = F)
 #

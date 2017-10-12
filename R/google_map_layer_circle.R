@@ -54,6 +54,7 @@
 #' @param legend either a logical indiciating if the legend(s) should be displayed, or
 #' a named list indicating which colour attributes should be included in the legend.
 #' @param legend_options A list of options for controlling the legend.
+#' @param load_interval time in miliseconds to wait between plotting each shape
 #'
 #' @details
 #'
@@ -151,7 +152,9 @@ add_circles <- function(map,
                         digits = 4,
                         palette = NULL,
                         legend = F,
-                        legend_options = NULL){
+                        legend_options = NULL,
+                        load_interval = 0
+                        ){
 
   objArgs <- match.call(expand.dots = F)
 
@@ -163,6 +166,7 @@ add_circles <- function(map,
   logicalCheck(update_map_view)
   numericCheck(digits)
   numericCheck(z_index)
+  loadIntervalCheck(load_interval)
   palette <- paletteCheck(palette)
   ## END PARAMETER CHECKS
 
@@ -189,7 +193,7 @@ add_circles <- function(map,
 
     shape <- jsonlite::toJSON(shape, digits = digits)
 
-  invoke_method(map, 'add_circles', shape, update_map_view, layer_id, legend)
+  invoke_method(map, 'add_circles', shape, update_map_view, layer_id, legend, load_interval)
 }
 
 #' @rdname clear

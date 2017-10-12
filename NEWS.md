@@ -1,6 +1,6 @@
 ## Version 2.3.0 (development)
 
-
+* `add_dragdrop` reads geoJSON styles
 * `add_fusion` accepts JSON style argument, and query as a list
 * `info_window` argument for all `update_` shape methods
 * map layers auto-recognise [GTFS](https://developers.google.com/transit/gtfs/) column names: `stop_lat`, `stop_lon`, `shape_pt_lat`, `shape_pt_lon`
@@ -11,7 +11,7 @@
 * `place_id` accepted as origin/destination in `google_direction` and `google_distance`
 * `departure_time` defaults to `Sys.time()` if omitted when using `traffic_model`
 * `google_distance()` now accepts a data.frame of locations
-* `drag_drop_geojson` drag & drop geojson onto a map
+* `add_dragdrop ` drag & drop geojson onto a map
 * `decode_pl` updated to now handle `jqr`-parsed character vectors
 * `colours` - You can now map variables passed into the map layers to colours
 * `add_drawing` draw shapes and markers onto the map

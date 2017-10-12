@@ -15,7 +15,7 @@
  * @param layer_id
  *          the layer identifier
  */
-function add_markers(map_id, data_markers, cluster, update_map_view, layer_id){
+function add_markers(map_id, data_markers, cluster, update_map_view, layer_id, interval) {
 
     var markers = [],
         i,
@@ -23,84 +23,70 @@ function add_markers(map_id, data_markers, cluster, update_map_view, layer_id){
 
     createWindowObject(map_id, 'googleMarkers', layer_id);
 
-
-  for (i = 0; i < Object.keys(data_markers).length; i++){
-
-    var latlon = new google.maps.LatLng(data_markers[i].lat, data_markers[i].lng);
-
-    var marker = new google.maps.Marker({
-      id: data_markers[i].id,
-      icon: data_markers[i].url,
-      position: latlon,
-      draggable: data_markers[i].draggable,
-      opacity: data_markers[i].opacity,
-      opacityHolder: data_markers[i].opacity,
-      title: data_markers[i].title,
-      label: data_markers[i].label,
-      mouseOverGroup: data_markers[i].mouse_over_group
-    });
-
-    if(data_markers[i].info_window){
-
-      marker.infowindow = new google.maps.InfoWindow({
-        content: data_markers[i].info_window
-      });
-
-      google.maps.event.addListener(marker, 'click', function() {
-        this.infowindow.open(window[map_id + 'map'], this);
-      });
-
-      //add_infoWindow(map_id, marker, infoWindow, '_information', data_markers[i].info_window);
-
-      //mapObject.set(objectAttribute, attributeValue);
-//      marker.addListener('click', function(event){
-//              console.log(data_markers[i]);
-
-        // the listener is being bound to the mapObject. So, when the infowindow
-        // contents are updated, the 'click' listener will need to see the new information
-        // ref: http://stackoverflow.com/a/13504662/5977215
-        //mapObject.setOptions({"_information": mapObject.get(objectAttribute)});
-
-//        infoWindow.setContent(data_markers[i].info_window);
-
-//        infoWindow.setPosition(event.latLng);
-//        infoWindow.open(window[map_id + 'map']);
-//      });
-
+    for (i = 0; i < Object.keys(data_markers).length; i++) {
+        set_markers(map_id, markers, infoWindow, data_markers[i], cluster, infoWindow, update_map_view, layer_id, i * interval);
     }
 
-    if(data_markers[i].mouse_over || data_markers[i].mouse_over_group){
-      add_mouseOver(map_id, marker, infoWindow, '_mouse_over', data_markers[i].mouse_over, layer_id, 'googleMarkers');
+    if(cluster === true){
+        window[map_id + 'googleMarkerClusterer' + layer_id] = new MarkerClusterer(window[map_id + 'map'], markers, {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
     }
+}
 
-    markerInfo = {
-      layerId : layer_id,
-      lat : data_markers[i].lat.toFixed(4),
-      lon : data_markers[i].lng.toFixed(4)
-    };
+function set_markers(map_id, markers, infoWindow, aMarker, cluster, infoWindow, update_map_view, layer_id, timeout) {
+    
+    window.setTimeout(function() {
+        
+        var latlon = new google.maps.LatLng (aMarker.lat, aMarker.lng),
+                marker = new google.maps.Marker({
+                id: aMarker.id,
+                icon: aMarker.url,
+                position: latlon,
+                draggable: aMarker.draggable,
+                opacity: aMarker.opacity,
+                opacityHolder: aMarker.opacity,
+                title: aMarker.title,
+                label: aMarker.label,
+                mouseOverGroup: aMarker.mouse_over_group
+            });
 
-    marker_click(map_id, marker, marker.id, markerInfo);
+            if (aMarker.info_window) {
 
-    if(update_map_view === true){
-     window[map_id + 'mapBounds'].extend(latlon);
-    }
+                marker.infowindow = new google.maps.InfoWindow({
+                    content: aMarker.info_window
+                });
 
-    window[map_id + 'googleMarkers' + layer_id].push(marker);
-    markers.push(marker);
-    marker.setMap(window[map_id + 'map']);
-  }
+                google.maps.event.addListener(marker, 'click', function() {
+                    this.infowindow.open(window[map_id + 'map'], this);
+                });
 
-  if(cluster === true){
-    window[map_id + 'googleMarkerClusterer' + layer_id] = new MarkerClusterer(window[map_id + 'map'], markers,
-    {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+            // the listener is being bound to the mapObject. So, when the infowindow
+            // contents are updated, the 'click' listener will need to see the new information
+            // ref: http://stackoverflow.com/a/13504662/5977215
 
-  }
+            }
 
-  if(update_map_view === true){
-    window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
-  }
+            if (aMarker.mouse_over || aMarker.mouse_over_group) {
+                add_mouseOver(map_id, marker, infoWindow, '_mouse_over', aMarker.mouse_over, layer_id, 'googleMarkers');
+            }
 
-  //window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+            markerInfo = {
+                layerId : layer_id,
+                lat : aMarker.lat.toFixed(4),
+                lon : aMarker.lng.toFixed(4)
+            };
+
+            marker_click(map_id, marker, marker.id, markerInfo);
+
+            if(update_map_view === true){
+                window[map_id + 'mapBounds'].extend(latlon);
+                window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+            }
+        
+            window[map_id + 'googleMarkers' + layer_id].push(marker);
+            markers.push(marker);
+            marker.setMap(window[map_id + 'map']);
+        
+        }, timeout);
 }
 
 /**
