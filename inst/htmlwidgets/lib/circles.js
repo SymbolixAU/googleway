@@ -7,7 +7,7 @@
  * @param data_circles
  * @param layer_id
  */
-function add_circles(map_id, data_circles, update_map_view, layer_id, legendValues){
+function add_circles(map_id, data_circles, update_map_view, layer_id, legendValues) {
 
     var i;
     //if(window[map_id + 'googleCircles' + layer_id] == null){

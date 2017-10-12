@@ -1,6 +1,4 @@
 ## Info windows are updated
-
-
 # library(shiny)
 #
 # ui <- fluidPage(
@@ -27,7 +25,7 @@
 #     df$rand <- as.character(rnorm(nrow(df)))
 #
 #     google_map_update(map_id = "map") %>%
-#       update_polygons(data = df, id = "polygonId")
+#       update_polygons(data = df, id = "polygonId", info_window = "rand")
 #
 #   })
 #

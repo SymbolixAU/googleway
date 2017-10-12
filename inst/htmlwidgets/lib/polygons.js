@@ -152,6 +152,8 @@ function update_polygons(map_id, data_polygon, layer_id, legendValues){
 
         objectAttribute = Object.keys(thisUpdatePolygon)[j];
         attributeValue = thisUpdatePolygon[objectAttribute];
+          console.log(objectAttribute);
+          console.log(attributeValue);
 
         switch(objectAttribute){
           case "fill_colour":
