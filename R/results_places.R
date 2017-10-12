@@ -23,3 +23,12 @@ place_location <- function(res) .access_result(resultType(res), 'place_location'
 #' @export
 place_type <- function(res) .access_result(resultType(res), 'place_type')
 
+
+#' @describeIn access_result the opening hours from a place details query
+#' @export
+place_hours <- function(res) .access_result(resultType(res), 'place_hours')
+
+#' @describeIn access_result the open now result from a place details query
+#' @export
+place_open <- function(res) .access_result(resultType(res), 'place_open')
+

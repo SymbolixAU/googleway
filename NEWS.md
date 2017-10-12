@@ -1,5 +1,6 @@
 ## Version 2.3.0 (development)
 
+* `load_interval` argument added to map layers
 * `add_dragdrop` reads geoJSON styles
 * `add_fusion` accepts JSON style argument, and query as a list
 * `info_window` argument for all `update_` shape methods

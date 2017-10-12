@@ -38,7 +38,7 @@ access_result <- function(res,
                                      "dist_destinations",
                                      "elevation", "elev_location", "place",
                                      "place_name", "next_page", "place_location",
-                                     "place_type")){
+                                     "place_type", "place_hours", "place_open")){
   result <- match.arg(result)
   func <- getFunc(result)
 
@@ -104,6 +104,8 @@ getFunc <- function(res){
          "next_page"           =  "place_next_page",
          "place_location"      =  "place_location",
          "place_type"          =  "place_type",
+         "place_hours"         =  "place_hours",
+         "place_open"          =  "place_open",
          "nearest_road_coords" =  "nearest_roads_coordinates")
 }
 
@@ -131,6 +133,8 @@ jsAccessor <- function(resType){
          "place_next_page"     =  ".next_page_token",
          "place_location"      =  ".results[].geometry.location",
          "place_type"          =  ".results[].types",
+         "place_hours"         =  ".result.opening_hours.periods",
+         "place_open"          =  ".result.opening_hours.open_now",
          "nearest_road_coords" =  ".snappedPoints[].location")
 }
 
@@ -157,5 +161,7 @@ lstAccessor <- function(resType){
          "place_next_page"     =  "[['next_page_token']]",
          "place_location"      =  "[[c('results','geometry','location')]]",
          "place_type"          =  "[[c('results','types')]]",
+         "place_hours"         =  "[[c('result','opening_hours','periods')]]",
+         "place_open"          =  "[[c('result','opening_hours','open_now')]]",
          "nearest_road_coords" =  "[[c('snappedPoints', 'location')]]")
 }

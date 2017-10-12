@@ -25,6 +25,8 @@
 \alias{place_name}
 \alias{place_location}
 \alias{place_type}
+\alias{place_hours}
+\alias{place_open}
 \alias{nearest_roads_coordinates}
 \title{Access Result}
 \usage{
@@ -32,7 +34,7 @@ access_result(res, result = c("instructions", "routes", "legs", "steps",
   "points", "polyline", "coordinates", "address", "address_components",
   "geo_place_id", "dist_origins", "dist_destinations", "elevation",
   "elev_location", "place", "place_name", "next_page", "place_location",
-  "place_type"))
+  "place_type", "place_hours", "place_open"))
 
 direction_instructions(res)
 
@@ -75,6 +77,10 @@ place_name(res)
 place_location(res)
 
 place_type(res)
+
+place_hours(res)
+
+place_open(res)
 
 nearest_roads_coordinates(res)
 }
@@ -131,6 +137,10 @@ Nearest Road Coordinates
 \item \code{place_location}: the location from a places query
 
 \item \code{place_type}: the type of place from a places query
+
+\item \code{place_hours}: the opening hours from a place details query
+
+\item \code{place_open}: the open now result from a place details query
 
 \item \code{nearest_roads_coordinates}: the coordinates from a nearest roads query
 }}
