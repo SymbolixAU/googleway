@@ -4,7 +4,7 @@
  * @param map_id
  * @param data_polygon
  */
-function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyline, legendValues){
+function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyline, legendValues, interval) {
 
     //if(window[map_id + 'googlePolygon' + layer_id == null]){
     //    window[map_id + 'googlePolygon' + layer_id] = [];
@@ -14,11 +14,21 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
     var infoWindow = new google.maps.InfoWindow(),
         paths = [];
 
+    console.log(data_polygon);
     for(i = 0; i < Object.keys(data_polygon).length; i++){
-        add_gons(map_id, data_polygon[i]);
+        set_polygons(map_id, data_polygon[i], update_map_view, layer_id, use_polyline, i * interval);
     }
+    
+    if(legendValues !== false){
+        add_legend(map_id, layer_id, legendValues);
+    }
+}
 
-    function add_gons(map_id, polygon){
+function set_polygons(map_id, polygon, update_map_view, layer_id, use_polyline, timeout) {
+    
+    console.log(polygon);
+    window.setTimeout(function() {
+        
         var paths = [];
 
         if(use_polyline){
@@ -92,16 +102,11 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
                 window[map_id + 'mapBounds'].extend(points[n]);
             }
         }
-    }
-
-    if(update_map_view === true){
-        window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
-    }
-    
-    if(legendValues !== false){
-        add_legend(map_id, layer_id, legendValues);
-    }
-
+        
+        if(update_map_view === true){
+            window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+        }
+    }, timeout);
 }
 
 /**

@@ -57,7 +57,8 @@ add_markers <- function(map,
                         layer_id = NULL,
                         cluster = FALSE,
                         update_map_view = TRUE,
-                        digits = 4){
+                        digits = 4,
+                        interval = 0){
 
   objArgs <- match.call(expand.dots = F)
 
@@ -90,7 +91,7 @@ add_markers <- function(map,
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  invoke_method(map, 'add_markers', shape, cluster, update_map_view, layer_id)
+  invoke_method(map, 'add_markers', shape, cluster, update_map_view, layer_id, interval)
 }
 
 

@@ -10,7 +10,7 @@ add_polygons(map, data = get_map_data(map), polyline = NULL, lat = NULL,
   fill_opacity = NULL, info_window = NULL, mouse_over = NULL,
   mouse_over_group = NULL, draggable = NULL, editable = NULL,
   update_map_view = TRUE, layer_id = NULL, z_index = NULL, digits = 4,
-  palette = NULL, legend = F, legend_options = NULL)
+  palette = NULL, legend = F, legend_options = NULL, interval = 0)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
