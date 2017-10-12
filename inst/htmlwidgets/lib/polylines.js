@@ -29,7 +29,7 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
                 thisPath.push(data_polyline[i].coords[j]);
             }
         }
-        set_lines(map_id, data_polyline[i], thisPath, update_map_view, layer_id, i * interval);
+        set_lines(map_id, data_polyline[i], thisPath, infoWindow, update_map_view, layer_id, i * interval);
     }
 
     if(legendValues !== false){
@@ -39,7 +39,7 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
 }
 
 
-function set_lines(map_id, polyline, thisPath, update_map_view, layer_id, timeout){
+function set_lines(map_id, polyline, thisPath, infoWindow, update_map_view, layer_id, timeout){
 
     window.setTimeout(function() {
         

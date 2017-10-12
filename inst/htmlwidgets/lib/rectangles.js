@@ -6,7 +6,7 @@ function add_rectangles(map_id, data_rectangles, update_map_view, layer_id, lege
     createWindowObject(map_id, 'googleRectangles', layer_id);
 
     for (i = 0; i < Object.keys(data_rectangles).length; i++) {
-        set_rectangle(map_id, data_rectangles[i], update_map_view, layer_id, i * interval);
+        set_rectangle(map_id, data_rectangles[i], infoWindow, update_map_view, layer_id, i * interval);
     }
 
     if (legendValues !== false) {
@@ -15,7 +15,7 @@ function add_rectangles(map_id, data_rectangles, update_map_view, layer_id, lege
 }
 
 
-function set_rectangle(map_id, rectangle, update_map_view, layer_id, timeout) {
+function set_rectangle(map_id, rectangle, infoWindow, update_map_view, layer_id, timeout) {
     
     window.setTimeout(function () {
 

@@ -15,7 +15,7 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
         paths = [];
 
     for(i = 0; i < Object.keys(data_polygon).length; i++){
-        set_polygons(map_id, data_polygon[i], update_map_view, layer_id, use_polyline, i * interval);
+        set_polygons(map_id, data_polygon[i], infoWindow, update_map_view, layer_id, use_polyline, i * interval);
     }
     
     if(legendValues !== false){
@@ -23,7 +23,7 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
     }
 }
 
-function set_polygons(map_id, polygon, update_map_view, layer_id, use_polyline, timeout) {
+function set_polygons(map_id, polygon, infoWindow, update_map_view, layer_id, use_polyline, timeout) {
 
     window.setTimeout(function() {
         

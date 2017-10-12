@@ -12,16 +12,15 @@
  */
 function add_circles(map_id, data_circles, update_map_view, layer_id, legendValues, interval) {
 
-    var i;
+    var i,
+        infoWindow = new google.maps.InfoWindow();
     //if(window[map_id + 'googleCircles' + layer_id] == null){
     //    window[map_id + 'googleCircles' + layer_id] = [];
     //}
     createWindowObject(map_id, 'googleCircles', layer_id);
     
-    var infoWindow = new google.maps.InfoWindow();
-
     for (i = 0; i < Object.keys(data_circles).length; i++) {
-        set_circle(map_id, data_circles[i], update_map_view, layer_id, i * interval);
+        set_circle(map_id, data_circles[i], infoWindow, update_map_view, layer_id, i * interval);
     }
 
     if(legendValues !== false){
@@ -29,7 +28,7 @@ function add_circles(map_id, data_circles, update_map_view, layer_id, legendValu
     }
 }
 
-function set_circle(map_id, circle, update_map_view, layer_id, timeout){
+function set_circle(map_id, circle, infoWindow, update_map_view, layer_id, timeout){
     
     window.setTimeout(function() {
     

@@ -24,7 +24,7 @@ function add_markers(map_id, data_markers, cluster, update_map_view, layer_id, i
     createWindowObject(map_id, 'googleMarkers', layer_id);
 
     for (i = 0; i < Object.keys(data_markers).length; i++) {
-        set_markers(map_id, markers, infoWindow, data_markers[i], cluster, update_map_view, layer_id, i * interval);
+        set_markers(map_id, markers, infoWindow, data_markers[i], cluster, infoWindow, update_map_view, layer_id, i * interval);
     }
 
     if(cluster === true){
@@ -32,7 +32,7 @@ function add_markers(map_id, data_markers, cluster, update_map_view, layer_id, i
     }
 }
 
-function set_markers(map_id, markers, infoWindow, aMarker, cluster, update_map_view, layer_id, timeout) {
+function set_markers(map_id, markers, infoWindow, aMarker, cluster, infoWindow, update_map_view, layer_id, timeout) {
     
     window.setTimeout(function() {
         
