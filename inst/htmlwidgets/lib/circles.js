@@ -10,6 +10,7 @@
  * @param data_circles
  * @param layer_id
  */
+
 function add_circles(map_id, data_circles, update_map_view, layer_id, legendValues, interval) {
 
     var i,

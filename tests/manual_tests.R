@@ -1,5 +1,6 @@
+
 # ## Info windows are updated
-#
+
 # library(shiny)
 #
 # ui <- fluidPage(
