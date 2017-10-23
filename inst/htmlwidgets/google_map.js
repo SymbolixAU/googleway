@@ -266,7 +266,8 @@ function initialise_map(el, x) {
                       name: place.name,
                       address: place.formatted_address,
                       place_id: place.place_id,
-                      vicinity: place.vicinity
+                      vicinity: place.vicinity,
+                      randomValue: Math.random()
                   };
               eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
               Shiny.onInputChange(el.id + "_place_search", eventInfo);
