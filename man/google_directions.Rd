@@ -31,10 +31,10 @@ can only specify one of \code{arrival_time} or \code{departure_time}, not both.
 If both are supplied, \code{departure_time} will be used.}
 
 \item{waypoints}{list of waypoints, expressed as either a \code{vector} of
-lat/lon coordinates, or a \code{string} address to be geocoded. Only available
-for driving, walking or bicycling modes. List elements must be named either
-'stop' or 'via', where 'stop' is used to indicate a stopover for a waypoint,
-and 'via' will not stop at the waypoint.
+lat/lon coordinates, or a \code{string} address to be geocoded, or an encoded
+polyline prefixed by \code{enc:}. Only available for driving, walking or bicycling modes.
+List elements must be named either 'stop' or 'via', where 'stop' is used to
+indicate a stopover for a waypoint, and 'via' will not stop at the waypoint.
 See \url{https://developers.google.com/maps/documentation/directions/intro#Waypoints} for details}
 
 \item{optimise_waypoints}{\code{boolean} allow the Directions service to optimize the
