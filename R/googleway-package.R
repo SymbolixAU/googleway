@@ -57,71 +57,28 @@ directions_data <- function(base_url,
   # traffic_model <- match.arg(traffic_model)
 
   logicalCheck(simplify)
+  avoid <- validateAvoid(avoid)
 
   ## transit_mode is only valid where mode = transit
-  if(!is.null(transit_mode) & mode != "transit"){
-    warning("You have specified a transit_mode, but are not using mode = 'transit'. Therefore this argument will be ignored")
-    transit_mode <- NULL
-  }else if(!is.null(transit_mode) & mode == "transit"){
-    transit_mode <- match.arg(transit_mode, choices = c("bus","subway","train","tram","rail"))
-  }
+  transit_mode <- validateTransitMode(transit_mode, mode)
 
   ## transit_routing_preference only valid where mode == transit
-  if(!is.null(transit_routing_preference) & mode != "transit"){
-    warning("You have specified a transit_routing_preference, but are not using mode = 'transit'. Therefore this argument will be ignored")
-    transit_routing_preference <- NULL
-  }else if(!is.null(transit_routing_preference) & mode == "transit"){
-    transit_routing_preference <- match.arg(transit_routing_preference, choices = c("less_walking","fewer_transfers"))
-    transit_routing_preference <- paste0(transit_routing_preference, collapse = "|")
-  }
-
-  ## check avoid is valid
-  if(!all(tolower(avoid) %in% c("tolls","highways","ferries","indoor")) & !is.null(avoid)){
-    stop("avoid can only include tolls, highways, ferries or indoor")
-  }else{
-    if(length(avoid) > 1){
-      avoid <- paste0(tolower(avoid), collapse = "|")
-    }else{
-      avoid <- tolower(avoid)
-    }
-  }
+  transit_routing_preference <- validateTransitRoutingPreference(transit_routing_preference, mode)
 
   ## check departure time is valid
-  if(!is.null(departure_time) & !inherits(departure_time, "POSIXct"))
-    stop("departure_time must be a POSIXct object")
-
-  if(!is.null(departure_time)){
-    if(departure_time < Sys.time()){
-      stop("departure_time must not be in the past")
-    }
-  }
+  departure_time <- validateDepartureTime(departure_time)
 
   ## check arrival time is valid
-  if(!is.null(arrival_time) & !inherits(arrival_time, "POSIXct"))
-    stop("arrival_time must be a POSIXct object")
+  arrival_time <- validateArrivalTime(arrival_time)
+  arrival_time <- validateArrivalDepartureTimes(arrival_time, departure_time)
 
-  if(!is.null(arrival_time) & !is.null(departure_time)){
-    warning("you have supplied both an arrival_time and a departure_time - only one is allowed. The arrival_time will be ignored")
-    arrival_time <- NULL
-  }
-
-  ## check alternatives is valid
-  logicalCheck(alternatives)
-
-  if(!is.null(alternatives))
-    alternatives <- tolower(alternatives)
+  alternatives <- validateAlternatives(alternatives)
 
   ## check traffic model is valid
   if(!is.null(traffic_model) & is.null(departure_time))
     departure_time <- Sys.time()
 
-#    stop("traffic_model is only accepted with a valid departure_time")
-
-  if(!is.null(traffic_model)){
-    ## allow an underscore to pass
-    traffic_model <- match.arg(gsub("_", " ", traffic_model), choices = c("best guess", "pessimistic","optimistic"))
-    traffic_model <- gsub(" ", "_", traffic_model)
-  }
+  traffic_model <- validateTrafficModel(traffic_model)
 
   ## check origin/destinations are valid
   if(information_type == "directions"){
@@ -132,7 +89,7 @@ directions_data <- function(base_url,
     destination <- check_multiple_locations(destination, "Destinations elements")
   }
 
-  ## check departure time is valid
+  ## times as integers
   departure_time <- ifelse(is.null(departure_time), as.integer(Sys.time()), as.integer(departure_time))
   arrival_time <- as.integer(arrival_time)
 
@@ -140,21 +97,10 @@ directions_data <- function(base_url,
   waypoints <- validateWaypoints(waypoints, optimise_waypoints, mode)
 
   ## language check
-  if(!is.null(language)){
-    if(class(language) != "character" | length(language) > 1){
-      stop("language must be a single string")
-      }
-    }
-
-  if(!is.null(language))
-    language <- tolower(language)
+  language <- validateLanguage(language)
 
   ## region check
-  if(!is.null(region) & (class(region) != "character" | length(region) > 1))
-    stop("region must be a two-character string")
-
-  if(!is.null(region))
-    region <- tolower(region)
+  region <- validateRegion(region)
 
   ## construct url
   if(information_type == "directions"){

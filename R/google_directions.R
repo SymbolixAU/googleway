@@ -175,27 +175,6 @@ google_directions <- function(origin,
 }
 
 
-validateWaypoints <- function(waypoints, optimise_waypoints, mode){
-  if(is.null(waypoints)) return(NULL)
-
-  if(!mode %in% c("driving", "walking","bicycling"))
-    stop("waypoints are only valid for driving, walking or bicycling modes")
-
-  if(class(waypoints) != "list")
-    stop("waypoints must be a list")
-
-  if(!all(names(waypoints) %in% c("stop", "via")))
-    stop("waypoint list elements must be named either 'via' or 'stop'")
-
-  ## check if waypoints should be optimised, and thefore only use 'stop' as a valid waypoint
-  if(optimise_waypoints == TRUE){
-    if(any(names(waypoints) %in% c("via")))
-      stop("waypoints can only be optimised for stopovers. Each waypoint in the list must be named as stop")
-  }
-
-  return(constructWaypoints(waypoints, optimise_waypoints))
-}
-
 validateLocation <- function(location) UseMethod("validateLocation")
 
 #' @export

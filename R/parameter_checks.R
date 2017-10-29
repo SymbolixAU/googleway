@@ -217,3 +217,132 @@ find_lon_column = function(names, calling_function, stopOnFailure = TRUE) {
   return(NA)
 }
 
+
+validateAlternatives <- function(alternatives){
+  if(is.null(alternatives)) return(NULL)
+
+  alternatives <- tolower(logicalCheck(alternatives))
+
+  return(alternatives)
+}
+
+validateArrivalTime <- function(arrival_time){
+
+  if(is.null(arrival_time)) return(NULL)
+
+  checkPosix(arrival_time)
+  return(arrival_time)
+}
+
+validateArrivalDepartureTimes <- function(arrival_time, departure_time){
+
+
+  if(!is.null(arrival_time) & !is.null(departure_time)){
+    warning("you have supplied both an arrival_time and a departure_time - only one is allowed. The arrival_time will be ignored")
+    return(NULL)
+  }
+  return(arrival_time)
+}
+
+validateAvoid <- function(avoid){
+  if(is.null(avoid)) return(NULL)
+
+  if(!all(tolower(avoid) %in% c("tolls","highways","ferries","indoor"))){
+    stop("avoid can only include tolls, highways, ferries or indoor")
+  }else{
+    if(length(avoid) > 1){
+      avoid <- paste0(tolower(avoid), collapse = "|")
+    }else{
+      avoid <- tolower(avoid)
+    }
+  }
+  return(avoid)
+}
+
+validateDepartureTime <- function(departure_time){
+  if(is.null(departure_time)) return(NULL)
+
+  checkPosix(departure_time)
+
+  if(departure_time < Sys.time()){
+    stop("departure_time must not be in the past")
+  }
+
+  return(departure_time)
+}
+
+checkPosix <- function(time){
+  if(!inherits(time, "POSIXct"))
+    stop("times must be a POSIXct object")
+}
+
+validateLanguage <- function(language){
+  if(is.null(language)) return(NULL)
+
+  if(class(language) != "character" | length(language) > 1){
+    stop("language must be a single string")
+  }
+  return(tolower(language))
+}
+
+validateRegion <- function(region){
+  if(is.null(region)) return(NULL)
+
+  if(class(region) != "character" | length(region) > 1)
+    stop("region must be a two-character string")
+
+  return(tolower(region))
+}
+
+validateTrafficModel <- function(traffic_model){
+  if(is.null(traffic_model)) return(NULL)
+
+  ## allow an underscore to pass
+  traffic_model <- match.arg(gsub("_", " ", traffic_model), choices = c("best guess", "pessimistic","optimistic"))
+  traffic_model <- gsub(" ", "_", traffic_model)
+
+}
+
+validateTransitMode <- function(transit_mode, mode){
+
+  if(!is.null(transit_mode) & mode != "transit"){
+    warning("You have specified a transit_mode, but are not using mode = 'transit'. Therefore this argument will be ignored")
+    return(NULL)
+  }else if(!is.null(transit_mode) & mode == "transit"){
+    transit_mode <- match.arg(transit_mode, choices = c("bus","subway","train","tram","rail"))
+  }
+
+  return(transit_mode)
+}
+
+validateTransitRoutingPreference <- function(transit_routing_preference, mode) {
+  if(!is.null(transit_routing_preference) & mode != "transit"){
+    warning("You have specified a transit_routing_preference, but are not using mode = 'transit'. Therefore this argument will be ignored")
+    return(NULL)
+  }else if(!is.null(transit_routing_preference) & mode == "transit"){
+    transit_routing_preference <- match.arg(transit_routing_preference, choices = c("less_walking","fewer_transfers"))
+    transit_routing_preference <- paste0(transit_routing_preference, collapse = "|")
+  }
+  return(transit_routing_preference)
+}
+
+validateWaypoints <- function(waypoints, optimise_waypoints, mode){
+  if(is.null(waypoints)) return(NULL)
+
+  if(!mode %in% c("driving", "walking","bicycling"))
+    stop("waypoints are only valid for driving, walking or bicycling modes")
+
+  if(class(waypoints) != "list")
+    stop("waypoints must be a list")
+
+  if(!all(names(waypoints) %in% c("stop", "via")))
+    stop("waypoint list elements must be named either 'via' or 'stop'")
+
+  ## check if waypoints should be optimised, and thefore only use 'stop' as a valid waypoint
+  if(optimise_waypoints == TRUE){
+    if(any(names(waypoints) %in% c("via")))
+      stop("waypoints can only be optimised for stopovers. Each waypoint in the list must be named as stop")
+  }
+
+  return(constructWaypoints(waypoints, optimise_waypoints))
+}
