@@ -42,8 +42,7 @@ google_reverse_geocode <- function(location,
     stop("A Valid Google Developers API key is required")
 
   logicalCheck(simplify)
-  location <- validateLocation(location)
-
+  location <- validateGeocodeLocation(location)
   result_type <- validateResultType(result_type)
   location_type <- validateLocationType(location_type)
   language <- validateLanguage(language)

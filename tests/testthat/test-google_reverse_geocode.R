@@ -48,7 +48,7 @@ test_that("language is one string",{
   expect_error(google_reverse_geocode(location = c(-37.81659, 144.9841),
                                       language = c("en","fr"),
                                       key = "abc"),
-               "language must be a single character vector or string")
+               "language must be a single string")
 
 })
 

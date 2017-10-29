@@ -314,7 +314,7 @@ validateLanguage <- function(language){
   return(tolower(language))
 }
 
-validateLocation <- function(location){
+validateGeocodeLocation <- function(location){
 
   if(!is.numeric(location))
     stop("location must be a vector of a pair of latitude and longitude coordinates")
