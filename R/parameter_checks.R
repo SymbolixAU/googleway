@@ -259,6 +259,35 @@ validateAvoid <- function(avoid){
   return(avoid)
 }
 
+validateBounds <- function(bounds){
+  if(is.null(bounds)) return(NULL)
+
+  if(!class(bounds) == "list" | !all(sapply(bounds, class) == "numeric") | length(bounds) != 2)
+    stop("bounds must be a list of length 2, each item being a vector of lat/lon coordinate pairs")
+
+  if(!all(sapply(bounds, length) == 2))
+    stop("each element of bounds must be length 2 - a pair of lat/lon coordinates")
+
+  bounds <- paste0(lapply(bounds, function(x) paste0(x, collapse = ",")), collapse = "|")
+  return(bounds)
+}
+
+validateComponents <- function(components){
+  if(is.null(components)) return(NULL)
+
+  if(!inherits(components, "data.frame") | !sum(names(components) %in% c("component","value")) == 2)
+    stop("components must be a data.frame with two columns named 'component' and 'value'")
+
+  ## error on misspelled components
+  if(!any(as.character(components$component) %in% c("route","locality","administrative_area","postal_code","country")))
+    stop("valid components are 'route', 'locality', 'postal_code', 'administrative_area' and 'country'")
+
+  components = paste0(apply(components, 1, function(x) paste0(x, collapse = ":")), collapse = "|")
+  components <- tolower(components)
+  return(components)
+}
+
+
 validateDepartureTime <- function(departure_time){
   if(is.null(departure_time)) return(NULL)
 

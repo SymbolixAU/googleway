@@ -47,13 +47,13 @@ test_that("language is a single string",{
                               language = c("en","fr"),
                               key = "abc",
                               simplify = FALSE),
-               "language must be a single character vector or string")
+               "language must be a single string")
 
   expect_error(google_geocode(address = "MCG, Melbourne",
                               language = 1,
                               key = "abc",
                               simplify = FALSE),
-               "language must be a single character vector or string")
+               "language must be a single string")
 
 })
 

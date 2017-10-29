@@ -69,48 +69,14 @@ google_geocode <- function(address,
 
   logicalCheck(simplify)
 
-  ## address check
   address <- check_address(address)
-  addres <- tolower(address)
-
-  ## bounds check
-  if(!is.null(bounds) & (!class(bounds) == "list" | !all(sapply(bounds, class) == "numeric") | length(bounds) != 2))
-    stop("bounds must be a list of length 2, each item being a vector of lat/lon coordinate pairs")
-
-  if(!all(sapply(bounds, length) == 2))
-    stop("each element of bounds must be length 2 - a pair of lat/lon coordinates")
-
-  bounds <- paste0(lapply(bounds, function(x) paste0(x, collapse = ",")), collapse = "|")
-
-  ## language check
-  if(!is.null(language) & (class(language) != "character" | length(language) > 1))
-    stop("language must be a single character vector or string")
-
-  if(!is.null(language))
-    language <- tolower(language)
-
-  ## region check
-  if(!is.null(region) & (class(region) != "character" | length(region) > 1))
-    stop("region must be a two-character string")
-
-  if(!is.null(region))
-    region <- tolower(region)
-
-  ## components check
-  if(!is.null(components)){
-    if(!inherits(components, "data.frame") | !sum(names(components) %in% c("component","value")) == 2)
-      stop("components must be a data.frame with two columns named 'component' and 'value'")
-
-    ## error on misspelled components
-    if(!any(as.character(components$component) %in% c("route","locality","administrative_area","postal_code","country")))
-      stop("valid components are 'route', 'locality', 'postal_code', 'administrative_area' and 'country'")
-
-    components = paste0(apply(components, 1, function(x) paste0(x, collapse = ":")), collapse = "|")
-    components <- tolower(components)
-  }
+  address <- tolower(address)
+  bounds <- validateBounds(bounds)
+  language <- validateLanguage(language)
+  region <- validateRegion(region)
+  components <- validateComponents(components)
 
   map_url <- "https://maps.googleapis.com/maps/api/geocode/json?"
-
   map_url <- constructURL(map_url, c("address" = address,
                                      "bounds" = bounds,
                                      "language" = language,
