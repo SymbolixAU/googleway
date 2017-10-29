@@ -303,6 +303,7 @@ validateTrafficModel <- function(traffic_model){
 
 }
 
+## transit_mode is only valid where mode = transit
 validateTransitMode <- function(transit_mode, mode){
 
   if(!is.null(transit_mode) & mode != "transit"){
@@ -315,6 +316,7 @@ validateTransitMode <- function(transit_mode, mode){
   return(transit_mode)
 }
 
+## transit_routing_preference only valid where mode == transit
 validateTransitRoutingPreference <- function(transit_routing_preference, mode) {
   if(!is.null(transit_routing_preference) & mode != "transit"){
     warning("You have specified a transit_routing_preference, but are not using mode = 'transit'. Therefore this argument will be ignored")

@@ -48,33 +48,25 @@ directions_data <- function(base_url,
                             simplify = TRUE,
                             curl_proxy = NULL){
 
-  ## parameter check
   if(is.null(key))
     stop("A Valid Google Developers API key is required")
 
   mode <- match.arg(mode)
   units <- match.arg(units)
-  # traffic_model <- match.arg(traffic_model)
 
   logicalCheck(simplify)
   avoid <- validateAvoid(avoid)
 
-  ## transit_mode is only valid where mode = transit
   transit_mode <- validateTransitMode(transit_mode, mode)
-
-  ## transit_routing_preference only valid where mode == transit
   transit_routing_preference <- validateTransitRoutingPreference(transit_routing_preference, mode)
 
-  ## check departure time is valid
   departure_time <- validateDepartureTime(departure_time)
 
-  ## check arrival time is valid
   arrival_time <- validateArrivalTime(arrival_time)
   arrival_time <- validateArrivalDepartureTimes(arrival_time, departure_time)
 
   alternatives <- validateAlternatives(alternatives)
 
-  ## check traffic model is valid
   if(!is.null(traffic_model) & is.null(departure_time))
     departure_time <- Sys.time()
 
@@ -93,13 +85,8 @@ directions_data <- function(base_url,
   departure_time <- ifelse(is.null(departure_time), as.integer(Sys.time()), as.integer(departure_time))
   arrival_time <- as.integer(arrival_time)
 
-  ## check waypoints are valid
   waypoints <- validateWaypoints(waypoints, optimise_waypoints, mode)
-
-  ## language check
   language <- validateLanguage(language)
-
-  ## region check
   region <- validateRegion(region)
 
   ## construct url
