@@ -178,9 +178,6 @@ directions_data <- function(base_url,
   }
 
 #  waypoints <- constructWaypoints(waypoints, optimise_waypoints, mode)
-  print(waypoints)
-
-
 
 
   ## language check
@@ -219,8 +216,6 @@ directions_data <- function(base_url,
             "key" = key)
 
   map_url <- constructURL(base_url, args)
-
-  print(map_url)
 
   if(length(map_url) > 1)
     stop("invalid map_url")
