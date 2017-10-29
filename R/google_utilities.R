@@ -218,8 +218,33 @@ constructURL <- function(map_url, urlArgs){
     )
 }
 
+# Construct Waypoints
+#
+# constructs valid waypoint parameters for directions API
+# @param waypoints list of waypoints
+# @param optimise_waypoints logical indicating if they should be optimised
+constructWaypoints <- function(waypoints, optimise_waypoints){
 
+  waypoints <- sapply(1:length(waypoints), function(x) {
+    if(length(names(waypoints)) > 0){
+      if(names(waypoints)[x] == "via"){
+        paste0("via:", check_location(waypoints[[x]]))
+      }else{
+        ## 'stop' is the default in google, and the 'stop' identifier is not needed
+        check_location(waypoints[[x]])
+      }
+    }else{
+      check_location(waypoints[[x]])
+    }
+  })
 
+  if(optimise_waypoints == TRUE){
+    waypoints <- paste0("optimize:true|", paste0(waypoints, collapse = "|"))
+  }else{
+    waypoints <- paste0(waypoints, collapse = "|")
+  }
+  return(waypoints)
+}
 
 
 

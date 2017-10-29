@@ -67,7 +67,8 @@ to \code{transit_mode=c("train", "tram", "subway")}}
 transit directions.}
 
 \item{language}{\code{string} - specifies the language in which to return the results.
-See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis} If no langauge is supplied, the service will attempt to use the language of the domain from which the request was sent}
+See the list of supported languages: \url{https://developers.google.com/maps/faq#languagesupport}.
+If no langauge is supplied, the service will attempt to use the language of the domain from which the request was sent}
 
 \item{region}{\code{string} - specifies the region code, specified as a ccTLD
 ("top-level domain"). See region basing for details
@@ -75,7 +76,8 @@ See the list of supported languages: \url{https://developers.google.com/maps/faq
 
 \item{key}{\code{string} - a valid Google Developers Directions API key}
 
-\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string}
+\item{simplify}{\code{logical} - TRUE indicates the returned JSON will be coerced into a list.
+FALSE indicates the returend JSON will be returned as a string}
 
 \item{curl_proxy}{a curl proxy object}
 }

@@ -27,8 +27,6 @@ NULL
 #' }
 NULL
 
-## build notes
-# --use-valgrind
 directions_data <- function(base_url,
                             information_type = c("directions","distance"),
                             origin,
@@ -139,50 +137,14 @@ directions_data <- function(base_url,
   arrival_time <- as.integer(arrival_time)
 
   ## check waypoints are valid
-  if(!is.null(waypoints) & !mode %in% c("driving", "walking","bicycling"))
-    stop("waypoints are only valid for driving, walking or bicycling modes")
-
-  if(!is.null(waypoints) & class(waypoints) != "list")
-    stop("waypoints must be a list")
-
-  if(!is.null(waypoints) & !all(names(waypoints) %in% c("stop", "via")))
-    stop("waypoint list elements must be named either 'via' or 'stop'")
-
-  ## check if waypoints should be optimised, and thefore only use 'stop' as a valid waypoint
-  if(optimise_waypoints == TRUE){
-    if(any(names(waypoints) %in% c("via")))
-      stop("waypoints can only be optimised for stopovers. Each waypoint in the list must be named as stop")
-  }
-
-  if(!is.null(waypoints)){
-    ## construct waypoint string
-
-    waypoints <- sapply(1:length(waypoints), function(x) {
-      if(length(names(waypoints)) > 0){
-        if(names(waypoints)[x] == "via"){
-          paste0("via:", check_location(waypoints[[x]]))
-        }else{
-          ## 'stop' is the default in google, and the 'stop' identifier is not needed
-          check_location(waypoints[[x]])
-        }
-      }else{
-        check_location(waypoints[[x]])
-      }
-    })
-
-    if(optimise_waypoints == TRUE){
-      waypoints <- paste0("optimize:true|", paste0(waypoints, collapse = "|"))
-    }else{
-      waypoints <- paste0(waypoints, collapse = "|")
-    }
-  }
-
-#  waypoints <- constructWaypoints(waypoints, optimise_waypoints, mode)
-
+  waypoints <- validateWaypoints(waypoints, optimise_waypoints, mode)
 
   ## language check
-  if(!is.null(language) & (class(language) != "character" | length(language) > 1))
-    stop("language must be a single character vector or string")
+  if(!is.null(language)){
+    if(class(language) != "character" | length(language) > 1){
+      stop("language must be a single string")
+      }
+    }
 
   if(!is.null(language))
     language <- tolower(language)

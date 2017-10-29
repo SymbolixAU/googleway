@@ -46,12 +46,14 @@
 #' 'fewer_transfers'. specifies preferences for transit routes. Only valid for
 #' transit directions.
 #' @param language \code{string} - specifies the language in which to return the results.
-#' See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis} If no langauge is supplied, the service will attempt to use the language of the domain from which the request was sent
+#' See the list of supported languages: \url{https://developers.google.com/maps/faq#languagesupport}.
+#' If no langauge is supplied, the service will attempt to use the language of the domain from which the request was sent
 #' @param region \code{string} - specifies the region code, specified as a ccTLD
 #' ("top-level domain"). See region basing for details
 #' \url{https://developers.google.com/maps/documentation/directions/intro#RegionBiasing}
 #' @param key \code{string} - a valid Google Developers Directions API key
-#' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string
+#' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list.
+#' FALSE indicates the returend JSON will be returned as a string
 #' @param curl_proxy a curl proxy object
 #' @return Either list or JSON string of the route between origin and destination
 #' @examples
@@ -172,6 +174,27 @@ google_directions <- function(origin,
 
 }
 
+
+validateWaypoints <- function(waypoints, optimise_waypoints, mode){
+  if(is.null(waypoints)) return(NULL)
+
+  if(!mode %in% c("driving", "walking","bicycling"))
+    stop("waypoints are only valid for driving, walking or bicycling modes")
+
+  if(class(waypoints) != "list")
+    stop("waypoints must be a list")
+
+  if(!all(names(waypoints) %in% c("stop", "via")))
+    stop("waypoint list elements must be named either 'via' or 'stop'")
+
+  ## check if waypoints should be optimised, and thefore only use 'stop' as a valid waypoint
+  if(optimise_waypoints == TRUE){
+    if(any(names(waypoints) %in% c("via")))
+      stop("waypoints can only be optimised for stopovers. Each waypoint in the list must be named as stop")
+  }
+
+  return(constructWaypoints(waypoints, optimise_waypoints))
+}
 
 validateLocation <- function(location) UseMethod("validateLocation")
 
