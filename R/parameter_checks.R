@@ -314,6 +314,35 @@ validateLanguage <- function(language){
   return(tolower(language))
 }
 
+validateLocation <- function(location){
+
+  if(!is.numeric(location))
+    stop("location must be a vector of a pair of latitude and longitude coordinates")
+
+  if(!length(location) == 2)
+    stop("location must be a vector of a pair of latitude and longitude coordinates")
+
+  location <- paste0(location, collapse = ",")
+  return(location)
+
+}
+
+
+
+validateLocationType <- function(location_type){
+  if(is.null(location_type)) return(NULL)
+
+  if(length(setdiff(location_type, c("rooftop","range_interpolated", "geometric_center", "approximate"))) > 0)
+    stop("invlalid values for location_type")
+
+  if(length(location_type) > 1){
+    location_type <- paste0(toupper(location_type), collapse = "|")
+  }else{
+    location_type <- toupper(location_type)
+  }
+  return(location_type)
+}
+
 validateRegion <- function(region){
   if(is.null(region)) return(NULL)
 
@@ -321,6 +350,21 @@ validateRegion <- function(region){
     stop("region must be a two-character string")
 
   return(tolower(region))
+}
+
+validateResultType <- function(result_type){
+  if(is.null(result_type)) return(NULL)
+
+  if(!class(result_type) == "character")
+    stop("result_type must be a vector of strings")
+
+  if(length(result_type) > 1){
+    result_type <- paste0(tolower(result_type), collapse = "|")
+  }else{
+    result_type <- tolower(result_type)
+  }
+
+  return(result_type)
 }
 
 validateTrafficModel <- function(traffic_model){
