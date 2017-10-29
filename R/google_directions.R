@@ -17,11 +17,12 @@
 #' @param arrival_time \code{POSIXct}. Specifies the desired time of arrival. Note you
 #' can only specify one of \code{arrival_time} or \code{departure_time}, not both.
 #' If both are supplied, \code{departure_time} will be used.
-#' @param waypoints list of waypoints, expressed as either a \code{vector} of
-#' lat/lon coordinates, or a \code{string} address to be geocoded. Only available
-#' for driving, walking or bicycling modes. List elements must be named either
-#' 'stop' or 'via', where 'stop' is used to indicate a stopover for a waypoint,
-#' and 'via' will not stop at the waypoint.
+#' @param waypoints list of waypoints, expressed as either \code{vectors} of
+#' lat/lon coordinates, or a \code{string} address to be geocoded, or an encoded
+#' polyline enclosed by \code{enc:} and \code{:}. Only available for driving,
+#' walking or bicycling modes. List elements must be named either 'stop' or 'via',
+#' where 'stop' is used to indicate a stopover for a waypoint, and 'via' will
+#' not stop at the waypoint.
 #' See \url{https://developers.google.com/maps/documentation/directions/intro#Waypoints} for details
 #' @param optimise_waypoints \code{boolean} allow the Directions service to optimize the
 #' provided route by rearranging the waypoints in a more efficient order.
@@ -82,6 +83,16 @@
 #'          units = "imperial",
 #'          key = api_key,
 #'          simplify = TRUE)
+#'
+#' ## waypoints expressed as an encoded polyline
+#' polyWaypoints <- encode_pl(tram_stops[1:2, c("stop_lat")], tram_stops[1:2, c("stop_lon")])
+#' polyWaypoints <- list(via = paste0("enc:", polyWaypoints, ":"))
+#'
+#' google_directions(origin = "Melbourne Zoo, Melbourne",
+#'          destination = "Studley Park, Melbourne",
+#'          waypoints = polyWaypoints,
+#'          key = api_key)
+#'
 #'
 #' ## using bus and less walking
 #' google_directions(origin = "Melbourne Airport, Australia",

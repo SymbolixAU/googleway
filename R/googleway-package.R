@@ -156,7 +156,6 @@ directions_data <- function(base_url,
 
   if(!is.null(waypoints)){
     ## construct waypoint string
-    # waypoints <- paste0(lapply(waypoints, function(x) fun_check_waypoints(x)), collapse = "|")
 
     waypoints <- sapply(1:length(waypoints), function(x) {
       if(length(names(waypoints)) > 0){
@@ -177,6 +176,9 @@ directions_data <- function(base_url,
       waypoints <- paste0(waypoints, collapse = "|")
     }
   }
+
+#  waypoints <- constructWaypoints(waypoints, optimise_waypoints, mode)
+
 
   ## language check
   if(!is.null(language) & (class(language) != "character" | length(language) > 1))
