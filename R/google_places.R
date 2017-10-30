@@ -16,7 +16,7 @@
 #' @param search_string \code{string} A search term representing a place for
 #' which to search. If blank, the \code{location} argument must be used.
 #' @param location \code{numeric} vector of latitude/longitude coordinates
-#' (in that order) around which to retrieve place information. If blank, the
+#' (in that order) around which to retrieve place information. If \code{NULL}, the
 #' \code{search_string} argument must be used. If used in conjunction with
 #' \code{search_string} it represents the latitude/longitude around which to
 #' retrieve place information.
@@ -112,26 +112,26 @@
 #' \dontrun{
 #'
 #' ## query restaurants in Melbourne (will return 20 results)
-#' key <- 'your_api_key'
+#' api_key <- 'your_api_key'
 #'
 #' res <- google_places(search_string = "Restaurants in Melbourne, Australia",
-#'                      key = key)
+#'                      key = api_key)
 #'
 #' ## use the 'next_page_token' from the previous search to get the next 20 results
 #' res_next <- google_places(search_string = "Restaurants in Melbourne, Australia",
 #'                           page_token = res$next_page_token,
-#'                           key = key)
+#'                           key = api_key)
 #'
 #' ## search for a specific place type
 #' google_places(location = c(-37.817839,144.9673254),
 #'               place_type = "bicycle_store",
 #'               radius = 20000,
-#'               key = key)
+#'               key = api_key)
 #'
 #' ## search for places that are open at the time of query
 #'  google_places(search_string = "Bicycle shop, Melbourne, Australia",
 #'                open_now = TRUE,
-#'                key = key)
+#'                key = api_key)
 #'
 #' }
 #' @export
@@ -158,113 +158,24 @@ google_places <- function(search_string = NULL,
     stop("One of 'search_string' or 'location' must be specified")
 
   if(!is.null(location)){
-    if(length(location) != 2 | !is.numeric(location)){
-      stop("location must be a numeric vector of latitude/longitude coordinates")
-    }else{
-      location <- paste0(location, collapse = ",")
-    }
+    location <- validateGeocodeLocation(location)
   }
 
-  ## check radar is logical
-  if(!is.logical(radar))
-    stop("radar must be logical")
-
-  ## if radar search, must provide location, key, radius
-  ## if radar search, one of keyword, name or type
-  if(isTRUE(radar)){
-    if(!is.null(search_string))
-      warning("the search_string in a radar search will be ignored")
-
-    if(is.null(keyword) & is.null(name) & is.null(place_type))
-      stop("when using a radar search, one of keyword, name or place_type must be provided")
-
-    if(is.null(location))
-      stop("when using a radar search, location must be provided")
-
-    if(is.null(radius))
-      stop("when using a radar search, radius must be provided")
-
-  }
-
-  ## radius must be included if using a location search
-  if(is.null(search_string) & !is.null(location) & is.null(radius))
-    stop("you must specify a radius if only using a 'location' search")
-
-  ## check radius < 50000m
-  if(!is.null(radius)){
-    if(!is.numeric(radius))
-      stop("radius must be numeric between 0 and 50000")
-
-     if(radius > 50000 | radius < 0)
-       stop("radius must be numeric between 0 and 50000")
-  }
-
-  ## rankby has correct arguments
-  if(!is.null(rankby) & !is.null(location))
-    if(!rankby %in% c("prominence","distance","location"))
-      stop("rankby must be one of either prominence, distance or location")
-
-  ## warning if rankby used with search_string
-  if(!is.null(search_string) & !is.null(rankby))
-    warning("The 'rankby' argument is ignored when using a 'search_string'")
-
-  ## radius must not be included if rankby=distance
-  if(!is.null(rankby) & !is.null(location)){
-    if(!is.null(radius) & rankby == "distance"){
-      warning("radius is ignored when rankby == 'distance'")
-     radius <- NULL
-    }
-  }
-
-    ## if rankby == distance, then one of keyword, name or place_type must be specified
-  if(!is.null(rankby) & !is.null(location)){
-    if(rankby == "distance" &
-       is.null(keyword) & is.null(name) & is.null(place_type))
-      stop("you have specified rankby to be 'distance', so you must provide one of 'keyword','name' or 'place_type'")
-  }
-
-  ## language check
-  if(!is.null(language) & (class(language) != "character" | length(language) > 1))
-    stop("language must be a single character vector or string")
-
-
-  ## warning if name used with search_string
-  if(!is.null(search_string) & !is.null(name))
-    warning("The 'name' argument is ignored when using a 'search_string'")
-
-  if(length(name) > 1)
-    name <- paste0(name, collapse = "|")
-
-  ## price range is between 0 and 4
-  if(!is.null(price_range)){
-    if(!is.numeric(price_range) | (is.numeric(price_range) & length(price_range) != 2))
-      stop("price_range must be a numeric vector of length 2")
-  }
-
-  if(!is.null(price_range)){
-    if(!price_range[1] %in% 0:4 | !price_range[2] %in% 0:4)
-      stop("price_range must be between 0 and 4 inclusive")
-  }
-
-  ## check place type
-  if(!is.null(place_type)){
-    if(length(place_type) > 1 | !is.character(place_type))
-      stop("place_type must be a string vector of length 1")
-  }
-
-  ## open_now is boolean
-  if(!is.null(open_now)){
-    if(!is.logical(open_now) | length(open_now) != 1)
-      stop("open_now must be logical of length 1")
-  }
-
-  ## page token is single string
-  if(!is.null(page_token)){
-    if(!is.character(page_token) | length(page_token) != 1)
-      stop("page_token must be a string of length 1")
-  }
-
+  logicalCheck(radar)
   logicalCheck(simplify)
+  logicalCheck(open_now)
+
+  radar <- validateRadar(radar, search_string, keyword, name, place_type, location, radius)
+  location <- validateLocationSearch(location, search_string, radius, rankby, keyword, name, place_type)
+  radius <- validateRadius(radius)
+  rankby <- validateRankBy(rankby, location, search_string)
+  radius <- validateRadiusRankBy(rankby, radius, location)
+
+  language <- validateLanguage(language)
+  name <- validateName(name, search_string)
+  price_range <- validatePriceRange(price_range)
+  place_type <- validatePlaceType(place_type)
+  page_token <- validatePageToken(page_token)
 
   ## construct the URL
   ## if search string is specified, use the 'textsearch' url
@@ -292,7 +203,6 @@ google_places <- function(search_string = NULL,
                                      "opennow" = open_now,
                                      "pagetoken" = page_token,
                                      "key" = key))
-
 
   return(downloadData(map_url, simplify, curl_proxy))
 

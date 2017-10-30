@@ -316,6 +316,8 @@ validateLanguage <- function(language){
 
 validateGeocodeLocation <- function(location){
 
+  ## checks the location is a numeric vector (of lat/lon coordinates)
+
   if(!is.numeric(location))
     stop("location must be a vector of a pair of latitude and longitude coordinates")
 
@@ -327,7 +329,22 @@ validateGeocodeLocation <- function(location){
 
 }
 
+validateLocationSearch <- function(location, search_string, radius, rankby, keyword, name, place_type){
+  if(is.null(location)) return(NULL)
 
+  ## radius must be included if using a location search
+  if(is.null(search_string) & !is.null(location) & is.null(radius))
+    stop("you must specify a radius if only using a 'location' search")
+
+  ## if rankby == distance, then one of keyword, name or place_type must be specified
+  if(!is.null(rankby) & !is.null(location)){
+    if(rankby == "distance" &
+       is.null(keyword) & is.null(name) & is.null(place_type))
+      stop("you have specified rankby to be 'distance', so you must provide one of 'keyword','name' or 'place_type'")
+  }
+
+  return(location)
+}
 
 validateLocationType <- function(location_type){
   if(is.null(location_type)) return(NULL)
@@ -341,6 +358,112 @@ validateLocationType <- function(location_type){
     location_type <- toupper(location_type)
   }
   return(location_type)
+}
+
+validateName <- function(name, search_string){
+  if(is.null(name)) return(NULL)
+
+  ## warning if name used with search_string
+  if(!is.null(search_string) & !is.null(name))
+    warning("The 'name' argument is ignored when using a 'search_string'")
+
+  if(length(name) > 1)
+    name <- paste0(name, collapse = "|")
+
+  return(name)
+}
+
+validatePageToken <- function(page_token){
+  if(is.null(page_token)) return(NULL)
+
+  ## page token is single string
+  if(!is.character(page_token) | length(page_token) != 1)
+    stop("page_token must be a string of length 1")
+
+  return(page_token)
+}
+
+
+validatePlaceType <- function(place_type){
+  if(is.null(place_type)) return(NULL)
+
+  if(length(place_type) > 1 | !is.character(place_type))
+    stop("place_type must be a string vector of length 1")
+
+  return(place_type)
+}
+
+validatePriceRange <- function(price_range){
+  if(is.null(price_range)) return(NULL)
+
+  ## price range is between 0 and 4
+  if(!is.numeric(price_range) | (is.numeric(price_range) & length(price_range) != 2))
+    stop("price_range must be a numeric vector of length 2")
+
+  if(!price_range[1] %in% 0:4 | !price_range[2] %in% 0:4)
+    stop("price_range must be between 0 and 4 inclusive")
+
+  return(price_range)
+}
+
+
+validateRadar <- function(radar, search_string, keyword, name, place_type, location, radius){
+  ## if radar search, must provide location, key, radius
+  ## if radar search, one of keyword, name or type
+  if(isTRUE(radar)){
+    if(!is.null(search_string))
+      warning("the search_string in a radar search will be ignored")
+
+    if(is.null(keyword) & is.null(name) & is.null(place_type))
+      stop("when using a radar search, one of keyword, name or place_type must be provided")
+
+    if(is.null(location))
+      stop("when using a radar search, location must be provided")
+
+    if(is.null(radius))
+      stop("when using a radar search, radius must be provided")
+  }
+
+  return(radar)
+}
+
+validateRadius <- function(radius){
+  if(is.null(radius)) return(NULL)
+
+  if(!is.numeric(radius))
+    stop("radius must be numeric between 0 and 50000")
+
+  if(radius > 50000 | radius < 0)
+    stop("radius must be numeric between 0 and 50000")
+
+  return(radius)
+}
+
+validateRadiusRankBy <- function(rankby, radius, location){
+
+  ## radius must not be included if rankby=distance
+  if(!is.null(rankby) & !is.null(location)){
+    if(!is.null(radius) & rankby == "distance"){
+      warning("radius is ignored when rankby == 'distance'")
+      radius <- NULL
+    }
+  }
+  return(radius)
+}
+
+validateRankBy <- function(rankby, location, search_string){
+  if(is.null(rankby)) return(NULL)
+
+  ## rankby has correct arguments
+  if(!is.null(location))
+    if(!rankby %in% c("prominence","distance","location"))
+      stop("rankby must be one of either prominence, distance or location")
+
+  ## warning if rankby used with search_string
+  if(!is.null(search_string))
+    warning("The 'rankby' argument is ignored when using a 'search_string'")
+
+  return(rankby)
 }
 
 validateRegion <- function(region){

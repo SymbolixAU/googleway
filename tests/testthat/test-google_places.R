@@ -11,13 +11,13 @@ test_that("search string or location specified", {
 test_that("location is a numeric vector",{
 
   expect_error(google_places(location = c("Melbourne, Australia")),
-               "location must be a numeric vector of latitude/longitude coordinates")
+               "location must be a vector of a pair of latitude and longitude coordinates")
 
   expect_error(google_places(location = c(-37.9)),
-               "location must be a numeric vector of latitude/longitude coordinates")
+               "location must be a vector of a pair of latitude and longitude coordinates")
 
   expect_error(google_places(location = c(-37.9, 144.5, 0)),
-               "location must be a numeric vector of latitude/longitude coordinates")
+               "location must be a vector of a pair of latitude and longitude coordinates")
 
 })
 
@@ -133,7 +133,7 @@ test_that("open_now is logical", {
 
   expect_error(google_places(search_string = "Restaurants in Melbourne, Australia",
                              open_now = "TRUE"),
-               "open_now must be logical of length 1")
+               "open_now must be logical - TRUE or FALSE")
 
 })
 

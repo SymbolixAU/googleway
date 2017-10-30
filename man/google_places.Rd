@@ -14,7 +14,7 @@ google_places(search_string = NULL, location = NULL, radar = FALSE,
 which to search. If blank, the \code{location} argument must be used.}
 
 \item{location}{\code{numeric} vector of latitude/longitude coordinates
-(in that order) around which to retrieve place information. If blank, the
+(in that order) around which to retrieve place information. If \code{NULL}, the
 \code{search_string} argument must be used. If used in conjunction with
 \code{search_string} it represents the latitude/longitude around which to
 retrieve place information.}
@@ -134,26 +134,26 @@ for the Google Places API Web Service \url{https://developers.google.com/places/
 \dontrun{
 
 ## query restaurants in Melbourne (will return 20 results)
-key <- 'your_api_key'
+api_key <- 'your_api_key'
 
 res <- google_places(search_string = "Restaurants in Melbourne, Australia",
-                     key = key)
+                     key = api_key)
 
 ## use the 'next_page_token' from the previous search to get the next 20 results
 res_next <- google_places(search_string = "Restaurants in Melbourne, Australia",
                           page_token = res$next_page_token,
-                          key = key)
+                          key = api_key)
 
 ## search for a specific place type
 google_places(location = c(-37.817839,144.9673254),
               place_type = "bicycle_store",
               radius = 20000,
-              key = key)
+              key = api_key)
 
 ## search for places that are open at the time of query
  google_places(search_string = "Bicycle shop, Melbourne, Australia",
                open_now = TRUE,
-               key = key)
+               key = api_key)
 
 }
 }
