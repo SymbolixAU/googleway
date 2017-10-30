@@ -59,7 +59,7 @@
 #' @examples
 #' \dontrun{
 #'
-#' api_key <- "your_api_key
+#' api_key <- "your_api_key"
 #' ## using lat/long coordinates
 #' google_directions(origin = c(-37.8179746, 144.9668636),
 #'           destination = c(-37.81659, 144.9841),
@@ -67,14 +67,15 @@
 #'           key = api_key)
 #'
 #'
-#'## using address string
-#'google_directions(origin = "Flinders Street Station, Melbourne",
+#'
+#' ## using address string
+#' google_directions(origin = "Flinders Street Station, Melbourne",
 #'          destination = "MCG, Melbourne",
 #'          mode = "walking",
 #'          key = api_key)
 #'
 #'
-#'google_directions(origin = "Melbourne Airport, Australia",
+#' google_directions(origin = "Melbourne Airport, Australia",
 #'          destination = "Portsea, Melbourne, Australia",
 #'          departure_time =  Sys.time() + (24 * 60 * 60),
 #'          waypoints = list(stop = c(-37.81659, 144.9841),

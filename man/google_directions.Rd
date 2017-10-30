@@ -89,3 +89,77 @@ The Google Maps Directions API is a service that calculates directions between
 locations. You can search for directions for several modes of transportation,
 including transit, driving, walking, or cycling.
 }
+\examples{
+\dontrun{
+
+api_key <- "your_api_key"
+## using lat/long coordinates
+google_directions(origin = c(-37.8179746, 144.9668636),
+          destination = c(-37.81659, 144.9841),
+          mode = "walking",
+          key = api_key)
+
+
+
+## using address string
+google_directions(origin = "Flinders Street Station, Melbourne",
+         destination = "MCG, Melbourne",
+         mode = "walking",
+         key = api_key)
+
+
+google_directions(origin = "Melbourne Airport, Australia",
+         destination = "Portsea, Melbourne, Australia",
+         departure_time =  Sys.time() + (24 * 60 * 60),
+         waypoints = list(stop = c(-37.81659, 144.9841),
+                           via = "Ringwood, Victoria"),
+         mode = "driving",
+         alternatives = FALSE,
+         avoid = c("TOLLS", "highways"),
+         units = "imperial",
+         key = api_key,
+         simplify = TRUE)
+
+## waypoints expressed as an encoded polyline
+polyWaypoints <- encode_pl(tram_stops[1:2, c("stop_lat")], tram_stops[1:2, c("stop_lon")])
+polyWaypoints <- list(via = paste0("enc:", polyWaypoints, ":"))
+
+google_directions(origin = "Melbourne Zoo, Melbourne",
+         destination = "Studley Park, Melbourne",
+         waypoints = polyWaypoints,
+         key = api_key)
+
+
+## using bus and less walking
+google_directions(origin = "Melbourne Airport, Australia",
+         destination = "Portsea, Melbourne, Australia",
+         departure_time =  Sys.time() + (24 * 60 * 60),
+         mode = "transit",
+         transit_mode = "bus",
+         transit_routing_preference = "less_walking",
+         key = api_key,
+         simplify = FALSE)
+
+## using arrival time
+google_directions(origin = "Melbourne Airport, Australia",
+         destination = "Portsea, Melbourne, Australia",
+         arrival_time =  Sys.time() + (24 * 60 * 60),
+         mode = "transit",
+         transit_mode = "bus",
+         transit_routing_preference = "less_walking",
+         key = api_key,
+         simplify = FALSE)
+
+## return results in French
+google_directions(origin = "Melbourne Airport, Australia",
+         destination = "Portsea, Melbourne, Australia",
+         arrival_time =  Sys.time() + (24 * 60 * 60),
+         mode = "transit",
+         transit_mode = "bus",
+         transit_routing_preference = "less_walking",
+         language = "fr",
+         key = api_key,
+         simplify = FALSE)
+
+}
+}
