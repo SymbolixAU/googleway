@@ -34,14 +34,8 @@ google_timezone <- function(location,
                             key
                             ){
 
-  ## check location
-  if(!is.numeric(location))
-    stop("location must be a vector of a pair of latitude and longitude coordinates")
 
-  if(!length(location) == 2)
-    stop("location must be a vector of a pair of latitude and longitude coordinates")
-
-  location <- paste0(location, collapse = ",")
+  location <- validateGeocodeLocation(location)
 
   ## check timestamp
   if(!inherits(timestamp, "POSIXct") | length(timestamp) != 1)
@@ -49,13 +43,7 @@ google_timezone <- function(location,
 
   timestamp <- as.integer(timestamp)
 
-  ## language check
-  if(!is.null(language) & (class(language) != "character" | length(language) > 1))
-    stop("language must be a single character vector or string")
-
-  if(!is.null(language))
-    language <- tolower(language)
-
+  language <- validateLanguage(language)
   logicalCheck(simplify)
 
   map_url <- "https://maps.googleapis.com/maps/api/timezone/json?"
