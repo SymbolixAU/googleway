@@ -11,39 +11,45 @@ test_that("place input is valid", {
 test_that("location is valid", {
 
   expect_error(google_place_autocomplete(place_input = "here",
-                                         location = c("lat", "lon")),
-               "location must be a numeric vector of latitude/longitude coordinates")
+                                         location = c("lat", "lon"),
+                                         key = "abc"),
+               "location must be a vector of a pair of latitude and longitude coordinates")
 
   expect_error(google_place_autocomplete(place_input = "here",
-                                         location = c(-37, 144, 0)),
-               "location must be a numeric vector of latitude/longitude coordinates")
+                                         location = c(-37, 144, 0),
+                                         key = "abc"),
+               "location must be a vector of a pair of latitude and longitude coordinates")
 
 })
 
 test_that("radius is valid",{
 
   expect_error(google_place_autocomplete(place_input = "here",
-                                         radius = c(1,2)),
-               "radius must be a numeric vector of length 1")
+                                         radius = c(1,2),
+                                         key = "abc"),
+               "radius must be numeric vector of length 1")
 
   expect_error(google_place_autocomplete(place_input = "here",
-                                         radius = list(1)),
-               "radius must be a numeric vector of length 1")
+                                         radius = list(1),
+                                         key = "abc"),
+               "radius must be numeric vector of length 1")
 })
 
 
 test_that("language is valid", {
 
   expect_error(google_place_autocomplete(place_input = "here",
-                                         language = c("english", "french")),
-               "language must be a single character vector or string")
+                                         language = c("english", "french"),
+                                         key = "abc"),
+               "language must be a single string")
 
 })
 
 test_that("place type is valid", {
 
   expect_error(google_place_autocomplete(place_input = "here",
-                                         place_type = c("type 1", "type 2")),
+                                         place_type = c("type 1", "type 2"),
+                                         key = "abc"),
                "place_type must be a string vector of length 1")
 
 })
@@ -51,12 +57,14 @@ test_that("place type is valid", {
 test_that("components are valid", {
 
   expect_error(google_place_autocomplete(place_input = "here",
-                                         components = "abc"),
-               "components must be a string vector of length 1, and represent an ISO 3166-1 Alpha-2 country code")
+                                         components = "abc",
+                                         key = "abc"),
+               "components must be two characters and represent an ISO 3166-1 Alpha-2 country code")
 
   expect_error(google_place_autocomplete(place_input = "here",
-                                         components = c("ab", "abc")),
-               "components must be a string vector of length 1, and represent an ISO 3166-1 Alpha-2 country code")
+                                         components = c("ab", "abc"),
+                                         key = "abc"),
+               "components must be two characters and represent an ISO 3166-1 Alpha-2 country code")
 
 })
 

@@ -287,6 +287,24 @@ validateComponents <- function(components){
   return(components)
 }
 
+validateComponentsCountries <- function(components){
+  if(is.null(components)) return(NULL)
+
+  if(length(components) > 5){
+    stop("components only supports up to 5 countries")
+  }
+
+  if(!all(nchar(components) == 2)){
+    stop("components must be two characters and represent an ISO 3166-1 Alpha-2 country code")
+  }
+
+  if(!is.character(components)){
+    stop("components must be two characters and represent an ISO 3166-1 Alpha-2 country code")
+  }
+
+  components <- paste0("country:", components, collapse = "|")
+  return(components)
+}
 
 validateDepartureTime <- function(departure_time){
   if(is.null(departure_time)) return(NULL)
@@ -316,6 +334,7 @@ validateLanguage <- function(language){
 
 validateGeocodeLocation <- function(location){
 
+  if(is.null(location)) return(NULL)
   ## checks the location is a numeric vector (of lat/lon coordinates)
 
   if(!is.numeric(location))
@@ -429,6 +448,9 @@ validateRadar <- function(radar, search_string, keyword, name, place_type, locat
 
 validateRadius <- function(radius){
   if(is.null(radius)) return(NULL)
+
+  if(length(radius) != 1 | is.list(radius))
+    stop("radius must be numeric vector of length 1")
 
   if(!is.numeric(radius))
     stop("radius must be numeric between 0 and 50000")

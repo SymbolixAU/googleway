@@ -41,17 +41,10 @@ google_place_details <- function(place_id,
                                  curl_proxy = NULL,
                                  key){
 
-  ## language check
-  if(!is.null(language) & (class(language) != "character" | length(language) > 1))
-    stop("language must be a single character vector or string")
-
-  if(!is.null(language))
-    language <- tolower(language)
-
+  language <- validateLanguage(language)
   logicalCheck(simplify)
 
   map_url <- "https://maps.googleapis.com/maps/api/place/details/json?"
-
   map_url <- constructURL(map_url, c("placeid" = place_id,
                                      "language" = language,
                                      "key" = key))
