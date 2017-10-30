@@ -318,10 +318,7 @@ validateDepartureTime <- function(departure_time){
   return(departure_time)
 }
 
-checkPosix <- function(time){
-  if(!inherits(time, "POSIXct"))
-    stop("times must be a POSIXct object")
-}
+
 
 validateLanguage <- function(language){
   if(is.null(language)) return(NULL)
@@ -330,6 +327,17 @@ validateLanguage <- function(language){
     stop("language must be a single string")
   }
   return(tolower(language))
+}
+
+validateFov <- function(fov){
+
+  if(length(fov) != 1)
+    stop("fov must be a single value")
+
+  if(!is.numeric(fov) | fov < 0 | fov > 120)
+    stop("fov must be a numeric value between 0 and 120 (inclusive)")
+
+  return(fov)
 }
 
 validateGeocodeLocation <- function(location){
@@ -346,6 +354,20 @@ validateGeocodeLocation <- function(location){
   location <- paste0(location, collapse = ",")
   return(location)
 
+}
+
+
+validateHeading <- function(heading){
+  if(is.null(heading)) return(NULL)
+
+  if(length(heading) != 1)
+    stop("heading must be a single value")
+
+  if(!is.numeric(heading) | heading < 0 | heading > 360){
+    stop("heading must be a numeric value between 0 and 360 (inclusive)")
+  }
+
+  return(heading)
 }
 
 validateLocationSearch <- function(location, search_string, radius, rankby, keyword, name, place_type){
@@ -403,6 +425,18 @@ validatePageToken <- function(page_token){
 }
 
 
+validatePitch <- function(pitch){
+
+  if(length(pitch) != 1)
+    stop("pitch must be a single value")
+
+  if(!is.numeric(pitch) | pitch < -90 | pitch > 90){
+    stop("pitch must be between -90 and 90 (inclusive)")
+  }
+
+  return(pitch)
+}
+
 validatePlaceType <- function(place_type){
   if(is.null(place_type)) return(NULL)
 
@@ -411,6 +445,13 @@ validatePlaceType <- function(place_type){
 
   return(place_type)
 }
+
+
+checkPosix <- function(time){
+  if(!inherits(time, "POSIXct"))
+    stop("times must be a POSIXct object")
+}
+
 
 validatePriceRange <- function(price_range){
   if(is.null(price_range)) return(NULL)
@@ -510,6 +551,17 @@ validateResultType <- function(result_type){
   }
 
   return(result_type)
+}
+
+
+validateSize <- function(size){
+
+  if(!is.numeric(size) | length(size) != 2)
+    stop("size must be a numeric vector of length 2, giving the width and height (in pixles) of the image")
+
+  size <- paste0(size, collapse = "x")
+  return(size)
+
 }
 
 validateTrafficModel <- function(traffic_model){

@@ -97,35 +97,12 @@ google_streetview <- function(location = NULL,
   }
 
   logicalCheck(response_check)
-
   output <- match.arg(output)
 
-  if(!is.null(heading)){
-    if(length(heading) != 1)
-      stop("heading must be a single value")
-
-    if(!is.numeric(heading) | heading < 0 | heading > 360){
-      stop("heading must be a numeric value between 0 and 360 (inclusive)")
-    }
-  }
-
-  if(length(fov) != 1)
-    stop("fov must be a single value")
-
-  if(!is.numeric(fov) | fov < 0 | fov > 120)
-    stop("fov must be a numeric value between 0 and 120 (inclusive)")
-
-  if(!is.numeric(size) | length(size) != 2)
-    stop("size must be a numeric vector of length 2, giving the width and height (in pixles) of the image")
-
-  size <- paste0(size, collapse = "x")
-
-  if(length(pitch) != 1)
-    stop("pitch must be a single value")
-
-  if(!is.numeric(pitch) | pitch < -90 | pitch > 90){
-    stop("pitch must be between -90 and 90 (inclusive)")
-  }
+  heading <- validateHeading(heading)
+  fov <- validateFov(fov)
+  size <- validateSize(size)
+  pitch <- validatePitch(pitch)
 
   if(response_check){
     ## test for imagry
