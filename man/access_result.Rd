@@ -91,8 +91,6 @@ nearest_roads_coordinates(res)
 }
 \description{
 Methods for accessing specific elements of a Google API query.
-
-Nearest Road Coordinates
 }
 \section{Functions}{
 \itemize{
