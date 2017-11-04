@@ -75,6 +75,7 @@ add_heatmap <- function(map,
 
   objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_heatmap")
   objArgs <- heatWeightCheck(objArgs)
+
   fill_colour <- weight
 
   logicalCheck(update_map_view)
@@ -116,15 +117,18 @@ add_heatmap <- function(map,
   }
 
   requiredDefaults <- setdiff(requiredCols, names(shape))
+
   if(length(requiredDefaults) > 0){
     shape <- addDefaults(shape, requiredDefaults, "heatmap")
   }
 
   colourColumns <- shapeAttributes(fill_colour, NULL)
   pal <- createPalettes(shape, colourColumns)
+
   ## heatmap works differntly to other layers as the data/shape is not updated with
   ## colours, rather the colours are only used to construct a legend. Google
   ## takes care of creating the colour heatmap
+
   colour_palettes <- createColourPalettes(data, pal, colourColumns, grDevices::colorRampPalette(rampColours))
 
   ## HEATMAP legend

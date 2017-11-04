@@ -180,7 +180,7 @@ requiredMarkerColumns <- function(){
 }
 
 requiredHeatmapColumns <- function(){
-  c('weight')
+  c('fill_colour')
 }
 
 requiredHeatmapUpdateColumns <- function(){
@@ -306,16 +306,16 @@ rectangleDefaults <- function(n){
 
 ## heatmap ---------------------------------------------------------------------
 heatmapColumns <- function(){
-  c('lat', 'lng', 'weight')
+  c('lat', 'lng', 'fill_colour')
 }
 
 heatmapDefaults <- function(n){
-  data.frame('weight' = rep(1, n),
+  data.frame('fill_colour' = rep(1, n),
              stringsAsFactors = F)
 }
 
 heatmapUpdateDefaults <- function(n){
-  data.frame('weight' = rep(1, n),
+  data.frame('fill_colour' = rep(1, n),
              stringsAsFactors = F)
 }
 

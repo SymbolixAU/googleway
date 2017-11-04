@@ -23,15 +23,14 @@ function add_heatmap(map_id, data_heatmap, heatmap_options, update_map_view, lay
         latlon = new google.maps.LatLng(data_heatmap[i].lat, data_heatmap[i].lng);
         heatmapData[i] = {
             location: latlon,
-            weight: data_heatmap[i].weight
+            //weight: data_heatmap[i].weight
+            weight: data_heatmap[i].fill_colour
         };
-
         //bounds.extend(latlon);
         if (update_map_view === true) {
             window[map_id + 'mapBounds'].extend(latlon);
         }
     }
-
     // store in MVC array
     window[map_id + 'googleHeatmapLayerMVC' + layer_id] = new google.maps.MVCArray(heatmapData);
 
