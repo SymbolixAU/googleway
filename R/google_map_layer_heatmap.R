@@ -116,19 +116,11 @@ add_heatmap <- function(map,
     rampColours <- c("green", "red")
   }
 
-  # print(" -- shape -- ")
-  # print(head(shape))
-
   requiredDefaults <- setdiff(requiredCols, names(shape))
-  # print(" -- requiredDefaults -- ")
-  # print(requiredDefaults)
 
   if(length(requiredDefaults) > 0){
     shape <- addDefaults(shape, requiredDefaults, "heatmap")
   }
-
-  # print(" -- shape -- ")
-  # print(head(shape))
 
   colourColumns <- shapeAttributes(fill_colour, NULL)
   pal <- createPalettes(shape, colourColumns)
@@ -138,15 +130,6 @@ add_heatmap <- function(map,
   ## takes care of creating the colour heatmap
 
   colour_palettes <- createColourPalettes(data, pal, colourColumns, grDevices::colorRampPalette(rampColours))
-
-  # dput(colour_palettes)
-  # if('fill_colour' %in% names(colour_palettes[[1]]$variables) ){
-  #   colour_palettes[[1]]$variables[['fill_colour']] <- 'fill_colour'
-  # }
-  # print(colour_palettes)
-  ## colour_palettes needs to have variable 'fill_colour' == 'fill_colour', not 'weight'
-  ##
-
 
   ## HEATMAP legend
   ## The regular legends map the colour palette to the variables. Here we have

@@ -31,9 +31,6 @@ function add_heatmap(map_id, data_heatmap, heatmap_options, update_map_view, lay
             window[map_id + 'mapBounds'].extend(latlon);
         }
     }
-    
-    console.log(heatmapData);
-
     // store in MVC array
     window[map_id + 'googleHeatmapLayerMVC' + layer_id] = new google.maps.MVCArray(heatmapData);
 
