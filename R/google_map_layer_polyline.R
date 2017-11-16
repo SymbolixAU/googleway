@@ -274,7 +274,6 @@ update_polylines <- function(map, data, id,
 }
 
 
-
 #' @rdname clear
 #' @export
 clear_polylines <- function(map, layer_id = NULL){
