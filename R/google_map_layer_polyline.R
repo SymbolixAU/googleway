@@ -125,7 +125,8 @@ add_polylines <- function(map,
 
   shape <- createMapObject(data, allCols, objArgs)
   pal <- createPalettes(shape, colourColumns)
-  colour_palettes <- createColourPalettes(data, pal, colourColumns, viridisLite::viridis)
+
+  colour_palettes <- createColourPalettes(data, pal, colourColumns, palette)
   colours <- createColours(shape, colour_palettes)
 
   if(length(colours) > 0){

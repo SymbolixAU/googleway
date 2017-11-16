@@ -97,7 +97,7 @@ add_rectangles <- function(map,
 
   shape <- createMapObject(data, allCols, objArgs)
   pal <- createPalettes(shape, colourColumns)
-  colour_palettes <- createColourPalettes(data, pal, colourColumns, viridisLite::viridis)
+  colour_palettes <- createColourPalettes(data, pal, colourColumns, palette)
   colours <- createColours(shape, colour_palettes)
 
   if(length(colours) > 0){
@@ -166,7 +166,7 @@ update_rectangles <- function(map, data, id,
 
   shape <- createMapObject(data, allCols, objArgs)
   pal <- createPalettes(shape, colourColumns)
-  colour_palettes <- createColourPalettes(data, pal, colourColumns, viridisLite::viridis)
+  colour_palettes <- createColourPalettes(data, pal, colourColumns, palette)
   colours <- createColours(shape, colour_palettes)
 
   if(length(colours) > 0){
