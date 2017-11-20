@@ -181,7 +181,7 @@ test_that("heatmap correctly defined", {
 
   expect_true(
     add_heatmap(m, data = df, option_gradient = c("red", "blue"))$x$calls[[1]]$args[[1]] ==
-      '[{"lat":1,"lng":1,"weight":1},{"lat":2,"lng":2,"weight":1},{"lat":3,"lng":3,"weight":1},{"lat":4,"lng":4,"weight":1}]'
+      '[{"lat":1,"lng":1,"fill_colour":1},{"lat":2,"lng":2,"fill_colour":1},{"lat":3,"lng":3,"fill_colour":1},{"lat":4,"lng":4,"fill_colour":1}]'
   )
 
   expect_true(

@@ -1,5 +1,33 @@
+
+# library(viridisLite)
 #
-# apiKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_API_KEY")
+# google_map(key = map_key) %>%
+#   add_circles(data = tram_stops, fill_colour = googleway:::removeAlpha(viridis(1)))
+#
+#
+# lat <- NULL
+# lon <- NULL
+# objArgs <- quote(add_circles(map = ., data = tram_stops, fill_colour = googleway:::removeAlpha(viridis(1))))
+#
+# objArgs <- googleway:::latLonCheck(objArgs, lat, lon, names(tram_stops), "add_circles")
+#
+#
+# allCols <- googleway:::circleColumns()
+# cols <- allCols
+# data <- tram_stops
+# googleway:::createMapObject(data, allCols, objArgs)
+#
+#
+# ## need to evaluate any formulea in the object arguments BEFORE doing anything else...
+#
+# lapply(objArgs, eval)
+#
+# eval(objArgs[[5]])
+#
+# eval("#443243")
+
+#
+# map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 
 
 ## elevation data from the MCG to the beach at Elwood (due south)

@@ -69,7 +69,7 @@ createMapObject <- function(data, cols, objArgs){
   if(length(additionalValues) > 0){
 
     extraCols <- lapply(additionalValues, function(x){
-      setNames(as.data.frame(rep(objArgs[[x]], nrow(df)), stringsAsFactors = F), names(objArgs)[x])
+      setNames(as.data.frame(rep(eval(objArgs[[x]]), nrow(df)), stringsAsFactors = F), names(objArgs)[x])
     })
 
     df <- cbind(df, do.call(cbind, extraCols))
