@@ -46,7 +46,7 @@ createColourPalettes <- function(data, palettes, colourColumns, palette){
     list(
       variables = colourColumns[colourColumns == x],
       palette = generatePalette(
-        data[, x],
+        data[[x]],
         determinePalette(palette, names(colourColumns[colourColumns == x])[1])  ## in case the same variable is mapped to two aesthetics
         )
     )
