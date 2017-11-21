@@ -19,7 +19,7 @@ function add_circles(map_id, data_circles, update_map_view, layer_id, legendValu
     //    window[map_id + 'googleCircles' + layer_id] = [];
     //}
     createWindowObject(map_id, 'googleCircles', layer_id);
-    
+
     for (i = 0; i < Object.keys(data_circles).length; i++) {
         set_circle(map_id, data_circles[i], infoWindow, update_map_view, layer_id, i * interval);
     }
@@ -30,9 +30,9 @@ function add_circles(map_id, data_circles, update_map_view, layer_id, legendValu
 }
 
 function set_circle(map_id, circle, infoWindow, update_map_view, layer_id, timeout){
-    
+
     window.setTimeout(function() {
-    
+
         var latlon = new google.maps.LatLng(circle.lat, circle.lng),
             Circle = new google.maps.Circle({
                 id: circle.id,
@@ -46,6 +46,7 @@ function set_circle(map_id, circle, infoWindow, update_map_view, layer_id, timeo
                 editable: circle.editable,
                 center: latlon,
                 radius: circle.radius,
+                mouseOver: circle.mouse_over,
                 mouseOverGroup: circle.mouse_over_group,
                 zIndex: circle.z_index
             });
@@ -70,7 +71,7 @@ function set_circle(map_id, circle, infoWindow, update_map_view, layer_id, timeo
         }
 
         if (Circle.draggable) {
-            circle_dragged(map_id, Circle); 
+            circle_dragged(map_id, Circle);
         }
 
         if(update_map_view === true){
@@ -89,7 +90,7 @@ function set_circle(map_id, circle, infoWindow, update_map_view, layer_id, timeo
  * @param layer_id
  *          the layer to clear
  */
-function clear_circles(map_id, layer_id){ 
+function clear_circles(map_id, layer_id){
     clear_object(map_id, 'googleCircles', layer_id);
 }
 
@@ -173,7 +174,7 @@ function update_circles(map_id, data_circle, layer_id, legendValues){
         window[map_id + 'googleCircles' + layer_id][i].setMap(null);
     }
   }
-    
+
     if(legendValues !== false){
         add_legend(map_id, layer_id, legendValues);
     }
