@@ -195,8 +195,9 @@ add_polygons <- function(map,
 
   if(usePolyline){
 
-    if(!is.list(shape[, polyline])){
-      f <- paste0(polyline, " ~ " , paste0(setdiff(names(shape), polyline), collapse = "+") )
+    ## the polyline column has been named 'polyline'
+    if(!is.list(shape[["polyline"]])){
+      f <- paste0("polyline ~ " , paste0(setdiff(names(shape), "polyline"), collapse = "+") )
       shape <- stats::aggregate(stats::formula(f), data = shape, list)
     }
 
