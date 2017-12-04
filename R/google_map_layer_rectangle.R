@@ -12,7 +12,7 @@
 #' southern most latitude coordinate
 #' @param west String specifying the column of \code{data} that contains the
 #' western most longitude
-#' @editable String specifying the column of \code{data} that indicates if the
+#' @param editable String specifying the column of \code{data} that indicates if the
 #' rectangle is editable. The value in the column should be logical
 #'
 #' @details

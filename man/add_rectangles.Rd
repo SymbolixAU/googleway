@@ -34,8 +34,8 @@ western most longitude}
 \item{draggable}{string specifying the column of \code{data} defining if
 the polygon is 'draggable'. The column of data should be logical (either TRUE or FALSE)}
 
-\item{editable}{string specifying the column of \code{data} defining if the polygon
-is 'editable' (either TRUE or FALSE)}
+\item{editable}{String specifying the column of \code{data} that indicates if the
+rectangle is editable. The value in the column should be logical}
 
 \item{stroke_colour}{either a string specifying the column of \code{data} containing
 the stroke colour of each shape, or a valid hexadecimal numeric HTML style to
