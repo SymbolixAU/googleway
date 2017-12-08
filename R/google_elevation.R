@@ -107,7 +107,7 @@ google_elevation <- function(df_locations = NULL,
   ## check samples
 
   if(location_type == "path" & !is.numeric(samples)){
-    warning("samples has not been specified. 3 will be used")
+    message("samples has not been specified. 3 will be used")
     samples <- 3
   }else if(location_type != "path"){
     samples <- NULL
@@ -130,11 +130,11 @@ google_elevation <- function(df_locations = NULL,
 
   if(nchar(map_url) > 8192)
     if(is.null(polyline)){
-      warning(paste0("The length of the API query has exceeded 8192 characters and your request may not work ",
+      stop(paste0("The length of the API query has exceeded 8192 characters and your request may not work ",
                    "(see documentation https://developers.google.com/maps/documentation/elevation/intro#Locations for details",
                    "\nTry reducing the number of coordinates, or using an encoded polyline in the 'polyline' argument"))
     }else{
-      warning(paste0("The length of the API query has exceeded 8192 characters and your request may not work ",
+      stop(paste0("The length of the API query has exceeded 8192 characters and your request may not work ",
                      "(see documentation https://developers.google.com/maps/documentation/elevation/intro#Locations for details",
                      "\nConsider decoding your polyline into coordinates, then sending subsets of the data into the elevation function."))
     }

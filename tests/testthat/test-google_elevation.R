@@ -64,12 +64,28 @@ test_that("warning issued when samples is NULL", {
   df <- data.frame(lat = c(-37.81659, -37.88950),
                    lon = c(144.9841, 144.9841))
 
-  expect_warning(google_elevation(df_locations = df,
-                                  location_type = "path",
-                                  samples = NULL,
-                                  key = "abc",
-                                  simplify = TRUE),
-                 "samples has not been specified. 3 will be used")
+  expect_message(
+    google_elevation(df_locations = df,
+                     location_type = "path",
+                     samples = NULL,
+                     key = "abc",
+                     simplify = TRUE),
+    "samples has not been specified. 3 will be used")
+})
+
+test_that("samples converted to integer", {
+
+  df <- data.frame(lat = c(-37.81659, -37.88950),
+                   lon = c(144.9841, 144.9841))
+
+  expect_true(
+    google_elevation(df_locations = df,
+                     location_type = "individual",
+                     samples = "20",
+                     key = "abc",
+                     simplify = TRUE)$error_message == "The provided API key is invalid."
+  )
+
 })
 
 
@@ -87,11 +103,19 @@ test_that("polyline correctly formed", {
     "The provided API key is invalid."
   )
 
-  expect_warning(
-    expect_error(
-      google_elevation(polyline = paste0(rep('a', 8192), collapse = ""), key = 'abc')
-      )
+  df <- data.frame(lat = runif(8000), lon = runif(8000))
+
+  expect_error(
+    google_elevation(df_locations = df,
+                   location_type = "path",
+                   samples = 20,
+                   key = "abc")
   )
+
+  expect_error(
+    google_elevation(polyline = paste0(rep('a', 8192), collapse = ""), key = 'abc')
+    )
+
 
 })
 
