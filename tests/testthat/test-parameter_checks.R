@@ -168,6 +168,20 @@ test_that("locations are valid", {
   )
 
 
+  ## diretions lat/lon columns permitted
+  df_pass <- googleway::tram_stops[1, c("stop_lat", "stop_lon")]
+
+  expect_true(
+    sum(googleway:::validateLocation(df_pass) == c(-37.8090, 144.9731)) == 2
+  )
+
+
+  ## Other types are returned as-is
+  expect_true(
+    googleway:::validateLocation(T)
+  )
+
+
 
 })
 
