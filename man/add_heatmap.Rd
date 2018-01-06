@@ -61,8 +61,11 @@ The legend will only show if you supply a \code{weight} variable.
 \code{option_gradient} colours can be two of the R colour specifications;
 either a colour name (as listed by \code{colors()}, or a hexadecimal string of the
 form \code{"#rrggbb"}).
+
 The first colour in the vector will be used as the colour that fades to transparent,
-while the last colour in the vector will be use in the centre of the 'heat'.
+and is not actually mapped to any data points (and therefore won't be included
+in the legend).
+The last colour in the vector will be use in the centre of the 'heat'.
 }
 \examples{
 \dontrun{
