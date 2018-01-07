@@ -34,13 +34,21 @@ add_sf <- function(map,
   lines <- googlePolylines::geometryRow(data, "LINESTRING")
   polygons <- googlePolylines::geometryRow(data, "POLYGON")
 
-  print(polygons)
-  print(data[polygons, ])
+#   print(polygons)
+#   print(data[polygons, ])
+  print("lines") ; print(lines)
+  print("polygons"); print(polygons)
 
-  if(length(polygons) > 1) add_polygons(map = map, data = data[polygons, names(data), drop = FALSE ], polyline = "geometry")
 
-  if(length(lines) > 1 ) add_polylines(map = map, data = data[lines, names(data), drop = FALSE], polyline = "geometry")
+  if(length(polygons) > 1) {
+    print("adding polygons")
+    add_polygons(map = map, data = data[polygons, names(data), drop = FALSE ], polyline = "geometry")
+  }
 
+  if(length(lines) > 1 ) {
+    print("adding polylines")
+    add_polylines(map = map, data = data[lines, names(data), drop = FALSE], polyline = "geometry")
+  }
   #return(data)
 
 }

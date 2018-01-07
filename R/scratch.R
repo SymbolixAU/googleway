@@ -30,6 +30,7 @@
 # 	st_sf(geometry = point),
 #   st_sf(geometry = multipoint)
 # 	)
+# google_map(key = map_key) %>% add_polylines(sf, polyline = "geometry")
 # google_map(key = map_key) %>% add_sf(sf)
 
 

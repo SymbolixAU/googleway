@@ -138,6 +138,8 @@ add_polygons <- function(map,
   ## TODO:
   ## - holes must be wound in the opposite direction?
 
+  data <- normaliseData(data, "POLYGON")
+  polyline <- findEncodedColumn(data, polyline)
 
   objArgs <- match.call(expand.dots = F)
   #  callingFunc <- as.character(objArgs[[1]])

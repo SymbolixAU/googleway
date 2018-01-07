@@ -60,6 +60,8 @@ add_markers <- function(map,
                         digits = 4,
                         load_interval = 0){
 
+  data <- normaliseData(data, "POINT")
+
   objArgs <- match.call(expand.dots = F)
 
   ## PARAMETER CHECKS

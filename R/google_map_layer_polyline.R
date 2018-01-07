@@ -93,6 +93,11 @@ add_polylines <- function(map,
                           load_interval = 0
                           ){
 
+  data <- normaliseData(data, "LINESTRING")
+  polyline <- findEncodedColumn(data, polyline)
+  print("polyline"); print(polyline)
+
+
   objArgs <- match.call(expand.dots = F)
 
   ## PARAMETER CHECKS
@@ -123,8 +128,16 @@ add_polylines <- function(map,
   requiredCols <- requiredLineColumns()
   colourColumns <- lineAttributes(stroke_colour)
 
+  print(str(data))
+
+  ## TODO:
+  ## createMapObject: does this work with just one column of polylines (in a regular data.frame)?
+  ## is this what is making sf fail?
+
   shape <- createMapObject(data, allCols, objArgs)
   pal <- createPalettes(shape, colourColumns)
+
+  print(str(shape))
 
   colour_palettes <- createColourPalettes(data, pal, colourColumns, palette)
   colours <- createColours(shape, colour_palettes)
@@ -172,6 +185,36 @@ add_polylines <- function(map,
 
   invoke_method(map, 'add_polylines', shape, update_map_view, layer_id, usePolyline, legend, load_interval)
 }
+
+
+findEncodedColumn <- function(data, polyline) UseMethod("findEncodedColumn")
+
+#' @export
+findEncodedColumn.sfencoded <- function(data, polyline) {
+  if(is.null(polyline)) polyline <- attr(data, "encoded_column")
+  return(polyline)
+}
+
+#' @export
+findEncodedColumn.default <- function(data, polyline) polyline
+
+normaliseData <- function(data, geom) UseMethod("normaliseData")
+
+#' @export
+normaliseData.sf <- function(data, geom) {
+  enc <- googlePolylines::encode(data)
+  data <- normaliseData(enc, geom)
+  return(data)
+}
+
+#' @export
+normaliseData.sfencoded <- function(data, geom) {
+  idx <- googlePolylines::geometryRow(data, geom)
+  return(data[idx, names(data), drop = F])
+}
+
+#' @export
+normaliseData.default <- function(data, geom) data
 
 
 #' Update polylines

@@ -1,3 +1,9 @@
+
+## TODO:
+## - dataCheck() - change message as now more than data.frames are supported
+## - auto-detect geometry column of sf and sfencoded objects
+
+
 #' @useDynLib googleway
 #' @importFrom Rcpp evalCpp
 #' @importFrom jsonlite fromJSON
