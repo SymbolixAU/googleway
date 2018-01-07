@@ -141,7 +141,24 @@ add_polylines <- function(map,
     shape <- addDefaults(shape, requiredDefaults, "polyline")
   }
 
-  if(!usePolyline){
+  if(usePolyline){
+
+    ## TODO:
+    ## - a list of polylines needs to be unlisted...
+    ## -
+
+    if(!is.list(shape[["polyline"]])){
+
+      f <- paste0("polyline ~ " , paste0(setdiff(names(shape), "polyline"), collapse = "+") )
+      shape <- stats::aggregate(stats::formula(f), data = shape, list)
+    }
+    # n <- names(shape)[names(shape) %in% objectColumns("polylinePolyline")]
+    # shape <- shape[, n, drop = FALSE]
+    # shape <- jsonlite::toJSON(shape, auto_unbox = T)
+
+    shape <- jsonlite::toJSON(shape, digits = digits)
+
+  }else{
 
     ids <- unique(shape[, 'id'])
     n <- names(shape)[names(shape) %in% objectColumns("polylineCoords")]
@@ -151,11 +168,6 @@ add_polylines <- function(map,
 
     shape <- jsonlite::toJSON(lst_polyline, digits = digits, auto_unbox = T)
 
-  }else{
-
-    n <- names(shape)[names(shape) %in% objectColumns("polylinePolyline")]
-    shape <- shape[, n, drop = FALSE]
-    shape <- jsonlite::toJSON(shape, auto_unbox = T)
   }
 
   invoke_method(map, 'add_polylines', shape, update_map_view, layer_id, usePolyline, legend, load_interval)

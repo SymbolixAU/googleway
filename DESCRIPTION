@@ -29,7 +29,8 @@ Imports:
     jqr,
     viridisLite,
     scales,
-    grDevices
+    grDevices,
+    googlePolylines
 LinkingTo: Rcpp
 RoxygenNote: 6.0.1
 BugReports: https://github.com/SymbolixAU/googleway/issues
