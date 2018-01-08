@@ -46,6 +46,7 @@ add_markers <- function(map,
                         colour = NULL,
                         lat = NULL,
                         lon = NULL,
+                        polyline = NULL,
                         title = NULL,
                         draggable = NULL,
                         opacity = NULL,
@@ -60,9 +61,14 @@ add_markers <- function(map,
                         digits = 4,
                         load_interval = 0){
 
-  data <- normaliseData(data, "POINT")
-
   objArgs <- match.call(expand.dots = F)
+
+  data <- normaliseSfData(data, "POINT")
+  polyline <- findEncodedColumn(data, polyline)
+
+  if( !is.null(polyline) && !polyline %in% names(objArgs) ) {
+    objArgs[['polyline']] <- polyline
+  }
 
   ## PARAMETER CHECKS
   if(!dataCheck(data, "add_marker")) data <- markerDefaults(1)

@@ -11,6 +11,8 @@
 #' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude'
 #' coordinates. If left NULL, a best-guess will be made
+#' @param polyline string specifying the column of \code{data} containing the encoded polyline.
+#' For circles and markers the encoded string will represent a single point.
 #' @param radius either a string specifying the column of \code{data} containing the
 #' radius of each circle, OR a numeric value specifying the radius of all the circles
 #' (radius is expressed in metres)
@@ -135,6 +137,7 @@ add_circles <- function(map,
                         id = NULL,
                         lat = NULL,
                         lon = NULL,
+                        polyline = NULL,
                         radius = NULL,
                         editable = NULL,
                         draggable = NULL,
@@ -157,6 +160,13 @@ add_circles <- function(map,
                         ){
 
   objArgs <- match.call(expand.dots = F)
+
+  data <- normaliseSfData(data, "POINT")
+  polyline <- findEncodedColumn(data, polyline)
+
+  if( !is.null(polyline) && !polyline %in% names(objArgs) ) {
+    objArgs[['polyline']] <- polyline
+  }
 
   ## PARAMETER CHECKS
   if(!dataCheck(data, "add_circles")) data <- circleDefaults(1)

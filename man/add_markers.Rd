@@ -5,10 +5,10 @@
 \title{Add markers}
 \usage{
 add_markers(map, data = get_map_data(map), id = NULL, colour = NULL,
-  lat = NULL, lon = NULL, title = NULL, draggable = NULL,
-  opacity = NULL, label = NULL, info_window = NULL, mouse_over = NULL,
-  mouse_over_group = NULL, marker_icon = NULL, layer_id = NULL,
-  cluster = FALSE, update_map_view = TRUE, digits = 4,
+  lat = NULL, lon = NULL, polyline = NULL, title = NULL,
+  draggable = NULL, opacity = NULL, label = NULL, info_window = NULL,
+  mouse_over = NULL, mouse_over_group = NULL, marker_icon = NULL,
+  layer_id = NULL, cluster = FALSE, update_map_view = TRUE, digits = 4,
   load_interval = 0)
 }
 \arguments{
@@ -28,6 +28,9 @@ coordinates. If left NULL, a best-guess will be made}
 
 \item{lon}{string specifying the column of \code{data} containing the 'longitude'
 coordinates. If left NULL, a best-guess will be made}
+
+\item{polyline}{string specifying the column of \code{data} containing the encoded polyline.
+For circles and markers the encoded string will represent a single point.}
 
 \item{title}{string specifying the column of \code{data} containing the 'title'
 of the markers. The title is displayed when you hover over a marker. If blank,
