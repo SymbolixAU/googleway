@@ -95,7 +95,7 @@ add_polylines <- function(map,
 
   objArgs <- match.call(expand.dots = F)
 
-  data <- normaliseData(data, "LINESTRING")
+  data <- normaliseSfData(data, "LINESTRING")
   polyline <- findEncodedColumn(data, polyline)
 
   ## TODO:
@@ -201,23 +201,24 @@ findEncodedColumn.sfencoded <- function(data, polyline) {
 #' @export
 findEncodedColumn.default <- function(data, polyline) polyline
 
-normaliseData <- function(data, geom) UseMethod("normaliseData")
+
+normaliseSfData <- function(data, geom) UseMethod("normaliseSfData")
 
 #' @export
-normaliseData.sf <- function(data, geom) {
+normaliseSfData.sf <- function(data, geom) {
   enc <- googlePolylines::encode(data)
-  data <- normaliseData(enc, geom)
+  data <- normaliseSfData(enc, geom)
   return(data)
 }
 
 #' @export
-normaliseData.sfencoded <- function(data, geom) {
+normaliseSfData.sfencoded <- function(data, geom) {
   idx <- googlePolylines::geometryRow(data, geom)
   return(data[idx, names(data), drop = F])
 }
 
 #' @export
-normaliseData.default <- function(data, geom) data
+normaliseSfData.default <- function(data, geom) data
 
 
 #' Update polylines
@@ -294,6 +295,15 @@ update_polylines <- function(map, data, id,
                              ){
 
   objArgs <- match.call(expand.dots = F)
+
+  data <- normaliseSfData(data, "LINESTRING")
+  polyline <- findEncodedColumn(data, polyline)
+
+  if( !is.null(polyline) && !polyline %in% names(objArgs) ) {
+    objArgs[['polyline']] <- polyline
+  }
+
+
   if(!dataCheck(data, "update_polylines")) data <- polylineUpdateDefaults(1)
   layer_id <- layerId(layer_id)
 

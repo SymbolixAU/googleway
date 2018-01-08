@@ -31,8 +31,9 @@
 #   sf::st_sf(geometry = multipoint)
 # 	)
 # google_map(key = map_key, data = sf[3, ]) %>% add_polylines()
-
-
+# google_map(key = map_key) %>% add_polylines(data = sf[3, ])
+# google_map(key = map_key) %>% add_polylines(data = sf)
+# google_map(key = map_key, data = sf) %>% add_polylines() %>% add_polygons()
 
 
 # library(viridisLite)

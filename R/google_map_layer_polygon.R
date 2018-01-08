@@ -141,7 +141,7 @@ add_polygons <- function(map,
   objArgs <- match.call(expand.dots = F)
   #  callingFunc <- as.character(objArgs[[1]])
 
-  data <- normaliseData(data, "POLYGON")
+  data <- normaliseSfData(data, "POLYGON")
   polyline <- findEncodedColumn(data, polyline)
 
   ## TODO:
@@ -310,6 +310,15 @@ update_polygons <- function(map, data, id,
                             ){
 
   objArgs <- match.call(expand.dots = F)
+  #  callingFunc <- as.character(objArgs[[1]])
+
+  data <- normaliseSfData(data, "POLYGON")
+  polyline <- findEncodedColumn(data, polyline)
+
+  if( !is.null(polyline) && !polyline %in% names(objArgs) ) {
+    objArgs[['polyline']] <- polyline
+  }
+
   if(!dataCheck(data, "update_polygon")) data <- polygonUpdateDefaults(1)
   layer_id <- layerId(layer_id)
 
