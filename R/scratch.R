@@ -23,15 +23,14 @@
 # multipolygon <- sf::st_sfc(sf::st_multipolygon(x = list(list(p1, p2), list(p3))))
 # #
 # sf <- rbind(
-# 	st_sf(geometry = polygon),
-# 	st_sf(geometry = multipolygon),
-# 	st_sf(geometry = multilinestring),
-# 	st_sf(geometry = linestring),
-# 	st_sf(geometry = point),
-#   st_sf(geometry = multipoint)
+# 	sf::st_sf(geometry = polygon),
+# 	sf::st_sf(geometry = multipolygon),
+# 	sf::st_sf(geometry = multilinestring),
+# 	sf::st_sf(geometry = linestring),
+# 	sf::st_sf(geometry = point),
+#   sf::st_sf(geometry = multipoint)
 # 	)
-# google_map(key = map_key) %>% add_polylines(sf, polyline = "geometry")
-# google_map(key = map_key) %>% add_sf(sf)
+# google_map(key = map_key, data = sf[3, ]) %>% add_polylines()
 
 
 

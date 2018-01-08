@@ -93,12 +93,19 @@ add_polylines <- function(map,
                           load_interval = 0
                           ){
 
+  objArgs <- match.call(expand.dots = F)
+
   data <- normaliseData(data, "LINESTRING")
   polyline <- findEncodedColumn(data, polyline)
-  print("polyline"); print(polyline)
+
+  ## TODO:
+  ## - if sf object, and geometry column has not been supplied, it needs to be
+  ## added to objArgs after the match.call() function
+  if( !is.null(polyline) && !polyline %in% names(objArgs) ) {
+    objArgs[['polyline']] <- polyline
+  }
 
 
-  objArgs <- match.call(expand.dots = F)
 
   ## PARAMETER CHECKS
   if(!dataCheck(data, "add_polyline")) data <- polylineDefaults(1)
@@ -128,16 +135,12 @@ add_polylines <- function(map,
   requiredCols <- requiredLineColumns()
   colourColumns <- lineAttributes(stroke_colour)
 
-  print(str(data))
-
   ## TODO:
   ## createMapObject: does this work with just one column of polylines (in a regular data.frame)?
   ## is this what is making sf fail?
 
   shape <- createMapObject(data, allCols, objArgs)
   pal <- createPalettes(shape, colourColumns)
-
-  print(str(shape))
 
   colour_palettes <- createColourPalettes(data, pal, colourColumns, palette)
   colours <- createColours(shape, colour_palettes)

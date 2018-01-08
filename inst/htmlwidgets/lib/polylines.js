@@ -16,17 +16,17 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
     //}
     createWindowObject(map_id, 'googlePolyline', layer_id);
 
-    var infoWindow = new google.maps.InfoWindow()
+    var infoWindow = new google.maps.InfoWindow();
 
     for(i = 0; i < Object.keys(data_polyline).length; i++){
         set_lines(map_id, data_polyline[i], infoWindow, update_map_view, layer_id, use_polyline, i * interval);
     }
-    
+
     if(legendValues !== false){
         add_legend(map_id, layer_id, legendValues);
     }
-    
-    
+
+
 /*
     for (i = 0; i < Object.keys(data_polyline).length; i++) {
 
@@ -48,26 +48,26 @@ function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_pol
 */
 }
 
-// From R, polylines are now stored in a list-column (to account for MULTILINESTRINGS). 
+// From R, polylines are now stored in a list-column (to account for MULTILINESTRINGS).
 // However, Google doesn't like arrays of polylines
 // (unlike for polygons). So we need to loop each polyline in the list/array
 
 function set_lines(map_id, polyline, infoWindow, update_map_view, layer_id, use_polyline, timeout){
 
     window.setTimeout(function() {
-        
+
         var coords = [],
             thisPath;
 
         if(use_polyline){
-            
+
             console.log(polyline.polyline.length);
-            
+
             for(j = 0; j < polyline.polyline.length; j++){
-                
+
                 //paths.push(google.maps.geometry.encoding.decodePath(polyline.polyline[j]));
                 path = google.maps.geometry.encoding.decodePath(polyline.polyline[j]);
-                
+
                 // for each iteration, need to set the Polyline object ,rather than set
                 // an array of paths
                 var Polyline = new google.maps.Polyline({
@@ -84,15 +84,15 @@ function set_lines(map_id, polyline, infoWindow, update_map_view, layer_id, use_
                     mouseOverGroup: polyline.mouse_over_group,
                     zIndex: polyline.z_index
                 });
-                
+
                 set_each_line(Polyline, polyline, infoWindow, update_map_view, map_id, layer_id);
-                
+
             }
         } else {
             for(j = 0; j < polyline.coords.length; j++){
                 coords.push(polyline.coords[j]);
             }
-            
+
             var Polyline = new google.maps.Polyline({
                 id: polyline.id,
                 path: coords,
@@ -107,19 +107,19 @@ function set_lines(map_id, polyline, infoWindow, update_map_view, layer_id, use_
                 mouseOverGroup: polyline.mouse_over_group,
                 zIndex: polyline.z_index
             });
-            
+
             set_each_line(Polyline, polyline, infoWindow, update_map_view, map_id, layer_id);
         }
 
         // TODO(polyline length) calculate and log the distance
         //    polyLengthInMeters = google.maps.geometry.spherical.computeLength(Polyline.getPath().getArray());
 
-        
+
     }, timeout);
 }
 
 function set_each_line(Polyline, polyline, infoWindow, update_map_view, map_id, layer_id) {
-    
+
     window[map_id + 'googlePolyline' + layer_id].push(Polyline);
     Polyline.setMap(window[map_id + 'map']);
 

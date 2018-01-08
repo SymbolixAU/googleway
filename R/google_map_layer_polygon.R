@@ -138,11 +138,18 @@ add_polygons <- function(map,
   ## TODO:
   ## - holes must be wound in the opposite direction?
 
+  objArgs <- match.call(expand.dots = F)
+  #  callingFunc <- as.character(objArgs[[1]])
+
   data <- normaliseData(data, "POLYGON")
   polyline <- findEncodedColumn(data, polyline)
 
-  objArgs <- match.call(expand.dots = F)
-  #  callingFunc <- as.character(objArgs[[1]])
+  ## TODO:
+  ## - if sf object, and geometry column has not been supplied, it needs to be
+  ## added to objArgs after the match.call() function
+  if( !is.null(polyline) && !polyline %in% names(objArgs) ) {
+    objArgs[['polyline']] <- polyline
+  }
 
   ## PARAMETER CHECKS
   if(!dataCheck(data, "add_polygon")) data <- polygonDefaults(1)
