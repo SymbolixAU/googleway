@@ -53,6 +53,39 @@ add_sf <- function(map,
 
 }
 
+
+findEncodedColumn <- function(data, polyline) UseMethod("findEncodedColumn")
+
+#' @export
+findEncodedColumn.sfencoded <- function(data, polyline) {
+  if(is.null(polyline)) polyline <- attr(data, "encoded_column")
+  return(polyline)
+}
+
+#' @export
+findEncodedColumn.default <- function(data, polyline) polyline
+
+
+normaliseSfData <- function(data, geom) UseMethod("normaliseSfData")
+
+#' @export
+normaliseSfData.sf <- function(data, geom) {
+  enc <- googlePolylines::encode(data)
+  data <- normaliseSfData(enc, geom)
+  return(data)
+}
+
+#' @export
+normaliseSfData.sfencoded <- function(data, geom) {
+  idx <- googlePolylines::geometryRow(data, geom)
+  return(data[idx, names(data), drop = F])
+}
+
+#' @export
+normaliseSfData.default <- function(data, geom) data
+
+
+
 normalise_sf <- function(sf) UseMethod("normalise_sf")
 
 #' @export
