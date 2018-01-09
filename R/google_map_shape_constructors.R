@@ -39,6 +39,23 @@ createMapObject <- function(data, cols, objArgs){
   return(df)
 }
 
+
+# Create Polyline List Column
+#
+# if using a polyline, the javascript functions are expecting an array
+# of polylines, which need to be in a list in R
+createPolylineListColumn <- function(shape) {
+
+  ## the polyline column has been named 'polyline'
+  if(!is.list(shape[["polyline"]])){
+    f <- paste0("polyline ~ " , paste0(setdiff(names(shape), "polyline"), collapse = "+") )
+    shape <- stats::aggregate(stats::formula(f), data = shape, list)
+  }
+  return(shape)
+}
+
+
+
 # Replace Variable Colours
 #
 # Replaces the columns in shape object with the colours they have been mapped to

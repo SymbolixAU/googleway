@@ -103,14 +103,7 @@ add_markers <- function(map,
   }
 
   if( usePolyline ) {
-
-    if( !is.list(shape[["polyline"]])) {
-      ## the polyline column has been named 'polyline'
-      if(!is.list(shape[["polyline"]])){
-        f <- paste0("polyline ~ " , paste0(setdiff(names(shape), "polyline"), collapse = "+") )
-        shape <- stats::aggregate(stats::formula(f), data = shape, list)
-      }
-    }
+    shape <- createPolylineListColumn(shape)
   }
   shape <- jsonlite::toJSON(shape, digits = digits)
 

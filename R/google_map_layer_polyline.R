@@ -105,8 +105,6 @@ add_polylines <- function(map,
     objArgs[['polyline']] <- polyline
   }
 
-
-
   ## PARAMETER CHECKS
   if(!dataCheck(data, "add_polyline")) data <- polylineDefaults(1)
 
@@ -154,19 +152,7 @@ add_polylines <- function(map,
 
   if(usePolyline){
 
-    ## TODO:
-    ## - a list of polylines needs to be unlisted...
-    ## -
-
-    if(!is.list(shape[["polyline"]])){
-
-      f <- paste0("polyline ~ " , paste0(setdiff(names(shape), "polyline"), collapse = "+") )
-      shape <- stats::aggregate(stats::formula(f), data = shape, list)
-    }
-    # n <- names(shape)[names(shape) %in% objectColumns("polylinePolyline")]
-    # shape <- shape[, n, drop = FALSE]
-    # shape <- jsonlite::toJSON(shape, auto_unbox = T)
-
+    shape <- createPolylineListColumn(shape)
     shape <- jsonlite::toJSON(shape, digits = digits)
 
   }else{

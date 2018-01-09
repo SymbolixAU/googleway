@@ -1,6 +1,3 @@
-
-
-
 /**
  * Add markers
  *
@@ -27,7 +24,7 @@ function add_markers(map_id, data_markers, cluster, update_map_view, layer_id, u
         set_markers(map_id, markers, infoWindow, data_markers[i], cluster, infoWindow, update_map_view, layer_id, use_polyline, i * interval);
     }
 
-    if(cluster === true){
+    if (cluster === true) {
         window[map_id + 'googleMarkerClusterer' + layer_id] = new MarkerClusterer(window[map_id + 'map'], markers, {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
     }
     
@@ -36,18 +33,16 @@ function add_markers(map_id, data_markers, cluster, update_map_view, layer_id, u
 
 function set_markers(map_id, markers, infoWindow, aMarker, cluster, infoWindow, update_map_view, layer_id, use_polyline, timeout) {
     
-    window.setTimeout(function() {
+    window.setTimeout(function () {
         
-        var lon, lat, path;
+        var j, lon, lat, path, latlon, marker;
         
-        if( use_polyline) { 
+        if (use_polyline) {
         
-            for(j = 0; j < aMarker.polyline.length; j++){
-                
-                console.log(aMarker);
-                
+            for (j = 0; j < aMarker.polyline.length; j++) {
+
                 path = google.maps.geometry.encoding.decodePath(aMarker.polyline[j]);
-                var latlon = new google.maps.LatLng(path[0].lat(), path[0].lng());
+                latlon = new google.maps.LatLng(path[0].lat(), path[0].lng());
                 
                 marker = new google.maps.Marker({
                     id: aMarker.id,
@@ -61,17 +56,15 @@ function set_markers(map_id, markers, infoWindow, aMarker, cluster, infoWindow, 
                     mouseOverGroup: aMarker.mouse_over_group
                 });
                 
-                console.log(marker);
-                
                 set_each_marker(markers, marker, aMarker, infoWindow, update_map_view, map_id, layer_id);
                 
-                if(update_map_view === true){
+                if (update_map_view === true) {
                     window[map_id + 'mapBounds'].extend(latlon);
                     window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
                 }
             }
-        } else { 
-            var latlon = new google.maps.LatLng (aMarker.lat, aMarker.lng),
+        } else {
+            latlon = new google.maps.LatLng(aMarker.lat, aMarker.lng);
             marker = new google.maps.Marker({
                 id: aMarker.id,
                 icon: aMarker.url,
@@ -86,7 +79,7 @@ function set_markers(map_id, markers, infoWindow, aMarker, cluster, infoWindow, 
 
             set_each_marker(markers, marker, aMarker, infoWindow, update_map_view, map_id, layer_id);
             
-            if(update_map_view === true){
+            if (update_map_view === true) {
                 window[map_id + 'mapBounds'].extend(latlon);
                 window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
             }
@@ -103,7 +96,7 @@ function set_each_marker(markers, marker, aMarker, infoWindow, update_map_view, 
             content: aMarker.info_window
         });
 
-        google.maps.event.addListener(marker, 'click', function() {
+        google.maps.event.addListener(marker, 'click', function () {
             this.infowindow.open(window[map_id + 'map'], this);
         });
 
@@ -140,13 +133,13 @@ function set_each_marker(markers, marker, aMarker, infoWindow, update_map_view, 
  * @param layer_id
  *          the layer to clear
  */
-function clear_markers(map_id, layer_id){
+function clear_markers(map_id, layer_id) {
 
     // the markers know which map they're on
     // http://stackoverflow.com/questions/7961522/removing-a-marker-in-google-maps-api-v3
     clear_object(map_id, 'googleMarkers', layer_id);
 
-    if(window[map_id + 'googleMarkerClusterer' + layer_id]){
+    if (window[map_id + 'googleMarkerClusterer' + layer_id]) {
         window[map_id + 'googleMarkerClusterer' + layer_id].clearMarkers();
         window[map_id + 'googleMarkerClusterer' + layer_id] = null;
     }
