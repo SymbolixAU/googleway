@@ -11,17 +11,15 @@
  * @param layer_id
  */
 
-function add_circles(map_id, data_circles, update_map_view, layer_id, legendValues, interval) {
+function add_circles(map_id, data_circles, update_map_view, layer_id, use_polyline, legendValues, interval) {
 
     var i,
         infoWindow = new google.maps.InfoWindow();
-    //if(window[map_id + 'googleCircles' + layer_id] == null){
-    //    window[map_id + 'googleCircles' + layer_id] = [];
-    //}
+
     createWindowObject(map_id, 'googleCircles', layer_id);
 
     for (i = 0; i < Object.keys(data_circles).length; i++) {
-        set_circle(map_id, data_circles[i], infoWindow, update_map_view, layer_id, i * interval);
+        set_circle(map_id, data_circles[i], infoWindow, update_map_view, layer_id, use_polyline, i * interval);
     }
 
     if(legendValues !== false){
@@ -29,11 +27,46 @@ function add_circles(map_id, data_circles, update_map_view, layer_id, legendValu
     }
 }
 
-function set_circle(map_id, circle, infoWindow, update_map_view, layer_id, timeout){
+function set_circle(map_id, circle, infoWindow, update_map_view, layer_id, use_polyline, timeout){
 
     window.setTimeout(function() {
+        
+        var lon, lat, path;
+        
+        if( use_polyline ) {
 
-        var latlon = new google.maps.LatLng(circle.lat, circle.lng),
+            for(j = 0; j < circle.polyline.length; j++){
+                path = google.maps.geometry.encoding.decodePath(circle.polyline[j]);
+                
+                var latlon = new google.maps.LatLng(path[0].lat(), path[0].lng());
+
+                var Circle = new google.maps.Circle({
+                    id: circle.id,
+                    strokeColor: circle.stroke_colour,
+                    strokeOpacity: circle.stroke_opacity,
+                    strokeWeight: circle.stroke_weight,
+                    fillColor: circle.fill_colour,
+                    fillOpacity: circle.fill_opacity,
+                    fillOpacityHolder: circle.fill_opacity,
+                    draggable: circle.draggable,
+                    editable: circle.editable,
+                    center: latlon,
+                    radius: circle.radius,
+                    mouseOver: circle.mouse_over,
+                    mouseOverGroup: circle.mouse_over_group,
+                    zIndex: circle.z_index
+                });
+                
+                set_each_circle(Circle, circle, infoWindow, update_map_view, map_id, layer_id);
+                
+                if(update_map_view === true){
+                    window[map_id + 'mapBounds'].extend(latlon);
+                    window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+                }
+            }
+        } else { 
+        
+            var latlon = new google.maps.LatLng(circle.lat, circle.lng),
             Circle = new google.maps.Circle({
                 id: circle.id,
                 strokeColor: circle.stroke_colour,
@@ -50,8 +83,20 @@ function set_circle(map_id, circle, infoWindow, update_map_view, layer_id, timeo
                 mouseOverGroup: circle.mouse_over_group,
                 zIndex: circle.z_index
             });
+            
+            set_each_circle(Circle, circle, infoWindow, update_map_view, map_id, layer_id);
+            
+            if(update_map_view === true){
+                window[map_id + 'mapBounds'].extend(latlon);
+                window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+            }
+        }
+    }, timeout);
+}
 
-        window[map_id + 'googleCircles' + layer_id].push(Circle);
+function set_each_circle(Circle, circle, infoWindow, update_map_view, map_id, layer_id) {
+    
+    window[map_id + 'googleCircles' + layer_id].push(Circle);
         Circle.setMap(window[map_id + 'map']);
 
         if(circle.info_window){
@@ -72,16 +117,8 @@ function set_circle(map_id, circle, infoWindow, update_map_view, layer_id, timeo
 
         if (Circle.draggable) {
             circle_dragged(map_id, Circle);
-        }
-
-        if(update_map_view === true){
-            window[map_id + 'mapBounds'].extend(latlon);
-            window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
-        }
-    }, timeout);
+        }    
 }
-
-
 
 /**
  * clears circles from a google map object

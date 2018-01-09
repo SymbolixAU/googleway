@@ -197,7 +197,6 @@ add_polygons <- function(map,
   legend <- resolveLegend(legend, legend_options, colour_palettes)
 
   requiredDefaults <- setdiff(requiredCols, names(shape))
-
   if(length(requiredDefaults) > 0){
     shape <- addDefaults(shape, requiredDefaults, "polygon")
   }

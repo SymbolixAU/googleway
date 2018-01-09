@@ -172,7 +172,12 @@ add_circles <- function(map,
   if(!dataCheck(data, "add_circles")) data <- circleDefaults(1)
   layer_id <- layerId(layer_id)
 
-  objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_circles")
+  usePolyline <- isUsingPolyline(polyline)
+
+  if( !usePolyline ) {
+    objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_circles")
+  }
+
   logicalCheck(update_map_view)
   numericCheck(digits)
   numericCheck(z_index)
@@ -182,10 +187,9 @@ add_circles <- function(map,
 
   allCols <- circleColumns()
   requiredCols <- requiredCircleColumns()
-  colourColumns <- shapeAttributes(fill_colour, stroke_colour)
+  colourColumns <- shapeAttributes(fill_colour = fill_colour, stroke_colour = stroke_colour)
 
   shape <- createMapObject(data, allCols, objArgs)
-
   pal <- createPalettes(shape, colourColumns)
   colour_palettes <- createColourPalettes(data, pal, colourColumns, palette)
   colours <- createColours(shape, colour_palettes)
@@ -202,9 +206,19 @@ add_circles <- function(map,
     shape <- addDefaults(shape, requiredDefaults, "circle")
   }
 
-    shape <- jsonlite::toJSON(shape, digits = digits)
+  if( usePolyline ) {
 
-  invoke_method(map, 'add_circles', shape, update_map_view, layer_id, legend, load_interval)
+    if( !is.list(shape[["polyline"]])) {
+      ## the polyline column has been named 'polyline'
+      if(!is.list(shape[["polyline"]])){
+        f <- paste0("polyline ~ " , paste0(setdiff(names(shape), "polyline"), collapse = "+") )
+        shape <- stats::aggregate(stats::formula(f), data = shape, list)
+      }
+    }
+  }
+  shape <- jsonlite::toJSON(shape, digits = digits)
+
+  invoke_method(map, 'add_circles', shape, update_map_view, layer_id, usePolyline, legend, load_interval)
 }
 
 #' @rdname clear
@@ -248,6 +262,13 @@ update_circles <- function(map, data, id,
                            ){
 
   objArgs <- match.call(expand.dots = F)
+
+  data <- normaliseSfData(data, "POINT")
+  polyline <- findEncodedColumn(data, polyline)
+
+  if( !is.null(polyline) && !polyline %in% names(objArgs) ) {
+    objArgs[['polyline']] <- polyline
+  }
 
   layer_id <- layerId(layer_id)
   numericCheck(digits)

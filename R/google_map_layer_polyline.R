@@ -135,13 +135,8 @@ add_polylines <- function(map,
   requiredCols <- requiredLineColumns()
   colourColumns <- lineAttributes(stroke_colour)
 
-  ## TODO:
-  ## createMapObject: does this work with just one column of polylines (in a regular data.frame)?
-  ## is this what is making sf fail?
-
   shape <- createMapObject(data, allCols, objArgs)
   pal <- createPalettes(shape, colourColumns)
-
   colour_palettes <- createColourPalettes(data, pal, colourColumns, palette)
   colours <- createColours(shape, colour_palettes)
 
@@ -185,7 +180,6 @@ add_polylines <- function(map,
     shape <- jsonlite::toJSON(lst_polyline, digits = digits, auto_unbox = T)
 
   }
-
   invoke_method(map, 'add_polylines', shape, update_map_view, layer_id, usePolyline, legend, load_interval)
 }
 

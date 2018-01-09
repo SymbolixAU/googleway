@@ -61,8 +61,6 @@ function set_lines(map_id, polyline, infoWindow, update_map_view, layer_id, use_
 
         if(use_polyline){
 
-            console.log(polyline.polyline.length);
-
             for(j = 0; j < polyline.polyline.length; j++){
 
                 //paths.push(google.maps.geometry.encoding.decodePath(polyline.polyline[j]));
