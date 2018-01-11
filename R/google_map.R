@@ -162,6 +162,7 @@ google_map <- function(key,
   return(googlemap)
 }
 
+
 #' Clear search
 #'
 #' clears the markers placed on the map after using the search box
