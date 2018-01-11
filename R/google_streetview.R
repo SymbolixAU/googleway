@@ -9,7 +9,7 @@
 #' returns an image 600 pixles wide and 400 pixles high.
 #' @param heading indicates the compass heading of the camera. Accepted values are
 #' from 0 to 360 (both 0 and 360 indicate north), 90 indicates east, 180 south and 270 west.
-#' If no heading is specified a value will be calculated that directs teh camera
+#' If no heading is specified a value will be calculated that directs the camera
 #' to wards the specified \code{location}, from the point at which the closest
 #' photograph was taken.
 #' @param fov determines the horizontal field of view of the image. The field of

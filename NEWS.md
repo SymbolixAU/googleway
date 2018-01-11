@@ -1,5 +1,6 @@
 ## Version 2.3.0 (development)
 
+* `google_map_panorama()` loads an interactive panorma image without an API key
 * `google_map_directions()` loads a Google Map Directions search without an API key
 * `google_map_search()` loads a Google Map Search without an API key
 * `google_map_url()` loads a Google Map without an API key
