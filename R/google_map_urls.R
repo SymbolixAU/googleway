@@ -1,4 +1,50 @@
 
+#' Google Map Url
+#'
+#' Opens a Google Map in a browser
+#'
+#' @param center vector of lat/lon coordinates which defines the centre of the map window
+#' @param zoom number that sets the zoom level of the map (from 0 to 21)
+#' @param basemap defines the typ eof map to display.
+#' @param layer defines an extra layer to display on the map, if any.
+#'
+#' @examples
+#' \dontrun{
+#'
+#' google_map_url()
+#'
+#' google_map_url(center = c(-37.817727, 144.968246))
+#'
+#' google_map_url(center = c(-37.817727, 144.968246), zoom = 5)
+#'
+#' google_map_url(center = c(-37.817727, 144.968246), basemap = "terrain")
+#'
+#' google_map_url(center = c(-37.817727, 144.968246), layer = "traffic")
+#'
+#' }
+#' @export
+google_map_url <- function(center = NULL,
+                           zoom = 15,
+                           basemap = c("roadmap", "satellite", "terrain"),
+                           layer = c("none", "transit", "traffic", "bicycling")) {
+
+  mapUrl <- "https://www.google.com/maps/@?api=1&map_action=map"
+
+  basemap <- match.arg(basemap)
+  layer <- match.arg(layer)
+
+  center <- paste0(center, collapse = ",")
+
+  urlArgs <- c(center = center, zoom = zoom, basemap = basemap, layer = layer)
+
+  utils::browseURL(
+    utils::URLencode(
+      constructURL(mapUrl, urlArgs)
+    )
+  )
+
+}
+
 #' Google Map Search
 #'
 #' Opens a Google Map in a browser with the result of the specified search query.
