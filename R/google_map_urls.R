@@ -35,7 +35,12 @@ google_map_url <- function(center = NULL,
 
   center <- paste0(center, collapse = ",")
 
-  urlArgs <- c(center = center, zoom = zoom, basemap = basemap, layer = layer)
+  urlArgs <- c(
+    center = center,
+    zoom = zoom,
+    basemap = basemap,
+    layer = layer
+    )
 
   utils::browseURL(
     utils::URLencode(
@@ -197,14 +202,15 @@ google_map_directions <- function(
     }
   }
 
-  urlArgs <- c(origin = origin,
-               destination = destination,
-               origin_place_id = origin_place_id,
-               destination_place_id = destination_place_id,
-               travelmode = travel_mode,
-               dir_action = dir_action,
-               waypoints = waypoints,
-               waypoint_place_ids = waypoint_place_ids
+  urlArgs <- c(
+    origin = origin,
+    destination = destination,
+    origin_place_id = origin_place_id,
+    destination_place_id = destination_place_id,
+    travelmode = travel_mode,
+    dir_action = dir_action,
+    waypoints = waypoints,
+    waypoint_place_ids = waypoint_place_ids
   )
 
   utils::browseURL(
@@ -224,3 +230,106 @@ constructWaypoints2.list <- function(waypoints) {
 
 #' @export
 constructWaypionts2.default <- function(waypoints) stop("I was expecting a list of waypoints")
+
+
+
+#' Google Map Panorama
+#'
+#' Opens an interactive street view panorama in a browser
+#'
+#' @param viewpoint vector of lat/lon coordinates. If NULL, \code{pano} must be used.
+#' @param pano string of a specific panorama ID (see \url{https://developers.google.com/maps/documentation/urls/guide#pano-id}).
+#' If NULL, \code{viewpoint} must be used.
+#' @param heading number between -180 and 360. Indicates the compass heading of the camera
+#' in degrees clockwise from north.
+#' @param pitch number between -90 and 90, specifying the angle, up or down, of the camera
+#' @param fov number between 10 and 100, determines the orizontal field of view
+#' of the image.
+#'
+#' @examples
+#' \dontrun{
+#'
+#' google_map_panorama(viewpoint = c(48.857832, 2.295226))
+#'
+#' google_map_panorama(viewpoint = c(48.857832,2.295226),
+#'   heading = -90, pitch = 38, fov = 80)
+#'
+#'
+#' }
+#' @export
+google_map_panorama <- function(
+  viewpoint = NULL,
+  pano = NULL,
+  heading = NULL,
+  pitch = 0,
+  fov = 90
+) {
+
+  if(is.null(viewpoint) && is.null(pano))
+    stop("one of viewpoint or pano must be used")
+
+  if(!is.null(viewpoint)) viewpoint <- paste0(viewpoint, collapse = ",")
+
+  mapUrl <- "https://www.google.com/maps/@?api=1&map_action=pano"
+
+  heading <- validatePanoHeading(heading)
+  fov <- validatePanoFov(fov)
+  pitch <- validatePitch(pitch)
+
+  urlArgs <- c(
+    viewpoint = viewpoint,
+    pano = pano,
+    heading = heading,
+    pitch = pitch,
+    fov = fov
+  )
+
+  utils::browseURL(
+    utils::URLencode(
+      constructURL(mapUrl, urlArgs)
+    )
+  )
+
+
+}
+
+validatePanoFov <- function(fov) {
+  if(is.null(fov)) return(NULL)
+  UseMethod("validatePanoFov")
+}
+
+#' @export
+validatePanoFov.numeric <- function(fov) {
+  if(length(fov) != 1)
+    stop("expecting a single fov value")
+
+  if(fov < 10 || fov > 100)
+    stop("expecting a fov value between -180 and 360")
+
+  fov
+}
+
+
+#' @export
+validatePanoFov.default <- function(fov) stop("expecting a number between 10 and 100")
+
+validatePanoHeading <- function(heading) {
+  if(is.null(heading)) return(NULL)
+  UseMethod("validatePanoHeading")
+}
+
+#' @export
+validatePanoHeading.numeric <- function(heading) {
+  if(length(heading) != 1)
+    stop("expecting a single heading value")
+
+  if(heading < -180 || heading > 360)
+    stop("expecting a heading value between -180 and 360")
+
+  heading
+}
+
+
+#' @export
+validatePanoHeading.default <- function(heading) stop("Expecting a number between -180 and 360")
+
