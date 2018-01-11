@@ -1,3 +1,79 @@
+
+#' Google Map Search
+#'
+#' Opens a Google Map with the result of the specified search query.
+#'
+#' @param search string to search for
+#'
+#' @examples
+#' \dontrun{
+#'
+#' google_map_search("Melbourne, Victoria")
+#'
+#' google_map_search("Restaruants")
+#'
+#' }
+#'
+#' @export
+google_map_search <- function(search) {
+
+  mapUrl <- "https://www.google.com/maps/search/?api=1"
+
+  urlArgs <- c(query = search)
+
+  utils::browseURL(
+    utils::URLencode(
+      constructURL(mapUrl, urlArgs)
+    )
+  )
+}
+
+
+#' Google Map Directions
+#'
+#' Opens a Google Map with the resutls of the specified directions query
+#'
+#' @param origin
+#' @param origin_place_id
+#' @param destination
+#' @param destination_place_id
+#' @param travel_mode
+#' @param dir_action
+#' @param waypoints
+#' @param waypoint_place_ids
+#'
+#' @export
+google_map_directions <- function(
+  origin = NULL,
+  origin_place_id = NULL,
+  destination = NULL,
+  destination_place_id = NULL,
+  travel_mode = NULL,
+  dir_action = NULL,
+  waypoints = NULL,
+  waypoint_place_ids = NULL) {
+
+  mapUrl <- "https://www.google.com/maps/dir/?api=1"
+
+  urlArgs <- c(origin = origin,
+               origin_place_id = origin_place_id,
+               destination = destination,
+               destination_place_id = destination_place_id,
+               travel_mode = travel_mode,
+               dir_action = dir_action,
+               waypoints = waypoints,
+               waypoint_place_ids = waypoint_place_ids
+               )
+
+  utils::browseURL(
+    utils::URLencode(
+      constructURL(mapUrl, urlArgs)
+    )
+  )
+
+}
+
+
 #' Google map
 #'
 #' Generates a google map object
@@ -161,6 +237,7 @@ google_map <- function(key,
 
   return(googlemap)
 }
+
 
 #' Clear search
 #'
