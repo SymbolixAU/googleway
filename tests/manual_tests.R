@@ -56,7 +56,7 @@
 # }
 # shinyApp(ui, server)
 
-## updating heatmap legend
+# # updating heatmap legend
 # library(shiny)
 #
 # ui <- fluidPage(

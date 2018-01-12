@@ -158,6 +158,22 @@ validateLocationQuery.default <- function(query) stop("Unknown query type")
 #'   travel_mode = "walking",
 #'   waypoints = list("National Gallery of Victoria", c(-37.820860, 144.961894)))
 #'
+#'
+#' google_map_directions(origin = "Paris, France",
+#'   destination = "Cherbourg, France",
+#'   travel_mode = "driving",
+#'   waypoints = list("Versailles, France", "Chartres, France", "Le Mans, France",
+#'     "Caen, France"))
+#'
+#'
+#' google_map_directions(origin = "Paris, France",
+#'   destination = "Cherbourg, France",
+#'   travel_mode = "driving",
+#'   waypoints = list("Versailles, France", "Chartres, France", "Le Mans, France",
+#'     "Caen, France"),
+#'   waypoint_place_ids = list("ChIJdUyx15R95kcRj85ZX8H8OAU",
+#'   "ChIJKzGHdEgM5EcR_OBTT3nQoEA", "ChIJG2LvQNCI4kcRKXNoAsPi1Mc", "ChIJ06tnGbxCCkgRsfNjEQMwUsc"))
+#'
 #' }
 #'
 #' @export
@@ -188,9 +204,6 @@ google_map_directions <- function(
   if(!is.null(dir_action))
     dir_action <- match.arg(dir_action, c("navigate"))
 
-  if(!is.null(waypoints))
-    waypoints <- constructWaypoints2(waypoints)
-
   if(!is.null(waypoint_place_ids) && is.null(waypoints))
     stop("You must supply waypoints along with the waypoint_place_ids")
 
@@ -201,6 +214,9 @@ google_map_directions <- function(
       waypoint_place_ids <- paste0(waypoint_place_ids, collapse = "|")
     }
   }
+
+  if(!is.null(waypoints))
+    waypoints <- constructWaypoints2(waypoints)
 
   urlArgs <- c(
     origin = origin,
@@ -253,6 +269,8 @@ constructWaypionts2.default <- function(waypoints) stop("I was expecting a list 
 #'
 #' google_map_panorama(viewpoint = c(48.857832,2.295226),
 #'   heading = -90, pitch = 38, fov = 80)
+#'
+#' google_map_panorama(pano = "4U-oRQCNsC6u7r8gp02sLA")
 #'
 #'
 #' }

@@ -55,6 +55,22 @@ google_map_directions(origin = "Melbourne Cricket Ground",
   travel_mode = "walking",
   waypoints = list("National Gallery of Victoria", c(-37.820860, 144.961894)))
 
+
+google_map_directions(origin = "Paris, France",
+  destination = "Cherbourg, France",
+  travel_mode = "driving",
+  waypoints = list("Versailles, France", "Chartres, France", "Le Mans, France",
+    "Caen, France"))
+
+
+google_map_directions(origin = "Paris, France",
+  destination = "Cherbourg, France",
+  travel_mode = "driving",
+  waypoints = list("Versailles, France", "Chartres, France", "Le Mans, France",
+    "Caen, France"),
+  waypoint_place_ids = list("ChIJdUyx15R95kcRj85ZX8H8OAU",
+  "CChIJKzGHdEgM5EcR_OBTT3nQoEA", "CChIJG2LvQNCI4kcRKXNoAsPi1Mc", "CChIJ06tnGbxCCkgRsfNjEQMwUsc"))
+
 }
 
 }

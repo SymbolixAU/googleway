@@ -32,6 +32,8 @@ google_map_panorama(viewpoint = c(48.857832, 2.295226))
 google_map_panorama(viewpoint = c(48.857832,2.295226),
   heading = -90, pitch = 38, fov = 80)
 
+google_map_panorama(pano = "4U-oRQCNsC6u7r8gp02sLA")
+
 
 }
 }
