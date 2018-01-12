@@ -57,7 +57,7 @@ google_map_url <- function(center = NULL,
 #' @note There is no need for an api key
 #'
 #' @param query string or vector of lat/lon coordinates (in that order)
-#' @param query_place_id a Google place id (\url{https://developers.google.com/places/place-id}).
+#' @param place_id a Google place id (\url{https://developers.google.com/places/place-id}).
 #'
 #' @details
 #' If both parameters are given, the \code{query} is only used if Google Maps cannot
@@ -85,7 +85,7 @@ google_map_search <- function(
 
   mapUrl <- "https://www.google.com/maps/search/?api=1"
 
-  query <- validateQuery(query)
+  query <- validateLocationQuery(query)
 
   urlArgs <- c(query = query, query_place_id = place_id)
 
@@ -245,7 +245,7 @@ constructWaypoints2.list <- function(waypoints) {
 }
 
 #' @export
-constructWaypionts2.default <- function(waypoints) stop("I was expecting a list of waypoints")
+constructWaypoints2.default <- function(waypoints) stop("I was expecting a list of waypoints")
 
 
 
