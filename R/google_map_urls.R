@@ -47,7 +47,6 @@ google_map_url <- function(center = NULL,
       constructURL(mapUrl, urlArgs)
     )
   )
-
 }
 
 #' Google Map Search
