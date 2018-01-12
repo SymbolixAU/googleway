@@ -69,7 +69,7 @@ google_map_directions(origin = "Paris, France",
   waypoints = list("Versailles, France", "Chartres, France", "Le Mans, France",
     "Caen, France"),
   waypoint_place_ids = list("ChIJdUyx15R95kcRj85ZX8H8OAU",
-  "CChIJKzGHdEgM5EcR_OBTT3nQoEA", "CChIJG2LvQNCI4kcRKXNoAsPi1Mc", "CChIJ06tnGbxCCkgRsfNjEQMwUsc"))
+  "ChIJKzGHdEgM5EcR_OBTT3nQoEA", "ChIJG2LvQNCI4kcRKXNoAsPi1Mc", "ChIJ06tnGbxCCkgRsfNjEQMwUsc"))
 
 }
 

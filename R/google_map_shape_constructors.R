@@ -133,26 +133,6 @@ shapeAttributes <- function(fill_colour, stroke_colour){
     "fill_colour" = fill_colour)
 }
 
-# requiredColumns <- function(func){
-#   print("calling func: ")
-#   print(func)
-#   switch(func,
-#     "add_circles" = requiredCircleColumns(),
-#     "add_rectangles" = requiredShapeColumns(),
-#     "add_polylines" = requiredLineColumns(),
-#     "add_polygons" = requiredShapeColumns()
-#   )
-# }
-
-shapeColumns <- function(func){
-  switch(func,
-         "add_circles" = circleColumns(),
-         "add_rectangles" = rectangleColumns(),
-         "add_polylines" = polylineColumns(),
-         "add_polygons" = polygonColumns()
-         )
-}
-
 requiredLineColumns <- function(){
   c("geodesic","stroke_colour","stroke_weight","stroke_opacity","z_index")
 }
