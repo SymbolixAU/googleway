@@ -89,6 +89,7 @@ add_rectangles <- function(map,
   numericCheck(z_index)
   loadIntervalCheck(load_interval)
   palette <- paletteCheck(palette)
+  info_window <- infoWindowCheck(info_window)
   ## END PARAMETER CHECKS
 
   allCols <- rectangleColumns()

@@ -34,7 +34,7 @@
 #' the fill opacity of each shape, or a value between 0 and 1 that will be applied
 #' to all the shapes
 #' @param info_window string specifying the column of data to display in an info
-#' window when a shape is clicked. The data needs to be a character
+#' window when a shape is clicked.
 #' @param mouse_over string specifying the column of data to display when the
 #' mouse rolls over the shape
 #' @param mouse_over_group string specifying the column of data specifying which
@@ -168,6 +168,8 @@ add_circles <- function(map,
   numericCheck(z_index)
   loadIntervalCheck(load_interval)
   palette <- paletteCheck(palette)
+  info_window <- infoWindowCheck(info_window)
+
   ## END PARAMETER CHECKS
 
   allCols <- circleColumns()

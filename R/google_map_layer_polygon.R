@@ -158,6 +158,7 @@ add_polygons <- function(map,
   numericCheck(z_index)
   loadIntervalCheck(load_interval)
   palette <- paletteCheck(palette)
+  info_window <- infoWindowCheck(info_window)
 
   lst <- polyIdCheck(data, id, usePolyline, objArgs)
   data <- lst$data
@@ -168,6 +169,7 @@ add_polygons <- function(map,
   data <- lst$data
   objArgs <- lst$objArgs
   pathId <- lst$pathId
+
   ## END PARAMETER CHECKS
 
 

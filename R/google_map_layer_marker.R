@@ -73,6 +73,7 @@ add_markers <- function(map,
   logicalCheck(cluster)
   logicalCheck(update_map_view)
   numericCheck(digits)
+  info_window <- infoWindowCheck(info_window)
   ## END PARAMETER CHECKS
 
 
