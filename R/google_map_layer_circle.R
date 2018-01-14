@@ -34,7 +34,7 @@
 #' the fill opacity of each shape, or a value between 0 and 1 that will be applied
 #' to all the shapes
 #' @param info_window string specifying the column of data to display in an info
-#' window when a shape is clicked. The data needs to be a character
+#' window when a shape is clicked.
 #' @param mouse_over string specifying the column of data to display when the
 #' mouse rolls over the shape
 #' @param mouse_over_group string specifying the column of data specifying which
@@ -101,7 +101,7 @@
 #'
 #' google_map(key = map_key, data = tram_stops) %>%
 #'  add_circles(lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_name",
-#'  stroke_weight = 0.3, stroke_colour = "stop_name")
+#'  stroke_weight = 0.3, stroke_colour = "stop_name", info_window ="stop_id")
 #'
 #' ## different colour palettes
 #' lstPalette <- list(fill_colour = colorRampPalette(c("red","blue")),
@@ -168,6 +168,7 @@ add_circles <- function(map,
   numericCheck(z_index)
   loadIntervalCheck(load_interval)
   palette <- paletteCheck(palette)
+
   ## END PARAMETER CHECKS
 
   allCols <- circleColumns()
@@ -192,7 +193,7 @@ add_circles <- function(map,
     shape <- addDefaults(shape, requiredDefaults, "circle")
   }
 
-    shape <- jsonlite::toJSON(shape, digits = digits)
+  shape <- jsonlite::toJSON(shape, digits = digits)
 
   invoke_method(map, 'add_circles', shape, update_map_view, layer_id, legend, load_interval)
 }

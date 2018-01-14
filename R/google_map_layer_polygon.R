@@ -168,6 +168,7 @@ add_polygons <- function(map,
   data <- lst$data
   objArgs <- lst$objArgs
   pathId <- lst$pathId
+
   ## END PARAMETER CHECKS
 
 
