@@ -74,6 +74,10 @@ createMapObject <- function(data, cols, objArgs){
 
     df <- cbind(df, do.call(cbind, extraCols))
   }
+
+  if("info_window" %in% names(df))
+    df[['info_window']] <- as.character(df[['info_window']])
+
   return(df)
 }
 

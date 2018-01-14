@@ -84,5 +84,3 @@ test_that("polyId check corrects the id", {
 
 })
 
-
-

@@ -29,13 +29,6 @@ heatWeightCheck <- function(objArgs){
   return(objArgs)
 }
 
-infoWindowCheck <- function(info_window) UseMethod("infoWindowCheck")
-
-#' @export
-infoWindowCheck.character <- function(info_window) info_window
-
-#' @export
-infoWindowCheck.default <- function(info_window) as.character(info_window)
 
 
 isUrl <- function(txt) grepl("(^http)|(^www)", txt)
