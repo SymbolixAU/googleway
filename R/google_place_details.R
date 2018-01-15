@@ -39,7 +39,7 @@ google_place_details <- function(place_id,
                                  language = NULL,
                                  simplify = TRUE,
                                  curl_proxy = NULL,
-                                 key){
+                                 key = get_api_key("place_details")){
 
   language <- validateLanguage(language)
   logicalCheck(simplify)

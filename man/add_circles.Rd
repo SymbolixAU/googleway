@@ -64,7 +64,7 @@ mouse rolls over the shape}
 groups of shapes to highlight on mouseover}
 
 \item{info_window}{string specifying the column of data to display in an info
-window when a shape is clicked. The data needs to be a character}
+window when a shape is clicked.}
 
 \item{layer_id}{single value specifying an id for the layer. Use this value to
 distinguish between shape layers for when using any \code{update_} function, and
@@ -136,7 +136,7 @@ map_key <- 'your_api_key'
 
 google_map(key = map_key, data = tram_stops) \%>\%
  add_circles(lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_name",
- stroke_weight = 0.3, stroke_colour = "stop_name")
+ stroke_weight = 0.3, stroke_colour = "stop_name", info_window ="stop_id")
 
 ## different colour palettes
 lstPalette <- list(fill_colour = colorRampPalette(c("red","blue")),

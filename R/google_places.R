@@ -150,7 +150,7 @@ google_places <- function(search_string = NULL,
                           page_token = NULL,
                           simplify = TRUE,
                           curl_proxy = NULL,
-                          key
+                          key = get_api_key("places")
                           ){
 
   ## check if both search_string & location == NULL

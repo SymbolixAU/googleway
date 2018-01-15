@@ -49,7 +49,7 @@ the fill opacity of each shape, or a value between 0 and 1 that will be applied
 to all the shapes}
 
 \item{info_window}{string specifying the column of data to display in an info
-window when a shape is clicked. The data needs to be a character}
+window when a shape is clicked.}
 
 \item{layer_id}{single value specifying an id for the layer. Use this value to
 distinguish between shape layers for when using any \code{update_} function, and
