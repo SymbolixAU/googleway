@@ -1,4 +1,4 @@
-.onAttach <- function(libname, pkgname){
+.onAttach <- function(...){
 
   if(is.null(getOption("googleway"))) {
 
@@ -19,9 +19,9 @@
         timezone = NA_character_
       )
     )
+    attr(options, "class") <- "googleway_api"
+    options(googleway = options)
   }
-  attr(options, "class") <- "googleway_api"
-  options(googleway = options)
 }
 
 
