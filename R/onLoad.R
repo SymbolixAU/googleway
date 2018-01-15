@@ -43,14 +43,14 @@ google_keys <- function() getOption("googleway")
 #' @export
 print.googleway_api <- function(x, ...) {
 
-  print("printing APIS")
   for (i in 1:length(x)) {
-    cat("Google APIs")
-    for (j in 1:length(x[[i]])){
 
-      key <- x[[j]][[i]]
-      nam <- names(key)
-      cat(nam, ": ", key, "\n")
+    cat("Google APIs\n")
+
+    for (j in 1:length(x[[i]])){
+      cat(" - ", names(x[[i]])[j], ": ")
+      key <- x[[i]][[j]]
+      cat(ifelse(is.na(key), "", key), "\n")
     }
   }
 }
