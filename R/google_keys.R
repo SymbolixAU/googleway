@@ -112,7 +112,7 @@ get_api_key <- function(api) {
 
 get_default_key <- function() {
   key <- getOption("googleway")[['google']][['default']]
-  if(is.na(key)) stop("No API key provided")
+  if(is.na(key)) stop("No API key provided. Use either set_key() to set a key, or provide it as a function argument in the 'key' parameter")
   return(key)
 
 }

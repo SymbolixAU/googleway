@@ -71,3 +71,38 @@ test_that("specific key set", {
 })
 
 
+test_that("get_api_key retrieves api key", {
+
+  clear_keys()
+  set_key("my_key", "map")
+
+  expect_true(
+    googleway:::get_api_key("map") == "my_key"
+  )
+
+})
+
+test_that("default api key returned", {
+
+  clear_keys()
+  set_key("my_key")
+
+  expect_true(
+    googleway:::get_default_key() == "my_key"
+  )
+
+  expect_true(
+    googleway:::get_api_key("directions") == "my_key"
+  )
+
+})
+
+test_that("api keys printed", {
+
+  expect_silent(
+    google_keys()
+  )
+
+11})
+
+
