@@ -32,7 +32,7 @@ google_reverse_geocode <- function(location,
                                    result_type = NULL,
                                    location_type = NULL,
                                    language = NULL,
-                                   key,
+                                   key = get_api_key("reverse_geocode"),
                                    simplify = TRUE,
                                    curl_proxy = NULL
                                    ){

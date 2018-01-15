@@ -9,7 +9,8 @@ google_directions(origin, destination, mode = c("driving", "walking",
   waypoints = NULL, optimise_waypoints = FALSE, alternatives = FALSE,
   avoid = NULL, units = c("metric", "imperial"), traffic_model = NULL,
   transit_mode = NULL, transit_routing_preference = NULL, language = NULL,
-  region = NULL, key, simplify = TRUE, curl_proxy = NULL)
+  region = NULL, key = get_api_key("directions"), simplify = TRUE,
+  curl_proxy = NULL)
 }
 \arguments{
 \item{origin}{Origin location as either a one or two column data.frame, a
@@ -100,12 +101,12 @@ google_directions(origin = c(-37.8179746, 144.9668636),
           key = api_key)
 
 
-
+## set the key so it's available to all function calls
+set_key(api_key = api_key)
 ## using address string
 google_directions(origin = "Flinders Street Station, Melbourne",
          destination = "MCG, Melbourne",
-         mode = "walking",
-         key = api_key)
+         mode = "walking")
 
 
 google_directions(origin = "Melbourne Airport, Australia",
@@ -117,7 +118,6 @@ google_directions(origin = "Melbourne Airport, Australia",
          alternatives = FALSE,
          avoid = c("TOLLS", "highways"),
          units = "imperial",
-         key = api_key,
          simplify = TRUE)
 
 ## waypoints expressed as an encoded polyline
@@ -126,8 +126,7 @@ polyWaypoints <- list(via = paste0("enc:", polyWaypoints, ":"))
 
 google_directions(origin = "Melbourne Zoo, Melbourne",
          destination = "Studley Park, Melbourne",
-         waypoints = polyWaypoints,
-         key = api_key)
+         waypoints = polyWaypoints)
 
 
 ## using bus and less walking
@@ -137,7 +136,6 @@ google_directions(origin = "Melbourne Airport, Australia",
          mode = "transit",
          transit_mode = "bus",
          transit_routing_preference = "less_walking",
-         key = api_key,
          simplify = FALSE)
 
 ## using arrival time
@@ -147,7 +145,6 @@ google_directions(origin = "Melbourne Airport, Australia",
          mode = "transit",
          transit_mode = "bus",
          transit_routing_preference = "less_walking",
-         key = api_key,
          simplify = FALSE)
 
 ## return results in French
@@ -158,7 +155,6 @@ google_directions(origin = "Melbourne Airport, Australia",
          transit_mode = "bus",
          transit_routing_preference = "less_walking",
          language = "fr",
-         key = api_key,
          simplify = FALSE)
 
 }

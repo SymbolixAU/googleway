@@ -54,7 +54,7 @@ google_place_autocomplete <- function(place_input,
                                       components = NULL,
                                       simplify = TRUE,
                                       curl_proxy = NULL,
-                                      key){
+                                      key = get_api_key("place_autocomplete")){
 
   ## check input is a valid character string
   if(!is.character(place_input) | length(place_input) > 1)

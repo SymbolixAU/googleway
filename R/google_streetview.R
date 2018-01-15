@@ -83,7 +83,7 @@ google_streetview <- function(location = NULL,
                               output = c("plot","html"),
                               response_check = FALSE,
                               signature = NULL,
-                              key){
+                              key = get_api_key("streetview")){
 
 
   if(is.null(location) & is.null(panorama_id))

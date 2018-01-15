@@ -11,7 +11,7 @@
 #' @import shiny
 #'
 #' @aliases googleway
-#' @param key A valid Google Maps API key. see Details
+#' @param key A valid Google Maps API key.
 #' @param data data to be used on the map. This will likely contain two columns for latitude and longitude, and / or encoded polylines for plotting polylines and polygons
 #' @param location \code{numeric} vector of latitude/longitude (in that order) coordinates for the initial starting position of the map. The map will automatically set the location and zoom if markers are supplied through \link{add_markers}. If null, the map will default to Melbourne, Australia.
 #' @param zoom \code{integer} representing the zoom level of the map (0 is fully zoomed out)
@@ -73,7 +73,7 @@
 #'
 #'
 #' @export
-google_map <- function(key,
+google_map <- function(key = get_api_key("map"),
                        data = NULL,
                        location = NULL,
                        zoom = NULL,
