@@ -1,4 +1,4 @@
-.onAttach <- function(...){
+.onLoad <- function(...){
 
   if(is.null(getOption("googleway"))) {
 

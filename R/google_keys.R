@@ -21,23 +21,6 @@ print.googleway_api <- function(x, ...) {
   }
 }
 
-get_api_key <- function(api) {
-
-  ## try and find specific key,
-  ## then go for the general one
-  api <- getOption("googleway")[['google']][[api]]
-  if(is.na(api)) return(get_default_key())
-
-  return(api)
-}
-
-
-get_default_key <- function() {
-  key <- getOption("googleway")[['google']][['default']]
-  if(is.na(key)) stop("No API key provided")
-  return(key)
-
-}
 #' Set Key
 #'
 #' Sets an API key so it's available for all API calls. See details
@@ -74,7 +57,7 @@ set_key <- function(
   api = c("default", "map", "directions", "distance","elevation", "geocode",
           "places","place_autocomplete", "places_details","roads", "streetview",
           "timezone")
-  ) {
+) {
 
   options <- getOption("googleway")
   api <- match.arg(api)
@@ -85,5 +68,54 @@ set_key <- function(
   invisible(NULL)
 
 }
+
+
+#' Clear Keys
+#'
+#' Clears all the API keys
+#'
+#' @export
+clear_keys <- function() {
+
+  options <- list(
+    google = list(
+      default = NA_character_,
+      map = NA_character_,
+      directions = NA_character_,
+      distance = NA_character_,
+      elevation = NA_character_,
+      geocode = NA_character_,
+      places = NA_character_,
+      place_autocomplete = NA_character_,
+      place_details = NA_character_,
+      reverse_geocode = NA_character_,
+      roads = NA_character_,
+      streetview = NA_character_,
+      timezone = NA_character_
+    )
+  )
+  attr(options, "class") <- "googleway_api"
+  options(googleway = options)
+
+}
+
+get_api_key <- function(api) {
+
+  ## try and find specific key,
+  ## then go for the general one
+  api <- getOption("googleway")[['google']][[api]]
+  if(is.na(api)) return(get_default_key())
+
+  return(api)
+}
+
+
+get_default_key <- function() {
+  key <- getOption("googleway")[['google']][['default']]
+  if(is.na(key)) stop("No API key provided")
+  return(key)
+
+}
+
 
 
