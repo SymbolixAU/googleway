@@ -1,14 +1,3 @@
-get_api_key <- function(api) {
-
-  ## try and find specific key,
-  ## then go for the general one
-  api <- getOption("googleway")[['google']][[api]]
-  if(is.null(api)) return(get_default_key())
-
-  return(api)
-
-}
-
 #' Google Keys
 #'
 #' Retrieves the list of Google Keys that have been set.
@@ -32,8 +21,23 @@ print.googleway_api <- function(x, ...) {
   }
 }
 
-get_default_key <- function() getOption("googleway")[['google']][['default']]
+get_api_key <- function(api) {
 
+  ## try and find specific key,
+  ## then go for the general one
+  api <- getOption("googleway")[['google']][[api]]
+  if(is.na(api)) return(get_default_key())
+
+  return(api)
+}
+
+
+get_default_key <- function() {
+  key <- getOption("googleway")[['google']][['default']]
+  if(is.na(key)) stop("No API key provided")
+  return(key)
+
+}
 #' Set Key
 #'
 #' Sets an API key so it's available for all API calls. See details
