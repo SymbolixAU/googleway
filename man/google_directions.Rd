@@ -9,7 +9,8 @@ google_directions(origin, destination, mode = c("driving", "walking",
   waypoints = NULL, optimise_waypoints = FALSE, alternatives = FALSE,
   avoid = NULL, units = c("metric", "imperial"), traffic_model = NULL,
   transit_mode = NULL, transit_routing_preference = NULL, language = NULL,
-  region = NULL, key, simplify = TRUE, curl_proxy = NULL)
+  region = NULL, key = get_api_key("directions"), simplify = TRUE,
+  curl_proxy = NULL)
 }
 \arguments{
 \item{origin}{Origin location as either a one or two column data.frame, a

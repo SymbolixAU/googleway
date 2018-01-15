@@ -63,8 +63,7 @@
 #' ## using lat/long coordinates
 #' google_directions(origin = c(-37.8179746, 144.9668636),
 #'           destination = c(-37.81659, 144.9841),
-#'           mode = "walking",
-#'           key = api_key)
+#'           mode = "walking")
 #'
 #'
 #'
@@ -145,7 +144,7 @@ google_directions <- function(origin,
                               transit_routing_preference = NULL,
                               language = NULL,
                               region = NULL,
-                              key,
+                              key = get_api_key("directions"),
                               simplify = TRUE,
                               curl_proxy = NULL){
 
