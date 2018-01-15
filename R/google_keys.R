@@ -32,7 +32,7 @@ print.googleway_api <- function(x, ...) {
   }
 }
 
-get_default_key <- function() getOption("googleway")[['google']][['default_api']]
+get_default_key <- function() getOption("googleway")[['google']][['default']]
 
 #' Set Key
 #'
@@ -65,10 +65,12 @@ get_default_key <- function() getOption("googleway")[['google']][['default_api']
 #'
 #'
 #' @export
-set_key <- function(api_key, api = c("default", "map", "directions", "distance",
-                                     "elevation", "geocode", "places",
-                                     "place_autocomplete", "places_details",
-                                     "roads", "streetview","timezone")) {
+set_key <- function(
+  api_key,
+  api = c("default", "map", "directions", "distance","elevation", "geocode",
+          "places","place_autocomplete", "places_details","roads", "streetview",
+          "timezone")
+  ) {
 
   options <- getOption("googleway")
   api <- match.arg(api)
