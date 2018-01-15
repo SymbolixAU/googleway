@@ -55,7 +55,7 @@
 #' @export
 google_geocode <- function(address,
                            bounds = NULL,
-                           key,
+                           key = get_api_key("geocode"),
                            language = NULL,
                            region = NULL,
                            components = NULL,

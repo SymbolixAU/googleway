@@ -5,7 +5,8 @@
 \title{Google reverse geocoding}
 \usage{
 google_reverse_geocode(location, result_type = NULL, location_type = NULL,
-  language = NULL, key, simplify = TRUE, curl_proxy = NULL)
+  language = NULL, key = get_api_key("reverse_geocode"), simplify = TRUE,
+  curl_proxy = NULL)
 }
 \arguments{
 \item{location}{numeric vector of lat/lon coordinates.}

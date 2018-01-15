@@ -63,15 +63,16 @@
 #' ## using lat/long coordinates
 #' google_directions(origin = c(-37.8179746, 144.9668636),
 #'           destination = c(-37.81659, 144.9841),
-#'           mode = "walking")
+#'           mode = "walking",
+#'           key = api_key)
 #'
 #'
-#'
+#' ## set the key so it's available to all function calls
+#' set_key(api_key = api_key)
 #' ## using address string
 #' google_directions(origin = "Flinders Street Station, Melbourne",
 #'          destination = "MCG, Melbourne",
-#'          mode = "walking",
-#'          key = api_key)
+#'          mode = "walking")
 #'
 #'
 #' google_directions(origin = "Melbourne Airport, Australia",
@@ -83,7 +84,6 @@
 #'          alternatives = FALSE,
 #'          avoid = c("TOLLS", "highways"),
 #'          units = "imperial",
-#'          key = api_key,
 #'          simplify = TRUE)
 #'
 #' ## waypoints expressed as an encoded polyline
@@ -92,8 +92,7 @@
 #'
 #' google_directions(origin = "Melbourne Zoo, Melbourne",
 #'          destination = "Studley Park, Melbourne",
-#'          waypoints = polyWaypoints,
-#'          key = api_key)
+#'          waypoints = polyWaypoints)
 #'
 #'
 #' ## using bus and less walking
@@ -103,7 +102,6 @@
 #'          mode = "transit",
 #'          transit_mode = "bus",
 #'          transit_routing_preference = "less_walking",
-#'          key = api_key,
 #'          simplify = FALSE)
 #'
 #' ## using arrival time
@@ -113,7 +111,6 @@
 #'          mode = "transit",
 #'          transit_mode = "bus",
 #'          transit_routing_preference = "less_walking",
-#'          key = api_key,
 #'          simplify = FALSE)
 #'
 #' ## return results in French
@@ -124,7 +121,6 @@
 #'          transit_mode = "bus",
 #'          transit_routing_preference = "less_walking",
 #'          language = "fr",
-#'          key = api_key,
 #'          simplify = FALSE)
 #'
 #' }

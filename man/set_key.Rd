@@ -4,8 +4,8 @@
 \alias{set_key}
 \title{Set Key}
 \usage{
-set_key(api_key, api = c("default_api", "map", "directions", "distance",
-  "elevation", "geocode", "places", "places_autocomplete", "places_details",
+set_key(api_key, api = c("default", "map", "directions", "distance",
+  "elevation", "geocode", "places", "place_autocomplete", "places_details",
   "roads", "streetview", "timezone"))
 }
 \arguments{

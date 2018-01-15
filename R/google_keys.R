@@ -65,9 +65,9 @@ get_default_key <- function() getOption("googleway")[['google']][['default_api']
 #'
 #'
 #' @export
-set_key <- function(api_key, api = c("default_api", "map", "directions", "distance",
+set_key <- function(api_key, api = c("default", "map", "directions", "distance",
                                      "elevation", "geocode", "places",
-                                     "places_autocomplete", "places_details",
+                                     "place_autocomplete", "places_details",
                                      "roads", "streetview","timezone")) {
 
   options <- getOption("googleway")

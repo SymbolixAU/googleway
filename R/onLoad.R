@@ -4,18 +4,19 @@
 
     options <- list(
       google = list(
-        api_key = NA_character_,
-        map_key = NA_character_,
-        directions_key = NA_character_,
-        distance_key = NA_character_,
-        elevation_key = NA_character_,
-        geocode_key = NA_character_,
-        places_key = NA_character_,
-        places_autocomplete_key = NA_character_,
-        places_details_key = NA_character_,
-        roads_key = NA_character_,
-        streetview_key = NA_character_,
-        timezone_key = NA_character_
+        default = NA_character_,
+        map = NA_character_,
+        directions = NA_character_,
+        distance = NA_character_,
+        elevation = NA_character_,
+        geocode = NA_character_,
+        places = NA_character_,
+        place_autocomplete = NA_character_,
+        place_details = NA_character_,
+        reverse_geocode = NA_character_,
+        roads = NA_character_,
+        streetview = NA_character_,
+        timezone = NA_character_
       )
     )
   }
