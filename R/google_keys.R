@@ -45,10 +45,10 @@ print.googleway_api <- function(x, ...) {
 #' set_key(api_key = "xxx_your_api_key_xxx")
 #'
 #' ## api key for directions
-#' set_key(api_key = "xxx_your_api_key_xxx", api = "directions_key")
+#' set_key(api_key = "xxx_your_api_key_xxx", api = "directions")
 #'
 #' ## api key for maps
-#' set_key(api_key = "xxx_your_api_key_xxx", api = "map_key")
+#' set_key(api_key = "xxx_your_api_key_xxx", api = "map")
 #'
 #'
 #' @export

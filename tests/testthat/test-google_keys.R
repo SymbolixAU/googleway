@@ -54,7 +54,7 @@ test_that("specific key set", {
   set_key("my_key", "directions")
   x <- google_keys()
 
-  expect_ture(
+  expect_true(
     x[[1]][['directions']] == "my_key"
   )
 
