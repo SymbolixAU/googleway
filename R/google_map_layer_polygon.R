@@ -91,6 +91,8 @@
 #' path that forms the complete polygon. Not required when using \code{polyline},
 #' as each polyline is itself a path.
 #'
+#' @inheritSection add_circles palette
+#'
 #' @details
 #' \code{z_index} values define the order in which objects appear on the map.
 #' Those with a higher value appear on top of those with a lower value. The default

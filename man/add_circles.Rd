@@ -93,7 +93,9 @@ a named list indicating which colour attributes should be included in the legend
 \description{
 Add circles to a google map
 }
-\details{
+\section{palette}{
+
+
 The \code{palette} is used to specify the colours that will map to variables.
 You can specify a single function to map to all variables, or a named list
 that specifies a separate function to map to each variable. The elements must
@@ -129,6 +131,7 @@ order of objects is (1 being underneath all other objects)
 
 Markers are always the top layer
 }
+
 \examples{
 \dontrun{
 

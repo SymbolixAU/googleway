@@ -56,8 +56,7 @@
 #' @param legend_options A list of options for controlling the legend.
 #' @param load_interval time in miliseconds to wait between plotting each shape
 #'
-#' @details
-#'
+#' @section palette:
 #'
 #' The \code{palette} is used to specify the colours that will map to variables.
 #' You can specify a single function to map to all variables, or a named list

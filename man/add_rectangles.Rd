@@ -107,6 +107,45 @@ order of objects is (1 being underneath all other objects)
 
 Markers are always the top layer
 }
+\section{palette}{
+
+
+The \code{palette} is used to specify the colours that will map to variables.
+You can specify a single function to map to all variables, or a named list
+that specifies a separate function to map to each variable. The elements must
+be named either \code{fill_colour} or \code{stroke_colour}, and their values
+are the colour generating functions. The default is \code{viridisLite::viridis}
+
+The \code{legend_options} can be used to control the appearance of the legend.
+This should be a named list, where the names are one of
+\itemize{
+  \item{position - one of \code{c("TOP_CENTER", "TOP_LEFT", "TOP_RIGHT","RIGHT_TOP",
+    "LEFT_CENTER", "RIGHT_CENTER", "LEFT_BOTTOM", "BOTTOM_CENTER", "RIGHT_BOTTOM",
+    "BOTTOM_LEFT","BOTTOM_RIGHT")}}
+  \item{css - a string of valid \code{css} for controlling the appearance of the legend}
+  \item{title - a string to use for the title of the legend}
+}
+if \code{legend_options} are NULL, the default values will apply
+
+If you are displaying two legends, one for \code{stroke_colour} and one
+for \code{fill_colour}, you can specify different options for the different
+colour attributes. See examples.
+
+
+\code{z_index} values define the order in which objects appear on the map.
+Those with a higher value appear on top of those with a lower value. The default
+order of objects is (1 being underneath all other objects)
+
+\itemize{
+  \item{1. Polygon}
+  \item{2. Rectangle}
+  \item{3. Polyline}
+  \item{4. Circle}
+}
+
+Markers are always the top layer
+}
+
 \examples{
 \dontrun{
 

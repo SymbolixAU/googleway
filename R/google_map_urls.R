@@ -118,6 +118,9 @@ validateLocationQuery.default <- function(query) stop("Unknown query type")
 #'
 #' @note There is no need for an api key
 #'
+#' Waypoints are not supported on all Google Map products. In those cases, this parameter
+#' will be ignored.
+#'
 #' @param origin string of an address or search term, or vector of lat/lon coordinates
 #' @param origin_place_id a Google place id (\url{https://developers.google.com/places/place-id}).
 #' If used, you must also specify an \code{origin}
@@ -133,11 +136,6 @@ validateLocationQuery.default <- function(query) stop("Unknown query type")
 #' Up to 3 are allowed on mobile devices, and up to 9 otherwise.
 #' @param waypoint_place_ids vector of \code{place_id}s to match against the list of \code{waypoints}.
 #' If used, the \code{waypoints} must also be used.
-#'
-#' @notes
-#' Waypoints are not supported on al Google Map products. In those cases, this parameter
-#' will be ignored.
-#'
 #'
 #'
 #' @examples

@@ -37,6 +37,9 @@ Opens Google Maps in a browser with the resutls of the specified directions quer
 }
 \note{
 There is no need for an api key
+
+Waypoints are not supported on all Google Map products. In those cases, this parameter
+will be ignored.
 }
 \examples{
 \dontrun{

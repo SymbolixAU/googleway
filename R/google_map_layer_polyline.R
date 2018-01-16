@@ -29,6 +29,8 @@
 #' may be more appropriate to set the view of the map using the location argument
 #' of \code{google_map()}
 #'
+#' @inheritSection add_circles palette
+#'
 #' @examples
 #' \dontrun{
 #'
