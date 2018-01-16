@@ -73,7 +73,7 @@
 #'   \item{css - a string of valid \code{css} for controlling the appearance of the legend}
 #'   \item{title - a string to use for the title of the legend}
 #'}
-#'if \code{legend_options} are NULL, the default values will apply
+#' if \code{legend_options} are NULL, the default values will apply
 #'
 #' If you are displaying two legends, one for \code{stroke_colour} and one
 #' for \code{fill_colour}, you can specify different options for the different
@@ -106,18 +106,21 @@
 #' lstPalette <- list(fill_colour = colorRampPalette(c("red","blue")),
 #'     stroke_colour = viridisLite::plasma)
 #'
-#' google_map(key = map_key, data = tram_stops) %>%
+#' ## set the key via set_key()
+#' set_key(api_key = map_key)
+#'
+#' google_map(data = tram_stops) %>%
 #'  add_circles(lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_lat",
 #'  stroke_weight = 2, stroke_colour = "stop_name", palette = lstPalette, legend = T)
 #'
 #' ## controlling the legend
-#' google_map(key = map_key, data = tram_stops) %>%
+#' google_map(data = tram_stops) %>%
 #'  add_circles(lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_lat",
 #'  stroke_weight = 2, stroke_colour = "stop_name",
 #'  legend = c(fill_colour = T, stroke_colour = F),
 #'  legend_options = list(position = "TOP_RIGHT", css = "max-height: 100px;"))
 #'
-#'google_map(key = map_key, data = tram_stops) %>%
+#'google_map(data = tram_stops) %>%
 #'  add_circles(lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_lat",
 #'  stroke_weight = 2, stroke_colour = "stop_name",
 #'  legend = T,
