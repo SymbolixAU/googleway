@@ -81,8 +81,12 @@
 #' See examples.
 #'
 #' @export
-add_geojson <- function(map, data = get_map_data(map), layer_id = NULL, style = NULL,
-                        mouse_over = FALSE, update_map_view = TRUE){
+add_geojson <- function(map,
+                        data = get_map_data(map),
+                        layer_id = NULL,
+                        style = NULL,
+                        mouse_over = FALSE,
+                        update_map_view = TRUE){
 
   ## TODO:
   ## - replicate blog: https://maps-apis.googleblog.com/2014/04/build-map-infographic-with-google-maps.html

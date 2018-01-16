@@ -69,7 +69,7 @@ google_distance <- function(origins,
                             transit_mode = NULL,
                             transit_routing_preference = NULL,
                             language = NULL,
-                            key,
+                            key = get_api_key("distance"),
                             simplify = TRUE,
                             curl_proxy = NULL){
 

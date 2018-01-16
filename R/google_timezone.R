@@ -31,7 +31,7 @@ google_timezone <- function(location,
                             language = NULL,
                             simplify = TRUE,
                             curl_proxy = NULL,
-                            key
+                            key = get_api_key("timezone")
                             ){
 
 

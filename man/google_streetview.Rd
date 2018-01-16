@@ -6,7 +6,8 @@
 \usage{
 google_streetview(location = NULL, panorama_id = NULL, size = c(400, 400),
   heading = NULL, fov = 90, pitch = 0, output = c("plot", "html"),
-  response_check = FALSE, signature = NULL, key)
+  response_check = FALSE, signature = NULL,
+  key = get_api_key("streetview"))
 }
 \arguments{
 \item{location}{numeric vector of lat/lon coordinates, or an address string.}
@@ -19,7 +20,7 @@ returns an image 600 pixles wide and 400 pixles high.}
 
 \item{heading}{indicates the compass heading of the camera. Accepted values are
 from 0 to 360 (both 0 and 360 indicate north), 90 indicates east, 180 south and 270 west.
-If no heading is specified a value will be calculated that directs teh camera
+If no heading is specified a value will be calculated that directs the camera
 to wards the specified \code{location}, from the point at which the closest
 photograph was taken.}
 

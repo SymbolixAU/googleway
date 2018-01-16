@@ -29,6 +29,8 @@
 #'
 #' Markers are always the top layer
 #'
+#' @inheritSection add_circles palette
+#'
 #' @examples
 #' \dontrun{
 #'

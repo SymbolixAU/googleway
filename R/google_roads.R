@@ -53,7 +53,7 @@ google_snapToRoads <- function(df_path,
                                interpolate = FALSE,
                                simplify = TRUE,
                                curl_proxy = NULL,
-                               key
+                               key = get_api_key("roads")
                                ){
 
 

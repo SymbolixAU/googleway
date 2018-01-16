@@ -36,6 +36,10 @@ createMapObject <- function(data, cols, objArgs){
 
     df <- cbind(df, do.call(cbind, extraCols))
   }
+
+  if("info_window" %in% names(df))
+    df[['info_window']] <- as.character(df[['info_window']])
+
   return(df)
 }
 
@@ -110,26 +114,6 @@ shapeAttributes <- function(fill_colour, stroke_colour){
 
   c("stroke_colour" = stroke_colour,
     "fill_colour" = fill_colour)
-}
-
-# requiredColumns <- function(func){
-#   print("calling func: ")
-#   print(func)
-#   switch(func,
-#     "add_circles" = requiredCircleColumns(),
-#     "add_rectangles" = requiredShapeColumns(),
-#     "add_polylines" = requiredLineColumns(),
-#     "add_polygons" = requiredShapeColumns()
-#   )
-# }
-
-shapeColumns <- function(func){
-  switch(func,
-         "add_circles" = circleColumns(),
-         "add_rectangles" = rectangleColumns(),
-         "add_polylines" = polylineColumns(),
-         "add_polygons" = polygonColumns()
-         )
 }
 
 requiredLineColumns <- function(){

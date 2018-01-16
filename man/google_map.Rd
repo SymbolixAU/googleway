@@ -5,15 +5,16 @@
 \alias{googleway}
 \title{Google map}
 \usage{
-google_map(key, data = NULL, location = NULL, zoom = NULL, width = NULL,
-  height = NULL, padding = 0, styles = NULL, search_box = FALSE,
-  zoom_control = TRUE, map_type_control = TRUE, scale_control = FALSE,
+google_map(key = get_api_key("map"), data = NULL, location = NULL,
+  zoom = NULL, width = NULL, height = NULL, padding = 0,
+  styles = NULL, search_box = FALSE, zoom_control = TRUE,
+  map_type_control = TRUE, scale_control = FALSE,
   street_view_control = TRUE, rotate_control = TRUE,
   fullscreen_control = TRUE, libraries = NULL,
   event_return_type = c("list", "json"))
 }
 \arguments{
-\item{key}{A valid Google Maps API key. see Details}
+\item{key}{A valid Google Maps API key.}
 
 \item{data}{data to be used on the map. This will likely contain two columns for latitude and longitude, and / or encoded polylines for plotting polylines and polygons}
 

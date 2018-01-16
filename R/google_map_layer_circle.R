@@ -36,7 +36,7 @@
 #' the fill opacity of each shape, or a value between 0 and 1 that will be applied
 #' to all the shapes
 #' @param info_window string specifying the column of data to display in an info
-#' window when a shape is clicked. The data needs to be a character
+#' window when a shape is clicked.
 #' @param mouse_over string specifying the column of data to display when the
 #' mouse rolls over the shape
 #' @param mouse_over_group string specifying the column of data specifying which
@@ -58,8 +58,7 @@
 #' @param legend_options A list of options for controlling the legend.
 #' @param load_interval time in miliseconds to wait between plotting each shape
 #'
-#' @details
-#'
+#' @section palette:
 #'
 #' The \code{palette} is used to specify the colours that will map to variables.
 #' You can specify a single function to map to all variables, or a named list
@@ -76,7 +75,7 @@
 #'   \item{css - a string of valid \code{css} for controlling the appearance of the legend}
 #'   \item{title - a string to use for the title of the legend}
 #'}
-#'if \code{legend_options} are NULL, the default values will apply
+#' if \code{legend_options} are NULL, the default values will apply
 #'
 #' If you are displaying two legends, one for \code{stroke_colour} and one
 #' for \code{fill_colour}, you can specify different options for the different
@@ -103,24 +102,27 @@
 #'
 #' google_map(key = map_key, data = tram_stops) %>%
 #'  add_circles(lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_name",
-#'  stroke_weight = 0.3, stroke_colour = "stop_name")
+#'  stroke_weight = 0.3, stroke_colour = "stop_name", info_window ="stop_id")
 #'
 #' ## different colour palettes
 #' lstPalette <- list(fill_colour = colorRampPalette(c("red","blue")),
 #'     stroke_colour = viridisLite::plasma)
 #'
-#' google_map(key = map_key, data = tram_stops) %>%
+#' ## set the key via set_key()
+#' set_key(api_key = map_key)
+#'
+#' google_map(data = tram_stops) %>%
 #'  add_circles(lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_lat",
 #'  stroke_weight = 2, stroke_colour = "stop_name", palette = lstPalette, legend = T)
 #'
 #' ## controlling the legend
-#' google_map(key = map_key, data = tram_stops) %>%
+#' google_map(data = tram_stops) %>%
 #'  add_circles(lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_lat",
 #'  stroke_weight = 2, stroke_colour = "stop_name",
 #'  legend = c(fill_colour = T, stroke_colour = F),
 #'  legend_options = list(position = "TOP_RIGHT", css = "max-height: 100px;"))
 #'
-#'google_map(key = map_key, data = tram_stops) %>%
+#'google_map(data = tram_stops) %>%
 #'  add_circles(lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_lat",
 #'  stroke_weight = 2, stroke_colour = "stop_name",
 #'  legend = T,
@@ -183,6 +185,7 @@ add_circles <- function(map,
   numericCheck(z_index)
   loadIntervalCheck(load_interval)
   palette <- paletteCheck(palette)
+
   ## END PARAMETER CHECKS
 
   allCols <- circleColumns()
@@ -209,6 +212,7 @@ add_circles <- function(map,
   if( usePolyline ) {
     shape <- createPolylineListColumn(shape)
   }
+
   shape <- jsonlite::toJSON(shape, digits = digits)
 
   invoke_method(map, 'add_circles', shape, update_map_view, layer_id, usePolyline, legend, load_interval)

@@ -62,7 +62,7 @@ google_elevation <- function(df_locations = NULL,
                              polyline = NULL,
                              location_type = c("individual","path"),
                              samples = NULL,
-                             key,
+                             key = get_api_key("elevation"),
                              simplify = TRUE,
                              curl_proxy = NULL
                              ){
