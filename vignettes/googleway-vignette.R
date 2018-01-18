@@ -29,3 +29,6 @@ encode_pl(lat = df$lat, lon = df$lon)
 melbourne[melbourne$polygonId == 338 & melbourne$pathId %in% c(1, 2), ]
 
 
+## ------------------------------------------------------------------------
+substr(geo_melbourne[1], 1, 300)
+

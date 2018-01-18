@@ -14,15 +14,12 @@ vignette: >
 
 ## TODO
 
+- use cases - multiple calls / loops
 - sf objects
-- GeoJSON
-- Drag & Drop GeoJSON
-- Drawing
 - Rectangle
 - Fusion
 - KML
 - Overlay
-- Colours / legends
 
 ---
 
@@ -846,9 +843,142 @@ google_map(key = "your_api_key") %>%
 ![Custom Legend](./img/polygon_custom_legend.png)
 
 
+## Simple Features
+
+`googleway` supports plotting certain geometries from `sf` objects (from `library(sf)`)
+
+- POINT and MULTIPOINT plotted with `add_markers()` and `add_circles()`
+- LINESTRING and MULTILINESTRING plotted with `add_polylines()`
+- POLYGON and MULTIPOLYGON plotted with `add_polygons()`
+
+
+```
+library(sf)
+nc <- sf::st_read(system.file("shape/nc.shp", package="sf"))
+
+google_map(data = nc) %>%
+  add_polygons()
+
+```
+
+### GeoJSON
+
+The `geo_melbourne` data set is a GeoJSON representation of a subset of the `melbourne` data set. You can use `add_geojson` to plot this data
+
+```
+google_map() %>%
+  add_geojson(data = geo_melbourne)
+```
+![Geojson](./img/geojson.png)
+
+By default `add_geojson()` will apply any styles included in the GeoJSON file. In the `geo_melbourne` data you can see the styles `fillColor`, `strokeColor` and `strokeWeight`
+
+
+```{r}
+substr(geo_melbourne[1], 1, 300)
+```
+
+
+You can also supply a string of JSON to style all the features in the GeoJSON
+
+```
+style <- '{ "fillColor" : "green" , "strokeColor" : "black", "strokeWeight" : 0.5}'
+google_map(key = "your_api_key") %>%
+  add_geojson(data = geo_melbourne, style = style)
+
+```
+
+Or you can use a named list to have the same effect
+
+```
+style <- list(fillColor = "red" , strokeColor = "blue", strokeWeight = 0.5)
+google_map(key = "your_api_key") %>%
+  add_geojson(data = geo_melbourne, style = style)
+```
+
+
+### Drag & Drop Geojson
+
+The function `add_dragdrop()` creates a map on to which you can drag & drop a GeoJSON file. There is an example of this in action [on my blog](https://www.symbolix.com.au/blog-main/b9z2z337hzzfc4hws8gf8lk358473z) 
+
+### Drawing
+
+You can create your own shapes on a map using `add_drawing()`. The shapes you can create are 
+
+- markers
+- circles
+- polygon
+- polyline
+- rectangle
+
+This can be particularly useful when working with `shiny` as the shape information can be returned when drawing is completed.
+
+For example, use the following code to create a shiny that enables drawing circles.
+
+```
+library(shiny)
+
+ui <- fluidPage(
+  google_mapOutput(outputId = "map", height = "800px")
+)
+
+server <- function(input, output){
+
+  mapKey <- "your_map_key"
+  output$map <- renderGoogle_map({
+    google_map(key = mapKey) %>%
+      add_drawing(drawing_modes = c("circle"))
+  })
+
+
+  observeEvent(input$map_circlecomplete, {
+    print(input$map_circlecomplete)
+  })
+}
+shinyApp(ui, server)
+```
+
+When a circle is drawin, the `print(input$map_circlecomplete)` function prints the following information to the console (it will vary based on where you draw the circle)
+
+```
+$center
+$center$lat
+[1] -36.80489
+
+$center$lng
+[1] 144.2889
+
+
+$radius
+[1] 57970.9
+
+$bounds
+$bounds$south
+[1] -37.32565
+
+$bounds$west
+[1] 143.6385
+
+$bounds$north
+[1] -36.28413
+
+$bounds$east
+[1] 144.9393
+
+
+$randomValue
+[1] 0.3688953
+```
+
+
+
+
+
+
+
+
 
 ---
-
 
 
 ## Shiny
