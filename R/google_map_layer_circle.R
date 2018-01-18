@@ -108,7 +108,7 @@
 #'     stroke_colour = viridisLite::plasma)
 #'
 #' ## set the key via set_key()
-#' set_key(api_key = map_key)
+#' set_key(key = map_key)
 #'
 #' google_map(data = tram_stops) %>%
 #'  add_circles(lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_lat",

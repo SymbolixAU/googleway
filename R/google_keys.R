@@ -42,13 +42,13 @@ print.googleway_api <- function(x, ...) {
 #' @examples
 #'
 #' ## not specifying 'api' will add the key to the 'api_key' list element
-#' set_key(api_key = "xxx_your_api_key_xxx")
+#' set_key(key = "xxx_your_api_key_xxx")
 #'
 #' ## api key for directions
-#' set_key(api_key = "xxx_your_api_key_xxx", api = "directions")
+#' set_key(key = "xxx_your_api_key_xxx", api = "directions")
 #'
 #' ## api key for maps
-#' set_key(api_key = "xxx_your_api_key_xxx", api = "map")
+#' set_key(key = "xxx_your_api_key_xxx", api = "map")
 #'
 #'
 #' @export
