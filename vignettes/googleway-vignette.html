@@ -12,7 +12,7 @@
 
 <meta name="author" content="D Cooley" />
 
-<meta name="date" content="2017-05-30" />
+<meta name="date" content="2018-01-18" />
 
 <title>Googleway Vignette</title>
 
@@ -70,11 +70,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Googleway Vignette</h1>
 <h4 class="author"><em>D Cooley</em></h4>
-<h4 class="date"><em>2017-05-30</em></h4>
+<h4 class="date"><em>2018-01-18</em></h4>
 
 
 
-<p>Googleway provides access to Google Maps APIs through specified functions, and the ability to plot a Google Map overlayed with markers, circles, rectangles, shapes (polygons), lines (polylines) and heatmaps. You can also overlay traffic information, transit and cycling routes.</p>
+<p>Googleway provides access to Google Maps APIs, and the ability to plot an interactive Google Map overlayed with various layers and shapes, including markers, circles, rectangles, polygons, lines (polylines) and heatmaps. You can also overlay traffic information, transit and cycling routes.</p>
 <p>The API functions are</p>
 <ul>
 <li><a href="https://developers.google.com/maps/documentation/directions/start"><strong>Directions</strong></a> - <code>google_directions()</code></li>
@@ -96,6 +96,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="https://developers.google.com/maps/documentation/javascript/examples/polygon-simple"><strong>Polygons</strong></a> - <code>add_polygons()</code></li>
 <li><a href="https://developers.google.com/maps/documentation/javascript/examples/polyline-simple"><strong>Lines</strong></a> - <code>add_polylines()</code></li>
 <li><a href="https://developers.google.com/maps/documentation/javascript/examples/rectangle-simple"><strong>Rectangles</strong></a> - <code>add_rectangles()</code></li>
+<li><a href="https://developers.google.com/maps/documentation/javascript/datalayer#load_geojson"><strong>GeoJSON</strong></a> - <code>add_geojson()</code></li>
+<li><a href="https://developers.google.com/maps/documentation/javascript/examples/layer-data-dragndrop"><strong>Drag &amp; Drop GeoJSON</strong></a> - <code>add_dragdrop()</code></li>
+<li><a href="https://developers.google.com/maps/documentation/javascript/examples/overlay-simple"><strong>Overlays</strong></a> - <code>add_overlay()</code></li>
+<li><a href="https://developers.google.com/maps/documentation/javascript/fusiontableslayer"><strong>Fusion layer</strong></a> - <code>add_fusion()</code></li>
+<li><a href="https://developers.google.com/maps/documentation/javascript/examples/layer-kml"><strong>KML</strong></a> - <code>add_kml()</code></li>
 <li><a href="https://developers.google.com/maps/documentation/javascript/examples/layer-bicycling"><strong>Bicycle routes</strong></a> - <code>add_bicycling()</code></li>
 <li><a href="https://developers.google.com/maps/documentation/javascript/examples/layer-traffic"><strong>Traffic</strong></a> - <code>add_traffic()</code></li>
 <li><a href="https://developers.google.com/maps/documentation/javascript/examples/layer-transit"><strong>Transit</strong></a> - <code>add_transit()</code></li>
@@ -104,9 +109,75 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li><a href="https://developers.google.com/maps/documentation/streetview/"><strong>Street View Image</strong></a> - <code>google_streetview()</code></li>
 </ul>
+<p>There are also functions that directly open in a browser, but don’t return any data</p>
+<ul>
+<li><a href="https://developers.google.com/maps/documentation/urls/guide"><strong>Google Maps URL</strong></a> - <code>google_map_url()</code></li>
+<li><a href="https://developers.google.com/maps/documentation/urls/guide#search-action"><strong>Google Maps Search</strong></a> - <code>google_map_search()</code></li>
+<li><a href="https://developers.google.com/maps/documentation/urls/guide#directions-action"><strong>Google Maps Directions</strong></a> - <code>google_map_directions()</code></li>
+<li><a href="https://developers.google.com/maps/documentation/urls/guide#street-view-action"><strong>Google Maps Panorama</strong></a> - <code>google_map_panorama()</code></li>
+</ul>
 <p>Finally, the package includes the helper functions, <code>encode_pl()</code> and <code>decode_pl()</code> for encoding and decoding polylines.</p>
-<p>To use this package you need a valid <strong>API KEY</strong> (<a href="https://developers.google.com/maps/documentation/javascript/">follow instructions here to get a key</a>) for the API you wish to use. Note that the same API key can be used for all the functions, but you need to register it with each API first.</p>
+<div id="api-key" class="section level2">
+<h2>API Key</h2>
+<p>To use most of the functions in this package you will need a valid <strong>API KEY</strong> (<a href="https://developers.google.com/maps/documentation/javascript/">follow instructions here to get a key</a>) for the API you wish to use. The same API key can be used for all the functions, but you need to register it with each API first.</p>
+<p>The exceptions to this are the functions that don’t return any data</p>
+<ul>
+<li>Google Maps URL</li>
+<li>Google Maps Search</li>
+<li>Google Maps Directions</li>
+<li>Google Maps Panorama</li>
+</ul>
+<div id="setting-using-keys" class="section level3">
+<h3>Setting / Using keys</h3>
+<p>All the API functions have a <code>key</code> argument which you can use to provide your API key. Alternatively, you can use <code>set_key()</code> to set the key once, and make it available for all further API calls.</p>
+<p>If you use one key for all API calls you can just provide the <code>key</code> argument (it will automatically get set as your default key).</p>
+<p>If you use many different keys, you can specify which API they are for in the <code>api</code> argument.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(googleway)
+## not specifying the api will add the key as your 'default'
+key &lt;-<span class="st"> &quot;my_api_key&quot;</span>
+<span class="kw">set_key</span>(<span class="dt">key =</span> key)
+<span class="kw">google_keys</span>()</code></pre></div>
+<pre><code>## Google API keys
+##  -  default : my_api_key 
+##  -  map :  
+##  -  directions :  
+##  -  distance :  
+##  -  elevation :  
+##  -  geocode :  
+##  -  places :  
+##  -  place_autocomplete :  
+##  -  place_details :  
+##  -  reverse_geocode :  
+##  -  roads :  
+##  -  streetview :  
+##  -  timezone :</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## specifying the specific API will only make that key available for that API.
+<span class="kw">clear_keys</span>() ## clear any previously set keys
+key &lt;-<span class="st"> &quot;my_api_key&quot;</span>
+<span class="kw">set_key</span>(<span class="dt">key =</span> key, <span class="dt">api =</span> <span class="st">&quot;directions&quot;</span>)
+<span class="kw">google_keys</span>()</code></pre></div>
+<pre><code>## Google API keys
+##  -  default :  
+##  -  map :  
+##  -  directions : my_api_key 
+##  -  distance :  
+##  -  elevation :  
+##  -  geocode :  
+##  -  places :  
+##  -  place_autocomplete :  
+##  -  place_details :  
+##  -  reverse_geocode :  
+##  -  roads :  
+##  -  streetview :  
+##  -  timezone :</code></pre>
+</div>
+</div>
+<div id="result-accessors" class="section level2">
+<h2>Result accessors</h2>
+<p>For the API calls that return data, I have provided some helper functions to access specific data points returned from the API calls. The full list is given in the help file <code>?access_result</code>. Examples of its use is demonstrated throughout this vignette.</p>
+<p>If there is a specific data point you would like added to the function, please <a href="https://github.com/SymbolixAU/googleway/issues">file an issue</a> on my github page</p>
 <hr />
+</div>
 <div id="google-directions-api" class="section level2">
 <h2>Google Directions API</h2>
 <p><a href="http://www.google.com/maps"><strong>Google Maps</strong></a> allows users to find directions between locations.</p>
@@ -170,7 +241,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>This result can be returned in R using the <code>google_directions()</code> function. By default the result will be coerced to the simplest <code>R</code> structure possible using <code>jsonlite::fromJSON()</code>. If you want the result in JSON set <code>simplify = FALSE</code>.</p>
 <pre><code>library(googleway)
 
-## you will need a valid Google Directions Developers API key
+key &lt;- &quot;your_api_key&quot;
 df &lt;- google_directions(origin = &quot;Melbourne, Australia&quot;,
                         destination = &quot;Sydney, Australia&quot;,
                         key = key,
@@ -194,7 +265,7 @@ df &lt;-<span class="st"> </span><span class="kw">decode_pl</span>(polyline)
 ## 5 -37.73494 144.9270
 ## 6 -37.73554 144.9023</code></pre>
 <p>And, of course, to encode a series of lat/lon coordinates you use <code>encode_pl()</code></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">encode_pl</span>(<span class="dt">lat =</span> df$lat, <span class="dt">lon =</span> df$lon)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">encode_pl</span>(<span class="dt">lat =</span> df<span class="op">$</span>lat, <span class="dt">lon =</span> df<span class="op">$</span>lon)</code></pre></div>
 <pre><code>## [1] &quot;pqxeF}bxsZer@vmCgkBlMunGjWc_Apk@vBpyCqjAfbAqmBjXydAg{AoFyoEgTojGsr@gh@sfAhUuiCuw@}kEtOepAvdD{dDd~BsgIuj@{tHi{C{bGg{@{rGsmGabDbW{wCuTwiBajBytFaoA{aI{K{bEkqA{jDg^gpJkbB{gC_w@g~D`@ikGmJ_kEojD_O}`FqvCctE}bGgbDk_BspD_qEodGgaBo{FilEi_Su~CcgHw`Cm`Hv[mxFwaAisAklCuUgzAsmCalJajLqfDcdHgyCayHibCezK~Xo_DuqAqjDshAeaEpg@g`Dy|DgtNqwBegDkaAeEogBozB{jEejQ_q@ckIc~HkvFkgAufGmjCcaJwwD}~AycCrx@skCwUqwN}yKygH}nF}pAgyOep@qlIghDemDgeDkoEkuCc|LtKq~E`}Bw{Ef^klG}@gdFsvAcxBeoDcqByoDypEciFkjBc|Ku}@gr@a}IkE_qEoo@syCgG}iEczAkeBmeCqvA}rCq_AgxEgmHszB}RksB}mEgeEgnCoeD_b@iwAmZi^guB}cCm_F_iAikGsu@cbDsoB{lBk`Bi_CsfD}jFerAgrB{gDiw@}|EacB_jDkmAsjC}yBsyFaqFofEk_Ei~C{yAowFv{ByfBwKsl@onBktCq`IqmFmdGueDakDssAssCyqDmx@e\\kwEyUstC}uAe|Ac|BakGpGmfGuc@mnDguBctBmt@}kDapBmmCkdAgkB}jBcIyoC}xAexHia@cz@ahCafCayBqvBitBuuDzb@wiDe{Imt@e{DwhBwdEynDqjCapAo}AuAmsBzPi{EiPgkJ{gA}tGsJezKbcAcdK__@wuBn_AauGsjDwvC_|AybE{~@unEpZ{nGt_@stEhbDakFh_@elDoKiwBdpAi_DjgAylArLykCDukJql@u~DfCepBwnAghCweA{{EmyAgaEbN{bGcV{kCrjAq{EveByuHlb@eyIg\\gmEhBw{GydAopHn_@_|MsnCcuGw~@agIg@e`KkoA}lBspBu^}sAmgIfpAsmE}Ya|Oc|CgoKouFwuIsnCmlDmHamBkuAinDop@wqIkmEsaIqzAmhAwkD{mA}uEciE}fFghBenCirGowCgiLsrBmhL}jHerGs}GihFupDezGgjEg_EuoBim@g}KmmLizEebAy~DwfCyvFmhBuvBy~DsqCicBatC{z@klCkkDqaDw_BagA}|Bii@kgCpj@}{E{b@cuJxQwkK}j@exF~TanFzM{fFumB_gCirHmTml@AoAd`A&quot;</code></pre>
 <hr />
 </div>
@@ -649,7 +720,7 @@ google_map(key = map_key) %&gt;%
 <li>Rows of nested polylines in a list column. Each row represents a polygon, and each polyline in the list represents the paths that make up the polygon.</li>
 </ul>
 <p>The <code>melbourne</code> data set provided with <code>googleway</code> is a <code>data.frame</code> of polygons of Melbourne and the surrounding suburbs. The coordinates of the polygons are encoded in to polylines.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">melbourne[melbourne$polygonId ==<span class="st"> </span><span class="dv">338</span> &amp;<span class="st"> </span>melbourne$pathId %in%<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), ]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">melbourne[melbourne<span class="op">$</span>polygonId <span class="op">==</span><span class="st"> </span><span class="dv">338</span> <span class="op">&amp;</span><span class="st"> </span>melbourne<span class="op">$</span>pathId <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), ]</code></pre></div>
 <pre><code>##     polygonId pathId     SA2_NAME             SA3_NAME
 ## 386       338      1 Point Nepean Mornington Peninsula
 ## 387       338      2 Point Nepean Mornington Peninsula
@@ -774,7 +845,7 @@ shinyApp(ui, server)
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

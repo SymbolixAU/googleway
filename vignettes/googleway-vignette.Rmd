@@ -11,7 +11,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Googleway provides access to Google Maps APIs through specified functions, and the ability to plot a Google Map overlayed with markers, circles, rectangles, shapes (polygons), lines (polylines) and heatmaps. You can also overlay traffic information, transit and cycling routes.
+Googleway provides access to Google Maps APIs, and the ability to plot an interactive Google Map overlayed with various layers and shapes, including markers, circles, rectangles, polygons, lines (polylines) and heatmaps. You can also overlay traffic information, transit and cycling routes.
 
 The API functions are
 
@@ -34,6 +34,11 @@ Plotting a Google Map uses the JavaScript API, and the functions used to create 
 * [**Polygons**](https://developers.google.com/maps/documentation/javascript/examples/polygon-simple) - `add_polygons()`
 * [**Lines**](https://developers.google.com/maps/documentation/javascript/examples/polyline-simple) - `add_polylines()`
 * [**Rectangles**](https://developers.google.com/maps/documentation/javascript/examples/rectangle-simple) - `add_rectangles()`
+* [**GeoJSON**](https://developers.google.com/maps/documentation/javascript/datalayer#load_geojson) - `add_geojson()`
+* [**Drag & Drop GeoJSON**](https://developers.google.com/maps/documentation/javascript/examples/layer-data-dragndrop) - `add_dragdrop()`
+* [**Overlays**](https://developers.google.com/maps/documentation/javascript/examples/overlay-simple) - `add_overlay()`
+* [**Fusion layer**](https://developers.google.com/maps/documentation/javascript/fusiontableslayer) - `add_fusion()`
+* [**KML**](https://developers.google.com/maps/documentation/javascript/examples/layer-kml) - `add_kml()`
 * [**Bicycle routes**](https://developers.google.com/maps/documentation/javascript/examples/layer-bicycling) - `add_bicycling()`
 * [**Traffic**](https://developers.google.com/maps/documentation/javascript/examples/layer-traffic) - `add_traffic()`
 * [**Transit**](https://developers.google.com/maps/documentation/javascript/examples/layer-transit) - `add_transit()`
@@ -42,9 +47,63 @@ Downloading a static streetview map
 
 * [**Street View Image**](https://developers.google.com/maps/documentation/streetview/) - `google_streetview()` 
 
+There are also functions that directly open in a browser, but don't return any data
+
+* [**Google Maps URL**](https://developers.google.com/maps/documentation/urls/guide) - `google_map_url()`
+* [**Google Maps Search**](https://developers.google.com/maps/documentation/urls/guide#search-action) - `google_map_search()`
+* [**Google Maps Directions**](https://developers.google.com/maps/documentation/urls/guide#directions-action) - `google_map_directions()`
+* [**Google Maps Panorama**](https://developers.google.com/maps/documentation/urls/guide#street-view-action) - `google_map_panorama()`
+
+
+
+
 Finally, the package includes the helper functions, `encode_pl()` and `decode_pl()` for encoding and decoding polylines.
 
-To use this package you need a valid **API KEY** ([follow instructions here to get a key](https://developers.google.com/maps/documentation/javascript/)) for the API you wish to use. Note that the same API key can be used for all the functions, but you need to register it with each API first. 
+## API Key
+
+To use most of the functions in this package you will need a valid **API KEY** ([follow instructions here to get a key](https://developers.google.com/maps/documentation/javascript/)) for the API you wish to use. The same API key can be used for all the functions, but you need to register it with each API first. 
+
+The exceptions to this are the functions that don't return any data
+
+- Google Maps URL
+- Google Maps Search
+- Google Maps Directions
+- Google Maps Panorama
+
+### Setting / Using keys
+
+All the API functions have a `key` argument which you can use to provide your API key. Alternatively, you can use `set_key()` to set the key once, and make it available for all further API calls. 
+
+If you use one key for all API calls you can just provide the `key` argument (it will automatically get set as your default key).
+
+If you use many different keys, you can specify which API they are for in the `api` argument.
+
+```{r}
+library(googleway)
+## not specifying the api will add the key as your 'default'
+key <- "my_api_key"
+set_key(key = key)
+google_keys()
+
+```
+
+
+```{r}
+## specifying the specific API will only make that key available for that API.
+clear_keys() ## clear any previously set keys
+key <- "my_api_key"
+set_key(key = key, api = "directions")
+google_keys()
+```
+
+
+
+
+## Result accessors
+
+For the API calls that return data, I have provided some helper functions to access specific data points returned from the API calls. The full list is given in the help file `?access_result`. Examples of its use is demonstrated throughout this vignette.
+
+If there is a specific data point you would like added to the function, please [file an issue](https://github.com/SymbolixAU/googleway/issues) on my github page
 
 ---
 
@@ -118,7 +177,7 @@ This result can be returned in R using the `google_directions()` function. By de
 ```
 library(googleway)
 
-## you will need a valid Google Directions Developers API key
+key <- "your_api_key"
 df <- google_directions(origin = "Melbourne, Australia",
                         destination = "Sydney, Australia",
                         key = key,
@@ -128,8 +187,16 @@ df <- google_directions(origin = "Melbourne, Australia",
 
 The data used to draw the route on the map is the **overview_polyline**. This string represents a sequence of lat/lon pairs, encoded using a lossy compression algorithm (https://developers.google.com/maps/documentation/utilities/polylinealgorithm) that allows you to store the series of coordinates as a single string. 
 
+You can extract the polyline manually 
+
 ```
 pl <- df$routes$overview_polyline$points
+```
+
+Or use the `direction_polyline()` accessor
+
+```
+pl <- direction_polyline(df)
 pl
 # [1] "rqxeF_cxsZgr@xmCekBhMunGnWc_Ank@vBpyCqjAfbAqmBjXydAe{AoF{oEgTqjGur@ch@qfAhUuiCww@}kEtOepAtdD{dDf~BsgIuj@}tHi{C{bGg{@{rGsmG_bDbW{wCuTyiBajBytF_oAyaI}K}bEkqA{jDg^epJmbB{gC}v@i~D`@gkGmJ_kEojD_O{`FqvCetE}bGgbDm_BqpD}pEqdGiaBo{FglEg_Su~CegHw`Cm`Hv[mxFwaAisAklCuUgzAqmCalJajLqfDedHgyC_yHibCizK~Xo_DuqAojDshAeaEpg@g`Dy|DgtNswBcgDiaAgEqgBozB{jEejQ}p@ckIc~HmvFkgAsfGmjCcaJwwD}~AycCrx@skCwUqwN{yKygH}nF_qAgyOep@slIehDcmDieDkoEiuCg|LrKo~Eb}Bw{Ef^klG_AgdFqvAaxBgoDeqBwoDypEeiFkjBa|Ks}@gr@c}IkE_qEqo@syCgG{iEazAmeBmeCqvA}rCq_AixEemHszB_SisB}mEgeEenCqeDab@iwAmZg^guB}cCk_F_iAmkGsu@abDsoBylBk`Bm_CsfD{jFgrAerB{gDkw@{|EacB_jDmmAsjC{yBsyFaqFqfEi_Ei~C{yAmwFt{B{fBwKql@onBmtCq`IomFmdGueD_kDssAwsCyqDkx@e\\kwEyUstC}uAe|Ac|BakGpGkfGuc@qnDguBatBot@}kD_pBmmCkdAgkB}jBaIyoC}xAexHka@cz@ahCcfCayBqvBgtBsuDxb@yiDe{Ikt@c{DwhBydEynDojCapAq}AuAksBxPk{EgPgkJ{gA}tGsJezKbcAcdK__@uuBn_AcuGsjDwvC_|AwbE}~@wnErZ{nGr_@stEjbDakFf_@clDmKkwBbpAi_DlgA{lArLukCBukJol@w~DfCcpBwnAghCweA}{EmyAgaEbNybGeV}kCtjAq{EveBwuHlb@gyIg\\gmEhBw{G{dAmpHp_@a|MsnCcuGy~@agIe@e`KkoA}lBspBs^}sAmgIdpAumE{Y_|Oe|CioKouFwuIqnCmlDoHamBiuAgnDqp@yqIkmEqaIozAohAykDymA{uEgiE}fFehBgnCgrGmwCkiLurBkhL{jHcrGs}GkhFwpDezGgjEe_EsoBmm@g}KimLizEgbA{~DwfCwvFmhBuvBy~DsqCicBatC{z@mlCkkDoaDw_BagA}|Bii@kgCpj@}{E}b@cuJxQwkK}j@exF`UanFzM{fFumB}fCirHoTml@CoAh`A"
 ```
@@ -140,7 +207,6 @@ Having retrieved the polyline, you can decode it into latitude and longitude coo
 ```{r}
 polyline <- "rqxeF_cxsZgr@xmCekBhMunGnWc_Ank@vBpyCqjAfbAqmBjXydAe{AoF{oEgTqjGur@ch@qfAhUuiCww@}kEtOepAtdD{dDf~BsgIuj@}tHi{C{bGg{@{rGsmG_bDbW{wCuTyiBajBytF_oAyaI}K}bEkqA{jDg^epJmbB{gC}v@i~D`@gkGmJ_kEojD_O{`FqvCetE}bGgbDm_BqpD}pEqdGiaBo{FglEg_Su~CegHw`Cm`Hv[mxFwaAisAklCuUgzAqmCalJajLqfDedHgyC_yHibCizK~Xo_DuqAojDshAeaEpg@g`Dy|DgtNswBcgDiaAgEqgBozB{jEejQ}p@ckIc~HmvFkgAsfGmjCcaJwwD}~AycCrx@skCwUqwN{yKygH}nF_qAgyOep@slIehDcmDieDkoEiuCg|LrKo~Eb}Bw{Ef^klG_AgdFqvAaxBgoDeqBwoDypEeiFkjBa|Ks}@gr@c}IkE_qEqo@syCgG{iEazAmeBmeCqvA}rCq_AixEemHszB_SisB}mEgeEenCqeDab@iwAmZg^guB}cCk_F_iAmkGsu@abDsoBylBk`Bm_CsfD{jFgrAerB{gDkw@{|EacB_jDmmAsjC{yBsyFaqFqfEi_Ei~C{yAmwFt{B{fBwKql@onBmtCq`IomFmdGueD_kDssAwsCyqDkx@e\\kwEyUstC}uAe|Ac|BakGpGkfGuc@qnDguBatBot@}kD_pBmmCkdAgkB}jBaIyoC}xAexHka@cz@ahCcfCayBqvBgtBsuDxb@yiDe{Ikt@c{DwhBydEynDojCapAq}AuAksBxPk{EgPgkJ{gA}tGsJezKbcAcdK__@uuBn_AcuGsjDwvC_|AwbE}~@wnErZ{nGr_@stEjbDakFf_@clDmKkwBbpAi_DlgA{lArLukCBukJol@w~DfCcpBwnAghCweA}{EmyAgaEbNybGeV}kCtjAq{EveBwuHlb@gyIg\\gmEhBw{G{dAmpHp_@a|MsnCcuGy~@agIe@e`KkoA}lBspBs^}sAmgIdpAumE{Y_|Oe|CioKouFwuIqnCmlDoHamBiuAgnDqp@yqIkmEqaIozAohAykDymA{uEgiE}fFehBgnCgrGmwCkiLurBkhL{jHcrGs}GkhFwpDezGgjEe_EsoBmm@g}KimLizEgbA{~DwfCwvFmhBuvBy~DsqCicBatC{z@mlCkkDoaDw_BagA}|Bii@kgCpj@}{E}b@cuJxQwkK}j@exF`UanFzM{fFumB}fCirHoTml@CoAh`A"
 
-library(googleway)
 df <- decode_pl(polyline)
 head(df)
 ```
@@ -152,6 +218,7 @@ And, of course, to encode a series of lat/lon coordinates you use `encode_pl()`
 encode_pl(lat = df$lat, lon = df$lon)
 
 ```
+
 
 ---
 
@@ -276,20 +343,16 @@ The [**Google Maps Geocoding API**](https://developers.google.com/maps/documenta
 Finding the location details for Flinders Street Station, Melbourne
 
 ```
-## An unbound search for Flinders Street Station returns 6 options.
+
 df <- google_geocode(address = "Flinders Street Station",
                      key = key,
                      simplify = TRUE)
 
 df$results$formatted_address
-[1] "Flinders Street Railway Station, Flinders St, Melbourne VIC 3000, Australia"
-[2] "Flinders St Station, Melbourne VIC 3000, Australia"                         
-[3] "Flinders Street Station, Melbourne VIC 3000, Australia"                     
-[4] "Flinders Street, Rye VIC 3941, Australia"                                   
-[5] "Station Rd, Victoria, Australia"                                            
-[6] "Station Rd, Albion Park Rail NSW 2527, Australia" 
+[1] "Flinders St, Melbourne VIC 3000, Australia"
 
-## using a bounded search limits the results
+## If your search responde multiple results, you can 
+## bound the search, for example
 
 bounds <- list(c(-37.81962,144.9657),
                c(-37.81692, 144.9684))
@@ -299,11 +362,16 @@ df <- google_geocode(address = "Flinders Street Station",
                      key = key,
                      simplify = TRUE)
 
-df$results$formatted_address
-[1] "Flinders Street Railway Station, Flinders St, Melbourne VIC 3000, Australia"
-[2] "Flinders Street Station, Melbourne VIC 3000, Australia"                     
-[3] "Flinders St Station, Melbourne VIC 3000, Australia"
+## (in this example only one result was returned in the original call)
 
+```
+
+The coordinates of the location can be accessed with
+
+```
+geocode_coordinates(df)
+#         lat      lng
+# 1 -37.81827 144.9671
 ```
 
 ---
