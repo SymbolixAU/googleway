@@ -68,7 +68,7 @@
 #'
 #'
 #' ## set the key so it's available to all function calls
-#' set_key(api_key = api_key)
+#' set_key(key = api_key)
 #' ## using address string
 #' google_directions(origin = "Flinders Street Station, Melbourne",
 #'          destination = "MCG, Melbourne",
