@@ -67,9 +67,9 @@
 #' The \code{legend_options} can be used to control the appearance of the legend.
 #' This should be a named list, where the names are one of
 #' \itemize{
-#'   \item{position - one of \code{c("TOP_CENTER", "TOP_LEFT", "TOP_RIGHT","RIGHT_TOP",
-#'     "LEFT_CENTER", "RIGHT_CENTER", "LEFT_BOTTOM", "BOTTOM_CENTER", "RIGHT_BOTTOM",
-#'     "BOTTOM_LEFT","BOTTOM_RIGHT")}}
+#'   \item{position - one of \code{c("TOP_LEFT", "TOP_CENTER", "TOP_RIGHT", "RIGHT_TOP",
+#'   "RIGHT_CENTER", "RIGHT_BOTTOM", "BOTTOM_RIGHT", "BOTTOM_CENTER", "BOTTOM_LEFT",
+#'   "LEFT_BOTTOM", "LEFT_CENTER", "LEFT_TOP")}}
 #'   \item{css - a string of valid \code{css} for controlling the appearance of the legend}
 #'   \item{title - a string to use for the title of the legend}
 #'}

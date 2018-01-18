@@ -120,8 +120,6 @@ If there is a specific data point you would like added to the function, please [
 
 The [**Google Maps Directions API**](https://developers.google.com/maps/documentation/directions/) is a service available to developers that calculates directions between locations.
 
-### Example
-
 Searching Google Maps for directions from Melbourne to Sydney generates the route:
 
 ![Melbourne to Sydney](./img/melbourne_to_sydney.png)
@@ -234,8 +232,6 @@ encode_pl(lat = df$lat, lon = df$lon)
 The [**Google Maps Distance API**](https://developers.google.com/maps/documentation/distance-matrix/intro) is a service that provides travel distance and time for a matrix of origins and destinations.
 
 
-### Example
-
 Finding the distances between Melbourne Airport, the MCG, a set of coordinates (-37.81659, 144.9841), to Portsea, Melbourne.
 
 ```
@@ -270,8 +266,6 @@ $status
 ## Google Elevation API
 
 The [**Google Maps Elevation API**](https://developers.google.com/maps/documentation/elevation/start) provides elevation data for all locations on the surface of the earth, including depth locations on the ocean floor (which return negative values).
-
-### Example
 
 Finding the elevation of 20 points between the MCG, Melbourne and the beach at Elwood, Melbourne
 
@@ -317,9 +311,6 @@ $status
 
 The [**Google Maps Time zone API**](https://developers.google.com/maps/documentation/timezone/start) provides time offset data for locations on the surface of the earth. You request the time zone information for a specific latitude/longitude pair and date. The API returns the name of that time zone, the time offset from UTC, and the daylight savings offset.
 
-
-### Example
-
 Finding the timezone of the MCG in Melbourne
 
 ```
@@ -344,8 +335,6 @@ google_timezone(location = c(-37.81659, 144.9841),
 
 The [**Google Maps Geocoding API**](https://developers.google.com/maps/documentation/geocoding/start) is a service that provides geocoding and reverse geocoding of addresses.
 
-
-### Example
 
 Finding the location details for Flinders Street Station, Melbourne
 
@@ -386,9 +375,6 @@ geocode_coordinates(df)
 ## Google Reverse Geocode API
 
 The [**Google Maps Reverse Geocoding API**](https://developers.google.com/maps/documentation/geocoding/intro#ReverseGeocoding) is a service that converts geographic coordinates into a human-readable address.
-
-
-### Example
 
 Finding the street address for a set of coordinates, using `result_type` and `location_type` as bounding parameters:
 
@@ -441,7 +427,7 @@ A **Place Detail** search (using `google_place_details()`) can be performed when
 
 
 
-### Example - Text
+### Text
 
 For a **text** search you are required to provide a `search_string`
 
@@ -514,7 +500,7 @@ cbind(res_next$results$name, res_next$results$opening_hours)
 
 ```
 
-### Example - Nearby
+### Nearby
 
 For a **nearby** search you are required to provide a `location` as a pair of latitude/longitude coordinates. You can refine your search by providing a keyword and / or a radius.
 
@@ -561,7 +547,7 @@ The Google Roads API provides three functions
 * [Speed Limits](https://developers.google.com/maps/documentation/roads/speed-limits) (premium only)
 
 
-### Example - Snap to Roads
+### Snap to Roads
 
 The snap to roads function takes up to 100 GPS points collected along a route and returns the points snapped to the most likely roads that were travelled along. 
 
@@ -611,7 +597,7 @@ The image shows the original coordinates from `df_path` in red, and the associat
 
 ![Snap to Roads](./img/snap_to_roads.png)
 
-### Example - Nearest Roads
+### Nearest Roads
 
 The nearest roads function takes up to 100 independent coordinates and returns the closest road segment for each point. 
 
@@ -775,15 +761,90 @@ google_map(key = "your_api_key") %>%
 ![Melbourne Polygons](./img/polygons.png)
 
 
-In this example I've specified the `fill_colour` to be one of the columns of the `melbourne` data set. The plotting functions in `googleway` will map the variables in the column to a given colour. The default colour scale is taken from `viridisLite::viridis()`
+In this example I've specified the `fill_colour` to be one of the columns of the `melbourne` data set. The plotting functions in `googleway` will map the variables in the column to a given colour. The default colour scale is taken from `viridisLite::viridis()`. 
+
+### Colours & Legend
+
+Where applicable the map layer functions provide two arguments that you can use to plot colours
+
+- `fill_colour` (for colouring an area)
+- `stroke_colour` (for colouring a line / outline of an area)
+
+Each of those arguments can be mapped to a column of data (as in the Polygon example), or if you want to use your own colours you can either
+
+- specify the palette using the `palette` argument
+```
+google_map(key = "your_api_key") %>% 
+  add_polygons(data = melbourne, polyline = "polyline", fill_colour = "SA4_NAME", palette = viridisLite::inferno)
+```
+![Colour Palette](./img/polygon_palette.png)
+
+- add a column of hex colour values and supply this to the plotting function
+
+```
+colours <- RColorBrewer::brewer.pal(9, "Set1")
+melbourne$randomColour <- sample(colours, size = nrow(melbourne), replace = T)
+google_map(key = "your_api_key") %>% 
+  add_polygons(data = melbourne, polyline = "polyline", fill_colour = "randomColour")
+```
+![Colour Column](./img/polygon_multiple_colours.png)
 
 
+- specify a single hex colour value to either `fill_colour` or `stroke_colour` to colour all shapes the same colour
 
+```
+google_map(key = "your_api_key") %>% 
+  add_polygons(data = melbourne, polyline = "polyline", fill_colour = "#FF00FF")
+```
+![Single Colour](./img/polygon_single_colour.png)
+
+Setting `legend = TRUE` will give you a legend
+
+```
+google_map(key = "your_api_key") %>% 
+  add_polygons(data = melbourne, polyline = "polyline", fill_colour = "SA4_NAME", legend = T)
+
+```
+![Legend](./img/polygon_legend.png)
+
+
+You can customise the legend by supplying any of the arguments in a list to the `legend_options` argument
+
+- position - one of TOP_LEFT, TOP_CENTER, TOP_RIGHT, RIGHT_TOP, RIGHT_CENTER, RIGHT_BOTTOM, BOTTOM_RIGHT, BOTTOM_CENTER, BOTTOM_LEFT, LEFT_BOTTOM, LEFT_CENTER and LEFT_TOP
+- css - a string of valid CSS for controlling the appearance
+- title - a string to use for the title of the legend. The default is the column name mapped to the colour
+
+```
+legendOpts <- list(position = "TOP_RIGHT", css = "max-height: 100px")
+
+google_map(key = "your_api_key") %>% 
+  add_polygons(data = melbourne, polyline = "polyline", fill_colour = "SA4_NAME", stroke_colour = "SA3_NAME", legend = T, legend_options = legendOpts)
+
+```
+![Legend Options](./img/polygon_legend_custom.png)
+
+If you are displaying two legends, one for `stroke_colour` and one for `fill_colour`, you can specify different options fo rthe different colour attributes
+
+```
+legendOpts <- list(
+  fill_colour = list(position = "TOP_RIGHT"),
+  stroke_colour = list(position = "BOTTOM_LEFT", title = "SA3")
+  )
+
+google_map(key = "your_api_key") %>% 
+  add_polygons(data = melbourne, polyline = "polyline", fill_colour = "SA4_NAME", stroke_colour = "SA3_NAME", legend = T, legend_options = legendOpts)
+
+```
+![Custom Legend](./img/polygon_custom_legend.png)
+
+### GeoJSON
+
+### Drag & Drop GeoJSON
 
 ### Drawing
 ### Rectangle
 ### Fusion
-### GeoJSON
+
 ### KML
 ### Overlay
 ### Colours / legends
