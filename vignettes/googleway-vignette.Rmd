@@ -5,11 +5,18 @@ date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
     fig_caption: yes
+    toc: true
 vignette: >
   %\VignetteIndexEntry{Googleway Vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+## TODO
+
+- sf objects
+- colours, legends, palettes, options
+
 
 Googleway provides access to Google Maps APIs, and the ability to plot an interactive Google Map overlayed with various layers and shapes, including markers, circles, rectangles, polygons, lines (polylines) and heatmaps. You can also overlay traffic information, transit and cycling routes.
 
@@ -712,7 +719,7 @@ google_map(data = tram_stops, key = map_key) %>%
 
 ---
 
-## Polyline
+### Polyline
 
 Polylines in Google Maps are formed from a set of latitude/longitude coordinates, encoded into a polyline string.
 
@@ -735,7 +742,7 @@ google_map(key = map_key) %>%
 
 ---
 
-## Polygon
+### Polygon
 
 A polygon represents an area enclosed by one or more polylines. Holes are denoted by defining an inner path wound in the opposite direction to the outer path.
 
@@ -760,22 +767,30 @@ Plotting this data is done using `add_polygons()`
 
 
 ```
-google_map(key = 'your_api_key') %>%
-  add_polygons(data = melbourne, polyline = "polyline", info_window = "SA2_NAME",
-            mouse_over_group = "SA3_NAME")
+google_map(key = "your_api_key") %>% 
+  add_polygons(data = melbourne, polyline = "polyline", fill_colour = "SA4_NAME")
 ```
 
 
-![Melbourne Polygons](./img/melbourne_polygons.png)
+![Melbourne Polygons](./img/polygons.png)
 
 
-In this example I've specified
+In this example I've specified the `fill_colour` to be one of the columns of the `melbourne` data set. The plotting functions in `googleway` will map the variables in the column to a given colour. The default colour scale is taken from `viridisLite::viridis()`
 
-* mouse_over_group - which highlights polygons in the same group when the mouse hovers over them
-* info_window - to display an info window when a polygon is clicked
 
+
+
+### Drawing
+### Rectangle
+### Fusion
+### GeoJSON
+### KML
+### Overlay
+### Colours / legends
 
 ---
+
+
 
 ## Shiny
 
