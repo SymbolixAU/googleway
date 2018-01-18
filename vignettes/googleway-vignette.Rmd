@@ -15,8 +15,16 @@ vignette: >
 ## TODO
 
 - sf objects
-- colours, legends, palettes, options
+- GeoJSON
+- Drag & Drop GeoJSON
+- Drawing
+- Rectangle
+- Fusion
+- KML
+- Overlay
+- Colours / legends
 
+---
 
 Googleway provides access to Google Maps APIs, and the ability to plot an interactive Google Map overlayed with various layers and shapes, including markers, circles, rectangles, polygons, lines (polylines) and heatmaps. You can also overlay traffic information, transit and cycling routes.
 
@@ -837,17 +845,7 @@ google_map(key = "your_api_key") %>%
 ```
 ![Custom Legend](./img/polygon_custom_legend.png)
 
-### GeoJSON
 
-### Drag & Drop GeoJSON
-
-### Drawing
-### Rectangle
-### Fusion
-
-### KML
-### Overlay
-### Colours / legends
 
 ---
 
