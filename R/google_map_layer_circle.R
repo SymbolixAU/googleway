@@ -77,8 +77,9 @@
 #'
 #' If you are displaying two legends, one for \code{stroke_colour} and one
 #' for \code{fill_colour}, you can specify different options for the different
-#' colour attributes. See examples.
+#' colour attributes. See examples for \link{add_circles}.
 #'
+#' @details
 #'
 #' \code{z_index} values define the order in which objects appear on the map.
 #' Those with a higher value appear on top of those with a lower value. The default

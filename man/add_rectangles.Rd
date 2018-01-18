@@ -129,21 +129,7 @@ if \code{legend_options} are NULL, the default values will apply
 
 If you are displaying two legends, one for \code{stroke_colour} and one
 for \code{fill_colour}, you can specify different options for the different
-colour attributes. See examples.
-
-
-\code{z_index} values define the order in which objects appear on the map.
-Those with a higher value appear on top of those with a lower value. The default
-order of objects is (1 being underneath all other objects)
-
-\itemize{
-  \item{1. Polygon}
-  \item{2. Rectangle}
-  \item{3. Polyline}
-  \item{4. Circle}
-}
-
-Markers are always the top layer
+colour attributes. See examples for \link{add_circles}.
 }
 
 \examples{
