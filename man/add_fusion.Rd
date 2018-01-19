@@ -23,7 +23,7 @@ Adds a fusion table layer to a map.
 }
 \details{
 The query must have a 'select' and a 'from' property, and optionally a 'where'.
-This can be specified as a JSON string or a \code{data.frame} of 2 (or 3 columns),
+This can be specified as a JSON string, a list, or a \code{data.frame} of 2 (or 3 columns),
 and only 1 row. Two columns must be 'select' and 'from', and the third 'where'.
 
 The 'select' value is the column name (from the fusion table) containing the
