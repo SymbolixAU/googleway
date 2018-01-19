@@ -38,5 +38,13 @@ google_map(key = map_key) \%>\%
                overlay_url = "https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg")
 
 
+url <- paste0("https://developers.google.com/maps/documentation/javascript",
+  "/examples/full/images/talkeetna.png")
+
+google_map(key = map_key) \%>\%
+  add_overlay(north = 62.400471, south = 62.281819, east = -150.005608, west = -150.287132,
+               overlay_url = url)
+
+
 }
 }

@@ -14,16 +14,10 @@ vignette: >
 
 ## TODO
 
+- use cases - multiple calls / loops
 - sf objects
-- GeoJSON
-- Drag & Drop GeoJSON
-- Drawing
-- Rectangle
-- Fusion
-- KML
-- Overlay
-- Colours / legends
-
+- editible shapes
+- draggable shapes
 ---
 
 Googleway provides access to Google Maps APIs, and the ability to plot an interactive Google Map overlayed with various layers and shapes, including markers, circles, rectangles, polygons, lines (polylines) and heatmaps. You can also overlay traffic information, transit and cycling routes.
@@ -846,9 +840,243 @@ google_map(key = "your_api_key") %>%
 ![Custom Legend](./img/polygon_custom_legend.png)
 
 
+### Simple Features
+
+`googleway` supports plotting certain geometries from `sf` objects (from `library(sf)`)
+
+- POINT and MULTIPOINT plotted with `add_markers()` and `add_circles()`
+- LINESTRING and MULTILINESTRING plotted with `add_polylines()`
+- POLYGON and MULTIPOLYGON plotted with `add_polygons()`
+
+
+```
+library(sf)
+nc <- sf::st_read(system.file("shape/nc.shp", package="sf"))
+
+google_map(data = nc) %>%
+  add_polygons()
+
+```
+
+### GeoJSON
+
+The `geo_melbourne` data set is a GeoJSON representation of a subset of the `melbourne` data set. You can use `add_geojson` to plot this data
+
+```
+google_map() %>%
+  add_geojson(data = geo_melbourne)
+```
+![Geojson](./img/geojson.png)
+
+By default `add_geojson()` will apply any styles included in the GeoJSON file. In the `geo_melbourne` data you can see the styles `fillColor`, `strokeColor` and `strokeWeight`
+
+
+```{r}
+substr(geo_melbourne[1], 1, 300)
+```
+
+
+You can also supply a string of JSON to style all the features in the GeoJSON
+
+```
+style <- '{ "fillColor" : "green" , "strokeColor" : "black", "strokeWeight" : 0.5}'
+google_map(key = "your_api_key") %>%
+  add_geojson(data = geo_melbourne, style = style)
+
+```
+
+Or you can use a named list to have the same effect
+
+```
+style <- list(fillColor = "red" , strokeColor = "blue", strokeWeight = 0.5)
+google_map(key = "your_api_key") %>%
+  add_geojson(data = geo_melbourne, style = style)
+```
+
+
+### Drag & Drop Geojson
+
+The function `add_dragdrop()` creates a map on to which you can drag & drop a GeoJSON file. There is an example of this in action [on my blog](https://www.symbolix.com.au/blog-main/b9z2z337hzzfc4hws8gf8lk358473z) 
+
+
+### Rectangles
+
+Rectangles can be added by supplying north, east, south and west coordinates to `add_rectangles()`
+
+
+```
+df <- data.frame(north = 33.685, south = 33.671, east = -116.234, west = -116.251)
+
+google_map(key = "your_api_key") %>%
+  add_rectangles(data = df, north = 'north', south = 'south',
+                 east = 'east', west = 'west')
+```
+![Recctangles](./img/rectangles.png)
+
+
+
+### Drawing
+
+You can create your own shapes on a map using `add_drawing()`. The shapes you can create are 
+
+- markers
+- circles
+- polygon
+- polyline
+- rectangle
+
+This can be particularly useful when working with `shiny` as the shape information can be returned when drawing is completed.
+
+For example, use the following code to create a shiny that enables drawing circles.
+
+```
+library(shiny)
+
+ui <- fluidPage(
+  google_mapOutput(outputId = "map", height = "800px")
+)
+
+server <- function(input, output){
+
+  mapKey <- "your_map_key"
+  output$map <- renderGoogle_map({
+    google_map(key = mapKey) %>%
+      add_drawing(drawing_modes = c("circle"))
+  })
+
+
+  observeEvent(input$map_circlecomplete, {
+    print(input$map_circlecomplete)
+  })
+}
+shinyApp(ui, server)
+```
+
+When a circle is drawin, the `print(input$map_circlecomplete)` function prints the following information to the console (it will vary based on where you draw the circle)
+
+```
+$center
+$center$lat
+[1] -36.80489
+
+$center$lng
+[1] 144.2889
+
+
+$radius
+[1] 57970.9
+
+$bounds
+$bounds$south
+[1] -37.32565
+
+$bounds$west
+[1] 143.6385
+
+$bounds$north
+[1] -36.28413
+
+$bounds$east
+[1] 144.9393
+
+
+$randomValue
+[1] 0.3688953
+```
+
+### Fusion Layers
+
+The fusion layer renders data contained in a Google [Fusion Table](https://developers.google.com/fusiontables/). At the time of writing the Fusion Layer is still experimental.
+
+> A Google Fusion Table is a database table where each row contains data about a particular feature; for geographic data, each row within a Google Fusion Table additionally contains location data, holding a feature’s positional information. The FusionTablesLayer provides an interface to Fusion Tables and supports automatic rendering of this location data, providing clickable overlays that display a feature’s additional data.
+
+To add a fusion layer you need to query the table using least a `select` and a `from` property. The query must be supplied in a `data.frame` or a JSON string. If a `data.frame` is used it must be one row long, and either 2 or 3 columns.
+
+```
+qry <- data.frame(select = 'address',
+    from = '1d7qpn60tAvG4LEg4jvClZbc1ggp8fIGGvpMGzA',
+    where = 'ridership > 200')
+
+## Or as a list
+# qry <- list(select = 'address',
+#     from = '1d7qpn60tAvG4LEg4jvClZbc1ggp8fIGGvpMGzA',
+#     where = 'ridership > 200')
+
+google_map(key = "your_api_key", location = c(41.8, -87.7), zoom = 9) %>%
+  add_fusion(query = qry)
+    
+```
+![Fusion Layer](./img/fusion_layer.png)
+
+You can also supply a `styles` argument to style the layers
+
+```
+## Query using a JSON string
+qry <- '{"select":"geometry","from":"1ertEwm-1bMBhpEwHhtNYT47HQ9k2ki_6sRa-UQ"}'
+
+styles <- '[
+  {
+    "polygonOptions":{
+      "fillColor":"#FFFF00",
+      "fillOpacity":0.3
+      }
+    },
+    {
+      "where":"birds > 300",
+       "polygonOptions":{
+         "fillColor":"#000000"
+       }
+     },
+     {
+       "where":"population > 5",
+       "polygonOptions":{
+         "fillOpacity":1
+         }
+     }
+   ]'
+
+google_map(key = "your_api_key", location = c(-25.3, 133), zoom = 4) %>%
+  add_fusion(query = qry, styles = styles)
+  
+  
+## The style will also work as a JSON object
+# attr(styles, 'class') <- 'json'
+  
+```
+![Fusion Styles](./img/fusion_layer_style.png)
+
+
+### KML & GeoRSS
+
+The `add_kml()` function renders KML and GeoRSS elements on a Google Map. All you need to specify is a URL containing the kml data.
+
+
+```
+kmlUrl <- 'http://googlemaps.github.io/js-v2-samples/ggeoxml/cta.kml'
+
+google_map(key = "your_api_key") %>%
+  add_kml(kml_url = kmlUrl)
+```
+![KML](./img/kml.png)
+
+
+### Overlays
+
+Overalys are objects on the map that are tied to latitude/longitude coordinates, so they move when you drag or zoom the map. 
+
+You need to supply the lat/lon coordinates to the north (lat), south (lat), east (lon) and west (lon) arguments, and a URL to the overlay.
+
+
+```
+google_map(key = "your_api_key") %>%
+  add_overlay(north = 40.773941, south = 40.712216, east = -74.12544, west = -74.22655,
+               overlay_url = "https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg")
+```
+![Overlay](./img/overlay.png)
+
+
 
 ---
-
 
 
 ## Shiny

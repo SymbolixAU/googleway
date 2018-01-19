@@ -286,6 +286,26 @@
 # shinyApp(ui, server)
 
 
+# library(shiny)
+#
+# ui <- fluidPage(
+#   google_mapOutput(outputId = "map", height = "800px")
+# )
+#
+# server <- function(input, output){
+#
+#   mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#   output$map <- renderGoogle_map({
+#     google_map(key = mapKey) %>%
+#       add_drawing(drawing_modes = c("circle"))
+#   })
+#
+#
+#   observeEvent(input$map_circlecomplete, {
+#     print(input$map_circlecomplete)
+#   })
+# }
+# shinyApp(ui, server)
 
 
 
