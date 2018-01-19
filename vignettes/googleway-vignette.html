@@ -111,12 +111,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li><a href="#shiny">Shiny</a><ul>
 <li><a href="#returning-data">Returning Data</a></li>
-<<<<<<< HEAD
 <li><a href="#clicking-on-the-map">Clicking on the map</a></li>
 <li><a href="#shape-layer-clicks">Shape / layer clicks</a></li>
 <li><a href="#editing-dragging-shapes">Editing &amp; Dragging Shapes</a></li>
-=======
->>>>>>> de54dac30ab1e5a956f1b64594e1b525d81d8337
 </ul></li>
 </ul>
 </div>
@@ -125,14 +122,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2>TODO</h2>
 <ul>
 <li>use cases - multiple calls / loops</li>
-<<<<<<< HEAD
 <li><h2 id="sf-objects">sf objects</h2></li>
-=======
-<li>sf objects</li>
-<li>editible shapes</li>
-<li>draggable shapes</li>
-<li><h2 id="returning-data-to-shiny">returning data to shiny</h2></li>
->>>>>>> de54dac30ab1e5a956f1b64594e1b525d81d8337
 </ul>
 <p>Googleway provides access to Google Maps APIs, and the ability to plot an interactive Google Map overlayed with various layers and shapes, including markers, circles, rectangles, polygons, lines (polylines) and heatmaps. You can also overlay traffic information, transit and cycling routes.</p>
 <p>The API functions are</p>
@@ -1146,7 +1136,6 @@ shinyApp(ui, server)
 </code></pre>
 <div id="returning-data" class="section level3">
 <h3>Returning Data</h3>
-<<<<<<< HEAD
 <p>One of the more powerful features of <code>googleway</code> mapping is the ability to return data from the maps to R using Shiny.</p>
 <p>Data can be returned using</p>
 <ul>
@@ -1262,9 +1251,6 @@ $layerId
 <p>The shape layers that have a <code>editable</code> argument also return data when the shape is edited.</p>
 <p>In this case you would observe <code>input$&lt;map_id&gt;_&lt;shape&gt;_edited</code></p>
 <p>Similarly, when shapes are dragged you would observe <code>input$&lt;map_id&gt;_&lt;shape&gt;_dragged</code></p>
-=======
-<p>One of the more powerful features of <code>googleway</code> is the ability to return data back to R from Shiny.</p>
->>>>>>> de54dac30ab1e5a956f1b64594e1b525d81d8337
 </div>
 </div>
 

@@ -1190,7 +1190,6 @@ shinyApp(ui, server)
 
 ### Returning Data
 
-<<<<<<< HEAD
 One of the more powerful features of `googleway` mapping is the ability to return data from the maps to R using Shiny. 
 
 Data can be returned using 
@@ -1331,8 +1330,4 @@ In this case you would observe `input$<map_id>_<shape>_edited`
 
 Similarly, when shapes are dragged you would observe `input$<map_id>_<shape>_dragged`
 
-
-=======
-One of the more powerful features of `googleway` is the ability to return data back to R from Shiny. 
->>>>>>> de54dac30ab1e5a956f1b64594e1b525d81d8337
 
