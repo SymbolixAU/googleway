@@ -109,7 +109,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#kml-georss">KML &amp; GeoRSS</a></li>
 <li><a href="#overlays">Overlays</a></li>
 </ul></li>
-<li><a href="#shiny">Shiny</a></li>
+<li><a href="#shiny">Shiny</a><ul>
+<li><a href="#returning-data">Returning Data</a></li>
+</ul></li>
 </ul>
 </div>
 
@@ -119,7 +121,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>use cases - multiple calls / loops</li>
 <li>sf objects</li>
 <li>editible shapes</li>
-<li><h2 id="draggable-shapes">draggable shapes</h2></li>
+<li>draggable shapes</li>
+<li><h2 id="returning-data-to-shiny">returning data to shiny</h2></li>
 </ul>
 <p>Googleway provides access to Google Maps APIs, and the ability to plot an interactive Google Map overlayed with various layers and shapes, including markers, circles, rectangles, polygons, lines (polylines) and heatmaps. You can also overlay traffic information, transit and cycling routes.</p>
 <p>The API functions are</p>
@@ -1131,6 +1134,10 @@ server &lt;- function(input, output){
 
 shinyApp(ui, server)
 </code></pre>
+<div id="returning-data" class="section level3">
+<h3>Returning Data</h3>
+<p>One of the more powerful features of <code>googleway</code> is the ability to return data back to R from Shiny.</p>
+</div>
 </div>
 
 

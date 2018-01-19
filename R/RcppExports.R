@@ -5,7 +5,3 @@ rcpp_decode_pl <- function(encoded) {
     .Call('_googleway_rcpp_decode_pl', PACKAGE = 'googleway', encoded)
 }
 
-rcpp_encode_pl <- function(latitude, longitude, num_coords) {
-    .Call('_googleway_rcpp_encode_pl', PACKAGE = 'googleway', latitude, longitude, num_coords)
-}
-

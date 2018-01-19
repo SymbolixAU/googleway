@@ -18,6 +18,7 @@ vignette: >
 - sf objects
 - editible shapes
 - draggable shapes
+- returning data to shiny
 ---
 
 Googleway provides access to Google Maps APIs, and the ability to plot an interactive Google Map overlayed with various layers and shapes, including markers, circles, rectangles, polygons, lines (polylines) and heatmaps. You can also overlay traffic information, transit and cycling routes.
@@ -1190,4 +1191,7 @@ shinyApp(ui, server)
 
 ```
 
+### Returning Data
+
+One of the more powerful features of `googleway` is the ability to return data back to R from Shiny. 
 
