@@ -126,7 +126,7 @@ google_nearestRoads <- function(df_points,
                                 lon = NULL,
                                 simplify = TRUE,
                                 curl_proxy = NULL,
-                                key){
+                                key = get_api_key("roads")){
 
   logicalCheck(simplify)
 
@@ -183,7 +183,7 @@ google_speedLimits <- function(df_path = NULL,
                                units = c("KPH","MPH"),
                                simplify = TRUE,
                                curl_proxy = NULL,
-                               key){
+                               key = get_api_key("roads")){
 
   if(is.null(df_path) & is.null(placeIds))
     stop("please specify one of df_path or placeIds")

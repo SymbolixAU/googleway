@@ -6,7 +6,7 @@
 \usage{
 google_speedLimits(df_path = NULL, lat = NULL, lon = NULL,
   placeIds = NULL, units = c("KPH", "MPH"), simplify = TRUE,
-  curl_proxy = NULL, key)
+  curl_proxy = NULL, key = get_api_key("roads"))
 }
 \arguments{
 \item{df_path}{\code{data.frame} with at least two columns specifying the
