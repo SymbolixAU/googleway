@@ -16,8 +16,6 @@ vignette: >
 
 - use cases - multiple calls / loops
 - sf objects
-- editible shapes
-- draggable shapes
 ---
 
 Googleway provides access to Google Maps APIs, and the ability to plot an interactive Google Map overlayed with various layers and shapes, including markers, circles, rectangles, polygons, lines (polylines) and heatmaps. You can also overlay traffic information, transit and cycling routes.
@@ -1189,5 +1187,148 @@ server <- function(input, output){
 shinyApp(ui, server)
 
 ```
+
+### Returning Data
+
+One of the more powerful features of `googleway` mapping is the ability to return data from the maps to R using Shiny. 
+
+Data can be returned using 
+
+- clicking on the map
+- panning / zooming the map
+- shape / layer clicks
+- editing shapes
+- dragging shapes
+
+
+Within the `google_map()` call you can pass one of two values to the `event_return_type` argument, "list" or "json". This controls the type of data structure returned back to R from Shiny. 
+
+### Clicking on the map
+
+Data can be retrieved from the map by clicking on it and "observing" the clicks. 
+
+The structure of the observed event is 
+
+- `input$<map_id>_map_click`
+
+where 
+
+- `<map_id>` is the id of the output map element (see example)
+- `map_click` is the event being observed
+
+
+```
+library(shiny)
+ui <- fluidPage(
+ google_mapOutput('myMap')
+)
+server <- function(input, output){
+ output$myMap <- renderGoogle_map({
+   google_map(key = "your_api_key", event_return_type = "list")
+ })
+ observeEvent(input$myMap_map_click, {
+    print(input$myMap_map_click)
+ })
+}
+shinyApp(ui, server)
+```
+Clicking on the map in this example will return the following fields
+
+```
+$id
+[1] "myMap"
+
+$lat
+[1] -37.68382
+
+$lon
+[1] 145.08
+
+$centerLat
+[1] -37.9
+
+$centerLon
+[1] 144.5
+
+$zoom
+[1] 8
+
+$randomValue
+[1] 0.4043373
+```
+
+Similarly, observing `input$myMap_bounds_changed` will observe panning the map, and `input$myMap_zoom_changed` will observe zooming the map.
+
+
+
+
+
+
+### Shape / layer clicks
+
+Data can be retrieved from shapes by clicking on them and "observing" the clicks. 
+
+The structure of the observed event is 
+
+- `input$<map_id>_<shape>_click`
+
+where 
+
+- `<map_id>` is the id of the output map element (see example)
+- `<shape>` is the shape being clicked (e.g. polygon, polyline, circle, etc)
+- `click` is the event being observed
+
+```
+library(shiny)
+ui <- fluidPage(
+ google_mapOutput('map')
+)
+server <- function(input, output){
+ output$map <- renderGoogle_map({
+   google_map(key = "your_api_key", event_return_type = "list") %>%
+     add_polygons(data = melbourne, polyline = "polyline")
+ })
+ observeEvent(input$map_polygon_click, {
+    print(input$map_polygon_click)
+ })
+}
+shinyApp(ui, server)
+```
+
+Clicking on one of the polygons in this example will return the fields
+
+```
+$id
+[1] 22
+
+$lat
+[1] -38.16911
+
+$lon
+[1] 144.6872
+
+$outerPath
+[1] "dlsgFyduq..." ## truncated
+
+$allPaths
+$allPaths[[1]]
+[1] "dlsgFyduqZ..." ## truncated
+
+
+$randomValue
+[1] 0.5917599
+
+$layerId
+[1] "defaultLayerId"
+```
+
+### Editing & Dragging Shapes
+
+The shape layers that have a `editable` argument also return data when the shape is edited.
+
+In this case you would observe `input$<map_id>_<shape>_edited`
+
+Similarly, when shapes are dragged you would observe `input$<map_id>_<shape>_dragged`
+
 
 

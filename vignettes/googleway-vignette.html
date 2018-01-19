@@ -109,7 +109,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#kml-georss">KML &amp; GeoRSS</a></li>
 <li><a href="#overlays">Overlays</a></li>
 </ul></li>
-<li><a href="#shiny">Shiny</a></li>
+<li><a href="#shiny">Shiny</a><ul>
+<li><a href="#returning-data">Returning Data</a></li>
+<li><a href="#clicking-on-the-map">Clicking on the map</a></li>
+<li><a href="#shape-layer-clicks">Shape / layer clicks</a></li>
+<li><a href="#editing-dragging-shapes">Editing &amp; Dragging Shapes</a></li>
+</ul></li>
 </ul>
 </div>
 
@@ -1131,6 +1136,124 @@ server &lt;- function(input, output){
 
 shinyApp(ui, server)
 </code></pre>
+<div id="returning-data" class="section level3">
+<h3>Returning Data</h3>
+<p>One of the more powerful features of <code>googleway</code> mapping is the ability to return data from the maps to R using Shiny.</p>
+<p>Data can be returned using</p>
+<ul>
+<li>clicking on the map</li>
+<li>panning / zooming the map</li>
+<li>shape / layer clicks</li>
+<li>editing shapes</li>
+<li>dragging shapes</li>
+</ul>
+<p>Within the <code>google_map()</code> call you can pass one of two values to the <code>event_return_type</code> argument, “list” or “json”. This controls the type of data structure returned back to R from Shiny.</p>
+</div>
+<div id="clicking-on-the-map" class="section level3">
+<h3>Clicking on the map</h3>
+<p>Data can be retrieved from the map by clicking on it and “observing” the clicks.</p>
+<p>The structure of the observed event is</p>
+<ul>
+<li><code>input$&lt;map_id&gt;_map_click</code></li>
+</ul>
+<p>where</p>
+<ul>
+<li><code>&lt;map_id&gt;</code> is the id of the output map element (see example)</li>
+<li><code>map_click</code> is the event being observed</li>
+</ul>
+<pre><code>library(shiny)
+ui &lt;- fluidPage(
+ google_mapOutput('myMap')
+)
+server &lt;- function(input, output){
+ output$myMap &lt;- renderGoogle_map({
+   google_map(key = &quot;your_api_key&quot;, event_return_type = &quot;list&quot;)
+ })
+ observeEvent(input$myMap_map_click, {
+    print(input$myMap_map_click)
+ })
+}
+shinyApp(ui, server)</code></pre>
+<p>Clicking on the map in this example will return the following fields</p>
+<pre><code>$id
+[1] &quot;myMap&quot;
+
+$lat
+[1] -37.68382
+
+$lon
+[1] 145.08
+
+$centerLat
+[1] -37.9
+
+$centerLon
+[1] 144.5
+
+$zoom
+[1] 8
+
+$randomValue
+[1] 0.4043373</code></pre>
+<p>Similarly, observing <code>input$myMap_bounds_changed</code> will observe panning the map, and <code>input$myMap_zoom_changed</code> will observe zooming the map.</p>
+</div>
+<div id="shape-layer-clicks" class="section level3">
+<h3>Shape / layer clicks</h3>
+<p>Data can be retrieved from shapes by clicking on them and “observing” the clicks.</p>
+<p>The structure of the observed event is</p>
+<ul>
+<li><code>input$&lt;map_id&gt;_&lt;shape&gt;_click</code></li>
+</ul>
+<p>where</p>
+<ul>
+<li><code>&lt;map_id&gt;</code> is the id of the output map element (see example)</li>
+<li><code>&lt;shape&gt;</code> is the shape being clicked (e.g. polygon, polyline, circle, etc)</li>
+<li><code>click</code> is the event being observed</li>
+</ul>
+<pre><code>library(shiny)
+ui &lt;- fluidPage(
+ google_mapOutput('map')
+)
+server &lt;- function(input, output){
+ output$map &lt;- renderGoogle_map({
+   google_map(key = &quot;your_api_key&quot;, event_return_type = &quot;list&quot;) %&gt;%
+     add_polygons(data = melbourne, polyline = &quot;polyline&quot;)
+ })
+ observeEvent(input$map_polygon_click, {
+    print(input$map_polygon_click)
+ })
+}
+shinyApp(ui, server)</code></pre>
+<p>Clicking on one of the polygons in this example will return the fields</p>
+<pre><code>$id
+[1] 22
+
+$lat
+[1] -38.16911
+
+$lon
+[1] 144.6872
+
+$outerPath
+[1] &quot;dlsgFyduq...&quot; ## truncated
+
+$allPaths
+$allPaths[[1]]
+[1] &quot;dlsgFyduqZ...&quot; ## truncated
+
+
+$randomValue
+[1] 0.5917599
+
+$layerId
+[1] &quot;defaultLayerId&quot;</code></pre>
+</div>
+<div id="editing-dragging-shapes" class="section level3">
+<h3>Editing &amp; Dragging Shapes</h3>
+<p>The shape layers that have a <code>editable</code> argument also return data when the shape is edited.</p>
+<p>In this case you would observe <code>input$&lt;map_id&gt;_&lt;shape&gt;_edited</code></p>
+<p>Similarly, when shapes are dragged you would observe <code>input$&lt;map_id&gt;_&lt;shape&gt;_dragged</code></p>
+</div>
 </div>
 
 
