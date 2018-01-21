@@ -69,9 +69,9 @@
 #' The \code{legend_options} can be used to control the appearance of the legend.
 #' This should be a named list, where the names are one of
 #' \itemize{
-#'   \item{position - one of \code{c("TOP_CENTER", "TOP_LEFT", "TOP_RIGHT","RIGHT_TOP",
-#'     "LEFT_CENTER", "RIGHT_CENTER", "LEFT_BOTTOM", "BOTTOM_CENTER", "RIGHT_BOTTOM",
-#'     "BOTTOM_LEFT","BOTTOM_RIGHT")}}
+#'   \item{position - one of \code{c("TOP_LEFT", "TOP_CENTER", "TOP_RIGHT", "RIGHT_TOP",
+#'   "RIGHT_CENTER", "RIGHT_BOTTOM", "BOTTOM_RIGHT", "BOTTOM_CENTER", "BOTTOM_LEFT",
+#'   "LEFT_BOTTOM", "LEFT_CENTER", "LEFT_TOP")}}
 #'   \item{css - a string of valid \code{css} for controlling the appearance of the legend}
 #'   \item{title - a string to use for the title of the legend}
 #'}
@@ -79,8 +79,9 @@
 #'
 #' If you are displaying two legends, one for \code{stroke_colour} and one
 #' for \code{fill_colour}, you can specify different options for the different
-#' colour attributes. See examples.
+#' colour attributes. See examples for \link{add_circles}.
 #'
+#' @details
 #'
 #' \code{z_index} values define the order in which objects appear on the map.
 #' Those with a higher value appear on top of those with a lower value. The default
@@ -109,7 +110,7 @@
 #'     stroke_colour = viridisLite::plasma)
 #'
 #' ## set the key via set_key()
-#' set_key(api_key = map_key)
+#' set_key(key = map_key)
 #'
 #' google_map(data = tram_stops) %>%
 #'  add_circles(lat = "stop_lat", lon = "stop_lon", fill_colour = "stop_lat",

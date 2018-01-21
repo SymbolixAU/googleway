@@ -5,13 +5,20 @@ date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
     fig_caption: yes
+    toc: true
 vignette: >
   %\VignetteIndexEntry{Googleway Vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-Googleway provides access to Google Maps APIs through specified functions, and the ability to plot a Google Map overlayed with markers, circles, rectangles, shapes (polygons), lines (polylines) and heatmaps. You can also overlay traffic information, transit and cycling routes.
+## TODO
+
+- use cases - multiple calls / loops
+- sf objects
+---
+
+Googleway provides access to Google Maps APIs, and the ability to plot an interactive Google Map overlayed with various layers and shapes, including markers, circles, rectangles, polygons, lines (polylines) and heatmaps. You can also overlay traffic information, transit and cycling routes.
 
 The API functions are
 
@@ -34,6 +41,11 @@ Plotting a Google Map uses the JavaScript API, and the functions used to create 
 * [**Polygons**](https://developers.google.com/maps/documentation/javascript/examples/polygon-simple) - `add_polygons()`
 * [**Lines**](https://developers.google.com/maps/documentation/javascript/examples/polyline-simple) - `add_polylines()`
 * [**Rectangles**](https://developers.google.com/maps/documentation/javascript/examples/rectangle-simple) - `add_rectangles()`
+* [**GeoJSON**](https://developers.google.com/maps/documentation/javascript/datalayer#load_geojson) - `add_geojson()`
+* [**Drag & Drop GeoJSON**](https://developers.google.com/maps/documentation/javascript/examples/layer-data-dragndrop) - `add_dragdrop()`
+* [**Overlays**](https://developers.google.com/maps/documentation/javascript/examples/overlay-simple) - `add_overlay()`
+* [**Fusion layer**](https://developers.google.com/maps/documentation/javascript/fusiontableslayer) - `add_fusion()`
+* [**KML**](https://developers.google.com/maps/documentation/javascript/examples/layer-kml) - `add_kml()`
 * [**Bicycle routes**](https://developers.google.com/maps/documentation/javascript/examples/layer-bicycling) - `add_bicycling()`
 * [**Traffic**](https://developers.google.com/maps/documentation/javascript/examples/layer-traffic) - `add_traffic()`
 * [**Transit**](https://developers.google.com/maps/documentation/javascript/examples/layer-transit) - `add_transit()`
@@ -42,9 +54,63 @@ Downloading a static streetview map
 
 * [**Street View Image**](https://developers.google.com/maps/documentation/streetview/) - `google_streetview()` 
 
+There are also functions that directly open in a browser, but don't return any data
+
+* [**Google Maps URL**](https://developers.google.com/maps/documentation/urls/guide) - `google_map_url()`
+* [**Google Maps Search**](https://developers.google.com/maps/documentation/urls/guide#search-action) - `google_map_search()`
+* [**Google Maps Directions**](https://developers.google.com/maps/documentation/urls/guide#directions-action) - `google_map_directions()`
+* [**Google Maps Panorama**](https://developers.google.com/maps/documentation/urls/guide#street-view-action) - `google_map_panorama()`
+
+
+
+
 Finally, the package includes the helper functions, `encode_pl()` and `decode_pl()` for encoding and decoding polylines.
 
-To use this package you need a valid **API KEY** ([follow instructions here to get a key](https://developers.google.com/maps/documentation/javascript/)) for the API you wish to use. Note that the same API key can be used for all the functions, but you need to register it with each API first. 
+## API Key
+
+To use most of the functions in this package you will need a valid **API KEY** ([follow instructions here to get a key](https://developers.google.com/maps/documentation/javascript/)) for the API you wish to use. The same API key can be used for all the functions, but you need to register it with each API first. 
+
+The exceptions to this are the functions that don't return any data
+
+- Google Maps URL
+- Google Maps Search
+- Google Maps Directions
+- Google Maps Panorama
+
+### Setting / Using keys
+
+All the API functions have a `key` argument which you can use to provide your API key. Alternatively, you can use `set_key()` to set the key once, and make it available for all further API calls. 
+
+If you use one key for all API calls you can just provide the `key` argument (it will automatically get set as your default key).
+
+If you use many different keys, you can specify which API they are for in the `api` argument.
+
+```{r}
+library(googleway)
+## not specifying the api will add the key as your 'default'
+key <- "my_api_key"
+set_key(key = key)
+google_keys()
+
+```
+
+
+```{r}
+## specifying the specific API will only make that key available for that API.
+clear_keys() ## clear any previously set keys
+key <- "my_api_key"
+set_key(key = key, api = "directions")
+google_keys()
+```
+
+
+
+
+## Result accessors
+
+For the API calls that return data, I have provided some helper functions to access specific data points returned from the API calls. The full list is given in the help file `?access_result`. Examples of its use is demonstrated throughout this vignette.
+
+If there is a specific data point you would like added to the function, please [file an issue](https://github.com/SymbolixAU/googleway/issues) on my github page
 
 ---
 
@@ -53,8 +119,6 @@ To use this package you need a valid **API KEY** ([follow instructions here to g
 [**Google Maps**](http://www.google.com/maps) allows users to find directions between locations.
 
 The [**Google Maps Directions API**](https://developers.google.com/maps/documentation/directions/) is a service available to developers that calculates directions between locations.
-
-### Example
 
 Searching Google Maps for directions from Melbourne to Sydney generates the route:
 
@@ -118,7 +182,7 @@ This result can be returned in R using the `google_directions()` function. By de
 ```
 library(googleway)
 
-## you will need a valid Google Directions Developers API key
+key <- "your_api_key"
 df <- google_directions(origin = "Melbourne, Australia",
                         destination = "Sydney, Australia",
                         key = key,
@@ -128,8 +192,16 @@ df <- google_directions(origin = "Melbourne, Australia",
 
 The data used to draw the route on the map is the **overview_polyline**. This string represents a sequence of lat/lon pairs, encoded using a lossy compression algorithm (https://developers.google.com/maps/documentation/utilities/polylinealgorithm) that allows you to store the series of coordinates as a single string. 
 
+You can extract the polyline manually 
+
 ```
 pl <- df$routes$overview_polyline$points
+```
+
+Or use the `direction_polyline()` accessor
+
+```
+pl <- direction_polyline(df)
 pl
 # [1] "rqxeF_cxsZgr@xmCekBhMunGnWc_Ank@vBpyCqjAfbAqmBjXydAe{AoF{oEgTqjGur@ch@qfAhUuiCww@}kEtOepAtdD{dDf~BsgIuj@}tHi{C{bGg{@{rGsmG_bDbW{wCuTyiBajBytF_oAyaI}K}bEkqA{jDg^epJmbB{gC}v@i~D`@gkGmJ_kEojD_O{`FqvCetE}bGgbDm_BqpD}pEqdGiaBo{FglEg_Su~CegHw`Cm`Hv[mxFwaAisAklCuUgzAqmCalJajLqfDedHgyC_yHibCizK~Xo_DuqAojDshAeaEpg@g`Dy|DgtNswBcgDiaAgEqgBozB{jEejQ}p@ckIc~HmvFkgAsfGmjCcaJwwD}~AycCrx@skCwUqwN{yKygH}nF_qAgyOep@slIehDcmDieDkoEiuCg|LrKo~Eb}Bw{Ef^klG_AgdFqvAaxBgoDeqBwoDypEeiFkjBa|Ks}@gr@c}IkE_qEqo@syCgG{iEazAmeBmeCqvA}rCq_AixEemHszB_SisB}mEgeEenCqeDab@iwAmZg^guB}cCk_F_iAmkGsu@abDsoBylBk`Bm_CsfD{jFgrAerB{gDkw@{|EacB_jDmmAsjC{yBsyFaqFqfEi_Ei~C{yAmwFt{B{fBwKql@onBmtCq`IomFmdGueD_kDssAwsCyqDkx@e\\kwEyUstC}uAe|Ac|BakGpGkfGuc@qnDguBatBot@}kD_pBmmCkdAgkB}jBaIyoC}xAexHka@cz@ahCcfCayBqvBgtBsuDxb@yiDe{Ikt@c{DwhBydEynDojCapAq}AuAksBxPk{EgPgkJ{gA}tGsJezKbcAcdK__@uuBn_AcuGsjDwvC_|AwbE}~@wnErZ{nGr_@stEjbDakFf_@clDmKkwBbpAi_DlgA{lArLukCBukJol@w~DfCcpBwnAghCweA}{EmyAgaEbNybGeV}kCtjAq{EveBwuHlb@gyIg\\gmEhBw{G{dAmpHp_@a|MsnCcuGy~@agIe@e`KkoA}lBspBs^}sAmgIdpAumE{Y_|Oe|CioKouFwuIqnCmlDoHamBiuAgnDqp@yqIkmEqaIozAohAykDymA{uEgiE}fFehBgnCgrGmwCkiLurBkhL{jHcrGs}GkhFwpDezGgjEe_EsoBmm@g}KimLizEgbA{~DwfCwvFmhBuvBy~DsqCicBatC{z@mlCkkDoaDw_BagA}|Bii@kgCpj@}{E}b@cuJxQwkK}j@exF`UanFzM{fFumB}fCirHoTml@CoAh`A"
 ```
@@ -140,7 +212,6 @@ Having retrieved the polyline, you can decode it into latitude and longitude coo
 ```{r}
 polyline <- "rqxeF_cxsZgr@xmCekBhMunGnWc_Ank@vBpyCqjAfbAqmBjXydAe{AoF{oEgTqjGur@ch@qfAhUuiCww@}kEtOepAtdD{dDf~BsgIuj@}tHi{C{bGg{@{rGsmG_bDbW{wCuTyiBajBytF_oAyaI}K}bEkqA{jDg^epJmbB{gC}v@i~D`@gkGmJ_kEojD_O{`FqvCetE}bGgbDm_BqpD}pEqdGiaBo{FglEg_Su~CegHw`Cm`Hv[mxFwaAisAklCuUgzAqmCalJajLqfDedHgyC_yHibCizK~Xo_DuqAojDshAeaEpg@g`Dy|DgtNswBcgDiaAgEqgBozB{jEejQ}p@ckIc~HmvFkgAsfGmjCcaJwwD}~AycCrx@skCwUqwN{yKygH}nF_qAgyOep@slIehDcmDieDkoEiuCg|LrKo~Eb}Bw{Ef^klG_AgdFqvAaxBgoDeqBwoDypEeiFkjBa|Ks}@gr@c}IkE_qEqo@syCgG{iEazAmeBmeCqvA}rCq_AixEemHszB_SisB}mEgeEenCqeDab@iwAmZg^guB}cCk_F_iAmkGsu@abDsoBylBk`Bm_CsfD{jFgrAerB{gDkw@{|EacB_jDmmAsjC{yBsyFaqFqfEi_Ei~C{yAmwFt{B{fBwKql@onBmtCq`IomFmdGueD_kDssAwsCyqDkx@e\\kwEyUstC}uAe|Ac|BakGpGkfGuc@qnDguBatBot@}kD_pBmmCkdAgkB}jBaIyoC}xAexHka@cz@ahCcfCayBqvBgtBsuDxb@yiDe{Ikt@c{DwhBydEynDojCapAq}AuAksBxPk{EgPgkJ{gA}tGsJezKbcAcdK__@uuBn_AcuGsjDwvC_|AwbE}~@wnErZ{nGr_@stEjbDakFf_@clDmKkwBbpAi_DlgA{lArLukCBukJol@w~DfCcpBwnAghCweA}{EmyAgaEbNybGeV}kCtjAq{EveBwuHlb@gyIg\\gmEhBw{G{dAmpHp_@a|MsnCcuGy~@agIe@e`KkoA}lBspBs^}sAmgIdpAumE{Y_|Oe|CioKouFwuIqnCmlDoHamBiuAgnDqp@yqIkmEqaIozAohAykDymA{uEgiE}fFehBgnCgrGmwCkiLurBkhL{jHcrGs}GkhFwpDezGgjEe_EsoBmm@g}KimLizEgbA{~DwfCwvFmhBuvBy~DsqCicBatC{z@mlCkkDoaDw_BagA}|Bii@kgCpj@}{E}b@cuJxQwkK}j@exF`UanFzM{fFumB}fCirHoTml@CoAh`A"
 
-library(googleway)
 df <- decode_pl(polyline)
 head(df)
 ```
@@ -153,14 +224,13 @@ encode_pl(lat = df$lat, lon = df$lon)
 
 ```
 
+
 ---
 
 ## Google Distance API
 
 The [**Google Maps Distance API**](https://developers.google.com/maps/documentation/distance-matrix/intro) is a service that provides travel distance and time for a matrix of origins and destinations.
 
-
-### Example
 
 Finding the distances between Melbourne Airport, the MCG, a set of coordinates (-37.81659, 144.9841), to Portsea, Melbourne.
 
@@ -196,8 +266,6 @@ $status
 ## Google Elevation API
 
 The [**Google Maps Elevation API**](https://developers.google.com/maps/documentation/elevation/start) provides elevation data for all locations on the surface of the earth, including depth locations on the ocean floor (which return negative values).
-
-### Example
 
 Finding the elevation of 20 points between the MCG, Melbourne and the beach at Elwood, Melbourne
 
@@ -243,9 +311,6 @@ $status
 
 The [**Google Maps Time zone API**](https://developers.google.com/maps/documentation/timezone/start) provides time offset data for locations on the surface of the earth. You request the time zone information for a specific latitude/longitude pair and date. The API returns the name of that time zone, the time offset from UTC, and the daylight savings offset.
 
-
-### Example
-
 Finding the timezone of the MCG in Melbourne
 
 ```
@@ -271,25 +336,19 @@ google_timezone(location = c(-37.81659, 144.9841),
 The [**Google Maps Geocoding API**](https://developers.google.com/maps/documentation/geocoding/start) is a service that provides geocoding and reverse geocoding of addresses.
 
 
-### Example
-
 Finding the location details for Flinders Street Station, Melbourne
 
 ```
-## An unbound search for Flinders Street Station returns 6 options.
+
 df <- google_geocode(address = "Flinders Street Station",
                      key = key,
                      simplify = TRUE)
 
 df$results$formatted_address
-[1] "Flinders Street Railway Station, Flinders St, Melbourne VIC 3000, Australia"
-[2] "Flinders St Station, Melbourne VIC 3000, Australia"                         
-[3] "Flinders Street Station, Melbourne VIC 3000, Australia"                     
-[4] "Flinders Street, Rye VIC 3941, Australia"                                   
-[5] "Station Rd, Victoria, Australia"                                            
-[6] "Station Rd, Albion Park Rail NSW 2527, Australia" 
+[1] "Flinders St, Melbourne VIC 3000, Australia"
 
-## using a bounded search limits the results
+## If your search responde multiple results, you can 
+## bound the search, for example
 
 bounds <- list(c(-37.81962,144.9657),
                c(-37.81692, 144.9684))
@@ -299,11 +358,16 @@ df <- google_geocode(address = "Flinders Street Station",
                      key = key,
                      simplify = TRUE)
 
-df$results$formatted_address
-[1] "Flinders Street Railway Station, Flinders St, Melbourne VIC 3000, Australia"
-[2] "Flinders Street Station, Melbourne VIC 3000, Australia"                     
-[3] "Flinders St Station, Melbourne VIC 3000, Australia"
+## (in this example only one result was returned in the original call)
 
+```
+
+The coordinates of the location can be accessed with
+
+```
+geocode_coordinates(df)
+#         lat      lng
+# 1 -37.81827 144.9671
 ```
 
 ---
@@ -311,9 +375,6 @@ df$results$formatted_address
 ## Google Reverse Geocode API
 
 The [**Google Maps Reverse Geocoding API**](https://developers.google.com/maps/documentation/geocoding/intro#ReverseGeocoding) is a service that converts geographic coordinates into a human-readable address.
-
-
-### Example
 
 Finding the street address for a set of coordinates, using `result_type` and `location_type` as bounding parameters:
 
@@ -366,7 +427,7 @@ A **Place Detail** search (using `google_place_details()`) can be performed when
 
 
 
-### Example - Text
+### Text
 
 For a **text** search you are required to provide a `search_string`
 
@@ -439,7 +500,7 @@ cbind(res_next$results$name, res_next$results$opening_hours)
 
 ```
 
-### Example - Nearby
+### Nearby
 
 For a **nearby** search you are required to provide a `location` as a pair of latitude/longitude coordinates. You can refine your search by providing a keyword and / or a radius.
 
@@ -486,7 +547,7 @@ The Google Roads API provides three functions
 * [Speed Limits](https://developers.google.com/maps/documentation/roads/speed-limits) (premium only)
 
 
-### Example - Snap to Roads
+### Snap to Roads
 
 The snap to roads function takes up to 100 GPS points collected along a route and returns the points snapped to the most likely roads that were travelled along. 
 
@@ -536,7 +597,7 @@ The image shows the original coordinates from `df_path` in red, and the associat
 
 ![Snap to Roads](./img/snap_to_roads.png)
 
-### Example - Nearest Roads
+### Nearest Roads
 
 The nearest roads function takes up to 100 independent coordinates and returns the closest road segment for each point. 
 
@@ -644,7 +705,7 @@ google_map(data = tram_stops, key = map_key) %>%
 
 ---
 
-## Polyline
+### Polyline
 
 Polylines in Google Maps are formed from a set of latitude/longitude coordinates, encoded into a polyline string.
 
@@ -667,7 +728,7 @@ google_map(key = map_key) %>%
 
 ---
 
-## Polygon
+### Polygon
 
 A polygon represents an area enclosed by one or more polylines. Holes are denoted by defining an inner path wound in the opposite direction to the outer path.
 
@@ -692,22 +753,329 @@ Plotting this data is done using `add_polygons()`
 
 
 ```
-google_map(key = 'your_api_key') %>%
-  add_polygons(data = melbourne, polyline = "polyline", info_window = "SA2_NAME",
-            mouse_over_group = "SA3_NAME")
+google_map(key = "your_api_key") %>% 
+  add_polygons(data = melbourne, polyline = "polyline", fill_colour = "SA4_NAME")
 ```
 
 
-![Melbourne Polygons](./img/melbourne_polygons.png)
+![Melbourne Polygons](./img/polygons.png)
 
 
-In this example I've specified
+In this example I've specified the `fill_colour` to be one of the columns of the `melbourne` data set. The plotting functions in `googleway` will map the variables in the column to a given colour. The default colour scale is taken from `viridisLite::viridis()`. 
 
-* mouse_over_group - which highlights polygons in the same group when the mouse hovers over them
-* info_window - to display an info window when a polygon is clicked
+### Colours & Legend
+
+Where applicable the map layer functions provide two arguments that you can use to plot colours
+
+- `fill_colour` (for colouring an area)
+- `stroke_colour` (for colouring a line / outline of an area)
+
+Each of those arguments can be mapped to a column of data (as in the Polygon example), or if you want to use your own colours you can either
+
+- specify the palette using the `palette` argument
+```
+google_map(key = "your_api_key") %>% 
+  add_polygons(data = melbourne, polyline = "polyline", fill_colour = "SA4_NAME", palette = viridisLite::inferno)
+```
+![Colour Palette](./img/polygon_palette.png)
+
+- add a column of hex colour values and supply this to the plotting function
+
+```
+colours <- RColorBrewer::brewer.pal(9, "Set1")
+melbourne$randomColour <- sample(colours, size = nrow(melbourne), replace = T)
+google_map(key = "your_api_key") %>% 
+  add_polygons(data = melbourne, polyline = "polyline", fill_colour = "randomColour")
+```
+![Colour Column](./img/polygon_multiple_colours.png)
+
+
+- specify a single hex colour value to either `fill_colour` or `stroke_colour` to colour all shapes the same colour
+
+```
+google_map(key = "your_api_key") %>% 
+  add_polygons(data = melbourne, polyline = "polyline", fill_colour = "#FF00FF")
+```
+![Single Colour](./img/polygon_single_colour.png)
+
+Setting `legend = TRUE` will give you a legend
+
+```
+google_map(key = "your_api_key") %>% 
+  add_polygons(data = melbourne, polyline = "polyline", fill_colour = "SA4_NAME", legend = T)
+
+```
+![Legend](./img/polygon_legend.png)
+
+
+You can customise the legend by supplying any of the arguments in a list to the `legend_options` argument
+
+- position - one of TOP_LEFT, TOP_CENTER, TOP_RIGHT, RIGHT_TOP, RIGHT_CENTER, RIGHT_BOTTOM, BOTTOM_RIGHT, BOTTOM_CENTER, BOTTOM_LEFT, LEFT_BOTTOM, LEFT_CENTER and LEFT_TOP
+- css - a string of valid CSS for controlling the appearance
+- title - a string to use for the title of the legend. The default is the column name mapped to the colour
+
+```
+legendOpts <- list(position = "TOP_RIGHT", css = "max-height: 100px")
+
+google_map(key = "your_api_key") %>% 
+  add_polygons(data = melbourne, polyline = "polyline", fill_colour = "SA4_NAME", stroke_colour = "SA3_NAME", legend = T, legend_options = legendOpts)
+
+```
+![Legend Options](./img/polygon_legend_custom.png)
+
+If you are displaying two legends, one for `stroke_colour` and one for `fill_colour`, you can specify different options fo rthe different colour attributes
+
+```
+legendOpts <- list(
+  fill_colour = list(position = "TOP_RIGHT"),
+  stroke_colour = list(position = "BOTTOM_LEFT", title = "SA3")
+  )
+
+google_map(key = "your_api_key") %>% 
+  add_polygons(data = melbourne, polyline = "polyline", fill_colour = "SA4_NAME", stroke_colour = "SA3_NAME", legend = T, legend_options = legendOpts)
+
+```
+![Custom Legend](./img/polygon_custom_legend.png)
+
+
+### Simple Features
+
+`googleway` supports plotting certain geometries from `sf` objects (from `library(sf)`)
+
+- POINT and MULTIPOINT plotted with `add_markers()` and `add_circles()`
+- LINESTRING and MULTILINESTRING plotted with `add_polylines()`
+- POLYGON and MULTIPOLYGON plotted with `add_polygons()`
+
+
+```
+library(sf)
+nc <- sf::st_read(system.file("shape/nc.shp", package="sf"))
+
+google_map(data = nc) %>%
+  add_polygons()
+
+```
+
+### GeoJSON
+
+The `geo_melbourne` data set is a GeoJSON representation of a subset of the `melbourne` data set. You can use `add_geojson` to plot this data
+
+```
+google_map() %>%
+  add_geojson(data = geo_melbourne)
+```
+![Geojson](./img/geojson.png)
+
+By default `add_geojson()` will apply any styles included in the GeoJSON file. In the `geo_melbourne` data you can see the styles `fillColor`, `strokeColor` and `strokeWeight`
+
+
+```{r}
+substr(geo_melbourne[1], 1, 300)
+```
+
+
+You can also supply a string of JSON to style all the features in the GeoJSON
+
+```
+style <- '{ "fillColor" : "green" , "strokeColor" : "black", "strokeWeight" : 0.5}'
+google_map(key = "your_api_key") %>%
+  add_geojson(data = geo_melbourne, style = style)
+
+```
+
+Or you can use a named list to have the same effect
+
+```
+style <- list(fillColor = "red" , strokeColor = "blue", strokeWeight = 0.5)
+google_map(key = "your_api_key") %>%
+  add_geojson(data = geo_melbourne, style = style)
+```
+
+
+### Drag & Drop Geojson
+
+The function `add_dragdrop()` creates a map on to which you can drag & drop a GeoJSON file. There is an example of this in action [on my blog](https://www.symbolix.com.au/blog-main/b9z2z337hzzfc4hws8gf8lk358473z) 
+
+
+### Rectangles
+
+Rectangles can be added by supplying north, east, south and west coordinates to `add_rectangles()`
+
+
+```
+df <- data.frame(north = 33.685, south = 33.671, east = -116.234, west = -116.251)
+
+google_map(key = "your_api_key") %>%
+  add_rectangles(data = df, north = 'north', south = 'south',
+                 east = 'east', west = 'west')
+```
+![Recctangles](./img/rectangles.png)
+
+
+
+### Drawing
+
+You can create your own shapes on a map using `add_drawing()`. The shapes you can create are 
+
+- markers
+- circles
+- polygon
+- polyline
+- rectangle
+
+This can be particularly useful when working with `shiny` as the shape information can be returned when drawing is completed.
+
+For example, use the following code to create a shiny that enables drawing circles.
+
+```
+library(shiny)
+
+ui <- fluidPage(
+  google_mapOutput(outputId = "map", height = "800px")
+)
+
+server <- function(input, output){
+
+  mapKey <- "your_map_key"
+  output$map <- renderGoogle_map({
+    google_map(key = mapKey) %>%
+      add_drawing(drawing_modes = c("circle"))
+  })
+
+
+  observeEvent(input$map_circlecomplete, {
+    print(input$map_circlecomplete)
+  })
+}
+shinyApp(ui, server)
+```
+
+When a circle is drawin, the `print(input$map_circlecomplete)` function prints the following information to the console (it will vary based on where you draw the circle)
+
+```
+$center
+$center$lat
+[1] -36.80489
+
+$center$lng
+[1] 144.2889
+
+
+$radius
+[1] 57970.9
+
+$bounds
+$bounds$south
+[1] -37.32565
+
+$bounds$west
+[1] 143.6385
+
+$bounds$north
+[1] -36.28413
+
+$bounds$east
+[1] 144.9393
+
+
+$randomValue
+[1] 0.3688953
+```
+
+### Fusion Layers
+
+The fusion layer renders data contained in a Google [Fusion Table](https://developers.google.com/fusiontables/). At the time of writing the Fusion Layer is still experimental.
+
+> A Google Fusion Table is a database table where each row contains data about a particular feature; for geographic data, each row within a Google Fusion Table additionally contains location data, holding a feature’s positional information. The FusionTablesLayer provides an interface to Fusion Tables and supports automatic rendering of this location data, providing clickable overlays that display a feature’s additional data.
+
+To add a fusion layer you need to query the table using least a `select` and a `from` property. The query must be supplied in a `data.frame` or a JSON string. If a `data.frame` is used it must be one row long, and either 2 or 3 columns.
+
+```
+qry <- data.frame(select = 'address',
+    from = '1d7qpn60tAvG4LEg4jvClZbc1ggp8fIGGvpMGzA',
+    where = 'ridership > 200')
+
+## Or as a list
+# qry <- list(select = 'address',
+#     from = '1d7qpn60tAvG4LEg4jvClZbc1ggp8fIGGvpMGzA',
+#     where = 'ridership > 200')
+
+google_map(key = "your_api_key", location = c(41.8, -87.7), zoom = 9) %>%
+  add_fusion(query = qry)
+    
+```
+![Fusion Layer](./img/fusion_layer.png)
+
+You can also supply a `styles` argument to style the layers
+
+```
+## Query using a JSON string
+qry <- '{"select":"geometry","from":"1ertEwm-1bMBhpEwHhtNYT47HQ9k2ki_6sRa-UQ"}'
+
+styles <- '[
+  {
+    "polygonOptions":{
+      "fillColor":"#FFFF00",
+      "fillOpacity":0.3
+      }
+    },
+    {
+      "where":"birds > 300",
+       "polygonOptions":{
+         "fillColor":"#000000"
+       }
+     },
+     {
+       "where":"population > 5",
+       "polygonOptions":{
+         "fillOpacity":1
+         }
+     }
+   ]'
+
+google_map(key = "your_api_key", location = c(-25.3, 133), zoom = 4) %>%
+  add_fusion(query = qry, styles = styles)
+  
+  
+## The style will also work as a JSON object
+# attr(styles, 'class') <- 'json'
+  
+```
+![Fusion Styles](./img/fusion_layer_style.png)
+
+
+### KML & GeoRSS
+
+The `add_kml()` function renders KML and GeoRSS elements on a Google Map. All you need to specify is a URL containing the kml data.
+
+
+```
+kmlUrl <- 'http://googlemaps.github.io/js-v2-samples/ggeoxml/cta.kml'
+
+google_map(key = "your_api_key") %>%
+  add_kml(kml_url = kmlUrl)
+```
+![KML](./img/kml.png)
+
+
+### Overlays
+
+Overalys are objects on the map that are tied to latitude/longitude coordinates, so they move when you drag or zoom the map. 
+
+You need to supply the lat/lon coordinates to the north (lat), south (lat), east (lon) and west (lon) arguments, and a URL to the overlay.
+
+
+```
+google_map(key = "your_api_key") %>%
+  add_overlay(north = 40.773941, south = 40.712216, east = -74.12544, west = -74.22655,
+               overlay_url = "https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg")
+```
+![Overlay](./img/overlay.png)
+
 
 
 ---
+
 
 ## Shiny
 
@@ -819,5 +1187,147 @@ server <- function(input, output){
 shinyApp(ui, server)
 
 ```
+
+### Returning Data
+
+One of the more powerful features of `googleway` mapping is the ability to return data from the maps to R using Shiny. 
+
+Data can be returned using 
+
+- clicking on the map
+- panning / zooming the map
+- shape / layer clicks
+- editing shapes
+- dragging shapes
+
+
+Within the `google_map()` call you can pass one of two values to the `event_return_type` argument, "list" or "json". This controls the type of data structure returned back to R from Shiny. 
+
+### Clicking on the map
+
+Data can be retrieved from the map by clicking on it and "observing" the clicks. 
+
+The structure of the observed event is 
+
+- `input$<map_id>_map_click`
+
+where 
+
+- `<map_id>` is the id of the output map element (see example)
+- `map_click` is the event being observed
+
+
+```
+library(shiny)
+ui <- fluidPage(
+ google_mapOutput('myMap')
+)
+server <- function(input, output){
+ output$myMap <- renderGoogle_map({
+   google_map(key = "your_api_key", event_return_type = "list")
+ })
+ observeEvent(input$myMap_map_click, {
+    print(input$myMap_map_click)
+ })
+}
+shinyApp(ui, server)
+```
+Clicking on the map in this example will return the following fields
+
+```
+$id
+[1] "myMap"
+
+$lat
+[1] -37.68382
+
+$lon
+[1] 145.08
+
+$centerLat
+[1] -37.9
+
+$centerLon
+[1] 144.5
+
+$zoom
+[1] 8
+
+$randomValue
+[1] 0.4043373
+```
+
+Similarly, observing `input$myMap_bounds_changed` will observe panning the map, and `input$myMap_zoom_changed` will observe zooming the map.
+
+
+
+
+
+
+### Shape / layer clicks
+
+Data can be retrieved from shapes by clicking on them and "observing" the clicks. 
+
+The structure of the observed event is 
+
+- `input$<map_id>_<shape>_click`
+
+where 
+
+- `<map_id>` is the id of the output map element (see example)
+- `<shape>` is the shape being clicked (e.g. polygon, polyline, circle, etc)
+- `click` is the event being observed
+
+```
+library(shiny)
+ui <- fluidPage(
+ google_mapOutput('map')
+)
+server <- function(input, output){
+ output$map <- renderGoogle_map({
+   google_map(key = "your_api_key", event_return_type = "list") %>%
+     add_polygons(data = melbourne, polyline = "polyline")
+ })
+ observeEvent(input$map_polygon_click, {
+    print(input$map_polygon_click)
+ })
+}
+shinyApp(ui, server)
+```
+
+Clicking on one of the polygons in this example will return the fields
+
+```
+$id
+[1] 22
+
+$lat
+[1] -38.16911
+
+$lon
+[1] 144.6872
+
+$outerPath
+[1] "dlsgFyduq..." ## truncated
+
+$allPaths
+$allPaths[[1]]
+[1] "dlsgFyduqZ..." ## truncated
+
+
+$randomValue
+[1] 0.5917599
+
+$layerId
+[1] "defaultLayerId"
+```
+
+### Editing & Dragging Shapes
+
+The shape layers that have a `editable` argument also return data when the shape is edited.
+
+In this case you would observe `input$<map_id>_<shape>_edited`
+
+Similarly, when shapes are dragged you would observe `input$<map_id>_<shape>_dragged`
 
 

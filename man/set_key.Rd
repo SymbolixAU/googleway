@@ -4,12 +4,12 @@
 \alias{set_key}
 \title{Set Key}
 \usage{
-set_key(api_key, api = c("default", "map", "directions", "distance",
-  "elevation", "geocode", "places", "place_autocomplete", "places_details",
-  "roads", "streetview", "timezone"))
+set_key(key, api = c("default", "map", "directions", "distance", "elevation",
+  "geocode", "places", "place_autocomplete", "places_details", "roads",
+  "streetview", "timezone"))
 }
 \arguments{
-\item{api_key}{Google API key}
+\item{key}{Google API key}
 
 \item{api}{The api for which the key applies. If NULL, the \code{api_key} is
 assumed to apply to all APIs}
@@ -30,13 +30,13 @@ will be used.
 \examples{
 
 ## not specifying 'api' will add the key to the 'api_key' list element
-set_key(api_key = "xxx_your_api_key_xxx")
+set_key(key = "xxx_your_api_key_xxx")
 
 ## api key for directions
-set_key(api_key = "xxx_your_api_key_xxx", api = "directions")
+set_key(key = "xxx_your_api_key_xxx", api = "directions")
 
 ## api key for maps
-set_key(api_key = "xxx_your_api_key_xxx", api = "map")
+set_key(key = "xxx_your_api_key_xxx", api = "map")
 
 
 }
