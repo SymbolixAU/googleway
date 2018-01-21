@@ -4,13 +4,12 @@
 ## - plot bbox as rectangle (if requested?)
 
 #' @useDynLib googleway
-#' @importFrom Rcpp evalCpp
+#' @importFrom Rcpp sourceCpp
 #' @importFrom jsonlite fromJSON
 #' @importFrom curl curl
 #' @importFrom grDevices col2rgb
 #' @importFrom stats setNames
 NULL
-
 
 #' Pipe
 #'
