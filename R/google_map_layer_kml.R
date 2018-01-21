@@ -16,8 +16,8 @@
 #' google_map(key = map_key) %>%
 #'   add_kml(kml_url = kmlUrl)
 #'
-#'   kmlUrl <- paste0('https://developers.google.com/maps/',
-#' documentation/javascript/examples/kml/westcampus.kml')
+#' kmlUrl <- paste0('https://developers.google.com/maps/',
+#' 'documentation/javascript/examples/kml/westcampus.kml')
 #'
 #' google_map(key = map_key) %>%
 #'   add_kml(kml_url = kmlUrl)

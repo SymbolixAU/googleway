@@ -1,11 +1,10 @@
 #' @useDynLib googleway
-#' @importFrom Rcpp evalCpp
+#' @importFrom Rcpp sourceCpp
 #' @importFrom jsonlite fromJSON
 #' @importFrom curl curl
 #' @importFrom grDevices col2rgb
 #' @importFrom stats setNames
 NULL
-
 
 #' Pipe
 #'
