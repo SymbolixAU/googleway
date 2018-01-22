@@ -52,7 +52,7 @@ test_that("map object created", {
   # dataCols <- vapply(dataArgs, function(x) objArgs[[x]], "")
   # dataNames <- names(objArgs)[dataArgs]
   #
-  # df <- setNames(data[, dataCols, drop = F], dataNames)
+  # df <- stats::setNames(data[, dataCols, drop = F], dataNames)
   #
 
 })
