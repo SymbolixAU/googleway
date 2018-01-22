@@ -78,12 +78,10 @@ createColours <- function(shape, colour_palettes){
 determinePalette <- function(pal, aesthetic) UseMethod("determinePalette")
 
 #' @export
-determinePalette.function <- function(pal, aesthetic) return(pal)
+determinePalette.function <- function(pal, aesthetic) pal
 
 #' @export
-determinePalette.list <- function(pal, aesthetic){
-  return(pal[[aesthetic]])
-}
+determinePalette.list <- function(pal, aesthetic) pal[[aesthetic]]
 
 
 # Generate Palette
@@ -123,9 +121,8 @@ generatePalette.factor <- function(colData, pal){
 }
 
 #' @export
-generatePalette.default <- function(colData, pal){
-  genericPalette(colData, pal)
-}
+generatePalette.default <- function(colData, pal) genericPalette(colData, pal)
+
 
 genericPalette <- function(colData, pal){
   logLvls <- unique(colData)
@@ -140,7 +137,7 @@ genericPalette <- function(colData, pal){
 # @param lvls data variables
 # @param colours hex colours
 constructPalette <- function(lvls, colours){
-  setNames(
+  stats::setNames(
     data.frame(colName = lvls, colour = removeAlpha(colours), stringsAsFactors = F),
     c("variable", "colour")
   )

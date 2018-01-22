@@ -138,7 +138,7 @@
 # n <- names(res)[m]
 # n <- n[!is.na(n)]
 # v <- vapply(m[!is.na(m)], function(x) res[[x]], "")
-# setNames(df[, v], n)
+# stats::setNames(df[, v], n)
 #
 # circle <- function(data, stroke_colour = NULL, fill_colour = NULL,
 #                    stroke_weight = NULL){

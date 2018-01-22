@@ -10,7 +10,7 @@
 # @param data data passed into the map layer function
 # @param cols all the columns required for the given map object
 # @param objArgs the arguments passed into the map layer function
-createMapObject <- function(data, cols, objArgs){
+createMapObject <- function(data, cols, objArgs) {
 
   dataNames <- names(data)
 
@@ -26,7 +26,7 @@ createMapObject <- function(data, cols, objArgs){
   dataCols <- vapply(dataArgs, function(x) objArgs[[x]], "")
   dataNames <- names(objArgs)[dataArgs]
 
-  df <- setNames(data[, dataCols, drop = F], dataNames)
+  df <- stats::setNames(data[, dataCols, drop = F], dataNames)
 
   if(length(additionalValues) > 0){
 
@@ -66,7 +66,7 @@ createPolylineListColumn <- function(shape) {
 #
 # @param shape object to be plotted on map
 # @param colours list of colours that will replace the data in shape
-replaceVariableColours <- function(shape, colours){
+replaceVariableColours <- function(shape, colours) {
 
   eachColour <- do.call(cbind, colours)
   colourNames <- colnames(eachColour)
@@ -85,7 +85,7 @@ replaceVariableColours <- function(shape, colours){
 # @param shape object to be plotted on a map
 # @param requiredDefaults required columns of default data
 # @param shapeType the type of shape
-addDefaults <- function(shape, requiredDefaults, shapeType){
+addDefaults <- function(shape, requiredDefaults, shapeType) {
 
   n <- nrow(shape)
   defaults <- switch(shapeType,
@@ -103,60 +103,56 @@ addDefaults <- function(shape, requiredDefaults, shapeType){
   return(shape)
 }
 
-lineAttributes <- function(stroke_colour){
+lineAttributes <- function(stroke_colour) {
   c("stroke_colour" = stroke_colour)
 }
 
-shapeAttributes <- function(fill_colour, stroke_colour){
-
-#  stroke_colour = colour_attributes[['stroke_colour']]
-#  fill_colour = colour_attributes[['fill_colour']]
-
+shapeAttributes <- function(fill_colour, stroke_colour) {
   c("stroke_colour" = stroke_colour,
     "fill_colour" = fill_colour)
 }
 
-requiredLineColumns <- function(){
+requiredLineColumns <- function() {
   c("geodesic","stroke_colour","stroke_weight","stroke_opacity","z_index")
 }
 
-requiredLineUpdateColumns <- function(){
+requiredLineUpdateColumns <- function() {
   c("stroke_colour", "stroke_weight", "stroke_opacity")
 }
 
-requiredShapeColumns <- function(){
+requiredShapeColumns <- function() {
   c("stroke_colour", "stroke_weight", "stroke_opacity",
     "fill_opacity", "fill_colour", "z_index")
 }
 
-requiredShapeUpdateColumns <- function(){
+requiredShapeUpdateColumns <- function() {
   c("stroke_colour", "stroke_weight", "stroke_opacity",
     "fill_opacity", "fill_colour")
 }
 
-requiredCircleColumns <- function(){
+requiredCircleColumns <- function() {
   c(requiredShapeColumns(), "radius")
 }
 
-requiredMarkerColumns <- function(){
+requiredMarkerColumns <- function() {
   c("opacity", "colour")
 }
 
-requiredHeatmapColumns <- function(){
+requiredHeatmapColumns <- function() {
   c('fill_colour')
 }
 
-requiredHeatmapUpdateColumns <- function(){
+requiredHeatmapUpdateColumns <- function() {
   c()
 }
 
 ## MARKERS ---------------------------------------------------------------------
-markerColumns <- function(){
+markerColumns <- function() {
   c('id', 'colour', 'lat', 'lng', 'title', 'draggable', 'opacity', 'label',
     'info_window', 'mouse_over', 'mouse_over_group', 'url')
 }
 
-df_markerColours <- function(){
+df_markerColours <- function() {
   data.frame(colour = c('red', 'blue', 'green', 'lavender'),
              url = c("http://mt.googleapis.com/vt/icon/name=icons/spotlight/spotlight-poi.png&scale=1",
                      "https://mts.googleapis.com/vt/icon/name=icons/spotlight/spotlight-waypoint-blue.png&psize=16&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1",
@@ -164,23 +160,23 @@ df_markerColours <- function(){
                      "http://mt.google.com/vt/icon/name=icons/spotlight/spotlight-ad.png"))
 }
 
-markerDefaults <- function(n){
+markerDefaults <- function(n) {
   data.frame("opacity" = rep(1, n),
              "colour" = rep("red", n),
              stringsAsFactors = F)
 }
 
 ## polyline ---------------------------------------------------------------------
-polylineColumns <- function(){
+polylineColumns <- function() {
   c('polyline', 'id', 'lat', 'lng', 'editable', 'draggable', 'stroke_colour',
     'stroke_opacity', 'stroke_weight', 'mouse_over', 'mouse_over_group', 'info_window')
 }
 
-polylineUpdateColumns <- function(){
+polylineUpdateColumns <- function() {
   c('id', 'stroke_colour', 'stroke_weight', 'stroke_opacity', 'info_window')
 }
 
-polylineDefaults <- function(n){
+polylineDefaults <- function(n) {
   data.frame(
     "geodesic" = rep(TRUE, n),
     "stroke_colour" = rep("#0000FF", n),
@@ -191,7 +187,7 @@ polylineDefaults <- function(n){
   )
 }
 
-polylineUpdateDefaults <- function(n){
+polylineUpdateDefaults <- function(n) {
   data.frame(
     "stroke_colour" = rep("#0000FF", n),
     "stroke_weight" = rep(2, n),
@@ -201,18 +197,18 @@ polylineUpdateDefaults <- function(n){
 }
 
 ## polygon ---------------------------------------------------------------------
-polygonColumns <- function(){
+polygonColumns <- function() {
   c('polyline', 'id', 'lat', 'lng', 'pathId', 'editable', 'draggable', 'stroke_colour',
     'stroke_opacity', 'stroke_weight', 'fill_colour', 'fill_opacity',
     'mouse_over', 'mouse_over_group', 'info_window')
 }
 
-polygonUpdateColumns <- function(){
+polygonUpdateColumns <- function() {
   c('id', 'stroke_colour', 'stroke_weight', 'stroke_opacity', 'fill_colour',
     'fill_opacity', 'info_window')
 }
 
-polygonDefaults <- function(n){
+polygonDefaults <- function(n) {
   data.frame("stroke_colour" = rep("#0000FF",n),
              "stroke_weight" = rep(1,n),
              "stroke_opacity" = rep(0.6,n),
@@ -222,7 +218,7 @@ polygonDefaults <- function(n){
              stringsAsFactors = FALSE)
 }
 
-polygonUpdateDefaults <- function(n){
+polygonUpdateDefaults <- function(n) {
   data.frame("stroke_colour" = rep("#0000FF",n),
              "stroke_weight" = rep(1,n),
              "stroke_opacity" = rep(0.6,n),
@@ -232,13 +228,13 @@ polygonUpdateDefaults <- function(n){
 }
 
 ## circle ---------------------------------------------------------------------
-circleColumns <- function(){
+circleColumns <- function() {
   c('id', 'lat', 'lng', 'radius', 'draggable', 'stroke_colour',
     'stroke_opacity', 'stroke_weight', 'fill_colour', 'fill_opacity',
     'mouse_over', 'mouse_over_group', 'info_window')
 }
 
-circleDefaults <- function(n){
+circleDefaults <- function(n) {
   data.frame("stroke_colour" = rep("#FF0000",n),
              "stroke_weight" = rep(1,n),
              "stroke_opacity" = rep(0.8,n),
@@ -250,14 +246,14 @@ circleDefaults <- function(n){
 }
 
 ## rectangle ---------------------------------------------------------------------
-rectangleColumns <- function(){
+rectangleColumns <- function() {
   c("north", "east", "south", "west", 'id', 'lat', 'lng', "editable",
     'draggable', 'stroke_colour', 'stroke_opacity', 'stroke_weight',
     'fill_colour', 'fill_opacity', 'mouse_over', 'mouse_over_group',
     'info_window')
 }
 
-rectangleDefaults <- function(n){
+rectangleDefaults <- function(n) {
   data.frame("stroke_colour" = rep("#FF0000", n),
              "stroke_weight" = rep(1, n),
              "stroke_opacity" = rep(0.8, n),
@@ -268,16 +264,16 @@ rectangleDefaults <- function(n){
 }
 
 ## heatmap ---------------------------------------------------------------------
-heatmapColumns <- function(){
+heatmapColumns <- function() {
   c('lat', 'lng', 'fill_colour')
 }
 
-heatmapDefaults <- function(n){
+heatmapDefaults <- function(n) {
   data.frame('fill_colour' = rep(1, n),
              stringsAsFactors = F)
 }
 
-heatmapUpdateDefaults <- function(n){
+heatmapUpdateDefaults <- function(n) {
   data.frame('fill_colour' = rep(1, n),
              stringsAsFactors = F)
 }
