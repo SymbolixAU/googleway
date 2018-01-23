@@ -1,4 +1,12 @@
 
+# Find Encoded Column
+#
+# This function is called early in each add_layer function to see if the
+# object is sfencoded, and therefore tries to find the polyline column.
+# This is required if the user has supplied an `sfencoded` object
+#
+# @param data the data object
+# @param polyline the 'polyline' parameter set by the user in the add_ funciton call
 findEncodedColumn <- function(data, polyline) UseMethod("findEncodedColumn")
 
 #' @export

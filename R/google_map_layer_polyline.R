@@ -247,12 +247,12 @@ update_polylines <- function(map, data, id,
 
   objArgs <- match.call(expand.dots = F)
 
-  data <- normaliseSfData(data, "LINESTRING")
-  polyline <- findEncodedColumn(data, polyline)
-
-  if( !is.null(polyline) && !polyline %in% names(objArgs) ) {
-    objArgs[['polyline']] <- polyline
-  }
+  # data <- normaliseSfData(data, "LINESTRING")
+  # polyline <- findEncodedColumn(data, polyline)
+  #
+  # if( !is.null(polyline) && !polyline %in% names(objArgs) ) {
+  #   objArgs[['polyline']] <- polyline
+  # }
 
 
   if(!dataCheck(data, "update_polylines")) data <- polylineUpdateDefaults(1)

@@ -261,12 +261,12 @@ update_circles <- function(map, data, id,
 
   objArgs <- match.call(expand.dots = F)
 
-  data <- normaliseSfData(data, "POINT")
-  polyline <- findEncodedColumn(data, polyline)
-
-  if( !is.null(polyline) && !polyline %in% names(objArgs) ) {
-    objArgs[['polyline']] <- polyline
-  }
+  # data <- normaliseSfData(data, "POINT")
+  # polyline <- findEncodedColumn(data, polyline)
+  #
+  # if( !is.null(polyline) && !polyline %in% names(objArgs) ) {
+  #   objArgs[['polyline']] <- polyline
+  # }
 
   layer_id <- layerId(layer_id)
   numericCheck(digits)
