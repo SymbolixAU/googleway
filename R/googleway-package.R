@@ -1,3 +1,8 @@
+
+## TODO:
+## - dataCheck() - change message as now more than data.frames are supported
+## - plot bbox as rectangle (if requested?)
+
 #' @useDynLib googleway
 #' @importFrom Rcpp sourceCpp
 #' @importFrom jsonlite fromJSON

@@ -140,9 +140,18 @@ add_polygons <- function(map,
   ## TODO:
   ## - holes must be wound in the opposite direction?
 
-
   objArgs <- match.call(expand.dots = F)
   #  callingFunc <- as.character(objArgs[[1]])
+
+  data <- normaliseSfData(data, "POLYGON")
+  polyline <- findEncodedColumn(data, polyline)
+
+  ## TODO:
+  ## - if sf object, and geometry column has not been supplied, it needs to be
+  ## added to objArgs after the match.call() function
+  if( !is.null(polyline) && !polyline %in% names(objArgs) ) {
+    objArgs[['polyline']] <- polyline
+  }
 
   ## PARAMETER CHECKS
   if(!dataCheck(data, "add_polygon")) data <- polygonDefaults(1)
@@ -191,19 +200,12 @@ add_polygons <- function(map,
   legend <- resolveLegend(legend, legend_options, colour_palettes)
 
   requiredDefaults <- setdiff(requiredCols, names(shape))
-
   if(length(requiredDefaults) > 0){
     shape <- addDefaults(shape, requiredDefaults, "polygon")
   }
 
   if(usePolyline){
-
-    ## the polyline column has been named 'polyline'
-    if(!is.list(shape[["polyline"]])){
-      f <- paste0("polyline ~ " , paste0(setdiff(names(shape), "polyline"), collapse = "+") )
-      shape <- stats::aggregate(stats::formula(f), data = shape, list)
-    }
-
+    shape <- createPolylineListColumn(shape)
     shape <- jsonlite::toJSON(shape, digits = digits)
 
   }else{
@@ -304,6 +306,15 @@ update_polygons <- function(map, data, id,
                             ){
 
   objArgs <- match.call(expand.dots = F)
+  #  callingFunc <- as.character(objArgs[[1]])
+
+  # data <- normaliseSfData(data, "POLYGON")
+  # polyline <- findEncodedColumn(data, polyline)
+  #
+  # if( !is.null(polyline) && !polyline %in% names(objArgs) ) {
+  #   objArgs[['polyline']] <- polyline
+  # }
+
   if(!dataCheck(data, "update_polygon")) data <- polygonUpdateDefaults(1)
   layer_id <- layerId(layer_id)
 

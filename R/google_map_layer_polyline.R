@@ -97,6 +97,16 @@ add_polylines <- function(map,
 
   objArgs <- match.call(expand.dots = F)
 
+  data <- normaliseSfData(data, "LINESTRING")
+  polyline <- findEncodedColumn(data, polyline)
+
+  ## TODO:
+  ## - if sf object, and geometry column has not been supplied, it needs to be
+  ## added to objArgs after the match.call() function
+  if( !is.null(polyline) && !polyline %in% names(objArgs) ) {
+    objArgs[['polyline']] <- polyline
+  }
+
   ## PARAMETER CHECKS
   if(!dataCheck(data, "add_polyline")) data <- polylineDefaults(1)
 
@@ -127,7 +137,6 @@ add_polylines <- function(map,
 
   shape <- createMapObject(data, allCols, objArgs)
   pal <- createPalettes(shape, colourColumns)
-
   colour_palettes <- createColourPalettes(data, pal, colourColumns, palette)
   colours <- createColours(shape, colour_palettes)
 
@@ -143,7 +152,12 @@ add_polylines <- function(map,
     shape <- addDefaults(shape, requiredDefaults, "polyline")
   }
 
-  if(!usePolyline){
+  if(usePolyline){
+
+    shape <- createPolylineListColumn(shape)
+    shape <- jsonlite::toJSON(shape, digits = digits)
+
+  }else{
 
     ids <- unique(shape[, 'id'])
     n <- names(shape)[names(shape) %in% objectColumns("polylineCoords")]
@@ -153,13 +167,7 @@ add_polylines <- function(map,
 
     shape <- jsonlite::toJSON(lst_polyline, digits = digits, auto_unbox = T)
 
-  }else{
-
-    n <- names(shape)[names(shape) %in% objectColumns("polylinePolyline")]
-    shape <- shape[, n, drop = FALSE]
-    shape <- jsonlite::toJSON(shape, auto_unbox = T)
   }
-
   invoke_method(map, 'add_polylines', shape, update_map_view, layer_id, usePolyline, legend, load_interval)
 }
 
@@ -238,6 +246,15 @@ update_polylines <- function(map, data, id,
                              ){
 
   objArgs <- match.call(expand.dots = F)
+
+  # data <- normaliseSfData(data, "LINESTRING")
+  # polyline <- findEncodedColumn(data, polyline)
+  #
+  # if( !is.null(polyline) && !polyline %in% names(objArgs) ) {
+  #   objArgs[['polyline']] <- polyline
+  # }
+
+
   if(!dataCheck(data, "update_polylines")) data <- polylineUpdateDefaults(1)
   layer_id <- layerId(layer_id)
 

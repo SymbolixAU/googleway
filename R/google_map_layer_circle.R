@@ -11,6 +11,8 @@
 #' coordinates. If left NULL, a best-guess will be made
 #' @param lon string specifying the column of \code{data} containing the 'longitude'
 #' coordinates. If left NULL, a best-guess will be made
+#' @param polyline string specifying the column of \code{data} containing the encoded polyline.
+#' For circles and markers the encoded string will represent a single point.
 #' @param radius either a string specifying the column of \code{data} containing the
 #' radius of each circle, OR a numeric value specifying the radius of all the circles
 #' (radius is expressed in metres)
@@ -138,6 +140,7 @@ add_circles <- function(map,
                         id = NULL,
                         lat = NULL,
                         lon = NULL,
+                        polyline = NULL,
                         radius = NULL,
                         editable = NULL,
                         draggable = NULL,
@@ -161,11 +164,23 @@ add_circles <- function(map,
 
   objArgs <- match.call(expand.dots = F)
 
+  data <- normaliseSfData(data, "POINT")
+  polyline <- findEncodedColumn(data, polyline)
+
+  if( !is.null(polyline) && !polyline %in% names(objArgs) ) {
+    objArgs[['polyline']] <- polyline
+  }
+
   ## PARAMETER CHECKS
   if(!dataCheck(data, "add_circles")) data <- circleDefaults(1)
   layer_id <- layerId(layer_id)
 
-  objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_circles")
+  usePolyline <- isUsingPolyline(polyline)
+
+  if( !usePolyline ) {
+    objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_circles")
+  }
+
   logicalCheck(update_map_view)
   numericCheck(digits)
   numericCheck(z_index)
@@ -176,10 +191,9 @@ add_circles <- function(map,
 
   allCols <- circleColumns()
   requiredCols <- requiredCircleColumns()
-  colourColumns <- shapeAttributes(fill_colour, stroke_colour)
+  colourColumns <- shapeAttributes(fill_colour = fill_colour, stroke_colour = stroke_colour)
 
   shape <- createMapObject(data, allCols, objArgs)
-
   pal <- createPalettes(shape, colourColumns)
   colour_palettes <- createColourPalettes(data, pal, colourColumns, palette)
   colours <- createColours(shape, colour_palettes)
@@ -196,9 +210,13 @@ add_circles <- function(map,
     shape <- addDefaults(shape, requiredDefaults, "circle")
   }
 
+  if( usePolyline ) {
+    shape <- createPolylineListColumn(shape)
+  }
+
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  invoke_method(map, 'add_circles', shape, update_map_view, layer_id, legend, load_interval)
+  invoke_method(map, 'add_circles', shape, update_map_view, layer_id, usePolyline, legend, load_interval)
 }
 
 #' @rdname clear
@@ -242,6 +260,13 @@ update_circles <- function(map, data, id,
                            ){
 
   objArgs <- match.call(expand.dots = F)
+
+  # data <- normaliseSfData(data, "POINT")
+  # polyline <- findEncodedColumn(data, polyline)
+  #
+  # if( !is.null(polyline) && !polyline %in% names(objArgs) ) {
+  #   objArgs[['polyline']] <- polyline
+  # }
 
   layer_id <- layerId(layer_id)
   numericCheck(digits)

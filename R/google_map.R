@@ -124,6 +124,8 @@ google_map <- function(key = get_api_key("map"),
     event_return_type = event_return_type
   )
 
+  data <- normaliseData(data)
+
   # create widget
   googlemap <- htmlwidgets::createWidget(
     name = 'google_map',
@@ -162,6 +164,14 @@ google_map <- function(key = get_api_key("map"),
   return(googlemap)
 }
 
+
+normaliseData <- function(data) UseMethod("normaliseData")
+
+#' @export
+normaliseData.sf <- function(data) googlePolylines::encode(data)
+
+#' @export
+normaliseData.default <- function(data) data
 
 #' Clear search
 #'

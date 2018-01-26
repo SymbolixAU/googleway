@@ -46,6 +46,7 @@ add_markers <- function(map,
                         colour = NULL,
                         lat = NULL,
                         lon = NULL,
+                        polyline = NULL,
                         title = NULL,
                         draggable = NULL,
                         opacity = NULL,
@@ -62,11 +63,22 @@ add_markers <- function(map,
 
   objArgs <- match.call(expand.dots = F)
 
+  data <- normaliseSfData(data, "POINT")
+  polyline <- findEncodedColumn(data, polyline)
+
+  if( !is.null(polyline) && !polyline %in% names(objArgs) ) {
+    objArgs[['polyline']] <- polyline
+  }
+
   ## PARAMETER CHECKS
   if(!dataCheck(data, "add_marker")) data <- markerDefaults(1)
   layer_id <- layerId(layer_id)
 
-  objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_markers")
+  usePolyline <- isUsingPolyline(polyline)
+  if( !usePolyline ) {
+    objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_markers")
+  }
+
   objArgs <- markerColourIconCheck(data, objArgs, colour, marker_icon)
 
   loadIntervalCheck(load_interval)
@@ -90,9 +102,12 @@ add_markers <- function(map,
     shape <- merge(shape, df_markerColours(), by.x = "colour", by.y = "colour", all.x = TRUE)
   }
 
+  if( usePolyline ) {
+    shape <- createPolylineListColumn(shape)
+  }
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  invoke_method(map, 'add_markers', shape, cluster, update_map_view, layer_id, load_interval)
+  invoke_method(map, 'add_markers', shape, cluster, update_map_view, layer_id, usePolyline, load_interval)
 }
 
 
