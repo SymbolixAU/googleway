@@ -29,8 +29,6 @@ heatWeightCheck <- function(objArgs){
   return(objArgs)
 }
 
-
-
 isUrl <- function(txt) grepl("(^http)|(^www)", txt)
 
 

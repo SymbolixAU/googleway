@@ -238,8 +238,9 @@ key &lt;-<span class="st"> &quot;my_api_key&quot;</span>
 <li>coordinate pairs for which you wnat the directions between them (<code>google_directions()</code>)</li>
 </ul>
 <p>In these cases Google’s API can only accept one request at a time. Therefore it’s not possible to ‘vectorise’ these functions as they have to operate one row at a time.</p>
-<p>The solution, therefore will be to write some sort of loop to iterate over each row of the data.frame.</p>
+<p>The solution, therefore, will be to write some sort of loop to iterate over each row of the data.frame.</p>
 <p>An exaple (taken from user <span class="citation">@Jazzurro</span>’s <a href="https://stackoverflow.com/a/47966286/5977215">answer on StackOverflow</a>) being where you have 3 pairs of coordinates, and you want to find the route (polyline) between each pair.</p>
+<p>In this example they used an <code>lapply</code> to iterate over the rows, but any looping mechanism would have worked as well.</p>
 <pre><code>library(googleway)
 
 mydf &lt;- data.frame(region = 1:3,
