@@ -12,7 +12,7 @@
 
 <meta name="author" content="D Cooley" />
 
-<meta name="date" content="2018-01-19" />
+<meta name="date" content="2018-01-26" />
 
 <title>Googleway Vignette</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Googleway Vignette</h1>
 <h4 class="author"><em>D Cooley</em></h4>
-<h4 class="date"><em>2018-01-19</em></h4>
+<h4 class="date"><em>2018-01-26</em></h4>
 
 
 <div id="TOC">
@@ -79,6 +79,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#api-key">API Key</a><ul>
 <li><a href="#setting-using-keys">Setting / Using keys</a></li>
 </ul></li>
+<li><a href="#api-use">API Use</a></li>
+<li><a href="#common-use-cases">Common use cases</a></li>
 <li><a href="#result-accessors">Result accessors</a></li>
 <li><a href="#google-directions-api">Google Directions API</a></li>
 <li><a href="#google-distance-api">Google Distance API</a></li>
@@ -121,7 +123,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="todo" class="section level2">
 <h2>TODO</h2>
 <ul>
-<li>use cases - multiple calls / loops</li>
 <li><h2 id="sf-objects">sf objects</h2></li>
 </ul>
 <p>Googleway provides access to Google Maps APIs, and the ability to plot an interactive Google Map overlayed with various layers and shapes, including markers, circles, rectangles, polygons, lines (polylines) and heatmaps. You can also overlay traffic information, transit and cycling routes.</p>
@@ -222,6 +223,60 @@ key &lt;-<span class="st"> &quot;my_api_key&quot;</span>
 ##  -  streetview :  
 ##  -  timezone :</code></pre>
 </div>
+</div>
+<div id="api-use" class="section level2">
+<h2>API Use</h2>
+<p>Google’s <a href="https://developers.google.com/maps/pricing-and-plans/#details">API pricing and plans</a> contains the most up-to-date information on their use and restrictions.</p>
+<p>For the free tier this is 2,500 web-service API requests (e.g., geocoding, directions, distances, etc) per day (the places API is slightly different), and 25,000 map loads per day.</p>
+</div>
+<div id="common-use-cases" class="section level2">
+<h2>Common use cases</h2>
+<p>Common use-cases for R users are where you might have a data.frame of</p>
+<ul>
+<li>addresses for which you require coordinates (<code>google_geocode()</code>)</li>
+<li>coordinates for which you wnat the address (<code>google_reverse_geocode()</code>)</li>
+<li>coordinate pairs for which you wnat the directions between them (<code>google_directions()</code>)</li>
+</ul>
+<p>In these cases Google’s API can only accept one request at a time. Therefore it’s not possible to ‘vectorise’ these functions as they have to operate one row at a time.</p>
+<p>The solution, therefore will be to write some sort of loop to iterate over each row of the data.frame.</p>
+<p>An exaple (taken from user <span class="citation">@Jazzurro</span>’s <a href="https://stackoverflow.com/a/47966286/5977215">answer on StackOverflow</a>) being where you have 3 pairs of coordinates, and you want to find the route (polyline) between each pair.</p>
+<pre><code>library(googleway)
+
+mydf &lt;- data.frame(region = 1:3,
+                   from_lat = 41.8674336,
+                   from_long = -87.6266382,
+                   to_lat = c(41.887544, 41.9168862, 41.8190937),
+                   to_long = c(-87.626487, -87.64847, -87.6230967))
+
+mykey &lt;- &quot;your_api_key&quot;
+
+pls &lt;- lapply(1:nrow(mydf), function(x){
+
+    foo &lt;- google_directions(origin = unlist(mydf[x, 2:3]),
+                             destination = unlist(mydf[x, 4:5]),
+                             #key = mykey,
+                             mode = &quot;driving&quot;,
+                             simplify = TRUE)
+
+    ## Decode the polyline into lat/lon coordinates
+    pl &lt;- decode_pl(foo$routes$overview_polyline$points)
+
+    return(pl)
+})
+
+str(pls)
+
+List of 3
+ $ :'data.frame':   46 obs. of  2 variables:
+  ..$ lat: num [1:46] 41.9 41.9 41.9 41.9 41.9 ...
+  ..$ lon: num [1:46] -87.6 -87.6 -87.6 -87.6 -87.6 ...
+ $ :'data.frame':   142 obs. of  2 variables:
+  ..$ lat: num [1:142] 41.9 41.9 41.9 41.9 41.9 ...
+  ..$ lon: num [1:142] -87.6 -87.6 -87.6 -87.6 -87.6 ...
+ $ :'data.frame':   72 obs. of  2 variables:
+  ..$ lat: num [1:72] 41.9 41.9 41.9 41.9 41.9 ...
+  ..$ lon: num [1:72] -87.6 -87.6 -87.6 -87.6 -87.6 ...
+  </code></pre>
 </div>
 <div id="result-accessors" class="section level2">
 <h2>Result accessors</h2>
