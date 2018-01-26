@@ -14,7 +14,6 @@ vignette: >
 
 ## TODO
 
-- use cases - multiple calls / loops
 - sf objects
 ---
 
@@ -104,6 +103,67 @@ google_keys()
 ```
 
 
+## API Use
+
+Google's [API pricing and plans](https://developers.google.com/maps/pricing-and-plans/#details) contains the most up-to-date information on their use and restrictions. 
+
+For the free tier this is 2,500 web-service API requests (e.g., geocoding, directions, distances, etc) per day (the places API is slightly different), and 25,000 map loads per day.
+
+## Common use cases
+
+Common use-cases for R users are where you might have a data.frame of
+
+- addresses for which you require coordinates (`google_geocode()`)
+- coordinates for which you wnat the address (`google_reverse_geocode()`)
+- coordinate pairs for which you wnat the directions between them (`google_directions()`)
+
+In these cases Google's API can only accept one request at a time. Therefore it's not possible to 'vectorise' these functions as they have to operate one row at a time. 
+
+The solution, therefore, will be to write some sort of loop to iterate over each row of the data.frame. 
+
+An exaple (taken from user @Jazzurro's [answer on StackOverflow](https://stackoverflow.com/a/47966286/5977215)) being where you have 3 pairs of coordinates, and you want to find the route (polyline) between each pair. 
+
+In this example they used an `lapply` to iterate over the rows, but any looping mechanism would have worked as well.
+
+```
+library(googleway)
+
+mydf <- data.frame(region = 1:3,
+                   from_lat = 41.8674336,
+                   from_long = -87.6266382,
+                   to_lat = c(41.887544, 41.9168862, 41.8190937),
+                   to_long = c(-87.626487, -87.64847, -87.6230967))
+
+mykey <- "your_api_key"
+
+pls <- lapply(1:nrow(mydf), function(x){
+
+    foo <- google_directions(origin = unlist(mydf[x, 2:3]),
+                             destination = unlist(mydf[x, 4:5]),
+                             #key = mykey,
+                             mode = "driving",
+                             simplify = TRUE)
+
+    ## Decode the polyline into lat/lon coordinates
+    pl <- decode_pl(foo$routes$overview_polyline$points)
+
+    return(pl)
+})
+
+str(pls)
+
+List of 3
+ $ :'data.frame':	46 obs. of  2 variables:
+  ..$ lat: num [1:46] 41.9 41.9 41.9 41.9 41.9 ...
+  ..$ lon: num [1:46] -87.6 -87.6 -87.6 -87.6 -87.6 ...
+ $ :'data.frame':	142 obs. of  2 variables:
+  ..$ lat: num [1:142] 41.9 41.9 41.9 41.9 41.9 ...
+  ..$ lon: num [1:142] -87.6 -87.6 -87.6 -87.6 -87.6 ...
+ $ :'data.frame':	72 obs. of  2 variables:
+  ..$ lat: num [1:72] 41.9 41.9 41.9 41.9 41.9 ...
+  ..$ lon: num [1:72] -87.6 -87.6 -87.6 -87.6 -87.6 ...
+  
+```
 
 
 ## Result accessors

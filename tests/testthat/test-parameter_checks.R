@@ -98,6 +98,36 @@ test_that("lat & lon are found", {
 
 })
 
+test_that("lat & lon return NA if error", {
+
+  df <- data.frame(lat = 1, lats = 2)
+
+  expect_true(
+    is.na(googleway:::find_lat_column(names(df), "test", stopOnFailure = F))
+  )
+
+  df <- data.frame(lon = 1, lons = 2)
+
+  expect_true(
+    is.na(googleway:::find_lon_column(names(df), "test", stopOnFailure = F))
+  )
+
+})
+
+test_that("URL method checks are correct", {
+
+  myUrl <- "myurl"
+  attr(myUrl, 'class') <- "url"
+  expect_true(
+    googleway:::urlCheck(myUrl) == "myurl"
+  )
+
+  expect_error(
+    googleway:::urlCheck(3)
+  )
+
+})
+
 test_that("locations are valid", {
 
   ## directions: a single location is required
@@ -181,11 +211,141 @@ test_that("locations are valid", {
     googleway:::validateLocation(T)
   )
 
+})
 
+test_that("address check works", {
+
+  expect_error(
+    googleway:::check_address(c("add 1", "add 2")),
+    "address must be a string of length 1"
+  )
 
 })
 
 
+test_that("avoid arg is valid", {
+
+  expect_true(
+    googleway:::validateAvoid("TOLLS") == "tolls"
+  )
+
+})
+
+test_that("bounds arg is valid", {
+
+  bounds <- list(c(0,0), c(1,1))
+  expect_true(
+    googleway:::validateBounds(bounds) == "0,0|1,1"
+  )
+
+})
 
 
+test_that("components arg is valid", {
 
+  components <- data.frame(component = "country", value = "UK")
+
+  expect_true(
+    googleway:::validateComponents(components) == "country:uk"
+  )
+})
+
+
+test_that("country components are valid", {
+
+  components <- c("US", "AUS", "NZ", "FR", "UK", "CA")
+
+  expect_error(
+    googleway:::validateComponentsCountries(components),
+    "components only supports up to 5 countries"
+  )
+
+  components <- c("US", "AUS", "NZ", "FR", "UK")
+  expect_error(
+    googleway:::validateComponentsCountries(components),
+    "components must be two characters and represent an ISO 3166"
+  )
+
+  components <- c("US", "AU", "NZ", "FR", "UK")
+  expect_equal(
+    googleway:::validateComponentsCountries(components),
+    "country:US|country:AU|country:NZ|country:FR|country:UK"
+  )
+})
+
+test_that("language arg validate", {
+
+  expect_true(
+    googleway:::validateLanguage("EN") == "en"
+  )
+
+})
+
+test_that("heading arg validated", {
+
+  expect_true(
+    googleway:::validateHeading(23) == 23
+  )
+
+})
+
+test_that("location_type arg validated", {
+
+  expect_true(
+    googleway:::validateLocationType("rooftop") == "ROOFTOP"
+  )
+})
+
+
+test_that("page token arg is validated", {
+
+  expect_true(
+    googleway:::validatePageToken("mypagetoken") == "mypagetoken"
+  )
+
+})
+
+test_that("place type arg is validated", {
+
+  expect_true(
+    googleway:::validatePlaceType("restaurant") == "restaurant"
+  )
+
+})
+
+test_that("price range arg is valid", {
+
+  expect_true(
+    all(googleway:::validatePriceRange(c(0, 4)) %in% c(0,4))
+  )
+})
+
+
+test_that("region arg is valid", {
+
+  expect_true(
+    googleway:::validateRegion("EN") == "en"
+  )
+})
+
+test_that("result type arg is valid",{
+
+  expect_true(
+    googleway:::validateResultType("JSON") == "json"
+  )
+
+})
+
+test_that("traffic model arg is valid", {
+
+  expect_true(
+    googleway:::validateTrafficModel(c("best guess")) == "best_guess"
+  )
+})
+
+test_that("transit routing preferences arg is valid", {
+
+  expect_true(
+    googleway:::validateTransitRoutingPreference("fewer_transfers", "transit") == "fewer_transfers"
+  )
+})

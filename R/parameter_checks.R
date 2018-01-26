@@ -35,9 +35,6 @@ isHexColour <- function(cols){
   all(grepl(hexPattern, cols))
 }
 
-isRgba <- function(cols){
-  all(grepl("^#(?:[0-9a-fA-F]{4}){1,2}$", cols))
-}
 
 # Logical Check
 #
@@ -76,6 +73,7 @@ urlCheck.character <- function(url) {
   if(!isUrl(url)) stop("invalid url")
 }
 
+#' @export
 urlCheck.url <- function(url) url
 
 #' @export
@@ -84,10 +82,10 @@ urlCheck.default <- function(url) stopMessage(url)
 
 
 
-hexType <- function(cols){
-  rgb <- "^#(?:[0-9a-fA-F]{3}){1,2}$"
-  rgba <- "^#(?:[0-9a-fA-F]{4}){1,2}$"
-}
+# hexType <- function(cols){
+#   rgb <- "^#(?:[0-9a-fA-F]{3}){1,2}$"
+#   rgba <- "^#(?:[0-9a-fA-F]{4}){1,2}$"
+# }
 
 
 
