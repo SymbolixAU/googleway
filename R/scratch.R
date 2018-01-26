@@ -1,4 +1,43 @@
 
+## sf
+# library(sf)
+# nc <- st_read(system.file("shape/nc.shp", package="sf"))
+# map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+# google_map(key = map_key) %>% add_sf(nc)
+
+# library(sf)
+# df <- data.frame(myId = c(1,1,1,1,1,1,1,1,2,2,2,2),
+# 								 lineId = c(1,1,1,1,2,2,2,2,1,1,1,2),
+# 								 lon = c(-80.190, -66.118, -64.757, -80.190,  -70.579, -67.514, -66.668, -70.579, -70, -49, -51, -70),
+# 								 lat = c(26.774, 18.466, 32.321, 26.774, 28.745, 29.570, 27.339, 28.745, 22, 23, 22, 22))
+#
+# p1 <- as.matrix(df[4:1, c("lon", "lat")])
+# p2 <- as.matrix(df[8:5, c("lon", "lat")])
+# p3 <- as.matrix(df[9:12, c("lon", "lat")])
+#
+# point <- sf::st_sfc(sf::st_point(x = c(df[1,"lon"], df[1,"lat"])))
+# multipoint <- sf::st_sfc(sf::st_multipoint(x = as.matrix(df[1:2, c("lon", "lat")])))
+# polygon <- sf::st_sfc(sf::st_polygon(x = list(p1, p2)))
+# linestring <- sf::st_sfc(sf::st_linestring(p3))
+# multilinestring <- sf::st_sfc(sf::st_multilinestring(list(p1, p2)))
+# multipolygon <- sf::st_sfc(sf::st_multipolygon(x = list(list(p1, p2), list(p3))))
+# #
+# sf <- rbind(
+# 	sf::st_sf(geometry = polygon),
+# 	sf::st_sf(geometry = multipolygon),
+# 	sf::st_sf(geometry = multilinestring),
+# 	sf::st_sf(geometry = linestring),
+# 	sf::st_sf(geometry = point),
+#   sf::st_sf(geometry = multipoint)
+# 	)
+# google_map(key = map_key, data = sf[3, ]) %>% add_polylines()
+# google_map(key = map_key) %>% add_polylines(data = sf[3, ])
+# google_map(key = map_key) %>% add_polylines(data = sf)
+# google_map(key = map_key, data = sf) %>% add_polylines() %>% add_polygons()
+
+# sf <- sf::st_sf(geo = sf::st_sfc(sf::st_geometrycollection(list(sf::st_point(x = c(df[1,"lon"], df[1,"lat"])), sf::st_polygon(x = list(p1, p2))))))
+# google_map(key = map_key, data = sf) %>% add_polygons()
+
 # library(viridisLite)
 #
 # google_map(key = map_key) %>%

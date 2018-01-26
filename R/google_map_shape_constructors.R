@@ -1,41 +1,3 @@
-# # Map Object
-# # Generates teh map object from the given arguemnts, for the given calling function
-# mapObject <- function(map, data, legend, legend_options, palette, digits, update_map_view,
-#                       layer_id, objArgs, colour_attributes){
-#
-#   callingFunc <- as.character(objArgs[[1]])
-#
-#   allCols <- shapeColumns(callingFunc)
-#   requiredCols <- requiredColumns(callingFunc)
-#   colourColumns <- shapeAttributes(colour_attributes)
-#
-#   shape <- createMapObject(data, allCols, objArgs)
-#
-#   pal <- createPalettes(shape, colourColumns)
-#   colour_palettes <- createColourPalettes(data, pal, colourColumns, palette)
-#   colours <- createColours(shape, colour_palettes)
-#
-#   if(length(colours) > 0){
-#     shape <- replaceVariableColours(shape, colours)
-#   }
-#
-#   ## LEGEND
-#   if(any(vapply(legend, isTRUE, T))){
-#     legend <- constructLegend(colour_palettes, legend)
-#     if(!is.null(legend_options)){
-#       legend <- addLegendOptions(legend, legend_options)
-#     }
-#   }
-#
-#   requiredDefaults <- setdiff(requiredCols, names(shape))
-#   if(length(requiredDefaults) > 0){
-#     shape <- addDefaults(shape, requiredDefaults, "circle")
-#   }
-#
-#   shape <- jsonlite::toJSON(shape, digits = digits)
-#
-#   invoke_method(map, callingFunc, shape, update_map_view, layer_id, legend)
-# }
 
 
 # Create Map Object
@@ -80,6 +42,23 @@ createMapObject <- function(data, cols, objArgs) {
 
   return(df)
 }
+
+
+# Create Polyline List Column
+#
+# if using a polyline, the javascript functions are expecting an array
+# of polylines, which need to be in a list in R
+createPolylineListColumn <- function(shape) {
+
+  ## the polyline column has been named 'polyline'
+  if(!is.list(shape[["polyline"]])){
+    f <- paste0("polyline ~ " , paste0(setdiff(names(shape), "polyline"), collapse = "+") )
+    shape <- stats::aggregate(stats::formula(f), data = shape, list)
+  }
+  return(shape)
+}
+
+
 
 # Replace Variable Colours
 #
