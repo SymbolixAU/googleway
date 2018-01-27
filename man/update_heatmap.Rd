@@ -5,8 +5,8 @@
 \title{update heatmap}
 \usage{
 update_heatmap(map, data, lat = NULL, lon = NULL, weight = NULL,
-  option_gradient = NULL, layer_id = NULL, digits = 4, legend = F,
-  legend_options = NULL)
+  option_gradient = NULL, layer_id = NULL, update_map_view = TRUE,
+  digits = 4, legend = F, legend_options = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -29,6 +29,9 @@ associated with each point. If NULL, each point will get a weight of 1.}
 \item{layer_id}{single value specifying an id for the layer. Use this value to
 distinguish between shape layers for when using any \code{update_} function, and
 for separating legends.}
+
+\item{update_map_view}{logical specifying if the map should re-centre according to
+the circles}
 
 \item{digits}{integer. Use this parameter to specify how many digits (decimal places)
 should be used for the latitude / longitude coordinates.}

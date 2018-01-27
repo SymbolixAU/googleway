@@ -197,7 +197,9 @@ update_heatmap <- function(map,
                            lon = NULL,
                            weight = NULL,
                            option_gradient = NULL,
+#                           option_opacity = 0.6,
                            layer_id = NULL,
+                           update_map_view = TRUE,
                            digits = 4,
                            legend = F,
                            legend_options = NULL){
@@ -211,7 +213,11 @@ update_heatmap <- function(map,
   objArgs <- heatWeightCheck(objArgs)
 
   fill_colour <- weight
+  logicalCheck(update_map_view)
   numericCheck(digits)
+
+#  optionOpacityCheck(option_opacity)
+
 
   allCols <- heatmapColumns()
   requiredCols <- requiredHeatmapUpdateColumns()
@@ -237,7 +243,7 @@ update_heatmap <- function(map,
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  invoke_method(map, 'update_heatmap', shape, layer_id, legend)
+  invoke_method(map, 'update_heatmap', shape, layer_id, legend, update_map_view)
 }
 
 

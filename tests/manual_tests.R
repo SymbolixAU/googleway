@@ -56,7 +56,7 @@
 # }
 # shinyApp(ui, server)
 
-# # updating heatmap legend
+# updating heatmap legend
 # library(shiny)
 #
 # ui <- fluidPage(
@@ -88,7 +88,8 @@
 #     google_map_update(map_id = "map") %>%
 #       update_heatmap(data = df, weight = "weight", lat = "shape_pt_lat",
 #                      lon = "shape_pt_lon", legend = T,
-#                      option_gradient = option_gradient)
+#                      option_gradient = option_gradient,
+#                      update_map_view = F)
 #   })
 # }
 #
