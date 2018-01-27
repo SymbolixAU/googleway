@@ -57,7 +57,7 @@ function add_heatmap(map_id, data_heatmap, heatmap_options, update_map_view, lay
     window[map_id + 'googleHeatmap' + layer_id] = heatmap;
     heatmap.setMap(window[map_id + 'map']);
     
-    if(legendValues !== false){
+    if (legendValues !== false) {
         add_legend(map_id, layer_id, legendValues);
     }
     
@@ -83,7 +83,7 @@ function update_heatmap(map_id, data_heatmap, heatmap_options, layer_id, legendV
         window[map_id + 'googleHeatmapLayerMVC' + layer_id].clear();
 
         var heat_options = heatmap_options,
-            heatmapData = [], 
+            heatmapData = [],
             i;
 
         // turn row of the data into LatLng, and push it to the array
@@ -107,6 +107,8 @@ function update_heatmap(map_id, data_heatmap, heatmap_options, layer_id, legendV
             data: window[map_id + 'googleHeatmapLayerMVC' + layer_id]
         });
         
+        console.log(heat_options);
+        
         window[map_id + 'googleHeatmap' + layer_id].setOptions({
             radius: heat_options[0].radius,
             opacity: heat_options[0].opacity,
@@ -118,7 +120,7 @@ function update_heatmap(map_id, data_heatmap, heatmap_options, layer_id, legendV
         }
 
         if (update_map_view === true) {
-          window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+            window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
         }
         
         if (legendValues !== false) {
@@ -139,4 +141,5 @@ function update_heatmap(map_id, data_heatmap, heatmap_options, layer_id, legendV
 function clear_heatmap(map_id, layer_id) {
     window[map_id + 'googleHeatmap' + layer_id].setMap(null);
     window[map_id + 'googleHeatmap' + layer_id] = null;
+    window[map_id + 'googleHeatmapLayerMVC' + layer_id] = null;
 }

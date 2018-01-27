@@ -16,8 +16,8 @@
 #                 min = 0, max = 1,
 #                 value = 0.5, step = 0.05),
 #     sliderInput("radius", "Radius:",
-#                 min = 0, max = 50,
-#                 value = 25),
+#                 min = 0, max = 0.01,
+#                 value = 0.005, step = 0.001),
 #     sliderInput("blur", "Blur:",
 #                 min = 0, max = 1,
 #                 value = 0.75, step = 0.05),
@@ -42,13 +42,16 @@
 # ) #dashboardBody
 #
 # ui <- dashboardPage(header1, sidebar1, body1)
-#
-# # Define data
-# df <- data.frame(lat = c(14.61),
-#                  lon = c(-90.54),
-#                  weight = c(100))
-#
+# #
+# # # Define data
+# # df <- data.frame(lat = c(14.61),
+# #                  lon = c(-90.54),
+# #                  weight = c(100))
+# #
 # server <- function(input, output, session) {
+#
+#   df <- tram_stops
+#   df$weight <- 100
 #
 # #  map_key <- "your_key"
 #   map_key <- read.dcf("~/Documents/.googleAPI" ,fields = "GOOGLE_MAP_KEY")
@@ -57,25 +60,29 @@
 #     return(input$opacity)
 #   })
 #
+#   radius <- reactive({
+#     return(input$radius)
+#   })
+#
 #   ## plot the map
 #   output$Map1 <- renderGoogle_map({
-#     print(df)
 #     google_map(key = map_key, data = df, zoom = 2, search_box = F) %>%
-#       add_heatmap(weight = "weight") #%>%
-#     #add_traffic()
+#       add_heatmap(weight = "weight", option_opacity = 0.5, option_radius = 0.005) ## set defaults
 #
 #   }) #renderGoogle_map
 #
 #   observeEvent(input$opacity, {
-#
-#     print(df)
-#
 #     google_map_update(map_id = "Map1") %>%
-# #      clear_heatmap() %>%
-# #      add_heatmap(data = df, option_opacity = opacity())
-#       update_heatmap(data = df, option_opacity = opacity(),
+#       update_heatmap(data = df, option_opacity = opacity(), option_radius = radius(),
 #         update_map_view = F, weight = "weight")
 #   })
+#
+#   observeEvent(input$radius, {
+#     google_map_update(map_id = "Map1") %>%
+#       update_heatmap(data = df, option_opacity = opacity(), option_radius = radius(),
+#                      update_map_view = F, weight = "weight")
+#   })
+#
 # } #server
 # shinyApp(ui, server)
 
