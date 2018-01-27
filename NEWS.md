@@ -1,5 +1,6 @@
 ## Version 2.3.0 (development)
 
+* `update_heatmap` gets `update_map_view` argument
 * `sf` objects supported
 * Vignette updated to include all api calls and map layers
 * `google_keys()` for viewing / accessing globally defined API keys
