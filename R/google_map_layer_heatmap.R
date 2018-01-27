@@ -11,11 +11,9 @@
 #' ensure that the color intensity is preserved at any given geographic location.
 #' Defaults to FALSE
 #' @param option_radius numeric. The radius of influence for each data point, in pixels.
+#' Defaults to 0.01
 #' @param option_opacity The opacity of the heatmap, expressed as a number between
 #' 0 and 1. Defaults to 0.6.
-#' @param legend either a logical indiciating if the legend(s) should be displayed, or
-#' a named list indicating which colour attributes should be included in the legend.
-#' @param legend_options A list of options for controlling the legend.
 #'
 #' @details
 #' The legend will only show if you supply a \code{weight} variable.
@@ -235,7 +233,27 @@ update_heatmap <- function(map,
 
   ## TODO: should this be the same as the add_heatmap function??
   if(!is.null(option_gradient)){
+
+    if(length(option_gradient) == 1)
+      stop("please provide at least two gradient colours")
+
+    ## first entry is used to fade into the background
+    g <- sapply(seq_along(option_gradient), function(x){
+      if(x == 1){
+        paste0('rgba(', paste0(c(as.numeric(grDevices::col2rgb(option_gradient[x])), 0), collapse = ","), ')')
+      }else{
+        paste0('rgba(', paste0(c(as.numeric(grDevices::col2rgb(option_gradient[x])), 1), collapse = ","), ')')
+      }
+    })
+
     rampColours <- option_gradient[2:length(option_gradient)]
+    heatmap_options$gradient <- list(g)
+
+    ## TODO: this is what it used to be. Need to test the new code is correct
+    ## by making a shiny and ensurin gall the update features work as expected.
+    ## Also need to note / document how to use the 'update' features of heatmaps
+    ## as they are different to the other 'udpate_' functions
+    #rampColours <- option_gradient[2:length(option_gradient)]
   }else{
     rampColours <- c("green", "red")
   }
