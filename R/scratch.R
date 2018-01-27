@@ -43,7 +43,7 @@
 #
 # ui <- dashboardPage(header1, sidebar1, body1)
 #
-# Define data
+# # Define data
 # df <- data.frame(lat = c(14.61),
 #                  lon = c(-90.54),
 #                  weight = c(100))
@@ -73,7 +73,8 @@
 #     google_map_update(map_id = "Map1") %>%
 # #      clear_heatmap() %>%
 # #      add_heatmap(data = df, option_opacity = opacity())
-#       update_heatmap(data = df, update_map_view = F, weight = "weight")
+#       update_heatmap(data = df, option_opacity = opacity(),
+#         update_map_view = F, weight = "weight")
 #   })
 # } #server
 # shinyApp(ui, server)

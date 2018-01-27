@@ -197,6 +197,9 @@ update_heatmap <- function(map,
                            lon = NULL,
                            weight = NULL,
                            option_gradient = NULL,
+                           option_dissipating = FALSE,
+                           option_radius = 0.01,
+                           option_opacity = 0.6,
                            layer_id = NULL,
                            update_map_view = TRUE,
                            digits = 4,
@@ -215,11 +218,22 @@ update_heatmap <- function(map,
   logicalCheck(update_map_view)
   numericCheck(digits)
 
+  ## Heatmap Options
+  optionOpacityCheck(option_opacity)
+  optionRadiusCheck(option_radius)
+  optionDissipatingCheck(option_dissipating)
+  ### END PARAMETER CHECKS
+
   allCols <- heatmapColumns()
   requiredCols <- requiredHeatmapUpdateColumns()
 
   shape <- createMapObject(data, allCols, objArgs)
 
+  heatmap_options <- data.frame(dissipating = option_dissipating,
+                                radius = option_radius,
+                                opacity = option_opacity)
+
+  ## TODO: should this be the same as the add_heatmap function??
   if(!is.null(option_gradient)){
     rampColours <- option_gradient[2:length(option_gradient)]
   }else{
@@ -239,7 +253,9 @@ update_heatmap <- function(map,
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  invoke_method(map, 'update_heatmap', shape, layer_id, legend, update_map_view)
+  heatmap_options <- jsonlite::toJSON(heatmap_options)
+
+  invoke_method(map, 'update_heatmap', shape, heatmap_options, layer_id, legend, update_map_view)
 }
 
 
