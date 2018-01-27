@@ -71,6 +71,9 @@ function add_heatmap(map_id, data_heatmap, heatmap_options, update_map_view, lay
  *          the data to put into the heatmap layer
  * @param layer_id
  *          the heatmap layer to update
+ * @param legendValues
+ *          legend values
+ * @param update_map_view
  */
 function update_heatmap(map_id, data_heatmap, layer_id, legendValues, update_map_view) {
 
@@ -79,8 +82,8 @@ function update_heatmap(map_id, data_heatmap, layer_id, legendValues, update_map
         // update the heatmap array
         window[map_id + 'googleHeatmapLayerMVC' + layer_id].clear();
 
-        var heatmapData = [];
-        var i;
+        var heatmapData = [], 
+            i;
 
         // turn row of the data into LatLng, and push it to the array
         for (i = 0; i < Object.keys(data_heatmap).length; i++) {
