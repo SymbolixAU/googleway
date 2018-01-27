@@ -71,16 +71,19 @@ function add_heatmap(map_id, data_heatmap, heatmap_options, update_map_view, lay
  *          the data to put into the heatmap layer
  * @param layer_id
  *          the heatmap layer to update
+ * @param legendValues
+ *          legend values
+ * @param update_map_view
  */
-function update_heatmap(map_id, data_heatmap, layer_id, legendValues) {
+function update_heatmap(map_id, data_heatmap, layer_id, legendValues, update_map_view) {
 
     if (window[map_id + 'googleHeatmap' + layer_id] !== undefined) {
 
         // update the heatmap array
         window[map_id + 'googleHeatmapLayerMVC' + layer_id].clear();
 
-        var heatmapData = [];
-        var i;
+        var heatmapData = [], 
+            i;
 
         // turn row of the data into LatLng, and push it to the array
         for (i = 0; i < Object.keys(data_heatmap).length; i++) {
@@ -95,9 +98,12 @@ function update_heatmap(map_id, data_heatmap, layer_id, legendValues) {
             //bounds.extend(latlon);
             window[map_id + 'mapBounds'].extend(latlon);
         }
-        window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
         
-        if(legendValues !== false){
+        if (update_map_view) {
+          window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+        }
+        
+        if (legendValues !== false) {
             add_legend(map_id, layer_id, legendValues);
         }
     }
