@@ -1,3 +1,158 @@
+# ### Drawing deletes on change
+# library(shiny)
+# ui <- fluidPage(
+#   google_mapOutput(outputId = "map")
+# )
+# server <- function(input, output){
+#
+#   output$map <- renderGoogle_map({
+#     mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#     google_map(key = mapKey) %>%
+#       add_drawing(delete_on_change = T)
+#   })
+# }
+# shinyApp(ui, server)
+
+# ## HEATMAP UPDATE MAP VIEW
+# library(shinydashboard)
+# header1 <- dashboardHeader(
+#   title = "My Dashboard"
+# )
+#
+# sidebar1 <- dashboardSidebar(
+#   sidebarMenu(
+#     uiOutput("colours"),
+#     sliderInput("opacity", "Opacity:",
+#                 min = 0, max = 1,
+#                 value = 0.5, step = 0.05),
+#     sliderInput("radius", "Radius:",
+#                 min = 0, max = 0.01,
+#                 value = 0.005, step = 0.001),
+#     radioButtons("dissipating", "Dissipating:",
+#                  choices = c(TRUE, FALSE), selected = FALSE),
+#     actionButton("weights", label = "Randomise Weights:")
+#   ) #sidebarMenu
+# ) #dashboardSidebar
+#
+# body1 <- dashboardBody(
+#   fluidRow(
+#     tabBox(
+#       title = "TabBox Title 1",
+#       id = "tabset1", height = "400px", width = 11,
+#       selected = "Tab1",
+#       tabPanel("Tab1",
+#                google_mapOutput("Map1")
+#       ),
+#       tabPanel("Tab2", "Tab content 2")
+#     )
+#   )
+# )
+#
+# ui <- dashboardPage(header1, sidebar1, body1)
+#
+# server <- function(input, output, session) {
+#
+#   df <- tram_stops
+#   df$weight <- 100
+#   cols <- sample(colours(), 10)
+#
+#   output$colours <- renderUI({
+#     checkboxGroupInput("colours", "Colours (at least 2 required):", choices = cols, selected = cols[1:3])
+#   })
+#
+#   #  map_key <- "your_key"
+#   map_key <- read.dcf("~/Documents/.googleAPI" ,fields = "GOOGLE_MAP_KEY")
+#
+#   opacity <- reactive({
+#     return(input$opacity)
+#   })
+#
+#   radius <- reactive({
+#     return(input$radius)
+#   })
+#
+#   dissipating <- reactive({
+#     return(as.logical(input$dissipating))
+#   })
+#
+#   gradient <- reactive({
+#     return(input$colours)
+#   })
+#
+#   ## plot the map
+#   output$Map1 <- renderGoogle_map({
+#     google_map(key = map_key, data = df, zoom = 2, search_box = F) %>%
+#       add_heatmap(weight = "weight",
+#                   option_opacity = 0.5,
+#                   option_radius = ifelse(dissipating(), 0.005 * 1000, 0.005),
+#                   option_dissipating = FALSE,
+#                   option_gradient = cols[1:3]
+#       )
+#
+#   })
+#
+#   observeEvent(input$opacity, {
+#     google_map_update(map_id = "Map1") %>%
+#       update_heatmap(data = df,
+#                      option_opacity = opacity(),
+#                      option_radius = ifelse(dissipating(), radius() * 1000, radius()),
+#                      option_dissipating = dissipating(),
+#                      option_gradient = gradient(),
+#                      update_map_view = F,
+#                      weight = "weight")
+#   })
+#
+#   observeEvent(input$radius, {
+#     google_map_update(map_id = "Map1") %>%
+#       update_heatmap(data = df,
+#                      option_opacity = opacity(),
+#                      option_radius = ifelse(dissipating(), radius() * 1000, radius()),
+#                      option_dissipating = dissipating(),
+#                      option_gradient = gradient(),
+#                      update_map_view = F,
+#                      weight = "weight")
+#   })
+#
+#   observeEvent(input$dissipating, {
+#     google_map_update(map_id = "Map1") %>%
+#       update_heatmap(data = df,
+#                      option_opacity = opacity(),
+#                      option_radius = radius() * 1000,
+#                      option_dissipating = dissipating(),
+#                      option_gradient = gradient(),
+#                      update_map_view = F,
+#                      weight = "weight")
+#   })
+#
+#   observeEvent(input$colours, {
+#
+#     google_map_update(map_id = "Map1") %>%
+#       update_heatmap(data = df,
+#                      option_opacity = opacity(),
+#                      option_radius = ifelse(dissipating(), radius() * 1000, radius()),
+#                      option_dissipating = dissipating(),
+#                      option_gradient = gradient(),
+#                      update_map_view = F,
+#                      weight = "weight")
+#   })
+#
+#   observeEvent(input$weights, {
+#
+#     df$weight <- sample(100:500, nrow(df), replace = T)
+#
+#     google_map_update(map_id = "Map1") %>%
+#       update_heatmap(data = df,
+#                      option_opacity = opacity(),
+#                      option_radius = ifelse(dissipating(), radius() * 1000, radius()),
+#                      option_dissipating = dissipating(),
+#                      option_gradient = gradient(),
+#                      update_map_view = F,
+#                      weight = "weight")
+#
+#   })
+#
+# }
+# shinyApp(ui, server)
 
 # ## Info windows are updated
 

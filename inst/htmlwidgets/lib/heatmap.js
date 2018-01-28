@@ -57,7 +57,7 @@ function add_heatmap(map_id, data_heatmap, heatmap_options, update_map_view, lay
     window[map_id + 'googleHeatmap' + layer_id] = heatmap;
     heatmap.setMap(window[map_id + 'map']);
     
-    if(legendValues !== false){
+    if (legendValues !== false) {
         add_legend(map_id, layer_id, legendValues);
     }
     
@@ -75,14 +75,15 @@ function add_heatmap(map_id, data_heatmap, heatmap_options, update_map_view, lay
  *          legend values
  * @param update_map_view
  */
-function update_heatmap(map_id, data_heatmap, layer_id, legendValues, update_map_view) {
+function update_heatmap(map_id, data_heatmap, heatmap_options, layer_id, legendValues, update_map_view) {
 
     if (window[map_id + 'googleHeatmap' + layer_id] !== undefined) {
 
         // update the heatmap array
         window[map_id + 'googleHeatmapLayerMVC' + layer_id].clear();
 
-        var heatmapData = [], 
+        var heat_options = heatmap_options,
+            heatmapData = [],
             i;
 
         // turn row of the data into LatLng, and push it to the array
@@ -91,7 +92,7 @@ function update_heatmap(map_id, data_heatmap, layer_id, legendValues, update_map
 
             heatmapData[i] = {
                 location: latlon,
-                weight: data_heatmap[i].weight
+                weight: data_heatmap[i].fill_colour
             };
 
             window[map_id + 'googleHeatmapLayerMVC' + layer_id].push(heatmapData[i]);
@@ -99,8 +100,27 @@ function update_heatmap(map_id, data_heatmap, layer_id, legendValues, update_map
             window[map_id + 'mapBounds'].extend(latlon);
         }
         
-        if (update_map_view) {
-          window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+        // the variable 'heatmap' is created inside add_heatmap, and so is not avaialble here
+        // need a way to use it so we can update the colours & opacity & options and stuff
+        
+        var heatmap = new google.maps.visualization.HeatmapLayer({
+            data: window[map_id + 'googleHeatmapLayerMVC' + layer_id]
+        });
+        
+        console.log(heat_options);
+        
+        window[map_id + 'googleHeatmap' + layer_id].setOptions({
+            radius: heat_options[0].radius,
+            opacity: heat_options[0].opacity,
+            dissipating: heat_options[0].dissipating
+        });
+
+        if (heat_options[0].gradient !== undefined) {
+             window[map_id + 'googleHeatmap' + layer_id].set('gradient', heat_options[0].gradient);
+        }
+
+        if (update_map_view === true) {
+            window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
         }
         
         if (legendValues !== false) {
@@ -121,4 +141,5 @@ function update_heatmap(map_id, data_heatmap, layer_id, legendValues, update_map
 function clear_heatmap(map_id, layer_id) {
     window[map_id + 'googleHeatmap' + layer_id].setMap(null);
     window[map_id + 'googleHeatmap' + layer_id] = null;
+    window[map_id + 'googleHeatmapLayerMVC' + layer_id] = null;
 }
