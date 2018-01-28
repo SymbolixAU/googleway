@@ -3,9 +3,9 @@
 #' Adds a heatmap to a google map
 #'
 #' @inheritParams add_circles
-#' @param option_gradient vector of colours to use as the gradient colours. see Details
 #' @param weight string specifying the column of \code{data} containing the 'weight'
 #' associated with each point. If NULL, each point will get a weight of 1.
+#' @param option_gradient vector of colours to use as the gradient colours. see Details
 #' @param option_dissipating logical Specifies whether heatmaps dissipate on zoom.
 #' When dissipating is FALSE the radius of influence increases with zoom level to
 #' ensure that the color intensity is preserved at any given geographic location.
@@ -27,6 +27,9 @@
 #' and is not actually mapped to any data points (and therefore won't be included
 #' in the legend).
 #' The last colour in the vector will be use in the centre of the 'heat'.
+#'
+#' The \code{option_gradient}, \code{option_dissipating}, \code{option_radius} and
+#' \code{option_opacity} values apply to all points in the data.
 #'
 #' @examples
 #' \dontrun{
