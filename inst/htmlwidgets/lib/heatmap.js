@@ -116,7 +116,7 @@ function update_heatmap(map_id, data_heatmap, heatmap_options, layer_id, legendV
         });
 
         if (heat_options[0].gradient !== undefined) {
-            heatmap.set('gradient', heat_options[0].gradient);
+             window[map_id + 'googleHeatmap' + layer_id].set('gradient', heat_options[0].gradient);
         }
 
         if (update_map_view === true) {

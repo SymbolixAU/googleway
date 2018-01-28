@@ -9,7 +9,8 @@
 #' @param option_dissipating logical Specifies whether heatmaps dissipate on zoom.
 #' When dissipating is FALSE the radius of influence increases with zoom level to
 #' ensure that the color intensity is preserved at any given geographic location.
-#' Defaults to FALSE
+#' When set to TRUE you will likely need a greater \code{option_radius} value.
+#' Defaults to FALSE.
 #' @param option_radius numeric. The radius of influence for each data point, in pixels.
 #' Defaults to 0.01
 #' @param option_opacity The opacity of the heatmap, expressed as a number between

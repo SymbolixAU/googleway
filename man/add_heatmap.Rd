@@ -30,9 +30,11 @@ associated with each point. If NULL, each point will get a weight of 1.}
 \item{option_dissipating}{logical Specifies whether heatmaps dissipate on zoom.
 When dissipating is FALSE the radius of influence increases with zoom level to
 ensure that the color intensity is preserved at any given geographic location.
-Defaults to FALSE}
+When set to TRUE you will likely need a greater \code{option_radius} value.
+Defaults to FALSE.}
 
-\item{option_radius}{numeric. The radius of influence for each data point, in pixels.}
+\item{option_radius}{numeric. The radius of influence for each data point, in pixels.
+Defaults to 0.01}
 
 \item{option_opacity}{The opacity of the heatmap, expressed as a number between
 0 and 1. Defaults to 0.6.}
