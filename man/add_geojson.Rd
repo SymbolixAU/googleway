@@ -89,9 +89,6 @@ style <- list(fillColor = "red" , strokeColor = "blue", strokeWeight = 0.5)
 google_map(key = map_key) \%>\%
   add_geojson(data = geo_melbourne, style = style)
 
-## Styling a specific feature
-style <- '{}'
-
 ## GeoJSON from a URL
 url <- 'https://storage.googleapis.com/mapsdevsite/json/google.json'
 google_map(key = map_key) \%>\%
