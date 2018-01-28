@@ -208,8 +208,6 @@ update_heatmap <- function(map,
                            legend = F,
                            legend_options = NULL){
 
-  ## TODO: update_map_view options
-
   objArgs <- match.call(expand.dots = F)
   if(!dataCheck(data, "update_heatmap")) data <- heatmapDefaults(1)
   layer_id <- layerId(layer_id)
@@ -235,7 +233,6 @@ update_heatmap <- function(map,
                                 radius = option_radius,
                                 opacity = option_opacity)
 
-  ## TODO: should this be the same as the add_heatmap function??
   if(!is.null(option_gradient)){
 
     if(length(option_gradient) == 1)
@@ -253,11 +250,6 @@ update_heatmap <- function(map,
     rampColours <- option_gradient[2:length(option_gradient)]
     heatmap_options$gradient <- list(g)
 
-    ## TODO: this is what it used to be. Need to test the new code is correct
-    ## by making a shiny and ensurin gall the update features work as expected.
-    ## Also need to note / document how to use the 'update' features of heatmaps
-    ## as they are different to the other 'udpate_' functions
-    #rampColours <- option_gradient[2:length(option_gradient)]
   }else{
     rampColours <- c("green", "red")
   }
