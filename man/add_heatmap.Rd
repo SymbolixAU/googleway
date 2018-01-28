@@ -70,7 +70,7 @@ in the legend).
 The last colour in the vector will be use in the centre of the 'heat'.
 
 The \code{option_gradient}, \code{option_dissipating}, \code{option_radius} and
-\code{option_opacity} values apply to all points in the data.
+\code{option_opacity} values apply to all points in the data.8
 }
 \examples{
 \dontrun{

@@ -1,4 +1,17 @@
-
+# ### Drawing deletes on change
+# library(shiny)
+# ui <- fluidPage(
+#   google_mapOutput(outputId = "map")
+# )
+# server <- function(input, output){
+#
+#   output$map <- renderGoogle_map({
+#     mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#     google_map(key = mapKey) %>%
+#       add_drawing(delete_on_change = T)
+#   })
+# }
+# shinyApp(ui, server)
 
 # ## HEATMAP UPDATE MAP VIEW
 # library(shinydashboard)
