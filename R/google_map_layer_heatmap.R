@@ -3,19 +3,18 @@
 #' Adds a heatmap to a google map
 #'
 #' @inheritParams add_circles
-#' @param option_gradient vector of colours to use as the gradient colours. see Details
 #' @param weight string specifying the column of \code{data} containing the 'weight'
 #' associated with each point. If NULL, each point will get a weight of 1.
+#' @param option_gradient vector of colours to use as the gradient colours. see Details
 #' @param option_dissipating logical Specifies whether heatmaps dissipate on zoom.
 #' When dissipating is FALSE the radius of influence increases with zoom level to
 #' ensure that the color intensity is preserved at any given geographic location.
-#' Defaults to FALSE
+#' When set to TRUE you will likely need a greater \code{option_radius} value.
+#' Defaults to FALSE.
 #' @param option_radius numeric. The radius of influence for each data point, in pixels.
+#' Defaults to 0.01
 #' @param option_opacity The opacity of the heatmap, expressed as a number between
 #' 0 and 1. Defaults to 0.6.
-#' @param legend either a logical indiciating if the legend(s) should be displayed, or
-#' a named list indicating which colour attributes should be included in the legend.
-#' @param legend_options A list of options for controlling the legend.
 #'
 #' @details
 #' The legend will only show if you supply a \code{weight} variable.
@@ -28,6 +27,9 @@
 #' and is not actually mapped to any data points (and therefore won't be included
 #' in the legend).
 #' The last colour in the vector will be use in the centre of the 'heat'.
+#'
+#' The \code{option_gradient}, \code{option_dissipating}, \code{option_radius} and
+#' \code{option_opacity} values apply to all points in the data.8
 #'
 #' @examples
 #' \dontrun{
@@ -197,12 +199,14 @@ update_heatmap <- function(map,
                            lon = NULL,
                            weight = NULL,
                            option_gradient = NULL,
+                           option_dissipating = FALSE,
+                           option_radius = 0.01,
+                           option_opacity = 0.6,
                            layer_id = NULL,
+                           update_map_view = TRUE,
                            digits = 4,
                            legend = F,
                            legend_options = NULL){
-
-  ## TODO: update_map_view options
 
   objArgs <- match.call(expand.dots = F)
   if(!dataCheck(data, "update_heatmap")) data <- heatmapDefaults(1)
@@ -211,15 +215,41 @@ update_heatmap <- function(map,
   objArgs <- heatWeightCheck(objArgs)
 
   fill_colour <- weight
+  logicalCheck(update_map_view)
   numericCheck(digits)
+
+  ## Heatmap Options
+  optionOpacityCheck(option_opacity)
+  optionRadiusCheck(option_radius)
+  optionDissipatingCheck(option_dissipating)
+  ### END PARAMETER CHECKS
 
   allCols <- heatmapColumns()
   requiredCols <- requiredHeatmapUpdateColumns()
 
   shape <- createMapObject(data, allCols, objArgs)
 
+  heatmap_options <- data.frame(dissipating = option_dissipating,
+                                radius = option_radius,
+                                opacity = option_opacity)
+
   if(!is.null(option_gradient)){
+
+    if(length(option_gradient) == 1)
+      stop("please provide at least two gradient colours")
+
+    ## first entry is used to fade into the background
+    g <- sapply(seq_along(option_gradient), function(x){
+      if(x == 1){
+        paste0('rgba(', paste0(c(as.numeric(grDevices::col2rgb(option_gradient[x])), 0), collapse = ","), ')')
+      }else{
+        paste0('rgba(', paste0(c(as.numeric(grDevices::col2rgb(option_gradient[x])), 1), collapse = ","), ')')
+      }
+    })
+
     rampColours <- option_gradient[2:length(option_gradient)]
+    heatmap_options$gradient <- list(g)
+
   }else{
     rampColours <- c("green", "red")
   }
@@ -237,7 +267,9 @@ update_heatmap <- function(map,
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  invoke_method(map, 'update_heatmap', shape, layer_id, legend)
+  heatmap_options <- jsonlite::toJSON(heatmap_options)
+
+  invoke_method(map, 'update_heatmap', shape, heatmap_options, layer_id, legend, update_map_view)
 }
 
 

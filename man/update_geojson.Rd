@@ -53,7 +53,13 @@ lst_style <- list(property = "AREASQKM", operator = "<=", value = 5,
 google_map(key = map_key) \%>\%
     add_geojson(data = geo_melbourne) \%>\%
     update_geojson(style = lst_style)
-}
 
+## Styling a specific feature
+style <- '{"property" : "SA2_NAME", "value" : "Abbotsford", "features" : { "fillColor" : "red" } }'
+google_map(key = map_key) \%>\%
+  add_geojson(data = geo_melbourne) \%>\%
+  update_geojson(style = style)
+
+}
 
 }

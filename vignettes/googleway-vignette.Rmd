@@ -110,8 +110,8 @@ For the free tier this is 2,500 web-service API requests (e.g., geocoding, direc
 Common use-cases for R users are where you might have a data.frame of
 
 - addresses for which you require coordinates (`google_geocode()`)
-- coordinates for which you wnat the address (`google_reverse_geocode()`)
-- coordinate pairs for which you wnat the directions between them (`google_directions()`)
+- coordinates for which you want the address (`google_reverse_geocode()`)
+- coordinate pairs for which you want the directions between them (`google_directions()`)
 
 In these cases Google's API can only accept one request at a time. Therefore it's not possible to 'vectorise' these functions as they have to operate one row at a time. 
 

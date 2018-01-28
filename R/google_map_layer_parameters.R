@@ -2,6 +2,7 @@
 #
 # checks the data is the correct type(s)
 # @param data the data passed into the map layer funciton
+# @param callingFunc the function calling the data check
 dataCheck <- function(data, callingFunc){
 
   if(is.null(data)){
@@ -10,7 +11,7 @@ dataCheck <- function(data, callingFunc){
   }
 
   if(!inherits(data, "data.frame")){
-    warning(paste0(callingFunc, ": currently only data.frames are supported"))
+    warning(paste0(callingFunc, ": currently only data.frames, sf and sfencoded objects are supported"))
     return(FALSE)
   }
 

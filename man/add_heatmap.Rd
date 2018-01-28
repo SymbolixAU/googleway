@@ -30,9 +30,11 @@ associated with each point. If NULL, each point will get a weight of 1.}
 \item{option_dissipating}{logical Specifies whether heatmaps dissipate on zoom.
 When dissipating is FALSE the radius of influence increases with zoom level to
 ensure that the color intensity is preserved at any given geographic location.
-Defaults to FALSE}
+When set to TRUE you will likely need a greater \code{option_radius} value.
+Defaults to FALSE.}
 
-\item{option_radius}{numeric. The radius of influence for each data point, in pixels.}
+\item{option_radius}{numeric. The radius of influence for each data point, in pixels.
+Defaults to 0.01}
 
 \item{option_opacity}{The opacity of the heatmap, expressed as a number between
 0 and 1. Defaults to 0.6.}
@@ -66,6 +68,9 @@ The first colour in the vector will be used as the colour that fades to transpar
 and is not actually mapped to any data points (and therefore won't be included
 in the legend).
 The last colour in the vector will be use in the centre of the 'heat'.
+
+The \code{option_gradient}, \code{option_dissipating}, \code{option_radius} and
+\code{option_opacity} values apply to all points in the data.8
 }
 \examples{
 \dontrun{

@@ -100,7 +100,6 @@ add_polylines <- function(map,
   data <- normaliseSfData(data, "LINESTRING")
   polyline <- findEncodedColumn(data, polyline)
 
-  ## TODO:
   ## - if sf object, and geometry column has not been supplied, it needs to be
   ## added to objArgs after the match.call() function
   if( !is.null(polyline) && !polyline %in% names(objArgs) ) {

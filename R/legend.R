@@ -56,11 +56,11 @@ formatPalette <- function(palette, type){
   if(type == "gradient"){
 
     ## TODO:
-    ## - better representation of the min & max values on teh legend
+    ## - better representation of the min & max values on the legend
     ## - options:
-    ## -- show the min & max at teh extremeties of the legend
+    ## -- show the min & max at the extremeties of the legend
     ## -- have an option to 'turn off maximum/minimum values
-    ## -- which will then remove the maximua, and instead use < and + as a
+    ## -- which will then remove the maxima, and instead use < and + as a
     ## -- prefix and suffix to the min/max values
 
     # rows <- 1:32434
