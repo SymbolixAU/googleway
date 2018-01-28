@@ -12,10 +12,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-## TODO
-
-- sf objects
----
 
 Googleway provides access to Google Maps APIs, and the ability to plot an interactive Google Map overlayed with various layers and shapes, including markers, circles, rectangles, polygons, lines (polylines) and heatmaps. You can also overlay traffic information, transit and cycling routes.
 
