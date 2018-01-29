@@ -178,7 +178,7 @@ The [**Google Maps Directions API**](https://developers.google.com/maps/document
 
 Searching Google Maps for directions from Melbourne to Sydney generates the route:
 
-![Melbourne to Sydney](./img/melbourne_to_sydney.png)
+![Melbourne to Sydney](./img/melbourne_to_sydney_add_polylines.png)
 
 The same query using the developers API generates the data in JSON
 
@@ -634,24 +634,10 @@ res$snappedPoints
 7         -35.28313           149.1289             6 ChIJWSb8ImpNFmsRp_4JAxJFE1A
 8         -35.28473           149.1283             7 ChIJtWxAZmpNFmsRlbUCkc6VtnA
 
-df_path$snapped_lat <- res$snappedPoints$location$latitude
-df_path$snapped_lon <- res$snappedPoints$location$longitude
-df_path$colour <- 'green'
-
-
-map_key <- "your_api_key"
-
-google_map(key = map_key) %>%
-  add_markers(data = df_path, lat = 'lat', lon = 'lon') %>%
-  add_markers(data = df_path, lat = 'snapped_lat', lon = 'snapped_lon', colour = "colour")
-
 ```
 
 The result includes the column `originalIndex`. This is a zero-based index that indicates which of the input coordinates has been snapped to the given `location.latitude`/`location.longitude` coordinates. So in this example, `originalIndex` 0 is the first row of `df_path`, `originalIndex` 1 is the second row of `df_path`, and so on.
 
-The image shows the original coordinates from `df_path` in red, and the associated `snapped` coordinates in green.
-
-![Snap to Roads](./img/snap_to_roads.png)
 
 ### Nearest Roads
 
@@ -664,8 +650,6 @@ df_points <- read.table(text = "lat lon
 60.1708 24.9424
 60.1709 24.9423", header = T)
 
-
-
 res <- google_nearestRoads(df_points, key = key)
 
 res$snappedPoints
@@ -674,19 +658,7 @@ res$snappedPoints
 2          60.17081           24.94271             1 ChIJNX9BrM0LkkYRIM-cQg265e8
 3          60.17091           24.94270             2 ChIJNX9BrM0LkkYRIM-cQg265e8
 
-df_points$snapped_lat <- res$snappedPoints$location$latitude
-df_points$snapped_lon <- res$snappedPoints$location$longitude
-df_points$colour <- 'green'
-
-google_map(key = map_key) %>%
-  add_markers(data = df_points, lat = 'lat', lon = 'lon') %>%
-  add_markers(data = df_points, lat = 'snapped_lat', lon = 'snapped_lon', colour = "colour")
-
-
 ```
-
-
-![nearest Roads](./img/nearest_roads.png)
 
 ---
 
