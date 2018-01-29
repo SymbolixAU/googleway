@@ -31,6 +31,10 @@ test_that("access result", {
     "I don't know how to deal with objects of type matrix"
   )
 
+  expect_error(
+    .access_result(1, "polyline"),
+    "I don't know how to deal with objects of type numeric"
+  )
 
 
   resJS <- '{ "routes" : [ { "overview_polyline" : { "points" : "nkyeFi_ysZz@[VOI]KsDI{EGs@A{COwNCoAHgBACAI]aJ@OEW?c@dAgRf@mFz@i@~Ah@f@LHWVy@" }  }] }'

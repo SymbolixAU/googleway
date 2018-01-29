@@ -271,6 +271,12 @@ test_that("country components are valid", {
     googleway:::validateComponentsCountries(components),
     "country:US|country:AU|country:NZ|country:FR|country:UK"
   )
+
+  components <- c(1, 2)
+  expect_error(
+    googleway:::validateComponentsCountries(components),
+    "components must be two characters and represent an ISO 3166-1 Alpha-2 country code"
+  )
 })
 
 test_that("language arg validate", {

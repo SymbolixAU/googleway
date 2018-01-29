@@ -14,7 +14,37 @@ test_that("gradient legends return correct rows",{
 
 })
 
+test_that("legend resolves", {
 
+  dat <- data.frame(id = c(rep(1,3), rep(2, 2)),
+                    val = letters[1:5],
+                    val2 = letters[11:15],
+                    stringsAsFactors = F)
+
+  lstPalette <- list(stroke_colour = viridisLite::viridis,
+                     fill_colour = viridisLite::inferno)
+
+  allCols <- c("id", "val", "val2")
+  objArgs <- quote(add_polygons(id = "id", stroke_colour = "id", fill_colour = "val"))
+  shape <- googleway:::createMapObject(dat, allCols, objArgs)
+
+  colourColumns <- c("stroke_colour" = 'id', "fill_colour" = "val")
+
+  pal <- googleway:::createPalettes(shape, colourColumns)
+
+  colour_palettes <- googleway:::createColourPalettes(dat, pal, colourColumns, lstPalette)
+
+  legend <- googleway:::resolveLegend(T, NULL, colour_palettes)
+
+  expect_true(
+    legend[[1]]$colourType == "stroke_colour"
+  )
+
+  expect_true(
+    legend[[2]]$title == "val"
+  )
+
+})
 
 test_that("legend values are prefixed & suffixed", {
 
