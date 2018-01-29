@@ -842,16 +842,8 @@ You can customise the legend by supplying any of the arguments in a list to the 
 - css - a string of valid CSS for controlling the appearance
 - title - a string to use for the title of the legend. The default is the column name mapped to the colour
 
-```
-legendOpts <- list(position = "TOP_RIGHT", css = "max-height: 100px")
 
-google_map(key = "your_api_key") %>% 
-  add_polygons(data = melbourne, polyline = "polyline", fill_colour = "SA4_NAME", stroke_colour = "SA3_NAME", legend = T, legend_options = legendOpts)
-
-```
-![Legend Options](./img/polygon_legend_custom.png)
-
-If you are displaying two legends, one for `stroke_colour` and one for `fill_colour`, you can specify different options fo rthe different colour attributes
+If you are displaying two legends, one for `stroke_colour` and one for `fill_colour`, you can specify different options for the different colour attributes
 
 ```
 legendOpts <- list(
@@ -983,9 +975,6 @@ google_map(key = "your_api_key") %>%
   add_rectangles(data = df, north = 'north', south = 'south',
                  east = 'east', west = 'west')
 ```
-![Recctangles](./img/rectangles.png)
-
-
 
 ### Drawing
 
