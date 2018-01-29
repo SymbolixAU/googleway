@@ -19,7 +19,7 @@ test_that("data checks work", {
 
   expect_warning(
     googleway:::dataCheck(matrix(), "test"),
-    "test: currently only data.frames are supported"
+    "test: currently only data.frames, sf and sfencoded objects are supported"
   )
 
 })

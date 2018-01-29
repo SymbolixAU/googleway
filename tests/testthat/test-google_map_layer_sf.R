@@ -4,6 +4,7 @@ context("sf")
 test_that("sf objects encoded", {
 
   testthat::skip_on_cran()
+  testthat::skip_on_travis()
 
   library(sf)
 
@@ -56,6 +57,7 @@ test_that("sf objects encoded", {
 test_that("correct sf rows are returned", {
 
   testthat::skip_on_cran()
+  testthat::skip_on_travis()
 
   library(sf)
   df <- data.frame(myId = c(1,1,1,1,1,1,1,1,2,2,2,2),
