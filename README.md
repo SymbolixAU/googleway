@@ -10,7 +10,7 @@
 
 Provides a mechanism to access various [Google Maps APIs](https://developers.google.com/maps/), including plotting a Google Map from R and overlaying it with shapes and markers, and retrieving data from the places, directions, roads, distances, geocoding, elevation and timezone APIs.
 
-[Google Maps](./vignettes/img/polygon_legend.png)
+![Google Maps](./vignettes/img/polygon_legend.png)
 
 ## v2.4.0
 
