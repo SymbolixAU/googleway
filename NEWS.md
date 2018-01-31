@@ -1,4 +1,4 @@
-## Version 2.3.0 (development)
+## Version 2.4.0
 
 * `update_heatmap` accepts `option_` arguments
 * `update_heatmap` gets `update_map_view` argument
@@ -33,6 +33,7 @@
 * Map Layers get `update_map_view` argument
 * Fixed `add_rectanges` bug where coordinates were not recognised [#61](https://github.com/SymbolixAU/googleway/issues/61)
 
+
 ## Version 2.2.0
 
 * removed roxygen comments for non-exported functions
@@ -45,8 +46,6 @@
 * `add_overlay()` adds ground overlay layer to a map
 * `add_markers()` gets `marker_icon` argument - closes [#54](https://github.com/SymbolixAU/googleway/issues/54)
 * various control options added to `google_map()` (zoom, maptype, rotate, scale, etc...)
-
-
 
 
 ## Version 2.0.0 
