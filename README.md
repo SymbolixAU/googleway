@@ -18,7 +18,7 @@ see [News](https://github.com/SymbolixAU/googleway/blob/master/NEWS.md) for a fu
 
 For specific examples, see the blog posts for
 
-* sf objects (coming soon)
+* [sf objects](https://www.symbolix.com.au/blog-main/2018)
 * [Colours](https://www.symbolix.com.au/blog-main/sgh8lg7gwfe7kw98df7jh6897dmbge)
 * [Legends](https://www.symbolix.com.au/blog-main/rg72j9l8tm85dpz7278ms76ys48gp6)
 * [Result Accessors](https://www.symbolix.com.au/blog-main/fhcs36y9h8zftenfhwpsredbeyf3zf)
