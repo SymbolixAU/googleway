@@ -1,4 +1,6 @@
 
+## e.g.http://jsfiddle.net/doktormolle/S6vBK/
+
 #' Google Charts
 #'
 #' Google Charts that can be displayed
