@@ -8,7 +8,7 @@
 #' @section Pie Chart:
 #'
 #' A Pie chart requires a \code{data.frame} of two columns. The first column contains
-#' the text that's used as the label, and the second contains the data taht's used in
+#' the text that's used as the label, and the second contains the data used in
 #' the pie.
 #'
 #' type: 'pie'

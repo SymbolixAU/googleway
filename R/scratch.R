@@ -1,10 +1,10 @@
-#
-#
-# ## TODO:
-# ## TESTS
-# ## - polylines - works with and without ID, for polyline and lat/lon columns
-# ## - polygons - ditto
-#
+
+
+## TODO:
+## TESTS
+## - polylines - works with and without ID, for polyline and lat/lon columns
+## - polygons - ditto
+
 # library(googleway)
 # map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 #
@@ -21,6 +21,6 @@
 # google_map(key = map_key) %>%
 #   add_markers(data = tram_stops[tram_stops$stop_id == "17880",],
 #               id = "stop_id",
-#               #info_window = chartList
+#               info_window = chartList
 #               )
-#
+
