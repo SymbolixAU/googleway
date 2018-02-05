@@ -88,7 +88,11 @@ add_markers <- function(map,
   ## - pass the data separately to JS, and let the browser find
   ## the correct data to use in the info_window from the JSON, when the marker is clicked
   ##
-  ## -
+  ## - within the JS code, inside the `google.maps.event.addListener()` for info windows
+  ## write code taht extracts the correct info window content from an InfoWindowContent JSON object
+  ## Which will mean passing this object in throgh R.
+  ## I can test this directly by adding in some JSON to use as the pie chart
+  ## and see if plotting it works.
 
 
   loadIntervalCheck(load_interval)
