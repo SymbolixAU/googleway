@@ -1,3 +1,9 @@
+## Version 2.5.0 (development)
+
+
+* fix for `place_hours()` and `place_open()`
+
+
 ## Version 2.4.0
 
 * `update_heatmap` accepts `option_` arguments

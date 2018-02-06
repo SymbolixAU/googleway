@@ -133,8 +133,8 @@ jsAccessor <- function(resType){
          "place_next_page"     =  ".next_page_token",
          "place_location"      =  ".results[].geometry.location",
          "place_type"          =  ".results[].types",
-         "place_hours"         =  ".results[].opening_hours.periods",
-         "place_open"          =  ".results[].opening_hours.open_now",
+         "place_hours"         =  ".result[].opening_hours.periods",
+         "place_open"          =  ".result[].opening_hours.open_now",
          "nearest_road_coords" =  ".snappedPoints[].location")
 }
 
@@ -161,7 +161,7 @@ lstAccessor <- function(resType){
          "place_next_page"     =  "[['next_page_token']]",
          "place_location"      =  "[[c('results','geometry','location')]]",
          "place_type"          =  "[[c('results','types')]]",
-         "place_hours"         =  "[[c('results','opening_hours','periods')]]",
-         "place_open"          =  "[[c('results','opening_hours','open_now')]]",
+         "place_hours"         =  "[[c('result','opening_hours','periods')]]",
+         "place_open"          =  "[[c('result','opening_hours','open_now')]]",
          "nearest_road_coords" =  "[[c('snappedPoints', 'location')]]")
 }
