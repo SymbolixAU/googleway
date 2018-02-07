@@ -7,6 +7,10 @@ HTMLWidgets.widget({
 
     return {
         renderValue: function(x) {
+            
+            // CHARTS2
+            google.charts.load('current', {'packages':['corechart']});
+            
             window.params = [];
             window.params.push( {'map_id' : el.id } );
             window.params.push( {'event_return_type' : x.event_return_type});

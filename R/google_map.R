@@ -145,6 +145,7 @@ google_map <- function(key = get_api_key("map"),
     )
   )
 
+  ## CHARTS2
   header <- paste0('<script src="https://maps.googleapis.com/maps/api/js?key=',
                   key, '&libraries=', paste0(libraries, collapse = ","), '"></script>',
                   '<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>')

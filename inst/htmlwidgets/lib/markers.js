@@ -88,23 +88,57 @@ function set_markers(map_id, markers, infoWindow, aMarker, cluster, infoWindow, 
 }
 
 
+// CHARTS2
+function draw_chart(marker) {
+    
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Topping');
+    data.addColumn('number', 'Slices');
+    data.addRows([
+        ['Mushrooms', 3],
+        ['Onions', 1],
+        ['Olives', 1],
+        ['Zucchini', 1],
+        ['Pepperoni', 2]
+    ]);
+
+    // Set chart options
+    var options = {'title':'Pizza sold @ '+
+                           marker.getPosition().toString(),
+                   'width':400,
+                   'height':150};
+
+    var node        = document.createElement('div'),
+        infoWindow  = new google.maps.InfoWindow(),
+        chart       = new google.visualization.PieChart(node);
+
+        chart.draw(data, options);
+        infoWindow.setContent(node);
+        infoWindow.open(marker.getMap(),marker);
+    
+}
+
 function set_each_marker(markers, marker, aMarker, infoWindow, update_map_view, map_id, layer_id) {
     
-    if (aMarker.info_window) {
+    // CHARTS2
+//    if (aMarker.info_window) {
 
         marker.infowindow = new google.maps.InfoWindow({
             content: aMarker.info_window
         });
 
         google.maps.event.addListener(marker, 'click', function () {
-            this.infowindow.open(window[map_id + 'map'], this);
+            //this.infowindow.open(window[map_id + 'map'], this);
+            
+            draw_chart(this);
+            
         });
 
     // the listener is being bound to the mapObject. So, when the infowindow
     // contents are updated, the 'click' listener will need to see the new information
     // ref: http://stackoverflow.com/a/13504662/5977215
 
-    }
+//    }
 
     if (aMarker.mouse_over || aMarker.mouse_over_group) {
         add_mouseOver(map_id, marker, infoWindow, '_mouse_over', aMarker.mouse_over, layer_id, 'googleMarkers');

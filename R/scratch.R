@@ -21,6 +21,6 @@
 # google_map(key = map_key) %>%
 #   add_markers(data = tram_stops[tram_stops$stop_id == "17880",],
 #               id = "stop_id",
-#               info_window = chartList
+#               #info_window = chartList
 #               )
 
