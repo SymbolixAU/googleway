@@ -12,7 +12,7 @@
 #' @param location \code{numeric} vector of latitude/longitude (in that order)
 #' coordinates for the initial starting position of the map.
 #' The map will automatically set the location and zoom if data is added through one
-#' of the various \code{add_*} functions. If null, the map will default to Melbourne, Australia.
+#' of the various \code{add_} functions. If null, the map will default to Melbourne, Australia.
 #' @param zoom \code{integer} representing the zoom level of the map (0 is fully zoomed out)
 #' @param width the width of the map
 #' @param height the height of the map
