@@ -25,7 +25,17 @@ function add_markers(map_id, data_markers, cluster, update_map_view, layer_id, u
     }
 
     if (cluster === true) {
-        window[map_id + 'googleMarkerClusterer' + layer_id] = new MarkerClusterer(window[map_id + 'map'], markers, {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+        console.log("clustering markers");
+        console.log(markers);
+        
+        console.log(window.location.pathname.split('/'));
+        
+        window[map_id + 'googleMarkerClusterer' + layer_id] = new MarkerClusterer(window[map_id + 'map'], markers, {
+            imagePath: 'https://github.com/SymbolixAU/js-marker-clusterer/blob/gh-pages/images/m'
+        });
+        
+        console.log(window[map_id + 'googleMarkerClusterer' + layer_id]);
+        
     }
     
 
