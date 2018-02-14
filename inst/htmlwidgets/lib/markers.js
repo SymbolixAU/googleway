@@ -21,12 +21,13 @@ function add_markers(map_id, data_markers, cluster, update_map_view, layer_id, u
     createWindowObject(map_id, 'googleMarkers', layer_id);
 
     for (i = 0; i < Object.keys(data_markers).length; i++) {
+        console.log(i);
         set_markers(map_id, markers, infoWindow, data_markers[i], cluster, infoWindow, update_map_view, layer_id, use_polyline, i * interval);
     }
     
     if (cluster === true) {
         console.log("clustering markers");
-        console.log(markers);
+        //console.log(markers);
         //console.log(window.location.pathname.split('/'));
 
         window[map_id + 'googleMarkerClusterer' + layer_id] = new MarkerClusterer(window[map_id + 'map'], markers, {
@@ -69,14 +70,11 @@ function set_markers(map_id, markers, infoWindow, aMarker, cluster, infoWindow, 
         }    
     }, timeout); 
     
-    console.log(markers);
 }
 
 
 function set_each_marker(latlon, markers, marker, aMarker, cluster, infoWindow, update_map_view, map_id, layer_id) {
-    
-    console.log("set each marker");
-    
+        
     marker = new google.maps.Marker({
                     id: aMarker.id,
                     icon: aMarker.url,
