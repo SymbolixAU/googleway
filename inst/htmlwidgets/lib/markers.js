@@ -1,3 +1,9 @@
+function delay(t, v) {
+    return new Promise(function(resolve) {
+        setTimeout(resolve.bind(null, v), t)
+    });
+}
+
 /**
  * Add markers
  *
@@ -16,7 +22,7 @@ function add_markers(map_id, data_markers, cluster, update_map_view, layer_id, u
 
     createWindowObject(map_id, 'googleMarkers', layer_id);
     
-    promise_to_add_markers(map_id, data_markers, cluster, update_map_view, layer_id, use_polyline, interval).then(function() {
+    promise_to_add_markers(map_id, data_markers, cluster, update_map_view, layer_id, use_polyline, interval).then(function(i) {
         
         console.log("resolving promise");
         
@@ -26,13 +32,9 @@ function add_markers(map_id, data_markers, cluster, update_map_view, layer_id, u
             // need a delay after a setTimeout inside a promise chain
             // https://stackoverflow.com/q/39538473/5977215
             
-            console.log("cluster is true, need to cluster");
-            console.log(layer_id);
-            console.log(window[map_id + 'googleMarkers' + layer_id].length);
-            //cluster_markers(map_id, layer_id);
-            window[map_id + 'googleMarkerClusterer' + layer_id] = new MarkerClusterer(window[map_id + 'map'], window[map_id + 'googleMarkers' + layer_id], {
-            imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
-    });
+            return delay(interval * i).then(function(){ 
+                return cluster_markers(map_id, layer_id);
+            });
         }  
     })
 }
@@ -49,7 +51,7 @@ function promise_to_add_markers(map_id, data_markers, cluster, update_map_view, 
         }
         
         if(i == Object.keys(data_markers).length) {
-            resolve();
+            resolve(i);
         }
         
     });
@@ -57,6 +59,8 @@ function promise_to_add_markers(map_id, data_markers, cluster, update_map_view, 
 
 
 function cluster_markers(map_id, layer_id) {
+    
+    
     window[map_id + 'googleMarkerClusterer' + layer_id] = new MarkerClusterer(window[map_id + 'map'], window[map_id + 'googleMarkers' + layer_id], {
             imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
     });
