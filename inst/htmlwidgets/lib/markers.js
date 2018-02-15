@@ -21,7 +21,18 @@ function add_markers(map_id, data_markers, cluster, update_map_view, layer_id, u
         console.log("resolving promise");
         
         if (cluster === true) {
-            cluster_markers(map_id, layer_id);
+            
+            // TODO:
+            // need a delay after a setTimeout inside a promise chain
+            // https://stackoverflow.com/q/39538473/5977215
+            
+            console.log("cluster is true, need to cluster");
+            console.log(layer_id);
+            console.log(window[map_id + 'googleMarkers' + layer_id].length);
+            //cluster_markers(map_id, layer_id);
+            window[map_id + 'googleMarkerClusterer' + layer_id] = new MarkerClusterer(window[map_id + 'map'], window[map_id + 'googleMarkers' + layer_id], {
+            imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+    });
         }  
     })
 }
@@ -36,6 +47,11 @@ function promise_to_add_markers(map_id, data_markers, cluster, update_map_view, 
             //console.log(i);
             set_markers(map_id, infoWindow, data_markers[i], cluster, infoWindow, update_map_view, layer_id, use_polyline, i * interval);
         }
+        
+        if(i == Object.keys(data_markers).length) {
+            resolve();
+        }
+        
     });
 }
 
