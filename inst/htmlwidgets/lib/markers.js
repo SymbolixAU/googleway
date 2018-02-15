@@ -14,41 +14,43 @@
  */
 function add_markers(map_id, data_markers, cluster, update_map_view, layer_id, use_polyline, interval) {
 
-    var markers = [],
-        i,
-        infoWindow = new google.maps.InfoWindow();
-
     createWindowObject(map_id, 'googleMarkers', layer_id);
     
-    //console.log(map_id);
-    //console.log(layer_id);
-    //console.log(window[map_id + 'googleMarkers' + layer_id]);
-
-    for (i = 0; i < Object.keys(data_markers).length; i++) {
-        //console.log(i);
-        set_markers(map_id, markers, infoWindow, data_markers[i], cluster, infoWindow, update_map_view, layer_id, use_polyline, i * interval);
-    }
-    
-    if (cluster === true) {
-        //console.log("clustering markers");
-        //console.log(markers);
-        //console.log(window.location.pathname.split('/'));
-        //console.log(window[map_id + 'googleMarkers' + layer_id]);
-        markers = window[map_id + 'googleMarkers' + layer_id];
-
-        window[map_id + 'googleMarkerClusterer' + layer_id] = new MarkerClusterer(window[map_id + 'map'], markers, {
-            imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
-        });
-
-        //console.log(window[map_id + 'googleMarkerClusterer' + layer_id]);
-    }
+    promise_to_add_markers(map_id, data_markers, cluster, update_map_view, layer_id, use_polyline, interval).then(function() {
+        
+        console.log("resolving promise");
+        
+        if (cluster === true) {
+            cluster_markers(map_id, layer_id);
+        }  
+    })
 }
 
-function set_markers(map_id, markers, infoWindow, aMarker, cluster, infoWindow, update_map_view, layer_id, use_polyline, timeout) {
+function promise_to_add_markers(map_id, data_markers, cluster, update_map_view, layer_id, use_polyline, interval) {
+    
+    return new Promise(function(resolve, reject) {
+        var i,
+            infoWindow = new google.maps.InfoWindow();
+
+        for (i = 0; i < Object.keys(data_markers).length; i++) {
+            //console.log(i);
+            set_markers(map_id, infoWindow, data_markers[i], cluster, infoWindow, update_map_view, layer_id, use_polyline, i * interval);
+        }
+    });
+}
+
+
+function cluster_markers(map_id, layer_id) {
+    window[map_id + 'googleMarkerClusterer' + layer_id] = new MarkerClusterer(window[map_id + 'map'], window[map_id + 'googleMarkers' + layer_id], {
+            imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+    });
+}
+
+function set_markers(map_id, infoWindow, aMarker, cluster, infoWindow, update_map_view, layer_id, use_polyline, timeout) {
     
     window.setTimeout(function () {
         
-        var j, lon, lat, path, latlon, marker;
+        var j, lon, lat, path, latlon;
         
         if (use_polyline) {
         
@@ -57,7 +59,7 @@ function set_markers(map_id, markers, infoWindow, aMarker, cluster, infoWindow, 
                 path = google.maps.geometry.encoding.decodePath(aMarker.polyline[j]);
                 latlon = new google.maps.LatLng(path[0].lat(), path[0].lng());
                 
-                set_each_marker(latlon, markers, marker, aMarker, cluster, infoWindow, update_map_view, map_id, layer_id);
+                set_each_marker(latlon, aMarker, cluster, infoWindow, update_map_view, map_id, layer_id);
                 
                 if (update_map_view === true) {
                     window[map_id + 'mapBounds'].extend(latlon);
@@ -67,7 +69,7 @@ function set_markers(map_id, markers, infoWindow, aMarker, cluster, infoWindow, 
         } else {
             latlon = new google.maps.LatLng(aMarker.lat, aMarker.lng);
 
-            set_each_marker(latlon, markers, marker, aMarker, cluster, infoWindow, update_map_view, map_id, layer_id);
+            set_each_marker(latlon, aMarker, cluster, infoWindow, update_map_view, map_id, layer_id);
             
             if (update_map_view === true) {
                 window[map_id + 'mapBounds'].extend(latlon);
@@ -75,16 +77,12 @@ function set_markers(map_id, markers, infoWindow, aMarker, cluster, infoWindow, 
             }
         }    
     }, timeout); 
-    
-    //console.log("setting markers");
-    //console.log(markers);
-    //return markers;
 }
 
 
-function set_each_marker(latlon, markers, marker, aMarker, cluster, infoWindow, update_map_view, map_id, layer_id) {
+function set_each_marker(latlon, aMarker, cluster, infoWindow, update_map_view, map_id, layer_id) {
         
-    marker = new google.maps.Marker({
+    var marker = new google.maps.Marker({
                     id: aMarker.id,
                     icon: aMarker.url,
                     position: latlon,
@@ -121,13 +119,8 @@ function set_each_marker(latlon, markers, marker, aMarker, cluster, infoWindow, 
     };
 
     marker_click(map_id, marker, marker.id, markerInfo);
-
     window[map_id + 'googleMarkers' + layer_id].push(marker);
-    //markers.push(marker);
     marker.setMap(window[map_id + 'map']);
-    
-    //return marker;
-
 }
 
 /**
