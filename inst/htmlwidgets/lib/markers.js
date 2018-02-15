@@ -19,22 +19,28 @@ function add_markers(map_id, data_markers, cluster, update_map_view, layer_id, u
         infoWindow = new google.maps.InfoWindow();
 
     createWindowObject(map_id, 'googleMarkers', layer_id);
+    
+    //console.log(map_id);
+    //console.log(layer_id);
+    //console.log(window[map_id + 'googleMarkers' + layer_id]);
 
     for (i = 0; i < Object.keys(data_markers).length; i++) {
-        console.log(i);
+        //console.log(i);
         set_markers(map_id, markers, infoWindow, data_markers[i], cluster, infoWindow, update_map_view, layer_id, use_polyline, i * interval);
     }
     
     if (cluster === true) {
-        console.log("clustering markers");
+        //console.log("clustering markers");
         //console.log(markers);
         //console.log(window.location.pathname.split('/'));
+        //console.log(window[map_id + 'googleMarkers' + layer_id]);
+        markers = window[map_id + 'googleMarkers' + layer_id];
 
         window[map_id + 'googleMarkerClusterer' + layer_id] = new MarkerClusterer(window[map_id + 'map'], markers, {
             imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
         });
 
-        console.log(window[map_id + 'googleMarkerClusterer' + layer_id]);
+        //console.log(window[map_id + 'googleMarkerClusterer' + layer_id]);
     }
 }
 
@@ -51,7 +57,7 @@ function set_markers(map_id, markers, infoWindow, aMarker, cluster, infoWindow, 
                 path = google.maps.geometry.encoding.decodePath(aMarker.polyline[j]);
                 latlon = new google.maps.LatLng(path[0].lat(), path[0].lng());
                 
-                markers.push(set_each_marker(latlon, markers, marker, aMarker, cluster, infoWindow, update_map_view, map_id, layer_id));
+                set_each_marker(latlon, markers, marker, aMarker, cluster, infoWindow, update_map_view, map_id, layer_id);
                 
                 if (update_map_view === true) {
                     window[map_id + 'mapBounds'].extend(latlon);
@@ -61,7 +67,7 @@ function set_markers(map_id, markers, infoWindow, aMarker, cluster, infoWindow, 
         } else {
             latlon = new google.maps.LatLng(aMarker.lat, aMarker.lng);
 
-            markers.push(set_each_marker(latlon, markers, marker, aMarker, cluster, infoWindow, update_map_view, map_id, layer_id));
+            set_each_marker(latlon, markers, marker, aMarker, cluster, infoWindow, update_map_view, map_id, layer_id);
             
             if (update_map_view === true) {
                 window[map_id + 'mapBounds'].extend(latlon);
@@ -70,6 +76,9 @@ function set_markers(map_id, markers, infoWindow, aMarker, cluster, infoWindow, 
         }    
     }, timeout); 
     
+    //console.log("setting markers");
+    //console.log(markers);
+    //return markers;
 }
 
 
@@ -117,7 +126,7 @@ function set_each_marker(latlon, markers, marker, aMarker, cluster, infoWindow, 
     //markers.push(marker);
     marker.setMap(window[map_id + 'map']);
     
-    return marker;
+    //return marker;
 
 }
 
