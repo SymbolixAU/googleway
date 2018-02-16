@@ -5,6 +5,7 @@
 ## - polylines - works with and without ID, for polyline and lat/lon columns
 ## - polygons - ditto
 
+
 # library(googleway)
 # map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 #

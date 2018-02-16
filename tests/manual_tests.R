@@ -1,3 +1,8 @@
+## TODO:
+## - marker clusters (add & remove layer)
+## -- does this impact any other marker layers?
+
+
 # ### Drawing deletes on change
 # library(shiny)
 # ui <- fluidPage(

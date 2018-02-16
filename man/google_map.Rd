@@ -16,9 +16,12 @@ google_map(key = get_api_key("map"), data = NULL, location = NULL,
 \arguments{
 \item{key}{A valid Google Maps API key.}
 
-\item{data}{data to be used on the map. This will likely contain two columns for latitude and longitude, and / or encoded polylines for plotting polylines and polygons}
+\item{data}{data to be used on the map. Either a data.frame, or an \code{sf} object. See details}
 
-\item{location}{\code{numeric} vector of latitude/longitude (in that order) coordinates for the initial starting position of the map. The map will automatically set the location and zoom if markers are supplied through \link{add_markers}. If null, the map will default to Melbourne, Australia.}
+\item{location}{\code{numeric} vector of latitude/longitude (in that order)
+coordinates for the initial starting position of the map.
+The map will automatically set the location and zoom if data is added through one
+of the various \code{add_} functions. If null, the map will default to Melbourne, Australia.}
 
 \item{zoom}{\code{integer} representing the zoom level of the map (0 is fully zoomed out)}
 
@@ -28,7 +31,8 @@ google_map(key = get_api_key("map"), data = NULL, location = NULL,
 
 \item{padding}{the padding of the map}
 
-\item{styles}{JSON string representation of a valid Google Maps styles Array. See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}}
+\item{styles}{JSON string representation of a valid Google Maps styles Array.
+See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}}
 
 \item{search_box}{\code{boolean} indicating if a search box should be placed on the map}
 
@@ -53,9 +57,24 @@ either an R list, or raw json string.}
 Generates a google map object
 }
 \details{
+In order to use Google Maps you need a valid Google Maps Web JavaScript API key. See the Google Maps API documentation \url{https://developers.google.com/maps/}
+
 The data argument is only needed if you call other functions to add layers to the map, such as \code{add_markers()} or \code{add_polylines}. However, the data argument can also be passed into those functions as well.
 
-In order to use Google Maps you need a valid Google Maps Web JavaScript API key. See the Google Maps API documentation \url{https://developers.google.com/maps/}
+The data can either be a data.frame containing longitude and latitude columns
+or an encoded polyline for plotting polylines and polygons, or an \code{sf} object.
+
+The supported \code{sf} object types are
+
+\itemize{
+  \item{POINT}
+  \item{MULTIPOINT}
+  \item{LINESTRING}
+  \item{MULTILINESTRING}
+  \item{POLYGON}
+  \item{MULTIPOLYGON}
+  \item{GEOMETRY}
+}
 
 
 The libraries argument can be used to turn-off certain libraries from being called.
@@ -94,6 +113,7 @@ style <- '[{"featureType":"all","elementType":"all","stylers":[{"invert_lightnes
 {"saturation":10},{"lightness":30},{"gamma":0.5},{"hue":"#435158"}]},
 {"featureType":"road.arterial","elementType":"all","stylers":[{"visibility":"simplified"}]},
 {"featureType":"transit.station","elementType":"labels.text","stylers":[{"visibility":"off"}]}]'
+
 google_map(key = map_key, styles = style)
 
 }

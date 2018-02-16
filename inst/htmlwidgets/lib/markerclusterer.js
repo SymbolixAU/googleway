@@ -251,6 +251,7 @@ MarkerClusterer.prototype.setupStyles_ = function() {
       width: size
     });
   }
+//  console.log(this.styles_);
 };
 
 /**

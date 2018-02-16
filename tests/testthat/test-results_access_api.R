@@ -407,8 +407,8 @@ test_that("places results are accessed", {
 
   expect_true(place_location(res)$lat[1] == -37.8108555)
   expect_true(place_location(res)$lng[1] == 144.9713535)
-  expect_true(sum(place_open(res)) == 20)
-  expect_null(place_hours(res))
+  #expect_true(sum(place_open(res)) == 20)   ## place details query
+  #expect_null(place_hours(res))              ## place details query
   expect_true(place_next_page(res) == "CpQCDAEAAF2T00DxAqeB_nx3FMGzTgWGOP_UKWI7prb8i6GeFEWxpIxNn_byqD5qvfY6nbGjkPEeGZUjxatKKdWIhajoLFAYCpUM-uBBIK6m4mqZs1rIQIfPv05zgY_-InBsZX2ynVDRANBZTq3kkJF3fGXn7nF1BX_YxVGbqDB5spYk2i9lxHL0zWIS9ZYmD5qowaw00noQ5hlyyCY1qxGMsF0DXVeUQbpECQGHQNT52k8gApw0Jo3gBh-hkkZO0fNikHi79EqtC4BJD2ZJ2Us4VdytadaUfYWwau8REwc655GWroAuD2--KvadmH67X0AZpuX-0f_2hH4HHxRwPjPW2bv4HSGlFw_2YeNQB6ww8V1Ry8WrEhDM8nrx0tpYa2NRDgumWLzVGhS5sm92Kwo0zrgp80B2fo8QbP3MWA")
   expect_true(class(place_type(res)) == "list")
   expect_true(place(res)[1] == "ChIJxbZOsshC1moR7thhGoEJ11s")
