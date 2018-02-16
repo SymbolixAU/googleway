@@ -148,7 +148,7 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
         google.maps.event.addListener(marker, 'click', function () {
             //this.infowindow.open(window[map_id + 'map'], this);
             
-            //draw_chart(this);
+            draw_chart(this);
             
         });
 
