@@ -24,14 +24,10 @@ function add_markers(map_id, data_markers, cluster, update_map_view, layer_id, u
     
     promise_to_add_markers(map_id, data_markers, cluster, update_map_view, layer_id, use_polyline, interval).then(function(i) {
         
-        console.log("resolving promise");
-        
         if (cluster === true) {
             
-            // TODO:
             // need a delay after a setTimeout inside a promise chain
-            // https://stackoverflow.com/q/39538473/5977215
-            
+            // https://stackoverflow.com/q/39538473/5977215            
             return delay(interval * i).then(function(){ 
                 return cluster_markers(map_id, layer_id);
             });
@@ -46,7 +42,6 @@ function promise_to_add_markers(map_id, data_markers, cluster, update_map_view, 
             infoWindow = new google.maps.InfoWindow();
 
         for (i = 0; i < Object.keys(data_markers).length; i++) {
-            //console.log(i);
             set_markers(map_id, infoWindow, data_markers[i], cluster, infoWindow, update_map_view, layer_id, use_polyline, i * interval);
         }
         
