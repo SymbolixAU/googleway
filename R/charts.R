@@ -7,7 +7,15 @@
 #'
 #' @section Pie Chart:
 #'
-#' A Pie chart requires a \code{data.frame} of two columns. The first column contains
+#' A Pie chart requires a \code{data.frame} of three columns:
+#'   1. First column: a column of id values, where the column has the same name as the
+#'   id column in the \code{data} argument, and therefore the same name as the value supplied
+#'   to the \code{id} argument.
+#'
+#'   2. Second column: variable names used for labelling the data
+#'   3. Third column: the data used in the chart
+#'
+#' The first column contains
 #' the text that's used as the label, and the second contains the data used in
 #' the pie.
 #'
@@ -26,7 +34,7 @@
 #'
 #' Each row of data represents a data point at the same x-axis location
 #'
-#'
+#' @md
 #' @name google_charts
 NULL
 
@@ -68,7 +76,7 @@ InfoWindow.list <- function(info_window, mapObject, id){
   mapObject[, 'chart_options'] <- jsonlite::toJSON(chartOptions, auto_unbox = T)
 
   mapObject <- merge(mapObject, infoData, by.x = 'id', by.y = id, all.x = T)
-  ## set the info_window property so it is seen in JS
+
   return(mapObject)
 }
 

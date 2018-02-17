@@ -9,7 +9,16 @@ Google Charts that can be displayed
 \section{Pie Chart}{
 
 
-A Pie chart requires a \code{data.frame} of two columns. The first column contains
+A Pie chart requires a \code{data.frame} of three columns:
+\enumerate{
+\item First column: a column of id values, where the column has the same name as the
+id column in the \code{data} argument, and therefore the same name as the value supplied
+to the \code{id} argument.
+\item Second column: variable names used for labelling the data
+\item Third column: the data used in the chart
+}
+
+The first column contains
 the text that's used as the label, and the second contains the data used in
 the pie.
 
@@ -17,8 +26,8 @@ type: 'pie'
 
 options
 \itemize{
-  \item{title - string of text}
-  \item{is3D - logical}
+\item{title - string of text}
+\item{is3D - logical}
 }
 }
 
