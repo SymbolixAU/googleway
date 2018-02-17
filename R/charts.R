@@ -65,6 +65,7 @@ InfoWindow.list <- function(info_window, mapObject, id){
   chartOptions <- info_window[['options']]
 
   mapObject[, 'chart_type'] <- tolower(info_window[['type']])
+  mapObject[, 'chart_options'] <- jsonlite::toJSON(chartOptions, auto_unbox = T)
 
   mapObject <- merge(mapObject, infoData, by.x = 'id', by.y = id, all.x = T)
   ## set the info_window property so it is seen in JS

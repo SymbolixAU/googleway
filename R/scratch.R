@@ -32,7 +32,7 @@
 #
 # chartList <- list(data = markerCharts,
 #                   type = 'pie',
-#                   options = NULL)
+#                   options = list(title = "my pie", is3D = TRUE))
 #
 # googleway:::DataTableColumn(markerCharts, "stop_id", c("variable", "value"))
 # googleway:::DataTableHeading(markerCharts, cols = c("variable", "value"))
