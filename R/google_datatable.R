@@ -12,10 +12,6 @@ DataTableColumn <- function(df, id, cols){
 
   info_window <- vapply(1:nrow(df), function(x) jsonlite::toJSON( list("c" =  df[x, cols] )), "")
   df$info_window <- gsub(paste0(cols, collapse = "|"), replacement = "v", gsub(",","},{",info_window))
-
-  # print(head(df))
-  # print(id)
-
   df <- aggregate(formula(paste0("info_window ~ ", id)), data = df, FUN = collapseJson)
   return(df)
 }

@@ -26,7 +26,7 @@ createMapObject <- function(data, cols, objArgs) {
 
   additionalValues <- setdiff(argsIdx, dataArgs)
 
-  sapply(additionalValues, function(x) print(class(objArgs[[x]])))
+#  sapply(additionalValues, function(x) print(class(objArgs[[x]])))
 
   validAdditionalValues <- additionalValues[which( vapply(additionalValues, function(x){
     class(objArgs[[x]]) %in% allowedAdditionalValues }, T ) )]
@@ -63,26 +63,16 @@ createMapObject <- function(data, cols, objArgs) {
   }
 
   ## any invalidAdditionalValues need resolving?
-  print("invalid additional values")
-  print(invalidAdditionalValues)
-  print(objArgs[invalidAdditionalValues])
   moreValues <- vapply(invalidAdditionalValues, function(x) names(objArgs)[x], "")
-  print(names(objArgs))
 
   if("info_window" %in% moreValues) {
 
     info <- objArgs[[which(names(objArgs) == "info_window")]]
     id <- objArgs[[which(names(objArgs) == "id")]]
-    # print(info)
-    # print(str(info))
-    # print(eval(info))
-#    print(get(paste0("\"", info, "\""), pos = -1))
-#     print(get(substitute(info), pos = -1L))
 
     df <- InfoWindow(eval(info), df, id)
   }
 
-  print(df)
   return(df)
 }
 

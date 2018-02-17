@@ -8,17 +8,17 @@
  * @param rows
  *     Rows of data
  **/
-function chartJson(cols, rows){
-  return('{'+cols+','+rows+'}');
+function chartJson(cols, rows) {
+    return ('{' + cols + ',' + rows + '}');
 }
 
 
-function isChartsLoaded(){
-  if(typeof google.visualization === undefined){
-    return false;
-  }else{
-    return true;
-  }
+function isChartsLoaded() {
+    if (typeof google.visualization === undefined) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 /**
@@ -32,18 +32,18 @@ function isChartsLoaded(){
  *     document.element 'div' node
  *
  **/
-function chartType(type, node){
-  if(type === 'area'){
-    return(new google.visualization.AreaChart(node));
-  }else if(type === 'bar'){
-    return(new google.visualization.BarChart(node));
-  }else if(type === 'combo'){
-    return(new google.visualization.ComboChart(node));
-  }else if(type === 'line'){
-    return(new google.visualization.LineChart(node));
-  }else if(type === 'pie'){
-    return(new google.visualization.PieChart(node));
-  }
+function chartType(type, node) {
+    if (type === 'area') {
+        return (new google.visualization.AreaChart(node));
+    } else if (type === 'bar') {
+        return (new google.visualization.BarChart(node));
+    } else if (type === 'combo') {
+        return (new google.visualization.ComboChart(node));
+    } else if (type === 'line') {
+        return (new google.visualization.LineChart(node));
+    } else if (type === 'pie') {
+        return (new google.visualization.PieChart(node));
+    }
 }
 
 /**
@@ -54,14 +54,14 @@ function chartType(type, node){
  * @param mapObject
  *     map object containing the option data
  **/
-function chartOptions(mapObject){
-    var options = {'title':'Marker location: '+ mapObject.getPosition().toString(),
+function chartOptions(mapObject) {
+    var options = {'title': 'Marker location: ' + mapObject.getPosition().toString(),
 //                 'chartArea' : {'left': '5%', 'width' : '80%'},
 //                 'legend' : 'bottom',
-                 'width':400,
-                 'height':150};
+                 'width': 400,
+                 'height': 150};
 
-   return(options);
+   return (options);
 }
 
 
@@ -76,18 +76,16 @@ function chartOptions(mapObject){
  **/
 function chartObject(mapObject) {
 
-  var js = chartJson(mapObject.chart_cols, mapObject.info_window);
-  var data = new google.visualization.DataTable(js);
+    var js = chartJson(mapObject.chart_cols, mapObject.info_window);
 
-  // Set chart options
-  var options = chartOptions(mapObject);
+    var data = new google.visualization.DataTable(js),
+        options = chartOptions(mapObject),
+        node = document.createElement('div');
 
-  var node = document.createElement('div');
+    // get a chart object
+    var chart = chartType(mapObject.chart_type, node);
 
-  // get a chart object
-  var chart = chartType(mapObject.chart_type, node);
-
-  chart.draw(data, options);
-  return(node);
+    chart.draw(data, options);
+    return (node);
 
 }

@@ -107,7 +107,7 @@ function draw_chart(marker) {
         ['Zucchini', 1],
         ['Pepperoni', 2]
     ]);
-
+    
     // Set chart options
     var options = {'title':'Pizza sold @ '+
                            marker.getPosition().toString(),
@@ -135,28 +135,48 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
                     opacityHolder: aMarker.opacity,
                     title: aMarker.title,
                     label: aMarker.label,
-                    mouseOverGroup: aMarker.mouse_over_group
+                    mouseOverGroup: aMarker.mouse_over_group,
+                    info_window: aMarker.info_window,
+                    chart_type: aMarker.chart_type,
+                    chart_cols: aMarker.chart_cols
                 });
     
     // CHARTS2
-//    if (aMarker.info_window) {
+    if (aMarker.info_window) {
 
         marker.infowindow = new google.maps.InfoWindow({
             content: aMarker.info_window
         });
 
-        google.maps.event.addListener(marker, 'click', function () {
+        //google.maps.event.addListener(marker, 'click', function () {
             //this.infowindow.open(window[map_id + 'map'], this);
-            
-            //draw_chart(this);
-            
+        //    draw_chart(this);  
+        //});
+
+        // info window can either be a value, formatted HTML, or a chart.
+        //console.log(marker);
+        
+      if(aMarker.chart_type === undefined){
+
+        google.maps.event.addListener(marker, 'click', function() {
+          this.infowindow.open(window[map_id + 'map'], this);
         });
 
+      }else{
+
+        google.maps.event.addListener(marker, 'click', function() {
+          var c = chartObject(this);
+          this.infowindow.setContent(c);
+          this.infowindow.open(window[map_id + 'map'], this);
+        });
+      }
+       
+        
     // the listener is being bound to the mapObject. So, when the infowindow
     // contents are updated, the 'click' listener will need to see the new information
     // ref: http://stackoverflow.com/a/13504662/5977215
 
-//    }
+    }
 
     if (aMarker.mouse_over || aMarker.mouse_over_group) {
         add_mouseOver(map_id, marker, infoWindow, '_mouse_over', aMarker.mouse_over, layer_id, 'googleMarkers');
