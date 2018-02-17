@@ -31,16 +31,18 @@
 NULL
 
 
-InfoWindow <- function(info_window, mapObject, data, id) UseMethod("InfoWindow")
+InfoWindow <- function(info_window, mapObject, id) UseMethod("InfoWindow")
 
 
 #' @export
-InfoWindow.list <- function(info_window, mapObject, data, id){
+InfoWindow.list <- function(info_window, mapObject, id){
   ## if a single columnname, use that
   ## else, it needs to be multiple column names, where
   ## the values will be the data components of a chart
   ## and needs to define the chart type
   ## e.g. list("pie", c("stop_lat", "stop_lon"))
+
+  #id <- info_window[['id']]
 
   if(is.null(id))
     stop("To use a chart as an Info Window you need to provide an 'id' that links the two data sets together.
@@ -53,6 +55,8 @@ InfoWindow.list <- function(info_window, mapObject, data, id){
   dataCols <- setdiff(names(infoData), id)
 
   mapObject[, 'chart_cols'] <- DataTableHeading(infoData, dataCols)
+
+#  print(mapObject)
 
   infoData <- DataTableColumn(df = infoData, id = id, cols = dataCols)
 
@@ -67,14 +71,12 @@ InfoWindow.list <- function(info_window, mapObject, data, id){
   return(mapObject)
 }
 
+# InfoWindow.character <- function(info_window, mapObject, data, id){
+#   mapObject[, "info_window"] <- as.character(data[, info_window])
+#   return(mapObject)
+# }
 
 #' @export
-InfoWindow.character <- function(info_window, mapObject, data, id){
-  mapObject[, "info_window"] <- as.character(data[, info_window])
-  return(mapObject)
-}
-
-#' @export
-InfoWindow.default <- function(info_window, mapObject, data, id){
+InfoWindow.default <- function(info_window, mapObject, id){
   stop("info_window must either be a list containing data for a chart, or a string specifying the column of data to be used as the info window content")
 }

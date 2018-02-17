@@ -25,3 +25,21 @@
 #               #info_window = chartList
 #               )
 
+
+# markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 3))
+# markerCharts$variable <- c("yes", "no", "maybe")
+# markerCharts$value <- sample(1:10, size = nrow(markerCharts), replace = T)
+#
+# chartList <- list(data = markerCharts,
+#                   type = 'pie',
+#                   options = NULL)
+#
+# googleway:::DataTableColumn(markerCharts, "stop_id", c("variable", "value"))
+# googleway:::DataTableHeading(markerCharts, cols = c("variable", "value"))
+#
+# google_map() %>% add_markers(data = tram_stops, info_window = chartList)
+
+
+
+
+
