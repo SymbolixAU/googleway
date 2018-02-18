@@ -75,11 +75,25 @@ add_markers <- function(map,
   layer_id <- layerId(layer_id)
 
   usePolyline <- isUsingPolyline(polyline)
-  if( !usePolyline ) {
+  if ( !usePolyline ) {
     objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_markers")
   }
 
   objArgs <- markerColourIconCheck(data, objArgs, colour, marker_icon)
+
+  ## need to do an 'infoWindowCheck'
+  ## to see if the user passed in a list, taht will be used as a chart...
+
+  ## IDEAS:
+  ## - pass the data separately to JS, and let the browser find
+  ## the correct data to use in the info_window from the JSON, when the marker is clicked
+  ##
+  ## - within the JS code, inside the `google.maps.event.addListener()` for info windows
+  ## write code taht extracts the correct info window content from an InfoWindowContent JSON object
+  ## Which will mean passing this object in throgh R.
+  ## I can test this directly by adding in some JSON to use as the pie chart
+  ## and see if plotting it works.
+
 
   loadIntervalCheck(load_interval)
   logicalCheck(cluster)

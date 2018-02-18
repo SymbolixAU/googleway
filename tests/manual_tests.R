@@ -3,7 +3,7 @@
 ## -- does this impact any other marker layers?
 
 
-# ### Drawing deletes on change
+### Drawing deletes on change
 # library(shiny)
 # ui <- fluidPage(
 #   google_mapOutput(outputId = "map")
@@ -337,7 +337,7 @@
 # df$grp <- c(rep(1, 27), rep(2, 28))
 #
 # library(googleway)
-# google_map(key = symbolix.utils::mapKey()) %>%
+# google_map(key = read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")) %>%
 #   add_polylines(data = df, lat = "shape_pt_lat", lon = "shape_pt_lon", id = "grp")
 
 ## Circle legend add/remove

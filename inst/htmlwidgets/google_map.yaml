@@ -69,5 +69,8 @@ dependencies:
     version: 1.0.0
     src: "htmlwidgets/lib"
     script: legend.js
-
+  - name: charts.js
+    version: 1.0.0
+    src: "htmlwidgets/lib"
+    script: charts.js
 

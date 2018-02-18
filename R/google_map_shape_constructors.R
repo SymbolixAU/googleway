@@ -1,4 +1,6 @@
 
+allowedAdditionalValues <- c("character", "numeric", "factor", "Date", "call")
+
 
 # Create Map Object
 #
@@ -14,7 +16,8 @@ createMapObject <- function(data, cols, objArgs) {
 
   dataNames <- names(data)
 
-  argsIdx <- match(cols, names(objArgs)) ## those taht exist in 'cols'
+  argsIdx <- match(cols, names(objArgs)) ## those that exist in 'cols'
+
   argsIdx <- argsIdx[!is.na(argsIdx)]
 
   argValues <- sapply(1:length(objArgs), function(x) objArgs[[x]])
@@ -23,25 +26,66 @@ createMapObject <- function(data, cols, objArgs) {
 
   additionalValues <- setdiff(argsIdx, dataArgs)
 
+  # sapply(additionalValues, function(x) print(class(objArgs[[x]])))
+
+  ## TODO:
+  ## might need a better method than the 'allowedAdditionalValues'
+  validAdditionalValues <- additionalValues[which( vapply(additionalValues, function(x){
+    class(objArgs[[x]]) %in% allowedAdditionalValues }, T ) )]
+
+  invalidAdditionalValues <- setdiff(additionalValues, validAdditionalValues)
+
   dataCols <- vapply(dataArgs, function(x) objArgs[[x]], "")
   dataNames <- names(objArgs)[dataArgs]
 
   df <- stats::setNames(data[, dataCols, drop = F], dataNames)
 
-  if(length(additionalValues) > 0){
+  ## need to resolve info windows here, because if it's a list of data
+  ## to be used in a chart, this will fail
 
-    extraCols <- lapply(additionalValues, function(x){
+  if(length(validAdditionalValues) > 0){
+
+    extraCols <- lapply(validAdditionalValues, function(x){
+
+      ## the rep(eval(info_window)) won't work if it's a list...
+      ## this is designed for when the value passed is a single value, like a colour #00FF00
+      ##
+      ##
       setNames(as.data.frame(rep(eval(objArgs[[x]]), nrow(df)), stringsAsFactors = F), names(objArgs)[x])
     })
 
     df <- cbind(df, do.call(cbind, extraCols))
   }
 
-  if("info_window" %in% names(df))
+  if("info_window" %in% names(df)){
     df[['info_window']] <- as.character(df[['info_window']])
+
+    ## for charts, info_window will be a list.
+    ## for everything else, assume it's a column of the data...
+  }
+
+  ## any invalidAdditionalValues need resolving?
+  moreValues <- vapply(invalidAdditionalValues, function(x) names(objArgs)[x], "")
+
+  if("info_window" %in% moreValues) {
+
+    info <- objArgs[[which(names(objArgs) == "info_window")]]
+    id <- objArgs[[which(names(objArgs) == "id")]]
+
+    df <- InfoWindow(eval(info), df, id)
+  }
 
   return(df)
 }
+
+## TODO:
+## tests - info window can be a single value, repeated for all markers
+## - can be a column of data
+## - can be a chart.
+## - supplying / not suplygin an 'id' column
+## -
+
+
 
 
 # Create Polyline List Column

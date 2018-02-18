@@ -7,6 +7,7 @@ HTMLWidgets.widget({
 
     return {
         renderValue: function(x) {
+            
             window.params = [];
             window.params.push( {'map_id' : el.id } );
             window.params.push( {'event_return_type' : x.event_return_type});
@@ -190,6 +191,9 @@ function initialise_map(el, x) {
     //console.log("initialising map: el.id: ");
     //console.log(el.id);
     window[el.id + 'mapBounds'] = new google.maps.LatLngBounds();
+    
+    // CHARTS2
+    google.charts.load('current', {'packages':['corechart']});
 
   // if places
   if(x.search_box === true){
