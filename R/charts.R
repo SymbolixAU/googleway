@@ -23,6 +23,9 @@
 #'   - `area`
 #'   - `bar`
 #'   - `bubble`
+#'   - `candlestick`
+#'   - `column`
+#'   - `combo`
 #'   - `line`
 #'   - `pie`
 #'
@@ -140,6 +143,145 @@
 #'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
 #'
 #' }
+#'
+#' @section Candlestick:
+#'
+#' **data**
+#'
+#' A candlestick chart requires a \code{data.frame} of at least six columns:
+#'   1. First column: a column of id values, where the column has the same name as the
+#'   id column in the \code{data} argument, and therefore the same name as the value supplied
+#'   to the \code{id} argument.
+#'   2. Second column: variable names used for labelling the data
+#'   3. Third column: Number specifying the 'low' number for the data
+#'   4. Fourth column: Number specifying the opening/initial value of the data.
+#'    This is one vertical border of the candle. If less than the column 4 value,
+#'    the candle will be filled; otherwise it will be hollow.
+#'   5. Fith column: Number specifying the closing/final value of the data.
+#'    This is the second vertical border of the candle. If less than the column 3 value,
+#'    the candle will be hollow; otherwise it will be filled.
+#'   6. Sixth column: Number specifying the high/maximum value of this marker.
+#'    This is the top of the candle's center line.
+#'
+#' **type** - `candlestick`
+#'
+#' **options**
+#'
+#' See the candlestick chart documentation for various other examples
+#' \url{https://developers.google.com/chart/interactive/docs/gallery/candlestickchart}
+#'
+#' @examples
+#' \dontrun{
+#'
+#' ## CANDLESTICK
+#' markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 5),
+#'     day = rep(c("Mon", "Tues", "Weds", "Thurs", "Fri"), times = nrow(tram_stops) ),
+#'     val1 = rep(c(20, 31, 50, 77, 68), times = nrow(tram_stops) ),
+#'     val2 = rep(c(28, 38, 55, 77, 66), times = nrow(tram_stops) ),
+#'     val3 = rep(c(38, 55, 77, 66, 22), times = nrow(tram_stops) ),
+#'     val4 = rep(c(45, 66, 80, 50, 15), times = nrow(tram_stops) ) )
+#'
+#' chartList <- list(data = markerCharts,
+#'    type = 'candlestick',
+#'    options = list(legend = 'none',
+#'      bar = list(groupWidth = "100%"),
+#'      candlestick = list(
+#'        fallingColor = list( strokeWidth = 0, fill = "#a52714"),
+#'        risingColor = list( strokeWidth = 0, fill = "#0f9d58")
+#'        )
+#'      ))
+#'
+#' google_map() %>%
+#'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
+#'
+#' }
+#'
+#'
+#' @section Column:
+#'
+#' **data**
+#'
+#' A column chart requires a \code{data.frame} of at least three columns:
+#'   1. First column: a column of id values, where the column has the same name as the
+#'   id column in the \code{data} argument, and therefore the same name as the value supplied
+#'   to the \code{id} argument.
+#'   2. Second column: variable names used for labelling the data
+#'   3. Third or more columns: the data used in the chart
+#'
+#' **type** - `column`
+#'
+#' **options**
+#'
+#' See the column chart documentation for various other examples
+#' \url{https://developers.google.com/chart/interactive/docs/gallery/columnchart}
+#'
+#' @examples
+#' \dontrun{
+#'
+#' ## COLUMN
+#' markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 2),
+#'     year = rep( c("year1", "year2")),
+#'     arrivals = sample(1:100, size = nrow(tram_stops) * 2, replace = T),
+#'     departures = sample(1:100, size = nrow(tram_stops) * 2, replace = T))
+#'
+#' chartList <- list(data = markerCharts,
+#'    type = 'column')
+#'
+#' google_map() %>%
+#'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
+#'
+#' }
+#'
+#' @section Combo:
+#'
+#' A Combo charlets you render each series as a different marker type from the following list:
+#' line, area, bars, candlesticks, and stepped area.
+#'
+#' **data**
+#'
+#' A combo chart requires a \code{data.frame} of at least three columns:
+#'   1. First column: a column of id values, where the column has the same name as the
+#'   id column in the \code{data} argument, and therefore the same name as the value supplied
+#'   to the \code{id} argument.
+#'   2. Second column: variable names used for labelling the data
+#'   3. Third or more columns: the data used in the chart
+#'
+#' **type** - `combo`
+#'
+#' **options**
+#'
+#' See the column chart documentation for various other examples
+#' \url{https://developers.google.com/chart/interactive/docs/gallery/columnchart}
+#'
+#' @examples
+#' \dontrun{
+#'
+#' ## TODO:
+#' ## - need to convert from JSON to javascript object literal, so that the
+#' ## - series option can have a numeric key
+#'
+#' ## COMBO
+#' markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 2),
+#'     year = rep( c("year1", "year2")),
+#'     arrivals = sample(1:100, size = nrow(tram_stops) * 2, replace = T),
+#'     departures = sample(1:100, size = nrow(tram_stops) * 2, replace = T))
+#'
+#' markerCharts$val <- sample(1:100, size = nrow(markerCharts), replace = T)
+#'
+#' chartList <- list(data = markerCharts,
+#'    type = 'combo',
+#'    options = list(
+#'      "title" = "Passengers at stops",
+#'      "vAxis" = list( title = "passengers" ),
+#'      "hAxis" = list( title = "load" ),
+#'      "seriesType" = "bars",
+#'      "series" = list( "2" = list( "type" = "line" )))) ## 0-indexed
+#'
+#' google_map() %>%
+#'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
+#'
+#' }
+#'
 #'
 #' @section Pie:
 #'
