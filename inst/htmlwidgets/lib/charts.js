@@ -51,6 +51,8 @@ function chartType(type, node) {
         return (new google.visualization.LineChart(node));
     } else if (type === 'pie') {
         return (new google.visualization.PieChart(node));
+    } else if (type === 'scatter') {
+        return (new google.visualization.ScatterChart(node));
     }
 }
 

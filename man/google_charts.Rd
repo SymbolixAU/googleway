@@ -201,7 +201,7 @@ to the \code{id} argument.
 
 \strong{options}
 
-See the column chart documentation for various other examples
+See the histogram chart documentation for various other examples
 \url{https://developers.google.com/chart/interactive/docs/gallery/histogram}
 }
 
@@ -366,6 +366,8 @@ google_map() \%>\%
 
 }
 
+
+
 \dontrun{
 
 ## PIE
@@ -393,6 +395,41 @@ chartList <- list(data = markerCharts,
      height = 240,
      width = 240,
      colors = c('#440154', '#21908C', '#FDE725')))
+
+google_map() \%>\%
+  add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
+
+}
+
+
+#' @section Scatter:
+
+**data**
+
+A Scatter chart requires a \\code{data.frame} of at least four columns:
+  1. First column: a column of id values, where the column has the same name as the
+  id column in the \\code{data} argument, and therefore the same name as the value supplied
+  to the \\code{id} argument.
+  2. Second column: variable names used for labelling the data
+  3. Third column: the data plotted on x-axis
+  4. Fourth or more columns: the data plotted on y-axis
+
+**type** - `scatter`
+
+**options**
+
+See the scatter chart documentation for various other examples
+\\url{https://developers.google.com/chart/interactive/docs/gallery/scatterchart}
+
+\dontrun{
+
+## SCATTER
+markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 5))
+markerCharts$arrival <- sample(1:10, size = nrow(markerCharts), replace = T)
+markerCharts$departure <- sample(1:10, size = nrow(markerCharts), replace = T)
+
+chartList <- list(data = markerCharts,
+   type = 'scatter')
 
 google_map() \%>\%
   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")

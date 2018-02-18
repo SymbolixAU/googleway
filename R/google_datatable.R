@@ -17,7 +17,7 @@ DataTableColumn <- function(df, id, cols){
   ## in the chartList, pass in 'dataColumns' and 'labelColumn'
   info_window <- vapply(1:nrow(df), function(x) jsonlite::toJSON( list("c" =  df[x, cols] )), "")
   df$info_window <- gsub(paste0(cols, collapse = "|"), replacement = "v", gsub(",","},{",info_window))
-  df <- aggregate(formula(paste0("info_window ~ ", id)), data = df, FUN = collapseJson)
+  df <- stats::aggregate(stats::formula(paste0("info_window ~ ", id)), data = df, FUN = collapseJson)
   return(df)
 }
 
@@ -60,7 +60,7 @@ DataTableArray <- function(df, id, cols) {
 
   headings <- jsonlite::toJSON(cols)
 
-  dataArray <- aggregate(formula(paste0("info_window ~ ", id) ),
+  dataArray <- stats::aggregate(stats::formula(paste0("info_window ~ ", id) ),
                          data = df,
                          FUN = googleway:::collapseJson)
 #  print(dataArray)
@@ -73,7 +73,7 @@ DataTableArray <- function(df, id, cols) {
 
 
 # df$info_window <- vapply(1:nrow(df), function(x) gsub("^\\[|\\]$", "", jsonlite::toJSON(unname(df[x, cols]))), "")
-# aggregate(formula("info_window ~ stop_id"), data = df, FUN = googleway:::collapseJson)
+# stats::aggregate(formula("info_window ~ stop_id"), data = df, FUN = googleway:::collapseJson)
 
 
 #collapseJson <- function(x) paste0('"rows":[', paste0(x, collapse = ","),']' )

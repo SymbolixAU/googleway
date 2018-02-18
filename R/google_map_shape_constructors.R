@@ -28,6 +28,8 @@ createMapObject <- function(data, cols, objArgs) {
 
   # sapply(additionalValues, function(x) print(class(objArgs[[x]])))
 
+  ## TODO:
+  ## might need a better method than the 'allowedAdditionalValues'
   validAdditionalValues <- additionalValues[which( vapply(additionalValues, function(x){
     class(objArgs[[x]]) %in% allowedAdditionalValues }, T ) )]
 
