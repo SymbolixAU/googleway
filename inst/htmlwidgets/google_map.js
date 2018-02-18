@@ -1,117 +1,119 @@
 HTMLWidgets.widget({
-
+    
     name: 'google_map',
     type: 'output',
 
-    factory: function(el, width, height) {
+    factory: function (el, width, height) {
 
-    return {
-        renderValue: function(x) {
+        return {
+            renderValue: function (x) {
             
-            window.params = [];
-            window.params.push( {'map_id' : el.id } );
-            window.params.push( {'event_return_type' : x.event_return_type});
+                window.params = [];
+                window.params.push({'map_id' : el.id });
+                window.params.push({'event_return_type' : x.event_return_type});
 
-            // visualisation layers
-            window[el.id + 'googleTrafficLayer'] = [];
-            window[el.id + 'googleBicyclingLayer'] = [];
-            window[el.id + 'googleTransitLayer'] = [];
-            window[el.id + 'googleSearchBox'] = [];
-            window[el.id + 'googlePlaceMarkers'] = [];
-            window[el.id + 'legendPositions'] = [];     // array for keeping a referene to legend positions
+                // visualisation layers
+                window[el.id + 'googleTrafficLayer'] = [];
+                window[el.id + 'googleBicyclingLayer'] = [];
+                window[el.id + 'googleTransitLayer'] = [];
+                window[el.id + 'googleSearchBox'] = [];
+                window[el.id + 'googlePlaceMarkers'] = [];
+                window[el.id + 'legendPositions'] = [];     // array for keeping a referene to legend positions
 
-            if(x.search_box === true){
-                console.log("search box");
-                // create a place DOM element
-                window[el.id + 'googleSearchBox'] = document.createElement("input");
-                window[el.id + 'googleSearchBox'].setAttribute('id', 'pac-input');
-                window[el.id + 'googleSearchBox'].setAttribute('class', 'controls');
-                window[el.id + 'googleSearchBox'].setAttribute('type', 'text');
-                window[el.id + 'googleSearchBox'].setAttribute('placeholder', 'Search location');
-                document.body.appendChild(window[el.id + 'googleSearchBox']);
+                if (x.search_box === true) {
+                    //console.log("search box");
+                    // create a place DOM element
+                    window[el.id + 'googleSearchBox'] = document.createElement("input");
+                    window[el.id + 'googleSearchBox'].setAttribute('id', 'pac-input');
+                    window[el.id + 'googleSearchBox'].setAttribute('class', 'controls');
+                    window[el.id + 'googleSearchBox'].setAttribute('type', 'text');
+                    window[el.id + 'googleSearchBox'].setAttribute('placeholder', 'Search location');
+                    document.body.appendChild(window[el.id + 'googleSearchBox']);
+                }
+
+                window[el.id + 'event_return_type'] = x.event_return_type;
+
+                var mapDiv = document.getElementById(el.id);
+                mapDiv.className = "googlemap";
+
+                if (HTMLWidgets.shinyMode) {
+
+                    // use setInterval to check if the map can be loaded
+                    // the map is dependant on the Google Maps JS resource
+                    // - usually implemented via callback
+                    var checkExists = setInterval(function () {
+
+                        var map = new google.maps.Map(mapDiv, {
+                            center: {lat: x.lat, lng: x.lng},
+                            zoom: x.zoom,
+                            styles: JSON.parse(x.styles),
+                            zoomControl: x.zoomControl,
+                            mapTypeControl: x.mapTypeControl,
+                            scaleControl: x.scaleControl,
+                            streetViewControl: x.streetViewControl,
+                            rotateControl: x.rotateControl,
+                            fullscreenControl: x.fullscreenControl
+                        });
+
+                        //global map object
+                        window[el.id + 'map'] = map;
+
+                        if (google !== undefined) {
+                            //console.log("exists");
+                            clearInterval(checkExists);
+
+                            initialise_map(el, x);
+
+                        } else {
+                            //console.log("does not exist!");
+                        }
+                    }, 100);
+
+                } else {
+                    //console.log("not shiny mode");
+
+                    var map = new google.maps.Map(mapDiv, {
+                        center: {lat: x.lat, lng: x.lng},
+                        zoom: x.zoom,
+                        styles: JSON.parse(x.styles),
+                        zoomControl: x.zoomControl,
+                        mapTypeControl: x.mapTypeControl,
+                        scaleControl: x.scaleControl,
+                        streetViewControl: x.streetViewControl,
+                        rotateControl: x.rotateControl,
+                        fullscreenControl: x.fullscreenControl
+                    });
+
+                    window[el.id + 'map'] = map;
+                    initialise_map(el, x);
+                }
+            },
+            resize: function (width, height) {
+            // TODO: code to re-render the widget with a new size
             }
-
-            window[el.id + 'event_return_type'] = x.event_return_type;
-
-            var mapDiv = document.getElementById(el.id);
-            mapDiv.className = "googlemap";
-
-          if (HTMLWidgets.shinyMode){
-
-            // use setInterval to check if the map can be loaded
-            // the map is dependant on the Google Maps JS resource
-            // - usually implemented via callback
-            var checkExists = setInterval(function(){
-
-              var map = new google.maps.Map(mapDiv, {
-                center: {lat: x.lat, lng: x.lng},
-                zoom: x.zoom,
-                styles: JSON.parse(x.styles),
-                zoomControl: x.zoomControl,
-                mapTypeControl: x.mapTypeControl,
-                scaleControl: x.scaleControl,
-                streetViewControl: x.streetViewControl,
-                rotateControl: x.rotateControl,
-                fullscreenControl: x.fullscreenControl
-              });
-
-              //global map object
-              window[el.id + 'map'] = map;
-
-              if (google !== undefined){
-                console.log("exists");
-                clearInterval(checkExists);
-
-                initialise_map(el, x);
-
-              }else{
-                console.log("does not exist!");
-              }
-            }, 100);
-
-          }else{
-            console.log("not shiny mode");
-
-            var map = new google.maps.Map(mapDiv, {
-              center: {lat: x.lat, lng: x.lng},
-              zoom: x.zoom,
-              styles: JSON.parse(x.styles),
-              zoomControl: x.zoomControl,
-              mapTypeControl: x.mapTypeControl,
-              scaleControl: x.scaleControl,
-              streetViewControl: x.streetViewControl,
-              rotateControl: x.rotateControl,
-              fullscreenControl: x.fullscreenControl
-            });
-
-            window[el.id + 'map'] = map;
-            initialise_map(el, x);
-          }
-      },
-      resize: function(width, height) {
-        // TODO: code to re-render the widget with a new size
-      },
-    };
-  }
+        };
+    }
 });
 
 
 
 if (HTMLWidgets.shinyMode) {
 
-    Shiny.addCustomMessageHandler("googlemap-calls", function(data) {
+    Shiny.addCustomMessageHandler("googlemap-calls", function (data) {
 
-        var id = data.id;   // the div id of the map
-        var el = document.getElementById(id);
-        var map = el;
+        var id = data.id,   // the div id of the map
+            el = document.getElementById(id),
+            map = el,
+            call = [],
+            i = 0;
         if (!map) {
-            console.log("Couldn't find map with id " + id);
+            //console.log("Couldn't find map with id " + id);
             return;
         }
 
-        for (var i = 0; i < data.calls.length; i++) {
+        for (i = 0; i < data.calls.length; i++) {
 
-            var call = data.calls[i];
+            call = data.calls[i];
 
             //push the mapId into the call.args
             call.args.unshift(id);
@@ -120,12 +122,13 @@ if (HTMLWidgets.shinyMode) {
                 Shiny.renderDependencies(call.dependencies);
             }
 
-            if (window[call.method])
+            if (window[call.method]) {
                 window[call.method].apply(window[id + 'map'], call.args);
-            else
-                console.log("Unknown function " + call.method);
+            } else {
+                //console.log("Unknown function " + call.method);
+            }
         }
-  });
+    });
 }
 
 
@@ -146,8 +149,8 @@ function update_style(map_id, style) {
 * Creates a window object for a given shape type if it doens't exist
 *
 */
-function createWindowObject(map_id, objType, layer_id){
-    if(window[map_id + objType + layer_id] == null){
+function createWindowObject(map_id, objType, layer_id) {
+    if (window[map_id + objType + layer_id] == null) {
         window[map_id + objType + layer_id] = [];
     }
 }
@@ -158,10 +161,11 @@ function createWindowObject(map_id, objType, layer_id){
  * Converts hex colours to rgb
  */
 function hexToRgb(hex) {
-    var arrBuff = new ArrayBuffer(4);
-    var vw = new DataView(arrBuff);
+    var arrBuff = new ArrayBuffer(4),
+        vw = new DataView(arrBuff),
+        arrByte = new Uint8Array(arrBuff);
+    
     vw.setUint32(0, parseInt(hex, 16), false);
-    var arrByte = new Uint8Array(arrBuff);
 
     return arrByte[1] + "," + arrByte[2] + "," + arrByte[3];
 }
@@ -173,11 +177,12 @@ function hexToRgb(hex) {
  * @param id the id to search for
  **/
 function findById(source, id, returnType) {
-    for (var i = 0; i < source.length; i++) {
+    var i = 0;
+    for (i = 0; i < source.length; i++) {
         if (source[i].id === id) {
-            if(returnType === "object"){
+            if (returnType === "object") {
                 return source[i];
-            }else{
+            } else {
                 return i;
             }
         }
@@ -193,110 +198,112 @@ function initialise_map(el, x) {
     window[el.id + 'mapBounds'] = new google.maps.LatLngBounds();
     
     // CHARTS2
-    google.charts.load('current', {'packages':['corechart']});
+    google.charts.load('current', {'packages': ['corechart']});
 
-  // if places
-  if(x.search_box === true){
-      var input = document.getElementById('pac-input');
+    // if places
+    if (x.search_box === true) {
+        var input = document.getElementById('pac-input');
 
-      window[el.id + 'googleSearchBox'] = new google.maps.places.SearchBox(input);
-      window[el.id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+        window[el.id + 'googleSearchBox'] = new google.maps.places.SearchBox(input);
+        window[el.id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-      // Bias the SearchBox results towards current map's viewport.
-      window[el.id + 'map'].addListener('bounds_changed', function() {
-          window[el.id + 'googleSearchBox'].setBounds(window[el.id + 'map'].getBounds());
-      });
+        // Bias the SearchBox results towards current map's viewport.
+        window[el.id + 'map'].addListener('bounds_changed', function () {
+            window[el.id + 'googleSearchBox'].setBounds(window[el.id + 'map'].getBounds());
+        });
 
-      // listen for deleting the search bar
-      input.addEventListener('input', function(){
-          if(input.value.length === 0){
-              clear_search(el.id);
-          }
-      });
+        // listen for deleting the search bar
+        input.addEventListener('input', function () {
+            if (input.value.length === 0) {
+                clear_search(el.id);
+            }
+        });
 
-      // Listen for the event fired when the user selects a prediction and retrieve
-      // more details for that place.
-      window[el.id + 'googleSearchBox'].addListener('places_changed', function() {
-          var places = window[el.id + 'googleSearchBox'].getPlaces();
-          if (places.length == 0) {
-              return;
-          }
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        window[el.id + 'googleSearchBox'].addListener('places_changed', function () {
+            var places = window[el.id + 'googleSearchBox'].getPlaces();
+            if (places.length == 0) {
+                return;
+            }
 
-          // Clear out the old markers.
-          window[el.id + 'googlePlaceMarkers'].forEach(function(marker) {
-              marker.setMap(null);
-          });
-          window[el.id + 'googlePlaceMarkers'] = [];
+            // Clear out the old markers.
+            window[el.id + 'googlePlaceMarkers'].forEach(function (marker) {
+                marker.setMap(null);
+            });
+            
+            window[el.id + 'googlePlaceMarkers'] = [];
 
-          // For each place, get the icon, name and location.
-          var bounds = new google.maps.LatLngBounds();
+            // For each place, get the icon, name and location.
+            var bounds = new google.maps.LatLngBounds();
 
-          places.forEach(function(place) {
-              if (!place.geometry) {
-                  console.log("Returned place contains no geometry");
-                  return;
-              }
+            places.forEach(function (place) {
+                if (!place.geometry) {
+                    //console.log("Returned place contains no geometry");
+                    return;
+                }
 
-              var icon = {
-                  url: place.icon,
-                  size: new google.maps.Size(71, 71),
-                  origin: new google.maps.Point(0, 0),
-                  anchor: new google.maps.Point(17, 34),
-                  scaledSize: new google.maps.Size(25, 25)
-              };
+                var icon = {
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(25, 25)
+                };
 
-              // Create a marker for each place.
-              window[el.id + 'googlePlaceMarkers'].push(new google.maps.Marker({
-                  map: window[el.id + 'map'],
-                  icon: icon,
-                  title: place.name,
-                  position: place.geometry.location
-              }));
+                // Create a marker for each place.
+                window[el.id + 'googlePlaceMarkers'].push(new google.maps.Marker({
+                    map: window[el.id + 'map'],
+                    icon: icon,
+                    title: place.name,
+                    position: place.geometry.location
+                }));
 
-              if (place.geometry.viewport) {
-                  // Only geocodes have viewport.
-                  bounds.union(place.geometry.viewport);
-              } else {
-                  bounds.extend(place.geometry.location);
-              }
-              
-              if (HTMLWidgets.shinyMode) {
-                  
-              var event_return_type = window.params[1].event_return_type,
-                  eventInfo = {
-                      address_components: place.address_components,
-                      lat: place.geometry.location.lat(),
-                      lon: place.geometry.location.lng(),
-                      name: place.name,
-                      address: place.formatted_address,
-                      place_id: place.place_id,
-                      vicinity: place.vicinity,
-                      randomValue: Math.random()
-                  };
-              eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
-              Shiny.onInputChange(el.id + "_place_search", eventInfo);
-          };  
-          
-          console.log(places);
-          });
+                if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
 
-          window[el.id + 'map'].fitBounds(bounds);
-      });
-  }
+                if (HTMLWidgets.shinyMode) {
+
+                    var event_return_type = window.params[1].event_return_type,
+                        eventInfo = {
+                            address_components: place.address_components,
+                            lat: place.geometry.location.lat(),
+                            lon: place.geometry.location.lng(),
+                            name: place.name,
+                            address: place.formatted_address,
+                            place_id: place.place_id,
+                            vicinity: place.vicinity,
+                            randomValue: Math.random()
+                        };
+
+                    eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+                    Shiny.onInputChange(el.id + "_place_search", eventInfo);
+                }
+
+            //console.log(places);
+            });
+
+            window[el.id + 'map'].fitBounds(bounds);
+        });
+    }
 
     // call initial layers
-    if(x.calls !== undefined){
+    if (x.calls !== undefined) {
 
-        for(layerCalls = 0; layerCalls < x.calls.length; layerCalls++){
+        for (layerCalls = 0; layerCalls < x.calls.length; layerCalls++) {
 
             //push the map_id into the call.args
             x.calls[layerCalls].args.unshift(el.id);
 
-            if (window[x.calls[layerCalls].functions]){
+            if (window[x.calls[layerCalls].functions]) {
 
                 window[x.calls[layerCalls].functions].apply(window[el.id + 'map'], x.calls[layerCalls].args);
-            }else{
-                console.log("Unknown function " + x.calls[layerCalls]);
+            } else {
+                //console.log("Unknown function " + x.calls[layerCalls]);
             }
         }
     }
@@ -351,7 +358,7 @@ function placeControl(map_id, object, position) {
         window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(object);
         break;
     default:
-        position = "LEFT_BOTTOM"
+        position = "LEFT_BOTTOM";
         window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_BOTTOM].push(object);
         break;
     }
@@ -359,14 +366,14 @@ function placeControl(map_id, object, position) {
     ledge = {
         id: object.getAttribute('id'),
         position: position
-    }
+    };
     window[map_id + 'legendPositions'].push(ledge);
 }
 
-function removeControl(map_id, legend_id, position){
+function removeControl(map_id, legend_id, position) {
 
-    console.log("removeControl()");
-    console.log(position);
+    //console.log("removeControl()");
+    //console.log(position);
 
     switch (position) {
     case 'RIGHT_BOTTOM':
@@ -406,7 +413,7 @@ function removeControl(map_id, legend_id, position){
         clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_RIGHT], legend_id);
         break;
     default:
-        position = "LEFT_BOTTOM"
+        position = "LEFT_BOTTOM";
         clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_BOTTOM], legend_id);
         break;
     }
@@ -414,14 +421,14 @@ function removeControl(map_id, legend_id, position){
 
 function clearControl(control, legend_id) {
 
-    if(control != null){
-        control.forEach(function(item, index){
-            if(item != null){
+    if (control != null) {
+        control.forEach(function (item, index) {
+            if (item != null) {
                 if (item.getAttribute('id') === legend_id) {
                     control.removeAt(index);
                 }
             }
-        })
+        });
     }
 }
 
@@ -429,11 +436,13 @@ function clearControl(control, legend_id) {
 * clears an object from it's window-array, and then the map
 * and then calls 'clear_legend'
 */
-function clear_object (map_id, objType, layer_id) {
+function clear_object(map_id, objType, layer_id) {
 
-    if (window[map_id + objType + layer_id] && window[map_id + objType + layer_id].length){
+    if (window[map_id + objType + layer_id] && window[map_id + objType + layer_id].length) {
+        
+        var i = 0;
 
-        for (i = 0; i < window[map_id + objType + layer_id].length; i++){
+        for (i = 0; i < window[map_id + objType + layer_id].length; i++) {
             window[map_id + objType + layer_id][i].setMap(null);
         }
         window[map_id + objType + layer_id] = null;
