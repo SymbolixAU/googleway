@@ -31,8 +31,10 @@ the \code{type} element can be one of
 \item \code{candlestick}
 \item \code{column}
 \item \code{combo}
+\item \code{histogram}
 \item \code{line}
 \item \code{pie}
+\item \code{scatter}
 }
 }
 

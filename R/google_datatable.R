@@ -79,8 +79,6 @@ DataTableArray <- function(df, id, cols) {
 #collapseJson <- function(x) paste0('"rows":[', paste0(x, collapse = ","),']' )
 collapseJson <- function(x) paste0(x, collapse = ",")
 
-
-#' @export
 JsonType <- function(x) UseMethod("JsonType")
 
 #' @export

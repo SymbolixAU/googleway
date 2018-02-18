@@ -29,8 +29,10 @@
 #'   - `candlestick`
 #'   - `column`
 #'   - `combo`
+#'   - `histogram`
 #'   - `line`
 #'   - `pie`
+#'   - `scatter`
 #'
 #' @section Area:
 #'
