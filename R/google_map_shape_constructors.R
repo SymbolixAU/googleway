@@ -1,5 +1,5 @@
 
-allowedAdditionalValues <- c("character", "numeric", "factor","Date")
+allowedAdditionalValues <- c("character", "numeric", "factor", "Date", "call")
 
 
 # Create Map Object
@@ -26,7 +26,7 @@ createMapObject <- function(data, cols, objArgs) {
 
   additionalValues <- setdiff(argsIdx, dataArgs)
 
-#  sapply(additionalValues, function(x) print(class(objArgs[[x]])))
+  # sapply(additionalValues, function(x) print(class(objArgs[[x]])))
 
   validAdditionalValues <- additionalValues[which( vapply(additionalValues, function(x){
     class(objArgs[[x]]) %in% allowedAdditionalValues }, T ) )]

@@ -45,6 +45,8 @@ function chartType(type, node) {
         return (new google.visualization.ColumnChart(node));
     } else if (type === 'combo') {
         return (new google.visualization.ComboChart(node));
+    } else if (type === 'histogram') {
+        return (new google.visualization.Histogram(node));
     } else if (type === 'line') {
         return (new google.visualization.LineChart(node));
     } else if (type === 'pie') {

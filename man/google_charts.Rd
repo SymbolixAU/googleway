@@ -30,6 +30,7 @@ the \code{type} element can be one of
 \item \code{bubble}
 \item \code{candlestick}
 \item \code{column}
+\item \code{combo}
 \item \code{line}
 \item \code{pie}
 }
@@ -160,7 +161,7 @@ See the column chart documentation for various other examples
 \section{Combo}{
 
 
-A Combo charlets you render each series as a different marker type from the following list:
+A Combo chart lets you render each series as a different marker type from the following list:
 line, area, bars, candlesticks, and stepped area.
 
 \strong{data}
@@ -180,6 +181,28 @@ to the \code{id} argument.
 
 See the column chart documentation for various other examples
 \url{https://developers.google.com/chart/interactive/docs/gallery/columnchart}
+}
+
+\section{Histogram}{
+
+
+\strong{data}
+
+A column chart requires a \code{data.frame} of at least three columns:
+\enumerate{
+\item First column: a column of id values, where the column has the same name as the
+id column in the \code{data} argument, and therefore the same name as the value supplied
+to the \code{id} argument.
+\item Second column: variable names used for labelling the data
+\item Third or more columns: the data used in the chart
+}
+
+\strong{type} - \code{histogram}
+
+\strong{options}
+
+See the column chart documentation for various other examples
+\url{https://developers.google.com/chart/interactive/docs/gallery/histogram}
 }
 
 \section{Pie}{
@@ -303,9 +326,6 @@ google_map() \%>\%
 
 \dontrun{
 
-## TODO:
-## - need to convert from JSON to javascript object literal, so that the
-## - series option can have a numeric key
 
 ## COMBO
 markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 2),
@@ -313,7 +333,7 @@ markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 2),
     arrivals = sample(1:100, size = nrow(tram_stops) * 2, replace = T),
     departures = sample(1:100, size = nrow(tram_stops) * 2, replace = T))
 
-markerCharts$avg <- mean(c(markerCharts$arrivals, markerCharts$departures))
+markerCharts$val <- sample(1:100, size = nrow(markerCharts), replace = T)
 
 chartList <- list(data = markerCharts,
    type = 'combo',
@@ -322,13 +342,29 @@ chartList <- list(data = markerCharts,
      "vAxis" = list( title = "passengers" ),
      "hAxis" = list( title = "load" ),
      "seriesType" = "bars",
-     "series" = list( "4" = list( "type" = "line" ))))
+     "series" = list( "2" = list( "type" = "line" )))) ## 0-indexed
 
 google_map() \%>\%
   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
 
 }
 
+
+\dontrun{
+
+## HISTOGRAM
+markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 20),
+    day = as.character(1:20))
+
+markerCharts$wait <- rnorm(nrow(markerCharts), 0, 1)
+
+chartList <- list(data = markerCharts,
+   type = 'histogram')
+
+google_map() \%>\%
+  add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
+
+}
 
 \dontrun{
 
@@ -341,6 +377,19 @@ chartList <- list(data = markerCharts,
    type = 'pie',
    options = list(title = "my pie",
      is3D = TRUE,
+     height = 240,
+     width = 240,
+     colors = c('#440154', '#21908C', '#FDE725')))
+
+google_map() \%>\%
+  add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
+
+## use pieHole option to make a donut chart
+
+chartList <- list(data = markerCharts,
+   type = 'pie',
+   options = list(title = "my pie",
+     pieHole = 0.4,
      height = 240,
      width = 240,
      colors = c('#440154', '#21908C', '#FDE725')))

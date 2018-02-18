@@ -1,6 +1,14 @@
 
 ## e.g.http://jsfiddle.net/doktormolle/S6vBK/
 
+## TODO: CORECHARTS
+## - Diff
+## - Histograms
+## - Intervals
+## - Scatter
+## - SteppedArea
+
+
 #' Google Charts
 #'
 #' Google Charts can be displayed inside an \code{info_window}
@@ -234,7 +242,7 @@
 #'
 #' @section Combo:
 #'
-#' A Combo charlets you render each series as a different marker type from the following list:
+#' A Combo chart lets you render each series as a different marker type from the following list:
 #' line, area, bars, candlesticks, and stepped area.
 #'
 #' **data**
@@ -256,9 +264,6 @@
 #' @examples
 #' \dontrun{
 #'
-#' ## TODO:
-#' ## - need to convert from JSON to javascript object literal, so that the
-#' ## - series option can have a numeric key
 #'
 #' ## COMBO
 #' markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 2),
@@ -282,6 +287,41 @@
 #'
 #' }
 #'
+#'
+#' @section Histogram:
+#'
+#' **data**
+#'
+#' A column chart requires a \code{data.frame} of at least three columns:
+#'   1. First column: a column of id values, where the column has the same name as the
+#'   id column in the \code{data} argument, and therefore the same name as the value supplied
+#'   to the \code{id} argument.
+#'   2. Second column: variable names used for labelling the data
+#'   3. Third or more columns: the data used in the chart
+#'
+#' **type** - `histogram`
+#'
+#' **options**
+#'
+#' See the column chart documentation for various other examples
+#' \url{https://developers.google.com/chart/interactive/docs/gallery/histogram}
+#'
+#' @examples
+#' \dontrun{
+#'
+#' ## HISTOGRAM
+#' markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 20),
+#'     day = as.character(1:20))
+#'
+#' markerCharts$wait <- rnorm(nrow(markerCharts), 0, 1)
+#'
+#' chartList <- list(data = markerCharts,
+#'    type = 'histogram')
+#'
+#' google_map() %>%
+#'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
+#'
+#' }
 #'
 #' @section Pie:
 #'
@@ -320,6 +360,19 @@
 #' google_map() %>%
 #'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
 #'
+#' ## use pieHole option to make a donut chart
+#'
+#' chartList <- list(data = markerCharts,
+#'    type = 'pie',
+#'    options = list(title = "my pie",
+#'      pieHole = 0.4,
+#'      height = 240,
+#'      width = 240,
+#'      colors = c('#440154', '#21908C', '#FDE725')))
+#'
+#' google_map() %>%
+#'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
+#'
 #' }
 #'
 #'
@@ -328,49 +381,3 @@
 NULL
 
 
-InfoWindow <- function(info_window, mapObject, id) UseMethod("InfoWindow")
-
-
-#' @export
-InfoWindow.list <- function(info_window, mapObject, id){
-  ## if a single columnname, use that
-  ## else, it needs to be multiple column names, where
-  ## the values will be the data components of a chart
-  ## and needs to define the chart type
-  ## e.g. list("pie", c("stop_lat", "stop_lon"))
-
-  #id <- info_window[['id']]
-
-  if(is.null(id))
-    stop("To use a chart as an Info Window you need to provide an 'id' that links the two data sets together.
-         Therefore, specify the 'id' parameter as the common column of data between the two.")
-
-  if(!all(c("data", "type") %in% names(info_window)))
-    stop("infow_window list requires a 'data' and 'type' element")
-
-  infoData <- info_window[['data']]
-  dataCols <- setdiff(names(infoData), id)
-
-  #mapObject[, 'chart_cols'] <- DataTableHeading(infoData, dataCols)
-  #infoData <- DataTableColumn(df = infoData, id = id, cols = dataCols)
-
-  mapObject[, 'info_window'] <- DataTableArray(infoData, id, dataCols)
-  mapObject[, 'chart_type'] <- tolower(info_window[['type']])
-  mapObject[, 'chart_options'] <- jsonlite::toJSON(info_window[['options']], auto_unbox = T)
-
-#  mapObject <- merge(mapObject, infoData, by.x = 'id', by.y = id, all.x = T)
-
-#  print(mapObject)
-
-  return(mapObject)
-}
-
-# InfoWindow.character <- function(info_window, mapObject, data, id){
-#   mapObject[, "info_window"] <- as.character(data[, info_window])
-#   return(mapObject)
-# }
-
-#' @export
-InfoWindow.default <- function(info_window, mapObject, id){
-  stop("info_window must either be a list containing data for a chart, or a string specifying the column of data to be used as the info window content")
-}
