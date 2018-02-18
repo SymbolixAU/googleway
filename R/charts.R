@@ -3,9 +3,32 @@
 
 #' Google Charts
 #'
-#' Google Charts that can be displayed
+#' Google Charts can be displayed inside an \code{info_window}
+#'
+#' @section `info_window`:
+#'
+#' When using a chart in an `info_window` you need to pass in a `list` with at least
+#' two elements named `data` and `type`. You can also use a third element called `options`
+#' for controlling the appearance of the chart.
+#'
+#' You must also supply the `id` argument to the layer your are adding (e.g. `add_markers()`),
+#' and the **`data`** must have a column with the same name as the `id` (and therefore
+#' the same name as the `id` column in the original `data` supplied to the `add_` function).
+#'
+#' See the specific chart sections for details on how to structure the `data`.
+#'
+#' @section chart types:
+#'
+#' the `type` element can be one of
+#'   - `pie`
+#'   - `bar`
+#'   - `line`
+#'   - `area`
+#'
 #'
 #' @section Pie Chart:
+#'
+#' **data**
 #'
 #' A Pie chart requires a \code{data.frame} of three columns:
 #'   1. First column: a column of id values, where the column has the same name as the
@@ -15,24 +38,51 @@
 #'   2. Second column: variable names used for labelling the data
 #'   3. Third column: the data used in the chart
 #'
-#' The first column contains
-#' the text that's used as the label, and the second contains the data used in
-#' the pie.
+#' **type** - `pie`
 #'
-#' type: 'pie'
+#' **options**
 #'
-#' options
-#' \itemize{
-#'   \item{title - string of text}
-#'   \item{is3D - logical}
+#' See the pie chart documentation for various other examples
+#' \url{https://developers.google.com/chart/interactive/docs/gallery/piechart}
+#'
+#' @examples
+#' \dontrun{
+#'
+#' set_key("your_api_key")
+#'
+#' markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 3))
+#' markerCharts$variable <- c("yes", "no", "maybe")
+#' markerCharts$value <- sample(1:10, size = nrow(markerCharts), replace = T)
+#'
+#' chartList <- list(data = markerCharts,
+#'    type = 'pie',
+#'    options = list(title = "my pie",
+#'      is3D = TRUE,
+#'      height = 240,
+#'      width = 240,
+#'      colors = c('#440154', '#21908C', '#FDE725')))
+#'
+#' google_map() %>%
+#'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
+#'
 #' }
-#'
 #'
 #' @section Area:
 #'
 #' \url{https://developers.google.com/chart/interactive/docs/gallery/areachart}
 #'
 #' Each row of data represents a data point at the same x-axis location
+#'
+#' markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 2),
+#'     year = rep( c("year1", "year2")),
+#'     arrivals = sample(1:100, size = nrow(tram_stops) * 2, replace = T),
+#'     departures = sample(1:100, size = nrow(tram_stops) * 2, replace = T))
+#'
+#' chartList <- list(data = markerCharts,
+#'    type = 'area')
+#'
+#' google_map() %>%
+#'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
 #'
 #' @md
 #' @name google_charts
@@ -62,18 +112,12 @@ InfoWindow.list <- function(info_window, mapObject, id){
   infoData <- info_window[['data']]
   dataCols <- setdiff(names(infoData), id)
 
-  mapObject[, 'chart_cols'] <- DataTableHeading(infoData, dataCols)
+  #mapObject[, 'chart_cols'] <- DataTableHeading(infoData, dataCols)
+  #infoData <- DataTableColumn(df = infoData, id = id, cols = dataCols)
 
-#  print(mapObject)
-
-  infoData <- DataTableColumn(df = infoData, id = id, cols = dataCols)
-
-  ## TODO:
-  ## chart options
-  chartOptions <- info_window[['options']]
-
+  mapObject[, 'info_window'] <- DataTableArray(infoData, id, dataCols)
   mapObject[, 'chart_type'] <- tolower(info_window[['type']])
-  mapObject[, 'chart_options'] <- jsonlite::toJSON(chartOptions, auto_unbox = T)
+  mapObject[, 'chart_options'] <- jsonlite::toJSON(info_window[['options']], auto_unbox = T)
 
   mapObject <- merge(mapObject, infoData, by.x = 'id', by.y = id, all.x = T)
 

@@ -76,10 +76,14 @@ function chartOptions(mapObject) {
  **/
 function chartObject(mapObject) {
 
-    var js = chartJson(mapObject.chart_cols, mapObject.info_window),
-        data = new google.visualization.DataTable(js),
+    //var js = chartJson(mapObject.chart_cols, mapObject.info_window),
+    var js = JSON.parse(mapObject.info_window),
+        data = new google.visualization.arrayToDataTable(js),
+        //data = new google.visualization.DataTable(js),
         //options = chartOptions(mapObject),
         node = document.createElement('div');
+    
+    console.log(js);
 
     // get a chart object
     var chart = chartType(mapObject.chart_type, node);

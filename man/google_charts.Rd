@@ -4,10 +4,38 @@
 \alias{google_charts}
 \title{Google Charts}
 \description{
-Google Charts that can be displayed
+Google Charts can be displayed inside an \code{info_window}
 }
+\section{\code{info_window}}{
+
+
+When using a chart in an \code{info_window} you need to pass in a \code{list} with at least
+two elements named \code{data} and \code{type}. You can also use a third element called \code{options}
+for controlling the appearance of the chart.
+
+You must also supply the \code{id} argument to the layer your are adding (e.g. \code{add_markers()}),
+and the \strong{\code{data}} must have a column with the same name as the \code{id} (and therefore
+the same name as the \code{id} column in the original \code{data} supplied to the \code{add_} function).
+
+See the specific chart sections for details on how to structure the \code{data}.
+}
+
+\section{chart types}{
+
+
+the \code{type} element can be one of
+\itemize{
+\item \code{pie}
+\item \code{bar}
+\item \code{line}
+\item \code{area}
+}
+}
+
 \section{Pie Chart}{
 
+
+\strong{data}
 
 A Pie chart requires a \code{data.frame} of three columns:
 \enumerate{
@@ -18,17 +46,12 @@ to the \code{id} argument.
 \item Third column: the data used in the chart
 }
 
-The first column contains
-the text that's used as the label, and the second contains the data used in
-the pie.
+\strong{type} - \code{pie}
 
-type: 'pie'
+\strong{options}
 
-options
-\itemize{
-\item{title - string of text}
-\item{is3D - logical}
-}
+See the pie chart documentation for various other examples
+\url{https://developers.google.com/chart/interactive/docs/gallery/piechart}
 }
 
 \section{Area}{
@@ -37,5 +60,39 @@ options
 \url{https://developers.google.com/chart/interactive/docs/gallery/areachart}
 
 Each row of data represents a data point at the same x-axis location
+
+markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 2),
+year = rep( c("year1", "year2")),
+arrivals = sample(1:100, size = nrow(tram_stops) * 2, replace = T),
+departures = sample(1:100, size = nrow(tram_stops) * 2, replace = T))
+
+chartList <- list(data = markerCharts,
+type = 'area')
+
+google_map() %>%
+add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
 }
 
+\examples{
+\dontrun{
+
+set_key("your_api_key")
+
+markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 3))
+markerCharts$variable <- c("yes", "no", "maybe")
+markerCharts$value <- sample(1:10, size = nrow(markerCharts), replace = T)
+
+chartList <- list(data = markerCharts,
+   type = 'pie',
+   options = list(title = "my pie",
+     is3D = TRUE,
+     height = 240,
+     width = 240,
+     colors = c('#440154', '#21908C', '#FDE725')))
+
+google_map() \%>\%
+  add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
+
+}
+
+}

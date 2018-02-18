@@ -10,6 +10,11 @@
 # @return \code{data.frame} with one row of JSON against each ID
 DataTableColumn <- function(df, id, cols){
 
+  ## TODO:
+  ## different types of charts:
+  ## - area, only numeric columns, needs a 'label' that's also not the ID
+
+  ## in the chartList, pass in 'dataColumns' and 'labelColumn'
   info_window <- vapply(1:nrow(df), function(x) jsonlite::toJSON( list("c" =  df[x, cols] )), "")
   df$info_window <- gsub(paste0(cols, collapse = "|"), replacement = "v", gsub(",","},{",info_window))
   df <- aggregate(formula(paste0("info_window ~ ", id)), data = df, FUN = collapseJson)
@@ -32,7 +37,47 @@ DataTableHeading <- function(df, cols){
 
 
 
-collapseJson <- function(x) paste0('"rows":[', paste0(x, collapse = ","),']' )
+DataTableArray <- function(df, id, cols) {
+
+  ## each row will be an array
+  ## the first row will be the headings and types
+
+  #v <- vapply(df[, cols], JsonType, "")
+  #headings <- paste0("[",
+  #                   paste0('{"label" : "', names(v), '", "id" : "', names(v), '", "type" : "', v, '"}', collapse = ","),
+  #                   "]")
+
+  # headings <- jsonlite::toJSON(cols)
+  #
+  #
+  # vars <- jsonlite::toJSON(unname(df[, cols]))
+  # vars <- gsub("^\\[|\\]$", "", vars )
+  # dataArray <- paste0("[", headings, ",", vars, "]")
+
+  df[, 'info_window'] <- vapply(1:nrow(df), function(x) {
+    gsub("^\\[|\\]$", "", jsonlite::toJSON(unname(df[x, cols])))
+    } , "")
+
+  headings <- jsonlite::toJSON(cols)
+
+  dataArray <- aggregate(formula(paste0("info_window ~ ", id) ),
+                         data = df,
+                         FUN = googleway:::collapseJson)
+#  print(dataArray)
+
+  dataArray <- paste0("[", headings, ",", dataArray[, 'info_window'], "]")
+
+  return(dataArray)
+}
+
+
+
+# df$info_window <- vapply(1:nrow(df), function(x) gsub("^\\[|\\]$", "", jsonlite::toJSON(unname(df[x, cols]))), "")
+# aggregate(formula("info_window ~ stop_id"), data = df, FUN = googleway:::collapseJson)
+
+
+#collapseJson <- function(x) paste0('"rows":[', paste0(x, collapse = ","),']' )
+collapseJson <- function(x) paste0(x, collapse = ",")
 
 
 #' @export

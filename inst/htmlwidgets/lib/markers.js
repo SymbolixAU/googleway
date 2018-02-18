@@ -138,9 +138,11 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
                     mouseOverGroup: aMarker.mouse_over_group,
                     info_window: aMarker.info_window,
                     chart_type: aMarker.chart_type,
-                    chart_cols: aMarker.chart_cols,
+                    chart_data: aMarker.chart_data,
                     chart_options: aMarker.chart_options
                 });
+    
+    console.log(marker);
     
     // CHARTS2
     if (aMarker.info_window) {
