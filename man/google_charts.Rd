@@ -227,6 +227,29 @@ See the pie chart documentation for various other examples
 \url{https://developers.google.com/chart/interactive/docs/gallery/piechart}
 }
 
+\section{Scatter}{
+
+
+\strong{data}
+
+A Scatter chart requires a \code{data.frame} of at least four columns:
+\enumerate{
+\item First column: a column of id values, where the column has the same name as the
+id column in the \code{data} argument, and therefore the same name as the value supplied
+to the \code{id} argument.
+\item Second column: variable names used for labelling the data
+\item Third column: the data plotted on x-axis
+\item Fourth or more columns: the data plotted on y-axis
+}
+
+\strong{type} - \code{scatter}
+
+\strong{options}
+
+See the scatter chart documentation for various other examples
+\url{https://developers.google.com/chart/interactive/docs/gallery/scatterchart}
+}
+
 \examples{
 \dontrun{
 
@@ -401,25 +424,6 @@ google_map() \%>\%
 
 }
 
-
-#' @section Scatter:
-
-**data**
-
-A Scatter chart requires a \\code{data.frame} of at least four columns:
-  1. First column: a column of id values, where the column has the same name as the
-  id column in the \\code{data} argument, and therefore the same name as the value supplied
-  to the \\code{id} argument.
-  2. Second column: variable names used for labelling the data
-  3. Third column: the data plotted on x-axis
-  4. Fourth or more columns: the data plotted on y-axis
-
-**type** - `scatter`
-
-**options**
-
-See the scatter chart documentation for various other examples
-\\url{https://developers.google.com/chart/interactive/docs/gallery/scatterchart}
 
 \dontrun{
 

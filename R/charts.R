@@ -373,7 +373,7 @@
 #' }
 #'
 #'
-#' #' @section Scatter:
+#' @section Scatter:
 #'
 #' **data**
 #'
