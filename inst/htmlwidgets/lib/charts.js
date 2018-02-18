@@ -43,6 +43,8 @@ function chartType(type, node) {
         return (new google.visualization.LineChart(node));
     } else if (type === 'pie') {
         return (new google.visualization.PieChart(node));
+    } else if (type == 'bubble') {
+        return (new google.visualization.BubbleChart(node));
     }
 }
 

@@ -20,13 +20,128 @@
 #' @section chart types:
 #'
 #' the `type` element can be one of
-#'   - `pie`
-#'   - `bar`
-#'   - `line`
 #'   - `area`
+#'   - `bar`
+#'   - `bubble`
+#'   - `line`
+#'   - `pie`
+#'
+#' @section Area:
+#'
+#' **data**
+#'
+#' An area chart requires a \code{data.frame} of at least three columns:
+#'   1. First column: a column of id values, where the column has the same name as the
+#'   id column in the \code{data} argument, and therefore the same name as the value supplied
+#'   to the \code{id} argument.
+#'   2. Second column: variable names used for labelling the data
+#'   3. Third or more columns: the data used in the chart
+#'
+#' **type** - `area`
+#'
+#' **options**
+#' see the area charts documentation for various other examples
+#' \url{https://developers.google.com/chart/interactive/docs/gallery/areachart}
+#'
+#' Each row of data represents a data point at the same x-axis location
+#'
+#' @examples
+#' \dontrun{
+#'
+#' set_key("your_api_key")
+#'
+#' ## AREA
+#' markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 2),
+#'     year = rep( c("year1", "year2")),
+#'     arrivals = sample(1:100, size = nrow(tram_stops) * 2, replace = T),
+#'     departures = sample(1:100, size = nrow(tram_stops) * 2, replace = T))
+#'
+#' chartList <- list(data = markerCharts,
+#'    type = 'area')
+#'
+#' google_map() %>%
+#'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
+#'
+#' }
 #'
 #'
-#' @section Pie Chart:
+#' @section Bar:
+#'
+#' **data**
+#'
+#' A bar chart requires a \code{data.frame} of at least three columns:
+#'   1. First column: a column of id values, where the column has the same name as the
+#'   id column in the \code{data} argument, and therefore the same name as the value supplied
+#'   to the \code{id} argument.
+#'   2. Second column: variable names used for labelling the data
+#'   3. Third or more columns: the data used in the chart
+#'
+#' **type** - `bar`
+#'
+#' **options**
+#'
+#' See the bar chart documentation for various other examples
+#' \url{https://developers.google.com/chart/interactive/docs/gallery/barchart}
+#'
+#' @examples
+#' \dontrun{
+#'
+#' ## BAR
+#' markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 2),
+#'     year = rep( c("year1", "year2")),
+#'     arrivals = sample(1:100, size = nrow(tram_stops) * 2, replace = T),
+#'     departures = sample(1:100, size = nrow(tram_stops) * 2, replace = T))
+#'
+#' chartList <- list(data = markerCharts,
+#'    type = 'bar')
+#'
+#' google_map() %>%
+#'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
+#'
+#' }
+#'
+#'
+#' @section Bubble:
+#'
+#' **data**
+#'
+#' A bubble chart requires a \code{data.frame} of at least four, and at most six columns:
+#'   1. First column: a column of id values, where the column has the same name as the
+#'   id column in the \code{data} argument, and therefore the same name as the value supplied
+#'   to the \code{id} argument.
+#'   2. Second column: variable names used for labelling the data
+#'   3. Third column: x-axis value
+#'   4. Fourth column: y-axis value
+#'   5. Fith column: visualised as colour
+#'   6. Sixth column: visualised as size
+#'
+#' **type** - `bubble`
+#'
+#' **options**
+#'
+#' See the bubble chart documentation for various other examples
+#' \url{https://developers.google.com/chart/interactive/docs/gallery/bubblechart}
+#'
+#' @examples
+#' \dontrun{
+#'
+#' ## BUBLE
+#' markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 4),
+#'     ID = sample(letters, size = nrow(tram_stops) * 4, replace = T),
+#'     time = sample(1:1440, size = nrow(tram_stops) * 4, replace = T),
+#'     passengers = sample(1:100, size = nrow(tram_stops) * 4, replace = T),
+#'     year = c("year1", "year2", "year3", "year4"),
+#'     group = sample(50:100, size = nrow(tram_stops) * 4, replace = T))
+#'
+#' chartList <- list(data = markerCharts,
+#'    type = 'bubble')
+#'
+#' google_map() %>%
+#'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
+#'
+#' }
+#'
+#' @section Pie:
 #'
 #' **data**
 #'
@@ -34,7 +149,6 @@
 #'   1. First column: a column of id values, where the column has the same name as the
 #'   id column in the \code{data} argument, and therefore the same name as the value supplied
 #'   to the \code{id} argument.
-#'
 #'   2. Second column: variable names used for labelling the data
 #'   3. Third column: the data used in the chart
 #'
@@ -48,8 +162,7 @@
 #' @examples
 #' \dontrun{
 #'
-#' set_key("your_api_key")
-#'
+#' ## PIE
 #' markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 3))
 #' markerCharts$variable <- c("yes", "no", "maybe")
 #' markerCharts$value <- sample(1:10, size = nrow(markerCharts), replace = T)
@@ -67,22 +180,6 @@
 #'
 #' }
 #'
-#' @section Area:
-#'
-#' \url{https://developers.google.com/chart/interactive/docs/gallery/areachart}
-#'
-#' Each row of data represents a data point at the same x-axis location
-#'
-#' markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 2),
-#'     year = rep( c("year1", "year2")),
-#'     arrivals = sample(1:100, size = nrow(tram_stops) * 2, replace = T),
-#'     departures = sample(1:100, size = nrow(tram_stops) * 2, replace = T))
-#'
-#' chartList <- list(data = markerCharts,
-#'    type = 'area')
-#'
-#' google_map() %>%
-#'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
 #'
 #' @md
 #' @name google_charts
@@ -119,7 +216,9 @@ InfoWindow.list <- function(info_window, mapObject, id){
   mapObject[, 'chart_type'] <- tolower(info_window[['type']])
   mapObject[, 'chart_options'] <- jsonlite::toJSON(info_window[['options']], auto_unbox = T)
 
-  mapObject <- merge(mapObject, infoData, by.x = 'id', by.y = id, all.x = T)
+#  mapObject <- merge(mapObject, infoData, by.x = 'id', by.y = id, all.x = T)
+
+#  print(mapObject)
 
   return(mapObject)
 }
