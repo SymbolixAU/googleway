@@ -122,7 +122,4 @@
 #   add_circles(data = tram_stops, radius = 500) %>%
 #   add_heatmap(data = tram_stops)
 
-
-
-
-# htmlwidgets::saveWidget(g, file = "~/Documents/development/googleway/g", selfcontained = T)
+#htmlwidgets::saveWidget(g, file = "~/Documents/development/googleway/g", selfcontained = T)
