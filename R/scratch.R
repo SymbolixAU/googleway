@@ -40,6 +40,75 @@
 # google_map() %>% add_markers(data = tram_stops, info_window = chartList)
 
 
+# - name: markers.js
+# version: 1.0.0
+# src: "htmlwidgets/lib"
+# script: markers.js
+# - name: MarkerClusterer
+# version: 1.0.0
+# src: "htmlwidgets/lib"
+# script: markerclusterer.js
+# - name: map_events.js
+# version: 1.0.0
+# src: "htmlwidgets/lib"
+# script: map_events.js
+# - name: legend.js
+# version: 1.0.0
+# src: "htmlwidgets/lib"
+# script: legend.js
+
+
+# - name: circles.js
+# version: 1.0.0
+# src: "htmlwidgets/lib"
+# script: circles.js
+# - name: heatmap.js
+# version: 1.0.0
+# src: "htmlwidgets/lib"
+# script: heatmap.js
+# - name: polylines.js
+# version: 1.0.0
+# src: "htmlwidgets/lib"
+# script: polylines.js
+# - name: polygons.js
+# version: 1.0.0
+# src: "htmlwidgets/lib"
+# script: polygons.js
+# - name: rectangles.js
+# version: 1.0.0
+# src: "htmlwidgets/lib"
+# script: rectangles.js
+# - name: kml.js
+# version: 1.0.0
+# src: "htmlwidgets/lib"
+# script: kml.js
+# - name: geojson.js
+# version: 1.0.0
+# src: "htmlwidgets/lib"
+# script: geojson.js
+# - name: overlay.js
+# version: 1.0.0
+# src: "htmlwidgets/lib"
+# script: overlay.js
+# - name: fusion.js
+# version: 1.0.0
+# src: "htmlwidgets/lib"
+# script: fusion.js
+# - name: map_layers.js
+# version: 1.0.0
+# src: "htmlwidgets/lib"
+# script: map_layers.js
+# - name: drawing.js
+# version: 1.0.0
+# src: "htmlwidgets/lib"
+# script: drawing.js
+# - name: charts.js
+# version: 1.0.0
+# src: "htmlwidgets/lib"
+# script: charts.js
 
 
 
+# g <- google_map() %>%
+#   add_markers(data = tram_stops)
+# htmlwidgets::saveWidget(g, file = "~/Documents/development/googleway", selfcontained = F)
