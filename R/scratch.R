@@ -56,16 +56,10 @@
 # version: 1.0.0
 # src: "htmlwidgets/lib"
 # script: legend.js
-
-
-# - name: circles.js
+# - name: rectangles.js
 # version: 1.0.0
 # src: "htmlwidgets/lib"
-# script: circles.js
-# - name: heatmap.js
-# version: 1.0.0
-# src: "htmlwidgets/lib"
-# script: heatmap.js
+# script: rectangles.js
 # - name: polylines.js
 # version: 1.0.0
 # src: "htmlwidgets/lib"
@@ -74,14 +68,22 @@
 # version: 1.0.0
 # src: "htmlwidgets/lib"
 # script: polygons.js
-# - name: rectangles.js
-# version: 1.0.0
-# src: "htmlwidgets/lib"
-# script: rectangles.js
 # - name: kml.js
 # version: 1.0.0
 # src: "htmlwidgets/lib"
 # script: kml.js
+# - name: heatmap.js
+# version: 1.0.0
+# src: "htmlwidgets/lib"
+# script: heatmap.js
+
+
+
+# - name: circles.js
+# version: 1.0.0
+# src: "htmlwidgets/lib"
+# script: circles.js
+
 # - name: geojson.js
 # version: 1.0.0
 # src: "htmlwidgets/lib"
@@ -108,7 +110,19 @@
 # script: charts.js
 
 
-
+# set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
 # g <- google_map() %>%
 #   add_markers(data = tram_stops)
-# htmlwidgets::saveWidget(g, file = "~/Documents/development/googleway", selfcontained = F)
+#
+# g <- google_map() %>%
+#   add_markers(data = tram_stops) %>%
+#   add_polylines(data = tram_route, lat = "shape_pt_lat", lon = "shape_pt_lon") %>%
+#   add_polygons(data = melbourne, polyline = "polyline") %>%
+#   add_traffic() %>%
+#   add_circles(data = tram_stops, radius = 500) %>%
+#   add_heatmap(data = tram_stops)
+
+
+
+
+# htmlwidgets::saveWidget(g, file = "~/Documents/development/googleway/g", selfcontained = T)

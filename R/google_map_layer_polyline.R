@@ -1,3 +1,14 @@
+googlePolylineDependency <- function() {
+  list(
+    htmltools::htmlDependency(
+      "polylines",
+      "1.0.0",
+      system.file("htmlwidgets/lib/polylines", package = "googleway"),
+      script = c("polylines.js")
+    )
+  )
+}
+
 
 #' Add polyline
 #'
@@ -167,6 +178,9 @@ add_polylines <- function(map,
     shape <- jsonlite::toJSON(lst_polyline, digits = digits, auto_unbox = T)
 
   }
+
+  map$dependencies <- c(map$dependencies, googlePolylineDependency())
+
   invoke_method(map, 'add_polylines', shape, update_map_view, layer_id, usePolyline, legend, load_interval)
 }
 

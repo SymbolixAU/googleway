@@ -5,27 +5,21 @@ googleMarkerDependency <- function() {
       "markers",
       "1.0.0",
       system.file("htmlwidgets/lib/markers", package = "googleway"),
-      script = "markers.js"
+      script = c("markers.js", "markerclusterer.js")
     )
-    # htmltools::htmlDependency(
-    #   "legend",
-    #   "1.0.0",
-    #   system.file("htmlwidgets/lib/", package = "googleway"),
-    #   script = "legend.js"
-    # )
   )
 }
 
-googleMarkerClustererDependency <- function() {
-  list(
-    htmltools::htmlDependency(
-      "MarkerClusterer",
-      "1.0.0",
-      system.file("htmlwidgets/lib/map", package = "googleway"),
-      script = "markerclusterer.js"
-    )
-  )
-}
+# googleMarkerClustererDependency <- function() {
+#   list(
+#     htmltools::htmlDependency(
+#       "MarkerClusterer",
+#       "1.0.0",
+#       system.file("htmlwidgets/lib/map", package = "googleway"),
+#       script = "markerclusterer.js"
+#     )
+#   )
+# }
 
 
 #' Add markers
@@ -152,7 +146,6 @@ add_markers <- function(map,
   shape <- jsonlite::toJSON(shape, digits = digits)
 
   map$dependencies <- c(map$dependencies, googleMarkerDependency())
-  map$dependencies <- c(map$dependencies, googleMarkerClustererDependency())
 
   invoke_method(map, 'add_markers', shape, cluster, update_map_view, layer_id, usePolyline, load_interval)
 }

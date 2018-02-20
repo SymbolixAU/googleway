@@ -4,8 +4,10 @@ dependencies:
     version: 1.0.0
     src: "htmlwidgets/lib/map"
     script:
-      - map.js
       - map_events.js
+      - legend.js
+      - map_layers.js
+      - charts.js
     stylesheet: map_style.css
 
 

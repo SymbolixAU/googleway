@@ -1,3 +1,14 @@
+googleGeojsonDependency <- function() {
+  list(
+    htmltools::htmlDependency(
+      "geojson",
+      "1.0.0",
+      system.file("htmlwidgets/lib/geojson", package = "googleway"),
+      script = c("geojson.js")
+    )
+  )
+}
+
 #' Add GeoJson
 #'
 #' @param map a googleway map object created from \code{google_map()}
@@ -111,6 +122,9 @@ add_geojson <- function(map,
 
   if(!is.null(style))
     style <- validateStyle(style)
+
+  map$dependencies <- c(map$dependencies, googleGeojsonDependency())
+
 
   invoke_method(map, 'add_geojson', geojson[['geojson']], geojson[['source']],
                 style[['style']], update_map_view, mouse_over,
