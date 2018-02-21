@@ -133,7 +133,7 @@
 #' @examples
 #' \dontrun{
 #'
-#' ## BUBLE
+#' ## BUBBLE
 #' markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 4),
 #'     ID = sample(letters, size = nrow(tram_stops) * 4, replace = T),
 #'     time = sample(1:1440, size = nrow(tram_stops) * 4, replace = T),
