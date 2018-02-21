@@ -1,3 +1,15 @@
+googleCircleDependency <- function() {
+  list(
+    htmltools::htmlDependency(
+      "circles",
+      "1.0.0",
+      system.file("htmlwidgets/lib/circles", package = "googleway"),
+      script = c("circles.js")
+    )
+  )
+}
+
+
 #' Add circle
 #'
 #' Add circles to a google map
@@ -215,6 +227,8 @@ add_circles <- function(map,
   }
 
   shape <- jsonlite::toJSON(shape, digits = digits)
+
+  map <- addDependency(map, googleCircleDependency())
 
   invoke_method(map, 'add_circles', shape, update_map_view, layer_id, usePolyline, legend, load_interval)
 }

@@ -1,3 +1,15 @@
+googleFusionDependency <- function() {
+  list(
+    htmltools::htmlDependency(
+      "fusion",
+      "1.0.0",
+      system.file("htmlwidgets/lib/fusion", package = "googleway"),
+      script = c("fusion.js")
+    )
+  )
+}
+
+
 #' Add Fusion
 #'
 #' Adds a fusion table layer to a map.
@@ -112,6 +124,8 @@ add_fusion <- function(map, query, styles = NULL, heatmap = FALSE, layer_id = NU
 
   if(!is.null(styles))
     styles <- validateFusionStyle(styles)
+
+  map <- addDependency(map, googleFusionDependency())
 
   invoke_method(map, 'add_fusion', query, styles, heatmap, layer_id)
 }

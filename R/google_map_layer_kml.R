@@ -1,3 +1,14 @@
+googleKmlDependency <- function() {
+  list(
+    htmltools::htmlDependency(
+      "kml",
+      "1.0.0",
+      system.file("htmlwidgets/lib/kml", package = "googleway"),
+      script = c("kml.js")
+    )
+  )
+}
+
 #' Add KML
 #'
 #' Adds a KML layer to a map.
@@ -31,6 +42,8 @@ add_kml <- function(map, kml_url, layer_id = NULL){
   layer_id <- layerId(layer_id)
 
   kml <- jsonlite::toJSON(data.frame(url = kml_url))
+
+  map <- addDependency(map, googleKmlDependency())
 
   invoke_method(map, 'add_kml', kml, layer_id)
 }

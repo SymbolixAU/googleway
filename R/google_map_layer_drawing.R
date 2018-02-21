@@ -1,3 +1,14 @@
+googleDrawingDependency <- function() {
+  list(
+    htmltools::htmlDependency(
+      "drawing",
+      "1.0.0",
+      system.file("htmlwidgets/lib/drawing", package = "googleway"),
+      script = c("drawing.js")
+    )
+  )
+}
+
 #' Add Drawing
 #'
 #' Adds drawing tools to the map. Particularly useful when in an interactive (shiny) environment.
@@ -31,6 +42,8 @@ add_drawing <- function(map,
   rectangle <- jsonlite::toJSON(rectangleDefaults())
   polyline <- jsonlite::toJSON(polylineDefaults())
   polygon <- jsonlite::toJSON(polygonDefaults())
+
+  map <- addDependency(map, googleDrawingDependency())
 
   invoke_method(map,  'add_drawing', drawing_modes,
                 marker, circle, rectangle, polyline, polygon, delete_on_change)

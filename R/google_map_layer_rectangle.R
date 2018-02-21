@@ -1,3 +1,14 @@
+googleRectangleDependency <- function() {
+  list(
+    htmltools::htmlDependency(
+      "rectangles",
+      "1.0.0",
+      system.file("htmlwidgets/lib/rectangles", package = "googleway"),
+      script = c("rectangles.js")
+    )
+  )
+}
+
 #' Add Rectangles
 #'
 #' Adds a rectangle to a google map
@@ -115,6 +126,8 @@ add_rectangles <- function(map,
   }
 
   shape <- jsonlite::toJSON(shape, digits = digits)
+
+  map <- addDependency(map, googleRectangleDependency())
 
   invoke_method(map, 'add_rectangles', shape, update_map_view, layer_id, legend, load_interval)
 }

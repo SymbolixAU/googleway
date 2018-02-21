@@ -1,3 +1,15 @@
+googleHeatmapDependency <- function() {
+  list(
+    htmltools::htmlDependency(
+      "heatmap",
+      "1.0.0",
+      system.file("htmlwidgets/lib/heatmap", package = "googleway"),
+      script = c("heatmap.js")
+    )
+  )
+}
+
+
 #' Add heatmap
 #'
 #' Adds a heatmap to a google map
@@ -152,6 +164,8 @@ add_heatmap <- function(map,
 
   # Heatmap <- jsonlite::toJSON(Heatmap, digits = digits)
   heatmap_options <- jsonlite::toJSON(heatmap_options)
+
+  map <- addDependency(map, googleHeatmapDependency())
 
   invoke_method(map, 'add_heatmap', shape, heatmap_options, update_map_view, layer_id, legend)
 }

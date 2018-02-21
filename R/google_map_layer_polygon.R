@@ -1,3 +1,13 @@
+googlePolygonDependency <- function() {
+  list(
+    htmltools::htmlDependency(
+      "polygons",
+      "1.0.0",
+      system.file("htmlwidgets/lib/polygons", package = "googleway"),
+      script = c("polygons.js")
+    )
+  )
+}
 
 #' Add polygon
 #'
@@ -213,6 +223,8 @@ add_polygons <- function(map,
 
     shape <- jsonlite::toJSON(lst_polygon, digits = digits, auto_unbox = T)
   }
+
+  map <- addDependency(map, googlePolygonDependency())
 
   invoke_method(map, 'add_polygons', shape, update_map_view, layer_id, usePolyline, legend, load_interval)
 }

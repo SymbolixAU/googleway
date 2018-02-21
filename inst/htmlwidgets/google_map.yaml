@@ -1,76 +1,13 @@
 
 dependencies:
-  - name: map.js
+  - name: map
     version: 1.0.0
-    src: "htmlwidgets/lib"
-    script: map.js
+    src: "htmlwidgets/lib/map"
+    script:
+      - map_events.js
+      - legend.js
+      - map_layers.js
+      - charts.js
     stylesheet: map_style.css
-  - name: loadMap.js
-    version: 1.0.0
-    src: "htmlwidgets/lib"
-    script: loadMap.js
-  - name: MarkerClusterer
-    version: 1.0.0
-    src: "htmlwidgets/lib"
-    script: markerclusterer.js
-  - name: markers.js
-    version: 1.0.0
-    src: "htmlwidgets/lib"
-    script: markers.js
-  - name: circles.js
-    version: 1.0.0
-    src: "htmlwidgets/lib"
-    script: circles.js
-  - name: heatmap.js
-    version: 1.0.0
-    src: "htmlwidgets/lib"
-    script: heatmap.js
-  - name: polylines.js
-    version: 1.0.0
-    src: "htmlwidgets/lib"
-    script: polylines.js
-  - name: polygons.js
-    version: 1.0.0
-    src: "htmlwidgets/lib"
-    script: polygons.js
-  - name: rectangles.js
-    version: 1.0.0
-    src: "htmlwidgets/lib"
-    script: rectangles.js
-  - name: kml.js
-    version: 1.0.0
-    src: "htmlwidgets/lib"
-    script: kml.js
-  - name: geojson.js
-    version: 1.0.0
-    src: "htmlwidgets/lib"
-    script: geojson.js
-  - name: overlay.js
-    version: 1.0.0
-    src: "htmlwidgets/lib"
-    script: overlay.js
-  - name: fusion.js
-    version: 1.0.0
-    src: "htmlwidgets/lib"
-    script: fusion.js
-  - name: map_events.js
-    version: 1.0.0
-    src: "htmlwidgets/lib"
-    script: map_events.js
-  - name: map_layers.js
-    version: 1.0.0
-    src: "htmlwidgets/lib"
-    script: map_layers.js
-  - name: drawing.js
-    version: 1.0.0
-    src: "htmlwidgets/lib"
-    script: drawing.js
-  - name: legend.js
-    version: 1.0.0
-    src: "htmlwidgets/lib"
-    script: legend.js
-  - name: charts.js
-    version: 1.0.0
-    src: "htmlwidgets/lib"
-    script: charts.js
+
 

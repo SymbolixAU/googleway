@@ -1,3 +1,15 @@
+googleOverlayDependency <- function() {
+  list(
+    htmltools::htmlDependency(
+      "overlay",
+      "1.0.0",
+      system.file("htmlwidgets/lib/overlays", package = "googleway"),
+      script = c("overlay.js")
+    )
+  )
+}
+
+
 #' Add Overlay
 #'
 #' Adds a ground overlay to a map. The overlay can only be added from a URL
@@ -56,6 +68,8 @@ add_overlay <- function(map,
                                          west = west,
                                          east = east),
                               digits = digits)
+
+  map <- addDependency(map, googleOverlayDependency())
 
   invoke_method(map, 'add_overlay', overlay, layer_id)
 }
