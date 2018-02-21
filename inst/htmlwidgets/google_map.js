@@ -29,7 +29,7 @@ HTMLWidgets.widget({
                     window[el.id + 'googleSearchBox'].setAttribute('type', 'text');
                     window[el.id + 'googleSearchBox'].setAttribute('placeholder', 'Search location');
                     document.body.appendChild(window[el.id + 'googleSearchBox']);
-                }
+                }        
 
                 window[el.id + 'event_return_type'] = x.event_return_type;
 
@@ -54,10 +54,24 @@ HTMLWidgets.widget({
                             rotateControl: x.rotateControl,
                             fullscreenControl: x.fullscreenControl
                         });
+                        
+                        // split view
+                        if(x.split_view !== "undefined") {
+                            var panorama = new google.maps.StreetViewPanorama(
+                                document.getElementById(x.split_view), {
+                                    position: {lat: x.lat, lng: x.lng},
+                                    pov: {
+                                        heading: 34,
+                                        pitch: 10
+                                      }
+                                });
 
+                            map.setStreetView(panorama);
+                        }
+                        
                         //global map object
                         window[el.id + 'map'] = map;
-
+                        
                         if (google !== undefined) {
                             //console.log("exists");
                             clearInterval(checkExists);
@@ -290,6 +304,7 @@ function initialise_map(el, x) {
             window[el.id + 'map'].fitBounds(bounds);
         });
     }
+    
 
     // call initial layers
     if (x.calls !== undefined) {
