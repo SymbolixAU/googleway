@@ -22,7 +22,7 @@ function loadGeoJsonString(geoString) {
     window[map_id + 'map'].data.addGeoJson(geojson);
 
     window[map_id + 'map'].data.setStyle(function (feature) {
-        
+
         var featureFillColor = feature.getProperty("fillColor"),
             featureFillOpacity = feature.getProperty("fillOpacity"),
             featureStrokeColor = feature.getProperty("strokeColor"),
@@ -31,7 +31,7 @@ function loadGeoJsonString(geoString) {
             featureCursor = feature.getProperty("cursor"),
             featureIcon = feature.getProperty("icon"),
             featureShape = feature.getProperty("shape"),
-            featureTitle = feature.getProperty("title")
+            featureTitle = feature.getProperty("title");
 
         return {
             fillColor : featureFillColor,
@@ -43,7 +43,7 @@ function loadGeoJsonString(geoString) {
             icon : featureIcon,
             shape : featureShape,
             title : featureTitle
-        }
+        };
     });
 
     // TODO: update map bounds

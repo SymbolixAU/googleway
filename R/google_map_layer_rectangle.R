@@ -127,7 +127,7 @@ add_rectangles <- function(map,
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  map$dependencies <- c(map$dependencies, googleRectangleDependency())
+  map <- addDependency(map, googleRectangleDependency())
 
   invoke_method(map, 'add_rectangles', shape, update_map_view, layer_id, legend, load_interval)
 }

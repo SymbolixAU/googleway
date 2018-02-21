@@ -74,16 +74,3 @@ clear_bicycling <- function(map){
 
 
 
-#' Drag Drop Geojson
-#'
-#' A function that enables you to drag data and drop it onto a map. Currently
-#' only supports GeoJSON files / text
-#'
-#' @param map a googleway map object created from \code{google_map()}
-#'
-#' @export
-add_dragdrop <- function(map){
-  invoke_method(map, "drag_drop_geojson")
-}
-
-

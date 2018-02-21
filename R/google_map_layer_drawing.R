@@ -43,7 +43,7 @@ add_drawing <- function(map,
   polyline <- jsonlite::toJSON(polylineDefaults())
   polygon <- jsonlite::toJSON(polygonDefaults())
 
-  map$dependencies <- c(map$dependencies, googleDrawingDependency())
+  map <- addDependency(map, googleDrawingDependency())
 
   invoke_method(map,  'add_drawing', drawing_modes,
                 marker, circle, rectangle, polyline, polygon, delete_on_change)

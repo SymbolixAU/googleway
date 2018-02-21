@@ -224,7 +224,8 @@ add_polygons <- function(map,
     shape <- jsonlite::toJSON(lst_polygon, digits = digits, auto_unbox = T)
   }
 
-  map$dependencies <- c(map$dependencies, googlePolygonDependency())
+  map <- addDependency(map, googlePolygonDependency())
+
   invoke_method(map, 'add_polygons', shape, update_map_view, layer_id, usePolyline, legend, load_interval)
 }
 

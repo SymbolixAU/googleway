@@ -9,6 +9,22 @@ googleGeojsonDependency <- function() {
   )
 }
 
+#' Drag Drop Geojson
+#'
+#' A function that enables you to drag data and drop it onto a map. Currently
+#' only supports GeoJSON files / text
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#'
+#' @export
+add_dragdrop <- function(map){
+
+  map <- addDependency(map, googleGeojsonDependency())
+
+  invoke_method(map, "drag_drop_geojson")
+}
+
+
 #' Add GeoJson
 #'
 #' @param map a googleway map object created from \code{google_map()}
@@ -123,8 +139,7 @@ add_geojson <- function(map,
   if(!is.null(style))
     style <- validateStyle(style)
 
-  map$dependencies <- c(map$dependencies, googleGeojsonDependency())
-
+  map <- addDependency(map, googleGeojsonDependency())
 
   invoke_method(map, 'add_geojson', geojson[['geojson']], geojson[['source']],
                 style[['style']], update_map_view, mouse_over,

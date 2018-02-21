@@ -165,7 +165,7 @@ add_heatmap <- function(map,
   # Heatmap <- jsonlite::toJSON(Heatmap, digits = digits)
   heatmap_options <- jsonlite::toJSON(heatmap_options)
 
-  map$dependencies <- c(map$dependencies, googleHeatmapDependency())
+  map <- addDependency(map, googleHeatmapDependency())
 
   invoke_method(map, 'add_heatmap', shape, heatmap_options, update_map_view, layer_id, legend)
 }

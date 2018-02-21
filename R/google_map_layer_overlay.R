@@ -69,7 +69,7 @@ add_overlay <- function(map,
                                          east = east),
                               digits = digits)
 
-  map$dependencies <- c(map$dependencies, googleOverlayDependency())
+  map <- addDependency(map, googleOverlayDependency())
 
   invoke_method(map, 'add_overlay', overlay, layer_id)
 }

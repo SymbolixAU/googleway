@@ -179,7 +179,7 @@ add_polylines <- function(map,
 
   }
 
-  map$dependencies <- c(map$dependencies, googlePolylineDependency())
+  map <- addDependency(map, googlePolylineDependency())
 
   invoke_method(map, 'add_polylines', shape, update_map_view, layer_id, usePolyline, legend, load_interval)
 }

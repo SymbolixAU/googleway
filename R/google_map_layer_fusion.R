@@ -125,7 +125,7 @@ add_fusion <- function(map, query, styles = NULL, heatmap = FALSE, layer_id = NU
   if(!is.null(styles))
     styles <- validateFusionStyle(styles)
 
-  map$dependencies <- c(map$dependencies, googleFusionDependency())
+  map <- addDependency(map, googleFusionDependency())
 
   invoke_method(map, 'add_fusion', query, styles, heatmap, layer_id)
 }

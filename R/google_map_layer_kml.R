@@ -43,7 +43,7 @@ add_kml <- function(map, kml_url, layer_id = NULL){
 
   kml <- jsonlite::toJSON(data.frame(url = kml_url))
 
-  map$dependencies <- c(map$dependencies, googleKmlDependency())
+  map <- addDependency(map, googleKmlDependency())
 
   invoke_method(map, 'add_kml', kml, layer_id)
 }

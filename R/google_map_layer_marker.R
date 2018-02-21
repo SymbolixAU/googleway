@@ -145,7 +145,7 @@ add_markers <- function(map,
   }
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  map$dependencies <- c(map$dependencies, googleMarkerDependency())
+  map <- addDependency(map, googleMarkerDependency())
 
   invoke_method(map, 'add_markers', shape, cluster, update_map_view, layer_id, usePolyline, load_interval)
 }

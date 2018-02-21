@@ -228,7 +228,7 @@ add_circles <- function(map,
 
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  map$dependencies <- c(map$dependencies, googleCircleDependency())
+  map <- addDependency(map, googleCircleDependency())
 
   invoke_method(map, 'add_circles', shape, update_map_view, layer_id, usePolyline, legend, load_interval)
 }
