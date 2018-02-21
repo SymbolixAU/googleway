@@ -10,7 +10,7 @@ google_map(key = get_api_key("map"), data = NULL, location = NULL,
   styles = NULL, search_box = FALSE, zoom_control = TRUE,
   map_type_control = TRUE, scale_control = FALSE,
   street_view_control = TRUE, rotate_control = TRUE,
-  fullscreen_control = TRUE, libraries = NULL,
+  fullscreen_control = TRUE, libraries = NULL, split_view = FALSE,
   event_return_type = c("list", "json"))
 }
 \arguments{
@@ -49,6 +49,8 @@ See the Google documentation for details \url{https://developers.google.com/maps
 \item{fullscreen_control}{logical indicating if the full screen control should be displayed}
 
 \item{libraries}{vector containgin the libraries you want to load. See details}
+
+\item{split_view}{logical indicating if the map should be split into a map and a streetview}
 
 \item{event_return_type}{the type of data to return to R from an interactive environment (shiny),
 either an R list, or raw json string.}

@@ -27,6 +27,7 @@
 #' @param rotate_control logical indicating if the rotate control should be displayed
 #' @param fullscreen_control logical indicating if the full screen control should be displayed
 #' @param libraries vector containgin the libraries you want to load. See details
+#' @param split_view logical indicating if the map should be split into a map and a streetview
 #' @param event_return_type the type of data to return to R from an interactive environment (shiny),
 #' either an R list, or raw json string.
 #'
@@ -111,6 +112,7 @@ google_map <- function(key = get_api_key("map"),
                        rotate_control = TRUE,
                        fullscreen_control = TRUE,
                        libraries = NULL,
+                       split_view = FALSE,
                        event_return_type = c("list", "json")) {
 
   logicalCheck(zoom_control)
@@ -143,7 +145,8 @@ google_map <- function(key = get_api_key("map"),
     streetViewControl = street_view_control,
     rotateControl = rotate_control,
     fullscreenControl = fullscreen_control,
-    event_return_type = event_return_type
+    event_return_type = event_return_type,
+    split_view = split_view
   )
 
   data <- normaliseData(data)
