@@ -27,7 +27,9 @@
 #' @param rotate_control logical indicating if the rotate control should be displayed
 #' @param fullscreen_control logical indicating if the full screen control should be displayed
 #' @param libraries vector containgin the libraries you want to load. See details
-#' @param split_view logical indicating if the map should be split into a map and a streetview
+#' @param split_view string giving the name of a UI output element in which to place
+#' a streetview representation of the map. Will only work in an interactive environment (shiny).
+#' see \link{google_mapOutput}
 #' @param event_return_type the type of data to return to R from an interactive environment (shiny),
 #' either an R list, or raw json string.
 #'
@@ -94,6 +96,7 @@
 #'
 #' }
 #'
+#' @seealso \link{google_mapOutput}
 #'
 #' @export
 google_map <- function(key = get_api_key("map"),
@@ -112,7 +115,7 @@ google_map <- function(key = get_api_key("map"),
                        rotate_control = TRUE,
                        fullscreen_control = TRUE,
                        libraries = NULL,
-                       split_view = FALSE,
+                       split_view = NULL,
                        event_return_type = c("list", "json")) {
 
   logicalCheck(zoom_control)
@@ -263,6 +266,38 @@ update_style <- function(map, styles = NULL){
 #' }
 #'
 #' shinyApp(ui, server)
+#'
+#' ## using split view
+#'
+#' library(shinydashboard)
+#' library(googleway)
+#'
+#' ui <- dashboardPage(
+#'
+#'   dashboardHeader(),
+#'   dashboardSidebar(),
+#'   dashboardBody(
+#'     box(width = 6,
+#'         google_mapOutput(outputId = "map")
+#'     ),
+#'     box(width = 6,
+#'         google_mapOutput(outputId = "pano")
+#'     )
+#'   )
+#' )
+#'
+#' server <- function(input, output) {
+#'   set_key("your_api_key")
+#'
+#'   output$map <- renderGoogle_map({
+#'     google_map(location = c(-37.817386, 144.967463),
+#'                 zoom = 10,
+#'                 split_view = "pano")
+#'   })
+#' }
+#'
+#' shinyApp(ui, server)
+#'
 #' }
 #'
 #' @export
