@@ -135,6 +135,7 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
                     opacityHolder: aMarker.opacity,
                     title: aMarker.title,
                     label: aMarker.label,
+                    mouseOver: aMarker.mouse_over,
                     mouseOverGroup: aMarker.mouse_over_group,
                     info_window: aMarker.info_window,
                     chart_type: aMarker.chart_type,
