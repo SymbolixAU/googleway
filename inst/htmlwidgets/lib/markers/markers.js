@@ -183,7 +183,10 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
     }
 
     if (aMarker.mouse_over || aMarker.mouse_over_group) {
-        add_mouseOver(map_id, marker, infoWindow, '_mouse_over', aMarker.mouse_over, layer_id, 'googleMarkers');
+        //add_mouseOver(map_id, marker, infoWindow, '_mouse_over', aMarker.mouse_over, layer_id, 'googleMarkers');
+        
+        
+        
     }
 
     markerInfo = {

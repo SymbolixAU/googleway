@@ -6,7 +6,18 @@
 ## - polygons - ditto
 
 
-
+# testdf <- data.frame(
+#   lat=39.6477,
+#   lon=-104.9402,
+#   info="Test Location",
+#   colour="blue"
+# )
+#
+# api_key <- read.dcf("~/Documents/.googleAPI" ,fields = "GOOGLE_MAP_KEY")
+#
+# ###Doesn't work with mouse_over (shiny or console)
+# google_map(location=c(testdf[1,1], testdf[1,2]), key= api_key, zoom=15) %>%
+#   add_markers(data=testdf, mouse_over ="info", colour="colour", update_map_view= FALSE)
 
 ## two maps with the same layer_id ?
 
