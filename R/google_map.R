@@ -29,6 +29,8 @@
 #' @param libraries vector containgin the libraries you want to load. See details
 #' @param split_view string giving the name of a UI output element in which to place
 #' a streetview representation of the map. Will only work in an interactive environment (shiny).
+#' @param split_view_options list of options to pass to the split street view.
+#' valid list elements are \code{heading} and \code{pitch}
 #' see \link{google_mapOutput}
 #' @param event_return_type the type of data to return to R from an interactive environment (shiny),
 #' either an R list, or raw json string.
@@ -111,6 +113,7 @@ google_map <- function(key = get_api_key("map"),
                        fullscreen_control = TRUE,
                        libraries = NULL,
                        split_view = NULL,
+                       split_view_options = NULL,
                        event_return_type = c("list", "json")) {
 
   logicalCheck(zoom_control)
@@ -120,6 +123,10 @@ google_map <- function(key = get_api_key("map"),
   logicalCheck(rotate_control)
   logicalCheck(fullscreen_control)
   event_return_type <- match.arg(event_return_type)
+
+  # split_view_options = list(heading = 34,
+  #                            pitch = 10)
+  split_view_options <- splitViewOptions(split_view_options)
 
   if(is.null(libraries))
     libraries <- c("visualization", "geometry", "places", "drawing")
@@ -144,7 +151,8 @@ google_map <- function(key = get_api_key("map"),
     rotateControl = rotate_control,
     fullscreenControl = fullscreen_control,
     event_return_type = event_return_type,
-    split_view = split_view
+    split_view = split_view,
+    split_view_options = split_view_options
   )
 
   data <- normaliseData(data)
@@ -187,6 +195,22 @@ google_map <- function(key = get_api_key("map"),
     )
 
   return(googlemap)
+}
+
+splitViewOptions <- function(split_view_options) {
+  ## add default values for spitViewOptions
+  ## heading: 34
+  ## pitch: 10
+  if(is.null(split_view_options)) split_view_options <- list()
+  split_view_options <- splitViewDefault(split_view_options, 'heading', 34)
+  split_view_options <- splitViewDefault(split_view_options, 'pitch', 10)
+  return(split_view_options)
+}
+
+splitViewDefault <- function(lst, key, default) {
+  v <- lst[[key]]
+  lst[[key]] <- ifelse(is.null(v), default, v)
+  return(lst)
 }
 
 
