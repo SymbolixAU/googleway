@@ -34,8 +34,9 @@
 #
 #   output$map <- renderGoogle_map({
 #     google_map(location = c(-37.817386, 144.967463),
-#                zoom = 14
-#                split_view = "pano"
+#                zoom = 14,
+#                split_view = "pano",
+#                split_view_options = list(heading = 275, pitch = 20)
 #                )
 #   })
 # }

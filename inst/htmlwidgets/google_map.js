@@ -61,8 +61,10 @@ HTMLWidgets.widget({
                                 document.getElementById(x.split_view), {
                                     position: {lat: x.lat, lng: x.lng},
                                     pov: {
-                                        heading: 34,
-                                        pitch: 10
+                                        heading: x.split_view_options.heading,
+                                        pitch: x.split_view_options.pitch
+                                        //heading: 34,
+                                        //pitch: 10
                                       }
                                 });
 

@@ -11,7 +11,7 @@ google_map(key = get_api_key("map"), data = NULL, location = NULL,
   map_type_control = TRUE, scale_control = FALSE,
   street_view_control = TRUE, rotate_control = TRUE,
   fullscreen_control = TRUE, libraries = NULL, split_view = NULL,
-  event_return_type = c("list", "json"))
+  split_view_options = NULL, event_return_type = c("list", "json"))
 }
 \arguments{
 \item{key}{A valid Google Maps API key.}
@@ -51,7 +51,10 @@ See the Google documentation for details \url{https://developers.google.com/maps
 \item{libraries}{vector containgin the libraries you want to load. See details}
 
 \item{split_view}{string giving the name of a UI output element in which to place
-a streetview representation of the map. Will only work in an interactive environment (shiny).
+a streetview representation of the map. Will only work in an interactive environment (shiny).}
+
+\item{split_view_options}{list of options to pass to the split street view.
+valid list elements are \code{heading} and \code{pitch}
 see \link{google_mapOutput}}
 
 \item{event_return_type}{the type of data to return to R from an interactive environment (shiny),
