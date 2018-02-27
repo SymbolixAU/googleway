@@ -22,6 +22,17 @@ test_that("search box is loaded", {
   expect_true(g$dependencies[[1]]$head == "<script src=\"https://maps.googleapis.com/maps/api/js?key=abc&libraries=visualization,geometry,places,drawing\"></script><script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>")
 })
 
+test_that("split view option defaults are set", {
+
+  expect_true(
+    googleway:::splitViewOptions(NULL)$heading == 34
+  )
+  expect_true(
+    googleway:::splitViewOptions(NULL)$pitch == 10
+  )
+
+})
+
 test_that("attributes and map data is attached", {
 
   g <- google_map(key = "abc", data = data.frame(id = 1:3, val = letters[1:3]))
@@ -31,7 +42,7 @@ test_that("attributes and map data is attached", {
       attributes(g$x)$names ==
         c("lat", "lng","zoom","styles","search_box", "zoomControl", "mapTypeControl",
           "scaleControl", "streetViewControl", "rotateControl", "fullscreenControl",
-          "event_return_type", "split_view")
+          "event_return_type", "split_view", "split_view_options")
       )
     )
   expect_true(inherits(attributes(g$x)$google_map_data, "data.frame"))
