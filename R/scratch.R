@@ -33,7 +33,10 @@
 #   set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
 #
 #   output$map <- renderGoogle_map({
-#     google_map(location = c(-37.817386, 144.967463), zoom = 14, split_view = "pano")
+#     google_map(location = c(-37.817386, 144.967463),
+#                zoom = 14
+#                #split_view = "pano"
+#                )
 #   })
 # }
 #

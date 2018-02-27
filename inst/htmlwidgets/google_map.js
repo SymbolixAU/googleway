@@ -56,7 +56,7 @@ HTMLWidgets.widget({
                         });
                         
                         // split view
-                        if(x.split_view !== "undefined") {
+                        if(x.split_view !== null) {
                             var panorama = new google.maps.StreetViewPanorama(
                                 document.getElementById(x.split_view), {
                                     position: {lat: x.lat, lng: x.lng},

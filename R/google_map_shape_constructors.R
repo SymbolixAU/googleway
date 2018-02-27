@@ -69,10 +69,18 @@ createMapObject <- function(data, cols, objArgs) {
 
   if("info_window" %in% moreValues) {
 
-    info <- objArgs[[which(names(objArgs) == "info_window")]]
-    id <- objArgs[[which(names(objArgs) == "id")]]
-
-    df <- InfoWindow(eval(info), df, id)
+#    tryCatch({
+      print(objArgs)
+      info <- objArgs[[which(names(objArgs) == "info_window")]]
+      id <- objArgs[[which(names(objArgs) == "id")]]
+      df <- InfoWindow(eval(info), df, id)
+#    },
+#    error = function(e){
+#      message(
+#        paste0("For this info_window do display you need to supply the 'id' argument,\n",
+#               "and this id must also be found in the chart data ")
+#      )
+#    })
   }
 
   return(df)
