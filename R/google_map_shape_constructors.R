@@ -70,7 +70,7 @@ createMapObject <- function(data, cols, objArgs) {
   if("info_window" %in% moreValues) {
 
 #    tryCatch({
-      print(objArgs)
+#      print(objArgs)
       info <- objArgs[[which(names(objArgs) == "info_window")]]
       id <- objArgs[[which(names(objArgs) == "id")]]
       df <- InfoWindow(eval(info), df, id)
