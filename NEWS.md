@@ -1,5 +1,8 @@
 ## Version 2.5.0 (development)
 
+* `split_view` argument for `google_map()` for using a split-view streetview and map
+* restructured JS dependencies
+* Google charts can be added inside `info_windows`. see `?google_charts`
 * fix for `add_markers(cluster = T)`
 * documentation for `google_map-shiny` and `google_map` updated
 * fix for `place_hours()` and `place_open()`
