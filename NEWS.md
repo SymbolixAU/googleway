@@ -1,5 +1,6 @@
 ## Version 2.5.0 (development)
 
+* fix for `alternatives` argument not working
 * `split_view` argument for `google_map()` for using a split-view streetview and map
 * restructured JS dependencies
 * Google charts can be added inside `info_windows`. see `?google_charts`
