@@ -13,6 +13,7 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
         paths = [];
 
     for (i = 0; i < Object.keys(data_polygon).length; i++) {
+        console.log(data_polygon[i]);
         set_polygons(map_id, data_polygon[i], infoWindow, update_map_view, layer_id, use_polyline, i * interval);
     }
     
@@ -56,6 +57,9 @@ function set_polygons(map_id, polygon, infoWindow, update_map_view, layer_id, us
             editable: polygon.editable,
             zIndex: polygon.z_index
         });
+        
+        console.log(polygon);
+        console.log(Polygon);
       
         if (polygon.info_window) {
             add_infoWindow(map_id, Polygon, infoWindow, '_information', polygon.info_window);

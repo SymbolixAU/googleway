@@ -1,5 +1,5 @@
 
-allowedAdditionalValues <- c("character", "numeric", "factor", "Date", "call")
+#allowedAdditionalValues <- c("character", "numeric", "factor", "Date", "call","logical")
 
 
 # Create Map Object
@@ -16,22 +16,41 @@ createMapObject <- function(data, cols, objArgs) {
 
   dataNames <- names(data)
 
+  # print(data)
+  # print(cols)
+  # print(objArgs)
+  # print(dataNames)
+
   argsIdx <- match(cols, names(objArgs)) ## those that exist in 'cols'
 
   argsIdx <- argsIdx[!is.na(argsIdx)]
 
   argValues <- sapply(1:length(objArgs), function(x) objArgs[[x]])
 
+  # print("argValues")
+  # print(argValues)
+
   dataArgs <- which(argValues %in% names(data)) ## those where there is a column of data
+
+  # print("dataArgs")
+  # print(dataArgs)
 
   additionalValues <- setdiff(argsIdx, dataArgs)
 
+  # print("additinoal values")
+  # print(additionalValues)
   # sapply(additionalValues, function(x) print(class(objArgs[[x]])))
 
   ## TODO:
   ## might need a better method than the 'allowedAdditionalValues'
+  #dput(objArgs)
   validAdditionalValues <- additionalValues[which( vapply(additionalValues, function(x){
-    class(objArgs[[x]]) %in% allowedAdditionalValues }, T ) )]
+    # print(class(objArgs[[x]]))
+    # class(objArgs[[x]]) %in% allowedAdditionalValues
+
+    is.logical(x) || is.character(x) || is.factor(x) || is.numeric(x)
+
+    }, T ) )]
 
   invalidAdditionalValues <- setdiff(additionalValues, validAdditionalValues)
 

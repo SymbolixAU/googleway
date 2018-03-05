@@ -1,9 +1,3 @@
-function delay(t, v) {
-    return new Promise(function(resolve) {
-        setTimeout(resolve.bind(null, v), t)
-    });
-}
-
 /**
  * Add markers
  *
@@ -54,8 +48,7 @@ function promise_to_add_markers(map_id, data_markers, update_map_view, layer_id,
 
 
 function cluster_markers(map_id, layer_id) {
-    
-    
+
     window[map_id + 'googleMarkerClusterer' + layer_id] = new MarkerClusterer(window[map_id + 'map'], window[map_id + 'googleMarkers' + layer_id], {
             imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
     });

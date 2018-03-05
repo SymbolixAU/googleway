@@ -469,3 +469,9 @@ function clear_object(map_id, objType, layer_id) {
         clear_legend(map_id, layer_id);
     }
 }
+
+function delay(t, v) {
+    return new Promise(function(resolve) {
+        setTimeout(resolve.bind(null, v), t)
+    });
+}

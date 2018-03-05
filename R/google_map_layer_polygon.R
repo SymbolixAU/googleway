@@ -187,12 +187,12 @@ add_polygons <- function(map,
 
   ## END PARAMETER CHECKS
 
-
   allCols <- polygonColumns()
   requiredCols <- requiredShapeColumns()
   colourColumns <- shapeAttributes(fill_colour = fill_colour, stroke_colour = stroke_colour)
 
   shape <- createMapObject(data, allCols, objArgs)
+
   pal <- createPalettes(shape, colourColumns)
   colour_palettes <- createColourPalettes(data, pal, colourColumns, palette)
   colours <- createColours(shape, colour_palettes)
