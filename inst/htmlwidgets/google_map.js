@@ -1,5 +1,5 @@
 HTMLWidgets.widget({
-    
+
     name: 'google_map',
     type: 'output',
 
@@ -7,7 +7,7 @@ HTMLWidgets.widget({
 
         return {
             renderValue: function (x) {
-            
+
                 window.params = [];
                 window.params.push({'map_id' : el.id });
                 window.params.push({'event_return_type' : x.event_return_type});
@@ -29,7 +29,7 @@ HTMLWidgets.widget({
                     window[el.id + 'googleSearchBox'].setAttribute('type', 'text');
                     window[el.id + 'googleSearchBox'].setAttribute('placeholder', 'Search location');
                     document.body.appendChild(window[el.id + 'googleSearchBox']);
-                }        
+                }
 
                 window[el.id + 'event_return_type'] = x.event_return_type;
 
@@ -54,10 +54,14 @@ HTMLWidgets.widget({
                             rotateControl: x.rotateControl,
                             fullscreenControl: x.fullscreenControl
                         });
-                        
+
                         // split view
-                        /*
+
                         if(x.split_view !== null) {
+
+                          console.log("split view");
+                          console.log(x.split_view_options);
+
                             var panorama = new google.maps.StreetViewPanorama(
                                 document.getElementById(x.split_view), {
                                     position: {lat: x.lat, lng: x.lng},
@@ -71,11 +75,11 @@ HTMLWidgets.widget({
 
                             map.setStreetView(panorama);
                         }
-                        */
-                        
+
+
                         //global map object
                         window[el.id + 'map'] = map;
-                        
+
                         if (google !== undefined) {
                             //console.log("exists");
                             clearInterval(checkExists);
@@ -182,7 +186,7 @@ function hexToRgb(hex) {
     var arrBuff = new ArrayBuffer(4),
         vw = new DataView(arrBuff),
         arrByte = new Uint8Array(arrBuff);
-    
+
     vw.setUint32(0, parseInt(hex, 16), false);
 
     return arrByte[1] + "," + arrByte[2] + "," + arrByte[3];
@@ -214,7 +218,7 @@ function initialise_map(el, x) {
     //console.log("initialising map: el.id: ");
     //console.log(el.id);
     window[el.id + 'mapBounds'] = new google.maps.LatLngBounds();
-    
+
     // CHARTS2
     google.charts.load('current', {'packages': ['corechart']});
 
@@ -249,7 +253,7 @@ function initialise_map(el, x) {
             window[el.id + 'googlePlaceMarkers'].forEach(function (marker) {
                 marker.setMap(null);
             });
-            
+
             window[el.id + 'googlePlaceMarkers'] = [];
 
             // For each place, get the icon, name and location.
@@ -308,7 +312,7 @@ function initialise_map(el, x) {
             window[el.id + 'map'].fitBounds(bounds);
         });
     }
-    
+
 
     // call initial layers
     if (x.calls !== undefined) {
@@ -458,7 +462,7 @@ function clearControl(control, legend_id) {
 function clear_object(map_id, objType, layer_id) {
 
     if (window[map_id + objType + layer_id] && window[map_id + objType + layer_id].length) {
-        
+
         var i = 0;
 
         for (i = 0; i < window[map_id + objType + layer_id].length; i++) {
