@@ -56,6 +56,7 @@ HTMLWidgets.widget({
                         });
                         
                         // split view
+                        /*
                         if(x.split_view !== null) {
                             var panorama = new google.maps.StreetViewPanorama(
                                 document.getElementById(x.split_view), {
@@ -70,6 +71,7 @@ HTMLWidgets.widget({
 
                             map.setStreetView(panorama);
                         }
+                        */
                         
                         //global map object
                         window[el.id + 'map'] = map;
