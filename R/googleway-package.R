@@ -115,7 +115,6 @@ directions_data <- function(base_url,
             "key" = key)
 
   map_url <- constructURL(base_url, args)
-
   if(length(map_url) > 1)
     stop("invalid map_url")
 

@@ -219,9 +219,9 @@ find_lon_column = function(names, calling_function, stopOnFailure = TRUE) {
 validateAlternatives <- function(alternatives){
   if(is.null(alternatives)) return(NULL)
 
-  alternatives <- tolower(logicalCheck(alternatives))
+  logicalCheck(alternatives)
 
-  return(alternatives)
+  return(tolower(alternatives))
 }
 
 validateArrivalTime <- function(arrival_time){
