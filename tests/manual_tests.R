@@ -2,6 +2,27 @@
 ## - marker clusters (add & remove layer)
 ## -- does this impact any other marker layers?
 
+### creating sf through geojson
+# library(RCurl)
+# #  Loading required package: bitops
+# myurl <- "http://eric.clst.org/assets/wiki/uploads/Stuff/gz_2010_us_050_00_500k.json"
+# geo <- readLines(url(myurl))
+# geo <- paste0(geo, collapse = "")
+# sf <- geojsonsf::geojson_sf(geo)
+#
+# set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
+#
+# google_map() %>%
+#   add_polygons(sf, fill_colour = "CENSUSAREA")
+
+
+### SF objects
+# library(sf)
+# nc <- sf::st_read(system.file("shape/nc.shp", package="sf"))
+# set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
+#
+# google_map() %>%
+#   add_polygons(nc, fill_colour = "AREA")
 
 ### Drawing deletes on change
 # library(shiny)
