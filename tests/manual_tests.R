@@ -15,6 +15,12 @@
 # google_map() %>%
 #   add_polygons(sf, fill_colour = "CENSUSAREA")
 
+# library(sf)
+# library(googleway)
+# nc <- sf::st_read(system.file("shape/nc.shp", package="sf"))
+# set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
+# google_map() %>%
+#   add_polygons(data = nc[1:2,], polyline = "geometry", fill_colour = "#00FF00", fill_opacity = 0.2)
 
 ### SF objects
 # library(sf)

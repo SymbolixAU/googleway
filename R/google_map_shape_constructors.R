@@ -62,8 +62,13 @@ createMapObject <- function(data, cols, objArgs) {
   ## need to resolve info windows here, because if it's a list of data
   ## to be used in a chart, this will fail
 
+  # print("-- valid additional values -- ")
   if(length(validAdditionalValues) > 0){
 
+    # print(" -- extra cols --")
+    # print(validAdditionalValues)
+    # print(objArgs)
+    # print(head(df))
     extraCols <- lapply(validAdditionalValues, function(x){
 
       ## the rep(eval(info_window)) won't work if it's a list...
@@ -73,9 +78,13 @@ createMapObject <- function(data, cols, objArgs) {
       setNames(as.data.frame(rep(eval(objArgs[[x]]), nrow(df)), stringsAsFactors = F), names(objArgs)[x])
     })
 
+    # print("--cbind extra--")
+    # dput(extraCols)
+    # dput(df)
     df <- cbind(df, do.call(cbind, extraCols))
   }
 
+  # print(" -- info window -- ")
   if("info_window" %in% names(df)){
     df[['info_window']] <- as.character(df[['info_window']])
 

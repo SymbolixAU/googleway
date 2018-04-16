@@ -158,6 +158,7 @@ add_polygons <- function(map,
     objArgs[['polyline']] <- polyline
   }
 
+
   ## PARAMETER CHECKS
   if(!dataCheck(data, "add_polygon")) data <- polygonDefaults(1)
   layer_id <- layerId(layer_id)
@@ -186,7 +187,6 @@ add_polygons <- function(map,
   pathId <- lst$pathId
 
   ## END PARAMETER CHECKS
-
   allCols <- polygonColumns()
   requiredCols <- requiredShapeColumns()
   colourColumns <- shapeAttributes(fill_colour = fill_colour, stroke_colour = stroke_colour)
