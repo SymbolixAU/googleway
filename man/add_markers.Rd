@@ -66,7 +66,7 @@ for separating legends.}
 when the map zoomed out}
 
 \item{update_map_view}{logical specifying if the map should re-centre according to
-the circles}
+the shapes}
 
 \item{digits}{integer. Use this parameter to specify how many digits (decimal places)
 should be used for the latitude / longitude coordinates.}

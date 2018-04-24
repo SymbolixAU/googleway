@@ -60,7 +60,7 @@ the polygon is 'draggable'. The column of data should be logical (either TRUE or
 is 'editable' (either TRUE or FALSE)}
 
 \item{update_map_view}{logical specifying if the map should re-centre according to
-the circles}
+the shapes}
 
 \item{layer_id}{single value specifying an id for the layer. Use this value to
 distinguish between shape layers for when using any \code{update_} function, and

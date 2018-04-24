@@ -57,7 +57,7 @@ googleCircleDependency <- function() {
 #' distinguish between shape layers for when using any \code{update_} function, and
 #' for separating legends.
 #' @param update_map_view logical specifying if the map should re-centre according to
-#' the circles
+#' the shapes
 #' @param z_index single value specifying where the circles appear in the layering
 #' of the map objects. Layers with a higher \code{z_index} appear on top of those with
 #' a lower \code{z_index}. See details.

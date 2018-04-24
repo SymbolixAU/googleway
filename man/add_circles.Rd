@@ -74,7 +74,7 @@ distinguish between shape layers for when using any \code{update_} function, and
 for separating legends.}
 
 \item{update_map_view}{logical specifying if the map should re-centre according to
-the circles}
+the shapes}
 
 \item{z_index}{single value specifying where the circles appear in the layering
 of the map objects. Layers with a higher \code{z_index} appear on top of those with
