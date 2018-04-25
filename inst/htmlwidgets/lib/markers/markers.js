@@ -118,7 +118,7 @@ function draw_chart(marker) {
 }
 
 function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, layer_id) {
-     
+    var markerInfo;
     var marker = new google.maps.Marker({
                     id: aMarker.id,
                     icon: aMarker.url,

@@ -464,6 +464,7 @@ function clear_object(map_id, objType, layer_id) {
     if (window[map_id + objType + layer_id] && window[map_id + objType + layer_id].length) {
         var i = 0;
         for (i = 0; i < window[map_id + objType + layer_id].length; i++) {
+            google.maps.event.clearInstanceListeners(window[map_id + objType + layer_id][i]);
             window[map_id + objType + layer_id][i].setMap(null);
             window[map_id + objType + layer_id][i] = null;
         }

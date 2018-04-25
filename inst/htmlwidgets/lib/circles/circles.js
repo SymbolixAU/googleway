@@ -96,6 +96,8 @@ function set_circle(map_id, circle, infoWindow, update_map_view, layer_id, use_p
 
 function set_each_circle(Circle, circle, infoWindow, update_map_view, map_id, layer_id) {
     
+    var shapeInfo;
+    
     window[map_id + 'googleCircles' + layer_id].push(Circle);
     Circle.setMap(window[map_id + 'map']);
 

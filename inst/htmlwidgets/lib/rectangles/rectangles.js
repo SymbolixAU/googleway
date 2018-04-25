@@ -18,7 +18,7 @@ function add_rectangles(map_id, data_rectangles, update_map_view, layer_id, lege
 function set_rectangle(map_id, rectangle, infoWindow, update_map_view, layer_id, timeout) {
     
     window.setTimeout(function () {
-
+        var shapeInfo;
         var latlonNorthEast = new google.maps.LatLng(rectangle.north, rectangle.east),
             latlonSouthWest = new google.maps.LatLng(rectangle.south, rectangle.west),
             bounds = new google.maps.LatLngBounds(latlonSouthWest, latlonNorthEast),

@@ -27,6 +27,7 @@ function set_polygons(map_id, polygon, infoWindow, update_map_view, layer_id, us
     window.setTimeout(function () {
 
         var j, n,
+            polygonInfo,
             points,
             Polygon,
             paths = [];
