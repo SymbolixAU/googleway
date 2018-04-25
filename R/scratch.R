@@ -73,7 +73,7 @@
 # server <- function(input, output) {
 #
 #   set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
-#   autoInvalidate <- reactiveTimer(6000)
+#   autoInvalidate <- reactiveTimer(10000)
 #
 #   output$map <- renderGoogle_map({
 #     google_map()
@@ -81,7 +81,7 @@
 #
 #   observe({
 #     autoInvalidate()
-#     pts <- sf::st_sf(geometry = sf::st_sample(sf_flinders, sample(100:500,1)))
+#     pts <- sf::st_sf(geometry = sf::st_sample(sf_flinders, 500))
 #     google_map_update(map_id = "map") %>%
 #       clear_circles() %>%
 #       add_circles(pts, radius = 1, stroke_weight = 0, update_map_view = F)

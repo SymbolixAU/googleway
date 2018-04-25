@@ -214,6 +214,13 @@ function findById(source, id, returnType) {
 
 function initialise_map(el, x) {
 
+    var mapInfo, 
+        input,
+        places,
+        icon,
+        bounds,
+        event_return_type,
+        eventInfo;
     // map bounds object
     //console.log("initialising map: el.id: ");
     //console.log(el.id);
@@ -224,7 +231,7 @@ function initialise_map(el, x) {
 
     // if places
     if (x.search_box === true) {
-        var input = document.getElementById('pac-input');
+        input = document.getElementById('pac-input');
 
         window[el.id + 'googleSearchBox'] = new google.maps.places.SearchBox(input);
         window[el.id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT].push(input);
@@ -244,7 +251,7 @@ function initialise_map(el, x) {
         // Listen for the event fired when the user selects a prediction and retrieve
         // more details for that place.
         window[el.id + 'googleSearchBox'].addListener('places_changed', function () {
-            var places = window[el.id + 'googleSearchBox'].getPlaces();
+            places = window[el.id + 'googleSearchBox'].getPlaces();
             if (places.length == 0) {
                 return;
             }
@@ -257,7 +264,7 @@ function initialise_map(el, x) {
             window[el.id + 'googlePlaceMarkers'] = [];
 
             // For each place, get the icon, name and location.
-            var bounds = new google.maps.LatLngBounds();
+            bounds = new google.maps.LatLngBounds();
 
             places.forEach(function (place) {
                 if (!place.geometry) {
@@ -265,7 +272,7 @@ function initialise_map(el, x) {
                     return;
                 }
 
-                var icon = {
+                icon = {
                     url: place.icon,
                     size: new google.maps.Size(71, 71),
                     origin: new google.maps.Point(0, 0),
@@ -290,7 +297,7 @@ function initialise_map(el, x) {
 
                 if (HTMLWidgets.shinyMode) {
 
-                    var event_return_type = window.params[1].event_return_type,
+                    event_return_type = window.params[1].event_return_type,
                         eventInfo = {
                             address_components: place.address_components,
                             lat: place.geometry.location.lat(),
@@ -461,9 +468,10 @@ function clearControl(control, legend_id) {
 */
 function clear_object(map_id, objType, layer_id) {
 
+    var i = 0;
     if (window[map_id + objType + layer_id] && window[map_id + objType + layer_id].length) {
-        var i = 0;
         for (i = 0; i < window[map_id + objType + layer_id].length; i++) {
+            //https://developers.google.com/maps/documentation/javascript/reference/3/#event
             google.maps.event.clearInstanceListeners(window[map_id + objType + layer_id][i]);
             window[map_id + objType + layer_id][i].setMap(null);
             window[map_id + objType + layer_id][i] = null;

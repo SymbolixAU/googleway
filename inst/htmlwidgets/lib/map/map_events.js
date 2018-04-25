@@ -125,7 +125,8 @@ function shape_click(map_id, shapeObject, shape_id, shapeInfo) {
     }
     google.maps.event.addListener(shapeObject, 'click', function (event) {
 
-        var eventInfo = $.extend(
+        var event_return_type,
+            eventInfo = $.extend(
             {
                 id: shape_id,
                 lat: event.latLng.lat(),
@@ -134,7 +135,7 @@ function shape_click(map_id, shapeObject, shape_id, shapeInfo) {
             },
             shapeInfo
         ),
-            event_return_type = window.params[1].event_return_type;
+        event_return_type = window.params[1].event_return_type;
         eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
         Shiny.onInputChange(map_id + "_shape_click", eventInfo);
     });

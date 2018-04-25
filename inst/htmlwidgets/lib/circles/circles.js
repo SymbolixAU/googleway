@@ -21,7 +21,7 @@ function add_circles(map_id, data_circles, update_map_view, layer_id, use_polyli
     for (i = 0; i < Object.keys(data_circles).length; i++) {
         set_circle(map_id, data_circles[i], infoWindow, update_map_view, layer_id, use_polyline, i * interval);
     }
-
+    
     if (legendValues !== false) {
         add_legend(map_id, layer_id, legendValues);
     }
