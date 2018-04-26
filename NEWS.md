@@ -1,5 +1,6 @@
 ## Version 2.5.0 (development)
 
+* `google_map()` gets `update_map_view` argument for controlling map view after using `search_box`
 * fix for `alternatives` argument not working
 * `split_view` argument for `google_map()` for using a split-view streetview and map
 * restructured JS dependencies

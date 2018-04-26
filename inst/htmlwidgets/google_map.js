@@ -214,7 +214,7 @@ function findById(source, id, returnType) {
 
 function initialise_map(el, x) {
 
-    var mapInfo, 
+    var mapInfo,
         input,
         places,
         icon,
@@ -316,7 +316,9 @@ function initialise_map(el, x) {
             //console.log(places);
             });
 
-            window[el.id + 'map'].fitBounds(bounds);
+            if(x.update_map_view) {
+              window[el.id + 'map'].fitBounds(bounds);
+            }
         });
     }
 

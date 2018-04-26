@@ -20,6 +20,7 @@
 #' @param styles JSON string representation of a valid Google Maps styles Array.
 #' See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}
 #' @param search_box \code{boolean} indicating if a search box should be placed on the map
+#' @param update_map_view logical indicating if the map should center on the searched location
 #' @param zoom_control logical indicating if the zoom control should be displayed
 #' @param map_type_control logical indicating if the map type control should be displayed
 #' @param scale_control logical indicating if the scale control should be displayed
@@ -105,6 +106,7 @@ google_map <- function(key = get_api_key("map"),
                        padding = 0,
                        styles = NULL,
                        search_box = FALSE,
+                       update_map_view = TRUE,
                        zoom_control = TRUE,
                        map_type_control = TRUE,
                        scale_control = FALSE,
@@ -122,6 +124,7 @@ google_map <- function(key = get_api_key("map"),
   logicalCheck(street_view_control)
   logicalCheck(rotate_control)
   logicalCheck(fullscreen_control)
+  logicalCheck(update_map_view)
   event_return_type <- match.arg(event_return_type)
 
   # split_view_options = list(heading = 34,
@@ -144,6 +147,7 @@ google_map <- function(key = get_api_key("map"),
     zoom = zoom,
     styles = styles,
     search_box = search_box,
+    update_map_view = update_map_view,
     zoomControl = zoom_control,
     mapTypeControl = map_type_control,
     scaleControl = scale_control,

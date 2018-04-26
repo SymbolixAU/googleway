@@ -7,8 +7,8 @@
 \usage{
 google_map(key = get_api_key("map"), data = NULL, location = NULL,
   zoom = NULL, width = NULL, height = NULL, padding = 0,
-  styles = NULL, search_box = FALSE, zoom_control = TRUE,
-  map_type_control = TRUE, scale_control = FALSE,
+  styles = NULL, search_box = FALSE, update_map_view = TRUE,
+  zoom_control = TRUE, map_type_control = TRUE, scale_control = FALSE,
   street_view_control = TRUE, rotate_control = TRUE,
   fullscreen_control = TRUE, libraries = NULL, split_view = NULL,
   split_view_options = NULL, event_return_type = c("list", "json"))
@@ -35,6 +35,8 @@ of the various \code{add_} functions. If null, the map will default to Melbourne
 See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}}
 
 \item{search_box}{\code{boolean} indicating if a search box should be placed on the map}
+
+\item{update_map_view}{logical indicating if the map should center on the searched location}
 
 \item{zoom_control}{logical indicating if the zoom control should be displayed}
 
