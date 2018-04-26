@@ -1,7 +1,7 @@
 Package: googleway
 Type: Package
 Title: Accesses Google Maps APIs to Retrieve Data and Plot Maps
-Version: 2.5.00003
+Version: 2.5.00004
 Date: 2018-02-01
 Authors@R: c(
     person("David", "Cooley", ,"dcooley@symbolix.com.au", role = c("aut", "cre")),
@@ -17,7 +17,6 @@ LazyData: TRUE
 Depends:
     R (>= 3.3.0)
 Imports:
-    Rcpp (>= 0.12.5),
     jsonlite (>= 0.9.20),
     curl,
     htmlwidgets,
@@ -30,8 +29,7 @@ Imports:
     viridisLite,
     scales,
     grDevices,
-    googlePolylines (>= 0.4.0)
-LinkingTo: Rcpp
+    googlePolylines (>= 0.6.0)
 RoxygenNote: 6.0.1
 BugReports: https://github.com/SymbolixAU/googleway/issues
 Suggests:
