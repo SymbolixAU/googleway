@@ -143,6 +143,7 @@ add_markers <- function(map,
   if( usePolyline ) {
     shape <- createPolylineListColumn(shape)
   }
+
   shape <- jsonlite::toJSON(shape, digits = digits)
 
   map <- addDependency(map, googleMarkerDependency())

@@ -22,9 +22,7 @@ createMapObject <- function(data, cols, objArgs) {
   # print(dataNames)
 
   argsIdx <- match(cols, names(objArgs)) ## those that exist in 'cols'
-
   argsIdx <- argsIdx[!is.na(argsIdx)]
-
   argValues <- sapply(1:length(objArgs), function(x) objArgs[[x]])
 
   # print("argValues")
@@ -39,20 +37,33 @@ createMapObject <- function(data, cols, objArgs) {
 
   # print("additinoal values")
   # print(additionalValues)
-  # sapply(additionalValues, function(x) print(class(objArgs[[x]])))
+  sapply(additionalValues, function(x) print(class(objArgs[[x]])))
 
-  ## TODO:
-  ## might need a better method than the 'allowedAdditionalValues'
   #dput(objArgs)
   validAdditionalValues <- additionalValues[which( vapply(additionalValues, function(x){
+    # print("-- finding valid additinoal values --")
+    # print(objArgs[[x]])
     # print(class(objArgs[[x]]))
-    # class(objArgs[[x]]) %in% allowedAdditionalValues
 
-    is.logical(x) || is.character(x) || is.factor(x) || is.numeric(x)
+    x <- objArgs[[x]]
+    # print("cls")
+    # print(x)
+    #
+    # print(is.logical(x))
+    # print(is.character(x))
+    # print(is.factor(x))
+    # print(is.numeric(x))
+
+    return(is.logical(x) || is.character(x) || is.factor(x) || is.numeric(x))
 
     }, T ) )]
 
+  # print(" -- valid additinal values--")
+  # print(validAdditionalValues)
+
   invalidAdditionalValues <- setdiff(additionalValues, validAdditionalValues)
+  # print(" -- invalid additinoal values -- ")
+  # print(invalidAdditionalValues)
 
   dataCols <- vapply(dataArgs, function(x) objArgs[[x]], "")
   dataNames <- names(objArgs)[dataArgs]
@@ -94,6 +105,8 @@ createMapObject <- function(data, cols, objArgs) {
 
   ## any invalidAdditionalValues need resolving?
   moreValues <- vapply(invalidAdditionalValues, function(x) names(objArgs)[x], "")
+  # print("moveValues")
+  # print(moreValues)
 
   if("info_window" %in% moreValues) {
 
@@ -110,7 +123,6 @@ createMapObject <- function(data, cols, objArgs) {
 #      )
 #    })
   }
-
   return(df)
 }
 

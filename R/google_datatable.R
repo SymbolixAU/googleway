@@ -63,9 +63,9 @@ DataTableArray <- function(df, id, cols) {
   dataArray <- stats::aggregate(stats::formula(paste0("info_window ~ ", id) ),
                          data = df,
                          FUN = collapseJson)
-#  print(dataArray)
 
   dataArray <- paste0("[", headings, ",", dataArray[, 'info_window'], "]")
+  print(dataArray)
 
   return(dataArray)
 }
