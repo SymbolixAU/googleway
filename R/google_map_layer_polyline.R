@@ -191,7 +191,7 @@ add_polylines <- function(map,
 
     shape <- jsonlite::toJSON(lst_polyline, digits = digits, auto_unbox = T)
 
-    print(shape)
+    # print(shape)
   }
 
   map <- addDependency(map, googlePolylineDependency())

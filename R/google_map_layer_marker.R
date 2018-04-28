@@ -157,7 +157,7 @@ add_markers <- function(map,
   shape <- createInfoWindowChart(shape, infoWindowChart, id)
   shape <- jsonlite::toJSON(shape, digits = digits)
 
-  print(shape)
+  # print(shape)
   map <- addDependency(map, googleMarkerDependency())
 
   invoke_method(map, 'add_markers', shape, cluster, update_map_view, layer_id, usePolyline, load_interval)

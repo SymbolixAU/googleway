@@ -9,11 +9,11 @@ createInfoWindowChart.data.frame <- function(shape, infoWindowChart, id) {
 
 createInfoWindowChart.list <- function(shape, infoWindowChart, id) {
 
-  print("createInfoWindowChart.list")
-  print("--shape--")
-  print(shape)
-  print("--infoWindowChart--")
-  print(infoWindowChart)
+  # print("createInfoWindowChart.list")
+  # print("--shape--")
+  # print(shape)
+  # print("--infoWindowChart--")
+  # print(infoWindowChart)
 
   ## TODO: add the infowindow stuff to the list.
 
@@ -25,14 +25,14 @@ createInfoWindowChart.list <- function(shape, infoWindowChart, id) {
       type = infoWindowChart[['type']],
       options = infoWindowChart[['options']]
     )
-    print("--this list--")
-    print(thisList)
+    # print("--this list--")
+    # print(thisList)
     # x[['info_window']] <- InfoWindow(thisList, x, thisId)
     # x[['chart_type']] <- infoWindowChart[['type']]
     # x[['chart_options']] <- infoWindowChart[['options']]
     x <- InfoWindow(thisList, x, idcol)
-    print("--- x ---")
-    print(x)
+    # print("--- x ---")
+    # print(x)
     return(x)
   }
 
@@ -40,8 +40,8 @@ createInfoWindowChart.list <- function(shape, infoWindowChart, id) {
 
     shape <- lapply(shape, myfun, idcol = id)
 
-    print("--shape--")
-    print(shape)
+    # print("--shape--")
+    # print(shape)
     # shape <- InfoWindow(infoWindowChart, shape, id)
     # shape[['info_window']] <- elements[['info_window']]
     # shape[['chart_type']] <- elements[['chart_type']]
@@ -67,9 +67,9 @@ InfoWindow.list <- function(info_window, mapObject, id){
   infoData <- info_window[['data']]
   dataCols <- setdiff(names(infoData), id)
 
-  print("-- infoDAta -- ")
-  print(infoData)
-  print(dataCols)
+  # print("-- infoDAta -- ")
+  # print(infoData)
+  # print(dataCols)
 
   mapObject[['info_window']] <- DataTableArray(infoData, id, dataCols)
   mapObject[['chart_type']] <- tolower(info_window[['type']])

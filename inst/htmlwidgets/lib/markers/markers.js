@@ -135,8 +135,6 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
                     chart_options: aMarker.chart_options
                 });
     
-    console.log(marker);
-    
     // CHARTS2
     if (aMarker.info_window) {
 

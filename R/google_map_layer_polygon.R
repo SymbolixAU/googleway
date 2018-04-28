@@ -170,6 +170,12 @@ add_polygons <- function(map,
     objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_polyline")
   }
 
+  infoWindowChart <- NULL
+  if (!is.null(info_window) && isInfoWindowChart(info_window)) {
+    infoWindowChart <- info_window
+    objArgs[['info_window']] <- NULL
+  }
+
   logicalCheck(update_map_view)
   numericCheck(digits)
   numericCheck(z_index)
@@ -211,8 +217,8 @@ add_polygons <- function(map,
 
   if(usePolyline){
     shape <- createPolylineListColumn(shape)
+    shape <- createInfoWindowChart(shape, infoWindowChart, id)
     shape <- jsonlite::toJSON(shape, digits = digits)
-
   }else{
 
     ids <- unique(shape[, 'id'])
@@ -220,6 +226,7 @@ add_polygons <- function(map,
     keep <- setdiff(n, c("id", "pathId", "lat", "lng"))
 
     lst_polygon <- objPolygonCoords(shape, ids, keep)
+    lst_polygon <- createInfoWindowChart(lst_polygon, infoWindowChart, id)
 
     shape <- jsonlite::toJSON(lst_polygon, digits = digits, auto_unbox = T)
   }

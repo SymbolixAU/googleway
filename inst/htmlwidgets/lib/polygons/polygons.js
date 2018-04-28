@@ -56,7 +56,10 @@ function set_polygons(map_id, polygon, infoWindow, update_map_view, layer_id, us
             mouseOverGroup: polygon.mouse_over_group,
             draggable: polygon.draggable,
             editable: polygon.editable,
-            zIndex: polygon.z_index
+            zIndex: polygon.z_index,
+            chart_type: polygon.chart_type,
+            chart_data: polygon.chart_data,
+            chart_options: polygon.chart_options
         });
 
         //console.log(polygon);

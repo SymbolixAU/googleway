@@ -608,24 +608,12 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
  *          the value of the attribute
  */
 function add_infoWindow(map_id, mapObject, infoWindow, objectAttribute, attributeValue) {
-    
-    console.log("--- add_infoWindow ---");
-    console.log(" mapObject ");
-    console.log(mapObject);
-    console.log(" infoWindow ");
-    console.log(infoWindow);
-    console.log(" objectAttribute ");
-    console.log(objectAttribute);
-    console.log(" attributeValue ");
-    console.log(attributeValue);
-    
+        
     //'use strict';
 
     mapObject.set(objectAttribute, attributeValue);
     
     if (mapObject.chart_type === undefined) {
-        
-        console.log(" -- chart type UNDEFINED -- ");
 
       google.maps.event.addListener(mapObject, 'click', function(event){
 
@@ -641,15 +629,12 @@ function add_infoWindow(map_id, mapObject, infoWindow, objectAttribute, attribut
         
     } else { 
         
-        console.log(" -- CHART TYPE -- ");
         
         mapObject.setOptions({"info_window": attributeValue})
         console.log(mapObject);
         
         google.maps.event.addListener(mapObject, 'click', function(event) {
-          
-            console.log("--this--");
-            console.log(this);
+
           var c = chartObject(this);
           console.log("---c---");
           console.log(c);

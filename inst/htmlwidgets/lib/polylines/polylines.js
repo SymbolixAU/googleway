@@ -71,8 +71,6 @@ function set_lines(map_id, polyline, infoWindow, update_map_view, layer_id, use_
                 set_each_line(Polyline, polyline, infoWindow, update_map_view, map_id, layer_id);
             }
         } else {
-            console.log(" -- polyline -- ");
-            console.log(polyline);
             for (j = 0; j < polyline.coords.length; j++) {
                 coords.push(polyline.coords[j]);
             }
@@ -122,8 +120,6 @@ function set_each_line(Polyline, polyline, infoWindow, update_map_view, map_id, 
     }
 
     if (polyline.info_window) {
-        console.log(" -- polyline.info_window --");
-        console.log(polyline);
         add_infoWindow(map_id, Polyline, infoWindow, '_information', polyline.info_window);
     }
 

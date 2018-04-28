@@ -268,7 +268,6 @@ chartList <- list(data = markerCharts,
 
 google_map() \%>\%
   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
-}
 
 tram_route$id <- c(rep(1, 30), rep(2, 25))
 
@@ -286,6 +285,8 @@ google_map() \%>\%
     lat = "shape_pt_lat", lon = "shape_pt_lon",
     info_window = chartList
     )
+
+}
 
 \dontrun{
 
@@ -308,7 +309,6 @@ lineChart <- data.frame(id = 33,
     val2 = c(2,1))
 
 chartList <- list(data = lineChart, type = 'bar')
-
 
 google_map() \%>\%
   add_polylines(data = melbourne[melbourne$polygonId == 33, ],
@@ -375,6 +375,33 @@ chartList <- list(data = markerCharts,
 
 google_map() \%>\%
   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
+
+polyChart <- data.frame(id = 33,
+    year = c("year1","year2"),
+    val1 = c(1,2),
+    val2 = c(2,1))
+
+chartList <- list(data = polyChart, type = 'column')
+
+google_map() \%>\%
+  add_polygons(data = melbourne[melbourne$polygonId == 33, ],
+  polyline = "polyline",
+  info_window = chartList)
+
+tram_route$id <- 1
+
+polyChart <- data.frame(id = 1,
+    year = c("year1","year2"),
+    val1 = c(1,2),
+    val2 = c(2,1))
+
+chartList <- list(data = polyChart, type = 'column')
+
+google_map() \%>\%
+  add_polygons(data = tram_route,
+    lon = "shape_pt_lon", lat = "shape_pt_lat",
+    info_window = chartList)
+
 
 }
 
