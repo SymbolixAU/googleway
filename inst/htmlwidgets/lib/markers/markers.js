@@ -152,13 +152,13 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
         // info window can either be a value, formatted HTML, or a chart.
         //console.log(marker);
         
-      if(aMarker.chart_type === undefined){
+      if (aMarker.chart_type === undefined) {
 
         google.maps.event.addListener(marker, 'click', function() {
           this.infowindow.open(window[map_id + 'map'], this);
         });
 
-      }else{
+      } else {
 
         google.maps.event.addListener(marker, 'click', function() {
           var c = chartObject(this);

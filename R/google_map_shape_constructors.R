@@ -37,7 +37,7 @@ createMapObject <- function(data, cols, objArgs) {
 
   # print("additinoal values")
   # print(additionalValues)
-  sapply(additionalValues, function(x) print(class(objArgs[[x]])))
+  # sapply(additionalValues, function(x) print(class(objArgs[[x]])))
 
   #dput(objArgs)
   validAdditionalValues <- additionalValues[which( vapply(additionalValues, function(x){
@@ -103,26 +103,26 @@ createMapObject <- function(data, cols, objArgs) {
     ## for everything else, assume it's a column of the data...
   }
 
-  ## any invalidAdditionalValues need resolving?
-  moreValues <- vapply(invalidAdditionalValues, function(x) names(objArgs)[x], "")
-  # print("moveValues")
-  # print(moreValues)
-
-  if("info_window" %in% moreValues) {
-
-#    tryCatch({
-#      print(objArgs)
-      info <- objArgs[[which(names(objArgs) == "info_window")]]
-      id <- objArgs[[which(names(objArgs) == "id")]]
-      df <- InfoWindow(eval(info), df, id)
-#    },
-#    error = function(e){
-#      message(
-#        paste0("For this info_window do display you need to supply the 'id' argument,\n",
-#               "and this id must also be found in the chart data ")
-#      )
-#    })
-  }
+#   ## any invalidAdditionalValues need resolving?
+#   moreValues <- vapply(invalidAdditionalValues, function(x) names(objArgs)[x], "")
+#   # print("moveValues")
+#   # print(moreValues)
+#
+#   if("info_window" %in% moreValues) {
+#
+# #    tryCatch({
+# #      print(objArgs)
+#       info <- objArgs[[which(names(objArgs) == "info_window")]]
+#       id <- objArgs[[which(names(objArgs) == "id")]]
+#       df <- InfoWindow(eval(info), df, id)
+# #    },
+# #    error = function(e){
+# #      message(
+# #        paste0("For this info_window do display you need to supply the 'id' argument,\n",
+# #               "and this id must also be found in the chart data ")
+# #      )
+# #    })
+#   }
   return(df)
 }
 

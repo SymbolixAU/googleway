@@ -268,9 +268,24 @@ chartList <- list(data = markerCharts,
 
 google_map() \%>\%
   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
-
 }
 
+tram_route$id <- c(rep(1, 30), rep(2, 25))
+
+markerCharts <- data.frame(id = rep(c(1,2), each = 2),
+    year = rep( c("year1", "year2") ),
+    arrivals = sample(1:100, size = 4),
+    departures = sample(1:100, size = 4))
+
+chartList <- list(data = markerCharts,
+   type = 'area')
+
+google_map() \%>\%
+  add_polylines(data = tram_route, id = 'id',
+    stroke_colour = "id", stroke_weight = 10,
+    lat = "shape_pt_lat", lon = "shape_pt_lon",
+    info_window = chartList
+    )
 
 \dontrun{
 
@@ -439,7 +454,6 @@ chartList <- list(data = markerCharts,
 
 google_map() \%>\%
   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
-
 }
 
 

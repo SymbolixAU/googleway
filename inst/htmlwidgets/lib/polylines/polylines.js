@@ -11,6 +11,8 @@
  */
 function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_polyline, legendValues, interval) {
 
+    console.log("-- data_polyline --");
+    console.log(data_polyline);
     createWindowObject(map_id, 'googlePolyline', layer_id);
 
     var i,
@@ -60,12 +62,17 @@ function set_lines(map_id, polyline, infoWindow, update_map_view, layer_id, use_
                     strokeWeight: polyline.stroke_weight,
                     mouseOver: polyline.mouse_over,
                     mouseOverGroup: polyline.mouse_over_group,
-                    zIndex: polyline.z_index
+                    zIndex: polyline.z_index,
+                    chart_type: polyline.chart_type,
+                    chart_data: polyline.chart_data,
+                    chart_options: polyline.chart_options
                 });
 
                 set_each_line(Polyline, polyline, infoWindow, update_map_view, map_id, layer_id);
             }
         } else {
+            console.log(" -- polyline -- ");
+            console.log(polyline);
             for (j = 0; j < polyline.coords.length; j++) {
                 coords.push(polyline.coords[j]);
             }
@@ -82,7 +89,10 @@ function set_lines(map_id, polyline, infoWindow, update_map_view, layer_id, use_
                 strokeWeight: polyline.stroke_weight,
                 mouseOver: polyline.mouse_over,
                 mouseOverGroup: polyline.mouse_over_group,
-                zIndex: polyline.z_index
+                zIndex: polyline.z_index,
+                chart_type: polyline.chart_type,
+                chart_data: polyline.chart_data,
+                chart_options: polyline.chart_options
             });
 
             set_each_line(Polyline, polyline, infoWindow, update_map_view, map_id, layer_id);
@@ -112,6 +122,8 @@ function set_each_line(Polyline, polyline, infoWindow, update_map_view, map_id, 
     }
 
     if (polyline.info_window) {
+        console.log(" -- polyline.info_window --");
+        console.log(polyline);
         add_infoWindow(map_id, Polyline, infoWindow, '_information', polyline.info_window);
     }
 

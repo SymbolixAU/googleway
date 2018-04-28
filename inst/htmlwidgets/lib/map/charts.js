@@ -95,8 +95,6 @@ function chartObject(mapObject) {
         //options = chartOptions(mapObject),
         node = document.createElement('div');
 
-    console.log(js);
-
     // get a chart object
     var chart = chartType(mapObject.chart_type, node);
 

@@ -140,13 +140,13 @@ colour attributes. See examples for \link{add_circles}.
 
 ## using lat/lon coordinates
 
-map_key <- "your_api_key"
+set_key("your_api_key")
 
-google_map(data = tram_route, key = map_key) \%>\%
+google_map(data = tram_route) \%>\%
   add_polylines(lat = "shape_pt_lat", lon = "shape_pt_lon")
 
 
-google_map(key = map_key) \%>\%
+google_map() \%>\%
   add_polylines(data = melbourne, polyline = "polyline", stroke_weight = 1,
       stroke_colour = "SA4_NAME")
 
