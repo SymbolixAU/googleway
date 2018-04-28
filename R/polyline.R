@@ -9,7 +9,6 @@
 #'
 #' @param encoded String. An encoded polyline
 #' @return data.frame of lat/lon coordinates
-#' @importFrom Rcpp evalCpp
 #' @examples
 #' ## polyline joining the capital cities of Australian states
 #' pl <- "nnseFmpzsZgalNytrXetrG}krKsaif@kivIccvzAvvqfClp~uBlymzA~ocQ}_}iCthxo@srst@"

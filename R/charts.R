@@ -73,12 +73,12 @@
 #'
 #' tram_route$id <- c(rep(1, 30), rep(2, 25))
 #'
-#' markerCharts <- data.frame(id = rep(c(1,2), each = 2),
+#' lineCharts <- data.frame(id = rep(c(1,2), each = 2),
 #'     year = rep( c("year1", "year2") ),
 #'     arrivals = sample(1:100, size = 4),
 #'     departures = sample(1:100, size = 4))
 #'
-#' chartList <- list(data = markerCharts,
+#' chartList <- list(data = lineCharts,
 #'    type = 'area')
 #'
 #' google_map() %>%
@@ -120,6 +120,20 @@
 #'
 #' google_map() %>%
 #'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
+#'
+#'
+#' lineChart <- data.frame(id = 33,
+#'     year = c("year1","year2"),
+#'     val1 = c(1,2),
+#'     val2 = c(2,1))
+#'
+#' chartList <- list(data = lineChart, type = 'bar')
+#'
+#'
+#' google_map() %>%
+#'   add_polylines(data = melbourne[melbourne$polygonId == 33, ],
+#'   polyline = "polyline",
+#'   info_window = chartList)
 #'
 #' }
 #'
