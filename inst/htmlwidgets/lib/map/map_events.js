@@ -646,13 +646,16 @@ function add_infoWindow(map_id, mapObject, infoWindow, objectAttribute, attribut
         mapObject.setOptions({"info_window": attributeValue})
         console.log(mapObject);
         
-        google.maps.event.addListener(mapObject, 'click', function() {
-            
+        google.maps.event.addListener(mapObject, 'click', function(event) {
+          
+            console.log("--this--");
+            console.log(this);
           var c = chartObject(this);
           console.log("---c---");
           console.log(c);
-          this.infowindow.setContent(c);
-          this.infowindow.open(window[map_id + 'map'], this);
+          infoWindow.setContent(c);
+            infoWindow.setPosition(event.latLng);
+          infoWindow.open(window[map_id + 'map']);
         });
     }
 }

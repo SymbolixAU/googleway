@@ -93,12 +93,11 @@ function chartObject(mapObject) {
     var data = new google.visualization.arrayToDataTable(js),
         //data = new google.visualization.DataTable(js),
         //options = chartOptions(mapObject),
-        node = document.createElement('div');
+        node = document.createElement('div'),
 
     // get a chart object
-    var chart = chartType(mapObject.chart_type, node);
-
-    var options = JSON.parse(mapObject.chart_options);
+        chart = chartType(mapObject.chart_type, node),
+        options = JSON.parse(mapObject.chart_options);
 
     console.log(options);
     //console.log(options);
