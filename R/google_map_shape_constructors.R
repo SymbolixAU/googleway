@@ -41,7 +41,7 @@ createMapObject <- function(data, cols, objArgs) {
 
   # print("additinoal values")
   # print(additionalValues)
-  sapply(additionalValues, function(x) print(class(objArgs[[x]])))
+  # sapply(additionalValues, function(x) print(class(objArgs[[x]])))
 
   # #dput(objArgs)
   # validAdditionalValues <- additionalValues[which( vapply(additionalValues, function(x){
@@ -81,21 +81,20 @@ createMapObject <- function(data, cols, objArgs) {
   # print("-- valid additional values -- ")
   if (length(additionalValues) > 0) {
 
-    print(" -- extra cols --")
-    print(additionalValues)
+    # print(" -- extra cols --")
+    # print(additionalValues)
     # print(objArgs)
     # print(head(df))
     extraCols <- lapply(additionalValues, function(x){
 
       ## the rep(eval(info_window)) won't work if it's a list...
       ## this is designed for when the value passed is a single value, like a colour #00FF00
-      ##
-      ##
+
       setNames(as.data.frame(rep(eval(objArgs[[x]]), nrow(df)), stringsAsFactors = F), names(objArgs)[x])
     })
 
-    print("--cbind extra--")
-    dput(extraCols)
+    # print("--cbind extra--")
+    # dput(extraCols)
     # dput(df)
     df <- cbind(df, do.call(cbind, extraCols))
   }

@@ -10,7 +10,7 @@
 #'
 #' @section `info_window`:
 #'
-#' When using a chart in an `info_window` you need to pass in a `list` with at least
+#' When using a chart in an `info_window` you need to use a `list` with at least
 #' two elements named `data` and `type`. You can also use a third element called `options`
 #' for controlling the appearance of the chart.
 #'
@@ -295,7 +295,7 @@
 #'
 #' @section Combo:
 #'
-#' A Combo chart lets you render each series as a different marker type from the following list:
+#' A combo chart lets you render each series as a different marker type from the following list:
 #' line, area, bars, candlesticks, and stepped area.
 #'
 #' **data**
@@ -312,7 +312,7 @@
 #' **options**
 #'
 #' See the column chart documentation for various other examples
-#' \url{https://developers.google.com/chart/interactive/docs/gallery/columnchart}
+#' \url{https://developers.google.com/chart/interactive/docs/gallery/combochart}
 #'
 #' @examples
 #' \dontrun{
@@ -345,7 +345,7 @@
 #'
 #' **data**
 #'
-#' A column chart requires a \code{data.frame} of at least three columns:
+#' A histogram chart requires a \code{data.frame} of at least three columns:
 #'   1. First column: a column of id values, where the column has the same name as the
 #'   id column in the \code{data} argument, and therefore the same name as the value supplied
 #'   to the \code{id} argument.
@@ -377,12 +377,46 @@
 #' }
 #'
 #'
+#' @section Line:
+#'
+#' **data**
+#'
+#' A line chart requires a \code{data.frame} of at least three columns:
+#'   1. First column: a column of id values, where the column has the same name as the
+#'   id column in the \code{data} argument, and therefore the same name as the value supplied
+#'   to the \code{id} argument.
+#'   2. Second column: variable names used for labelling the data
+#'   3. Third or more columns: the data used in the chart
+#'
+#' **type** - `line`
+#'
+#' **options**
+#'
+#' See the line chart documentation for various other examples
+#' \url{https://developers.google.com/chart/interactive/docs/gallery/linechart}
+#'
+#' @examples
+#' \dontrun{
+#'
+#' ## Line
+#' markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 20),
+#'     day = as.character(1:20),
+#'     value = sample(1:100, size = nrow(tram_stops) * 20, replace = T))
+#'
+#' chartList <- list(data = markerCharts,
+#'    type = 'line')
+#'
+#' google_map() %>%
+#'   add_circles(data = tram_stops, info_window = chartList, id = "stop_id")
+#'
+#' }
+#'
 #'
 #' @section Pie:
 #'
 #' **data**
 #'
-#' A Pie chart requires a \code{data.frame} of three columns:
+#' A pie chart requires a \code{data.frame} of three columns:
 #'   1. First column: a column of id values, where the column has the same name as the
 #'   id column in the \code{data} argument, and therefore the same name as the value supplied
 #'   to the \code{id} argument.
@@ -435,7 +469,7 @@
 #'
 #' **data**
 #'
-#' A Scatter chart requires a \code{data.frame} of at least four columns:
+#' A scatter chart requires a \code{data.frame} of at least four columns:
 #'   1. First column: a column of id values, where the column has the same name as the
 #'   id column in the \code{data} argument, and therefore the same name as the value supplied
 #'   to the \code{id} argument.

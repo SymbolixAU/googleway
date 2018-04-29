@@ -9,14 +9,6 @@ createInfoWindowChart.data.frame <- function(shape, infoWindowChart, id) {
 
 createInfoWindowChart.list <- function(shape, infoWindowChart, id) {
 
-  # print("createInfoWindowChart.list")
-  # print("--shape--")
-  # print(shape)
-  # print("--infoWindowChart--")
-  # print(infoWindowChart)
-
-  ## TODO: add the infowindow stuff to the list.
-
   myfun <- function(x, idcol) {
     thisId <- x[['id']]
     dat <- infoWindowChart[['data']][ with(infoWindowChart[['data']], id == thisId), ]
@@ -25,28 +17,13 @@ createInfoWindowChart.list <- function(shape, infoWindowChart, id) {
       type = infoWindowChart[['type']],
       options = infoWindowChart[['options']]
     )
-    # print("--this list--")
-    # print(thisList)
-    # x[['info_window']] <- InfoWindow(thisList, x, thisId)
-    # x[['chart_type']] <- infoWindowChart[['type']]
-    # x[['chart_options']] <- infoWindowChart[['options']]
     x <- InfoWindow(thisList, x, idcol)
-    # print("--- x ---")
-    # print(x)
+
     return(x)
   }
 
   if (!is.null(infoWindowChart)) {
-
     shape <- lapply(shape, myfun, idcol = id)
-
-    # print("--shape--")
-    # print(shape)
-    # shape <- InfoWindow(infoWindowChart, shape, id)
-    # shape[['info_window']] <- elements[['info_window']]
-    # shape[['chart_type']] <- elements[['chart_type']]
-    # shape[['chart_options']] <- elements[['chart_options']]
-
   }
   return(shape)
 }
@@ -58,8 +35,7 @@ InfoWindow <- function(info_window, mapObject, id) UseMethod("InfoWindow")
 InfoWindow.list <- function(info_window, mapObject, id){
 
   if(is.null(id))
-    stop("To use a chart as an Info Window you need to provide an 'id' that links the two data sets together.
-         Therefore, specify the 'id' parameter as the common column of data between the two.")
+    stop("When using a chart as an info window you need to supply the 'id' which links the data to the chart")
 
   if(!all(c("data", "type") %in% names(info_window)))
     stop("infow_window list requires a 'data' and 'type' element")
@@ -67,15 +43,9 @@ InfoWindow.list <- function(info_window, mapObject, id){
   infoData <- info_window[['data']]
   dataCols <- setdiff(names(infoData), id)
 
-  # print("-- infoDAta -- ")
-  # print(infoData)
-  # print(dataCols)
-
   mapObject[['info_window']] <- DataTableArray(infoData, id, dataCols)
   mapObject[['chart_type']] <- tolower(info_window[['type']])
   mapObject[['chart_options']] <- jsonlite::toJSON(info_window[['options']], auto_unbox = T)
-
-  #print(mapObject)
 
   return(mapObject)
 }
