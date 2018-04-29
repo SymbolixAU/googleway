@@ -2,6 +2,52 @@
 ## - marker clusters (add & remove layer)
 ## -- does this impact any other marker layers?
 
+## SPLIT VIEW
+# library(shiny)
+# library(shinydashboard)
+# library(googleway)
+#
+# ui <- dashboardPage(
+#
+#   dashboardHeader(),
+#   dashboardSidebar(),
+#   dashboardBody(
+#     box(width = 6,
+#         google_mapOutput(outputId = "map")
+#     ),
+#     box(width = 6,
+#         google_mapOutput(outputId = "pano")
+#     )
+#   )
+# )
+#
+# server <- function(input, output) {
+#   set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
+#
+#   output$map <- renderGoogle_map({
+#     google_map(location = c(-37.817386, 144.967463),
+#                zoom = 12,
+#                split_view = "pano")
+#   })
+# }
+#
+# shinyApp(ui, server)
+#
+# ## heading and pov
+# server <- function(input, output) {
+#   set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
+#
+#   output$map <- renderGoogle_map({
+#     google_map(location = c(-37.817386, 144.967463),
+#                zoom = 12,
+#                split_view_options = list(heading = 180, pitch = 50),
+#                split_view = "pano")
+#   })
+# }
+#
+# shinyApp(ui, server)
+
+
 ## MOUSE OVER
 ## - markers at top of marker
 # google_map() %>%
@@ -339,7 +385,7 @@
 # shinyApp(ui, server)
 
 
-# observing map edits
+# OBSERVING MAP EDITS
 # ui <- fluidPage(
 #   google_mapOutput(outputId = "map", height = "800px")
 # )
@@ -378,7 +424,7 @@
 #
 #   observeEvent(input$map_circle_drag, {
 #     print("circle dragged")
-#     # print(input$map_circle_drag)
+#     print(input$map_circle_drag)
 #   })
 #
 #   observeEvent(input$map_rectangle_click, {

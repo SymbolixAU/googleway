@@ -59,8 +59,8 @@ HTMLWidgets.widget({
 
                         if(x.split_view !== null) {
 
-                          console.log("split view");
-                          console.log(x.split_view_options);
+                          //console.log("split view");
+                          //console.log(x.split_view_options);
 
                             var panorama = new google.maps.StreetViewPanorama(
                                 document.getElementById(x.split_view), {
