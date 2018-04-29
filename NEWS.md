@@ -1,5 +1,7 @@
 ## Version 2.5.0 (development)
 
+# `clear_bounds()` function to clear the map bounds object
+* `add_ ()` functions gain `focus_layer` argument to re-centre the map on the layer being plotted
 * `google_map()` gets `update_map_view` argument for controlling map view after using `search_box`
 * fix for `alternatives` argument not working
 * `split_view` argument for `google_map()` for using a split-view streetview and map
