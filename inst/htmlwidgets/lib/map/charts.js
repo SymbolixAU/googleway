@@ -99,7 +99,6 @@ function chartObject(mapObject) {
         chart = chartType(mapObject.chart_type, node),
         options = JSON.parse(mapObject.chart_options);
 
-    console.log(options);
     //console.log(options);
 
     chart.draw(data, options);

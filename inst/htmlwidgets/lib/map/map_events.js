@@ -543,12 +543,21 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
 
           // if the mouse_over is specified without the group, we need an info window
             if (mapObject.get("mouseOver") !== undefined) {
+                
                 mapObject.setOptions({"_mouse_over": mapObject.get(objectAttribute)});
-
                 infoWindow.setContent(mapObject.get(objectAttribute).toString());
-
-                infoWindow.setPosition(event.latLng);
-                infoWindow.open(window[map_id + 'map']);
+                
+                
+                if (layerType === 'googleMarkers') {
+                    // markers need the info window to display at the top of the marker
+                    // not where the event took place
+                    this.infowindow = infoWindow;
+                    this.infowindow.open(window[map_id + 'map'], this);
+                } else {
+                    infoWindow.setPosition(event.latLng);
+                    infoWindow.open(window[map_id + 'map']);
+                }
+                
             }
         }
         

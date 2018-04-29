@@ -118,24 +118,24 @@ function draw_chart(marker) {
 }
 
 function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, layer_id) {
-    var markerInfo;
-    var marker = new google.maps.Marker({
-                    id: aMarker.id,
-                    icon: aMarker.url,
-                    position: latlon,
-                    draggable: aMarker.draggable,
-                    opacity: aMarker.opacity,
-                    opacityHolder: aMarker.opacity,
-                    title: aMarker.title,
-                    label: aMarker.label,
-                    mouseOverGroup: aMarker.mouse_over_group,
-                    info_window: aMarker.info_window,
-                    chart_type: aMarker.chart_type,
-                    chart_data: aMarker.chart_data,
-                    chart_options: aMarker.chart_options
-                });
+    var markerInfo,
+        marker = new google.maps.Marker({
+            id: aMarker.id,
+            icon: aMarker.url,
+            position: latlon,
+            draggable: aMarker.draggable,
+            opacity: aMarker.opacity,
+            opacityHolder: aMarker.opacity,
+            title: aMarker.title,
+            label: aMarker.label,
+            mouseOver: aMarker.mouse_over,
+            mouseOverGroup: aMarker.mouse_over_group,
+            info_window: aMarker.info_window,
+            chart_type: aMarker.chart_type,
+            chart_data: aMarker.chart_data,
+            chart_options: aMarker.chart_options
+        });
     
-    // CHARTS2
     if (aMarker.info_window) {
 
         marker.infowindow = new google.maps.InfoWindow({

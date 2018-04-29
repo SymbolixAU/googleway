@@ -2,6 +2,16 @@
 ## - marker clusters (add & remove layer)
 ## -- does this impact any other marker layers?
 
+## MOUSE OVER
+## - markers at top of marker
+# google_map() %>%
+#   add_markers(data=tram_stops, mouse_over ="stop_id")
+#
+# other shapes at location of cursor
+# google_map() %>%
+#   add_polygons(data = melbourne, polyline = "polyline", mouse_over = "SA2_NAME")
+
+
 ### creating sf through geojson
 # myurl <- "http://eric.clst.org/assets/wiki/uploads/Stuff/gz_2010_us_050_00_500k.json"
 # sf <- geojsonsf::geojson_sf(myurl)

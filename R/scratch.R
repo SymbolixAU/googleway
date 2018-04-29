@@ -6,8 +6,6 @@
 ## - polygons - ditto
 
 
-
-
 ## two maps with the same layer_id ?
 
 
