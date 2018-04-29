@@ -39,7 +39,7 @@ test_that("info window list creates chart", {
 test_that("id is required for using a chart", {
 
   expect_error(
-    googleway:::InfoWindow(chartList, mapObject, id = NULL),
+    googleway:::InfoWindow(list(), mapObject, id = NULL),
     "When using a chart as an info window you need to supply the 'id' which links the data to the chart"
   )
 
