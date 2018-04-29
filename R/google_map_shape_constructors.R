@@ -81,8 +81,8 @@ createMapObject <- function(data, cols, objArgs) {
   # print("-- valid additional values -- ")
   if (length(additionalValues) > 0) {
 
-    # print(" -- extra cols --")
-    # print(validAdditionalValues)
+    print(" -- extra cols --")
+    print(additionalValues)
     # print(objArgs)
     # print(head(df))
     extraCols <- lapply(additionalValues, function(x){
@@ -94,8 +94,8 @@ createMapObject <- function(data, cols, objArgs) {
       setNames(as.data.frame(rep(eval(objArgs[[x]]), nrow(df)), stringsAsFactors = F), names(objArgs)[x])
     })
 
-    # print("--cbind extra--")
-    # dput(extraCols)
+    print("--cbind extra--")
+    dput(extraCols)
     # dput(df)
     df <- cbind(df, do.call(cbind, extraCols))
   }

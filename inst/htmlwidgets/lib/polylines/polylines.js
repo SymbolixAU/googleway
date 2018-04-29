@@ -105,7 +105,7 @@ function set_lines(map_id, polyline, infoWindow, update_map_view, layer_id, use_
 function set_each_line(Polyline, polyline, infoWindow, update_map_view, map_id, layer_id) {
 
     var n, points, polylineInfo;
-    
+
     window[map_id + 'googlePolyline' + layer_id].push(Polyline);
     Polyline.setMap(window[map_id + 'map']);
 
@@ -120,7 +120,7 @@ function set_each_line(Polyline, polyline, infoWindow, update_map_view, map_id, 
     }
 
     if (polyline.info_window) {
-        add_infoWindow(map_id, Polyline, infoWindow, '_information', polyline.info_window);
+        add_infoWindow(map_id, Polyline, infoWindow, 'info_window', polyline.info_window);
     }
 
     // need to add the listener once so it's not overwritten?
@@ -210,7 +210,7 @@ function update_polylines(map_id, data_polyline, layer_id, legendValues) {
                         window[map_id + 'googlePolyline' + layer_id][i].setOptions({strokeOpacity: attributeValue});
                         break;
                     case "info_window":
-                        window[map_id + 'googlePolyline' + layer_id][i].setOptions({_information: attributeValue});
+                        window[map_id + 'googlePolyline' + layer_id][i].setOptions({info_window: attributeValue});
                         break;
                     }
                 }

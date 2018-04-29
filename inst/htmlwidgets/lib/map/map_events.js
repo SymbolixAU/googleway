@@ -620,7 +620,7 @@ function add_infoWindow(map_id, mapObject, infoWindow, objectAttribute, attribut
           // the listener is being bound to the mapObject. So, when the infowindow
           // contents are updated, the 'click' listener will need to see the new   information
           // ref: http://stackoverflow.com/a/13504662/5977215
-          mapObject.setOptions({"_information": mapObject.get(objectAttribute)});
+          mapObject.setOptions({"info_window": mapObject.get(objectAttribute)});
 
           infoWindow.setContent(mapObject.get(objectAttribute));
           infoWindow.setPosition(event.latLng);
@@ -629,17 +629,13 @@ function add_infoWindow(map_id, mapObject, infoWindow, objectAttribute, attribut
         
     } else { 
         
-        
-        mapObject.setOptions({"info_window": attributeValue})
-        console.log(mapObject);
+        mapObject.setOptions({"info_window": attributeValue});
         
         google.maps.event.addListener(mapObject, 'click', function(event) {
 
           var c = chartObject(this);
-          console.log("---c---");
-          console.log(c);
           infoWindow.setContent(c);
-            infoWindow.setPosition(event.latLng);
+          infoWindow.setPosition(event.latLng);
           infoWindow.open(window[map_id + 'map']);
         });
     }

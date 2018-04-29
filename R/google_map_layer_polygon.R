@@ -339,6 +339,12 @@ update_polygons <- function(map, data, id,
   objArgs <- lst$objArgs
   id <- lst$id
 
+  infoWindowChart <- NULL
+  if (!is.null(info_window) && isInfoWindowChart(info_window)) {
+    infoWindowChart <- info_window
+    objArgs[['info_window']] <- NULL
+  }
+
   allCols <- polygonUpdateColumns()
   requiredCols <- requiredShapeUpdateColumns()
   colourColumns <- shapeAttributes(fill_colour, stroke_colour)
@@ -360,6 +366,7 @@ update_polygons <- function(map, data, id,
     shape <- addDefaults(shape, requiredDefaults, "polygonUpdate")
   }
 
+  shape <- createInfoWindowChart(shape, infoWindowChart, id)
   shape <- jsonlite::toJSON(shape, auto_unbox = T)
 
   invoke_method(map, 'update_polygons', shape, layer_id, legend)
