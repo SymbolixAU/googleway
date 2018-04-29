@@ -42,18 +42,6 @@ DataTableArray <- function(df, id, cols) {
   ## each row will be an array
   ## the first row will be the headings and types
 
-  #v <- vapply(df[, cols], JsonType, "")
-  #headings <- paste0("[",
-  #                   paste0('{"label" : "', names(v), '", "id" : "', names(v), '", "type" : "', v, '"}', collapse = ","),
-  #                   "]")
-
-  # headings <- jsonlite::toJSON(cols)
-  #
-  #
-  # vars <- jsonlite::toJSON(unname(df[, cols]))
-  # vars <- gsub("^\\[|\\]$", "", vars )
-  # dataArray <- paste0("[", headings, ",", vars, "]")
-
   df[['info_window']] <- vapply(1:nrow(df), function(x) {
     gsub("^\\[|\\]$", "", jsonlite::toJSON(unname(df[x, cols])))
     } , "")
@@ -65,18 +53,11 @@ DataTableArray <- function(df, id, cols) {
                          FUN = collapseJson)
 
   dataArray <- paste0("[", headings, ",", dataArray[['info_window']], "]")
-  # print(dataArray)
 
   return(dataArray)
 }
 
 
-
-# df$info_window <- vapply(1:nrow(df), function(x) gsub("^\\[|\\]$", "", jsonlite::toJSON(unname(df[x, cols]))), "")
-# stats::aggregate(formula("info_window ~ stop_id"), data = df, FUN = googleway:::collapseJson)
-
-
-#collapseJson <- function(x) paste0('"rows":[', paste0(x, collapse = ","),']' )
 collapseJson <- function(x) paste0(x, collapse = ",")
 
 JsonType <- function(x) UseMethod("JsonType")
