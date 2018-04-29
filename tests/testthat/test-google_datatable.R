@@ -7,6 +7,7 @@ test_that("datatable constructed", {
   expect_true(googleway:::JsonType(as.Date("2017-01-01")) == "string")
   expect_true(googleway:::JsonType(as.factor(1)) == "string")
   expect_true(googleway:::JsonType(1) == "number")
+  expect_true(googleway:::JsonType(1L) == "number")
   expect_true(googleway:::JsonType(T) == "boolean")
   expect_true(googleway:::JsonType(1) == "number")
   expect_true(googleway:::JsonType(as.POSIXct("2017-01-01")) == "string")

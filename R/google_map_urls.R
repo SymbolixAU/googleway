@@ -319,7 +319,7 @@ validatePanoFov.numeric <- function(fov) {
     stop("expecting a single fov value")
 
   if(fov < 10 || fov > 100)
-    stop("expecting a fov value between -180 and 360")
+    stop("expecting a fov value between 10 and 100")
 
   fov
 }

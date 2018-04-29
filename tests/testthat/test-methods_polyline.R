@@ -43,7 +43,6 @@ test_that("correct polyline list returned",{
   expect_equal(lst_expected[[1]]$width, lst_polyline[[1]]$width)
   expect_equal(lst_expected[[2]]$width, lst_polyline[[2]]$width)
 
-
 })
 
 test_that("correct polygon list returned", {
@@ -57,21 +56,19 @@ test_that("correct polygon list returned", {
 
   js_expected <- '[{"coords":[[{"lat":26.774,"lng":-80.19},{"lat":18.466,"lng":-66.118},{"lat":32.321,"lng":-64.757}],[{"lat":28.745,"lng":-70.579},{"lat":29.57,"lng":-67.514},{"lat":27.339,"lng":-66.668}]],"colour":["#00FF0F"],"id":[1]},{"coords":[[{"lat":22,"lng":-50},{"lat":23,"lng":-49},{"lat":22,"lng":-51}]],"colour":["#FF00FF"],"id":[2]}]'
 
-  lst <- googleway:::objPolygonCoords(obj = df,
-                                      ids = unique(df$id),
-                                      otherColumns = c("colour"))
+  lst <- googleway:::objPolygonCoords(
+    obj = df, ids = unique(df$id), otherColumns = c("colour")
+    )
 
   js_polygon <- jsonlite::toJSON(lst)
 
   expect_equal(js_expected, as.character(js_polygon))
 
-
-
   js_expected <- '[{"coords":[[{"lat":26.774,"lng":-80.19},{"lat":18.466,"lng":-66.118},{"lat":32.321,"lng":-64.757}],[{"lat":28.745,"lng":-70.579},{"lat":29.57,"lng":-67.514},{"lat":27.339,"lng":-66.668}]],"id":[1]},{"coords":[[{"lat":22,"lng":-50},{"lat":23,"lng":-49},{"lat":22,"lng":-51}]],"id":[2]}]'
 
-  lst <- googleway:::objPolygonCoords(obj = df,
-                                      ids = unique(df$id),
-                                      otherColumns = c())
+  lst <- googleway:::objPolygonCoords(
+    obj = df, ids = unique(df$id), otherColumns = c()
+    )
 
   js_polygon <- jsonlite::toJSON(lst)
 
