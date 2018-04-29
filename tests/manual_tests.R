@@ -2,6 +2,11 @@
 ## - marker clusters (add & remove layer)
 ## -- does this impact any other marker layers?
 
+## MARKER CLUSTER
+# set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
+# google_map(data = tram_stops) %>%
+#   add_markers(info_window = "stop_name", cluster = TRUE)
+
 ## FOCUS LAYER
 # library(shiny)
 # library(shinydashboard)
