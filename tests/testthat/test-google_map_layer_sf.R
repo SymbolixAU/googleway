@@ -5,8 +5,7 @@ test_that("sf objects encoded", {
 
   testthat::skip_on_cran()
   testthat::skip_on_travis()
-
-  library(sf)
+  testthat::skip_if_not_installed(pkg = "sf")
 
   df <- data.frame(myId = c(1,1,1,1,1,1,1,1,2,2,2,2),
                    lineId = c(1,1,1,1,2,2,2,2,1,1,1,2),
@@ -48,8 +47,8 @@ test_that("correct sf rows are returned", {
 
   testthat::skip_on_cran()
   testthat::skip_on_travis()
+  testthat::skip_if_not_installed(pkg = "sf")
 
-  library(sf)
   df <- data.frame(myId = c(1,1,1,1,1,1,1,1,2,2,2,2),
   								 lineId = c(1,1,1,1,2,2,2,2,1,1,1,2),
   								 lon = c(-80.190, -66.118, -64.757, -80.190,  -70.579, -67.514, -66.668, -70.579, -70, -49, -51, -70),
@@ -74,7 +73,6 @@ test_that("correct sf rows are returned", {
   	sf::st_sf(geometry = point),
     sf::st_sf(geometry = multipoint)
   	)
-
 
   expect_true(nrow(googleway:::normaliseSfData(sf, "POLYGON")) == 2)
   expect_true(nrow(googleway:::normaliseSfData(sf, "LINE")) == 2)

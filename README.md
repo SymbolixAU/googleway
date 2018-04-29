@@ -12,7 +12,7 @@ Provides a mechanism to access various [Google Maps APIs](https://developers.goo
 
 ![Google Maps](./vignettes/img/polygon_legend.png)
 
-## v2.4.0
+## v2.6
 
 see [News](https://github.com/SymbolixAU/googleway/blob/master/NEWS.md) for a full list of changes and additions
 
@@ -29,7 +29,7 @@ For specific examples, see the blog posts for
 
 See the [**vignette**](https://github.com/SymbolixAU/googleway/blob/master/vignettes/googleway-vignette.Rmd) for instructions and examples.
 
-## v2.5.0 (development)
+## v2.7.0 (development)
 
 
 

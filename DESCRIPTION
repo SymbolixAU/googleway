@@ -1,15 +1,15 @@
 Package: googleway
 Type: Package
 Title: Accesses Google Maps APIs to Retrieve Data and Plot Maps
-Version: 2.5.00006
-Date: 2018-02-01
+Version: 2.6
+Date: 2018-04-29
 Authors@R: c(
     person("David", "Cooley", ,"dcooley@symbolix.com.au", role = c("aut", "cre")),
     person("Paulo", "Barcelos", role = "ctb", comment = "Author of c++ decode_pl"),
     person("Rstudio", role = "ctb", comment = "Functions written for the Leaflet pacakge")
     )
-Description: Provides a mechanism to plot a Google Map from R and overlay
-    it with shapes and markers. Also provides access to Google Maps APIs,
+Description: Provides a mechanism to plot a 'Google Map' from 'R' and overlay
+    it with shapes and markers. Also provides access to 'Google Maps' APIs,
     including places, directions, roads, distances, geocoding, elevation and
     timezone.
 License: GPL-3
