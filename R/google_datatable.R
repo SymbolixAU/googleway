@@ -54,7 +54,7 @@ DataTableArray <- function(df, id, cols) {
   # vars <- gsub("^\\[|\\]$", "", vars )
   # dataArray <- paste0("[", headings, ",", vars, "]")
 
-  df[, 'info_window'] <- vapply(1:nrow(df), function(x) {
+  df[['info_window']] <- vapply(1:nrow(df), function(x) {
     gsub("^\\[|\\]$", "", jsonlite::toJSON(unname(df[x, cols])))
     } , "")
 
@@ -63,9 +63,9 @@ DataTableArray <- function(df, id, cols) {
   dataArray <- stats::aggregate(stats::formula(paste0("info_window ~ ", id) ),
                          data = df,
                          FUN = collapseJson)
-#  print(dataArray)
 
-  dataArray <- paste0("[", headings, ",", dataArray[, 'info_window'], "]")
+  dataArray <- paste0("[", headings, ",", dataArray[['info_window']], "]")
+  # print(dataArray)
 
   return(dataArray)
 }

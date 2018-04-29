@@ -10,7 +10,7 @@
 #'
 #' @section `info_window`:
 #'
-#' When using a chart in an `info_window` you need to pass in a `list` with at least
+#' When using a chart in an `info_window` you need to use a `list` with at least
 #' two elements named `data` and `type`. You can also use a third element called `options`
 #' for controlling the appearance of the chart.
 #'
@@ -70,8 +70,24 @@
 #' google_map() %>%
 #'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
 #'
-#' }
+#' tram_route$id <- c(rep(1, 30), rep(2, 25))
 #'
+#' lineCharts <- data.frame(id = rep(c(1,2), each = 2),
+#'     year = rep( c("year1", "year2") ),
+#'     arrivals = sample(1:100, size = 4),
+#'     departures = sample(1:100, size = 4))
+#'
+#' chartList <- list(data = lineCharts,
+#'    type = 'area')
+#'
+#' google_map() %>%
+#'   add_polylines(data = tram_route, id = 'id',
+#'     stroke_colour = "id", stroke_weight = 10,
+#'     lat = "shape_pt_lat", lon = "shape_pt_lon",
+#'     info_window = chartList
+#'     )
+#'
+#' }
 #'
 #' @section Bar:
 #'
@@ -105,6 +121,19 @@
 #'
 #' google_map() %>%
 #'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
+#'
+#'
+#' lineChart <- data.frame(id = 33,
+#'     year = c("year1","year2"),
+#'     val1 = c(1,2),
+#'     val2 = c(2,1))
+#'
+#' chartList <- list(data = lineChart, type = 'bar')
+#'
+#' google_map() %>%
+#'   add_polylines(data = melbourne[melbourne$polygonId == 33, ],
+#'   polyline = "polyline",
+#'   info_window = chartList)
 #'
 #' }
 #'
@@ -235,11 +264,38 @@
 #' google_map() %>%
 #'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
 #'
+#' polyChart <- data.frame(id = 33,
+#'     year = c("year1","year2"),
+#'     val1 = c(1,2),
+#'     val2 = c(2,1))
+#'
+#' chartList <- list(data = polyChart, type = 'column')
+#'
+#' google_map() %>%
+#'   add_polygons(data = melbourne[melbourne$polygonId == 33, ],
+#'   polyline = "polyline",
+#'   info_window = chartList)
+#'
+#' tram_route$id <- 1
+#'
+#' polyChart <- data.frame(id = 1,
+#'     year = c("year1","year2"),
+#'     val1 = c(1,2),
+#'     val2 = c(2,1))
+#'
+#' chartList <- list(data = polyChart, type = 'column')
+#'
+#' google_map() %>%
+#'   add_polygons(data = tram_route,
+#'     lon = "shape_pt_lon", lat = "shape_pt_lat",
+#'     info_window = chartList)
+#'
+#'
 #' }
 #'
 #' @section Combo:
 #'
-#' A Combo chart lets you render each series as a different marker type from the following list:
+#' A combo chart lets you render each series as a different marker type from the following list:
 #' line, area, bars, candlesticks, and stepped area.
 #'
 #' **data**
@@ -256,7 +312,7 @@
 #' **options**
 #'
 #' See the column chart documentation for various other examples
-#' \url{https://developers.google.com/chart/interactive/docs/gallery/columnchart}
+#' \url{https://developers.google.com/chart/interactive/docs/gallery/combochart}
 #'
 #' @examples
 #' \dontrun{
@@ -280,7 +336,7 @@
 #'      "series" = list( "2" = list( "type" = "line" )))) ## 0-indexed
 #'
 #' google_map() %>%
-#'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
+#'   add_circles(data = tram_stops, info_window = chartList, id = "stop_id")
 #'
 #' }
 #'
@@ -289,7 +345,7 @@
 #'
 #' **data**
 #'
-#' A column chart requires a \code{data.frame} of at least three columns:
+#' A histogram chart requires a \code{data.frame} of at least three columns:
 #'   1. First column: a column of id values, where the column has the same name as the
 #'   id column in the \code{data} argument, and therefore the same name as the value supplied
 #'   to the \code{id} argument.
@@ -316,17 +372,51 @@
 #'    type = 'histogram')
 #'
 #' google_map() %>%
-#'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
+#'   add_circles(data = tram_stops, info_window = chartList, id = "stop_id")
 #'
 #' }
 #'
+#'
+#' @section Line:
+#'
+#' **data**
+#'
+#' A line chart requires a \code{data.frame} of at least three columns:
+#'   1. First column: a column of id values, where the column has the same name as the
+#'   id column in the \code{data} argument, and therefore the same name as the value supplied
+#'   to the \code{id} argument.
+#'   2. Second column: variable names used for labelling the data
+#'   3. Third or more columns: the data used in the chart
+#'
+#' **type** - `line`
+#'
+#' **options**
+#'
+#' See the line chart documentation for various other examples
+#' \url{https://developers.google.com/chart/interactive/docs/gallery/linechart}
+#'
+#' @examples
+#' \dontrun{
+#'
+#' ## Line
+#' markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 20),
+#'     day = as.character(1:20),
+#'     value = sample(1:100, size = nrow(tram_stops) * 20, replace = T))
+#'
+#' chartList <- list(data = markerCharts,
+#'    type = 'line')
+#'
+#' google_map() %>%
+#'   add_circles(data = tram_stops, info_window = chartList, id = "stop_id")
+#'
+#' }
 #'
 #'
 #' @section Pie:
 #'
 #' **data**
 #'
-#' A Pie chart requires a \code{data.frame} of three columns:
+#' A pie chart requires a \code{data.frame} of three columns:
 #'   1. First column: a column of id values, where the column has the same name as the
 #'   id column in the \code{data} argument, and therefore the same name as the value supplied
 #'   to the \code{id} argument.
@@ -379,7 +469,7 @@
 #'
 #' **data**
 #'
-#' A Scatter chart requires a \code{data.frame} of at least four columns:
+#' A scatter chart requires a \code{data.frame} of at least four columns:
 #'   1. First column: a column of id values, where the column has the same name as the
 #'   id column in the \code{data} argument, and therefore the same name as the value supplied
 #'   to the \code{id} argument.
@@ -407,7 +497,6 @@
 #'
 #' google_map() %>%
 #'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
-#'
 #' }
 #'
 #'

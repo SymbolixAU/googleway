@@ -16,32 +16,35 @@ function add_rectangles(map_id, data_rectangles, update_map_view, layer_id, lege
 
 
 function set_rectangle(map_id, rectangle, infoWindow, update_map_view, layer_id, timeout) {
-    
+
     window.setTimeout(function () {
         var shapeInfo;
         var latlonNorthEast = new google.maps.LatLng(rectangle.north, rectangle.east),
             latlonSouthWest = new google.maps.LatLng(rectangle.south, rectangle.west),
             bounds = new google.maps.LatLngBounds(latlonSouthWest, latlonNorthEast),
             Rectangle = new google.maps.Rectangle({
-            id: rectangle.id,
-            bounds: bounds,
-            strokeColor: rectangle.stroke_colour,
-            strokeOpacity: rectangle.stroke_opacity,
-            strokeWeight: rectangle.stroke_weight,
-            fillColor: rectangle.fill_colour,
-            fillOpacity: rectangle.fill_opacity,
-            draggable: rectangle.draggable,
-            editable: rectangle.editable,
-            radius: rectangle.radius,
-            mouseOverGroup: rectangle.mouse_over_group,
-            zIndex: rectangle.z_index
+                id: rectangle.id,
+                bounds: bounds,
+                strokeColor: rectangle.stroke_colour,
+                strokeOpacity: rectangle.stroke_opacity,
+                strokeWeight: rectangle.stroke_weight,
+                fillColor: rectangle.fill_colour,
+                fillOpacity: rectangle.fill_opacity,
+                draggable: rectangle.draggable,
+                editable: rectangle.editable,
+                //radius: rectangle.radius,
+                mouseOverGroup: rectangle.mouse_over_group,
+                zIndex: rectangle.z_index,
+                chart_type: aMarker.chart_type,
+                chart_data: aMarker.chart_data,
+                chart_options: aMarker.chart_options
             });
 
         window[map_id + 'googleRectangles' + layer_id].push(Rectangle);
         Rectangle.setMap(window[map_id + 'map']);
 
         if(rectangle.info_window){
-            add_infoWindow(map_id, Rectangle, infoWindow, '_information', rectangle.info_window);
+            add_infoWindow(map_id, Rectangle, infoWindow, 'info_window', rectangle.info_window);
         }
 
         if(rectangle.mouse_over || rectangle.mouse_over_group) {
@@ -50,7 +53,7 @@ function set_rectangle(map_id, rectangle, infoWindow, update_map_view, layer_id,
 
         shapeInfo = { layerId : layer_id, originalBounds : Rectangle.getBounds() };
         rectangle_click(map_id, Rectangle, rectangle.id, shapeInfo);
-        
+
         if (rectangle.editable) {
             rectangle_edited(map_id, Rectangle);
         }
@@ -132,7 +135,7 @@ function update_rectangles(map_id, data_rectangles, layer_id, legendValues) {
                     window[map_id + 'googleRectangles' + layer_id][i].setOptions({strokeOpacity: attributeValue});
                     break;
                 case "info_window":
-                    window[map_id + 'googleRectangles' + layer_id][i].setOptions({_information: attributeValue});
+                    window[map_id + 'googleRectangles' + layer_id][i].setOptions({info_window: attributeValue});
                     break;
                 }
             }

@@ -103,6 +103,12 @@ add_markers <- function(map,
     objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_markers")
   }
 
+  infoWindowChart <- NULL
+  if (!is.null(info_window) && isInfoWindowChart(info_window)) {
+    infoWindowChart <- info_window
+    objArgs[['info_window']] <- NULL
+  }
+
   objArgs <- markerColourIconCheck(data, objArgs, colour, marker_icon)
 
   ## need to do an 'infoWindowCheck'
@@ -117,6 +123,10 @@ add_markers <- function(map,
   ## Which will mean passing this object in throgh R.
   ## I can test this directly by adding in some JSON to use as the pie chart
   ## and see if plotting it works.
+  ##
+  ## - before 'shape contstruction', check type of info_window content. If a list,
+  ## - remove it from the objArgs, and only join it on just before invoking the
+  ## - js method
 
 
   loadIntervalCheck(load_interval)
@@ -143,8 +153,11 @@ add_markers <- function(map,
   if( usePolyline ) {
     shape <- createPolylineListColumn(shape)
   }
+
+  shape <- createInfoWindowChart(shape, infoWindowChart, id)
   shape <- jsonlite::toJSON(shape, digits = digits)
 
+  # print(shape)
   map <- addDependency(map, googleMarkerDependency())
 
   invoke_method(map, 'add_markers', shape, cluster, update_map_view, layer_id, usePolyline, load_interval)

@@ -56,14 +56,17 @@ function set_polygons(map_id, polygon, infoWindow, update_map_view, layer_id, us
             mouseOverGroup: polygon.mouse_over_group,
             draggable: polygon.draggable,
             editable: polygon.editable,
-            zIndex: polygon.z_index
+            zIndex: polygon.z_index,
+            chart_type: polygon.chart_type,
+            chart_data: polygon.chart_data,
+            chart_options: polygon.chart_options
         });
 
         //console.log(polygon);
         //console.log(Polygon);
 
         if (polygon.info_window) {
-            add_infoWindow(map_id, Polygon, infoWindow, '_information', polygon.info_window);
+            add_infoWindow(map_id, Polygon, infoWindow, 'info_window', polygon.info_window);
         }
 
         if (polygon.mouse_over || polygon.mouse_over_group) {
@@ -172,7 +175,7 @@ function update_polygons(map_id, data_polygon, layer_id, legendValues) {
                     window[map_id + 'googlePolygon' + layer_id][i].setOptions({strokeOpacity: attributeValue});
                     break;
                 case "info_window":
-                    window[map_id + 'googlePolygon' + layer_id][i].setOptions({_information: attributeValue});
+                    window[map_id + 'googlePolygon' + layer_id][i].setOptions({info_window: attributeValue});
                     break;
                 }
             }

@@ -193,6 +193,12 @@ add_circles <- function(map,
     objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_circles")
   }
 
+  infoWindowChart <- NULL
+  if (!is.null(info_window) && isInfoWindowChart(info_window)) {
+    infoWindowChart <- info_window
+    objArgs[['info_window']] <- NULL
+  }
+
   logicalCheck(update_map_view)
   numericCheck(digits)
   numericCheck(z_index)
@@ -226,6 +232,7 @@ add_circles <- function(map,
     shape <- createPolylineListColumn(shape)
   }
 
+  shape <- createInfoWindowChart(shape, infoWindowChart, id)
   shape <- jsonlite::toJSON(shape, digits = digits)
 
   map <- addDependency(map, googleCircleDependency())
@@ -286,6 +293,12 @@ update_circles <- function(map, data, id,
   numericCheck(digits)
   palette <- paletteCheck(palette)
 
+  infoWindowChart <- NULL
+  if (!is.null(info_window) && isInfoWindowChart(info_window)) {
+    infoWindowChart <- info_window
+    objArgs[['info_window']] <- NULL
+  }
+
   allCols <- circleColumns()
   requiredCols <- requiredCircleColumns()
   colourColumns <- shapeAttributes(fill_colour, stroke_colour)
@@ -307,6 +320,7 @@ update_circles <- function(map, data, id,
     shape <- addDefaults(shape, requiredDefaults, "circle")
   }
 
+  shape <- createInfoWindowChart(shape, infoWindowChart, id)
   shape <- jsonlite::toJSON(shape, digits = digits)
 
   invoke_method(map, 'update_circles', shape, layer_id, legend)

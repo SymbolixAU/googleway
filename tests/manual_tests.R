@@ -217,6 +217,56 @@
 # }
 # shinyApp(ui, server)
 
+### CHART INFO WINDOW UPDATES
+
+# library(shiny)
+#
+# ui <- fluidPage(
+#   google_mapOutput(outputId = "map"),
+#   actionButton(inputId = "btn", label = "randNumber")
+# )
+#
+# server <- function(input, output){
+#
+#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#   df <- tram_route
+#   df$id <- 1
+#
+#   polyChart <- data.frame(id = 1,
+#       year = c("year1","year2"),
+#       val1 = c(1,2),
+#       val2 = c(2,1))
+#
+#   chartList <- list(data = polyChart, type = 'column')
+#
+#   output$map <- renderGoogle_map({
+#     google_map(key = map_key) %>%
+#       add_polygons(data = df,
+#                    lon = "shape_pt_lon", lat = "shape_pt_lat", id = 'id',
+#                    info_window = chartList)
+#   })
+#
+#   observeEvent(input$btn, {
+#     df <- tram_route
+#     df$id <- 1
+#
+#     polyChart <- data.frame(id = 1,
+#                             year = c("year1","year2"),
+#                             val1 = sample(100:200, size = 2),
+#                             val2 = sample(100:200, size = 2))
+#
+#     chartList <- list(data = polyChart, type = 'column')
+#
+#     google_map_update(map_id = "map") %>%
+#       update_polygons(data = df, id = 'id',
+#                       info_window = chartList)
+#
+#   })
+#
+# }
+# shinyApp(ui, server)
+
+
 
 # # place details returned to shiny
 # library(shiny)

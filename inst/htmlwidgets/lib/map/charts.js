@@ -89,22 +89,19 @@ function chartObject(mapObject) {
     //var js = chartJson(mapObject.chart_cols, mapObject.info_window),
     var js = JSON.parse(mapObject.info_window);
     // js needs to be a Javascript Object literal
-    
+
     var data = new google.visualization.arrayToDataTable(js),
         //data = new google.visualization.DataTable(js),
         //options = chartOptions(mapObject),
-        node = document.createElement('div');
-    
-    //console.log(js);
+        node = document.createElement('div'),
 
     // get a chart object
-    var chart = chartType(mapObject.chart_type, node);
+        chart = chartType(mapObject.chart_type, node),
+        options = JSON.parse(mapObject.chart_options);
 
-    var options = JSON.parse(mapObject.chart_options);
-    
     console.log(options);
     //console.log(options);
-    
+
     chart.draw(data, options);
     return (node);
 

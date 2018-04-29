@@ -47,13 +47,13 @@ googlePolylineDependency <- function() {
 #'
 #' ## using lat/lon coordinates
 #'
-#' map_key <- "your_api_key"
+#' set_key("your_api_key")
 #'
-#' google_map(data = tram_route, key = map_key) %>%
+#' google_map(data = tram_route) %>%
 #'   add_polylines(lat = "shape_pt_lat", lon = "shape_pt_lon")
 #'
 #'
-#' google_map(key = map_key) %>%
+#' google_map() %>%
 #'   add_polylines(data = melbourne, polyline = "polyline", stroke_weight = 1,
 #'       stroke_colour = "SA4_NAME")
 #'
@@ -129,6 +129,12 @@ add_polylines <- function(map,
     objArgs <- latLonCheck(objArgs, lat, lon, names(data), "add_polyline")
   }
 
+  infoWindowChart <- NULL
+  if (!is.null(info_window) && isInfoWindowChart(info_window)) {
+    infoWindowChart <- info_window
+    objArgs[['info_window']] <- NULL
+  }
+
   logicalCheck(update_map_view)
   numericCheck(digits)
   numericCheck(z_index)
@@ -162,21 +168,30 @@ add_polylines <- function(map,
     shape <- addDefaults(shape, requiredDefaults, "polyline")
   }
 
-  if(usePolyline){
+  if (usePolyline) {
 
     shape <- createPolylineListColumn(shape)
+    shape <- createInfoWindowChart(shape, infoWindowChart, id)
     shape <- jsonlite::toJSON(shape, digits = digits)
 
-  }else{
+  } else {
 
     ids <- unique(shape[, 'id'])
     n <- names(shape)[names(shape) %in% objectColumns("polylineCoords")]
     keep <- setdiff(n, c('id', 'lat', 'lng'))
 
     lst_polyline <- objPolylineCoords(shape, ids, keep)
+    # print(lst_polyline)
+    # print("--shape--")
+    # print(shape)
+
+    #print(infoWindowChart)
+    lst_polyline <- createInfoWindowChart(lst_polyline, infoWindowChart, id)
+    # print(lst_polyline)
 
     shape <- jsonlite::toJSON(lst_polyline, digits = digits, auto_unbox = T)
 
+    # print(shape)
   }
 
   map <- addDependency(map, googlePolylineDependency())
@@ -278,6 +293,12 @@ update_polylines <- function(map, data, id,
   objArgs <- lst$objArgs
   id <- lst$id
 
+  infoWindowChart <- NULL
+  if (!is.null(info_window) && isInfoWindowChart(info_window)) {
+    infoWindowChart <- info_window
+    objArgs[['info_window']] <- NULL
+  }
+
   ## we can only update shapes that already exist with new attributes
   allCols <- polylineUpdateColumns()
   requiredCols <- requiredLineUpdateColumns()
@@ -300,6 +321,7 @@ update_polylines <- function(map, data, id,
     shape <- addDefaults(shape, requiredDefaults, "polylineUpdate")
   }
 
+  shape <- createInfoWindowChart(shape, infoWindowChart, id)
   shape <- jsonlite::toJSON(shape, auto_unbox = T)
 
   invoke_method(map, 'update_polylines', shape, layer_id, legend)
