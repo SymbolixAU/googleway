@@ -52,8 +52,7 @@ InfoWindow.list <- function(info_window, mapObject, id){
 
 #' @export
 InfoWindow.default <- function(info_window, mapObject, id){
-  stop("info_window must either be a list containing data for a chart,
-       or a string specifying the column of data to be used as the info window content")
+  stop("info_window must be a list, column name or single value")
 }
 
 isInfoWindowChart <- function(info_window) UseMethod("isInfoWindowChart")

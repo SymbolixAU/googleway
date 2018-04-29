@@ -41,5 +41,7 @@ test_that("NULL info_window doesn't return an info window", {
     "When using a chart as an info window you need to supply the 'id' which links the data to the chart"
   )
 
+  expect_error(googleway:::InfoWindow(c()), "info_window must be a list, column name or single value")
+
 
 })
