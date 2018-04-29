@@ -10,7 +10,7 @@ add_rectangles(map, data = get_map_data(map), north, east, south, west,
   fill_opacity = NULL, mouse_over = NULL, mouse_over_group = NULL,
   info_window = NULL, layer_id = NULL, update_map_view = TRUE,
   z_index = NULL, digits = 4, palette = NULL, legend = F,
-  legend_options = NULL, load_interval = 0, focus_layer)
+  legend_options = NULL, load_interval = 0, focus_layer = FALSE)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}

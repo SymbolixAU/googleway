@@ -89,7 +89,7 @@ add_rectangles <- function(map,
                            legend = F,
                            legend_options = NULL,
                            load_interval = 0,
-                           focus_layer
+                           focus_layer = FALSE
                            ){
 
   objArgs <- match.call(expand.dots = F)
