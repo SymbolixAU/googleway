@@ -12,8 +12,7 @@ add_heatmap(map, data = get_map_data(map), lat = NULL, lon = NULL,
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
-\item{data}{data frame containing at least two columns, one specifying the
-latitude coordinates, and the other specifying the longitude. If Null, the
+\item{data}{data frame containing the data to use in the layer. If Null, the
 data passed into \code{google_map()} will be used.}
 
 \item{lat}{string specifying the column of \code{data} containing the 'latitude'

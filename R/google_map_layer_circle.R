@@ -15,8 +15,7 @@ googleCircleDependency <- function() {
 #' Add circles to a google map
 #'
 #' @param map a googleway map object created from \code{google_map()}
-#' @param data data frame containing at least two columns, one specifying the
-#' latitude coordinates, and the other specifying the longitude. If Null, the
+#' @param data data frame containing the data to use in the layer. If Null, the
 #' data passed into \code{google_map()} will be used.
 #' @param id string specifying the column containing an identifier for a shape
 #' @param lat string specifying the column of \code{data} containing the 'latitude'
