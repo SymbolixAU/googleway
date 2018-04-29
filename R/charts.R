@@ -65,7 +65,8 @@
 #'     departures = sample(1:100, size = nrow(tram_stops) * 2, replace = T))
 #'
 #' chartList <- list(data = markerCharts,
-#'    type = 'area')
+#'    type = 'area',
+#'    options = list(width = 400, chartArea = list(width = "50%")))
 #'
 #' google_map() %>%
 #'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
