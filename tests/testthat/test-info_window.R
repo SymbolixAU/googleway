@@ -3,11 +3,13 @@ context("info window")
 ## TODO(tests):
 ## - no 'id' value supplied
 
-test_that("NULL info_window doesn't return an info window", {
+test_that("info window chart checks", {
 
   expect_true(googleway:::isInfoWindowChart(list()))
   expect_false(googleway:::isInfoWindowChart(c()))
+})
 
+test_that("info window list creates chart", {
   markerCharts <- data.frame(stop_id = rep(tram_stops$stop_id, each = 5),
       day = rep(c("Mon", "Tues", "Weds", "Thurs", "Fri"), times = nrow(tram_stops) ),
       val1 = rep(c(20, 31, 50, 77, 68), times = nrow(tram_stops) ),
@@ -31,17 +33,22 @@ test_that("NULL info_window doesn't return an info window", {
   expect_true(all(sapply(mapObject$info_window, jsonlite::validate))) ## valid JSON
   expect_true(all(sapply(mapObject$chart_options, jsonlite::validate))) ## valid JSON
 
+
+})
+
+test_that("id is required for using a chart", {
+
   expect_error(
     googleway:::InfoWindow(chartList, mapObject, id = NULL),
     "When using a chart as an info window you need to supply the 'id' which links the data to the chart"
-    )
+  )
 
   expect_error(
-    google_map(key = "abc") %>% add_markers(data = tram_stops, info_window = chartList),
+    google_map(key = "abc") %>% add_markers(data = tram_stops, info_window = list()),
     "When using a chart as an info window you need to supply the 'id' which links the data to the chart"
   )
 
   expect_error(googleway:::InfoWindow(c()), "info_window must be a list, column name or single value")
-
-
 })
+
+

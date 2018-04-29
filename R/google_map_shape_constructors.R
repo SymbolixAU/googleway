@@ -1,7 +1,3 @@
-
-#allowedAdditionalValues <- c("character", "numeric", "factor", "Date", "call","logical")
-
-
 # Create Map Object
 #
 # Creates the map object from the input data and arguments. If the arguments
@@ -20,55 +16,13 @@ createMapObject <- function(data, cols, objArgs) {
 
   dataNames <- names(data)
 
-  # print(data)
-  # print(cols)
-  # print(objArgs)
-  # print(dataNames)
-
   argsIdx <- match(cols, names(objArgs)) ## those that exist in 'cols'
   argsIdx <- argsIdx[!is.na(argsIdx)]
   argValues <- sapply(1:length(objArgs), function(x) objArgs[[x]])
 
-  # print("argValues")
-  # print(argValues)
-
   dataArgs <- which(argValues %in% names(data)) ## those where there is a column of data
 
-  # print("dataArgs")
-  # print(dataArgs)
-
   additionalValues <- setdiff(argsIdx, dataArgs)
-
-  # print("additinoal values")
-  # print(additionalValues)
-  # sapply(additionalValues, function(x) print(class(objArgs[[x]])))
-
-  # #dput(objArgs)
-  # validAdditionalValues <- additionalValues[which( vapply(additionalValues, function(x){
-  #   # print("-- finding valid additinoal values --")
-  #   # print(objArgs[[x]])
-  #   # print(class(objArgs[[x]]))
-  #
-  #   x <- objArgs[[x]]
-  #   # print("cls")
-  #   # print(x)
-  #   #
-  #   # print(is.logical(x))
-  #   # print(is.character(x))
-  #   # print(is.factor(x))
-  #   # print(is.numeric(x))
-  #
-  #   #return(is.logical(x) || is.character(x) || is.factor(x) || is.numeric(x))
-  #   return(!is.list(x))  ## lists will
-  #
-  #   }, T ) )]
-
-  # print(" -- valid additinal values--")
-  # print(validAdditionalValues)
-  #
-  # invalidAdditionalValues <- setdiff(additionalValues, validAdditionalValues)
-  # print(" -- invalid additinoal values -- ")
-  # print(invalidAdditionalValues)
 
   dataCols <- vapply(dataArgs, function(x) objArgs[[x]], "")
   dataNames <- names(objArgs)[dataArgs]
@@ -78,55 +32,20 @@ createMapObject <- function(data, cols, objArgs) {
   ## need to resolve info windows here, because if it's a list of data
   ## to be used in a chart, this will fail
 
-  # print("-- valid additional values -- ")
   if (length(additionalValues) > 0) {
 
-    # print(" -- extra cols --")
-    # print(additionalValues)
-    # print(objArgs)
-    # print(head(df))
     extraCols <- lapply(additionalValues, function(x){
 
       ## the rep(eval(info_window)) won't work if it's a list...
       ## this is designed for when the value passed is a single value, like a colour #00FF00
-
       setNames(as.data.frame(rep(eval(objArgs[[x]]), nrow(df)), stringsAsFactors = F), names(objArgs)[x])
     })
-
-    # print("--cbind extra--")
-    # dput(extraCols)
-    # dput(df)
     df <- cbind(df, do.call(cbind, extraCols))
   }
 
-  # print(" -- info window -- ")
   if("info_window" %in% names(df)){
     df[['info_window']] <- as.character(df[['info_window']])
-
-    ## for charts, info_window will be a list.
-    ## for everything else, assume it's a column of the data...
   }
-
-#   ## any invalidAdditionalValues need resolving?
-#   moreValues <- vapply(invalidAdditionalValues, function(x) names(objArgs)[x], "")
-#   # print("moveValues")
-#   # print(moreValues)
-#
-#   if("info_window" %in% moreValues) {
-#
-# #    tryCatch({
-# #      print(objArgs)
-#       info <- objArgs[[which(names(objArgs) == "info_window")]]
-#       id <- objArgs[[which(names(objArgs) == "id")]]
-#       df <- InfoWindow(eval(info), df, id)
-# #    },
-# #    error = function(e){
-# #      message(
-# #        paste0("For this info_window do display you need to supply the 'id' argument,\n",
-# #               "and this id must also be found in the chart data ")
-# #      )
-# #    })
-#   }
   return(df)
 }
 
