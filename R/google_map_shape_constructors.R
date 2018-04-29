@@ -9,6 +9,10 @@
 # is assumed to be required for every row of \code{data} and is replicated
 # for the whole data set
 #
+# prior to entering this function all the data arguments will have been resolved.
+# for exmaple, if the info_window is a chart (list), it will already have been
+# removed from the objArgs.
+#
 # @param data data passed into the map layer function
 # @param cols all the columns required for the given map object
 # @param objArgs the arguments passed into the map layer function
@@ -37,31 +41,32 @@ createMapObject <- function(data, cols, objArgs) {
 
   # print("additinoal values")
   # print(additionalValues)
-  # sapply(additionalValues, function(x) print(class(objArgs[[x]])))
+  sapply(additionalValues, function(x) print(class(objArgs[[x]])))
 
-  #dput(objArgs)
-  validAdditionalValues <- additionalValues[which( vapply(additionalValues, function(x){
-    # print("-- finding valid additinoal values --")
-    # print(objArgs[[x]])
-    # print(class(objArgs[[x]]))
-
-    x <- objArgs[[x]]
-    # print("cls")
-    # print(x)
-    #
-    # print(is.logical(x))
-    # print(is.character(x))
-    # print(is.factor(x))
-    # print(is.numeric(x))
-
-    return(is.logical(x) || is.character(x) || is.factor(x) || is.numeric(x))
-
-    }, T ) )]
+  # #dput(objArgs)
+  # validAdditionalValues <- additionalValues[which( vapply(additionalValues, function(x){
+  #   # print("-- finding valid additinoal values --")
+  #   # print(objArgs[[x]])
+  #   # print(class(objArgs[[x]]))
+  #
+  #   x <- objArgs[[x]]
+  #   # print("cls")
+  #   # print(x)
+  #   #
+  #   # print(is.logical(x))
+  #   # print(is.character(x))
+  #   # print(is.factor(x))
+  #   # print(is.numeric(x))
+  #
+  #   #return(is.logical(x) || is.character(x) || is.factor(x) || is.numeric(x))
+  #   return(!is.list(x))  ## lists will
+  #
+  #   }, T ) )]
 
   # print(" -- valid additinal values--")
   # print(validAdditionalValues)
-
-  invalidAdditionalValues <- setdiff(additionalValues, validAdditionalValues)
+  #
+  # invalidAdditionalValues <- setdiff(additionalValues, validAdditionalValues)
   # print(" -- invalid additinoal values -- ")
   # print(invalidAdditionalValues)
 
@@ -74,13 +79,13 @@ createMapObject <- function(data, cols, objArgs) {
   ## to be used in a chart, this will fail
 
   # print("-- valid additional values -- ")
-  if(length(validAdditionalValues) > 0){
+  if (length(additionalValues) > 0) {
 
     # print(" -- extra cols --")
     # print(validAdditionalValues)
     # print(objArgs)
     # print(head(df))
-    extraCols <- lapply(validAdditionalValues, function(x){
+    extraCols <- lapply(additionalValues, function(x){
 
       ## the rep(eval(info_window)) won't work if it's a list...
       ## this is designed for when the value passed is a single value, like a colour #00FF00
