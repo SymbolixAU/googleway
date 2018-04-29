@@ -2,6 +2,48 @@
 ## - marker clusters (add & remove layer)
 ## -- does this impact any other marker layers?
 
+## CLEAR MAP BOUNDS
+## method
+## - add objects, clear objects, clear boudns, add new objects. The boudns
+## - should only focus on these new objects, and not include the old ones
+# library(shiny)
+# library(shinydashboard)
+# library(googleway)
+#
+# ui <- dashboardPage(
+#
+#   dashboardHeader(),
+#   dashboardSidebar(),
+#   dashboardBody(
+#     box(width = 12,
+#         google_mapOutput(outputId = "map"),
+#         actionButton(inputId = "reset", label = "Add circles")
+#     )
+#   )
+# )
+#
+# server <- function(input, output) {
+#   set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
+#
+#   df <- data.frame(lat = 51.5074, lon = 0.1277)
+#
+#   output$map <- renderGoogle_map({
+#     google_map() %>%
+#       add_polygons(data = melbourne, polyline = "polyline")
+#   })
+#
+#   observeEvent(input$reset, {
+#     google_map_update("map") %>%
+#       clear_polygons() %>%
+#       clear_bounds() %>%
+#       add_markers(data = df)
+#   })
+#
+# }
+#
+# shinyApp(ui, server)
+
+
 ## SPLIT VIEW
 # library(shiny)
 # library(shinydashboard)

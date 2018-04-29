@@ -62,15 +62,25 @@ clear_transit <- function(map){
 #'
 #' }
 #' @export
-add_bicycling <- function(map){
+add_bicycling <- function(map) {
   invoke_method(map, 'add_bicycling')
 }
 
 #' @rdname clear
 #' @export
-clear_bicycling <- function(map){
+clear_bicycling <- function(map) {
   invoke_method(map, 'clear_bicycling')
 }
 
 
 
+#' Clear bounds
+#'
+#' A helper function to clear the javascript array of lat/lon bounds.
+#'
+#' @param map a googleway map object created from \code{google_map()}
+#'
+#' @export
+clear_bounds <- function(map) {
+  invoke_method(map, 'clear_bounds')
+}
