@@ -23,18 +23,21 @@ function set_rectangle(map_id, rectangle, infoWindow, update_map_view, layer_id,
             latlonSouthWest = new google.maps.LatLng(rectangle.south, rectangle.west),
             bounds = new google.maps.LatLngBounds(latlonSouthWest, latlonNorthEast),
             Rectangle = new google.maps.Rectangle({
-            id: rectangle.id,
-            bounds: bounds,
-            strokeColor: rectangle.stroke_colour,
-            strokeOpacity: rectangle.stroke_opacity,
-            strokeWeight: rectangle.stroke_weight,
-            fillColor: rectangle.fill_colour,
-            fillOpacity: rectangle.fill_opacity,
-            draggable: rectangle.draggable,
-            editable: rectangle.editable,
-            radius: rectangle.radius,
-            mouseOverGroup: rectangle.mouse_over_group,
-            zIndex: rectangle.z_index
+                id: rectangle.id,
+                bounds: bounds,
+                strokeColor: rectangle.stroke_colour,
+                strokeOpacity: rectangle.stroke_opacity,
+                strokeWeight: rectangle.stroke_weight,
+                fillColor: rectangle.fill_colour,
+                fillOpacity: rectangle.fill_opacity,
+                draggable: rectangle.draggable,
+                editable: rectangle.editable,
+                //radius: rectangle.radius,
+                mouseOverGroup: rectangle.mouse_over_group,
+                zIndex: rectangle.z_index,
+                chart_type: aMarker.chart_type,
+                chart_data: aMarker.chart_data,
+                chart_options: aMarker.chart_options
             });
 
         window[map_id + 'googleRectangles' + layer_id].push(Rectangle);

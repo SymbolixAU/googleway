@@ -81,7 +81,10 @@ function set_circle(map_id, circle, infoWindow, update_map_view, layer_id, use_p
                 radius: circle.radius,
                 mouseOver: circle.mouse_over,
                 mouseOverGroup: circle.mouse_over_group,
-                zIndex: circle.z_index
+                zIndex: circle.z_index,
+                chart_type: circle.chart_type,
+                chart_data: circle.chart_data,
+                chart_options: circle.chart_options
             });
 
             set_each_circle(Circle, circle, infoWindow, update_map_view, map_id, layer_id);

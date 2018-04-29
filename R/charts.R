@@ -336,7 +336,7 @@
 #'      "series" = list( "2" = list( "type" = "line" )))) ## 0-indexed
 #'
 #' google_map() %>%
-#'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
+#'   add_circles(data = tram_stops, info_window = chartList, id = "stop_id")
 #'
 #' }
 #'
@@ -372,7 +372,7 @@
 #'    type = 'histogram')
 #'
 #' google_map() %>%
-#'   add_markers(data = tram_stops, info_window = chartList, id = "stop_id")
+#'   add_circles(data = tram_stops, info_window = chartList, id = "stop_id")
 #'
 #' }
 #'
