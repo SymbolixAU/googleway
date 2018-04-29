@@ -11,8 +11,12 @@
  * @param layer_id
  */
 
-function add_circles(map_id, data_circles, update_map_view, layer_id, use_polyline, legendValues, interval) {
+function add_circles(map_id, data_circles, update_map_view, layer_id, use_polyline, legendValues, interval, focus) {
 
+    if (focus === true) {
+        clear_bounds(map_id);
+    }
+    
     var i,
         infoWindow = new google.maps.InfoWindow();
 

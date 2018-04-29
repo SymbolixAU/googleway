@@ -10,7 +10,8 @@ add_polygons(map, data = get_map_data(map), polyline = NULL, lat = NULL,
   fill_opacity = NULL, info_window = NULL, mouse_over = NULL,
   mouse_over_group = NULL, draggable = NULL, editable = NULL,
   update_map_view = TRUE, layer_id = NULL, z_index = NULL, digits = 4,
-  palette = NULL, legend = F, legend_options = NULL, load_interval = 0)
+  palette = NULL, legend = F, legend_options = NULL, load_interval = 0,
+  focus_layer = FALSE)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -92,6 +93,8 @@ a named list indicating which colour attributes should be included in the legend
 \item{legend_options}{A list of options for controlling the legend.}
 
 \item{load_interval}{time in miliseconds to wait between plotting each shape}
+
+\item{focus_layer}{logical indicating if the map should re-centre according to this layer}
 }
 \description{
 Add a polygon to a google map.

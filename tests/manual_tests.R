@@ -2,6 +2,50 @@
 ## - marker clusters (add & remove layer)
 ## -- does this impact any other marker layers?
 
+## FOCUS LAYER
+# library(shiny)
+# library(shinydashboard)
+# library(googleway)
+#
+# ui <- dashboardPage(
+#
+#   dashboardHeader(),
+#   dashboardSidebar(),
+#   dashboardBody(
+#     box(width = 12,
+#         google_mapOutput(outputId = "map"),
+#         actionButton(inputId = "circle", label = "Add circle"),
+#         actionButton(inputId = "marker", label = "Add marker")
+#     )
+#   )
+# )
+#
+# server <- function(input, output) {
+#   set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
+#
+#   df <- data.frame(lat = 51.5074, lon = 0.1277)
+#
+#   output$map <- renderGoogle_map({
+#     google_map()
+#   })
+#
+#   observeEvent(input$circle, {
+#     google_map_update("map") %>%
+#       clear_markers() %>%
+#       add_circles(data = df, focus_layer = T)
+#   })
+#
+#   observeEvent(input$marker, {
+#     google_map_update("map") %>%
+#       clear_circles() %>%
+#       add_markers(data = tram_stops, focus_layer = T)
+#   })
+#
+# }
+#
+# shinyApp(ui, server)
+
+
 ## CLEAR MAP BOUNDS
 ## method
 ## - add objects, clear objects, clear boudns, add new objects. The boudns

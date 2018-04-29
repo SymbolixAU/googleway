@@ -9,10 +9,11 @@
  * @param use_polyline
  *          boolean indicating if the data is an encoded polyline
  */
-function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_polyline, legendValues, interval) {
+function add_polylines(map_id, data_polyline, update_map_view, layer_id, use_polyline, legendValues, interval, focus) {
 
-    console.log("-- data_polyline --");
-    console.log(data_polyline);
+    if (focus === true) {
+        clear_bounds(map_id);
+    }
     createWindowObject(map_id, 'googlePolyline', layer_id);
 
     var i,

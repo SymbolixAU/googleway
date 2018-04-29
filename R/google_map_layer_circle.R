@@ -69,6 +69,7 @@ googleCircleDependency <- function() {
 #' a named list indicating which colour attributes should be included in the legend.
 #' @param legend_options A list of options for controlling the legend.
 #' @param load_interval time in miliseconds to wait between plotting each shape
+#' @param focus_layer logical indicating if the map should re-centre according to this layer
 #'
 #' @section palette:
 #'
@@ -171,7 +172,8 @@ add_circles <- function(map,
                         palette = NULL,
                         legend = F,
                         legend_options = NULL,
-                        load_interval = 0
+                        load_interval = 0,
+                        focus_layer = FALSE
                         ){
 
   objArgs <- match.call(expand.dots = F)
@@ -200,6 +202,7 @@ add_circles <- function(map,
   }
 
   logicalCheck(update_map_view)
+  logicalCheck(focus_layer)
   numericCheck(digits)
   numericCheck(z_index)
   loadIntervalCheck(load_interval)
@@ -237,7 +240,7 @@ add_circles <- function(map,
 
   map <- addDependency(map, googleCircleDependency())
 
-  invoke_method(map, 'add_circles', shape, update_map_view, layer_id, usePolyline, legend, load_interval)
+  invoke_method(map, 'add_circles', shape, update_map_view, layer_id, usePolyline, legend, load_interval, focus_layer)
 }
 
 #' @rdname clear

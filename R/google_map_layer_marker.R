@@ -83,7 +83,9 @@ add_markers <- function(map,
                         cluster = FALSE,
                         update_map_view = TRUE,
                         digits = 4,
-                        load_interval = 0){
+                        load_interval = 0,
+                        focus_layer = FALSE
+                        ){
 
   objArgs <- match.call(expand.dots = F)
 
@@ -130,6 +132,7 @@ add_markers <- function(map,
 
 
   loadIntervalCheck(load_interval)
+  logicalCheck(focus_layer)
   logicalCheck(cluster)
   logicalCheck(update_map_view)
   numericCheck(digits)
@@ -160,7 +163,7 @@ add_markers <- function(map,
   # print(shape)
   map <- addDependency(map, googleMarkerDependency())
 
-  invoke_method(map, 'add_markers', shape, cluster, update_map_view, layer_id, usePolyline, load_interval)
+  invoke_method(map, 'add_markers', shape, cluster, update_map_view, layer_id, usePolyline, load_interval, focus_layer)
 }
 
 

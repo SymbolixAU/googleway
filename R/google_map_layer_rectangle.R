@@ -88,7 +88,8 @@ add_rectangles <- function(map,
                            palette = NULL,
                            legend = F,
                            legend_options = NULL,
-                           load_interval = 0
+                           load_interval = 0,
+                           focus_layer
                            ){
 
   objArgs <- match.call(expand.dots = F)
@@ -98,6 +99,7 @@ add_rectangles <- function(map,
   layer_id <- layerId(layer_id)
 
   logicalCheck(update_map_view)
+  logicalCheck(focus_layer)
   numericCheck(digits)
   numericCheck(z_index)
   loadIntervalCheck(load_interval)
@@ -137,7 +139,7 @@ add_rectangles <- function(map,
 
   map <- addDependency(map, googleRectangleDependency())
 
-  invoke_method(map, 'add_rectangles', shape, update_map_view, layer_id, legend, load_interval)
+  invoke_method(map, 'add_rectangles', shape, update_map_view, layer_id, legend, load_interval, focus_layer)
 }
 
 

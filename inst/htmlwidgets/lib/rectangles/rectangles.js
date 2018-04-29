@@ -1,5 +1,9 @@
-function add_rectangles(map_id, data_rectangles, update_map_view, layer_id, legendValues, interval) {
+function add_rectangles(map_id, data_rectangles, update_map_view, layer_id, legendValues, interval, focus) {
 
+    if (focus === true) {
+        clear_bounds(map_id);
+    }
+    
     var i,
         infoWindow = new google.maps.InfoWindow();
 

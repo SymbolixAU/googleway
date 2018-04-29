@@ -103,7 +103,8 @@ add_polylines <- function(map,
                           palette = NULL,
                           legend = F,
                           legend_options = NULL,
-                          load_interval = 0
+                          load_interval = 0,
+                          focus_layer = FALSE
                           ){
 
   objArgs <- match.call(expand.dots = F)
@@ -136,6 +137,7 @@ add_polylines <- function(map,
   }
 
   logicalCheck(update_map_view)
+  logicalCheck(focus_layer)
   numericCheck(digits)
   numericCheck(z_index)
   loadIntervalCheck(load_interval)
@@ -196,7 +198,7 @@ add_polylines <- function(map,
 
   map <- addDependency(map, googlePolylineDependency())
 
-  invoke_method(map, 'add_polylines', shape, update_map_view, layer_id, usePolyline, legend, load_interval)
+  invoke_method(map, 'add_polylines', shape, update_map_view, layer_id, usePolyline, legend, load_interval, focus_layer)
 }
 
 

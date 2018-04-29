@@ -4,8 +4,12 @@
  * @param map_id
  * @param data_polygon
  */
-function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyline, legendValues, interval) {
+function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyline, legendValues, interval, focus) {
 
+    if (focus === true) {
+        clear_bounds(map_id);
+    }
+    
     createWindowObject(map_id, 'googlePolygon', layer_id);
 
     var i,

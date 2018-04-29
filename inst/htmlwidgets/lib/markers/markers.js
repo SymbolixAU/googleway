@@ -12,8 +12,12 @@
  * @param layer_id
  *          the layer identifier
  */
-function add_markers(map_id, data_markers, cluster, update_map_view, layer_id, use_polyline, interval) {
+function add_markers(map_id, data_markers, cluster, update_map_view, layer_id, use_polyline, interval, focus) {
 
+    if (focus === true) {
+        clear_bounds(map_id);
+    }
+    
     createWindowObject(map_id, 'googleMarkers', layer_id);
     
     promise_to_add_markers(map_id, data_markers, update_map_view, layer_id, use_polyline, interval).then(function(i) {

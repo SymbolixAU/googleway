@@ -9,7 +9,7 @@ add_markers(map, data = get_map_data(map), id = NULL, colour = NULL,
   draggable = NULL, opacity = NULL, label = NULL, info_window = NULL,
   mouse_over = NULL, mouse_over_group = NULL, marker_icon = NULL,
   layer_id = NULL, cluster = FALSE, update_map_view = TRUE, digits = 4,
-  load_interval = 0)
+  load_interval = 0, focus_layer = FALSE)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -72,6 +72,8 @@ the shapes}
 should be used for the latitude / longitude coordinates.}
 
 \item{load_interval}{time in miliseconds to wait between plotting each shape}
+
+\item{focus_layer}{logical indicating if the map should re-centre according to this layer}
 }
 \description{
 Add markers to a google map
