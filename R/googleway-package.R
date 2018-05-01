@@ -147,8 +147,10 @@ downloadData <- function(map_url, simplify, curl_proxy = NULL){
     out <- readLines(con)
   },
   error = function(cond){
-    close(con)
-    warning("There was an error downloading results. Please manually check the following URL is valid by entering it into a browswer. If valid, please file a bug report citing this URL (note: your API key has been removed, so you will need to add that back in) \n\n", gsub("key=.*","",map_url), "key=", sep = "")
+    #print(con)
+    #close(con)
+    #print(cond)
+    stop("There was an error downloading results. Please manually check the following URL is valid by entering it into a browswer. If valid, please file a bug report citing this URL (note: your API key has been removed, so you will need to add that back in) \n\n", gsub("key=.*","",map_url), "key=", sep = "")
   },
   finally = {
     close(con)
