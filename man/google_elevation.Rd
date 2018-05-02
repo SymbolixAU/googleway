@@ -46,12 +46,12 @@ a single encoded polyline
 \examples{
 \dontrun{
 
+set_key("YOUR_GOOGLE_API_KEY")
 ## elevation data for the MCG in Melbourne
 df <- data.frame(lat = -37.81659,
                  lon = 144.9841)
 
 google_elevation(df_locations = df,
-                 key = "<your valid api key>",
                  simplify = TRUE)
 
 
@@ -63,7 +63,6 @@ df <- data.frame(lat = c(-37.81659, -37.88950),
 df <- google_elevation(df_locations = df,
                        location_type = "path",
                        samples = 20,
-                       key = "<your valid api key>",
                        simplify = TRUE)
 
 ## plot results

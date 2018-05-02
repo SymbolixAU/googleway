@@ -135,28 +135,24 @@ downloadData <- function(map_url, simplify, curl_proxy = NULL){
   ## if a proxy has been passed in, use it
   if(!is.null(curl_proxy)){
     con <- curl_proxy(map_url)
-    out <- readLines(con)
-    close(con)
-    if(simplify == TRUE){
-      out <- jsonlite::fromJSON(out)
-    }
-    return(out)
+  } else {
+    con <- curl::curl(map_url)
   }
 
-  if(simplify == TRUE){
-    out <- jsonlite::fromJSON(map_url)
-  }else{
-    # out <- readLines(curl::curl(map_url))
-    con <- curl::curl(map_url)
-    tryCatch({
-      out <- readLines(con)
-      close(con)
-    },
-    error = function(cond){
-      close(con)
-      warning("There was an error downloading results. Please manually check the following URL is valid by entering it into a browswer. If valid, please file a bug report citing this URL (note: your API key has been removed, so you will need to add that back in) \n\n", gsub("key=.*","",map_url), "key=", sep = "")
-    })
+  tryCatch({
+    out <- readLines(con)
+  },
+  error = function(cond){
+    stop("There was an error downloading results. Please manually check the following URL is valid by entering it into a browswer. If valid, please file a bug report citing this URL (note: your API key has been removed, so you will need to add that back in) \n\n", gsub("key=.*","",map_url), "key=", sep = "")
+  },
+  finally = {
+    close(con)
+  })
+
+  if(simplify == TRUE) {
+    out <- jsonlite::fromJSON(out)
   }
+
   return(out)
 }
 
