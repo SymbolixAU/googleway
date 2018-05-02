@@ -25,8 +25,9 @@
 #' @return Either list or JSON string of the geocoded address
 #' @examples
 #' \dontrun{
+#'
+#' set_key("YOUR_GOOGLE_API_KEY")
 #' df <- google_geocode(address = "MCG, Melbourne, Australia",
-#'                      key = "<your valid api key>",
 #'                      simplify = TRUE)
 #'
 #' df$results$geometry$location
@@ -39,15 +40,13 @@
 #'
 #' js <- google_geocode(address = "Winnetka",
 #'                      bounds = bounds,
-#'                      key = "<your valid api key>",
 #'                      simplify = FALSE)
 #'
 #' ## using components
 #' components <- data.frame(component = c("postal_code", "country"),
 #'                          value = c("3000", "AU"))
 #'
-#'df <- google_geocode(address = "Flinders Street Station",
-#'                    key = "<your valid api key>",
+#' df <- google_geocode(address = "Flinders Street Station",
 #'                    components = components,
 #'                    simplify = FALSE)
 #'
