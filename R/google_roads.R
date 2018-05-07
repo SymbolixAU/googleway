@@ -25,6 +25,8 @@
 #' @param curl_proxy a curl proxy object
 #' @param key \code{string} A valid Google Developers Places API key
 #'
+#' @inheritSection google_geocode API use and limits
+#'
 #' @seealso \link{google_nearestRoads}
 #'
 #' @examples

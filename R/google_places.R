@@ -106,6 +106,8 @@
 #' outside of the search circle; however, prominent results from outside of the
 #' search radius may be included.
 #'
+#' @inheritSection google_geocode API use and limits
+#'
 #' @seealso \link{google_place_details}
 #'
 #' @examples

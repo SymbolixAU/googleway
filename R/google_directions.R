@@ -56,6 +56,9 @@
 #' FALSE indicates the returend JSON will be returned as a string
 #' @param curl_proxy a curl proxy object
 #' @return Either list or JSON string of the route between origin and destination
+#'
+#' @inheritSection google_geocode API use and limits
+#'
 #' @examples
 #' \dontrun{
 #'

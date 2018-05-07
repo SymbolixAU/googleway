@@ -35,6 +35,21 @@ The Google Maps Time Zone API provides time offset data for locations on the
 surface of the earth. You request the time zone information for a specific
 latitude/longitude pair and date.
 }
+\section{API use and limits}{
+
+
+The amount of queries you can make to Google's APIs is dependent on both the service
+and the API you are using.
+
+Each API has specific quotas and limits. Check Google's API documentation for details.
+
+View your usage at the Google Cloud Console \url{https://console.cloud.google.com/}
+
+Each API can only accept and return one request at a time. If you write a loop
+to make multiple API calls you should ensure you don't go over your quota / limits
+during the loop.
+}
+
 \examples{
 \dontrun{
 google_timezone(location = c(-37.81659, 144.9841),

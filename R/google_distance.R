@@ -37,6 +37,9 @@
 #' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string
 #' @param curl_proxy a curl proxy object
 #' @return Either list or JSON string of the distance between origins and destinations
+#'
+#' @inheritSection google_geocode API use and limits
+#'
 #' @examples
 #' \dontrun{
 #'

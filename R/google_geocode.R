@@ -23,6 +23,22 @@
 #' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string
 #' @param curl_proxy a curl proxy object
 #' @return Either list or JSON string of the geocoded address
+#'
+#' @section API use and limits:
+#'
+#' The amount of queries you can make to Google's APIs is dependent on both the service
+#' and the API you are using.
+#'
+#' Each API has specific quotas and limits. Check Google's API documentation for details.
+#'
+#' View your usage at the Google Cloud Console \url{https://console.cloud.google.com/}
+#'
+#' Each API can only accept and return one request at a time. If you write a loop
+#' to make multiple API calls you should ensure you don't go over your quota / limits
+#' during the loop.
+#'
+#'
+#'
 #' @examples
 #' \dontrun{
 #'
