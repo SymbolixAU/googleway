@@ -3,7 +3,7 @@ googleOverlayDependency <- function() {
     htmltools::htmlDependency(
       "overlay",
       "1.0.0",
-      system.file("htmlwidgets/lib/overlays", package = "googleway"),
+      system.file("htmlwidgets/lib/overlay", package = "googleway"),
       script = c("overlay.js")
     )
   )
@@ -62,14 +62,28 @@ add_overlay <- function(map,
 
   layer_id <- layerId(layer_id)
 
-  overlay <- jsonlite::toJSON(data.frame(url = overlay_url,
-                                         north = north,
-                                         south = south,
-                                         west = west,
-                                         east = east),
-                              digits = digits)
+  overlay <- jsonlite::toJSON(
+    data.frame(
+      url = overlay_url,
+      north = north,
+      south = south,
+      west = west,
+      east = east),
+      digits = digits
+    )
 
   map <- addDependency(map, googleOverlayDependency())
 
   invoke_method(map, 'add_overlay', overlay, layer_id)
 }
+
+
+#' @rdname clear
+#' @export
+clear_overlay <- function(map, layer_id = NULL){
+  layer_id <- layerId(layer_id)
+  invoke_method(map, 'clear_overlay', layer_id)
+}
+
+
+
