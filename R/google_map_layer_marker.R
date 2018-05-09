@@ -43,6 +43,8 @@ googleMarkerDependency <- function() {
 #' when the map zoomed out
 #' @param marker_icon string specifying the column of data containing a link/URL to
 #' an image to use for a marker
+#' @param close_info_window logical indicating if all \code{info_windows} should close
+#' when the user clicks on the map
 #'
 #' @examples
 #' \dontrun{
@@ -84,7 +86,8 @@ add_markers <- function(map,
                         update_map_view = TRUE,
                         digits = 4,
                         load_interval = 0,
-                        focus_layer = FALSE
+                        focus_layer = FALSE,
+                        close_info_window = FALSE
                         ){
 
   objArgs <- match.call(expand.dots = F)
@@ -135,6 +138,7 @@ add_markers <- function(map,
   logicalCheck(focus_layer)
   logicalCheck(cluster)
   logicalCheck(update_map_view)
+  logicalCheck(close_info_window)
   numericCheck(digits)
   ## END PARAMETER CHECKS
 
@@ -163,7 +167,7 @@ add_markers <- function(map,
   # print(shape)
   map <- addDependency(map, googleMarkerDependency())
 
-  invoke_method(map, 'add_markers', shape, cluster, update_map_view, layer_id, usePolyline, load_interval, focus_layer)
+  invoke_method(map, 'add_markers', shape, cluster, update_map_view, layer_id, usePolyline, load_interval, focus_layer, close_info_window)
 }
 
 

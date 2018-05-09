@@ -128,6 +128,8 @@ if (HTMLWidgets.shinyMode) {
             map = el,
             call = [],
             i = 0;
+
+
         if (!map) {
             //console.log("Couldn't find map with id " + id);
             return;

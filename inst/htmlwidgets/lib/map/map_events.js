@@ -4,9 +4,8 @@
  * Returns details of the click even on a map
  **/
 function map_click(map_id, mapObject, mapInfo) {
-    
-    //'use strict';
 
+    //'use strict';
     if (!HTMLWidgets.shinyMode) {
         return;
     }
@@ -25,7 +24,7 @@ function map_click(map_id, mapObject, mapInfo) {
             },
             mapInfo
         ),
-            event_return_type = window.params[1].event_return_type;
+        event_return_type = window.params[1].event_return_type;
         eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
         Shiny.onInputChange(map_id + "_map_click", eventInfo);
     });
@@ -33,13 +32,13 @@ function map_click(map_id, mapObject, mapInfo) {
 
 
 function bounds_changed(map_id, mapObject, mapInfo) {
-    
+
     //'use strict';
 
     if (!HTMLWidgets.shinyMode) {
         return;
     }
-    
+
     google.maps.event.addListener(mapObject, 'bounds_changed', function (event) {
         var eventInfo = $.extend(
             {
@@ -60,7 +59,7 @@ function bounds_changed(map_id, mapObject, mapInfo) {
 }
 
 function zoom_changed(map_id, mapObject, mapInfo) {
-    
+
     //'use strict';
 
     if (!HTMLWidgets.shinyMode) {
@@ -87,13 +86,13 @@ function zoom_changed(map_id, mapObject, mapInfo) {
  * Returns details of the marker that was clicked
  **/
 function marker_click(map_id, markerObject, marker_id, markerInfo) {
-    
+
     //'use strict';
-    
+
     if (!HTMLWidgets.shinyMode) {
         return;
     }
-    
+
     google.maps.event.addListener(markerObject, 'click', function (event) {
 
         var eventInfo = $.extend(
@@ -117,7 +116,7 @@ function marker_click(map_id, markerObject, marker_id, markerInfo) {
  * Returns the 'id' of the shape that was clicked back to shiny
  **/
 function shape_click(map_id, shapeObject, shape_id, shapeInfo) {
-    
+
     //'use strict';
 
     if (!HTMLWidgets.shinyMode) {
@@ -148,7 +147,7 @@ function shape_click(map_id, shapeObject, shape_id, shapeInfo) {
  *
  **/
 function rectangle_click(map_id, shapeObject, shape_id, shapeInfo) {
-    
+
     //'use strict';
 
     if (!HTMLWidgets.shinyMode) {
@@ -172,7 +171,7 @@ function rectangle_click(map_id, shapeObject, shape_id, shapeInfo) {
 }
 
 function polyline_click(map_id, polylineObject, polyline_id, polylineInfo) {
-    
+
     //'use strict';
 
     if (!HTMLWidgets.shinyMode) {
@@ -191,20 +190,20 @@ function polyline_click(map_id, polylineObject, polyline_id, polylineInfo) {
             polylineInfo
         ),
             event_return_type = window.params[1].event_return_type;
-        
+
         eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
         Shiny.onInputChange(map_id + "_polyline_click", eventInfo);
     });
 }
 
 function polygon_click(map_id, polygonObject, polygon_id, polygonInfo) {
-    
+
     //'use strict';
 
     if (!HTMLWidgets.shinyMode) {
         return;
     }
-    
+
     google.maps.event.addListener(polygonObject, 'click', function (event) {
 
         var polygonOuterPath = google.maps.geometry.encoding.encodePath(polygonObject.getPath()),
@@ -238,13 +237,13 @@ function polygon_click(map_id, polygonObject, polygon_id, polygonInfo) {
 *
 */
 function rectangle_edited(map_id, rectangleObject) {
-    
+
     //'use strict';
-    
+
     if (!HTMLWidgets.shinyMode) {
         return;
     }
-    
+
     rectangleObject.addListener('bounds_changed', function () {
         var eventInfo = {
             id: rectangleObject.id,
@@ -261,9 +260,9 @@ function rectangle_edited(map_id, rectangleObject) {
 *
 */
 function circle_edited(map_id, circleObject) {
-    
+
     //'use strict';
-    
+
     if (!HTMLWidgets.shinyMode) {
         return;
     }
@@ -280,9 +279,9 @@ function circle_edited(map_id, circleObject) {
 }
 
 function circle_dragged(map_id, circleObject) {
-    
+
     //'use strict';
-    
+
     if (!HTMLWidgets.shinyMode) {
         return;
     }
@@ -293,23 +292,23 @@ function circle_dragged(map_id, circleObject) {
             newRadius: circleObject.getRadius()
         },
             event_return_type = window.params[1].event_return_type;
-        
+
         eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
         Shiny.onInputChange(map_id + "_circle_drag", eventInfo);
     });
 }
 
 function polyline_dragged(map_id, polylineObject) {
-    
+
     //'use strict';
-        
+
     if (!HTMLWidgets.shinyMode) {
         return;
     }
-    
+
     var path = polylineObject.getPath(),
         i = 0;
-    
+
     path.addListener('set_at', function () {
         var polylinePath = google.maps.geometry.encoding.encodePath(polylineObject.getPath()),
             eventInfo = {
@@ -321,20 +320,20 @@ function polyline_dragged(map_id, polylineObject) {
         eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
         Shiny.onInputChange(map_id + "_polyline_drag", eventInfo);
     });
-    
+
 }
 
 function polyline_edited(map_id, polylineObject) {
-    
+
     //'use strict';
-    
+
     if (!HTMLWidgets.shinyMode) {
         return;
     }
-    
+
     var path = polylineObject.getPath(),
         i = 0;
-    
+
     path.addListener('insert_at', function () {
         var polylinePath = google.maps.geometry.encoding.encodePath(polylineObject.getPath()),
             eventInfo = {
@@ -362,9 +361,9 @@ function polyline_edited(map_id, polylineObject) {
 }
 
 function polygon_dragged(map_id, polygonObject) {
-    
+
     //'use strict';
-        
+
     if (!HTMLWidgets.shinyMode) {
         return;
     }
@@ -373,7 +372,7 @@ function polygon_dragged(map_id, polygonObject) {
 
     for (i = 0; i < paths.getLength(); i++) {
         paths.getAt(i).addListener('set_at', function() {
-            
+
             var polygonOuterPath = google.maps.geometry.encoding.encodePath(polygonObject.getPath()),
                 polygonAllPaths = [],
                 paths = polygonObject.getPaths();
@@ -388,16 +387,16 @@ function polygon_dragged(map_id, polygonObject) {
                 allPaths: polygonAllPaths
             },
                 event_return_type = window.params[1].event_return_type;
-            
+
             eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
             Shiny.onInputChange(map_id + "_polygon_drag", eventInfo);
         });
     }
 }
 function polygon_edited(map_id, polygonObject) {
-        
+
     //'use strict';
-    
+
     if (!HTMLWidgets.shinyMode) {
         return;
     }
@@ -405,9 +404,9 @@ function polygon_edited(map_id, polygonObject) {
         i = 0;
 
     for (i = 0; i < paths.getLength(); i++) {
-        
+
         paths.getAt(i).addListener('insert_at', function() {
-            
+
             var polygonOuterPath = google.maps.geometry.encoding.encodePath(polygonObject.getPath()),
                 polygonAllPaths = [],
                 paths = polygonObject.getPaths();
@@ -422,14 +421,14 @@ function polygon_edited(map_id, polygonObject) {
                 allPaths: polygonAllPaths
             },
                 event_return_type = window.params[1].event_return_type;
-            
+
             eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
             Shiny.onInputChange(map_id + "_polygon_edit", eventInfo);
         });
-        
-        
+
+
         paths.getAt(i).addListener('remove_at', function() {
-            
+
             var polygonOuterPath = google.maps.geometry.encoding.encodePath(polygonObject.getPath()),
                 polygonAllPaths = [],
                 paths = polygonObject.getPaths();
@@ -444,28 +443,28 @@ function polygon_edited(map_id, polygonObject) {
                 allPaths: polygonAllPaths
             },
                 event_return_type = window.params[1].event_return_type;
-            
+
             eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
             Shiny.onInputChange(map_id + "_polygon_edit", eventInfo);
-        }); 
-    }   
+        });
+    }
 }
 
-/* 
+/*
 * Removes vertices from polylines
 *
 */
 function remove_vertex(vertex, polyObject) {
-    
+
     //'use strict';
-    
+
     var path = polyObject.getPath();
     path.removeAt(vertex);
 }
 
 
 function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attributeValue, layer_id, layerType) {
-    
+
     //'use strict';
 
     // notes
@@ -543,11 +542,11 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
 
           // if the mouse_over is specified without the group, we need an info window
             if (mapObject.get("mouseOver") !== undefined) {
-                
+
                 mapObject.setOptions({"_mouse_over": mapObject.get(objectAttribute)});
                 infoWindow.setContent(mapObject.get(objectAttribute).toString());
-                
-                
+
+
                 if (layerType === 'googleMarkers') {
                     // markers need the info window to display at the top of the marker
                     // not where the event took place
@@ -557,16 +556,16 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
                     infoWindow.setPosition(event.latLng);
                     infoWindow.open(window[map_id + 'map']);
                 }
-                
+
             }
         }
-        
+
         //google.maps.event.addListenerOnce(window[map_id + 'map'], 'mousemove', function(event){
         //    infoWoindow.close();
         //})
 
     });
-    
+
     google.maps.event.addListener(mapObject, 'mouseout', function(event) {
 
         if(mapObject.get("mouseOverGroup") !== undefined){
@@ -617,11 +616,11 @@ function add_mouseOver(map_id, mapObject, infoWindow, objectAttribute, attribute
  *          the value of the attribute
  */
 function add_infoWindow(map_id, mapObject, infoWindow, objectAttribute, attributeValue) {
-        
+
     //'use strict';
 
     mapObject.set(objectAttribute, attributeValue);
-    
+
     if (mapObject.chart_type === undefined) {
 
       google.maps.event.addListener(mapObject, 'click', function(event){
@@ -635,11 +634,11 @@ function add_infoWindow(map_id, mapObject, infoWindow, objectAttribute, attribut
           infoWindow.setPosition(event.latLng);
           infoWindow.open(window[map_id + 'map']);
         });
-        
-    } else { 
-        
+
+    } else {
+
         mapObject.setOptions({"info_window": attributeValue});
-        
+
         google.maps.event.addListener(mapObject, 'click', function(event) {
 
           var c = chartObject(this);

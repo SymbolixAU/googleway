@@ -12,29 +12,39 @@
  * @param layer_id
  *          the layer identifier
  */
-function add_markers(map_id, data_markers, cluster, update_map_view, layer_id, use_polyline, interval, focus) {
+function add_markers(map_id, data_markers, cluster, update_map_view, layer_id, use_polyline, interval, focus, close_info_window) {
 
     if (focus === true) {
         clear_bounds(map_id);
     }
-    
+
     createWindowObject(map_id, 'googleMarkers', layer_id);
-    
+
     promise_to_add_markers(map_id, data_markers, update_map_view, layer_id, use_polyline, interval).then(function(i) {
-        
+
         if (cluster === true) {
-            
+
             // need a delay after a setTimeout inside a promise chain
-            // https://stackoverflow.com/q/39538473/5977215            
-            return delay(interval * i).then(function(){ 
+            // https://stackoverflow.com/q/39538473/5977215
+            return delay(interval * i).then(function(){
                 return cluster_markers(map_id, layer_id);
             });
-        }  
-    })
+        }
+    });
+
+    if (close_info_window) {
+      var i;
+      google.maps.event.addListener(window[map_id + 'map'], 'click', function (event) {
+        for (i = 0; i < window[map_id + 'googleMarkers' + layer_id].length; i++) {
+          window[map_id + 'googleMarkers' + layer_id][i].infowindow.close();
+        }
+      });
+    }
+
 }
 
 function promise_to_add_markers(map_id, data_markers, update_map_view, layer_id, use_polyline, interval) {
-    
+
     return new Promise(function(resolve, reject) {
         var i,
             infoWindow = new google.maps.InfoWindow();
@@ -42,11 +52,11 @@ function promise_to_add_markers(map_id, data_markers, update_map_view, layer_id,
         for (i = 0; i < Object.keys(data_markers).length; i++) {
             set_markers(map_id, infoWindow, data_markers[i], update_map_view, layer_id, use_polyline, i * interval);
         }
-        
+
         if(i == Object.keys(data_markers).length) {
             resolve(i);
         }
-        
+
     });
 }
 
@@ -59,20 +69,20 @@ function cluster_markers(map_id, layer_id) {
 }
 
 function set_markers(map_id, infoWindow, aMarker, update_map_view, layer_id, use_polyline, timeout) {
-    
+
     window.setTimeout(function () {
-        
+
         var j, lon, lat, path, latlon;
-        
+
         if (use_polyline) {
-        
+
             for (j = 0; j < aMarker.polyline.length; j++) {
 
                 path = google.maps.geometry.encoding.decodePath(aMarker.polyline[j]);
                 latlon = new google.maps.LatLng(path[0].lat(), path[0].lng());
-                
+
                 set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, layer_id);
-                
+
                 if (update_map_view === true) {
                     window[map_id + 'mapBounds'].extend(latlon);
                     window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
@@ -82,18 +92,18 @@ function set_markers(map_id, infoWindow, aMarker, update_map_view, layer_id, use
             latlon = new google.maps.LatLng(aMarker.lat, aMarker.lng);
 
             set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, layer_id);
-            
+
             if (update_map_view === true) {
                 window[map_id + 'mapBounds'].extend(latlon);
                 window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
             }
-        }    
-    }, timeout); 
+        }
+    }, timeout);
 }
 
 
 function draw_chart(marker) {
-    
+
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Topping');
     data.addColumn('number', 'Slices');
@@ -104,7 +114,7 @@ function draw_chart(marker) {
         ['Zucchini', 1],
         ['Pepperoni', 2]
     ]);
-    
+
     // Set chart options
     var options = {'title':'Pizza sold @ '+
                            marker.getPosition().toString(),
@@ -118,7 +128,7 @@ function draw_chart(marker) {
         chart.draw(data, options);
         infoWindow.setContent(node);
         infoWindow.open(marker.getMap(),marker);
-    
+
 }
 
 function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, layer_id) {
@@ -139,7 +149,7 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
             chart_data: aMarker.chart_data,
             chart_options: aMarker.chart_options
         });
-    
+
     if (aMarker.info_window) {
 
         marker.infowindow = new google.maps.InfoWindow({
@@ -148,12 +158,12 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
 
         //google.maps.event.addListener(marker, 'click', function () {
             //this.infowindow.open(window[map_id + 'map'], this);
-        //    draw_chart(this);  
+        //    draw_chart(this);
         //});
 
         // info window can either be a value, formatted HTML, or a chart.
         //console.log(marker);
-        
+
       if (aMarker.chart_type === undefined) {
 
         google.maps.event.addListener(marker, 'click', function() {
@@ -168,8 +178,8 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
           this.infowindow.open(window[map_id + 'map'], this);
         });
       }
-       
-        
+
+
     // the listener is being bound to the mapObject. So, when the infowindow
     // contents are updated, the 'click' listener will need to see the new information
     // ref: http://stackoverflow.com/a/13504662/5977215
