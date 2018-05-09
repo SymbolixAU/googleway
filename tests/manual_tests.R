@@ -436,6 +436,30 @@
 # }
 # shinyApp(ui, server)
 
+
+## map details returned to shiny
+# library(shiny)
+# library(googleway)
+#
+# ui <- fluidPage(
+#   google_mapOutput(outputId = "map")
+# )
+# server <- function(input, output){
+#
+#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#
+#   output$map <- renderGoogle_map({
+#     google_map(key = map_key, search_box = T, event_return_type = 'json') %>%
+#       add_markers(data = tram_stops, close_info_window = T, info_window = "stop_id")
+#   })
+#
+#   observeEvent(input$map_map_click, {
+#     event <- input$map_map_click
+#     print(event)
+#   })
+# }
+# shinyApp(ui, server)
+
 # updating heatmap legend
 # library(shiny)
 #

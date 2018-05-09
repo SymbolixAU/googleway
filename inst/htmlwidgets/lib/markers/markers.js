@@ -33,10 +33,13 @@ function add_markers(map_id, data_markers, cluster, update_map_view, layer_id, u
     });
 
     if (close_info_window) {
-      var i;
+      var i, iwindow;
       google.maps.event.addListener(window[map_id + 'map'], 'click', function (event) {
         for (i = 0; i < window[map_id + 'googleMarkers' + layer_id].length; i++) {
-          window[map_id + 'googleMarkers' + layer_id][i].infowindow.close();
+          iwindow = window[map_id + 'googleMarkers' + layer_id][i];
+          if (iwindow.infowindow !== undefined) {
+            iwindow.infowindow.close();
+          }
         }
       });
     }
