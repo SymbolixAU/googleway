@@ -16,6 +16,8 @@ googleKmlDependency <- function() {
 #' @param map a googleway map object created from \code{google_map()}
 #' @param kml_url URL string specifying the location of the kml layer
 #' @param layer_id single value specifying an id for the layer.
+#' @param update_map_view logical specifying if the map should re-centre according to
+#' the layer
 #'
 #' @examples
 #' \dontrun{
@@ -35,9 +37,10 @@ googleKmlDependency <- function() {
 #'
 #' }
 #' @export
-add_kml <- function(map, kml_url, layer_id = NULL){
+add_kml <- function(map, kml_url, layer_id = NULL, update_map_view = TRUE){
 
   urlCheck(kml_url)
+  logicalCheck(update_map_view)
 
   layer_id <- layerId(layer_id)
 
@@ -45,7 +48,7 @@ add_kml <- function(map, kml_url, layer_id = NULL){
 
   map <- addDependency(map, googleKmlDependency())
 
-  invoke_method(map, 'add_kml', kml, layer_id)
+  invoke_method(map, 'add_kml', kml, layer_id, !update_map_view)
 }
 
 

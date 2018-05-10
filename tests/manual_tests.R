@@ -436,6 +436,14 @@
 # }
 # shinyApp(ui, server)
 
+## KML layer not centred
+# set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
+#
+# kmlUrl <- "http://googlemaps.github.io/js-v2-samples/ggeoxml/cta.kml"
+#
+# google_map() %>%
+#   add_kml(kml_url = kmlUrl)
+
 ## Overlays are cleared
 # set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
 # google_map() %>%
