@@ -1,15 +1,16 @@
-function add_kml(map_id, kml_data, layer_id) {
+function add_kml(map_id, kml_data, layer_id, update_map_view) {
 
-    //window[map_id + 'googleKml' + layer_id] = [];
-    createWindowObject(map_id, 'googleKml', layer_id);
-    
-    
-    var kmlLayer = new google.maps.KmlLayer({
-        url: kml_data[0].url,
-        map: window[map_id + 'map']
-    });
+  //window[map_id + 'googleKml' + layer_id] = [];
+  createWindowObject(map_id, 'googleKml', layer_id);
 
-    window[map_id + 'googleKml' + layer_id].push(kmlLayer);
+  console.log(update_map_view);
+  var kmlLayer = new google.maps.KmlLayer({
+    url: kml_data[0].url,
+    preserveViewport: update_map_view,
+    map: window[map_id + 'map']
+  });
+
+  window[map_id + 'googleKml' + layer_id].push(kmlLayer);
 }
 
 

@@ -436,6 +436,51 @@
 # }
 # shinyApp(ui, server)
 
+## KML layer not centred
+# set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
+#
+# kmlUrl <- "http://googlemaps.github.io/js-v2-samples/ggeoxml/cta.kml"
+#
+# google_map() %>%
+#   add_kml(kml_url = kmlUrl)
+
+## Overlays are cleared
+# set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
+# google_map() %>%
+#   add_overlay(north = 40.773941
+#               , south = 40.712216
+#               , east = -74.12544
+#               , west = -74.22655
+#               , overlay_url = "https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg")
+#
+#
+# library(shiny)
+#
+# ui <- fluidPage(
+#   actionButton(inputId = "btn", label = "remove overlay"),
+#   google_mapOutput(outputId = "map")
+# )
+# server <- function(input, output){
+#
+#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#
+#   output$map <- renderGoogle_map({
+#     google_map() %>%
+#       add_overlay(north = 40.773941
+#                   , south = 40.712216
+#                   , east = -74.12544
+#                   , west = -74.22655
+#                   , overlay_url = "https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg")
+#
+#   })
+#
+#   observeEvent(input$btn, {
+#     google_map_update(map_id = "map") %>%
+#       clear_overlay()
+#   })
+# }
+# shinyApp(ui, server)
+
 
 ## map details returned to shiny
 # library(shiny)

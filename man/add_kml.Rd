@@ -4,7 +4,7 @@
 \alias{add_kml}
 \title{Add KML}
 \usage{
-add_kml(map, kml_url, layer_id = NULL)
+add_kml(map, kml_url, layer_id = NULL, update_map_view = TRUE)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -12,6 +12,9 @@ add_kml(map, kml_url, layer_id = NULL)
 \item{kml_url}{URL string specifying the location of the kml layer}
 
 \item{layer_id}{single value specifying an id for the layer.}
+
+\item{update_map_view}{logical specifying if the map should re-centre according to
+the layer}
 }
 \description{
 Adds a KML layer to a map.

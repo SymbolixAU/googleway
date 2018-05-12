@@ -3,8 +3,9 @@
 %   R/google_map_layer_drawing.R, R/google_map_layer_fusion.R,
 %   R/google_map_layer_geojson.R, R/google_map_layer_heatmap.R,
 %   R/google_map_layer_kml.R, R/google_map_layer_marker.R,
-%   R/google_map_layer_polygon.R, R/google_map_layer_polyline.R,
-%   R/google_map_layer_rectangle.R, R/google_map_layers.R
+%   R/google_map_layer_overlay.R, R/google_map_layer_polygon.R,
+%   R/google_map_layer_polyline.R, R/google_map_layer_rectangle.R,
+%   R/google_map_layers.R
 \name{clear_circles}
 \alias{clear_circles}
 \alias{clear_drawing}
@@ -15,6 +16,7 @@
 \alias{clear_kml}
 \alias{clear}
 \alias{clear_markers}
+\alias{clear_overlay}
 \alias{clear_polygons}
 \alias{clear_polylines}
 \alias{clear_rectangles}
@@ -38,6 +40,8 @@ clear_heatmap(map, layer_id = NULL)
 clear_kml(map, layer_id = NULL)
 
 clear_markers(map, layer_id = NULL)
+
+clear_overlay(map, layer_id = NULL)
 
 clear_polygons(map, layer_id = NULL)
 
