@@ -4,7 +4,7 @@
 \alias{add_kml}
 \title{Add KML}
 \usage{
-add_kml(map, kml_url, layer_id = NULL)
+add_kml(map, kml_url, layer_id = NULL, z_index = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}

@@ -35,9 +35,13 @@ googleKmlDependency <- function() {
 #'
 #' }
 #' @export
-add_kml <- function(map, kml_url, layer_id = NULL){
+add_kml <- function(map,
+                    kml_url,
+                    layer_id = NULL,
+                    z_index = NULL){
 
   urlCheck(kml_url)
+  numericCheck(z_index)
 
   layer_id <- layerId(layer_id)
 

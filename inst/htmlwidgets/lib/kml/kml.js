@@ -2,11 +2,12 @@ function add_kml(map_id, kml_data, layer_id) {
 
     //window[map_id + 'googleKml' + layer_id] = [];
     createWindowObject(map_id, 'googleKml', layer_id);
-    
-    
+
+
     var kmlLayer = new google.maps.KmlLayer({
         url: kml_data[0].url,
-        map: window[map_id + 'map']
+        map: window[map_id + 'map'],
+        zIndex: kml_data[0].z_index
     });
 
     window[map_id + 'googleKml' + layer_id].push(kmlLayer);
