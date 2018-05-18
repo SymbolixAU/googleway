@@ -104,7 +104,7 @@ function set_lines(map_id, polyline, infoWindow, update_map_view, layer_id, use_
 }
 
 function set_each_line(Polyline, polyline, infoWindow, update_map_view, map_id, layer_id) {
-
+  console.log(Polyline);
     var n, points, polylineInfo;
 
     window[map_id + 'googlePolyline' + layer_id].push(Polyline);
