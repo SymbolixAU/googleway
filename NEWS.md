@@ -1,6 +1,12 @@
+## Version 2.7+
+
+* `add_kml()` gets `update_map_view` argument
+* `clear_overlay()` implemented
+
+
 ## Version 2.6.0
 
-# `clear_bounds()` function to clear the map bounds object
+* `clear_bounds()` function to clear the map bounds object
 * `add_ ()` functions gain `focus_layer` argument to re-centre the map on the layer being plotted
 * `google_map()` gets `update_map_view` argument for controlling map view after using `search_box`
 * fix for `alternatives` argument not working
