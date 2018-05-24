@@ -9,7 +9,7 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
     if (focus === true) {
         clear_bounds(map_id);
     }
-    
+
     createWindowObject(map_id, 'googlePolygon', layer_id);
 
     var i,
@@ -66,7 +66,7 @@ function set_polygons(map_id, polygon, infoWindow, update_map_view, layer_id, us
             chart_options: polygon.chart_options
         });
 
-        //console.log(polygon);
+        console.log(Polygon);
         //console.log(Polygon);
 
         if (polygon.info_window) {

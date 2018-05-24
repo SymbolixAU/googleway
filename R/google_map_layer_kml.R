@@ -13,11 +13,9 @@ googleKmlDependency <- function() {
 #'
 #' Adds a KML layer to a map.
 #'
-#' @param map a googleway map object created from \code{google_map()}
+#' @inheritParams add_circles
 #' @param kml_url URL string specifying the location of the kml layer
-#' @param layer_id single value specifying an id for the layer.
-#' @param update_map_view logical specifying if the map should re-centre according to
-#' the layer
+#'
 #'
 #' @examples
 #' \dontrun{
@@ -37,14 +35,18 @@ googleKmlDependency <- function() {
 #'
 #' }
 #' @export
-add_kml <- function(map, kml_url, layer_id = NULL, update_map_view = TRUE){
-
+add_kml <- function(map,
+                    kml_url,
+                    layer_id = NULL,
+                    update_map_view = TRUE,
+                    z_index = 5){
   urlCheck(kml_url)
+  numericCheck(z_index)
   logicalCheck(update_map_view)
 
   layer_id <- layerId(layer_id)
 
-  kml <- jsonlite::toJSON(data.frame(url = kml_url))
+  kml <- jsonlite::toJSON(data.frame(url = kml_url, z_index = z_index))
 
   map <- addDependency(map, googleKmlDependency())
 

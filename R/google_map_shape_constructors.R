@@ -184,7 +184,8 @@ markerDefaults <- function(n) {
 ## polyline ---------------------------------------------------------------------
 polylineColumns <- function() {
   c('polyline', 'id', 'lat', 'lng', 'editable', 'draggable', 'stroke_colour',
-    'stroke_opacity', 'stroke_weight', 'mouse_over', 'mouse_over_group', 'info_window')
+    'stroke_opacity', 'stroke_weight', 'mouse_over', 'mouse_over_group', 'info_window',
+    'z_index')
 }
 
 polylineUpdateColumns <- function() {
@@ -215,7 +216,7 @@ polylineUpdateDefaults <- function(n) {
 polygonColumns <- function() {
   c('polyline', 'id', 'lat', 'lng', 'pathId', 'editable', 'draggable', 'stroke_colour',
     'stroke_opacity', 'stroke_weight', 'fill_colour', 'fill_opacity',
-    'mouse_over', 'mouse_over_group', 'info_window')
+    'mouse_over', 'mouse_over_group', 'info_window', 'z_index')
 }
 
 polygonUpdateColumns <- function() {
@@ -246,7 +247,7 @@ polygonUpdateDefaults <- function(n) {
 circleColumns <- function() {
   c('id', 'lat', 'lng', 'radius', 'draggable', 'stroke_colour',
     'stroke_opacity', 'stroke_weight', 'fill_colour', 'fill_opacity',
-    'mouse_over', 'mouse_over_group', 'info_window')
+    'mouse_over', 'mouse_over_group', 'info_window', 'z_index')
 }
 
 circleDefaults <- function(n) {
@@ -265,7 +266,7 @@ rectangleColumns <- function() {
   c("north", "east", "south", "west", 'id', 'lat', 'lng', "editable",
     'draggable', 'stroke_colour', 'stroke_opacity', 'stroke_weight',
     'fill_colour', 'fill_opacity', 'mouse_over', 'mouse_over_group',
-    'info_window')
+    'info_window', 'z_index')
 }
 
 rectangleDefaults <- function(n) {

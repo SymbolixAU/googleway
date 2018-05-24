@@ -1,5 +1,6 @@
 ## Version 2.7+
 
+* `add_kml()` gets `z_index` argument
 * `add_kml()` gets `update_map_view` argument
 * `clear_overlay()` implemented
 

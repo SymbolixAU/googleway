@@ -4,17 +4,24 @@
 \alias{add_kml}
 \title{Add KML}
 \usage{
-add_kml(map, kml_url, layer_id = NULL, update_map_view = TRUE)
+add_kml(map, kml_url, layer_id = NULL, update_map_view = TRUE,
+  z_index = 5)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
 
 \item{kml_url}{URL string specifying the location of the kml layer}
 
-\item{layer_id}{single value specifying an id for the layer.}
+\item{layer_id}{single value specifying an id for the layer. Use this value to
+distinguish between shape layers for when using any \code{update_} function, and
+for separating legends.}
 
 \item{update_map_view}{logical specifying if the map should re-centre according to
-the layer}
+the shapes}
+
+\item{z_index}{single value specifying where the circles appear in the layering
+of the map objects. Layers with a higher \code{z_index} appear on top of those with
+a lower \code{z_index}. See details.}
 }
 \description{
 Adds a KML layer to a map.
