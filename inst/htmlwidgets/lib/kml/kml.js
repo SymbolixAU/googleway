@@ -10,8 +10,6 @@ function add_kml(map_id, kml_data, layer_id, update_map_view) {
         zIndex: kml_data[0].z_index
     });
 
-  console.log(kmlLayer);
-
   window[map_id + 'googleKml' + layer_id].push(kmlLayer);
 }
 
