@@ -1,5 +1,6 @@
 ## Version 2.7+
 
+* `add_markers()` gets `close_info_window` argument to close all info windows at once
 * `add_kml()` gets `z_index` argument
 * `add_kml()` gets `update_map_view` argument
 * `clear_overlay()` implemented
