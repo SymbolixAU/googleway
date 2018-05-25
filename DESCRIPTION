@@ -1,7 +1,7 @@
 Package: googleway
 Type: Package
 Title: Accesses Google Maps APIs to Retrieve Data and Plot Maps
-Version: 2.7.0
+Version: 2.7.0001
 Date: 2018-05-25
 Authors@R: c(
     person("David", "Cooley", ,"dcooley@symbolix.com.au", role = c("aut", "cre")),
