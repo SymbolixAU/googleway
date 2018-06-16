@@ -24,6 +24,7 @@ googleCircleDependency <- function() {
 #' coordinates. If left NULL, a best-guess will be made
 #' @param polyline string specifying the column of \code{data} containing the encoded polyline.
 #' For circles and markers the encoded string will represent a single point.
+#' @param wkt string specifying the column of \code{data} containing well-known text.
 #' @param radius either a string specifying the column of \code{data} containing the
 #' radius of each circle, OR a numeric value specifying the radius of all the circles
 #' (radius is expressed in metres)
@@ -153,6 +154,7 @@ add_circles <- function(map,
                         lat = NULL,
                         lon = NULL,
                         polyline = NULL,
+                        wkt = NULL,
                         radius = NULL,
                         editable = NULL,
                         draggable = NULL,
@@ -180,8 +182,22 @@ add_circles <- function(map,
   data <- normaliseSfData(data, "POINT")
   polyline <- findEncodedColumn(data, polyline)
 
+  ## TODO(wkt column)
+  ## - use a similar approach to use and encode a column of wkt (from googlePolylines v0.6.10002)
+  wkt <- findWktColumn(data, wkt)
+
   if( !is.null(polyline) && !polyline %in% names(objArgs) ) {
     objArgs[['polyline']] <- polyline
+  }
+
+  if ( !is.null(wkt) ) {
+    ## TODO(wkt column)
+    ## - add_circles() can only handle *POINT objects
+    data[['polyline']] <- unlist(googlePolylines::wkt_polyline(data[[wkt]]))
+    objArgs[['wkt']] <- NULL
+    objArgs[['polyline']] <- 'polyline'
+    polyline <- 'polyline'
+    print(data)
   }
 
   ## PARAMETER CHECKS
@@ -236,6 +252,8 @@ add_circles <- function(map,
 
   shape <- createInfoWindowChart(shape, infoWindowChart, id)
   shape <- jsonlite::toJSON(shape, digits = digits)
+
+  print(shape)
 
   map <- addDependency(map, googleCircleDependency())
 

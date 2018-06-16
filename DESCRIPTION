@@ -29,7 +29,7 @@ Imports:
     viridisLite,
     scales,
     grDevices,
-    googlePolylines (>= 0.6.0)
+    googlePolylines (>= 0.6.10003)
 RoxygenNote: 6.0.1
 BugReports: https://github.com/SymbolixAU/googleway/issues
 Suggests:
