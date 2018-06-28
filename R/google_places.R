@@ -28,9 +28,9 @@
 #' @param radius \code{numeric} Defines the distance (in meters) within which to
 #' return place results. Required if only a \code{location} search is specified.
 #' The maximum allowed radius is 50,000 meters. Radius must not be included if
-#' \code{rankby="distance"} is specified. see Details.
+#' \code{rankby} is used. see Details.
 #' @param rankby \code{string} Specifies the order in which results are listed.
-#' Possible values are \code{"prominence"}, \code{"distance"} or \code{"location"}.
+#' Possible values are \code{"prominence"} or \code{"distance"}.
 #' If \code{rankby = distance}, then one of \code{keyword}, \code{name} or
 #' \code{place_type} must be specified. If a \code{search_string} is used then
 #' \code{rankby} is ignored.
@@ -138,22 +138,23 @@
 #' }
 #' @export
 #'
-google_places <- function(search_string = NULL,
-                          location = NULL,
-                          radar = FALSE,
-                          radius = NULL,
-                          rankby = NULL,
-                          keyword = NULL,
-                          language = NULL,
-                          name = NULL,
-                          place_type = NULL,
-                          price_range = NULL,
-                          open_now = NULL,
-                          page_token = NULL,
-                          simplify = TRUE,
-                          curl_proxy = NULL,
-                          key = get_api_key("places")
-                          ){
+google_places <- function(
+  search_string = NULL,
+  location = NULL,
+  radar = FALSE,
+  radius = NULL,
+  rankby = NULL,
+  keyword = NULL,
+  language = NULL,
+  name = NULL,
+  place_type = NULL,
+  price_range = NULL,
+  open_now = NULL,
+  page_token = NULL,
+  simplify = TRUE,
+  curl_proxy = NULL,
+  key = get_api_key("places")
+  ) {
 
   ## check if both search_string & location == NULL
   if(is.null(search_string) & is.null(location))
@@ -182,7 +183,7 @@ google_places <- function(search_string = NULL,
   ## construct the URL
   ## if search string is specified, use the 'textsearch' url
   ## if no search_string, use the 'lat/lon' url
-  if(isTRUE(radar)){
+  if (isTRUE( radar )) {
     map_url <- "https://maps.googleapis.com/maps/api/place/radarsearch/json?"
   }else{
     if(!is.null(search_string)){
@@ -193,19 +194,25 @@ google_places <- function(search_string = NULL,
     }
   }
 
-  map_url <- constructURL(map_url, c("location" = location,
-                                     "radius" = radius,
-                                     "rankby" = rankby,
-                                     "keyword" = keyword,
-                                     "language" = language,
-                                     "name" = name,
-                                     "type" = place_type,
-                                     "minprice" = price_range[1],
-                                     "maxprice" = price_range[2],
-                                     "opennow" = open_now,
-                                     "pagetoken" = page_token,
-                                     "key" = key))
+  map_url <- constructURL(
+    map_url
+    , c("location" = location
+        , "radius" = radius
+        , "rankby" = rankby
+        , "keyword" = keyword
+        , "language" = language
+        , "name" = name
+        , "type" = place_type
+        , "minprice" = price_range[1]
+        , "maxprice" = price_range[2]
+        , "opennow" = open_now
+        , "pagetoken" = page_token
+        , "key" = key
+        )
+    )
 
-  return(downloadData(map_url, simplify, curl_proxy))
+  return(
+    downloadData(map_url, simplify, curl_proxy)
+    )
 
 }

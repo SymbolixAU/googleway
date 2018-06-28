@@ -371,12 +371,25 @@ validateHeading <- function(heading){
 validateLocationSearch <- function(location, search_string, radius, rankby, keyword, name, place_type){
   if(is.null(location)) return(NULL)
 
+  ## if using rankby="distance"
+  if(!is.null(rankby)) {
+    if(rankby == "distance") {
+      if(!is.null(radius)) {
+        stop("If using rankby, radius must not be specified")
+      }
+    }
+  }
+
+  if(!is.null(radius) && !is.null(rankby)) {
+    stop("rankby must not be included if radius is specified")
+  }
+
   ## radius must be included if using a location search
-  if(is.null(search_string) & !is.null(location) & is.null(radius))
+  if(is.null(search_string) && is.null(radius) & is.null(rankby))
     stop("you must specify a radius if only using a 'location' search")
 
   ## if rankby == distance, then one of keyword, name or place_type must be specified
-  if(!is.null(rankby) & !is.null(location)){
+  if(!is.null(rankby)){
     if(rankby == "distance" &
        is.null(keyword) & is.null(name) & is.null(place_type))
       stop("you have specified rankby to be 'distance', so you must provide one of 'keyword','name' or 'place_type'")
@@ -517,8 +530,8 @@ validateRankBy <- function(rankby, location, search_string){
 
   ## rankby has correct arguments
   if(!is.null(location))
-    if(!rankby %in% c("prominence","distance","location"))
-      stop("rankby must be one of either prominence, distance or location")
+    if(!rankby %in% c("prominence","distance"))
+      stop("rankby must be one of either prominence or distance")
 
   ## warning if rankby used with search_string
   if(!is.null(search_string))

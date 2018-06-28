@@ -29,10 +29,10 @@ A radar search must contain a \code{location} and \code{radius}, and one of \cod
 \item{radius}{\code{numeric} Defines the distance (in meters) within which to
 return place results. Required if only a \code{location} search is specified.
 The maximum allowed radius is 50,000 meters. Radius must not be included if
-\code{rankby="distance"} is specified. see Details.}
+\code{rankby} is used. see Details.}
 
 \item{rankby}{\code{string} Specifies the order in which results are listed.
-Possible values are \code{"prominence"}, \code{"distance"} or \code{"location"}.
+Possible values are \code{"prominence"} or \code{"distance"}.
 If \code{rankby = distance}, then one of \code{keyword}, \code{name} or
 \code{place_type} must be specified. If a \code{search_string} is used then
 \code{rankby} is ignored.}
