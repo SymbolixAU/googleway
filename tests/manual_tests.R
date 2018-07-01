@@ -329,8 +329,23 @@
 # }
 # shinyApp(ui, server)
 
-# ## Info windows are updated
+## VARIABLE USED AS COLUMN NAME
+#
+# map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+# df <- melbourne[1:3,]
+# df$rand <- as.character(rnorm(nrow(df)))
+# iw <- "rand"
+# google_map(key = map_key) %>%
+#   add_polygons(
+#     data = df
+#     , polyline = "polyline"
+#     , info_window = iw
+#     , id = "polygonId"
+#   )
 
+
+# ## Info windows are updated
+#
 # library(shiny)
 #
 # ui <- fluidPage(
@@ -340,15 +355,18 @@
 #
 # server <- function(input, output){
 #
-#
 #   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 #   df <- melbourne
 #   df$rand <- as.character(rnorm(nrow(df)))
 #
 #   output$map <- renderGoogle_map({
 #     google_map(key = map_key) %>%
-#       add_polygons(data = df, polyline = "polyline",
-#                    info_window = "rand", id = "polygonId")
+#       add_polygons(
+#         data = df
+#         , polyline = "polyline"
+#         , info_window = "rand"
+#         , id = "polygonId"
+#         )
 #   })
 #
 #   observeEvent(input$btn, {
@@ -356,11 +374,16 @@
 #     df <- melbourne
 #     df$rand <- as.character(rnorm(nrow(df)))
 #
+#     iw <- "rand"
+#
 #     google_map_update(map_id = "map") %>%
-#       update_polygons(data = df, id = "polygonId", info_window = "rand")
-#
+#       update_polygons(
+#         data = df
+#         , id = "polygonId"
+# #        , info_window = iw
+# #        , fill_colour = "rand"
+#         )
 #   })
-#
 # }
 # shinyApp(ui, server)
 

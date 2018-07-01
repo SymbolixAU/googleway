@@ -151,6 +151,25 @@ add_polygons <- function(map,
 
   objArgs <- match.call(expand.dots = F)
 
+  # print("object args")
+  # print(objArgs)
+  #
+  # argValues <- sapply(1:length(objArgs), function(x) eval(objArgs[[x]]) )
+  #
+  # one <- as.character(sapply(1:length(objArgs), function(x) objArgs[[x]])) %in% names(data)
+  # two <- argValues %in% names(data)
+  #
+  # toReplace <- which( !one & two )
+  #
+  # for( i in seq_len(length(objArgs)) ) {
+  #   if (i %in% toReplace) {
+  #     objArgs[[i]] <- argValues[[i]]
+  #   }
+  # }
+  #
+  # print("object args")
+  # print(objArgs)
+
   data <- normaliseSfData(data, "POLYGON")
   polyline <- findEncodedColumn(data, polyline)
 
@@ -159,7 +178,6 @@ add_polygons <- function(map,
   if( !is.null(polyline) && !polyline %in% names(objArgs) ) {
     objArgs[['polyline']] <- polyline
   }
-
 
   ## PARAMETER CHECKS
   if(!dataCheck(data, "add_polygon")) data <- polygonDefaults(1)

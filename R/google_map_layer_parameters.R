@@ -57,12 +57,12 @@ latLonCheck <- function(objArgs, lat, lon, dataNames, layer_call){
   ## change lon to lng
   names(objArgs)[which(names(objArgs) == "lon")] <- "lng"
 
-  if(is.null(lat)){
+  if(is.null(lat)) {
     lat <- find_lat_column(dataNames, layer_call, TRUE)
     objArgs[['lat']] <- lat
   }
 
-  if(is.null(lon)){
+  if(is.null(lon)) {
     lon <- find_lon_column(dataNames, layer_call, TRUE)
     objArgs[['lng']] <- lon
   }

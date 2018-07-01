@@ -14,6 +14,11 @@
 # @param objArgs the arguments passed into the map layer function
 createMapObject <- function(data, cols, objArgs) {
 
+  print("map object")
+  print(objArgs)
+  print(cols)
+  print(names(data))
+
   dataNames <- names(data)
 
   argsIdx <- match(cols, names(objArgs)) ## those that exist in 'cols'
@@ -35,7 +40,6 @@ createMapObject <- function(data, cols, objArgs) {
   if (length(additionalValues) > 0) {
 
     extraCols <- lapply(additionalValues, function(x){
-
       ## the rep(eval(info_window)) won't work if it's a list...
       ## this is designed for when the value passed is a single value, like a colour #00FF00
       setNames(as.data.frame(rep(eval(objArgs[[x]]), nrow(df)), stringsAsFactors = F), names(objArgs)[x])
