@@ -1,5 +1,6 @@
 ## Version 2.7+
 
+* `depature_time` and `arrival_time` parameters now accept times in the past
 * `add_markers()` gets `close_info_window` argument to close all info windows at once
 * `add_kml()` gets `z_index` argument
 * `add_kml()` gets `update_map_view` argument
