@@ -309,9 +309,9 @@ validateDepartureTime <- function(departure_time){
 
   checkPosix(departure_time)
 
-  if(departure_time < Sys.time()){
-    stop("departure_time must not be in the past")
-  }
+  # if(departure_time < Sys.time()){
+  #   stop("departure_time must not be in the past")
+  # }
 
   return(departure_time)
 }

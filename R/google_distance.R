@@ -4,38 +4,10 @@
 #' and time for a matrix of origins and destinations, based on the recommended
 #' route between start and end points.
 #'
-#' @param origins Origin locations as either a one or two column data.frame, a
-#' list of unnamed elements, each element is either a numeric vector of lat/lon
-#' coordinates, an address string or a place_id, or a vector of a pair of lat / lon coordinates
-#' @param destinations destination locations as either a one or two column data.frame, a
-#' list of unnamed elements, each element is either a numeric vector of lat/lon
-#' coordinates, an address string or place_id, or a vector of a pair of lat / lon coordinates
-#' @param mode \code{string} One of 'driving', 'walking', 'bicycling' or 'transit'.
-#' @param departure_time \code{POSIXct}. Specifies the desired time of departure. Must
-#' be in the future (i.e. greater than \code{sys.time()}). If no value is specified
-#' it defaults to \code{Sys.time()}
-#' @param arrival_time \code{POSIXct}. Specifies teh desired time of arrival. Note you can
-#' only specify one of \code{arrival_time} or \code{departure_time}, not both.
-#' If both are supplied, \code{departure_time} will be used.
-#' @param avoid \code{character} vector stating which features should be avoided.
-#' One of 'tolls', 'highways', 'ferries' or 'indoor'
-#' @param units \code{string} metric or imperial. Note: Only affects the text displayed
-#' within the distance field. The values are always in metric
-#' @param traffic_model \code{string}. One of 'best_guess', 'pessimistic' or 'optimistic'.
-#' Only valid with a departure time
-#' @param transit_mode \code{vector} of strings, either 'bus', 'subway', 'train', 'tram' or 'rail'.
-#' Only vaid where \code{mode = 'transit'}. Note that 'rail' is equivalent to
-#' \code{transit_mode=c("train", "tram", "subway")}
+#' @inheritParams google_directions
 #' @param transit_routing_preference \code{vector} strings - one of 'less_walking' and
 #' 'fewer_transfers'. specifies preferences for transit routes. Only valid for
 #' transit directions.
-#' @param language \code{string}. Specifies the language in which to return the results.
-#' See the list of supported languages: \url{https://developers.google.com/maps/faq#using-google-maps-apis}
-#' If no langauge is supplied, the service will attempt to use the language of
-#' the domain from which the request was sent
-#' @param key \code{string}. A valid Google Developers Distance API key
-#' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list. FALSE indicates the returend JSON will be returned as a string
-#' @param curl_proxy a curl proxy object
 #' @return Either list or JSON string of the distance between origins and destinations
 #'
 #' @inheritSection google_geocode API use and limits

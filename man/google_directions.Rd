@@ -21,13 +21,14 @@ coordinates, an address string or a place_id, or a vector of a pair of lat / lon
 list of unnamed elements, each element is either a numeric vector of lat/lon
 coordinates, an address string or place_id, or a vector of a pair of lat / lon coordinates}
 
-\item{mode}{string. One of 'driving', 'walking', 'bicycling' or 'transit'.}
+\item{mode}{\code{string} One of 'driving', 'walking', 'bicycling' or 'transit'.}
 
-\item{departure_time}{\code{POSIXct}. Specifies the desired time of departure.
-Must be in the future (i.e. greater than \code{sys.time()}). If no value
+\item{departure_time}{a \code{POSIXct} time since 1st January 1970.
+Specifies the desired time of departure. If no value
 is specified it defaults to \code{Sys.time()}}
 
-\item{arrival_time}{\code{POSIXct}. Specifies the desired time of arrival. Note you
+\item{arrival_time}{a \code{POSIXct} time since 1st January 1970.
+Specifies the desired time of arrival. Note you
 can only specify one of \code{arrival_time} or \code{departure_time}, not both.
 If both are supplied, \code{departure_time} will be used.}
 
