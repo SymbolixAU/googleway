@@ -61,7 +61,7 @@ directions_data <- function(base_url,
   transit_mode <- validateTransitMode(transit_mode, mode)
   transit_routing_preference <- validateTransitRoutingPreference(transit_routing_preference, mode)
 
-  departure_time <- validateDepartureTime(departure_time)
+  departure_time <- validateDepartureTime(departure_time, mode)
 
   arrival_time <- validateArrivalTime(arrival_time)
   arrival_time <- validateArrivalDepartureTimes(arrival_time, departure_time)

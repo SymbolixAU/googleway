@@ -234,7 +234,6 @@ validateArrivalTime <- function(arrival_time){
 
 validateArrivalDepartureTimes <- function(arrival_time, departure_time){
 
-
   if(!is.null(arrival_time) & !is.null(departure_time)){
     warning("you have supplied both an arrival_time and a departure_time - only one is allowed. The arrival_time will be ignored")
     return(NULL)
@@ -304,14 +303,14 @@ validateComponentsCountries <- function(components){
   return(components)
 }
 
-validateDepartureTime <- function(departure_time){
+validateDepartureTime <- function(departure_time, mode){
   if(is.null(departure_time)) return(NULL)
 
   checkPosix(departure_time)
 
-  # if(departure_time < Sys.time()){
-  #   stop("departure_time must not be in the past")
-  # }
+  if(mode == "driving" && departure_time < Sys.time()){
+    stop("departure_time for driving mode must not be in the past")
+  }
 
   return(departure_time)
 }
