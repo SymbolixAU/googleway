@@ -15,10 +15,24 @@ HTMLWidgets.widget({
         	    pitch: x.pitch
              };
 
+
+              var map_container = document.createElement('div');
+              map_container.id = 'container';
+
+              var deck_canvas = document.createElement('canvas');
+              deck_canvas.id = 'deck-canvas';
+
+              map_container.appendChild(deck_canvas);
+
               const	deckgl = new deck.DeckGL({
-			    container: el.id,
-			    mapStyle: x.style,
+                canvas: 'deck-canvas',
+			    //container: el.id,
+			    //mapStyle: x.style,
 			    initialViewState: window[el.id + 'INITIAL_VIEW_STATE'],
+			    // Google maps has no rotating capabilities, so we disable rotation here.
+                controller: {
+                  dragRotate: false
+                },
 			    layers: [],
 			  });
 
@@ -53,6 +67,9 @@ HTMLWidgets.widget({
 
                 var mapDiv = document.getElementById(el.id);
                 mapDiv.className = "googlemap";
+
+                //map_container.appendChild(mapDiv);
+
 
                 if (HTMLWidgets.shinyMode) {
 
