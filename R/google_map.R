@@ -198,11 +198,11 @@ google_map <- function(key = get_api_key("map"),
       )
     )
 
-  # deps <- googlemap$dependencies
-  # googlemap$dependencies <- c(
-  #   deps,
-  #   htmlwidgets::getDependency("mapdeck", package = "mapdeck")
-  # )
+  deps <- googlemap$dependencies
+  googlemap$dependencies <- c(
+    deps,
+    htmlwidgets::getDependency("deck.gl", package = "deck.gl")
+  )
 
   return(googlemap)
 }

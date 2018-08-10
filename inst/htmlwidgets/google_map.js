@@ -8,6 +8,24 @@ HTMLWidgets.widget({
         return {
             renderValue: function (x) {
 
+            window[el.id + 'INITIAL_VIEW_STATE'] = {
+            	longitude: x.lng,
+            	latitude: x.lat,
+            	zoom: x.zoom,
+        	    pitch: x.pitch
+             };
+
+              const	deckgl = new deck.DeckGL({
+			    container: el.id,
+			    mapStyle: x.style,
+			    initialViewState: window[el.id + 'INITIAL_VIEW_STATE'],
+			    layers: [],
+			  });
+
+			  window[el.id + 'layers'] = []; // keep track of layers for overlaying multiple
+
+			    window[el.id + 'map'] = deckgl;
+
                 window.params = [];
                 window.params.push({'map_id' : el.id });
                 window.params.push({'event_return_type' : x.event_return_type});
@@ -78,7 +96,7 @@ HTMLWidgets.widget({
 
 
                         //global map object
-                        window[el.id + 'map'] = map;
+                        //window[el.id + 'map'] = map;
 
                         if (google !== undefined) {
                             //console.log("exists");
@@ -106,7 +124,7 @@ HTMLWidgets.widget({
                         fullscreenControl: x.fullscreenControl
                     });
 
-                    window[el.id + 'map'] = map;
+                    //window[el.id + 'map'] = map;
                     initialise_map(el, x);
                 }
             },
