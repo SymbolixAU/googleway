@@ -9,9 +9,5 @@ dependencies:
       - map_layers.js
       - charts.js
     stylesheet: map_style.css
-  - name: container
-    version: 1.0.0
-    src: "htmlwidgets/lib"
-    stylesheet: container.css
 
 
