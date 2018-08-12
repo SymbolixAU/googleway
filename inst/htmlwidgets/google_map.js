@@ -49,9 +49,11 @@ HTMLWidgets.widget({
 
         const deckgl = new deck.DeckGL({
           canvas: 'deckgl-overlay',
-		  //container: el.id,
-		  initialViewState: window[el.id + 'INITIAL_VIEW_STATE'],
-		  // Google maps has no rotating capabilities, so we disable rotation here.
+          width: '100%',
+          height: '100%',
+		      //container: el.id,
+		      initialViewState: window[el.id + 'INITIAL_VIEW_STATE'],
+		      // Google maps has no rotating capabilities, so we disable rotation here.
           controller: {
             dragRotate: false
           },
