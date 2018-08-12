@@ -8,6 +8,7 @@ dependencies:
       - legend.js
       - map_layers.js
       - charts.js
+      - geolocation.js
     stylesheet: map_style.css
 
 

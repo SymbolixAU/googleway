@@ -1,30 +1,26 @@
 
 function add_legend(map_id, layer_id, legendValues) {
 
-    'use strict';
+  'use strict';
 
-    var i = 0;
+  var i = 0;
 
-    for (i = 0; i < legendValues.length; i++) {
-
-        if (legendValues[i].type === "category") {
-            add_legend_category(map_id, layer_id, legendValues[i]);
-        } else {
-            if (legendValues[i].legend.colour.length === 1) {
-                add_legend_category(map_id, layer_id, legendValues[i]);
-            } else {
-                add_legend_gradient(map_id, layer_id, legendValues[i]);
-            }
-
-        }
+  for (i = 0; i < legendValues.length; i++) {
+    if (legendValues[i].type === "category") {
+      add_legend_category(map_id, layer_id, legendValues[i]);
+    } else {
+      if (legendValues[i].legend.colour.length === 1) {
+        add_legend_category(map_id, layer_id, legendValues[i]);
+      } else {
+        add_legend_gradient(map_id, layer_id, legendValues[i]);
+      }
     }
+  }
 }
 
 function add_legend_gradient(map_id, layer_id, legendValues) {
     // fill gradient
-
     'use strict';
-
     var legendContent,
         legendTitle,
         tickContainer,
@@ -216,7 +212,7 @@ function add_legend_category(map_id, layer_id, legendValues) {
 function clear_legend(map_id, layer_id){
 
     // find reference to this layer in the legends
-    var id = map_id + 'legend' + layer_id + 'fill_colour'
+    var id = map_id + 'legend' + layer_id + 'fill_colour';
     var objIndex = findById(window[map_id + 'legendPositions'], id, "index" );
 
     if(objIndex != null) {
@@ -225,8 +221,8 @@ function clear_legend(map_id, layer_id){
         window[id] = null;
     }
 
-    var id = map_id + 'legend' + layer_id + 'stroke_colour'
-    var objIndex = findById(window[map_id + 'legendPositions'], id, "index" );
+    id = map_id + 'legend' + layer_id + 'stroke_colour';
+    objIndex = findById(window[map_id + 'legendPositions'], id, "index" );
 
     if(objIndex != null) {
         removeControl(map_id, id, window[map_id + 'legendPositions'][objIndex].position);

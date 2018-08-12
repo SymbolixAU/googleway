@@ -8,6 +8,8 @@ HTMLWidgets.widget({
         return {
             renderValue: function (x) {
 
+              add_geolocation();
+
                 window.params = [];
                 window.params.push({'map_id' : el.id });
                 window.params.push({'event_return_type' : x.event_return_type});
@@ -455,15 +457,15 @@ function removeControl(map_id, legend_id, position) {
 
 function clearControl(control, legend_id) {
 
-    if (control != null) {
-        control.forEach(function (item, index) {
-            if (item != null) {
-                if (item.getAttribute('id') === legend_id) {
-                    control.removeAt(index);
-                }
-            }
-        });
-    }
+  if (control != null) {
+    control.forEach(function (item, index) {
+      if (item != null) {
+        if (item.getAttribute('id') === legend_id) {
+          control.removeAt(index);
+        }
+      }
+    });
+  }
 }
 
 /**
@@ -472,22 +474,22 @@ function clearControl(control, legend_id) {
 */
 function clear_object(map_id, objType, layer_id) {
 
-    var i = 0;
-    if (window[map_id + objType + layer_id] && window[map_id + objType + layer_id].length) {
-        for (i = 0; i < window[map_id + objType + layer_id].length; i++) {
-            //https://developers.google.com/maps/documentation/javascript/reference/3/#event
-            google.maps.event.clearInstanceListeners(window[map_id + objType + layer_id][i]);
-            window[map_id + objType + layer_id][i].setMap(null);
-            window[map_id + objType + layer_id][i] = null;
-        }
-        window[map_id + objType + layer_id] = null;
+  var i = 0;
+  if (window[map_id + objType + layer_id] && window[map_id + objType + layer_id].length) {
+    for (i = 0; i < window[map_id + objType + layer_id].length; i++) {
+    //https://developers.google.com/maps/documentation/javascript/reference/3/#event
+    google.maps.event.clearInstanceListeners(window[map_id + objType + layer_id][i]);
+    window[map_id + objType + layer_id][i].setMap(null);
+    window[map_id + objType + layer_id][i] = null;
+  }
+  window[map_id + objType + layer_id] = null;
 
-        clear_legend(map_id, layer_id);
-    }
+  clear_legend(map_id, layer_id);
+  }
 }
 
 function delay(t, v) {
-    return new Promise(function(resolve) {
-        setTimeout(resolve.bind(null, v), t)
-    });
+  return new Promise(function(resolve) {
+    setTimeout(resolve.bind(null, v), t);
+  });
 }
