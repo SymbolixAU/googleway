@@ -39,7 +39,7 @@ function clear_search(map_id) {
 }
 
 function clear_bounds(map_id) {
-  console.log("clear bounds");
+  //console.log("clear bounds");
 
   //window[map_id + 'mapBounds'].setMap(null);
   window[map_id + 'mapBounds'] = new google.maps.LatLngBounds();

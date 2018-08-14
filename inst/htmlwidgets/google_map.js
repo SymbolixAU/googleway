@@ -8,9 +8,11 @@ HTMLWidgets.widget({
         return {
             renderValue: function (x) {
 
+                //console.log( x ) ;
                 window.params = [];
                 window.params.push({'map_id' : el.id });
                 window.params.push({'event_return_type' : x.event_return_type});
+                //console.log( window.params );
 
                 // visualisation layers
                 window[el.id + 'googleTrafficLayer'] = [];

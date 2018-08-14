@@ -119,6 +119,9 @@ function shape_click(map_id, shapeObject, shape_id, shapeInfo) {
   }
   google.maps.event.addListener(shapeObject, 'click', function (event) {
 
+  //console.log( window );
+  //console.log( window.params );
+
   var event_return_type,
     eventInfo = $.extend(
       {

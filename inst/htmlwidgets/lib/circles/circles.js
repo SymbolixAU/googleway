@@ -103,7 +103,7 @@ function set_circle(map_id, circle, infoWindow, update_map_view, layer_id, use_p
 
 function set_each_circle(Circle, circle, infoWindow, update_map_view, map_id, layer_id) {
 
-  console.log(Circle);
+  //console.log(Circle);
 
     var shapeInfo;
 

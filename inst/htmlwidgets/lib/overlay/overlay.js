@@ -1,6 +1,6 @@
 function add_overlay (map_id, data_overlay, layer_id) {
 
-    console.log("adding overlay");
+    //console.log("adding overlay");
     createWindowObject(map_id, 'googleOverlay', layer_id);
 
     var latlonNorthEast = new google.maps.LatLng(data_overlay[0].north, data_overlay[0].east);

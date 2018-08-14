@@ -65,8 +65,6 @@ function set_polygons(map_id, polygon, infoWindow, update_map_view, layer_id, us
             chart_data: polygon.chart_data,
             chart_options: polygon.chart_options
         });
-
-        console.log(Polygon);
         //console.log(Polygon);
 
         if (polygon.info_window) {
