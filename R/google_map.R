@@ -35,6 +35,7 @@
 #' see \link{google_mapOutput}
 #' @param event_return_type the type of data to return to R from an interactive environment (shiny),
 #' either an R list, or raw json string.
+#' @param geolocation logical indicating if you want geolocation enabled
 #'
 #' @details
 #'
@@ -116,6 +117,7 @@ google_map <- function(key = get_api_key("map"),
                        libraries = NULL,
                        split_view = NULL,
                        split_view_options = NULL,
+                       geolocation = FALSE,
                        event_return_type = c("list", "json")) {
 
   logicalCheck(zoom_control)
@@ -125,6 +127,7 @@ google_map <- function(key = get_api_key("map"),
   logicalCheck(rotate_control)
   logicalCheck(fullscreen_control)
   logicalCheck(update_map_view)
+  logicalCheck(geolocation)
   event_return_type <- match.arg(event_return_type)
 
   # split_view_options = list(heading = 34,
@@ -156,7 +159,8 @@ google_map <- function(key = get_api_key("map"),
     fullscreenControl = fullscreen_control,
     event_return_type = event_return_type,
     split_view = split_view,
-    split_view_options = split_view_options
+    split_view_options = split_view_options,
+    geolocation = geolocation
   )
 
   data <- normaliseData(data)

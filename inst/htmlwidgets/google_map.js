@@ -8,8 +8,6 @@ HTMLWidgets.widget({
         return {
             renderValue: function (x) {
 
-              add_geolocation();
-
                 window.params = [];
                 window.params.push({'map_id' : el.id });
                 window.params.push({'event_return_type' : x.event_return_type});
@@ -342,6 +340,10 @@ function initialise_map(el, x) {
                 //console.log("Unknown function " + x.calls[layerCalls]);
             }
         }
+    }
+
+    if( x.geolocation === true) {
+        add_geolocation();
     }
 
     // listeners

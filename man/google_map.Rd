@@ -11,7 +11,8 @@ google_map(key = get_api_key("map"), data = NULL, location = NULL,
   zoom_control = TRUE, map_type_control = TRUE, scale_control = FALSE,
   street_view_control = TRUE, rotate_control = TRUE,
   fullscreen_control = TRUE, libraries = NULL, split_view = NULL,
-  split_view_options = NULL, event_return_type = c("list", "json"))
+  split_view_options = NULL, geolocation = FALSE,
+  event_return_type = c("list", "json"))
 }
 \arguments{
 \item{key}{A valid Google Maps API key.}
@@ -58,6 +59,8 @@ a streetview representation of the map. Will only work in an interactive environ
 \item{split_view_options}{list of options to pass to the split street view.
 valid list elements are \code{heading} and \code{pitch}
 see \link{google_mapOutput}}
+
+\item{geolocation}{logical indicating if you want geolocation enabled}
 
 \item{event_return_type}{the type of data to return to R from an interactive environment (shiny),
 either an R list, or raw json string.}
