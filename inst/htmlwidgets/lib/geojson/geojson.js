@@ -14,10 +14,10 @@ function drag_drop_geojson(map_id) {
 
 function loadGeoJsonString(geoString) {
 
-    // TODO: don't explicitely use the 0th argument of window.params
+    // TODO: don't explicitely use the 0th argument of window.googleway.params
     // - find the object by name
     var geojson = JSON.parse(geoString),
-        map_id = window.params[0].map_id;
+        map_id = window.googleway.params[0].map_id;
 
     window[map_id + 'map'].data.addGeoJson(geojson);
 
@@ -131,7 +131,7 @@ function geojson_click(map_id, layer_id, shapeInfo) {
         },
         shapeInfo
         );
-        var event_return_type = window.params[1].event_return_type;
+        var event_return_type = window.googleway.params[1].event_return_type;
       eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
         Shiny.onInputChange(map_id + "_geojson_click", eventInfo);
 

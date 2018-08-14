@@ -9,10 +9,11 @@ HTMLWidgets.widget({
             renderValue: function (x) {
 
                 //console.log( x ) ;
-                window.params = [];
-                window.params.push({'map_id' : el.id });
-                window.params.push({'event_return_type' : x.event_return_type});
-                //console.log( window.params );
+                window.googleway = [];
+                window.googleway.params = [];
+                window.googleway.params.push({'map_id' : el.id });
+                window.googleway.params.push({'event_return_type' : x.event_return_type});
+                //console.log( window.googleway.params );
 
                 // visualisation layers
                 window[el.id + 'googleTrafficLayer'] = [];
@@ -301,7 +302,7 @@ function initialise_map(el, x) {
 
                 if (HTMLWidgets.shinyMode) {
 
-                    event_return_type = window.params[1].event_return_type,
+                    event_return_type = window.googleway.params[1].event_return_type,
                         eventInfo = {
                             address_components: place.address_components,
                             lat: place.geometry.location.lat(),

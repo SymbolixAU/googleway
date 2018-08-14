@@ -24,7 +24,7 @@ function map_click(map_id, mapObject, mapInfo) {
       },
       mapInfo
     ),
-    event_return_type = window.params[1].event_return_type;
+    event_return_type = window.googleway.params[1].event_return_type;
     eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
     Shiny.onInputChange(map_id + "_map_click", eventInfo);
   });
@@ -50,7 +50,7 @@ function bounds_changed(map_id, mapObject, mapInfo) {
       },
       mapInfo
     ),
-    event_return_type = window.params[1].event_return_type;
+    event_return_type = window.googleway.params[1].event_return_type;
     eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
     Shiny.onInputChange(map_id + "_bounds_changed", eventInfo);
   });
@@ -71,7 +71,7 @@ function zoom_changed(map_id, mapObject, mapInfo) {
        },
       mapInfo
     ),
-    event_return_type = window.params[1].event_return_type;
+    event_return_type = window.googleway.params[1].event_return_type;
     eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
     Shiny.onInputChange(map_id + "_zoom_changed", eventInfo);
   });
@@ -100,7 +100,7 @@ function marker_click(map_id, markerObject, marker_id, markerInfo) {
       },
       markerInfo
     ),
-    event_return_type = window.params[1].event_return_type;
+    event_return_type = window.googleway.params[1].event_return_type;
     eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
     Shiny.onInputChange(map_id + "_marker_click", eventInfo);
   });
@@ -120,7 +120,7 @@ function shape_click(map_id, shapeObject, shape_id, shapeInfo) {
   google.maps.event.addListener(shapeObject, 'click', function (event) {
 
   //console.log( window );
-  //console.log( window.params );
+  //console.log( window.googleway.params );
 
   var event_return_type,
     eventInfo = $.extend(
@@ -132,7 +132,7 @@ function shape_click(map_id, shapeObject, shape_id, shapeInfo) {
       },
       shapeInfo
     ),
-    event_return_type = window.params[1].event_return_type;
+    event_return_type = window.googleway.params[1].event_return_type;
     eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
     Shiny.onInputChange(map_id + "_shape_click", eventInfo);
   });
@@ -161,7 +161,7 @@ function rectangle_click(map_id, shapeObject, shape_id, shapeInfo) {
       },
       shapeInfo
     ),
-    event_return_type = window.params[1].event_return_type;
+    event_return_type = window.googleway.params[1].event_return_type;
     eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
     Shiny.onInputChange(map_id + "_rectangle_click", eventInfo);
   });
@@ -185,7 +185,7 @@ function polyline_click(map_id, polylineObject, polyline_id, polylineInfo) {
       },
     polylineInfo
     ),
-    event_return_type = window.params[1].event_return_type;
+    event_return_type = window.googleway.params[1].event_return_type;
     eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
     Shiny.onInputChange(map_id + "_polyline_click", eventInfo);
   });
@@ -220,7 +220,7 @@ function polygon_click(map_id, polygonObject, polygon_id, polygonInfo) {
       },
       polygonInfo
     ),
-    event_return_type = window.params[1].event_return_type;
+    event_return_type = window.googleway.params[1].event_return_type;
     eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
     Shiny.onInputChange(map_id + "_polygon_click", eventInfo);
   });
@@ -242,7 +242,7 @@ function rectangle_edited(map_id, rectangleObject) {
       id: rectangleObject.id,
       newBounds: rectangleObject.getBounds()
     },
-    event_return_type = window.params[1].event_return_type;
+    event_return_type = window.googleway.params[1].event_return_type;
     eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
     Shiny.onInputChange(map_id + "_rectangle_edit", eventInfo);
   });
@@ -264,7 +264,7 @@ function circle_edited(map_id, circleObject) {
       newCenter: circleObject.getCenter(),
       newRadius: circleObject.getRadius()
     },
-    event_return_type = window.params[1].event_return_type;
+    event_return_type = window.googleway.params[1].event_return_type;
     eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
     Shiny.onInputChange(map_id + "_circle_edit", eventInfo);
   });
@@ -282,7 +282,7 @@ function circle_dragged(map_id, circleObject) {
       newCenter: circleObject.getCenter(),
       newRadius: circleObject.getRadius()
     },
-    event_return_type = window.params[1].event_return_type;
+    event_return_type = window.googleway.params[1].event_return_type;
     eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
     Shiny.onInputChange(map_id + "_circle_drag", eventInfo);
   });
@@ -304,7 +304,7 @@ function polyline_dragged(map_id, polylineObject) {
         id: polylineObject.id,
         path: polylinePath
     },
-    event_return_type = window.params[1].event_return_type;
+    event_return_type = window.googleway.params[1].event_return_type;
     eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
     Shiny.onInputChange(map_id + "_polyline_drag", eventInfo);
   });
@@ -326,7 +326,7 @@ function polyline_edited(map_id, polylineObject) {
       id: polylineObject.id,
       path: polylinePath
     },
-    event_return_type = window.params[1].event_return_type;
+    event_return_type = window.googleway.params[1].event_return_type;
     eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
     Shiny.onInputChange(map_id + "_polyline_edit", eventInfo);
   });
@@ -337,7 +337,7 @@ function polyline_edited(map_id, polylineObject) {
         id: polylineObject.id,
         path: polylinePath
       },
-    event_return_type = window.params[1].event_return_type;
+    event_return_type = window.googleway.params[1].event_return_type;
     eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
     Shiny.onInputChange(map_id + "_polyline_edit", eventInfo);
   });
@@ -368,7 +368,7 @@ function polygon_dragged(map_id, polygonObject) {
         outerPath: polygonOuterPath,
         allPaths: polygonAllPaths
       },
-      event_return_type = window.params[1].event_return_type;
+      event_return_type = window.googleway.params[1].event_return_type;
       eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
       Shiny.onInputChange(map_id + "_polygon_drag", eventInfo);
     });
@@ -401,7 +401,7 @@ function polygon_edited(map_id, polygonObject) {
                 outerPath: polygonOuterPath,
                 allPaths: polygonAllPaths
             },
-                event_return_type = window.params[1].event_return_type;
+                event_return_type = window.googleway.params[1].event_return_type;
 
             eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
             Shiny.onInputChange(map_id + "_polygon_edit", eventInfo);
@@ -423,7 +423,7 @@ function polygon_edited(map_id, polygonObject) {
                 outerPath: polygonOuterPath,
                 allPaths: polygonAllPaths
             },
-                event_return_type = window.params[1].event_return_type;
+                event_return_type = window.googleway.params[1].event_return_type;
 
             eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
             Shiny.onInputChange(map_id + "_polygon_edit", eventInfo);

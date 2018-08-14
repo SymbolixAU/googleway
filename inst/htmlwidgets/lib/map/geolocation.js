@@ -18,7 +18,7 @@ function add_geolocation() {
       infoWindow.open(map);
       map.setCenter(pos);
       */
-    event_return_type = window.params[1].event_return_type;
+    event_return_type = window.googleway.params[1].event_return_type;
     eventInfo = event_return_type === "list" ? position : JSON.stringify(position);
     Shiny.onInputChange(map_id + "_geolocation", position);
 
