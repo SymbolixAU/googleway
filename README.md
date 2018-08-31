@@ -29,8 +29,13 @@ See the [**vignette**](https://github.com/SymbolixAU/googleway/blob/master/vigne
 ## install release version from CRAN
 install.packages("googleway")
 
-## install the development version from github
+## To install the development version you currently need v0.7.1002 of googlePolylines
+devtools::install_github("SymbolixAU/googlePolylines")
+
+## then you can install googleway
 devtools::install_github("SymbolixAU/googleway")
+
+
 
 ```
 

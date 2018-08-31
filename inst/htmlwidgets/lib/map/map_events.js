@@ -134,7 +134,9 @@ function shape_click(map_id, shapeObject, shape_id, shapeInfo) {
     ),
     event_return_type = window.googleway.params[1].event_return_type;
     eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+
     Shiny.onInputChange(map_id + "_shape_click", eventInfo);
+    Shiny.onInputChange(map_id + "_circle_click", eventInfo);
   });
 }
 
