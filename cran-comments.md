@@ -1,9 +1,8 @@
 
 ## Release summary
 
-* Updates v2.6.0 to v2.7.0
-* Removed dependencies on undeclared packages from unit tests, as per CRAN request - email "CRAN packages maintained by you" from Kurt Hornik, 2018-05-18
-
+* Updates v2.7.0 to v2.7.1
+* fixed [failing CRAN checks](https://cran.r-project.org/web/checks/check_results_googleway.html) in accordance with new Google Places API
 
 ## Test Environments
 

@@ -42,7 +42,8 @@ test_that("attributes and map data is attached", {
       attributes(g$x)$names ==
         c("lat", "lng","zoom","styles","search_box", "update_map_view", "zoomControl",
           "mapTypeControl", "scaleControl", "streetViewControl", "rotateControl",
-          "fullscreenControl","event_return_type", "split_view", "split_view_options")
+          "fullscreenControl","event_return_type", "split_view", "split_view_options",
+          "geolocation")
       )
     )
   expect_true(inherits(attributes(g$x)$google_map_data, "data.frame"))

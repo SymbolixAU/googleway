@@ -4,27 +4,18 @@
 \alias{google_places}
 \title{Google places}
 \usage{
-google_places(search_string = NULL, location = NULL, radar = FALSE,
-  radius = NULL, rankby = NULL, keyword = NULL, language = NULL,
-  name = NULL, place_type = NULL, price_range = NULL, open_now = NULL,
+google_places(search_string = NULL, location = NULL, radius = NULL,
+  rankby = NULL, keyword = NULL, language = NULL, name = NULL,
+  place_type = NULL, price_range = NULL, open_now = NULL,
   page_token = NULL, simplify = TRUE, curl_proxy = NULL,
-  key = get_api_key("places"))
+  key = get_api_key("places"), radar = NULL)
 }
 \arguments{
 \item{search_string}{\code{string} A search term representing a place for
 which to search. If blank, the \code{location} argument must be used.}
 
 \item{location}{\code{numeric} vector of latitude/longitude coordinates
-(in that order) around which to retrieve place information. If \code{NULL}, the
-\code{search_string} argument must be used. If used in conjunction with
-\code{search_string} it represents the latitude/longitude around which to
-retrieve place information.}
-
-\item{radar}{\code{boolean} The Google Places API Radar Search Service allows
-you to search for up to 200 places at once, but with less detail than is typically
-returned from a Text Search (\code{search_string}) or Nearby Search (\code{location}) request.
-A radar search must contain a \code{location} and \code{radius}, and one of \code{keyword},
-\code{name} or \code{type}. A radar search will not use a \code{search_string}}
+(in that order) around which to retrieve place information.}
 
 \item{radius}{\code{numeric} Defines the distance (in meters) within which to
 return place results. Required if only a \code{location} search is specified.
@@ -79,6 +70,8 @@ into a list.}
 \item{curl_proxy}{a curl proxy object}
 
 \item{key}{\code{string} A valid Google Developers Places API key.}
+
+\item{radar}{deprecated, no longer used}
 }
 \description{
 The Google Places API Web Service allows you to query for place information
@@ -86,11 +79,14 @@ on a variety of categories, such as: establishments, prominent points of interes
 geographic locations, and more.
 }
 \details{
-With the Places service you can perform four kinds of searches:
+A Nearby Search (using \code{google_places}) lets you search for places within a specified area.
+You can refine your search request by supplying keywords or specifying the type of place you are searching for.
+
+
+With the Places service you can perform three kinds of searches:
 \itemize{
   \item{Nearby Search}
   \item{Text Search}
-  \item{Radar Sarch}
   \item{Place Details request}
 }
 
@@ -102,10 +98,6 @@ point and a \code{radius}.
 A Text search returns information about a set of places based on the \code{search_string}.
 The service responds with a list of places matching the string and any location
 bias that has been set.
-
-A Radar search lets you search for places within a specified search radius
-by keyword, type or name. The Radar search returns more results than a
-Nearby or Text search, but the results contain fewer fields.
 
 A Place Detail search (using \link{google_place_details}) can be performed when
 you have a given \code{place_id}

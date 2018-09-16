@@ -4,6 +4,14 @@
 #' and time for a matrix of origins and destinations, based on the recommended
 #' route between start and end points.
 #'
+#'
+#' @param origins Origin locations as either a one or two column data.frame, a
+#' list of unnamed elements, each element is either a numeric vector of lat/lon
+#' coordinates, an address string or a place_id, or a vector of a pair of lat / lon coordinates
+#' @param destinations destination locations as either a one or two column data.frame, a
+#' list of unnamed elements, each element is either a numeric vector of lat/lon
+#' coordinates, an address string or place_id, or a vector of a pair of lat / lon coordinates
+#' @param mode \code{string} One of 'driving', 'walking', 'bicycling' or 'transit'.
 #' @inheritParams google_directions
 #' @param transit_routing_preference \code{vector} strings - one of 'less_walking' and
 #' 'fewer_transfers'. specifies preferences for transit routes. Only valid for

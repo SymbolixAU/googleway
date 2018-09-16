@@ -4,6 +4,9 @@
 #' on a variety of categories, such as: establishments, prominent points of interest,
 #' geographic locations, and more.
 #'
+#' A Nearby Search (using \code{google_places}) lets you search for places within a specified area.
+#' You can refine your search request by supplying keywords or specifying the type of place you are searching for.
+#'
 #' @note
 #' The Google Places API Web Service enforces a default limit of 1,000 free requests
 #' per 24 hour period, calculated as the sum of client-side and server-side requets.
@@ -16,15 +19,7 @@
 #' @param search_string \code{string} A search term representing a place for
 #' which to search. If blank, the \code{location} argument must be used.
 #' @param location \code{numeric} vector of latitude/longitude coordinates
-#' (in that order) around which to retrieve place information. If \code{NULL}, the
-#' \code{search_string} argument must be used. If used in conjunction with
-#' \code{search_string} it represents the latitude/longitude around which to
-#' retrieve place information.
-#' @param radar \code{boolean} The Google Places API Radar Search Service allows
-#' you to search for up to 200 places at once, but with less detail than is typically
-#' returned from a Text Search (\code{search_string}) or Nearby Search (\code{location}) request.
-#' A radar search must contain a \code{location} and \code{radius}, and one of \code{keyword},
-#' \code{name} or \code{type}. A radar search will not use a \code{search_string}
+#' (in that order) around which to retrieve place information.
 #' @param radius \code{numeric} Defines the distance (in meters) within which to
 #' return place results. Required if only a \code{location} search is specified.
 #' The maximum allowed radius is 50,000 meters. Radius must not be included if
@@ -67,13 +62,13 @@
 #' into a list.
 #' @param curl_proxy a curl proxy object
 #' @param key \code{string} A valid Google Developers Places API key.
+#' @param radar deprecated, no longer used
 #'
 #' @details
-#' With the Places service you can perform four kinds of searches:
+#' With the Places service you can perform three kinds of searches:
 #' \itemize{
 #'   \item{Nearby Search}
 #'   \item{Text Search}
-#'   \item{Radar Sarch}
 #'   \item{Place Details request}
 #' }
 #'
@@ -85,10 +80,6 @@
 #' A Text search returns information about a set of places based on the \code{search_string}.
 #' The service responds with a list of places matching the string and any location
 #' bias that has been set.
-#'
-#' A Radar search lets you search for places within a specified search radius
-#' by keyword, type or name. The Radar search returns more results than a
-#' Nearby or Text search, but the results contain fewer fields.
 #'
 #' A Place Detail search (using \link{google_place_details}) can be performed when
 #' you have a given \code{place_id}
@@ -141,7 +132,7 @@
 google_places <- function(
   search_string = NULL,
   location = NULL,
-  radar = FALSE,
+  #radar = FALSE,
   radius = NULL,
   rankby = NULL,
   keyword = NULL,
@@ -153,7 +144,8 @@ google_places <- function(
   page_token = NULL,
   simplify = TRUE,
   curl_proxy = NULL,
-  key = get_api_key("places")
+  key = get_api_key("places"),
+  radar = NULL
   ) {
 
   ## check if both search_string & location == NULL
@@ -164,15 +156,14 @@ google_places <- function(
     location <- validateGeocodeLocation(location)
   }
 
-  logicalCheck(radar)
   logicalCheck(simplify)
   logicalCheck(open_now)
 
-  radar <- validateRadar(radar, search_string, keyword, name, place_type, location, radius)
   location <- validateLocationSearch(location, search_string, radius, rankby, keyword, name, place_type)
   radius <- validateRadius(radius)
   rankby <- validateRankBy(rankby, location, search_string)
   radius <- validateRadiusRankBy(rankby, radius, location)
+  validateRadar( radar )
 
   language <- validateLanguage(language)
   name <- validateName(name, search_string)
@@ -183,15 +174,11 @@ google_places <- function(
   ## construct the URL
   ## if search string is specified, use the 'textsearch' url
   ## if no search_string, use the 'lat/lon' url
-  if (isTRUE( radar )) {
-    map_url <- "https://maps.googleapis.com/maps/api/place/radarsearch/json?"
+  if(!is.null(search_string)){
+    search_string <- gsub(" ", "+", search_string)
+    map_url <- paste0("https://maps.googleapis.com/maps/api/place/textsearch/json?query=", search_string)
   }else{
-    if(!is.null(search_string)){
-      search_string <- gsub(" ", "+", search_string)
-      map_url <- paste0("https://maps.googleapis.com/maps/api/place/textsearch/json?query=", search_string)
-    }else{
-      map_url <- paste0("https://maps.googleapis.com/maps/api/place/nearbysearch/json?")
-    }
+    map_url <- paste0("https://maps.googleapis.com/maps/api/place/nearbysearch/json?")
   }
 
   map_url <- constructURL(
@@ -214,5 +201,8 @@ google_places <- function(
   return(
     downloadData(map_url, simplify, curl_proxy)
     )
-
 }
+
+
+
+

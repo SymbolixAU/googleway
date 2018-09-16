@@ -447,6 +447,13 @@ validatePitch <- function(pitch){
   return(pitch)
 }
 
+validatePlaceInput <- function( inputtype ) {
+  if ( !( intputtype == "textxquery" || inputtype == "phonenumber") ) {
+    stop("inputtype must be one of textquery or phonenumber")
+  }
+  return( inputtype )
+}
+
 validatePlaceType <- function(place_type){
   if(is.null(place_type)) return(NULL)
 
@@ -477,24 +484,25 @@ validatePriceRange <- function(price_range){
 }
 
 
-validateRadar <- function(radar, search_string, keyword, name, place_type, location, radius){
+validateRadar <- function(radar){
   ## if radar search, must provide location, key, radius
   ## if radar search, one of keyword, name or type
-  if(isTRUE(radar)){
-    if(!is.null(search_string))
-      warning("the search_string in a radar search will be ignored")
-
-    if(is.null(keyword) & is.null(name) & is.null(place_type))
-      stop("when using a radar search, one of keyword, name or place_type must be provided")
-
-    if(is.null(location))
-      stop("when using a radar search, location must be provided")
-
-    if(is.null(radius))
-      stop("when using a radar search, radius must be provided")
-  }
-
-  return(radar)
+  # if(isTRUE(radar)){
+  #   if(!is.null(search_string))
+  #     warning("the search_string in a radar search will be ignored")
+  #
+  #   if(is.null(keyword) & is.null(name) & is.null(place_type))
+  #     stop("when using a radar search, one of keyword, name or place_type must be provided")
+  #
+  #   if(is.null(location))
+  #     stop("when using a radar search, location must be provided")
+  #
+  #   if(is.null(radius))
+  #     stop("when using a radar search, radius must be provided")
+  # }
+  #
+  # return(radar)
+  message("The radar argument is now deprecated")
 }
 
 validateRadius <- function(radius){

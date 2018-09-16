@@ -21,13 +21,13 @@ test_that("location is a numeric vector",{
 
 })
 
-test_that("radar is logical",{
-
-  expect_error(google_places(search_string = "Restaurants in Melbourne, Australia",
-                             radar = "yes"),
-               "radar must be logical")
-
-})
+# test_that("radar is logical",{
+#
+#   expect_error(google_places(search_string = "Restaurants in Melbourne, Australia",
+#                              radar = "yes"),
+#                "radar must be logical")
+#
+# })
 
 test_that("radius is numeric > 0 & <= 50000",{
 
@@ -82,13 +82,13 @@ test_that("search string ignored when rankby is used", {
   expect_error(
     google_places(location = c(-37, 144),
                 rankby = 'distance'),
-    "you must specify a radius if only using a 'location' search"
+    "you have specified rankby to be 'distance', so you must provide one of 'keyword','name' or 'place_type'"
     )
 
-  expect_warning(
+  expect_error(
     google_places(location = c(-37, 144), keyword = "restaurant",radius = 3,
                   rankby = 'distance', key = 'abc'),
-    "radius is ignored when rankby == 'distance'"
+    "If using rankby, radius must not be specified"
   )
 
 })
@@ -145,13 +145,19 @@ test_that("page_token is valid",{
 })
 
 
-test_that("radar options throws errors", {
+test_that("radar search deprecated", {
 
-  expect_warning(google_places(radar = T, key = "abc", search_string = "here", location = c(-37, 145), radius = 1, keyword = "there"))
-  expect_error(google_places(radar = T, key = "abc", location = c(-37, 145)))
-  expect_error(google_places(radar = T, key = "abc", keyword = "here"))
-  expect_error(google_places(radar = T, key = "abc", location = c(-37, 145), keyword = "here"))
-  expect_true("html_attributions" %in% names(google_places(radar = T, key = "abc", location = c(-37, 145), keyword = "here", radius = 2)))
+
+  expect_message(
+    google_places(radar = T, key = "abc", search_string = "here", location = c(-37, 145), radius = 1, keyword = "there"),
+    "The radar argument is now deprecated"
+  )
+
+  # expect_warning(google_places(radar = T, key = "abc", search_string = "here", location = c(-37, 145), radius = 1, keyword = "there"))
+  # expect_error(google_places(radar = T, key = "abc", location = c(-37, 145)))
+  # expect_error(google_places(radar = T, key = "abc", keyword = "here"))
+  # expect_error(google_places(radar = T, key = "abc", location = c(-37, 145), keyword = "here"))
+  # expect_true("html_attributions" %in% names(google_places(radar = T, key = "abc", location = c(-37, 145), keyword = "here", radius = 2)))
 
 })
 

@@ -11,6 +11,14 @@ google_distance(origins, destinations, mode = c("driving", "walking",
   key = get_api_key("distance"), simplify = TRUE, curl_proxy = NULL)
 }
 \arguments{
+\item{origins}{Origin locations as either a one or two column data.frame, a
+list of unnamed elements, each element is either a numeric vector of lat/lon
+coordinates, an address string or a place_id, or a vector of a pair of lat / lon coordinates}
+
+\item{destinations}{destination locations as either a one or two column data.frame, a
+list of unnamed elements, each element is either a numeric vector of lat/lon
+coordinates, an address string or place_id, or a vector of a pair of lat / lon coordinates}
+
 \item{mode}{\code{string} One of 'driving', 'walking', 'bicycling' or 'transit'.}
 
 \item{departure_time}{a \code{POSIXct} time since 1st January 1970.

@@ -465,19 +465,16 @@ df$results$geometry
 
 The [**Google Maps Places API**](https://developers.google.com/places/) gets data from the same database used by Google Maps and Google+ Local. Places features more than 100 million businesses and points of interest that are updated frequently through owner-verified listings and user-moderated contributions.
 
-There are four types of search you can perform
+There are three types of search you can perform
 
 * Nearby
 * Text
-* Radar
 * Place Details
 
 
 A **Nearby** Search lets you search for places within a specified area. You can refine your search request by supplying keywords or specifying the type of place you are searching for.
 
 A **Text** Search Service is a web service that returns information about a set of places based on a string — for example "pizza in New York" or "shoe stores near Ottawa" or "123 Main Street". The service responds with a list of places matching the text string and any location bias that has been set.
-
-A **Radar** search lets you search for places within a specified search radius by keyword, type or name. The Radar search returns more results than a Nearby or Text search, but the results contain fewer fields.
 
 A **Place Detail** search (using `google_place_details()`) can be performed when you have a given `place_id` from one of the other three search methods.
 
