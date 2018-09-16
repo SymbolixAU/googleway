@@ -447,12 +447,12 @@ validatePitch <- function(pitch){
   return(pitch)
 }
 
-validatePlaceInput <- function( inputtype ) {
-  if ( !( intputtype == "textxquery" || inputtype == "phonenumber") ) {
-    stop("inputtype must be one of textquery or phonenumber")
-  }
-  return( inputtype )
-}
+# validatePlaceInput <- function( inputtype ) {
+#   if ( !( intputtype == "textxquery" || inputtype == "phonenumber") ) {
+#     stop("inputtype must be one of textquery or phonenumber")
+#   }
+#   return( inputtype )
+# }
 
 validatePlaceType <- function(place_type){
   if(is.null(place_type)) return(NULL)
