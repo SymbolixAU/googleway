@@ -99,7 +99,7 @@
 #'
 #' @inheritSection google_geocode API use and limits
 #'
-#' @seealso \link{google_place_details}
+#' @seealso \link{google_place_details} \link{google_find_place}
 #'
 #' @examples
 #' \dontrun{
@@ -242,6 +242,8 @@ google_places <- function(
 #'  \item{Atmosphere - }{price_level, rating}
 #' }
 #'
+#' @seealso \link{google_place_details} \link{google_places}
+#'
 #' @examples
 #' \donttest{
 #'
@@ -262,7 +264,6 @@ google_places <- function(
 #'  input = "+61293744000"
 #'  , inputtype = "phonenumber"
 #' )
-#'
 #'
 #' }
 #'

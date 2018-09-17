@@ -82,7 +82,9 @@ google_find_place(
  , inputtype = "phonenumber"
 )
 
-
 }
 
+}
+\seealso{
+\link{google_place_details} \link{google_places}
 }

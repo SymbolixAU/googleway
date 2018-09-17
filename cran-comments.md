@@ -2,7 +2,7 @@
 ## Release summary
 
 * Updates v2.7.0 to v2.7.1
-* fixed [failing CRAN checks](https://cran.r-project.org/web/checks/check_results_googleway.html) in accordance with new Google Places API
+* fixed [failing CRAN checks](https://cran.r-project.org/web/checks/check_results_googleway.html) which were caused by the new Google Places API
 
 ## Test Environments
 

@@ -779,6 +779,27 @@
 # }
 # shinyApp(ui, server)
 
+# ## circle clicks
+# library(shiny)
+#
+# ui <- fluidPage(
+#   google_mapOutput(outputId = "map", height = "800px")
+# )
+#
+# server <- function(input, output){
+#
+#   mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#   output$map <- renderGoogle_map({
+#     google_map(key = mapKey, event_return_type = "json") %>%
+#       add_circles(data = tram_stops)
+#   })
+#
+#   observeEvent(input$map_circle_click, {
+#     print(input$map_circle_click)
+#   })
+# }
+# shinyApp(ui, server)
+
 
 
 
