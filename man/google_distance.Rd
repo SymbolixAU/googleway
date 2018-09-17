@@ -21,13 +21,13 @@ coordinates, an address string or place_id, or a vector of a pair of lat / lon c
 
 \item{mode}{\code{string} One of 'driving', 'walking', 'bicycling' or 'transit'.}
 
-\item{departure_time}{a \code{POSIXct} time since 1st January 1970.
-Specifies the desired time of departure. If no value
-is specified it defaults to \code{Sys.time()}}
+\item{departure_time}{The desired time of departure.
+Use either a \code{POSIXct} time since 1st January 1970, or the string 'now'.
+If no value is specified it defaults to \code{Sys.time()}.}
 
-\item{arrival_time}{a \code{POSIXct} time since 1st January 1970.
-Specifies the desired time of arrival. Note you
-can only specify one of \code{arrival_time} or \code{departure_time}, not both.
+\item{arrival_time}{Specifies the desired time of arrival for transit requests.
+Use either a \code{POSIXct} time since 1st January 1970.
+Note you can only specify one of \code{arrival_time} or \code{departure_time}, not both.
 If both are supplied, \code{departure_time} will be used.}
 
 \item{avoid}{\code{character} vector stating which features should be avoided.

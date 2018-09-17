@@ -226,11 +226,13 @@ validateAlternatives <- function(alternatives){
 
 validateArrivalTime <- function(arrival_time){
 
-  if(is.null(arrival_time)) return(NULL)
+  if(is.null(arrival_time)) return( NULL )
 
   checkPosix(arrival_time)
+
   return(arrival_time)
 }
+
 
 validateArrivalDepartureTimes <- function(arrival_time, departure_time){
 
@@ -306,13 +308,21 @@ validateComponentsCountries <- function(components){
 validateDepartureTime <- function(departure_time, mode){
   if(is.null(departure_time)) return(NULL)
 
-  checkPosix(departure_time)
+  if (inherits(departure_time, "POSIXct")) {
+    checkPosix( departure_time )
 
-  if(mode == "driving" && departure_time < Sys.time()){
-    stop("departure_time for driving mode must not be in the past")
+    if(mode == "driving" && ( departure_time + 60) < Sys.time() ){ ## allowing a buffer
+      stop("departure_time for driving mode must not be in the past")
+    }
+
+    return( as.integer(departure_time ) )
+
+  } else if ( inherits(departure_time, "character") ) {
+    if( departure_time != "now") {
+      stop("when using a string for departure_time you may only use 'now'")
+    }
   }
-
-  return(departure_time)
+  return( departure_time )
 }
 
 validateFindInput <- function( input, inputtype ) {
@@ -643,9 +653,10 @@ validateTrafficModel <- function(traffic_model){
 }
 
 ## transit_mode is only valid where mode = transit
-validateTransitMode <- function(transit_mode, mode){
+validateTransitMode <- function(transit_mode, mode) {
 
-  if(!is.null(transit_mode) & mode != "transit"){
+  if(!is.null(transit_mode) & mode != "transit") {
+
     warning("You have specified a transit_mode, but are not using mode = 'transit'. Therefore this argument will be ignored")
     return(NULL)
   }else if(!is.null(transit_mode) & mode == "transit"){

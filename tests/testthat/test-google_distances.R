@@ -42,21 +42,28 @@ test_that("Avoid is a valid type", {
   expect_error(google_distance(origins = list(c(-37.8179746, 144.9668636)),
                                  destinations = list(c(-37.81659, 144.9841)),
                                  avoid = "dont avoid",
-                                 key = "abc",
-                                 simplify = TRUE),
+                                 key = "abc"),
                "avoid can only include tolls, highways, ferries or indoor")
 })
 
-# test_that("Departure time is not in the past",{
-#
-#   expect_error(google_distance(origins = list(c(-37.8179746, 144.9668636)),
-#                                destinations = list(c(-37.81659, 144.9841)),
-#                                  departure_time = as.POSIXct("2015-01-01"),
-#                                  key = "abc",
-#                                  simplify = TRUE),
-#                "departure_time must not be in the past")
-#
-# })
+test_that("Departure time is not in the past",{
+
+  expect_error(google_distance(origins = list(c(-37.8179746, 144.9668636)),
+                               destinations = list(c(-37.81659, 144.9841)),
+                                 departure_time = as.POSIXct("2015-01-01"),
+                                 key = "abc"),
+               "departure_time for driving mode must not be in the past")
+
+})
+
+test_that("now is a valid departure time", {
+
+  expect_silent(google_distance(origins = list(c(-37.8179746, 144.9668636)),
+                  destinations = list(c(-37.81659, 144.9841)),
+                  departure_time = 'now',
+                  key = "abc"))
+})
+
 
 # test_that("waypoints only valid for certain modes",{
 #

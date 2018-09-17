@@ -11,12 +11,12 @@
 #' list of unnamed elements, each element is either a numeric vector of lat/lon
 #' coordinates, an address string or place_id, or a vector of a pair of lat / lon coordinates
 #' @param mode \code{string} One of 'driving', 'walking', 'bicycling' or 'transit'.
-#' @param departure_time  a \code{POSIXct} time since 1st January 1970.
-#' Specifies the desired time of departure. If no value
-#' is specified it defaults to \code{Sys.time()}
-#' @param arrival_time a \code{POSIXct} time since 1st January 1970.
-#' Specifies the desired time of arrival. Note you
-#' can only specify one of \code{arrival_time} or \code{departure_time}, not both.
+#' @param departure_time The desired time of departure.
+#' Use either a \code{POSIXct} time since 1st January 1970, or the string 'now'.
+#' If no value is specified it defaults to \code{Sys.time()}.
+#' @param arrival_time Specifies the desired time of arrival for transit requests.
+#' Use either a \code{POSIXct} time since 1st January 1970.
+#' Note you can only specify one of \code{arrival_time} or \code{departure_time}, not both.
 #' If both are supplied, \code{departure_time} will be used.
 #' @param waypoints list of waypoints, expressed as either \code{vectors} of
 #' lat/lon coordinates, or a \code{string} address to be geocoded, or an encoded
@@ -88,6 +88,11 @@
 #'          units = "imperial",
 #'          simplify = TRUE)
 #'
+#' ## using 'now' as departure time
+#' google_directions(origin = "Flinders Street Station, Melbourne",
+#'          destination = "MCG, Melbourne",
+#'          departure_time = 'now')
+#'
 #' ## waypoints expressed as an encoded polyline
 #' polyWaypoints <- encode_pl(tram_stops[1:2, c("stop_lat")], tram_stops[1:2, c("stop_lon")])
 #' polyWaypoints <- list(via = paste0("enc:", polyWaypoints, ":"))
@@ -98,7 +103,7 @@
 #'
 #'
 #' ## using bus and less walking
-#' google_directions(origin = "Melbourne Airport, Australia",
+#' res <- google_directions(origin = "Melbourne Airport, Australia",
 #'          destination = "Portsea, Melbourne, Australia",
 #'          departure_time =  Sys.time() + (24 * 60 * 60),
 #'          mode = "transit",
@@ -107,7 +112,7 @@
 #'          simplify = FALSE)
 #'
 #' ## using arrival time
-#' google_directions(origin = "Melbourne Airport, Australia",
+#' res <- google_directions(origin = "Melbourne Airport, Australia",
 #'          destination = "Portsea, Melbourne, Australia",
 #'          arrival_time =  Sys.time() + (24 * 60 * 60),
 #'          mode = "transit",
@@ -116,7 +121,7 @@
 #'          simplify = FALSE)
 #'
 #' ## return results in French
-#' google_directions(origin = "Melbourne Airport, Australia",
+#' res <- google_directions(origin = "Melbourne Airport, Australia",
 #'          destination = "Portsea, Melbourne, Australia",
 #'          arrival_time =  Sys.time() + (24 * 60 * 60),
 #'          mode = "transit",

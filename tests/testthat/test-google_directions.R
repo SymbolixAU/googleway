@@ -70,17 +70,18 @@ test_that("Avoid is a valid type", {
 
 })
 
-# test_that("Departure time is not in the past",{
-#
-#   expect_error(
-#     google_directions(origin = c(-37.8179746, 144.9668636),
-#                          destination = c(-37.81659, 144.9841),
-#                          departure_time = as.POSIXct("2015-01-01"),
-#                          key = "abc",
-#                          simplify = TRUE)
-#     )
-#
-# })
+test_that("Departure time is not in the past",{
+
+  expect_error(
+    google_directions(origin = c(-37.8179746, 144.9668636),
+                         destination = c(-37.81659, 144.9841),
+                         departure_time = as.POSIXct("2015-01-01"),
+                         key = "abc",
+                         simplify = TRUE),
+    "departure_time for driving mode must not be in the past"
+    )
+
+})
 
 test_that("waypoints only valid for certain modes",{
 

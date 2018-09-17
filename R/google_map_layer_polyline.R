@@ -183,17 +183,10 @@ add_polylines <- function(map,
     keep <- setdiff(n, c('id', 'lat', 'lng'))
 
     lst_polyline <- objPolylineCoords(shape, ids, keep)
-    # print(lst_polyline)
-    # print("--shape--")
-    # print(shape)
 
-    #print(infoWindowChart)
     lst_polyline <- createInfoWindowChart(lst_polyline, infoWindowChart, id)
-    # print(lst_polyline)
 
     shape <- jsonlite::toJSON(lst_polyline, digits = digits, auto_unbox = T)
-
-    # print(shape)
   }
 
   map <- addDependency(map, googlePolylineDependency())
