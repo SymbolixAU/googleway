@@ -265,3 +265,28 @@ test_that("transit routing preferences arg is valid", {
     googleway:::validateTransitRoutingPreference("fewer_transfers", "transit") == "fewer_transfers"
   )
 })
+
+test_that("find place locationbais values are valid", {
+
+  pt <- c(1,2)
+  cl <- list(point = pt, radius = 100)
+  rec <- list(sw = pt, ne = rev(pt))
+  expect_true(googleway:::validateLocationPoint( pt ) == "point:1,2")
+
+  expect_true(googleway:::validateLocationCircle(cl) == "circle:100@1,2" )
+  expect_error(googleway:::validateLocationCircle(list(pt, radius = 100)),
+               "circle list must include radius and point elements")
+
+  expect_true(googleway:::validateLocationRectangle(rec) == "rectangle:1,2|2,1")
+  expect_error(googleway:::validateLocationRectangle(list(se = c(1,2), ne = c(3,4))),
+               "rectangle list must include sw and ne elements")
+
+  vpt <- googleway:::validateLocationPoint(pt)
+  vcl <- googleway:::validateLocationCircle(cl)
+  vrec <- googleway:::validateLocationRectangle(rec)
+  expect_true(googleway:::validateLocationBias(vpt, vcl, vrec) == "point:1,2")
+  expect_true(googleway:::validateLocationBias(vcl, vrec) == "circle:100@1,2")
+  expect_true(googleway:::validateLocationBias(vrec) == "rectangle:1,2|2,1")
+
+
+})

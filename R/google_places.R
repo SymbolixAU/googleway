@@ -205,4 +205,134 @@ google_places <- function(
 
 
 
+#' Google Find Place
+#'
+#' A Find Place request takes a text input, and returns a place.
+#' The text input can be any kind of Places data, for example, a name, address, or phone number
+#'
+#'
+#' @inheritParams google_places
+#' @param input The text input specifying which place to search for
+#' (for example, a name, address, or phone number).
+#' @param inputtype The type of input. This can be one of either textquery or phonenumber.
+#' Phone numbers must be in international format (prefixed by a plus sign ("+"),
+#' followed by the country code, then the phone number itself).
+#' @param fields vector of place data types to return. All Basic fields are returned by default.
+#' See details
+#' @param point vector of lat & lon values. Prefer results near this point.
+#' @param circle list of two elements, point (vector of lat & lon) and radius.
+#' Prefer results in this circle. Ignored if point is supplied
+#' @param rectangle list of two elements, sw (vector of lat & lon) and ne (vector of lat & lon)
+#' specifying the south-west and north-east bounds of a rectangle. Prefer results
+#' in this rectangle. Ignored if either point or circle are supplied
+#'
+#' @details
+#'
+#' Fields correspond to place search results
+#'  \url{https://developers.google.com/places/web-service/search#PlaceSearchResults}
+#' and are divided into three billing categories: Basic, Contact and Atmosphere.
+#'
+#' Basic fields are billed at base rate, and incur no additional charges. Contact
+#' and atmosphere fields are billed at a hihger rate. See pricing sheet for more information
+#' \url{https://cloud.google.com/maps-platform/pricing/sheet/?__utma=102347093.1187532699.1510801584.1537138439.1537138439.1&__utmb=102347093.0.10.1537138439&__utmc=102347093&__utmx=-&__utmz=102347093.1537138439.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)&__utmv=-&__utmk=133826830&_ga=2.227832157.1738618203.1537137400-1187532699.1510801584}
+#'
+#' \itemize{
+#'  \item{Basic - }{formatted_address, geometry, icon, id, name, permanently_closed, photos, place_id, plus_code, types}
+#'  \item{Contact - }{opening_hours}
+#'  \item{Atmosphere - }{price_level, rating}
+#' }
+#'
+#' @examples
+#' \donttest{
+#'
+#' ## specifying fields
+#' google_find_place(
+#'   input = "Museum of Contemporary Art Australia"
+#'   , fields = c("photos","formatted_address","name","rating","opening_hours","geometry")
+#' )
+#'
+#' ## Using location bias - circle
+#' google_find_place(
+#'   input = "Mongolian Grill"
+#'   , circle = list(point = c(47.7, -122.2), radius = 2000)
+#' )
+#'
+#' ## finding by a phone number
+#' google_find_place(
+#'  input = "+61293744000"
+#'  , inputtype = "phonenumber"
+#' )
+#'
+#'
+#' }
+#'
+#' @export
+google_find_place <- function(
+  input,
+  inputtype = c("textquery","phonenumber"),
+  language = NULL,
+  fields = place_fields(),
+  point = NULL,
+  circle = NULL,
+  rectangle = NULL,
+  simplify = TRUE,
+  curl_proxy = NULL,
+  key = get_api_key("find_place")
+  ) {
+
+
+  inputtype <- match.arg(inputtype)
+  input <- validateFindInput( input, inputtype )
+
+  logicalCheck(simplify)
+
+
+  fields <- paste0(fields, collapse = ",")
+  point <- validateLocationPoint( point )
+  circle <- validateLocationCircle( circle )
+  rectangle <- validateLocationRectangle( rectangle )
+  locationbias <- validateLocationBias(point, circle, rectangle)
+
+  input <- gsub(" ", "+", input)
+  map_url <- paste0("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=", input)
+
+  map_url <- constructURL(
+    map_url
+    , c("inputtype" = inputtype
+        , "fields" = fields
+        , "language" = language
+        , "locationbias" = locationbias
+        , "key" = key
+    )
+  )
+
+  return(
+    downloadData(map_url, simplify, curl_proxy)
+  )
+}
+
+
+#' Place Fields
+#'
+#' Convenience function to return all the valid basic field values for use in a \link{google_find_place}
+#' search
+#'
+#' @export
+place_fields <- function() {
+  return(
+    c(
+      "formatted_address"
+      ,"geometry"
+      ,"icon"
+      ,"id"
+      ,"name"
+      ,"permanently_closed"
+      ,"photos"
+      ,"place_id"
+      ,"plus_code"
+      #,"scope"  ## this causes invalid request from Google
+      ,"types"
+      )
+    )
+}
 

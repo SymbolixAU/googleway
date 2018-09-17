@@ -5,8 +5,8 @@
 \title{Set Key}
 \usage{
 set_key(key, api = c("default", "map", "directions", "distance", "elevation",
-  "geocode", "places", "place_autocomplete", "places_details", "roads",
-  "streetview", "timezone"))
+  "geocode", "places", "find_place", "place_autocomplete", "places_details",
+  "roads", "streetview", "timezone"))
 }
 \arguments{
 \item{key}{Google API key}

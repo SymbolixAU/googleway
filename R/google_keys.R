@@ -55,7 +55,7 @@ print.googleway_api <- function(x, ...) {
 set_key <- function(
   key,
   api = c("default", "map", "directions", "distance","elevation", "geocode",
-          "places","place_autocomplete", "places_details","roads", "streetview",
+          "places","find_place","place_autocomplete", "places_details","roads", "streetview",
           "timezone")
 ) {
 
@@ -86,6 +86,7 @@ clear_keys <- function() {
       elevation = NA_character_,
       geocode = NA_character_,
       places = NA_character_,
+      find_place = NA_character_,
       place_autocomplete = NA_character_,
       place_details = NA_character_,
       reverse_geocode = NA_character_,

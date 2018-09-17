@@ -11,6 +11,7 @@
         elevation = NA_character_,
         geocode = NA_character_,
         places = NA_character_,
+        find_place = NA_character_,
         place_autocomplete = NA_character_,
         place_details = NA_character_,
         reverse_geocode = NA_character_,

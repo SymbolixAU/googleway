@@ -315,7 +315,58 @@ validateDepartureTime <- function(departure_time, mode){
   return(departure_time)
 }
 
+validateFindInput <- function( input, inputtype ) {
+  ## if phonenumber , "+" needs to be encoded to %2B
+  if( inputtype == "phonenumber") {
+    input <- gsub("\\+","%2B",input)
+  }
+  return( input )
+}
 
+validateLocationPoint <- function( point ) {
+  if(is.null(point)) return(NULL)
+  point <- validateGeocodeLocation( point )
+  return(
+    paste0("point:",point)
+  )
+}
+
+validateLocationCircle <- function( circle ) {
+  if(is.null(circle)) return(NULL)
+  if( is.null( circle[['radius']] ) || is.null( circle[['point']] ) ) {
+    stop("circle list must include radius and point elements")
+  }
+  return(
+    paste0("circle:", circle[['radius']],"@", paste0(circle[['point']], collapse = ",") )
+  )
+}
+
+validateLocationRectangle <- function( rectangle ) {
+  if(is.null(rectangle)) return(NULL)
+  if( is.null( rectangle[['sw']] ) || is.null( rectangle[['ne']] ) ) {
+    stop("rectangle list must include sw and ne elements")
+  }
+
+  sw <- paste0(rectangle[['sw']], collapse = ",")
+  ne <- paste0(rectangle[['ne']], collapse = ",")
+  return(
+    paste0("rectangle:",sw, "|", ne)
+  )
+}
+
+
+validateLocationBias <- function( point, circle, rectangle ) {
+  if( !is.null(point) ) {
+    return( point )
+  }
+  if (!is.null( circle )) {
+    return( circle )
+  }
+  if (!is.null( rectangle )) {
+    return ( rectangle )
+  }
+  return( NULL )
+}
 
 validateLanguage <- function(language){
   if(is.null(language)) return(NULL)

@@ -214,6 +214,7 @@ constructURL <- function(map_url, urlArgs){
              "=",
              paste0(urlArgs), collapse = "")
              )
+      , reserved = F
       )
     )
 }

@@ -1,6 +1,7 @@
 ## Version 2.7.1
 
-* `google_places()` - deprecated `radar` argument
+* `google_find_place()` function added
+* `google_places()` deprecated `radar` argument
 * `depature_time` and `arrival_time` parameters now accept times in the past
 * `add_markers()` gets `close_info_window` argument to close all info windows at once
 * `add_kml()` gets `z_index` argument
