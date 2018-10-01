@@ -14,6 +14,7 @@
 # @param objArgs the arguments passed into the map layer function
 createMapObject <- function(data, cols, objArgs) {
 
+  #print(objArgs)
   dataNames <- names(data)
 
   argsIdx <- match(cols, names(objArgs)) ## those that exist in 'cols'

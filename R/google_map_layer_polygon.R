@@ -195,12 +195,18 @@ add_polygons <- function(map,
   objArgs <- lst$objArgs
   pathId <- lst$pathId
 
+  if(!is.null(z_index)) {
+    objArgs[['z_index']] <- z_index
+  }
+
   ## END PARAMETER CHECKS
   allCols <- polygonColumns()
   requiredCols <- requiredShapeColumns()
   colourColumns <- shapeAttributes(fill_colour = fill_colour, stroke_colour = stroke_colour)
 
+  #print(z_index)
   shape <- createMapObject(data, allCols, objArgs)
+  #print(z_index)
   #print(head(shape))
 
   pal <- createPalettes(shape, colourColumns)
