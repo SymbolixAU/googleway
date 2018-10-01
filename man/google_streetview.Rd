@@ -4,9 +4,9 @@
 \alias{google_streetview}
 \title{Google street view}
 \usage{
-google_streetview(location = NULL, panorama_id = NULL, size = c(400, 400),
-  heading = NULL, fov = 90, pitch = 0, output = c("plot", "html"),
-  response_check = FALSE, signature = NULL,
+google_streetview(location = NULL, panorama_id = NULL, size = c(400,
+  400), heading = NULL, fov = 90, pitch = 0, output = c("plot",
+  "html"), response_check = FALSE, signature = NULL,
   key = get_api_key("streetview"))
 }
 \arguments{

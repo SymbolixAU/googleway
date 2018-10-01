@@ -4,8 +4,8 @@
 \alias{add_drawing}
 \title{Add Drawing}
 \usage{
-add_drawing(map, drawing_modes = c("marker", "circle", "polygon", "polyline",
-  "rectangle"), delete_on_change = FALSE)
+add_drawing(map, drawing_modes = c("marker", "circle", "polygon",
+  "polyline", "rectangle"), delete_on_change = FALSE)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}

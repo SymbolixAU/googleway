@@ -9,9 +9,9 @@ add_circles(map, data = get_map_data(map), id = NULL, lat = NULL,
   draggable = NULL, stroke_colour = NULL, stroke_opacity = NULL,
   stroke_weight = NULL, fill_colour = NULL, fill_opacity = NULL,
   mouse_over = NULL, mouse_over_group = NULL, info_window = NULL,
-  layer_id = NULL, update_map_view = TRUE, z_index = NULL, digits = 4,
-  palette = NULL, legend = F, legend_options = NULL, load_interval = 0,
-  focus_layer = FALSE)
+  layer_id = NULL, update_map_view = TRUE, z_index = NULL,
+  digits = 4, palette = NULL, legend = F, legend_options = NULL,
+  load_interval = 0, focus_layer = FALSE)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}

@@ -8,10 +8,10 @@
 google_map(key = get_api_key("map"), data = NULL, location = NULL,
   zoom = NULL, width = NULL, height = NULL, padding = 0,
   styles = NULL, search_box = FALSE, update_map_view = TRUE,
-  zoom_control = TRUE, map_type_control = TRUE, scale_control = FALSE,
-  street_view_control = TRUE, rotate_control = TRUE,
-  fullscreen_control = TRUE, libraries = NULL, split_view = NULL,
-  split_view_options = NULL, geolocation = FALSE,
+  zoom_control = TRUE, map_type_control = TRUE,
+  scale_control = FALSE, street_view_control = TRUE,
+  rotate_control = TRUE, fullscreen_control = TRUE, libraries = NULL,
+  split_view = NULL, split_view_options = NULL, geolocation = FALSE,
   event_return_type = c("list", "json"))
 }
 \arguments{

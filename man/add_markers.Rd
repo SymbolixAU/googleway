@@ -6,10 +6,11 @@
 \usage{
 add_markers(map, data = get_map_data(map), id = NULL, colour = NULL,
   lat = NULL, lon = NULL, polyline = NULL, title = NULL,
-  draggable = NULL, opacity = NULL, label = NULL, info_window = NULL,
-  mouse_over = NULL, mouse_over_group = NULL, marker_icon = NULL,
-  layer_id = NULL, cluster = FALSE, update_map_view = TRUE, digits = 4,
-  load_interval = 0, focus_layer = FALSE, close_info_window = FALSE)
+  draggable = NULL, opacity = NULL, label = NULL,
+  info_window = NULL, mouse_over = NULL, mouse_over_group = NULL,
+  marker_icon = NULL, layer_id = NULL, cluster = FALSE,
+  update_map_view = TRUE, digits = 4, load_interval = 0,
+  focus_layer = FALSE, close_info_window = FALSE)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}

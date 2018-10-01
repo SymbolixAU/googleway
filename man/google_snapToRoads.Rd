@@ -4,8 +4,9 @@
 \alias{google_snapToRoads}
 \title{Snap To Roads}
 \usage{
-google_snapToRoads(df_path, lat = NULL, lon = NULL, interpolate = FALSE,
-  simplify = TRUE, curl_proxy = NULL, key = get_api_key("roads"))
+google_snapToRoads(df_path, lat = NULL, lon = NULL,
+  interpolate = FALSE, simplify = TRUE, curl_proxy = NULL,
+  key = get_api_key("roads"))
 }
 \arguments{
 \item{df_path}{\code{data.frame} with at least two columns specifying the latitude & longitude coordinates,

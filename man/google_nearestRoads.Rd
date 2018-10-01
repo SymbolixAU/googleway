@@ -4,8 +4,8 @@
 \alias{google_nearestRoads}
 \title{Nearest Roads}
 \usage{
-google_nearestRoads(df_points, lat = NULL, lon = NULL, simplify = TRUE,
-  curl_proxy = NULL, key = get_api_key("roads"))
+google_nearestRoads(df_points, lat = NULL, lon = NULL,
+  simplify = TRUE, curl_proxy = NULL, key = get_api_key("roads"))
 }
 \arguments{
 \item{df_points}{\code{data.frame} with at least two columns specifying the latitude & longitude coordinates,

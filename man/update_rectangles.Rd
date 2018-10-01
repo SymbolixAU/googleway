@@ -4,10 +4,11 @@
 \alias{update_rectangles}
 \title{Update rectangles}
 \usage{
-update_rectangles(map, data, id, draggable = NULL, stroke_colour = NULL,
-  stroke_weight = NULL, stroke_opacity = NULL, fill_colour = NULL,
-  fill_opacity = NULL, info_window = NULL, layer_id = NULL, digits = 4,
-  palette = NULL, legend = F, legend_options = NULL)
+update_rectangles(map, data, id, draggable = NULL,
+  stroke_colour = NULL, stroke_weight = NULL, stroke_opacity = NULL,
+  fill_colour = NULL, fill_opacity = NULL, info_window = NULL,
+  layer_id = NULL, digits = 4, palette = NULL, legend = F,
+  legend_options = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}

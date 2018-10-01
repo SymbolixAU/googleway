@@ -4,10 +4,10 @@
 \alias{update_polygons}
 \title{Update polygons}
 \usage{
-update_polygons(map, data, id, stroke_colour = NULL, stroke_weight = NULL,
-  stroke_opacity = NULL, fill_colour = NULL, fill_opacity = NULL,
-  info_window = NULL, layer_id = NULL, palette = NULL, legend = F,
-  legend_options = NULL)
+update_polygons(map, data, id, stroke_colour = NULL,
+  stroke_weight = NULL, stroke_opacity = NULL, fill_colour = NULL,
+  fill_opacity = NULL, info_window = NULL, layer_id = NULL,
+  palette = NULL, legend = F, legend_options = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}

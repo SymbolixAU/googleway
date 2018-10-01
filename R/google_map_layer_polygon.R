@@ -201,6 +201,7 @@ add_polygons <- function(map,
   colourColumns <- shapeAttributes(fill_colour = fill_colour, stroke_colour = stroke_colour)
 
   shape <- createMapObject(data, allCols, objArgs)
+  #print(head(shape))
 
   pal <- createPalettes(shape, colourColumns)
   colour_palettes <- createColourPalettes(data, pal, colourColumns, palette)

@@ -61,8 +61,6 @@ clear_bicycling(map)
 \item{layer_id}{id value of the layer to be removed from the map}
 }
 \description{
-Remove drawing
-
 clears elements from a map
 }
 \section{Functions}{

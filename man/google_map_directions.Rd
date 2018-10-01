@@ -5,8 +5,9 @@
 \title{Google Map Directions}
 \usage{
 google_map_directions(origin = NULL, origin_place_id = NULL,
-  destination = NULL, destination_place_id = NULL, travel_mode = NULL,
-  dir_action = NULL, waypoints = NULL, waypoint_place_ids = NULL)
+  destination = NULL, destination_place_id = NULL,
+  travel_mode = NULL, dir_action = NULL, waypoints = NULL,
+  waypoint_place_ids = NULL)
 }
 \arguments{
 \item{origin}{string of an address or search term, or vector of lat/lon coordinates}
