@@ -45,7 +45,6 @@ add_kml <- function(map,
   logicalCheck(update_map_view)
 
   layer_id <- layerId(layer_id)
-  objArgs <- zIndexCheck( objArgs, z_index )
 
   kml <- jsonlite::toJSON(data.frame(url = kml_url, z_index = z_index))
 
