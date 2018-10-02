@@ -147,6 +147,7 @@ add_polylines <- function(map,
   data <- lst$data
   objArgs <- lst$objArgs
   id <- lst$id
+  objArgs <- zIndexCheck( objArgs, z_index )
   ## END PARAMETER CHECKS
 
   allCols <- polylineColumns()

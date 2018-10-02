@@ -207,6 +207,8 @@ add_circles <- function(map,
   loadIntervalCheck(load_interval)
   palette <- paletteCheck(palette)
 
+  objArgs <- zIndexCheck( objArgs, z_index )
+
   ## END PARAMETER CHECKS
 
   allCols <- circleColumns()

@@ -111,6 +111,7 @@ add_rectangles <- function(map,
     objArgs[['info_window']] <- NULL
   }
 
+  objArgs <- zIndexCheck( objArgs, z_index )
   ## END PARAMETER CHECKS
 
   allCols <- rectangleColumns()
