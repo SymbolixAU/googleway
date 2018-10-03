@@ -69,7 +69,7 @@ test_that("directions results are accessed", {
   expect_true(class(direction_instructions(lst)) == "character")
   expect_true(class(direction_routes(lst)) == "data.frame")
   expect_true(class(direction_legs(lst)) == "data.frame")
-  expect_true(class(direction_points(lst)) == "list")
+  expect_true(class(direction_points(lst)) == "character")
   expect_true(direction_polyline(lst) == "bgyeFm}xsZ]FMBCSe@qCeAgF}@gEkC{MqBkKIkAr@_Nd@oIrNtA\\?ZE^QXKFMbF{Jj@cA")
   expect_true(class(direction_steps(lst)) == "data.frame")
 
