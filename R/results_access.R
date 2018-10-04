@@ -143,7 +143,7 @@ lstAccessor <- function(resType){
          "routes"              =  "[[c('routes')]]",
          "legs"                =  "[[c('routes','legs')]][[1]]",
          "steps"               =  "[[c('routes','legs')]][[1]][['steps']][[1]]",
-         "points"             =  "[[c('routes','legs')]][[1]][['steps']]",
+         "points"              =  "[[c('routes','legs')]][[1]][['steps']]",
          "polyline"            =  "[[c('routes','overview_polyline','points')]]",
          "instructions"        =  "[[c('routes','legs')]][[1]][['steps']]",
          "coordinates"         =  "[[c('results','geometry','location')]]",

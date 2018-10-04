@@ -1,3 +1,7 @@
+## Version 2.7.2
+
+* `directions_steps()` and `directions_points()` now iterate nested results
+
 ## Version 2.7.1
 
 * `google_find_place()` function added
