@@ -8,6 +8,8 @@
 [![Build Status](https://travis-ci.org/SymbolixAU/googleway.svg?branch=master)](https://travis-ci.org/SymbolixAU/googleway)
 [![Coverage Status](https://codecov.io/github/SymbolixAU/googleway/coverage.svg?branch=master)](https://codecov.io/github/SymbolixAU/googleway?branch=master)
 
+Homepage: http://symbolixau.github.io/googleway/
+
 Provides a mechanism to access various [Google Maps APIs](https://developers.google.com/maps/), including plotting a Google Map from R and overlaying it with shapes and markers, and retrieving data from the places, directions, roads, distances, geocoding, elevation and timezone APIs.
 
 ![Google Maps](./vignettes/img/polygon_legend.png)
