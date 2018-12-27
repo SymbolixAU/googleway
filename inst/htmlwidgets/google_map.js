@@ -83,7 +83,7 @@ HTMLWidgets.widget({
                         //global map object
                         window[el.id + 'map'] = map;
 
-                        if (google !== undefined) {
+                        if (google !== undefined && google.charts !== undefined ) {
                             //console.log("exists");
                             clearInterval(checkExists);
 
