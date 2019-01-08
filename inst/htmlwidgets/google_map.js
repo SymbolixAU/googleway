@@ -62,8 +62,9 @@ HTMLWidgets.widget({
 
                         if(x.split_view !== null) {
 
-                          //console.log("split view");
-                          //console.log(x.split_view_options);
+                          console.log("split view");
+                          console.log(x.split_view);
+                          console.log(x.split_view_options);
 
                             var panorama = new google.maps.StreetViewPanorama(
                                 document.getElementById(x.split_view), {
@@ -76,7 +77,9 @@ HTMLWidgets.widget({
                                       }
                                 });
 
-                            map.setStreetView(panorama);
+                            map.setStreetView( panorama );
+
+                            window[ el.id + x.split_view ] = panorama;
                         }
 
 
@@ -121,6 +124,38 @@ HTMLWidgets.widget({
 });
 
 
+function update_pano( map_id, pano, lat, lon ) {
+
+
+  var pano = window[ map_id + pano];
+  var map = window[ map_id + 'map'];
+  var center = map.getCenter();
+
+  console.log( pano );
+  pano.setPosition( center );
+  console.log( pano );
+
+  window[ map_id + 'map'].setStreetView( pano );
+
+/*
+  var panorama = new google.maps.StreetViewPanorama(
+      document.getElementById( pano ), {
+          position: {lat: center.lat(), lng: center.lng() },
+          pov: {
+          //    heading: location.heading,
+          //    pitch: location.pitch
+              heading: 34,
+              pitch: 10
+             }
+      });
+*/
+
+
+  //map.setStreetView( panorama );
+  //window[ map_id + 'map'].setStreetView( panorama );
+}
+
+
 
 if (HTMLWidgets.shinyMode) {
 
@@ -157,7 +192,6 @@ if (HTMLWidgets.shinyMode) {
         }
     });
 }
-
 
 
 /**

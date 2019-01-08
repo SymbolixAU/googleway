@@ -5,7 +5,7 @@
 \alias{googleway}
 \title{Google map}
 \usage{
-google_map(key = get_api_key("map"), data = NULL, location = NULL,
+google_map(data = NULL, key = get_api_key("map"), location = NULL,
   zoom = NULL, width = NULL, height = NULL, padding = 0,
   styles = NULL, search_box = FALSE, update_map_view = TRUE,
   zoom_control = TRUE, map_type_control = TRUE,
@@ -15,9 +15,9 @@ google_map(key = get_api_key("map"), data = NULL, location = NULL,
   event_return_type = c("list", "json"))
 }
 \arguments{
-\item{key}{A valid Google Maps API key.}
-
 \item{data}{data to be used on the map. Either a data.frame, or an \code{sf} object. See details}
+
+\item{key}{A valid Google Maps API key.}
 
 \item{location}{\code{numeric} vector of latitude/longitude (in that order)
 coordinates for the initial starting position of the map.

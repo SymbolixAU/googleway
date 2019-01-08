@@ -98,8 +98,8 @@
 #' @seealso \link{google_mapOutput}
 #'
 #' @export
-google_map <- function(key = get_api_key("map"),
-                       data = NULL,
+google_map <- function(data = NULL,
+                       key = get_api_key("map"),
                        location = NULL,
                        zoom = NULL,
                        width = NULL,
@@ -261,6 +261,22 @@ update_style <- function(map, styles = NULL){
 
   invoke_method(map, 'update_style', styles)
 }
+
+#' Update Pano
+#'
+#' @param map
+#' @param pano
+#' @param lat
+#' @param lon
+#'
+#' @export
+update_pano <- function(map, pano, lat, lon) {
+
+  ## TODO( lat & lon can only be single values)
+
+  invoke_method(map, "update_pano", pano, lat, lon)
+}
+
 
 #' Shiny bindings for google_map
 #'
