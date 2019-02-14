@@ -84,6 +84,7 @@ add_heatmap <- function(map,
   ## - max intensity
 
   # objArgs <- match.call(expand.dots = F)
+  objArgs <- list()
   objArgs[["lat"]] <- force( lat )
   objArgs[["lon"]] <- force( lon )
   objArgs[["weight"]] <- force( weight )
