@@ -94,6 +94,10 @@ add_rectangles <- function(map,
 
   #objArgs <- match.call(expand.dots = F)
   objArgs <- list()
+  objArgs[["north"]] <- force( north )
+  objArgs[["east"]] <- force( east )
+  objArgs[["south"]] <- force( south )
+  objArgs[["west"]] <- force( west )
   objArgs[["id"]] <- force( id )
   objArgs[["draggable"]] <- force( draggable )
   objArgs[["editable"]] <- force( editable )

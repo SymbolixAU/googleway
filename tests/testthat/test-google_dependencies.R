@@ -80,7 +80,7 @@ test_that("dependencies load", {
 
   ## RECTANGLES
   m <- google_map(key = "abc", data = tram_stops) %>%
-    add_rectangles()
+    add_rectangles(north = 1, south = 1, west = 1, east = 1)
 
   expect_true("rectangles" %in% sapply(m$dependencies, function(x) x[['name']]))
 

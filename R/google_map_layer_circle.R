@@ -312,6 +312,8 @@ update_circles <- function(map, data, id,
 
   # objArgs <- match.call(expand.dots = F)
 
+  objArgs <- list()
+  objArgs[["id"]] <- force( id )
   objArgs[["radius"]] <- force( radius )
   objArgs[["draggable"]] <- force( draggable )
   objArgs[["stroke_colour"]] <- force( stroke_colour )

@@ -351,6 +351,7 @@ update_polygons <- function(map, data, id,
 
   #objArgs <- match.call(expand.dots = F)
   objArgs <- list()
+  objArgs[["id"]] <- force( id )
   objArgs[["stroke_colour"]] <- force( stroke_colour )
   objArgs[["stroke_weight"]] <- force( stroke_weight )
   objArgs[["stroke_opacity"]] <- force( stroke_opacity )
