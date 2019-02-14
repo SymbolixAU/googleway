@@ -6,6 +6,9 @@
 \usage{
 update_pano(map, pano, lat, lon)
 }
+\arguments{
+\item{lon}{}
+}
 \description{
 Update Pano
 }

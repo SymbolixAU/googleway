@@ -149,7 +149,32 @@ add_polygons <- function(map,
                          focus_layer = FALSE
                          ){
 
-  objArgs <- match.call(expand.dots = F)
+  #objArgs <- match.call(expand.dots = F)
+  objArgs <- list()
+  objArgs[["polyline"]] <- force( polyline )
+  objArgs[["lat"]] <- force( lat )
+  objArgs[["lon"]] <- force( lon )
+  objArgs[["id"]] <- force( id )
+  objArgs[["pathId"]] <- force( pathId )
+  objArgs[["stroke_colour"]] <- force( stroke_colour )
+  objArgs[["stroke_weight"]] <- force( stroke_weight )
+  objArgs[["stroke_opacity"]] <- force( stroke_opacity )
+  objArgs[["fill_colour"]] <- force( fill_colour )
+  objArgs[["fill_opacity"]] <- force( fill_opacity )
+  objArgs[["info_window"]] <- force( info_window )
+  objArgs[["mouse_over"]] <- force( mouse_over )
+  objArgs[["mouse_over_group"]] <- force( mouse_over_group )
+  objArgs[["draggable"]] <- force( draggable )
+  objArgs[["editable"]] <- force( editable )
+  objArgs[["update_map_view"]] <- force( update_map_view )
+  objArgs[["layer_id"]] <- force( layer_id )
+  objArgs[["z_index"]] <- force( z_index )
+  objArgs[["digits"]] <- force( digits )
+  objArgs[["palette"]] <- force( palette )
+  objArgs[["legend"]] <- force( legend )
+  objArgs[["legend_options"]] <- force( legend_options )
+  objArgs[["load_interval"]] <- force( load_interval )
+  objArgs[["focus_layer"]] <- force( focus_layer )
 
   data <- normaliseSfData(data, "POLYGON")
   polyline <- findEncodedColumn(data, polyline)
@@ -324,7 +349,19 @@ update_polygons <- function(map, data, id,
                             legend_options = NULL
                             ){
 
-  objArgs <- match.call(expand.dots = F)
+  #objArgs <- match.call(expand.dots = F)
+  objArgs <- list()
+  objArgs[["stroke_colour"]] <- force( stroke_colour )
+  objArgs[["stroke_weight"]] <- force( stroke_weight )
+  objArgs[["stroke_opacity"]] <- force( stroke_opacity )
+  objArgs[["fill_colour"]] <- force( fill_colour )
+  objArgs[["fill_opacity"]] <- force( fill_opacity )
+  objArgs[["info_window"]] <- force( info_window )
+  objArgs[["layer_id"]] <- force( layer_id )
+  objArgs[["palette"]] <- force( palette )
+  objArgs[["legend"]] <- force( legend )
+  objArgs[["legend_options"]] <- force( legend_options )
+
   #  callingFunc <- as.character(objArgs[[1]])
 
   # data <- normaliseSfData(data, "POLYGON")
