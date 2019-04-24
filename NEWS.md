@@ -1,5 +1,6 @@
 ## Version 2.7.2
 
+* variables can now be used in the map `add_layer()` functions to define column names
 * `z_index` argument handled when passed in as a variable [issue 182](https://github.com/SymbolixAU/googleway/issues/182)
 * `directions_steps()` and `directions_points()` now iterate nested results [issue 183](https://github.com/SymbolixAU/googleway/issues/183)
 
