@@ -49,22 +49,21 @@ function set_polygons2(map_id, polygon, infoWindow, update_map_view, layer_id, u
         Polygon = new google.maps.Polygon({
             id: polygon.id,
             paths: latlng,
-            strokeColor: polygon.stroke_colour,
-            strokeOpacity: polygon.stroke_opacity,
-            strokeWeight: polygon.stroke_weight,
-            fillColor: polygon.fill_colour,
-            fillOpacity: polygon.fill_opacity,
-            fillOpacityHolder: polygon.fill_opacity,
-            mouseOver: polygon.mouse_over,
-            mouseOverGroup: polygon.mouse_over_group,
-            draggable: polygon.draggable,
-            editable: polygon.editable,
-            zIndex: polygon.z_index,
-            chart_type: polygon.chart_type,
-            chart_data: polygon.chart_data,
-            chart_options: polygon.chart_options
+            strokeColor: polygon.properties.stroke_colour,
+            strokeOpacity: polygon.properties.stroke_opacity,
+            strokeWeight: polygon.properties.stroke_weight,
+            fillColor: polygon.properties.fill_colour,
+            fillOpacity: polygon.properties.fill_opacity,
+            fillOpacityHolder: polygon.properties.fill_opacity,
+            mouseOver: polygon.properties.mouse_over,
+            mouseOverGroup: polygon.properties.mouse_over_group,
+            draggable: polygon.properties.draggable,
+            editable: polygon.properties.editable,
+            zIndex: polygon.properties.z_index,
+            chart_type: polygon.properties.chart_type,
+            chart_data: polygon.properties.chart_data,
+            chart_options: polygon.properties.chart_options
         });
-        //console.log(Polygon);
 
         if (polygon.info_window) {
             add_infoWindow(map_id, Polygon, infoWindow, 'info_window', polygon.info_window);
