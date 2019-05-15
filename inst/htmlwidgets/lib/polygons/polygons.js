@@ -1,3 +1,118 @@
+
+function add_polygons2(map_id, data_polygon, update_map_view, layer_id, use_polyline, legendValues, interval, focus) {
+
+    if (focus === true) {
+        clear_bounds(map_id);
+    }
+
+    createWindowObject(map_id, 'googlePolygon', layer_id);
+
+    var i,
+        infoWindow = new google.maps.InfoWindow(),
+        paths = [];
+
+    for (i = 0; i < data_polygon.length; i++) {
+        set_polygons2(map_id, data_polygon[i], infoWindow, update_map_view, layer_id, use_polyline, i * interval);
+    }
+
+    if (legendValues !== false) {
+        add_legend(map_id, layer_id, legendValues);
+    }
+}
+
+function set_polygons2(map_id, polygon, infoWindow, update_map_view, layer_id, use_polyline, timeout) {
+
+    window.setTimeout(function () {
+
+        var j, n,
+            polygonInfo,
+            points,
+            coords = [],
+            latlng = [],
+            Polygon,
+            paths = [];
+
+        if (use_polyline) {
+            for (j = 0; j < polygon.polyline.length; j++) {
+                paths.push(google.maps.geometry.encoding.decodePath(polygon.polyline[j]));
+            }
+        } else {
+            for (j = 0; j < polygon.geometry.geometry.coordinates.length; j++) {
+                coords = polygon.geometry.geometry.coordinates[j];
+                for( k = 0; k < coords.length; k++ ) {
+                    latlng[k] = { lat: coords[k][1], lng: coords[k][0] };
+                }
+            }
+        }
+
+        //https://developers.google.com/maps/documentation/javascript/reference?csw=1#PolygonOptions
+        Polygon = new google.maps.Polygon({
+            id: polygon.id,
+            paths: latlng,
+            strokeColor: polygon.stroke_colour,
+            strokeOpacity: polygon.stroke_opacity,
+            strokeWeight: polygon.stroke_weight,
+            fillColor: polygon.fill_colour,
+            fillOpacity: polygon.fill_opacity,
+            fillOpacityHolder: polygon.fill_opacity,
+            mouseOver: polygon.mouse_over,
+            mouseOverGroup: polygon.mouse_over_group,
+            draggable: polygon.draggable,
+            editable: polygon.editable,
+            zIndex: polygon.z_index,
+            chart_type: polygon.chart_type,
+            chart_data: polygon.chart_data,
+            chart_options: polygon.chart_options
+        });
+        //console.log(Polygon);
+
+        if (polygon.info_window) {
+            add_infoWindow(map_id, Polygon, infoWindow, 'info_window', polygon.info_window);
+        }
+
+        if (polygon.mouse_over || polygon.mouse_over_group) {
+            add_mouseOver(map_id, Polygon, infoWindow, "_mouse_over", polygon.mouse_over, layer_id, 'googlePolygon');
+        }
+
+        polygonInfo = { layerId : layer_id };
+        polygon_click(map_id, Polygon, polygon.id, polygonInfo);
+
+        if (Polygon.editable) {
+          // edit listeners must be set on paths
+            polygon_edited(map_id, Polygon);
+
+          // right-click listener for deleting vetices
+            google.maps.event.addListener(Polygon, 'rightclick', function (event) {
+                if (event.vertex === undefined) {
+                    return;
+                } else {
+                    remove_vertex(event.vertex, Polygon);
+                }
+            });
+        }
+
+        if (Polygon.draggable) {
+            polygon_dragged(map_id, Polygon);
+        }
+
+        window[map_id + 'googlePolygon' + layer_id].push(Polygon);
+        Polygon.setMap(window[map_id + 'map']);
+
+        if (update_map_view === true) {
+
+            points = paths[0];
+
+            for (n = 0; n < points.length; n++) {
+                window[map_id + 'mapBounds'].extend(points[n]);
+            }
+        }
+
+        if (update_map_view === true) {
+            window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+        }
+    }, timeout);
+}
+
 /** Add polygons
  *
  * adds polygons to the map
@@ -5,6 +120,8 @@
  * @param data_polygon
  */
 function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyline, legendValues, interval, focus) {
+
+   console.log( data_polygon );
 
     if (focus === true) {
         clear_bounds(map_id);
@@ -25,6 +142,9 @@ function add_polygons(map_id, data_polygon, update_map_view, layer_id, use_polyl
         add_legend(map_id, layer_id, legendValues);
     }
 }
+
+
+
 
 function set_polygons(map_id, polygon, infoWindow, update_map_view, layer_id, use_polyline, timeout) {
 

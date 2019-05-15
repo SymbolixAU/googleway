@@ -242,6 +242,82 @@ add_polygons <- function(map,
 }
 
 
+add_polygons2 <- function(map,
+                         data = get_map_data(map),
+                         polyline = NULL,
+                         lat = NULL,
+                         lon = NULL,
+                         id = NULL,
+                         pathId = NULL,
+                         stroke_colour = NULL,
+                         stroke_weight = NULL,
+                         stroke_opacity = NULL,
+                         fill_colour = NULL,
+                         fill_opacity = NULL,
+                         info_window = NULL,
+                         mouse_over = NULL,
+                         mouse_over_group = NULL,
+                         draggable = NULL,
+                         editable = NULL,
+                         update_map_view = TRUE,
+                         layer_id = NULL,
+                         z_index = NULL,
+                         digits = 4,
+                         palette = NULL,
+                         legend = F,
+                         legend_options = NULL,
+                         load_interval = 0,
+                         focus_layer = FALSE
+){
+
+  ## TODO
+  ## use lon/lat coordinates and pathId values to define polygons
+  usePolyline <- FALSE
+
+  l <- list()
+  l[["polyline"]] <- force( polyline )
+  l[["stroke_colour"]] <- force( stroke_colour )
+  l[["stroke_width"]] <- force( stroke_weight )
+  l[["stroke_opacity"]] <- resolve_opacity( stroke_opacity )
+  l[["fill_colour"]] <- force( fill_colour )
+  l[["fill_opacity"]] <- resolve_opacity( fill_opacity )
+  l[["info_window"]] <- force( info_window )
+
+  l <- resolve_palette( l, palette )
+  l <- resolve_legend( l, legend )
+  l <- resolve_legend_options( l, legend_options )
+  l <- resolve_data( data, l, c("POLYGON","MULTIPOLYGON") )
+
+
+  if ( !is.null(l[["data"]]) ) {
+    data <- l[["data"]]
+    l[["data"]] <- NULL
+  }
+
+  #layer_id <- layerId(layer_id, "polygon")
+
+  tp <- l[["data_type"]]
+  l[["data_type"]] <- NULL
+
+  jsfunc <- "add_polygons2"
+
+  if ( tp == "sf" ) {
+    geometry_column <- c( "geometry" ) ## This is where we woudl also specify 'origin' or 'destination'
+    shape <- rcpp_polygon_geojson( data, l, geometry_column )
+  } else {
+    stop("not implemented this object yet")
+  }
+
+
+  map <- addDependency(map, googlePolygonDependency())
+
+  invoke_method(
+    map, jsfunc, shape[["data"]], update_map_view, layer_id, usePolyline,
+    shape[["legend"]], load_interval, focus_layer
+    )
+}
+
+
 
 #' Update polygons
 #'

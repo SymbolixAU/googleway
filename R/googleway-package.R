@@ -1,3 +1,6 @@
+#' @importFrom Rcpp sourceCpp
+#' @useDynLib googleway, .registration = TRUE
+NULL
 
 ## TODO:
 ## - plot bbox as rectangle (if requested?)

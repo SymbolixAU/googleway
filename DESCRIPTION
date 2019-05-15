@@ -29,7 +29,8 @@ Imports:
     viridisLite,
     scales,
     grDevices,
-    googlePolylines (>= 0.7.1)
+    googlePolylines (>= 0.7.1),
+    Rcpp
 RoxygenNote: 6.1.1
 BugReports: https://github.com/SymbolixAU/googleway/issues
 Suggests:
@@ -38,3 +39,11 @@ Suggests:
     testthat
 VignetteBuilder: knitr
 Encoding: UTF-8
+LinkingTo: 
+    BH,
+    colourvalues,
+    geojsonsf,
+    jsonify,
+    rapidjsonr,
+    Rcpp,
+    spatialwidget (>= 0.2.1)
