@@ -16,6 +16,7 @@ function add_polygons2(map_id, data_polygon, update_map_view, layer_id, use_poly
     }
 
     if (legendValues !== false) {
+        console.log( "adding legend? ");
         add_legend(map_id, layer_id, legendValues);
     }
 }
@@ -42,13 +43,14 @@ function set_polygons2(map_id, polygon, infoWindow, update_map_view, layer_id, u
                 for( k = 0; k < coords.length; k++ ) {
                     latlng[k] = { lat: coords[k][1], lng: coords[k][0] };
                 }
+                paths.push( latlng );
             }
         }
 
         //https://developers.google.com/maps/documentation/javascript/reference?csw=1#PolygonOptions
         Polygon = new google.maps.Polygon({
             id: polygon.id,
-            paths: latlng,
+            paths: paths,
             strokeColor: polygon.properties.stroke_colour,
             strokeOpacity: polygon.properties.stroke_opacity,
             strokeWeight: polygon.properties.stroke_weight,

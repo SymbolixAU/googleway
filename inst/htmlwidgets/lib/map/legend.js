@@ -5,7 +5,13 @@ function add_legend(map_id, layer_id, legendValues) {
 
   var i = 0;
 
+  console.log( legendValues );
+  console.log( legendValues.length );
+
   for (i = 0; i < legendValues.length; i++) {
+
+    console.log( legendValues[i].type );
+
     if (legendValues[i].type === "category") {
       add_legend_category(map_id, layer_id, legendValues[i]);
     } else {

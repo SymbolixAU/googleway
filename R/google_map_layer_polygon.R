@@ -282,6 +282,10 @@ add_polygons2 <- function(map,
   l[["fill_colour"]] <- force( fill_colour )
   l[["fill_opacity"]] <- resolve_opacity( fill_opacity )
   l[["info_window"]] <- force( info_window )
+  l[["mouse_over"]] <- force( mouse_over )
+  l[["mouse_over_group"]] <- force( mouse_over_group)
+  l[["editable"]] <- force( editable )
+  l[["draggable"]] <- force( draggable )
 
   l <- resolve_palette( l, palette )
   l <- resolve_legend( l, legend )
