@@ -3,25 +3,20 @@ function add_legend(map_id, layer_id, legendValues) {
 
   'use strict';
 
-  var i = 0;
+    var this_legend;
+    Object.keys( legendValues ).forEach( function(key) {
 
-  console.log( legendValues );
-  console.log( legendValues.length );
+        this_legend = legendValues[ key ];
 
-  for (i = 0; i < legendValues.length; i++) {
+        if ( this_legend.colour !== undefined ) {
+            if ( this_legend.type[0] === "category" || this_legend.colour.length == 1 ) {
+                add_legend_category( map_id, layer_id, this_legend );
+            } else {
+                add_legend_gradient( map_id, layer_id, this_legend);
+            }
+        }
+    });
 
-    console.log( legendValues[i].type );
-
-    if (legendValues[i].type === "category") {
-      add_legend_category(map_id, layer_id, legendValues[i]);
-    } else {
-      if (legendValues[i].legend.colour.length === 1) {
-        add_legend_category(map_id, layer_id, legendValues[i]);
-      } else {
-        add_legend_gradient(map_id, layer_id, legendValues[i]);
-      }
-    }
-  }
 }
 
 function add_legend_gradient(map_id, layer_id, legendValues) {
@@ -71,8 +66,8 @@ function add_legend_gradient(map_id, layer_id, legendValues) {
         window[map_id + 'legend' + layer_id + legendValues.colourType].setAttribute('style', legendValues.css);
     }
 
-    for (i = 0; i < legendValues.legend.colour.length; i++) {
-        jsColours.push(legendValues.legend.colour[i]);
+    for (i = 0; i < legendValues.colour.length; i++) {
+        jsColours.push(legendValues.colour[i]);
     }
 
     colours = '(' + jsColours.join() + ')';
@@ -87,7 +82,7 @@ function add_legend_gradient(map_id, layer_id, legendValues) {
     legendColours.setAttribute('style', style);
     legendContent.appendChild(legendColours);
 
-    for (i = 0; i < legendValues.legend.colour.length; i++) {
+    for (i = 0; i < legendValues.colour.length; i++) {
 
         var legendValue = 'text-align: left; color: ' + legendTextColour + '; font-size: 12px; height: 20px;',
             divTicks = document.createElement('div'),
@@ -98,7 +93,7 @@ function add_legend_gradient(map_id, layer_id, legendValues) {
         tickContainer.appendChild(divTicks);
 
         divVal.setAttribute('style', legendValue);
-        divVal.innerHTML = legendValues.legend.variable[i];
+        divVal.innerHTML = legendValues.variable[i];
         labelContainer.appendChild(divVal);
     }
 
@@ -181,7 +176,7 @@ function add_legend_category(map_id, layer_id, legendValues) {
         window[map_id + 'legend' + layer_id + legendValues.colourType].setAttribute('style', legendValues.css);
     }
 
-    for (i = 0; i < legendValues.legend.colour.length; i++) {
+    for (i = 0; i < legendValues.colour.length; i++) {
 
         var tickVal = 'text-left: center; color: ' + legendTextColour + '; font-size: 12px; height: 20px;',
             divCol = document.createElement('div'),
@@ -189,7 +184,7 @@ function add_legend_category(map_id, layer_id, legendValues) {
             divVal = document.createElement('div');
 
         //colourBox = 'height: 20px; width: 15px; background: ' + legendValues.legend.colour[i];
-        colourBox = generateColourBox(legendValues.colourType, legendValues.legend.colour[i]);
+        colourBox = generateColourBox(legendValues.colourType, legendValues.colour[i]);
         divCol.setAttribute('style', colourBox);
         colourContainer.appendChild(divCol);
 
@@ -198,7 +193,7 @@ function add_legend_category(map_id, layer_id, legendValues) {
         tickContainer.appendChild(divTicks);
 
         divVal.setAttribute('style', tickVal);
-        divVal.innerHTML = legendValues.legend.variable[i];
+        divVal.innerHTML = legendValues.variable[i];
         labelContainer.appendChild(divVal);
     }
 

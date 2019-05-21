@@ -16,7 +16,6 @@ function add_polygons2(map_id, data_polygon, update_map_view, layer_id, use_poly
     }
 
     if (legendValues !== false) {
-        console.log( "adding legend? ");
         add_legend(map_id, layer_id, legendValues);
     }
 }
