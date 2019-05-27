@@ -177,7 +177,7 @@ longitude_column <- function(data, lon, calling_function){
 # @param stopOnFailure logical
 find_lat_column = function(names, calling_function, stopOnFailure = TRUE) {
 
-  lats = names[grep("^(lat|lats|latitude|latitudes|stop_lat|shape_pt_lon)$", names, ignore.case = TRUE)]
+  lats = names[grep("^(lat|lats|latitude|latitudes|stop_lat|shape_pt_lat)$", names, ignore.case = TRUE)]
 
   if (length(lats) == 1) {
     # return(list(lat = lats))
