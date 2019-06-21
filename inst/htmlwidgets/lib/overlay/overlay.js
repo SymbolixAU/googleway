@@ -1,4 +1,4 @@
-function add_overlay (map_id, data_overlay, layer_id) {
+function add_overlay (map_id, data_overlay, update_map_view, layer_id) {
 
     //console.log("adding overlay");
     createWindowObject(map_id, 'googleOverlay', layer_id);
@@ -18,14 +18,15 @@ function add_overlay (map_id, data_overlay, layer_id) {
         bounds
     );
 
+    window[map_id + 'googleOverlay' + layer_id].push(overlayLayer);
     overlayLayer.setMap(window[map_id + 'map']);
 
-    window[map_id + 'mapBounds'].extend(latlonNorthEast);
-    window[map_id + 'mapBounds'].extend(latlonSouthWest);
+    if (update_map_view === true) {
+        window[map_id + 'mapBounds'].extend(latlonNorthEast);
+        window[map_id + 'mapBounds'].extend(latlonSouthWest);
 
-    window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
-    window[map_id + 'googleOverlay' + layer_id].push(overlayLayer);
-
+        window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+    }
 }
 
 
