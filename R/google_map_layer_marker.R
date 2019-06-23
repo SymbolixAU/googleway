@@ -1,11 +1,12 @@
 
 googleMarkerDependency <- function() {
   list(
-    htmltools::htmlDependency(
-      "markers",
-      "1.0.0",
-      system.file("htmlwidgets/lib/markers", package = "googleway"),
-      script = c("markers.js", "markerclusterer.js")
+    createHtmlDependency(
+      name = "markers",
+      version = "1.0.0",
+      src = system.file("htmlwidgets/lib/markers", package = "googleway"),
+      script = c("markers.js", "markerclusterer.js"),
+      all_files = FALSE
     )
   )
 }

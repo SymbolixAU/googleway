@@ -1,10 +1,11 @@
 googleDrawingDependency <- function() {
   list(
-    htmltools::htmlDependency(
-      "drawing",
-      "1.0.0",
-      system.file("htmlwidgets/lib/drawing", package = "googleway"),
-      script = c("drawing.js")
+    createHtmlDependency(
+      name = "drawing",
+      version = "1.0.0",
+      src = system.file("htmlwidgets/lib/drawing", package = "googleway"),
+      script = c("drawing.js"),
+      all_files = FALSE
     )
   )
 }

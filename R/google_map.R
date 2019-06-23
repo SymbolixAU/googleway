@@ -27,7 +27,7 @@
 #' @param street_view_control logical indicating if the street view control should be displayed
 #' @param rotate_control logical indicating if the rotate control should be displayed
 #' @param fullscreen_control logical indicating if the full screen control should be displayed
-#' @param libraries vector containgin the libraries you want to load. See details
+#' @param libraries vector containing the libraries you want to load. See details
 #' @param split_view string giving the name of a UI output element in which to place
 #' a streetview representation of the map. Will only work in an interactive environment (shiny).
 #' @param split_view_options list of options to pass to the split street view.
@@ -130,8 +130,6 @@ google_map <- function(data = NULL,
   logicalCheck(geolocation)
   event_return_type <- match.arg(event_return_type)
 
-  # split_view_options = list(heading = 34,
-  #                            pitch = 10)
   split_view_options <- splitViewOptions(split_view_options)
 
   if(is.null(libraries))
@@ -192,10 +190,10 @@ google_map <- function(data = NULL,
   googlemap$dependencies <- c(
     googlemap$dependencies,
     list(
-      htmltools::htmlDependency(
+      createHtmlDependency(
         name = "googleway",
         version = "9999",
-        src=".",
+        src= ".",
         head = header,
         all_files = FALSE
         )
