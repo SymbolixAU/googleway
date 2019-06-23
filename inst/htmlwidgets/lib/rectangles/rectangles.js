@@ -3,7 +3,7 @@ function add_rectangles(map_id, data_rectangles, update_map_view, layer_id, lege
     if (focus === true) {
         clear_bounds(map_id);
     }
-    
+
     var i,
         infoWindow = new google.maps.InfoWindow();
 
@@ -38,10 +38,10 @@ function set_rectangle(map_id, rectangle, infoWindow, update_map_view, layer_id,
                 editable: rectangle.editable,
                 //radius: rectangle.radius,
                 mouseOverGroup: rectangle.mouse_over_group,
-                zIndex: rectangle.z_index,
-                chart_type: aMarker.chart_type,
-                chart_data: aMarker.chart_data,
-                chart_options: aMarker.chart_options
+                zIndex: rectangle.z_index
+                //chart_type: aMarker.chart_type,
+                //chart_data: aMarker.chart_data,
+                //chart_options: aMarker.chart_options
             });
 
         window[map_id + 'googleRectangles' + layer_id].push(Rectangle);

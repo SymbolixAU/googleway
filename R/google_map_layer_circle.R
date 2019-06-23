@@ -1,10 +1,11 @@
 googleCircleDependency <- function() {
   list(
-    htmltools::htmlDependency(
-      "circles",
-      "1.0.0",
-      system.file("htmlwidgets/lib/circles", package = "googleway"),
-      script = c("circles.js")
+    createHtmlDependency(
+      name = "circles",
+      version = "1.0.0",
+      src = system.file("htmlwidgets/lib/circles", package = "googleway"),
+      script = c("circles.js"),
+      all_files = FALSE
     )
   )
 }

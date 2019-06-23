@@ -1,10 +1,11 @@
 googleGeojsonDependency <- function() {
   list(
-    htmltools::htmlDependency(
-      "geojson",
-      "1.0.0",
-      system.file("htmlwidgets/lib/geojson", package = "googleway"),
-      script = c("geojson.js")
+    createHtmlDependency(
+      name = "geojson",
+      version = "1.0.0",
+      src = system.file("htmlwidgets/lib/geojson", package = "googleway"),
+      script = c("geojson.js"),
+      all_files = FALSE
     )
   )
 }

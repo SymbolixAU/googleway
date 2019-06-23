@@ -1,10 +1,11 @@
 googleOverlayDependency <- function() {
   list(
-    htmltools::htmlDependency(
-      "overlay",
-      "1.0.0",
-      system.file("htmlwidgets/lib/overlay", package = "googleway"),
-      script = c("overlay.js")
+    createHtmlDependency(
+      name = "overlay",
+      version = "1.0.0",
+      src = system.file("htmlwidgets/lib/overlay", package = "googleway"),
+      script = c("overlay.js"),
+      all_files = FALSE
     )
   )
 }

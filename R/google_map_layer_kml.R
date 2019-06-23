@@ -1,10 +1,11 @@
 googleKmlDependency <- function() {
   list(
-    htmltools::htmlDependency(
-      "kml",
-      "1.0.0",
-      system.file("htmlwidgets/lib/kml", package = "googleway"),
-      script = c("kml.js")
+    createHtmlDependency(
+      name = "kml",
+      version = "1.0.0",
+      src = system.file("htmlwidgets/lib/kml", package = "googleway"),
+      script = c("kml.js"),
+      all_files = FALSE
     )
   )
 }
