@@ -307,7 +307,7 @@ add_polygons2 <- function(map,
   jsfunc <- "add_polygons2"
 
   if ( tp == "sf" ) {
-    geometry_column <- c( "geometry" ) ## This is where we woudl also specify 'origin' or 'destination'
+    geometry_column <- c( "geometry" )
     shape <- rcpp_polygon_geojson( data, l, geometry_column )
   } else {
     stop("not implemented this object yet")
