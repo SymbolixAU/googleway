@@ -51,7 +51,7 @@ See the Google documentation for details \url{https://developers.google.com/maps
 
 \item{fullscreen_control}{logical indicating if the full screen control should be displayed}
 
-\item{libraries}{vector containgin the libraries you want to load. See details}
+\item{libraries}{vector containing the libraries you want to load. See details}
 
 \item{split_view}{string giving the name of a UI output element in which to place
 a streetview representation of the map. Will only work in an interactive environment (shiny).}

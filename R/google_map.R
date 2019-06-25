@@ -190,7 +190,7 @@ google_map <- function(data = NULL,
   googlemap$dependencies <- c(
     googlemap$dependencies,
     list(
-      createHtmlDependency(
+      htmltools::htmlDependency(
         name = "googleway",
         version = "9999",
         src= ".",
