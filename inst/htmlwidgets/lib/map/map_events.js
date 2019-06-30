@@ -46,6 +46,8 @@ function bounds_changed(map_id, mapObject, mapInfo) {
         northEastLon: mapObject.getBounds().getNorthEast().lng(),
         southWestLat: mapObject.getBounds().getSouthWest().lat(),
         southWestLon: mapObject.getBounds().getSouthWest().lng(),
+        centerLat: mapObject.getCenter().lat(),
+        centerLon: mapObject.getCenter().lng(),
         randomValue: Math.random()
       },
       mapInfo
@@ -62,11 +64,13 @@ function zoom_changed(map_id, mapObject, mapInfo) {
   if (!HTMLWidgets.shinyMode) {
     return;
   }
-  google.maps.event.addListener(mapObject, 'bounds_changed', function (event) {
+  google.maps.event.addListener(mapObject, 'zoom_changed', function (event) {
     var eventInfo = $.extend(
       {
         id: map_id,
         zoom: mapObject.getZoom(),
+        centerLat: mapObject.getCenter().lat(),
+        centerLon: mapObject.getCenter().lng(),
         randomValue: Math.random()
        },
       mapInfo
