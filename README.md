@@ -19,7 +19,7 @@ Provides a mechanism to access various [Google Maps APIs](https://developers.goo
 see [News](https://github.com/SymbolixAU/googleway/blob/master/NEWS.md) for a full list of changes and additions
 
 
-See the [**vignette**](https://github.com/SymbolixAU/googleway/blob/master/vignettes/googleway-vignette.Rmd) for instructions and examples.
+See the [**vignette**](http://symbolixau.github.io/googleway/articles/googleway-vignette.html) for instructions and examples.
 
 ## v2.7.0001+ (dev)
 
