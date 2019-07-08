@@ -120,7 +120,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>google_map</span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='fu'>get_api_key</span>(<span class='st'>"map"</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>location</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>google_map</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='fu'>get_api_key</span>(<span class='st'>"map"</span>), <span class='kw'>location</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>zoom</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>padding</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>styles</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>search_box</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>update_map_view</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>zoom_control</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>map_type_control</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -133,12 +133,12 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>key</th>
-      <td><p>A valid Google Maps API key.</p></td>
-    </tr>
-    <tr>
       <th>data</th>
       <td><p>data to be used on the map. Either a data.frame, or an <code>sf</code> object. See details</p></td>
+    </tr>
+    <tr>
+      <th>key</th>
+      <td><p>A valid Google Maps API key.</p></td>
     </tr>
     <tr>
       <th>location</th>
@@ -202,7 +202,7 @@ See the Google documentation for details <a href='https://developers.google.com/
     </tr>
     <tr>
       <th>libraries</th>
-      <td><p>vector containgin the libraries you want to load. See details</p></td>
+      <td><p>vector containing the libraries you want to load. See details</p></td>
     </tr>
     <tr>
       <th>split_view</th>

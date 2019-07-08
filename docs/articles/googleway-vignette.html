@@ -76,7 +76,7 @@
       <h1>Googleway Vignette</h1>
                         <h4 class="author">D Cooley</h4>
             
-            <h4 class="date">2018-12-11</h4>
+            <h4 class="date">2019-07-08</h4>
       
       
       <div class="hidden name"><code>googleway-vignette.Rmd</code></div>
@@ -203,11 +203,11 @@
 <p>All the API functions have a <code>key</code> argument which you can use to provide your API key. Alternatively, you can use <code><a href="../reference/set_key.html">set_key()</a></code> to set the key once, and make it available for all further API calls.</p>
 <p>If you use one key for all API calls you can just provide the <code>key</code> argument (it will automatically get set as your default key).</p>
 <p>If you use many different keys, you can specify which API they are for in the <code>api</code> argument.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(googleway)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">## not specifying the api will add the key as your 'default'</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">key &lt;-<span class="st"> "my_api_key"</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw"><a href="../reference/set_key.html">set_key</a></span>(<span class="dt">key =</span> key)</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw"><a href="../reference/google_keys.html">google_keys</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(googleway)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="co">## not specifying the api will add the key as your 'default'</span></a>
+<a class="sourceLine" id="cb1-3" title="3">key &lt;-<span class="st"> "my_api_key"</span></a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="kw"><a href="../reference/set_key.html">set_key</a></span>(<span class="dt">key =</span> key)</a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="kw"><a href="../reference/google_keys.html">google_keys</a></span>()</a></code></pre></div>
 <pre><code>## Google API keys
 ##  -  default : my_api_key 
 ##  -  map :  
@@ -223,11 +223,11 @@
 ##  -  roads :  
 ##  -  streetview :  
 ##  -  timezone :</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">## specifying the specific API will only make that key available for that API.</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="../reference/clear_keys.html">clear_keys</a></span>() <span class="co">## clear any previously set keys</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">key &lt;-<span class="st"> "my_api_key"</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw"><a href="../reference/set_key.html">set_key</a></span>(<span class="dt">key =</span> key, <span class="dt">api =</span> <span class="st">"directions"</span>)</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw"><a href="../reference/google_keys.html">google_keys</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="co">## specifying the specific API will only make that key available for that API.</span></a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="../reference/clear_keys.html">clear_keys</a></span>() <span class="co">## clear any previously set keys</span></a>
+<a class="sourceLine" id="cb3-3" title="3">key &lt;-<span class="st"> "my_api_key"</span></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="kw"><a href="../reference/set_key.html">set_key</a></span>(<span class="dt">key =</span> key, <span class="dt">api =</span> <span class="st">"directions"</span>)</a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="kw"><a href="../reference/google_keys.html">google_keys</a></span>()</a></code></pre></div>
 <pre><code>## Google API keys
 ##  -  default :  
 ##  -  map :  
@@ -384,10 +384,10 @@ df &lt;- google_directions(origin = "Melbourne, Australia",
 pl
 # [1] "rqxeF_cxsZgr@xmCekBhMunGnWc_Ank@vBpyCqjAfbAqmBjXydAe{AoF{oEgTqjGur@ch@qfAhUuiCww@}kEtOepAtdD{dDf~BsgIuj@}tHi{C{bGg{@{rGsmG_bDbW{wCuTyiBajBytF_oAyaI}K}bEkqA{jDg^epJmbB{gC}v@i~D`@gkGmJ_kEojD_O{`FqvCetE}bGgbDm_BqpD}pEqdGiaBo{FglEg_Su~CegHw`Cm`Hv[mxFwaAisAklCuUgzAqmCalJajLqfDedHgyC_yHibCizK~Xo_DuqAojDshAeaEpg@g`Dy|DgtNswBcgDiaAgEqgBozB{jEejQ}p@ckIc~HmvFkgAsfGmjCcaJwwD}~AycCrx@skCwUqwN{yKygH}nF_qAgyOep@slIehDcmDieDkoEiuCg|LrKo~Eb}Bw{Ef^klG_AgdFqvAaxBgoDeqBwoDypEeiFkjBa|Ks}@gr@c}IkE_qEqo@syCgG{iEazAmeBmeCqvA}rCq_AixEemHszB_SisB}mEgeEenCqeDab@iwAmZg^guB}cCk_F_iAmkGsu@abDsoBylBk`Bm_CsfD{jFgrAerB{gDkw@{|EacB_jDmmAsjC{yBsyFaqFqfEi_Ei~C{yAmwFt{B{fBwKql@onBmtCq`IomFmdGueD_kDssAwsCyqDkx@e\\kwEyUstC}uAe|Ac|BakGpGkfGuc@qnDguBatBot@}kD_pBmmCkdAgkB}jBaIyoC}xAexHka@cz@ahCcfCayBqvBgtBsuDxb@yiDe{Ikt@c{DwhBydEynDojCapAq}AuAksBxPk{EgPgkJ{gA}tGsJezKbcAcdK__@uuBn_AcuGsjDwvC_|AwbE}~@wnErZ{nGr_@stEjbDakFf_@clDmKkwBbpAi_DlgA{lArLukCBukJol@w~DfCcpBwnAghCweA}{EmyAgaEbNybGeV}kCtjAq{EveBwuHlb@gyIg\\gmEhBw{G{dAmpHp_@a|MsnCcuGy~@agIe@e`KkoA}lBspBs^}sAmgIdpAumE{Y_|Oe|CioKouFwuIqnCmlDoHamBiuAgnDqp@yqIkmEqaIozAohAykDymA{uEgiE}fFehBgnCgrGmwCkiLurBkhL{jHcrGs}GkhFwpDezGgjEe_EsoBmm@g}KimLizEgbA{~DwfCwvFmhBuvBy~DsqCicBatC{z@mlCkkDoaDw_BagA}|Bii@kgCpj@}{E}b@cuJxQwkK}j@exF`UanFzM{fFumB}fCirHoTml@CoAh`A"</code></pre>
 <p>Having retrieved the polyline, you can decode it into latitude and longitude coordinates using <code><a href="../reference/decode_pl.html">decode_pl()</a></code>.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">polyline &lt;-<span class="st"> "rqxeF_cxsZgr@xmCekBhMunGnWc_Ank@vBpyCqjAfbAqmBjXydAe{AoF{oEgTqjGur@ch@qfAhUuiCww@}kEtOepAtdD{dDf~BsgIuj@}tHi{C{bGg{@{rGsmG_bDbW{wCuTyiBajBytF_oAyaI}K}bEkqA{jDg^epJmbB{gC}v@i~D`@gkGmJ_kEojD_O{`FqvCetE}bGgbDm_BqpD}pEqdGiaBo{FglEg_Su~CegHw`Cm`Hv[mxFwaAisAklCuUgzAqmCalJajLqfDedHgyC_yHibCizK~Xo_DuqAojDshAeaEpg@g`Dy|DgtNswBcgDiaAgEqgBozB{jEejQ}p@ckIc~HmvFkgAsfGmjCcaJwwD}~AycCrx@skCwUqwN{yKygH}nF_qAgyOep@slIehDcmDieDkoEiuCg|LrKo~Eb}Bw{Ef^klG_AgdFqvAaxBgoDeqBwoDypEeiFkjBa|Ks}@gr@c}IkE_qEqo@syCgG{iEazAmeBmeCqvA}rCq_AixEemHszB_SisB}mEgeEenCqeDab@iwAmZg^guB}cCk_F_iAmkGsu@abDsoBylBk`Bm_CsfD{jFgrAerB{gDkw@{|EacB_jDmmAsjC{yBsyFaqFqfEi_Ei~C{yAmwFt{B{fBwKql@onBmtCq`IomFmdGueD_kDssAwsCyqDkx@e</span><span class="ch">\\</span><span class="st">kwEyUstC}uAe|Ac|BakGpGkfGuc@qnDguBatBot@}kD_pBmmCkdAgkB}jBaIyoC}xAexHka@cz@ahCcfCayBqvBgtBsuDxb@yiDe{Ikt@c{DwhBydEynDojCapAq}AuAksBxPk{EgPgkJ{gA}tGsJezKbcAcdK__@uuBn_AcuGsjDwvC_|AwbE}~@wnErZ{nGr_@stEjbDakFf_@clDmKkwBbpAi_DlgA{lArLukCBukJol@w~DfCcpBwnAghCweA}{EmyAgaEbNybGeV}kCtjAq{EveBwuHlb@gyIg</span><span class="ch">\\</span><span class="st">gmEhBw{G{dAmpHp_@a|MsnCcuGy~@agIe@e`KkoA}lBspBs^}sAmgIdpAumE{Y_|Oe|CioKouFwuIqnCmlDoHamBiuAgnDqp@yqIkmEqaIozAohAykDymA{uEgiE}fFehBgnCgrGmwCkiLurBkhL{jHcrGs}GkhFwpDezGgjEe_EsoBmm@g}KimLizEgbA{~DwfCwvFmhBuvBy~DsqCicBatC{z@mlCkkDoaDw_BagA}|Bii@kgCpj@}{E}b@cuJxQwkK}j@exF`UanFzM{fFumB}fCirHoTml@CoAh`A"</span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/decode_pl.html">decode_pl</a></span>(polyline)</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(df)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">polyline &lt;-<span class="st"> "rqxeF_cxsZgr@xmCekBhMunGnWc_Ank@vBpyCqjAfbAqmBjXydAe{AoF{oEgTqjGur@ch@qfAhUuiCww@}kEtOepAtdD{dDf~BsgIuj@}tHi{C{bGg{@{rGsmG_bDbW{wCuTyiBajBytF_oAyaI}K}bEkqA{jDg^epJmbB{gC}v@i~D`@gkGmJ_kEojD_O{`FqvCetE}bGgbDm_BqpD}pEqdGiaBo{FglEg_Su~CegHw`Cm`Hv[mxFwaAisAklCuUgzAqmCalJajLqfDedHgyC_yHibCizK~Xo_DuqAojDshAeaEpg@g`Dy|DgtNswBcgDiaAgEqgBozB{jEejQ}p@ckIc~HmvFkgAsfGmjCcaJwwD}~AycCrx@skCwUqwN{yKygH}nF_qAgyOep@slIehDcmDieDkoEiuCg|LrKo~Eb}Bw{Ef^klG_AgdFqvAaxBgoDeqBwoDypEeiFkjBa|Ks}@gr@c}IkE_qEqo@syCgG{iEazAmeBmeCqvA}rCq_AixEemHszB_SisB}mEgeEenCqeDab@iwAmZg^guB}cCk_F_iAmkGsu@abDsoBylBk`Bm_CsfD{jFgrAerB{gDkw@{|EacB_jDmmAsjC{yBsyFaqFqfEi_Ei~C{yAmwFt{B{fBwKql@onBmtCq`IomFmdGueD_kDssAwsCyqDkx@e</span><span class="ch">\\</span><span class="st">kwEyUstC}uAe|Ac|BakGpGkfGuc@qnDguBatBot@}kD_pBmmCkdAgkB}jBaIyoC}xAexHka@cz@ahCcfCayBqvBgtBsuDxb@yiDe{Ikt@c{DwhBydEynDojCapAq}AuAksBxPk{EgPgkJ{gA}tGsJezKbcAcdK__@uuBn_AcuGsjDwvC_|AwbE}~@wnErZ{nGr_@stEjbDakFf_@clDmKkwBbpAi_DlgA{lArLukCBukJol@w~DfCcpBwnAghCweA}{EmyAgaEbNybGeV}kCtjAq{EveBwuHlb@gyIg</span><span class="ch">\\</span><span class="st">gmEhBw{G{dAmpHp_@a|MsnCcuGy~@agIe@e`KkoA}lBspBs^}sAmgIdpAumE{Y_|Oe|CioKouFwuIqnCmlDoHamBiuAgnDqp@yqIkmEqaIozAohAykDymA{uEgiE}fFehBgnCgrGmwCkiLurBkhL{jHcrGs}GkhFwpDezGgjEe_EsoBmm@g}KimLizEgbA{~DwfCwvFmhBuvBy~DsqCicBatC{z@mlCkkDoaDw_BagA}|Bii@kgCpj@}{E}b@cuJxQwkK}j@exF`UanFzM{fFumB}fCirHoTml@CoAh`A"</span></a>
+<a class="sourceLine" id="cb10-2" title="2"></a>
+<a class="sourceLine" id="cb10-3" title="3">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/decode_pl.html">decode_pl</a></span>(polyline)</a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(df)</a></code></pre></div>
 <pre><code>##         lat      lon
 ## 1 -37.81418 144.9632
 ## 2 -37.80598 144.9404
@@ -396,7 +396,7 @@ pl
 ## 5 -37.73494 144.9270
 ## 6 -37.73554 144.9023</code></pre>
 <p>And, of course, to encode a series of lat/lon coordinates you use <code><a href="../reference/encode_pl.html">encode_pl()</a></code></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="../reference/encode_pl.html">encode_pl</a></span>(<span class="dt">lat =</span> df<span class="op">$</span>lat, <span class="dt">lon =</span> df<span class="op">$</span>lon)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="../reference/encode_pl.html">encode_pl</a></span>(<span class="dt">lat =</span> df<span class="op">$</span>lat, <span class="dt">lon =</span> df<span class="op">$</span>lon)</a></code></pre></div>
 <pre><code>## [1] "pqxeF}bxsZer@vmCgkBlMunGjWc_Apk@vBpyCqjAfbAqmBjXydAg{AoFyoEgTojGsr@gh@sfAhUuiCuw@}kEtOepAvdD{dDd~BsgIuj@{tHi{C{bGg{@{rGsmGabDbW{wCuTwiBajBytFaoA{aI{K{bEkqA{jDg^gpJkbB{gC_w@g~D`@ikGmJ_kEojD_O}`FqvCctE}bGgbDk_BspD_qEodGgaBo{FilEi_Su~CcgHw`Cm`Hv[mxFwaAisAklCuUgzAsmCalJajLqfDcdHgyCayHibCezK~Xo_DuqAqjDshAeaEpg@g`Dy|DgtNqwBegDkaAeEogBozB{jEejQ_q@ckIc~HkvFkgAufGmjCcaJwwD}~AycCrx@skCwUqwN}yKygH}nF}pAgyOep@qlIghDemDgeDkoEkuCc|LtKq~E`}Bw{Ef^klG}@gdFsvAcxBeoDcqByoDypEciFkjBc|Ku}@gr@a}IkE_qEoo@syCgG}iEczAkeBmeCqvA}rCq_AgxEgmHszB}RksB}mEgeEgnCoeD_b@iwAmZi^guB}cCm_F_iAikGsu@cbDsoB{lBk`Bi_CsfD}jFerAgrB{gDiw@}|EacB_jDkmAsjC}yBsyFaqFofEk_Ei~C{yAowFv{ByfBwKsl@onBktCq`IqmFmdGueDakDssAssCyqDmx@e\\kwEyUstC}uAe|Ac|BakGpGmfGuc@mnDguBctBmt@}kDapBmmCkdAgkB}jBcIyoC}xAexHia@cz@ahCafCayBqvBitBuuDzb@wiDe{Imt@e{DwhBwdEynDqjCapAo}AuAmsBzPi{EiPgkJ{gA}tGsJezKbcAcdK__@wuBn_AauGsjDwvC_|AybE{~@unEpZ{nGt_@stEhbDakFh_@elDoKiwBdpAi_DjgAylArLykCDukJql@u~DfCepBwnAghCweA{{EmyAgaEbN{bGcV{kCrjAq{EveByuHlb@eyIg\\gmEhBw{GydAopHn_@_|MsnCcuGw~@agIg@e`KkoA}lBspBu^}sAmgIfpAsmE}Ya|Oc|CgoKouFwuIsnCmlDmHamBkuAinDop@wqIkmEsaIqzAmhAwkD{mA}uEciE}fFghBenCirGowCgiLsrBmhL}jHerGs}GihFupDezGgjEg_EuoBim@g}KmmLizEebAy~DwfCyvFmhBuvBy~DsqCicBatC{z@klCkkDqaDw_BagA}|Bii@kgCpj@}{E{b@cuJxQwkK}j@exF~TanFzM{fFumB_gCirHmTml@AoAd`A"</code></pre>
 <hr>
 </div>
@@ -810,7 +810,7 @@ google_map(key = map_key) %&gt;%
 <li>Rows of nested polylines in a list column. Each row represents a polygon, and each polyline in the list represents the paths that make up the polygon.</li>
 </ul>
 <p>The <code>melbourne</code> data set provided with <code>googleway</code> is a <code>data.frame</code> of polygons of Melbourne and the surrounding suburbs. The coordinates of the polygons are encoded in to polylines.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">melbourne[melbourne<span class="op">$</span>polygonId <span class="op">==</span><span class="st"> </span><span class="dv">338</span> <span class="op">&amp;</span><span class="st"> </span>melbourne<span class="op">$</span>pathId <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>), ]</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1">melbourne[melbourne<span class="op">$</span>polygonId <span class="op">==</span><span class="st"> </span><span class="dv">338</span> <span class="op">&amp;</span><span class="st"> </span>melbourne<span class="op">$</span>pathId <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>), ]</a></code></pre></div>
 <pre><code>##     polygonId pathId     SA2_NAME             SA3_NAME
 ## 386       338      1 Point Nepean Mornington Peninsula
 ## 387       338      2 Point Nepean Mornington Peninsula
@@ -965,7 +965,7 @@ google_map(data = sf) %&gt;%
 <img src="img/geojson.png" alt="Geojson"><p class="caption">Geojson</p>
 </div>
 <p>By default <code><a href="../reference/add_geojson.html">add_geojson()</a></code> will apply any styles included in the GeoJSON file. In the <code>geo_melbourne</code> data you can see the styles <code>fillColor</code>, <code>strokeColor</code> and <code>strokeWeight</code></p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/substr">substr</a></span>(geo_melbourne[<span class="dv">1</span>], <span class="dv">1</span>, <span class="dv">300</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/substr">substr</a></span>(geo_melbourne[<span class="dv">1</span>], <span class="dv">1</span>, <span class="dv">300</span>)</a></code></pre></div>
 <pre><code>## [1] "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"properties\":{\"SA2_NAME\":\"Abbotsford\",\"polygonId\":70,\"SA3_NAME\":\"Yarra\",\"AREASQKM\":1.7405,\"fillColor\":\"#440154\",\"strokeColor\":\"#440154\",\"strokeWeight\":1},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[144.9925232,-37.8024902],[144.9926453,-37."</code></pre>
 <p>You can also supply a string of JSON to style all the features in the GeoJSON</p>
 <pre><code>style &lt;- '{ "fillColor" : "green" , "strokeColor" : "black", "strokeWeight" : 0.5}'
