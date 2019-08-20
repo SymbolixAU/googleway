@@ -544,6 +544,35 @@
 #
 # shinyApp(ui, server)
 
+# OBSERVING MARKER CLICK AND DRAG
+# ui <- fluidPage(
+#   google_mapOutput(outputId = "map", height = "800px")
+# )
+# server <- function(input, output){
+#   
+#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#   
+#   tram_stops$draggable <- TRUE
+#   
+#   output$map <- renderGoogle_map({
+#       google_map(key = map_key) %>%
+#         add_markers(
+#           data = tram_stops, lat = "stop_lat", lon = "stop_lon",
+#           id = "stop_id",
+#           draggable = "draggable")
+#     })
+#   
+#   observeEvent(input$map_marker_click, {
+#       print("marker clicked")
+#       print(input$map_marker_click)
+#     })
+#   
+#   observeEvent(input$map_marker_drag, {
+#       print("marker dragged")
+#       print(input$map_marker_drag)
+#     })
+# }
+# shinyApp(ui, server)
 
 # OBSERVING MAP EDITS
 # ui <- fluidPage(
