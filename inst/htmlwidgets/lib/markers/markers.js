@@ -198,6 +198,7 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
     };
 
     marker_click(map_id, marker, marker.id, markerInfo);
+    marker_dragged(map_id, marker, marker.id, markerInfo);
     window[map_id + 'googleMarkers' + layer_id].push(marker);
     marker.setMap(window[map_id + 'map']);
 }

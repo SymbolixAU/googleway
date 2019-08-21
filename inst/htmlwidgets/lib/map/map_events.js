@@ -111,6 +111,35 @@ function marker_click(map_id, markerObject, marker_id, markerInfo) {
 }
 
 /**
+ * Marker drag
+ *
+ * Returns details of the marker that was dragged
+ **/
+function marker_dragged(map_id, markerObject, marker_id, markerInfo) {
+
+    //'use strict';
+  if (!HTMLWidgets.shinyMode) {
+    return;
+  }
+
+  google.maps.event.addListener(markerObject, 'dragend', function (event) {
+
+    var eventInfo = $.extend(
+      {
+        id: marker_id,
+        lat: event.latLng.lat(),
+        lon: event.latLng.lng(),
+        randomValue: Math.random()
+      },
+      markerInfo
+    ),
+    event_return_type = window.googleway.params[1].event_return_type;
+    eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+    Shiny.onInputChange(map_id + "_marker_drag", eventInfo);
+  });
+}
+
+/**
  * Shape Click
  *
  * Returns the 'id' of the shape that was clicked back to shiny
