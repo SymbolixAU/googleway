@@ -1,5 +1,6 @@
 ## Version 2.7.2
 
+* marker drag events returned in shiny [issue 207](https://github.com/SymbolixAU/googleway/issues/207)
 * `add_overlay()` now automatically zooms to the overlay area [issue 199](https://github.com/SymbolixAU/googleway/issues/199)
 * `z_index` argument handled when passed in as a variable [issue 182](https://github.com/SymbolixAU/googleway/issues/182)
 * `directions_steps()` and `directions_points()` now iterate nested results [issue 183](https://github.com/SymbolixAU/googleway/issues/183)
