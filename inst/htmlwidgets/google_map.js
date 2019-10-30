@@ -129,11 +129,12 @@ function update_pano( map_id, pano, lat, lon ) {
 
   var pano = window[ map_id + pano];
   var map = window[ map_id + 'map'];
-  var center = map.getCenter();
+  //var center = map.getCenter();
+  var center = {lat: lat, lng: lon};
 
-  console.log( pano );
+  //console.log( pano );
   pano.setPosition( center );
-  console.log( pano );
+  //console.log( pano );
 
   window[ map_id + 'map'].setStreetView( pano );
 
