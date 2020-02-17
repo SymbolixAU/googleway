@@ -4,10 +4,19 @@
 \alias{update_polylines}
 \title{Update polylines}
 \usage{
-update_polylines(map, data, id, stroke_colour = NULL,
-  stroke_weight = NULL, stroke_opacity = NULL, info_window = NULL,
-  layer_id = NULL, palette = NULL, legend = F,
-  legend_options = NULL)
+update_polylines(
+  map,
+  data,
+  id,
+  stroke_colour = NULL,
+  stroke_weight = NULL,
+  stroke_opacity = NULL,
+  info_window = NULL,
+  layer_id = NULL,
+  palette = NULL,
+  legend = F,
+  legend_options = NULL
+)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}

@@ -4,14 +4,34 @@
 \alias{add_polygons}
 \title{Add polygon}
 \usage{
-add_polygons(map, data = get_map_data(map), polyline = NULL,
-  lat = NULL, lon = NULL, id = NULL, pathId = NULL,
-  stroke_colour = NULL, stroke_weight = NULL, stroke_opacity = NULL,
-  fill_colour = NULL, fill_opacity = NULL, info_window = NULL,
-  mouse_over = NULL, mouse_over_group = NULL, draggable = NULL,
-  editable = NULL, update_map_view = TRUE, layer_id = NULL,
-  z_index = NULL, digits = 4, palette = NULL, legend = F,
-  legend_options = NULL, load_interval = 0, focus_layer = FALSE)
+add_polygons(
+  map,
+  data = get_map_data(map),
+  polyline = NULL,
+  lat = NULL,
+  lon = NULL,
+  id = NULL,
+  pathId = NULL,
+  stroke_colour = NULL,
+  stroke_weight = NULL,
+  stroke_opacity = NULL,
+  fill_colour = NULL,
+  fill_opacity = NULL,
+  info_window = NULL,
+  mouse_over = NULL,
+  mouse_over_group = NULL,
+  draggable = NULL,
+  editable = NULL,
+  update_map_view = TRUE,
+  layer_id = NULL,
+  z_index = NULL,
+  digits = 4,
+  palette = NULL,
+  legend = F,
+  legend_options = NULL,
+  load_interval = 0,
+  focus_layer = FALSE
+)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}

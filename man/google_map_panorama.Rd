@@ -4,8 +4,13 @@
 \alias{google_map_panorama}
 \title{Google Map Panorama}
 \usage{
-google_map_panorama(viewpoint = NULL, pano = NULL, heading = NULL,
-  pitch = 0, fov = 90)
+google_map_panorama(
+  viewpoint = NULL,
+  pano = NULL,
+  heading = NULL,
+  pitch = 0,
+  fov = 90
+)
 }
 \arguments{
 \item{viewpoint}{vector of lat/lon coordinates. If NULL, \code{pano} must be used.}

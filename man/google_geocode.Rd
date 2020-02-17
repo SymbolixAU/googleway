@@ -4,9 +4,16 @@
 \alias{google_geocode}
 \title{Google geocoding}
 \usage{
-google_geocode(address, bounds = NULL, key = get_api_key("geocode"),
-  language = NULL, region = NULL, components = NULL,
-  simplify = TRUE, curl_proxy = NULL)
+google_geocode(
+  address,
+  bounds = NULL,
+  key = get_api_key("geocode"),
+  language = NULL,
+  region = NULL,
+  components = NULL,
+  simplify = TRUE,
+  curl_proxy = NULL
+)
 }
 \arguments{
 \item{address}{\code{string}. The street address that you want to geocode, in the

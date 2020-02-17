@@ -4,9 +4,15 @@
 \alias{google_elevation}
 \title{Google elevation}
 \usage{
-google_elevation(df_locations = NULL, polyline = NULL,
-  location_type = c("individual", "path"), samples = NULL,
-  key = get_api_key("elevation"), simplify = TRUE, curl_proxy = NULL)
+google_elevation(
+  df_locations = NULL,
+  polyline = NULL,
+  location_type = c("individual", "path"),
+  samples = NULL,
+  key = get_api_key("elevation"),
+  simplify = TRUE,
+  curl_proxy = NULL
+)
 }
 \arguments{
 \item{df_locations}{\code{data.frame} of with two columns called 'lat' and 'lon'

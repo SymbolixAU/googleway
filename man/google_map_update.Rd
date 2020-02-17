@@ -4,8 +4,12 @@
 \alias{google_map_update}
 \title{Google map update}
 \usage{
-google_map_update(map_id, session = shiny::getDefaultReactiveDomain(),
-  data = NULL, deferUntilFlush = TRUE)
+google_map_update(
+  map_id,
+  session = shiny::getDefaultReactiveDomain(),
+  data = NULL,
+  deferUntilFlush = TRUE
+)
 }
 \arguments{
 \item{map_id}{string containing the output ID of the map in a shiny application.}

@@ -4,11 +4,23 @@
 \alias{google_places}
 \title{Google places}
 \usage{
-google_places(search_string = NULL, location = NULL, radius = NULL,
-  rankby = NULL, keyword = NULL, language = NULL, name = NULL,
-  place_type = NULL, price_range = NULL, open_now = NULL,
-  page_token = NULL, simplify = TRUE, curl_proxy = NULL,
-  key = get_api_key("places"), radar = NULL)
+google_places(
+  search_string = NULL,
+  location = NULL,
+  radius = NULL,
+  rankby = NULL,
+  keyword = NULL,
+  language = NULL,
+  name = NULL,
+  place_type = NULL,
+  price_range = NULL,
+  open_now = NULL,
+  page_token = NULL,
+  simplify = TRUE,
+  curl_proxy = NULL,
+  key = get_api_key("places"),
+  radar = NULL
+)
 }
 \arguments{
 \item{search_string}{\code{string} A search term representing a place for

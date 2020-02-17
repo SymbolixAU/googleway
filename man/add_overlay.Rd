@@ -4,8 +4,17 @@
 \alias{add_overlay}
 \title{Add Overlay}
 \usage{
-add_overlay(map, north, east, south, west, overlay_url, layer_id = NULL,
-  digits = 4, update_map_view = TRUE)
+add_overlay(
+  map,
+  north,
+  east,
+  south,
+  west,
+  overlay_url,
+  layer_id = NULL,
+  digits = 4,
+  update_map_view = TRUE
+)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}

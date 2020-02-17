@@ -27,8 +27,8 @@ HTMLWidgets.widget({
                     //console.log("search box");
                     // create a place DOM element
                     window[el.id + 'googleSearchBox'] = document.createElement("input");
-                    window[el.id + 'googleSearchBox'].setAttribute('id', 'pac-input');
-                    window[el.id + 'googleSearchBox'].setAttribute('class', 'controls');
+                    window[el.id + 'googleSearchBox'].setAttribute('id', el.id+'pac-input');
+                    window[el.id + 'googleSearchBox'].setAttribute('class', 'pac-input');
                     window[el.id + 'googleSearchBox'].setAttribute('type', 'text');
                     window[el.id + 'googleSearchBox'].setAttribute('placeholder', 'Search location');
                     document.body.appendChild(window[el.id + 'googleSearchBox']);
@@ -271,7 +271,7 @@ function initialise_map(el, x) {
 
     // if places
     if (x.search_box === true) {
-        input = document.getElementById('pac-input');
+        input = document.getElementById(el.id+'pac-input');
 
         window[el.id + 'googleSearchBox'] = new google.maps.places.SearchBox(input);
         window[el.id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT].push(input);
@@ -350,6 +350,7 @@ function initialise_map(el, x) {
                         };
 
                     eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+
                     Shiny.onInputChange(el.id + "_place_search", eventInfo);
                 }
 

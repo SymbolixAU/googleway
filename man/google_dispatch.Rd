@@ -5,10 +5,12 @@
 \alias{invoke_method}
 \title{Google dispatch}
 \usage{
-google_dispatch(map, funcName, google_map = stop(paste(funcName,
-  "requires a map update object")),
-  google_map_update = stop(paste(funcName,
-  "does not support map udpate objects")))
+google_dispatch(
+  map,
+  funcName,
+  google_map = stop(paste(funcName, "requires a map update object")),
+  google_map_update = stop(paste(funcName, "does not support map udpate objects"))
+)
 
 invoke_method(map, method, ...)
 }

@@ -4,8 +4,7 @@
 \alias{add_fusion}
 \title{Add Fusion}
 \usage{
-add_fusion(map, query, styles = NULL, heatmap = FALSE,
-  layer_id = NULL)
+add_fusion(map, query, styles = NULL, heatmap = FALSE, layer_id = NULL)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}

@@ -4,9 +4,12 @@
 \alias{google_map_url}
 \title{Google Map Url}
 \usage{
-google_map_url(center = NULL, zoom = 15, basemap = c("roadmap",
-  "satellite", "terrain"), layer = c("none", "transit", "traffic",
-  "bicycling"))
+google_map_url(
+  center = NULL,
+  zoom = 15,
+  basemap = c("roadmap", "satellite", "terrain"),
+  layer = c("none", "transit", "traffic", "bicycling")
+)
 }
 \arguments{
 \item{center}{vector of lat/lon coordinates which defines the centre of the map window}
