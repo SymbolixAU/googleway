@@ -42,10 +42,23 @@ googleMarkerDependency <- function() {
 #' only the first character will be used.
 #' @param cluster logical indicating if co-located markers should be clustered
 #' when the map zoomed out
+#' @param cluster_options list of options used in clustering. See details.
 #' @param marker_icon string specifying the column of data containing a link/URL to
 #' an image to use for a marker
 #' @param close_info_window logical indicating if all \code{info_windows} should close
 #' when the user clicks on the map
+#'
+#' @details
+#'
+#' Cluster Options
+#'
+#' \itemize{
+#'   \item{min_cluster_size - The minimum number of markers required for a cluster}
+#' }
+#'
+#' opts <- list(
+#'   min_cluster_size = 3
+#' )
 #'
 #' @examples
 #' \dontrun{
@@ -84,6 +97,7 @@ add_markers <- function(map,
                         marker_icon = NULL,
                         layer_id = NULL,
                         cluster = FALSE,
+                        cluster_options = list(),
                         update_map_view = TRUE,
                         digits = 4,
                         load_interval = 0,
@@ -167,7 +181,7 @@ add_markers <- function(map,
 
   map <- addDependency(map, googleMarkerDependency())
 
-  invoke_method(map, 'add_markers', shape, cluster, update_map_view, layer_id, usePolyline, load_interval, focus_layer, close_info_window)
+  invoke_method(map, 'add_markers', shape, cluster, cluster_options, update_map_view, layer_id, usePolyline, load_interval, focus_layer, close_info_window)
 }
 
 

@@ -22,6 +22,7 @@ add_markers(
   marker_icon = NULL,
   layer_id = NULL,
   cluster = FALSE,
+  cluster_options = list(),
   update_map_view = TRUE,
   digits = 4,
   load_interval = 0,
@@ -82,6 +83,8 @@ for separating legends.}
 \item{cluster}{logical indicating if co-located markers should be clustered
 when the map zoomed out}
 
+\item{cluster_options}{list of options used in clustering. See details.}
+
 \item{update_map_view}{logical specifying if the map should re-centre according to
 the shapes}
 
@@ -97,6 +100,17 @@ when the user clicks on the map}
 }
 \description{
 Add markers to a google map
+}
+\details{
+Cluster Options
+
+\itemize{
+  \item{min_cluster_size - The minimum number of markers required for a cluster}
+}
+
+opts <- list(
+  min_cluster_size = 3
+)
 }
 \examples{
 \dontrun{

@@ -4,7 +4,8 @@
 \name{melbourne}
 \alias{melbourne}
 \title{Melbourne}
-\format{A data frame with 397 observations and 7 variables
+\format{
+A data frame with 397 observations and 7 variables
 \describe{
   \item{polygonId}{a unique identifier for each polygon}
   \item{pathId}{an identifier for each path that define a polygon}
@@ -13,7 +14,8 @@
   \item{SA4_NAME}{statistical area 4 name of the polygon}
   \item{AREASQKM}{area of the SA2 polygon}
   \item{polyline}{encoded polyline that defines each \code{pathId}}
-}}
+}
+}
 \usage{
 melbourne
 }

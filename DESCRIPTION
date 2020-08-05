@@ -30,7 +30,7 @@ Imports:
     scales,
     grDevices,
     googlePolylines (>= 0.7.1)
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 BugReports: https://github.com/SymbolixAU/googleway/issues
 Suggests:
     knitr,

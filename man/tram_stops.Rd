@@ -4,13 +4,15 @@
 \name{tram_stops}
 \alias{tram_stops}
 \title{Tram stops along tram route 35 in Melbourne}
-\format{A data frame with 41 observations and 4 variables
+\format{
+A data frame with 41 observations and 4 variables
 \describe{
   \item{stop_id}{unique ID for each stop}
   \item{stop_name}{the name of each stop}
   \item{stop_lat}{the latitude of the stop}
   \item{stop_lon}{the longitude of the stop}
-}}
+}
+}
 \usage{
 tram_stops
 }
