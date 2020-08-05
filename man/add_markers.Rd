@@ -105,11 +105,11 @@ Add markers to a google map
 Cluster Options
 
 \itemize{
-  \item{min_cluster_size - The minimum number of markers required for a cluster}
+  \item{minimumClusterSize - The minimum number of markers required for a cluster}
 }
 
 opts <- list(
-  min_cluster_size = 3
+  minimumClusterSize = 3
 )
 }
 \examples{
