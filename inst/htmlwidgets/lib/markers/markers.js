@@ -12,7 +12,7 @@
  * @param layer_id
  *          the layer identifier
  */
-function add_markers(map_id, data_markers, cluster, update_map_view, layer_id, use_polyline, interval, focus, close_info_window) {
+function add_markers(map_id, data_markers, cluster, cluster_options, update_map_view, layer_id, use_polyline, interval, focus, close_info_window) {
 
     if (focus === true) {
         clear_bounds(map_id);
@@ -27,7 +27,7 @@ function add_markers(map_id, data_markers, cluster, update_map_view, layer_id, u
             // need a delay after a setTimeout inside a promise chain
             // https://stackoverflow.com/q/39538473/5977215
             return delay(interval * i).then(function(){
-                return cluster_markers(map_id, layer_id);
+                return cluster_markers(map_id, layer_id, cluster_options );
             });
         }
     });
@@ -64,11 +64,19 @@ function promise_to_add_markers(map_id, data_markers, update_map_view, layer_id,
 }
 
 
-function cluster_markers(map_id, layer_id) {
+function cluster_markers(map_id, layer_id, cluster_options) {
 
-    window[map_id + 'googleMarkerClusterer' + layer_id] = new MarkerClusterer(window[map_id + 'map'], window[map_id + 'googleMarkers' + layer_id], {
-            imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
-    });
+    var opts = cluster_options || {};
+    console.log( opts );
+    Object.assign( opts,
+      { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' }
+    );
+
+    window[map_id + 'googleMarkerClusterer' + layer_id] = new MarkerClusterer(
+      window[map_id + 'map'],
+      window[map_id + 'googleMarkers' + layer_id],
+      opts
+    );
 }
 
 function set_markers(map_id, infoWindow, aMarker, update_map_view, layer_id, use_polyline, timeout) {
@@ -198,6 +206,7 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
     };
 
     marker_click(map_id, marker, marker.id, markerInfo);
+    marker_dragged(map_id, marker, marker.id, markerInfo);
     window[map_id + 'googleMarkers' + layer_id].push(marker);
     marker.setMap(window[map_id + 'map']);
 }

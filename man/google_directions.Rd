@@ -4,14 +4,26 @@
 \alias{google_directions}
 \title{Google Directions}
 \usage{
-google_directions(origin, destination, mode = c("driving", "walking",
-  "bicycling", "transit"), departure_time = NULL, arrival_time = NULL,
-  waypoints = NULL, optimise_waypoints = FALSE, alternatives = FALSE,
-  avoid = NULL, units = c("metric", "imperial"),
-  traffic_model = NULL, transit_mode = NULL,
-  transit_routing_preference = NULL, language = NULL, region = NULL,
-  key = get_api_key("directions"), simplify = TRUE,
-  curl_proxy = NULL)
+google_directions(
+  origin,
+  destination,
+  mode = c("driving", "walking", "bicycling", "transit"),
+  departure_time = NULL,
+  arrival_time = NULL,
+  waypoints = NULL,
+  optimise_waypoints = FALSE,
+  alternatives = FALSE,
+  avoid = NULL,
+  units = c("metric", "imperial"),
+  traffic_model = NULL,
+  transit_mode = NULL,
+  transit_routing_preference = NULL,
+  language = NULL,
+  region = NULL,
+  key = get_api_key("directions"),
+  simplify = TRUE,
+  curl_proxy = NULL
+)
 }
 \arguments{
 \item{origin}{Origin location as either a one or two column data.frame, a

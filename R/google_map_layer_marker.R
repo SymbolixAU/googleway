@@ -1,11 +1,12 @@
 
 googleMarkerDependency <- function() {
   list(
-    htmltools::htmlDependency(
-      "markers",
-      "1.0.0",
-      system.file("htmlwidgets/lib/markers", package = "googleway"),
-      script = c("markers.js", "markerclusterer.js")
+    createHtmlDependency(
+      name = "markers",
+      version = "1.0.0",
+      src = system.file("htmlwidgets/lib/markers", package = "googleway"),
+      script = c("markers.js", "markerclusterer.js"),
+      all_files = FALSE
     )
   )
 }
@@ -41,18 +42,44 @@ googleMarkerDependency <- function() {
 #' only the first character will be used.
 #' @param cluster logical indicating if co-located markers should be clustered
 #' when the map zoomed out
+#' @param cluster_options list of options used in clustering. See details.
 #' @param marker_icon string specifying the column of data containing a link/URL to
 #' an image to use for a marker
 #' @param close_info_window logical indicating if all \code{info_windows} should close
 #' when the user clicks on the map
+#'
+#' @details
+#'
+#' Cluster Options can be supplied as a named list. The available names are
+#'
+#' \itemize{
+#'   \item{gridSize (number) - The grid size of a cluster in pixels}
+#'   \item{maxZoom (number) - The maximum zoom level that a marker can be part of a cluster}
+#'   \item{zoomOnClick (logical) - Whether the default behaviour of clicking on a cluster is to
+#'   zoom into it}
+#'   \item{averageCenter (logical) - Whether the center of each cluster should be the
+#'   average of all markers in the cluster}
+#'   \item{minimumClusterSize (number) - The minimum number of markers required for a cluster}
+#' }
+#'
+#' opts <- list(
+#'   minimumClusterSize = 3
+#' )
 #'
 #' @examples
 #' \dontrun{
 #'
 #' map_key <- "your api key"
 #'
-#' google_map(key = map_key, data = tram_stops) %>%
-#'  add_markers(lat = "stop_lat", lon = "stop_lon", info_window = "stop_name")
+#' google_map(
+#'   key = map_key
+#'   , data = tram_stops
+#'   ) %>%
+#'  add_markers(
+#'    lat = "stop_lat"
+#'    , lon = "stop_lon"
+#'    , info_window = "stop_name"
+#'    )
 #'
 #'
 #' ## using marker icons
@@ -61,8 +88,28 @@ googleMarkerDependency <- function() {
 #'
 #' tram_stops$icon <- iconUrl
 #'
-#' google_map(key = map_key, data = tram_stops) %>%
-#'   add_markers(lat = "stop_lat", lon = "stop_lon", marker_icon = "icon")
+#' google_map(
+#'   key = map_key
+#'   , data = tram_stops
+#'   ) %>%
+#'   add_markers(
+#'     lat = "stop_lat"
+#'     , lon = "stop_lon"
+#'     , marker_icon = "icon"
+#'   )
+#'
+#' ## Clustering
+#' google_map(
+#'   key = map_key
+#'   , data = tram_stops
+#'   ) %>%
+#'  add_markers(
+#'    lat = "stop_lat"
+#'    , lon = "stop_lon"
+#'    , info_window = "stop_name"
+#'    , cluster = TRUE
+#'    , cluster_options = list( minimumClusterSize = 5 )
+#'    )
 #'
 #' }
 #' @export
@@ -83,6 +130,7 @@ add_markers <- function(map,
                         marker_icon = NULL,
                         layer_id = NULL,
                         cluster = FALSE,
+                        cluster_options = list(),
                         update_map_view = TRUE,
                         digits = 4,
                         load_interval = 0,
@@ -187,7 +235,7 @@ add_markers <- function(map,
 
   map <- addDependency(map, googleMarkerDependency())
 
-  invoke_method(map, 'add_markers', shape, cluster, update_map_view, layer_id, usePolyline, load_interval, focus_layer, close_info_window)
+  invoke_method(map, 'add_markers', shape, cluster, cluster_options, update_map_view, layer_id, usePolyline, load_interval, focus_layer, close_info_window)
 }
 
 

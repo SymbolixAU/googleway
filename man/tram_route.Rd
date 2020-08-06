@@ -4,12 +4,14 @@
 \name{tram_route}
 \alias{tram_route}
 \title{Tram Route}
-\format{A data frame with 55 observations and 3 variables
+\format{
+A data frame with 55 observations and 3 variables
 \describe{
   \item{shape_pt_lat}{the latitude of each point in the route}
   \item{shape_pt_lon}{the longitude of each point in the route}
   \item{shape_pt_sequence}{the position in the sequence of coordinates for each point}
-}}
+}
+}
 \usage{
 tram_route
 }

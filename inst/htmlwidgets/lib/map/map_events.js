@@ -46,6 +46,8 @@ function bounds_changed(map_id, mapObject, mapInfo) {
         northEastLon: mapObject.getBounds().getNorthEast().lng(),
         southWestLat: mapObject.getBounds().getSouthWest().lat(),
         southWestLon: mapObject.getBounds().getSouthWest().lng(),
+        centerLat: mapObject.getCenter().lat(),
+        centerLon: mapObject.getCenter().lng(),
         randomValue: Math.random()
       },
       mapInfo
@@ -62,11 +64,13 @@ function zoom_changed(map_id, mapObject, mapInfo) {
   if (!HTMLWidgets.shinyMode) {
     return;
   }
-  google.maps.event.addListener(mapObject, 'bounds_changed', function (event) {
+  google.maps.event.addListener(mapObject, 'zoom_changed', function (event) {
     var eventInfo = $.extend(
       {
         id: map_id,
         zoom: mapObject.getZoom(),
+        centerLat: mapObject.getCenter().lat(),
+        centerLon: mapObject.getCenter().lng(),
         randomValue: Math.random()
        },
       mapInfo
@@ -103,6 +107,35 @@ function marker_click(map_id, markerObject, marker_id, markerInfo) {
     event_return_type = window.googleway.params[1].event_return_type;
     eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
     Shiny.onInputChange(map_id + "_marker_click", eventInfo);
+  });
+}
+
+/**
+ * Marker drag
+ *
+ * Returns details of the marker that was dragged
+ **/
+function marker_dragged(map_id, markerObject, marker_id, markerInfo) {
+
+    //'use strict';
+  if (!HTMLWidgets.shinyMode) {
+    return;
+  }
+
+  google.maps.event.addListener(markerObject, 'dragend', function (event) {
+
+    var eventInfo = $.extend(
+      {
+        id: marker_id,
+        lat: event.latLng.lat(),
+        lon: event.latLng.lng(),
+        randomValue: Math.random()
+      },
+      markerInfo
+    ),
+    event_return_type = window.googleway.params[1].event_return_type;
+    eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+    Shiny.onInputChange(map_id + "_marker_drag", eventInfo);
   });
 }
 

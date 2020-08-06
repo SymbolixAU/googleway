@@ -4,10 +4,15 @@
 \alias{google_reverse_geocode}
 \title{Google reverse geocoding}
 \usage{
-google_reverse_geocode(location, result_type = NULL,
-  location_type = NULL, language = NULL,
-  key = get_api_key("reverse_geocode"), simplify = TRUE,
-  curl_proxy = NULL)
+google_reverse_geocode(
+  location,
+  result_type = NULL,
+  location_type = NULL,
+  language = NULL,
+  key = get_api_key("reverse_geocode"),
+  simplify = TRUE,
+  curl_proxy = NULL
+)
 }
 \arguments{
 \item{location}{numeric vector of lat/lon coordinates.}

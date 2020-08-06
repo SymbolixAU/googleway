@@ -4,8 +4,17 @@
 \alias{add_overlay}
 \title{Add Overlay}
 \usage{
-add_overlay(map, north, east, south, west, overlay_url, layer_id = NULL,
-  digits = 4)
+add_overlay(
+  map,
+  north,
+  east,
+  south,
+  west,
+  overlay_url,
+  layer_id = NULL,
+  digits = 4,
+  update_map_view = TRUE
+)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -24,6 +33,9 @@ add_overlay(map, north, east, south, west, overlay_url, layer_id = NULL,
 
 \item{digits}{integer. Use this parameter to specify how many digits (decimal places)
 should be used for the latitude / longitude coordinates.}
+
+\item{update_map_view}{logical. Use this parameter to specify if the map should
+re-centre according to the overlay extent.}
 }
 \description{
 Adds a ground overlay to a map. The overlay can only be added from a URL

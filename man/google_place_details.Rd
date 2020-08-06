@@ -4,8 +4,13 @@
 \alias{google_place_details}
 \title{Google place details}
 \usage{
-google_place_details(place_id, language = NULL, simplify = TRUE,
-  curl_proxy = NULL, key = get_api_key("place_details"))
+google_place_details(
+  place_id,
+  language = NULL,
+  simplify = TRUE,
+  curl_proxy = NULL,
+  key = get_api_key("place_details")
+)
 }
 \arguments{
 \item{place_id}{\code{string} A textual identifier that uniquely identifies a

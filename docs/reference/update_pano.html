@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add Overlay — add_overlay • googleway</title>
+<title>Update Pano — update_pano • googleway</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Add Overlay — add_overlay" />
+<meta property="og:title" content="Update Pano — update_pano" />
 
-<meta property="og:description" content="Adds a ground overlay to a map. The overlay can only be added from a URL" />
+<meta property="og:description" content="Update Pano" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -109,90 +109,35 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add Overlay</h1>
+    <h1>Update Pano</h1>
     
-    <div class="hidden name"><code>add_overlay.Rd</code></div>
+    <div class="hidden name"><code>update_pano.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Adds a ground overlay to a map. The overlay can only be added from a URL</p>
+    <p>Update Pano</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>add_overlay</span>(<span class='no'>map</span>, <span class='no'>north</span>, <span class='no'>east</span>, <span class='no'>south</span>, <span class='no'>west</span>, <span class='no'>overlay_url</span>, <span class='kw'>layer_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>update_map_view</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>update_pano</span>(<span class='no'>map</span>, <span class='no'>pano</span>, <span class='no'>lat</span>, <span class='no'>lon</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>map</th>
-      <td><p>a googleway map object created from <code><a href='google_map.html'>google_map()</a></code></p></td>
-    </tr>
-    <tr>
-      <th>north</th>
-      <td><p>northern-most latitude coordinate</p></td>
-    </tr>
-    <tr>
-      <th>east</th>
-      <td><p>eastern-most longitude</p></td>
-    </tr>
-    <tr>
-      <th>south</th>
-      <td><p>southern-most latitude coordinate</p></td>
-    </tr>
-    <tr>
-      <th>west</th>
-      <td><p>western-most longitude</p></td>
-    </tr>
-    <tr>
-      <th>overlay_url</th>
-      <td><p>URL string specifying the location of the overlay layer</p></td>
-    </tr>
-    <tr>
-      <th>layer_id</th>
-      <td><p>single value specifying an id for the layer.</p></td>
-    </tr>
-    <tr>
-      <th>digits</th>
-      <td><p>integer. Use this parameter to specify how many digits (decimal places)
-should be used for the latitude / longitude coordinates.</p></td>
-    </tr>
-    <tr>
-      <th>update_map_view</th>
-      <td><p>logical. Use this parameter to specify if the map should
-re-centre according to the overlay extent.</p></td>
+      <th>lon</th>
+      <td></td>
     </tr>
     </table>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>map_key</span> <span class='kw'>&lt;-</span> <span class='st'>'your_api_key'</span>
-
-<span class='fu'><a href='google_map.html'>google_map</a></span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='no'>map_key</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>add_overlay</span>(<span class='kw'>north</span> <span class='kw'>=</span> <span class='fl'>40.773941</span>, <span class='kw'>south</span> <span class='kw'>=</span> <span class='fl'>40.712216</span>, <span class='kw'>east</span> <span class='kw'>=</span> -<span class='fl'>74.12544</span>, <span class='kw'>west</span> <span class='kw'>=</span> -<span class='fl'>74.22655</span>,
-               <span class='kw'>overlay_url</span> <span class='kw'>=</span> <span class='st'>"https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg"</span>)
-
-
-<span class='no'>url</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"https://developers.google.com/maps/documentation/javascript"</span>,
-  <span class='st'>"/examples/full/images/talkeetna.png"</span>)
-
-<span class='fu'><a href='google_map.html'>google_map</a></span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='no'>map_key</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>add_overlay</span>(<span class='kw'>north</span> <span class='kw'>=</span> <span class='fl'>62.400471</span>, <span class='kw'>south</span> <span class='kw'>=</span> <span class='fl'>62.281819</span>, <span class='kw'>east</span> <span class='kw'>=</span> -<span class='fl'>150.005608</span>, <span class='kw'>west</span> <span class='kw'>=</span> -<span class='fl'>150.287132</span>,
-               <span class='kw'>overlay_url</span> <span class='kw'>=</span> <span class='no'>url</span>)
-
-
-<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>

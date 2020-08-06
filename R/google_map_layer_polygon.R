@@ -1,10 +1,11 @@
 googlePolygonDependency <- function() {
   list(
-    htmltools::htmlDependency(
-      "polygons",
-      "1.0.0",
-      system.file("htmlwidgets/lib/polygons", package = "googleway"),
-      script = c("polygons.js")
+    createHtmlDependency(
+      name = "polygons",
+      version = "1.0.0",
+      src = system.file("htmlwidgets/lib/polygons", package = "googleway"),
+      script = c("polygons.js"),
+      all_files = FALSE
     )
   )
 }

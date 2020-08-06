@@ -1,10 +1,11 @@
 googleRectangleDependency <- function() {
   list(
-    htmltools::htmlDependency(
-      "rectangles",
-      "1.0.0",
-      system.file("htmlwidgets/lib/rectangles", package = "googleway"),
-      script = c("rectangles.js")
+    createHtmlDependency(
+      name = "rectangles",
+      version = "1.0.0",
+      src = system.file("htmlwidgets/lib/rectangles", package = "googleway"),
+      script = c("rectangles.js"),
+      all_files = FALSE
     )
   )
 }

@@ -4,10 +4,17 @@
 \alias{google_place_autocomplete}
 \title{Google place autocomplete}
 \usage{
-google_place_autocomplete(place_input, location = NULL, radius = NULL,
-  language = NULL, place_type = NULL, components = NULL,
-  simplify = TRUE, curl_proxy = NULL,
-  key = get_api_key("place_autocomplete"))
+google_place_autocomplete(
+  place_input,
+  location = NULL,
+  radius = NULL,
+  language = NULL,
+  place_type = NULL,
+  components = NULL,
+  simplify = TRUE,
+  curl_proxy = NULL,
+  key = get_api_key("place_autocomplete")
+)
 }
 \arguments{
 \item{place_input}{\code{string} The text string on which to search.

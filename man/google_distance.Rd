@@ -4,12 +4,22 @@
 \alias{google_distance}
 \title{Google Distance}
 \usage{
-google_distance(origins, destinations, mode = c("driving", "walking",
-  "bicycling", "transit"), departure_time = NULL, arrival_time = NULL,
-  avoid = NULL, units = c("metric", "imperial"),
-  traffic_model = NULL, transit_mode = NULL,
-  transit_routing_preference = NULL, language = NULL,
-  key = get_api_key("distance"), simplify = TRUE, curl_proxy = NULL)
+google_distance(
+  origins,
+  destinations,
+  mode = c("driving", "walking", "bicycling", "transit"),
+  departure_time = NULL,
+  arrival_time = NULL,
+  avoid = NULL,
+  units = c("metric", "imperial"),
+  traffic_model = NULL,
+  transit_mode = NULL,
+  transit_routing_preference = NULL,
+  language = NULL,
+  key = get_api_key("distance"),
+  simplify = TRUE,
+  curl_proxy = NULL
+)
 }
 \arguments{
 \item{origins}{Origin locations as either a one or two column data.frame, a

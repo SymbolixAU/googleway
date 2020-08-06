@@ -175,9 +175,9 @@ longitude_column <- function(data, lon, calling_function){
 # @param names string of column names
 # @param calling_function the function that called this function
 # @param stopOnFailure logical
-find_lat_column = function(names, calling_function, stopOnFailure = TRUE) {
+find_lat_column <- function(names, calling_function, stopOnFailure = TRUE) {
 
-  lats = names[grep("^(lat|lats|latitude|latitudes|stop_lat|shape_pt_lon)$", names, ignore.case = TRUE)]
+  lats = names[grep("^(lat|lats|latitude|latitudes|stop_lat|shape_pt_lat)$", names, ignore.case = TRUE)]
 
   if (length(lats) == 1) {
     # return(list(lat = lats))
@@ -198,7 +198,7 @@ find_lat_column = function(names, calling_function, stopOnFailure = TRUE) {
 # @param names string of column names
 # @param calling_function the function that called this function
 # @param stopOnFailure logical
-find_lon_column = function(names, calling_function, stopOnFailure = TRUE) {
+find_lon_column <- function(names, calling_function, stopOnFailure = TRUE) {
 
   lons = names[grep("^(lon|lons|lng|lngs|long|longs|longitude|longitudes|stop_lon|shape_pt_lon)$", names, ignore.case = TRUE)]
 
@@ -563,6 +563,9 @@ validateRadar <- function(radar){
   # }
   #
   # return(radar)
+  if( is.null( radar) ) {
+    return()
+  }
   message("The radar argument is now deprecated")
 }
 

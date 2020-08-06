@@ -4,13 +4,31 @@
 \alias{add_markers}
 \title{Add markers}
 \usage{
-add_markers(map, data = get_map_data(map), id = NULL, colour = NULL,
-  lat = NULL, lon = NULL, polyline = NULL, title = NULL,
-  draggable = NULL, opacity = NULL, label = NULL,
-  info_window = NULL, mouse_over = NULL, mouse_over_group = NULL,
-  marker_icon = NULL, layer_id = NULL, cluster = FALSE,
-  update_map_view = TRUE, digits = 4, load_interval = 0,
-  focus_layer = FALSE, close_info_window = FALSE)
+add_markers(
+  map,
+  data = get_map_data(map),
+  id = NULL,
+  colour = NULL,
+  lat = NULL,
+  lon = NULL,
+  polyline = NULL,
+  title = NULL,
+  draggable = NULL,
+  opacity = NULL,
+  label = NULL,
+  info_window = NULL,
+  mouse_over = NULL,
+  mouse_over_group = NULL,
+  marker_icon = NULL,
+  layer_id = NULL,
+  cluster = FALSE,
+  cluster_options = list(),
+  update_map_view = TRUE,
+  digits = 4,
+  load_interval = 0,
+  focus_layer = FALSE,
+  close_info_window = FALSE
+)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}
@@ -65,6 +83,8 @@ for separating legends.}
 \item{cluster}{logical indicating if co-located markers should be clustered
 when the map zoomed out}
 
+\item{cluster_options}{list of options used in clustering. See details.}
+
 \item{update_map_view}{logical specifying if the map should re-centre according to
 the shapes}
 
@@ -81,13 +101,37 @@ when the user clicks on the map}
 \description{
 Add markers to a google map
 }
+\details{
+Cluster Options can be supplied as a named list. The available names are
+
+\itemize{
+  \item{gridSize (number) - The grid size of a cluster in pixels}
+  \item{maxZoom (number) - The maximum zoom level that a marker can be part of a cluster}
+  \item{zoomOnClick (logical) - Whether the default behaviour of clicking on a cluster is to
+  zoom into it}
+  \item{averageCenter (logical) - Whether the center of each cluster should be the
+  average of all markers in the cluster}
+  \item{minimumClusterSize (number) - The minimum number of markers required for a cluster}
+}
+
+opts <- list(
+  minimumClusterSize = 3
+)
+}
 \examples{
 \dontrun{
 
 map_key <- "your api key"
 
-google_map(key = map_key, data = tram_stops) \%>\%
- add_markers(lat = "stop_lat", lon = "stop_lon", info_window = "stop_name")
+google_map(
+  key = map_key
+  , data = tram_stops
+  ) \%>\%
+ add_markers(
+   lat = "stop_lat"
+   , lon = "stop_lon"
+   , info_window = "stop_name"
+   )
 
 
 ## using marker icons
@@ -96,8 +140,28 @@ iconUrl <- paste0("https://developers.google.com/maps/documentation/",
 
 tram_stops$icon <- iconUrl
 
-google_map(key = map_key, data = tram_stops) \%>\%
-  add_markers(lat = "stop_lat", lon = "stop_lon", marker_icon = "icon")
+google_map(
+  key = map_key
+  , data = tram_stops
+  ) \%>\%
+  add_markers(
+    lat = "stop_lat"
+    , lon = "stop_lon"
+    , marker_icon = "icon"
+  )
+
+## Clustering
+google_map(
+  key = map_key
+  , data = tram_stops
+  ) \%>\%
+ add_markers(
+   lat = "stop_lat"
+   , lon = "stop_lon"
+   , info_window = "stop_name"
+   , cluster = TRUE
+   , cluster_options = list( minimumClusterSize = 5 )
+   )
 
 }
 }

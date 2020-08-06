@@ -1,10 +1,11 @@
 googleOverlayDependency <- function() {
   list(
-    htmltools::htmlDependency(
-      "overlay",
-      "1.0.0",
-      system.file("htmlwidgets/lib/overlay", package = "googleway"),
-      script = c("overlay.js")
+    createHtmlDependency(
+      name = "overlay",
+      version = "1.0.0",
+      src = system.file("htmlwidgets/lib/overlay", package = "googleway"),
+      script = c("overlay.js"),
+      all_files = FALSE
     )
   )
 }
@@ -23,6 +24,8 @@ googleOverlayDependency <- function() {
 #' @param layer_id single value specifying an id for the layer.
 #' @param digits integer. Use this parameter to specify how many digits (decimal places)
 #' should be used for the latitude / longitude coordinates.
+#' @param update_map_view logical. Use this parameter to specify if the map should
+#' re-centre according to the overlay extent.
 #'
 #' @examples
 #' \dontrun{
@@ -51,7 +54,8 @@ add_overlay <- function(map,
                         west,
                         overlay_url,
                         layer_id = NULL,
-                        digits = 4){
+                        digits = 4,
+                        update_map_view = TRUE){
 
   urlCheck(overlay_url)
 
@@ -74,7 +78,7 @@ add_overlay <- function(map,
 
   map <- addDependency(map, googleOverlayDependency())
 
-  invoke_method(map, 'add_overlay', overlay, layer_id)
+  invoke_method(map, 'add_overlay', overlay, update_map_view, layer_id)
 }
 
 

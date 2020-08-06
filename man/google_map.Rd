@@ -5,14 +5,29 @@
 \alias{googleway}
 \title{Google map}
 \usage{
-google_map(data = NULL, key = get_api_key("map"), location = NULL,
-  zoom = NULL, width = NULL, height = NULL, padding = 0,
-  styles = NULL, search_box = FALSE, update_map_view = TRUE,
-  zoom_control = TRUE, map_type_control = TRUE,
-  scale_control = FALSE, street_view_control = TRUE,
-  rotate_control = TRUE, fullscreen_control = TRUE, libraries = NULL,
-  split_view = NULL, split_view_options = NULL, geolocation = FALSE,
-  event_return_type = c("list", "json"))
+google_map(
+  data = NULL,
+  key = get_api_key("map"),
+  location = NULL,
+  zoom = NULL,
+  width = NULL,
+  height = NULL,
+  padding = 0,
+  styles = NULL,
+  search_box = FALSE,
+  update_map_view = TRUE,
+  zoom_control = TRUE,
+  map_type_control = TRUE,
+  scale_control = FALSE,
+  street_view_control = TRUE,
+  rotate_control = TRUE,
+  fullscreen_control = TRUE,
+  libraries = NULL,
+  split_view = NULL,
+  split_view_options = NULL,
+  geolocation = FALSE,
+  event_return_type = c("list", "json")
+)
 }
 \arguments{
 \item{data}{data to be used on the map. Either a data.frame, or an \code{sf} object. See details}
@@ -51,7 +66,7 @@ See the Google documentation for details \url{https://developers.google.com/maps
 
 \item{fullscreen_control}{logical indicating if the full screen control should be displayed}
 
-\item{libraries}{vector containgin the libraries you want to load. See details}
+\item{libraries}{vector containing the libraries you want to load. See details}
 
 \item{split_view}{string giving the name of a UI output element in which to place
 a streetview representation of the map. Will only work in an interactive environment (shiny).}

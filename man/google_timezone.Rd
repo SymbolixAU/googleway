@@ -4,8 +4,14 @@
 \alias{google_timezone}
 \title{Google timezone}
 \usage{
-google_timezone(location, timestamp = Sys.time(), language = NULL,
-  simplify = TRUE, curl_proxy = NULL, key = get_api_key("timezone"))
+google_timezone(
+  location,
+  timestamp = Sys.time(),
+  language = NULL,
+  simplify = TRUE,
+  curl_proxy = NULL,
+  key = get_api_key("timezone")
+)
 }
 \arguments{
 \item{location}{\code{vector} of lat/lon pair}

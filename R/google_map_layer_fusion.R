@@ -1,10 +1,11 @@
 googleFusionDependency <- function() {
   list(
-    htmltools::htmlDependency(
-      "fusion",
-      "1.0.0",
-      system.file("htmlwidgets/lib/fusion", package = "googleway"),
-      script = c("fusion.js")
+    createHtmlDependency(
+      name = "fusion",
+      version = "1.0.0",
+      src = system.file("htmlwidgets/lib/fusion", package = "googleway"),
+      script = c("fusion.js"),
+      all_files = FALSE
     )
   )
 }

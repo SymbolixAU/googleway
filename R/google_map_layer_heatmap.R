@@ -1,10 +1,11 @@
 googleHeatmapDependency <- function() {
   list(
-    htmltools::htmlDependency(
-      "heatmap",
-      "1.0.0",
-      system.file("htmlwidgets/lib/heatmap", package = "googleway"),
-      script = c("heatmap.js")
+    createHtmlDependency(
+      name = "heatmap",
+      version = "1.0.0",
+      src = system.file("htmlwidgets/lib/heatmap", package = "googleway"),
+      script = c("heatmap.js"),
+      all_files = FALSE
     )
   )
 }

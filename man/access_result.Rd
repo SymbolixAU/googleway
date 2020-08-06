@@ -30,11 +30,13 @@
 \alias{nearest_roads_coordinates}
 \title{Access Result}
 \usage{
-access_result(res, result = c("instructions", "routes", "legs", "steps",
-  "points", "polyline", "coordinates", "address", "address_components",
-  "geo_place_id", "dist_origins", "dist_destinations", "elevation",
-  "elev_location", "place", "place_name", "next_page", "place_location",
-  "place_type", "place_hours", "place_open"))
+access_result(
+  res,
+  result = c("instructions", "routes", "legs", "steps", "points", "polyline",
+    "coordinates", "address", "address_components", "geo_place_id", "dist_origins",
+    "dist_destinations", "elevation", "elev_location", "place", "place_name",
+    "next_page", "place_location", "place_type", "place_hours", "place_open")
+)
 
 direction_instructions(res)
 

@@ -249,16 +249,6 @@ constructWaypoints <- function(waypoints, optimise_waypoints){
 
 
 
-addDependency <- function(map, dependencyFunction) {
-
-  existingDeps <- sapply(map$dependencies, function(x) x[['name']])
-  addingDependency <- sapply(dependencyFunction, function(x) x[['name']])
-
-  if(!addingDependency %in% existingDeps)
-    map$dependencies <- c(map$dependencies, dependencyFunction)
-
-  return(map)
-}
 
 
 

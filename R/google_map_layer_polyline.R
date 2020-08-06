@@ -1,10 +1,11 @@
 googlePolylineDependency <- function() {
   list(
-    htmltools::htmlDependency(
-      "polylines",
-      "1.0.0",
-      system.file("htmlwidgets/lib/polylines", package = "googleway"),
-      script = c("polylines.js")
+    createHtmlDependency(
+      name = "polylines",
+      version = "1.0.0",
+      src = system.file("htmlwidgets/lib/polylines", package = "googleway"),
+      script = c("polylines.js"),
+      all_files = FALSE
     )
   )
 }

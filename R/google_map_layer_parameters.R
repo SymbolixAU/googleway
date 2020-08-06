@@ -30,7 +30,7 @@ heatWeightCheck <- function(objArgs){
   return(objArgs)
 }
 
-isUrl <- function(txt) grepl("(^http)|(^www)", txt)
+isUrl <- function(txt) grepl("(^http)|(^www)|(^file)", txt)
 
 
 # Is Using Polyline

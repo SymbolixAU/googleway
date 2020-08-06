@@ -4,11 +4,22 @@
 \alias{add_heatmap}
 \title{Add heatmap}
 \usage{
-add_heatmap(map, data = get_map_data(map), lat = NULL, lon = NULL,
-  weight = NULL, option_gradient = NULL, option_dissipating = FALSE,
-  option_radius = 0.01, option_opacity = 0.6, layer_id = NULL,
-  update_map_view = TRUE, digits = 4, legend = F,
-  legend_options = NULL)
+add_heatmap(
+  map,
+  data = get_map_data(map),
+  lat = NULL,
+  lon = NULL,
+  weight = NULL,
+  option_gradient = NULL,
+  option_dissipating = FALSE,
+  option_radius = 0.01,
+  option_opacity = 0.6,
+  layer_id = NULL,
+  update_map_view = TRUE,
+  digits = 4,
+  legend = F,
+  legend_options = NULL
+)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}

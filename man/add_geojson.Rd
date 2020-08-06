@@ -4,8 +4,14 @@
 \alias{add_geojson}
 \title{Add GeoJson}
 \usage{
-add_geojson(map, data = get_map_data(map), layer_id = NULL,
-  style = NULL, mouse_over = FALSE, update_map_view = TRUE)
+add_geojson(
+  map,
+  data = get_map_data(map),
+  layer_id = NULL,
+  style = NULL,
+  mouse_over = FALSE,
+  update_map_view = TRUE
+)
 }
 \arguments{
 \item{map}{a googleway map object created from \code{google_map()}}

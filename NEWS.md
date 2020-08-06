@@ -1,6 +1,12 @@
+
 ## Version 2.7.2
 
-* variables can now be used in the map `add_layer()` functions to define column names
+* variables can now be used in the map `add_layer()` functions to define column names [issue 168](https://github.com/SymbolixAU/googleway/issues/168)
+* `radar` warning message removed if not needed [issue 205](https://github.com/SymbolixAU/googleway/issues/205)
+* `cluster_options` added to `add_markers()` [issue 224](https://github.com/SymbolixAU/googleway/issues/224)
+* fixed conflict with search box [issue 217](https://github.com/SymbolixAU/googleway/issues/217)
+* marker drag events returned in shiny [issue 207](https://github.com/SymbolixAU/googleway/issues/207)
+* `add_overlay()` now automatically zooms to the overlay area [issue 199](https://github.com/SymbolixAU/googleway/issues/199)
 * `z_index` argument handled when passed in as a variable [issue 182](https://github.com/SymbolixAU/googleway/issues/182)
 * `directions_steps()` and `directions_points()` now iterate nested results [issue 183](https://github.com/SymbolixAU/googleway/issues/183)
 

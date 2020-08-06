@@ -65,7 +65,7 @@ ui <- dashboardPage(
 )
 
 server <- function(input, output) {
-  set_key("your_api_key")
+  #set_key("your_api_key")
 
   output$map <- renderGoogle_map({
     google_map(location = c(-37.817386, 144.967463),
