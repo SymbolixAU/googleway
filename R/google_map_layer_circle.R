@@ -178,7 +178,7 @@ add_circles <- function(map,
 
   #objArgs <- match.call(expand.dots = F)
   objArgs <- list()
-  objArgs[["id"]] <- force(id)
+  objArgs[["id"]] <- force( id )
   objArgs[["lat"]] <- force( lat )
   objArgs[["lon"]] <- force( lon )
   objArgs[["polyline"]] <- force( polyline )

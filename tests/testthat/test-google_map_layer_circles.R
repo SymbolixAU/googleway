@@ -41,6 +41,7 @@ test_that("circles correctly defined", {
 
   circle <- update_circles(map = m,
                         data = df,
+                        id = "colour",
                         fill_colour = "colour")
 
   circle <- circle$x$calls[[1]]$args[[1]]
@@ -56,7 +57,7 @@ test_that("update circles defined", {
 
   m <- google_map(key = "abc")
   df <- data.frame(id = 1:4)
-  expect_silent(update_circles(map = m, data = df))
+  expect_silent(update_circles(map = m, data = df, id = "id"))
 
 })
 
