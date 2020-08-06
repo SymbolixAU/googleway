@@ -31,7 +31,7 @@ c("9", "10", "11", "12"), c("lon", "lat")), class = c("XY",
 )), class = c("XY", "MULTIPOINT", "sfg"))), class = c("sfc_GEOMETRY",
 "sfc"), precision = 0, bbox = structure(c(xmin = -80.19, ymin = 18.466,
 xmax = -49, ymax = 32.321), class = "bbox"), crs = structure(list(
-epsg = NA_integer_, proj4string = NA_character_), class = "crs"), n_empty = 0L, classes = c("POLYGON",
+input = NA_character_, wkt = NA_character_), class = "crs"), n_empty = 0L, classes = c("POLYGON",
 "MULTIPOLYGON", "MULTILINESTRING", "LINESTRING", "POINT", "MULTIPOINT"
 ))), row.names = c(NA, 6L), sf_column = "geometry", agr = structure(integer(0), class = "factor", .Label = c("constant",
 "aggregate", "identity"), .Names = character(0)), class = c("sf",
@@ -78,7 +78,7 @@ c("9", "10", "11", "12"), c("lon", "lat")), class = c("XY",
 )), class = c("XY", "MULTIPOINT", "sfg"))), class = c("sfc_GEOMETRY",
 "sfc"), precision = 0, bbox = structure(c(xmin = -80.19, ymin = 18.466,
 xmax = -49, ymax = 32.321), class = "bbox"), crs = structure(list(
-epsg = NA_integer_, proj4string = NA_character_), class = "crs"), n_empty = 0L, classes = c("POLYGON",
+input = NA_character_, wkt = NA_character_), class = "crs"), n_empty = 0L, classes = c("POLYGON",
 "MULTIPOLYGON", "MULTILINESTRING", "LINESTRING", "POINT", "MULTIPOINT"
 ))), row.names = c(NA, 6L), sf_column = "geometry", agr = structure(integer(0), class = "factor", .Label = c("constant",
 "aggregate", "identity"), .Names = character(0)), class = c("sf",
