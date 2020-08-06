@@ -102,10 +102,16 @@ when the user clicks on the map}
 Add markers to a google map
 }
 \details{
-Cluster Options
+Cluster Options can be supplied as a named list. The available names are
 
 \itemize{
-  \item{minimumClusterSize - The minimum number of markers required for a cluster}
+  \item{gridSize (number) - The grid size of a cluster in pixels}
+  \item{maxZoom (number) - The maximum zoom level that a marker can be part of a cluster}
+  \item{zoomOnClick (logical) - Whether the default behaviour of clicking on a cluster is to
+  zoom into it}
+  \item{averageCenter (logical) - Whether the center of each cluster should be the
+  average of all markers in the cluster}
+  \item{minimumClusterSize (number) - The minimum number of markers required for a cluster}
 }
 
 opts <- list(
@@ -117,8 +123,15 @@ opts <- list(
 
 map_key <- "your api key"
 
-google_map(key = map_key, data = tram_stops) \%>\%
- add_markers(lat = "stop_lat", lon = "stop_lon", info_window = "stop_name")
+google_map(
+  key = map_key
+  , data = tram_stops
+  ) \%>\%
+ add_markers(
+   lat = "stop_lat"
+   , lon = "stop_lon"
+   , info_window = "stop_name"
+   )
 
 
 ## using marker icons
@@ -127,8 +140,28 @@ iconUrl <- paste0("https://developers.google.com/maps/documentation/",
 
 tram_stops$icon <- iconUrl
 
-google_map(key = map_key, data = tram_stops) \%>\%
-  add_markers(lat = "stop_lat", lon = "stop_lon", marker_icon = "icon")
+google_map(
+  key = map_key
+  , data = tram_stops
+  ) \%>\%
+  add_markers(
+  lat = "stop_lat"
+  , lon = "stop_lon"
+  , marker_icon = "icon"
+  )
+
+## Clustering
+google_map(
+  key = map_key
+  , data = tram_stops
+  ) \%>\%
+ add_markers(
+   lat = "stop_lat"
+   , lon = "stop_lon"
+   , info_window = "stop_name"
+   , cluster = TRUE
+   , cluster_options = list( minimumClusterSize = 5 )
+   )
 
 }
 }
