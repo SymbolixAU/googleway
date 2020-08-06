@@ -145,9 +145,9 @@ google_map(
   , data = tram_stops
   ) \%>\%
   add_markers(
-  lat = "stop_lat"
-  , lon = "stop_lon"
-  , marker_icon = "icon"
+    lat = "stop_lat"
+    , lon = "stop_lon"
+    , marker_icon = "icon"
   )
 
 ## Clustering

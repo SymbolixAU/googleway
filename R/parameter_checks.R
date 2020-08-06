@@ -563,6 +563,9 @@ validateRadar <- function(radar){
   # }
   #
   # return(radar)
+  if( is.null( radar) ) {
+    return()
+  }
   message("The radar argument is now deprecated")
 }
 

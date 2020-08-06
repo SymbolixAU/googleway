@@ -1,5 +1,8 @@
+
 ## Version 2.7.2
 
+* `radar` warning message removed if not needed [issue 205](https://github.com/SymbolixAU/googleway/issues/205)
+* `cluster_options` added to `add_markers()` [issue 224](https://github.com/SymbolixAU/googleway/issues/224)
 * fixed conflict with search box [issue 217](https://github.com/SymbolixAU/googleway/issues/217)
 * marker drag events returned in shiny [issue 207](https://github.com/SymbolixAU/googleway/issues/207)
 * `add_overlay()` now automatically zooms to the overlay area [issue 199](https://github.com/SymbolixAU/googleway/issues/199)

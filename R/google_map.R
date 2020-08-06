@@ -260,14 +260,13 @@ update_style <- function(map, styles = NULL){
   invoke_method(map, 'update_style', styles)
 }
 
-#' Update Pano
-#'
-#' @param map
-#' @param pano
-#' @param lat
-#' @param lon
-#'
-#' @export
+# Update Pano
+#
+# @param map
+# @param pano
+# @param lat
+# @param lon
+#
 update_pano <- function(map, pano, lat, lon) {
 
   ## TODO( lat & lon can only be single values)
@@ -328,7 +327,7 @@ update_pano <- function(map, pano, lat, lon) {
 #' )
 #'
 #' server <- function(input, output) {
-#'   set_key("your_api_key")
+#'   #set_key("your_api_key")
 #'
 #'   output$map <- renderGoogle_map({
 #'     google_map(location = c(-37.817386, 144.967463),
