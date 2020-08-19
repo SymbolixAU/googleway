@@ -248,6 +248,9 @@ google_places <- function(
 #' \donttest{
 #'
 #' ## specifying fields
+#'
+#' set_key( "your_api_key" )
+#'
 #' google_find_place(
 #'   input = "Museum of Contemporary Art Australia"
 #'   , fields = c("photos","formatted_address","name","rating","opening_hours","geometry")

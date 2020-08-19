@@ -5,3 +5,4 @@ cran-comments.md
 README.md
 ^NEWS.md$
 ^revdep$
+^docs/

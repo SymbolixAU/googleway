@@ -1,5 +1,12 @@
 
 resolveLegend <- function(legend, legend_options, colour_palettes){
+
+  if( length( colour_palettes ) == 0 & any(vapply(legend, isTRUE, T) ) ) {
+    warning("nothing to include in the legend")
+    legend <- FALSE
+  }
+
+
   if(any(vapply(legend, isTRUE, T))){
     legend <- constructLegend(colour_palettes, legend)
     if(!is.null(legend_options)){

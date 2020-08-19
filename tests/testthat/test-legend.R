@@ -182,6 +182,45 @@ test_that("legend is reveresed", {
 
 })
 
+## issue 184
+test_that("error handled when asking for legend while using hex colours",{
+
+  legend <- TRUE
+  expect_warning(
+    googleway:::resolveLegend(legend, NULL, list())
+    , "nothing to include in the legend"
+  )
+
+  legend <- list( fill_colour = TRUE, stroke_colour = TRUE )
+  expect_warning(
+    googleway:::resolveLegend(legend, NULL, list())
+    , "nothing to include in the legend"
+  )
+
+  ## IF stroke is a column, it should work
+  legend <- list( fill_colour = TRUE, stroke_colour = TRUE )
+
+  pal <- list(list(variables = c(stroke_colour = "id"), palette = structure(list(
+    variable = c(1, 2), colour = c("#440154", "#FDE725")), class = "data.frame", row.names = c(NA,
+                                                                                               -2L))))
+
+  expect_equal(
+    googleway:::resolveLegend(legend, NULL, list( stroke_colour = pal ) )
+    , list(
+      stroke_colour = list(
+        colourType = "stroke_colour"
+        , type = "category"
+        , title = NULL
+        , legend = NULL
+        , css = NULL
+        , position = NULL
+      )
+    )
+  )
+
+})
+
+
 
 
 
