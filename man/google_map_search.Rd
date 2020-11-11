@@ -9,7 +9,7 @@ google_map_search(query, place_id = NULL)
 \arguments{
 \item{query}{string or vector of lat/lon coordinates (in that order)}
 
-\item{place_id}{a Google place id (\url{https://developers.google.com/places/place-id}).}
+\item{place_id}{a Google place id (\url{https://developers.google.com/places/web-service/place-id}).}
 }
 \description{
 Opens a Google Map in a browser with the result of the specified search query.

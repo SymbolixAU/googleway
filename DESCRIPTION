@@ -1,8 +1,8 @@
 Package: googleway
 Type: Package
 Title: Accesses Google Maps APIs to Retrieve Data and Plot Maps
-Version: 2.7.2
-Date: 2020-08-07
+Version: 2.7.3
+Date: 2020-11-12
 Authors@R: c(
     person("David", "Cooley", ,"dcooley@symbolix.com.au", role = c("aut", "cre")),
     person("Paulo", "Barcelos", role = "ctb", comment = "Author of c++ decode_pl"),
@@ -12,10 +12,10 @@ Description: Provides a mechanism to plot a 'Google Map' from 'R' and overlay
     it with shapes and markers. Also provides access to 'Google Maps' APIs,
     including places, directions, roads, distances, geocoding, elevation and
     timezone.
-License: GPL-3
+License: MIT + file LICENSE
 LazyData: TRUE
 Depends:
-    R (>= 3.3.0)
+    R (>= 2.10.0)
 Imports:
     jsonlite (>= 0.9.20),
     curl,
@@ -30,7 +30,7 @@ Imports:
     scales,
     grDevices,
     googlePolylines (>= 0.7.1)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 BugReports: https://github.com/SymbolixAU/googleway/issues
 Suggests:
     knitr,

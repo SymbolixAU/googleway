@@ -28,7 +28,7 @@
 #' a blank image will be displayed saying 'Sorry, we have no imagery here'.
 #' @param signature a digitial signature used to verify that any site generating
 #' requests using your API key is authorised to do so. See Google Documentation
-#' for further details \url{https://developers.google.com/maps/documentation/streetview/intro}
+#' for further details \url{https://developers.google.com/maps/documentation/streetview/overview}
 #' @param key string. A valid Google Developers Street View Image API key
 #' @examples
 #' \dontrun{

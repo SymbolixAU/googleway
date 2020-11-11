@@ -15,7 +15,7 @@ google_map_panorama(
 \arguments{
 \item{viewpoint}{vector of lat/lon coordinates. If NULL, \code{pano} must be used.}
 
-\item{pano}{string of a specific panorama ID (see \url{https://developers.google.com/maps/documentation/urls/guide#pano-id}).
+\item{pano}{string of a specific panorama ID (see \url{https://developers.google.com/maps/documentation/urls/get-started#pano-id}).
 If NULL, \code{viewpoint} must be used.}
 
 \item{heading}{number between -180 and 360. Indicates the compass heading of the camera

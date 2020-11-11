@@ -40,7 +40,7 @@
 #' @details
 #'
 #' In order to use Google Maps you need a valid Google Maps Web JavaScript API key.
-#' See the Google Maps API documentation \url{https://developers.google.com/maps/}
+#' See the Google Maps API documentation \url{https://cloud.google.com/maps-platform/}
 #'
 #' The data argument is only needed if you call other functions to add layers to the map,
 #' such as \code{add_markers()} or \code{add_polylines}. However, the data argument

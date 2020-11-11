@@ -24,7 +24,7 @@
 #' walking or bicycling modes. List elements must be named either 'stop' or 'via',
 #' where 'stop' is used to indicate a stopover for a waypoint, and 'via' will
 #' not stop at the waypoint.
-#' See \url{https://developers.google.com/maps/documentation/directions/intro#Waypoints} for details
+#' See \url{https://developers.google.com/maps/documentation/directions/overview#Waypoints} for details
 #' @param optimise_waypoints \code{boolean} allow the Directions service to optimize the
 #' provided route by rearranging the waypoints in a more efficient order.
 #' (This optimization is an application of the Travelling Salesman Problem.)
@@ -51,7 +51,7 @@
 #' If no langauge is supplied, the service will attempt to use the language of the domain from which the request was sent
 #' @param region \code{string} - specifies the region code, specified as a ccTLD
 #' ("top-level domain"). See region basing for details
-#' \url{https://developers.google.com/maps/documentation/directions/intro#RegionBiasing}
+#' \url{https://developers.google.com/maps/documentation/directions/overview#RegionBiasing}
 #' @param key \code{string} - a valid Google Developers Directions API key
 #' @param simplify \code{logical} - TRUE indicates the returned JSON will be coerced into a list.
 #' FALSE indicates the returend JSON will be returned as a string

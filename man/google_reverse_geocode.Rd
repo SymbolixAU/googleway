@@ -18,7 +18,7 @@ google_reverse_geocode(
 \item{location}{numeric vector of lat/lon coordinates.}
 
 \item{result_type}{string vector - one or more address types.
-See \url{https://developers.google.com/maps/documentation/geocoding/intro#Types}
+See \url{https://developers.google.com/maps/documentation/geocoding/overview#Types}
 for list of available types.}
 
 \item{location_type}{string vector specifying a location type will restrict the

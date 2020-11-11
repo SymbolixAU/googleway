@@ -5,7 +5,7 @@
 #'
 #' @param location numeric vector of lat/lon coordinates.
 #' @param result_type string vector - one or more address types.
-#' See \url{https://developers.google.com/maps/documentation/geocoding/intro#Types}
+#' See \url{https://developers.google.com/maps/documentation/geocoding/overview#Types}
 #' for list of available types.
 #' @param location_type string vector specifying a location type will restrict the
 #' results to this type. If multiple types are specified, the API will return all

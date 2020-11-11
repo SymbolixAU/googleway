@@ -1,4 +1,10 @@
 
+## Version 2.7.3
+
+* Back on Cran 
+* reduced R dependency to 2.10
+* updated Licence to MIT
+
 ## Version 2.7.2
 
 * variables can now be used in the map `add_layer()` functions to define column names [issue 168](https://github.com/SymbolixAU/googleway/issues/168)
