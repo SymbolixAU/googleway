@@ -7,3 +7,4 @@ README.md
 ^revdep$
 ^docs/
 ^LICENSE\.md$
+^CRAN-RELEASE$

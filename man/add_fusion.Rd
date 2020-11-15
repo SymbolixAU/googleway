@@ -19,7 +19,7 @@ stroke weight and opacity to lines and polygons. See examples.}
 \item{layer_id}{single value specifying an id for the layer.}
 }
 \description{
-Adds a fusion table layer to a map.
+This layer has been discontinued from Google Maps. Adds a fusion table layer to a map.
 }
 \details{
 The query must have a 'select' and a 'from' property, and optionally a 'where'.

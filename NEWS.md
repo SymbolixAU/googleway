@@ -4,6 +4,7 @@
 * Back on Cran 
 * reduced R dependency to 2.10
 * updated Licence to MIT
+* Deprecated fusion tables - https://support.google.com/fusiontables/answer/9551050
 
 ## Version 2.7.2
 

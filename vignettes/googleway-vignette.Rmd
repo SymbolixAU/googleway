@@ -17,19 +17,19 @@ Googleway provides access to Google Maps APIs, and the ability to plot an intera
 
 The API functions are
 
-* [**Directions**](https://developers.google.com/maps/documentation/directions/start) - `google_directions()`
-* [**Distance Matrix**](https://developers.google.com/maps/documentation/distance-matrix/) - `google_distance()`
+* [**Directions**](https://developers.google.com/maps/documentation/directions/overview) - `google_directions()`
+* [**Distance Matrix**](https://developers.google.com/maps/documentation/distance-matrix/overview) - `google_distance()`
 * [**Elevation**](https://developers.google.com/maps/documentation/elevation/start) - `google_elevation()`
 * [**Geocoding**](https://developers.google.com/maps/documentation/geocoding/start) - `google_geocode()`
-* [**Reverse Geocoding**](https://developers.google.com/maps/documentation/geocoding/intro#ReverseGeocoding) - `google_reverse_geocode()`
+* [**Reverse Geocoding**](https://developers.google.com/maps/documentation/geocoding/overview#ReverseGeocoding) - `google_reverse_geocode()`
 * [**Places**](https://developers.google.com/maps/documentation/javascript/places#place_searches) - `google_places()`
 * [**Place Details**](https://developers.google.com/maps/documentation/javascript/places#place_details) - `google_place_details()`
-* [**Time zone**](https://developers.google.com/maps/documentation/timezone/start) - `google_timezone()`
-* [**Roads**](https://developers.google.com/maps/documentation/roads/intro) - `google_snapToRoads()` and `google_nearestRoads()`
+* [**Time zone**](https://developers.google.com/maps/documentation/timezone/get-started) - `google_timezone()`
+* [**Roads**](https://developers.google.com/maps/documentation/roads/overview) - `google_snapToRoads()` and `google_nearestRoads()`
 
 Plotting a Google Map uses the JavaScript API, and the functions used to create a map and overlays are
 
-* [**Google Map**](https://developers.google.com/maps/documentation/javascript/) - `google_map()`
+* [**Google Map**](https://developers.google.com/maps/documentation/javascript/overview) - `google_map()`
 * [**Markers**](https://developers.google.com/maps/documentation/javascript/markers) - `add_markers()`
 * [**Heatmap**](https://developers.google.com/maps/documentation/javascript/examples/layer-heatmap) - `add_heatmap()`
 * [**Circles**](https://developers.google.com/maps/documentation/javascript/examples/circle-simple) - `add_circles()`
@@ -39,7 +39,6 @@ Plotting a Google Map uses the JavaScript API, and the functions used to create 
 * [**GeoJSON**](https://developers.google.com/maps/documentation/javascript/datalayer#load_geojson) - `add_geojson()`
 * [**Drag & Drop GeoJSON**](https://developers.google.com/maps/documentation/javascript/examples/layer-data-dragndrop) - `add_dragdrop()`
 * [**Overlays**](https://developers.google.com/maps/documentation/javascript/examples/overlay-simple) - `add_overlay()`
-* [**Fusion layer**](https://developers.google.com/maps/documentation/javascript/fusiontableslayer) - `add_fusion()`
 * [**KML**](https://developers.google.com/maps/documentation/javascript/examples/layer-kml) - `add_kml()`
 * [**Bicycle routes**](https://developers.google.com/maps/documentation/javascript/examples/layer-bicycling) - `add_bicycling()`
 * [**Traffic**](https://developers.google.com/maps/documentation/javascript/examples/layer-traffic) - `add_traffic()`
@@ -47,14 +46,14 @@ Plotting a Google Map uses the JavaScript API, and the functions used to create 
 
 Downloading a static streetview map
 
-* [**Street View Image**](https://developers.google.com/maps/documentation/streetview/) - `google_streetview()` 
+* [**Street View Image**](https://developers.google.com/maps/documentation/streetview/overview) - `google_streetview()` 
 
 There are also functions that directly open in a browser, but don't return any data
 
-* [**Google Maps URL**](https://developers.google.com/maps/documentation/urls/guide) - `google_map_url()`
-* [**Google Maps Search**](https://developers.google.com/maps/documentation/urls/guide#search-action) - `google_map_search()`
-* [**Google Maps Directions**](https://developers.google.com/maps/documentation/urls/guide#directions-action) - `google_map_directions()`
-* [**Google Maps Panorama**](https://developers.google.com/maps/documentation/urls/guide#street-view-action) - `google_map_panorama()`
+* [**Google Maps URL**](https://developers.google.com/maps/documentation/urls/get-started) - `google_map_url()`
+* [**Google Maps Search**](https://developers.google.com/maps/documentation/urls/get-started) - `google_map_search()`
+* [**Google Maps Directions**](https://developers.google.com/maps/documentation/urls/get-started) - `google_map_directions()`
+* [**Google Maps Panorama**](https://developers.google.com/maps/documentation/urls/get-started) - `google_map_panorama()`
 
 
 
@@ -101,7 +100,7 @@ google_keys()
 
 ## API Use
 
-Google's [API pricing and plans](https://developers.google.com/maps/pricing-and-plans/#details) contains the most up-to-date information on their use and restrictions. 
+Google's [API pricing and plans](https://cloud.google.com/maps-platform/pricing) contains the most up-to-date information on their use and restrictions. 
 
 For the free tier this is 2,500 web-service API requests (e.g., geocoding, directions, distances, etc) per day (the places API is slightly different), and 25,000 map loads per day.
 
@@ -174,7 +173,7 @@ If there is a specific data point you would like added to the function, please [
 
 [**Google Maps**](http://www.google.com/maps) allows users to find directions between locations.
 
-The [**Google Maps Directions API**](https://developers.google.com/maps/documentation/directions/) is a service available to developers that calculates directions between locations.
+The [**Google Maps Directions API**](https://developers.google.com/maps/documentation/directions/overview) is a service available to developers that calculates directions between locations.
 
 Searching Google Maps for directions from Melbourne to Sydney generates the route:
 
@@ -285,7 +284,7 @@ encode_pl(lat = df$lat, lon = df$lon)
 
 ## Google Distance API
 
-The [**Google Maps Distance API**](https://developers.google.com/maps/documentation/distance-matrix/intro) is a service that provides travel distance and time for a matrix of origins and destinations.
+The [**Google Maps Distance API**](https://developers.google.com/maps/documentation/distance-matrix/overview) is a service that provides travel distance and time for a matrix of origins and destinations.
 
 
 Finding the distances between Melbourne Airport, the MCG, a set of coordinates (-37.81659, 144.9841), to Portsea, Melbourne.
@@ -365,7 +364,7 @@ $status
 
 ## Google Timezone API
 
-The [**Google Maps Time zone API**](https://developers.google.com/maps/documentation/timezone/start) provides time offset data for locations on the surface of the earth. You request the time zone information for a specific latitude/longitude pair and date. The API returns the name of that time zone, the time offset from UTC, and the daylight savings offset.
+The [**Google Maps Time zone API**](https://developers.google.com/maps/documentation/timezone/get-started) provides time offset data for locations on the surface of the earth. You request the time zone information for a specific latitude/longitude pair and date. The API returns the name of that time zone, the time offset from UTC, and the daylight savings offset.
 
 Finding the timezone of the MCG in Melbourne
 
@@ -430,7 +429,7 @@ geocode_coordinates(df)
 
 ## Google Reverse Geocode API
 
-The [**Google Maps Reverse Geocoding API**](https://developers.google.com/maps/documentation/geocoding/intro#ReverseGeocoding) is a service that converts geographic coordinates into a human-readable address.
+The [**Google Maps Reverse Geocoding API**](https://developers.google.com/maps/documentation/geocoding/overview#ReverseGeocoding) is a service that converts geographic coordinates into a human-readable address.
 
 Finding the street address for a set of coordinates, using `result_type` and `location_type` as bounding parameters:
 
@@ -684,7 +683,7 @@ Markers and circles can be used to show points on the map.
 
 In this example I'm using the `tram_stops` data set provided with googleway. 
 
-You can specify a column in the data.frame to use to populate a popup `info_window` that will be displayed when clicking on a maker. The info window can display any valid HTML, as demonstrated in [this Stack Overflow answer](http://stackoverflow.com/a/39339464/5977215).
+You can specify a column in the data.frame to use to populate a popup `info_window` that will be displayed when clicking on a maker. The info window can display any valid HTML, as demonstrated in [this Stack Overflow answer](https://stackoverflow.com/a/39339464/5977215).
 
 
 ```
@@ -1041,68 +1040,6 @@ $bounds$east
 $randomValue
 [1] 0.3688953
 ```
-
-### Fusion Layers
-
-The fusion layer renders data contained in a Google [Fusion Table](https://developers.google.com/fusiontables/). At the time of writing the Fusion Layer is still experimental.
-
-> A Google Fusion Table is a database table where each row contains data about a particular feature; for geographic data, each row within a Google Fusion Table additionally contains location data, holding a feature’s positional information. The FusionTablesLayer provides an interface to Fusion Tables and supports automatic rendering of this location data, providing clickable overlays that display a feature’s additional data.
-
-To add a fusion layer you need to query the table using least a `select` and a `from` property. The query must be supplied in a `data.frame` or a JSON string. If a `data.frame` is used it must be one row long, and either 2 or 3 columns.
-
-```
-qry <- data.frame(select = 'address',
-    from = '1d7qpn60tAvG4LEg4jvClZbc1ggp8fIGGvpMGzA',
-    where = 'ridership > 200')
-
-## Or as a list
-# qry <- list(select = 'address',
-#     from = '1d7qpn60tAvG4LEg4jvClZbc1ggp8fIGGvpMGzA',
-#     where = 'ridership > 200')
-
-google_map(key = "your_api_key", location = c(41.8, -87.7), zoom = 9) %>%
-  add_fusion(query = qry)
-    
-```
-![Fusion Layer](./img/fusion_layer.png)
-
-You can also supply a `styles` argument to style the layers
-
-```
-## Query using a JSON string
-qry <- '{"select":"geometry","from":"1ertEwm-1bMBhpEwHhtNYT47HQ9k2ki_6sRa-UQ"}'
-
-styles <- '[
-  {
-    "polygonOptions":{
-      "fillColor":"#FFFF00",
-      "fillOpacity":0.3
-      }
-    },
-    {
-      "where":"birds > 300",
-       "polygonOptions":{
-         "fillColor":"#000000"
-       }
-     },
-     {
-       "where":"population > 5",
-       "polygonOptions":{
-         "fillOpacity":1
-         }
-     }
-   ]'
-
-google_map(key = "your_api_key", location = c(-25.3, 133), zoom = 4) %>%
-  add_fusion(query = qry, styles = styles)
-  
-  
-## The style will also work as a JSON object
-# attr(styles, 'class') <- 'json'
-  
-```
-![Fusion Styles](./img/fusion_layer_style.png)
-
 
 ### KML & GeoRSS
 

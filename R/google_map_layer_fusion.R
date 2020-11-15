@@ -13,7 +13,7 @@ googleFusionDependency <- function() {
 
 #' Add Fusion
 #'
-#' Adds a fusion table layer to a map.
+#' This layer has been discontinued from Google Maps. Adds a fusion table layer to a map.
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param query a fusion layer query. See details.
@@ -113,6 +113,8 @@ googleFusionDependency <- function() {
 #'
 #' @export
 add_fusion <- function(map, query, styles = NULL, heatmap = FALSE, layer_id = NULL){
+
+  warning("Fusion tables have been discontinued. Please see https://support.google.com/fusiontables/answer/9551050")
 
   ## TODO:
   ## - update bounds on layer
