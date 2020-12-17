@@ -382,7 +382,7 @@ function initialise_map(el, x) {
     }
 
     if( x.geolocation === true) {
-        add_geolocation();
+        add_geolocation(el.id, window[el.id + 'map'], mapInfo );
     }
 
     // listeners

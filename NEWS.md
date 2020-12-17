@@ -1,4 +1,8 @@
 
+## Version 2.7.4
+
+* fix geolocation not correctly referencing `map_id`
+
 ## Version 2.7.3
 
 * Back on Cran 
