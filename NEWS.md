@@ -1,4 +1,10 @@
 
+## Version 2.7.5
+
+* moved drawing controls to TOP_RIGHT to avoid search bar
+* drawing mode not selected by default when initially `add_drawing()` is called (you have to select the drawing layer)
+
+
 ## Version 2.7.4
 
 * fix geolocation not correctly referencing `map_id`

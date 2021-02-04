@@ -13,11 +13,11 @@ function add_drawing (map_id, drawing_modes, marker, circle, rectangle, polyline
     var drawingInfo,
         drawingManager = new google.maps.drawing.DrawingManager({
 
-            drawingMode: google.maps.drawing.OverlayType.MARKER,
-            drawingControl: true,
+            //drawingMode: google.maps.drawing.OverlayType.MARKER,
+            //drawingControl: true,
 
             drawingControlOptions: {
-                position: google.maps.ControlPosition.TOP_CENTER,
+                position: google.maps.ControlPosition.TOP_RIGHT,
                 drawingModes: drawing_modes
             },
 
