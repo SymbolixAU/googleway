@@ -121,7 +121,8 @@ layerId <- function(layer_id){
 # to be 'icon'
 # @param data the data supplied to the map layer
 # @param objArgs the arguments to the function
-# @param colour the colour argument for a marker
+# @param colour Set to `NULL` to not check the clour.  Set to anything other than `NULL`
+# to check the colour.
 # @param marker_icon the icon argument for a marker
 markerColourIconCheck <- function(data, objArgs, colour, marker_icon){
 
@@ -134,7 +135,7 @@ markerColourIconCheck <- function(data, objArgs, colour, marker_icon){
   }
 
   if(!is.null(colour)){
-    if(!all((tolower(data[, colour])) %in% c("red","blue","green","lavender"))){
+    if(!all((tolower(data[["colour"]])) %in% c("red","blue","green","lavender"))){
       stop("colours must be either red, blue, green or lavender")
     }
   }
