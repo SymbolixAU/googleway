@@ -22,6 +22,7 @@
 #' @param search_box \code{boolean} indicating if a search box should be placed on the map
 #' @param update_map_view logical indicating if the map should center on the searched location
 #' @param zoom_control logical indicating if the zoom control should be displayed
+#' @param map_type defines the type of map to display. One of 'roadmap', 'satellite', 'terrain' or 'hybrid'
 #' @param map_type_control logical indicating if the map type control should be displayed
 #' @param scale_control logical indicating if the scale control should be displayed
 #' @param street_view_control logical indicating if the street view control should be displayed

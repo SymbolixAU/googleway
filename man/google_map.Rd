@@ -57,6 +57,8 @@ See the Google documentation for details \url{https://developers.google.com/maps
 
 \item{zoom_control}{logical indicating if the zoom control should be displayed}
 
+\item{map_type}{defines the type of map to display. One of 'roadmap', 'satellite', 'terrain' or 'hybrid'}
+
 \item{map_type_control}{logical indicating if the map type control should be displayed}
 
 \item{scale_control}{logical indicating if the scale control should be displayed}
