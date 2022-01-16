@@ -87,56 +87,6 @@ test_that("style is validated", {
 })
 
 
-test_that("fusion style is valid", {
-
-  lst <- list(
-    list(polygonOptions = list(
-      fillColor = "#00FF00"
-    ))
-  )
-
-  expect_true(
-    googleway:::validateFusionStyle(lst) == "[{\"polygonOptions\":{\"fillColor\":\"#00FF00\"}}]"
-  )
-
-  chr <- '[{ "polygonsOptions" : {"fillColor" : "#FF00FF" } }]'
-  expect_true(
-    googleway:::validateFusionStyle(chr) == "[{ \"polygonsOptions\" : {\"fillColor\" : \"#FF00FF\" } }]"
-  )
-
-  expect_error(
-    googleway:::validateFusionStyle(data.frame()),
-    "I don't know how to deal with objects of type data.frame"
-  )
-
-})
-
-
-test_that("fusion query is valid", {
-
-  ## invalid columsn
-  df <- data.frame(select = "a")
-
-  expect_error(
-    googleway:::validateFusionQuery(df),
-    "the columns of a fusion query must contain 'select' and 'where'"
-  )
-
-  qry <- '{"select":"geometry","from":"1ertEwm-1bMBhpEwHhtNYT47HQ9k2ki_6sRa-UQ"}'
-
-  expect_true(
-    googleway:::validateFusionQuery(qry) == '{"select":"geometry","from":"1ertEwm-1bMBhpEwHhtNYT47HQ9k2ki_6sRa-UQ"}'
-  )
-
-  class(qry) <- 'json'
-  expect_error(
-    googleway:::validateFusionQuery(qry),
-    "I don't know how to deal with objects of type json"
-  )
-
-})
-
-
 
 
 

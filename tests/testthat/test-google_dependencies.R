@@ -21,13 +21,6 @@ test_that("dependencies load", {
 
   expect_true("drawing" %in% sapply(m$dependencies, function(x) x[['name']]))
 
-  ## FUSION
-  ## DRAGDROP
-  m <- google_map(key = "abc") %>%
-    add_fusion(query = "{}")
-
-  expect_true("fusion" %in% sapply(m$dependencies, function(x) x[['name']]))
-
   ## GEOJSON
   m <- google_map(key = "abc") %>%
     add_geojson(data = geo_melbourne)
@@ -35,7 +28,6 @@ test_that("dependencies load", {
   expect_true("geojson" %in% sapply(m$dependencies, function(x) x[['name']]))
 
   ## HEATMAP
-  ## DRAGDROP
   m <- google_map(key = "abc", data = tram_stops) %>%
     add_heatmap()
 

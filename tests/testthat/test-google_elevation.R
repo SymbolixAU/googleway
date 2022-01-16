@@ -83,7 +83,7 @@ test_that("samples converted to integer", {
                      location_type = "individual",
                      samples = "20",
                      key = "abc",
-                     simplify = TRUE)$error_message == "The provided API key is invalid."
+                     simplify = TRUE)$error_message == "The provided API key is invalid. "
   )
 
 })
@@ -100,7 +100,7 @@ test_that("polyline correctly formed", {
 
   expect_equal(
     google_elevation(polyline = "polyline", key = 'abc')$error_message,
-    "The provided API key is invalid."
+    "The provided API key is invalid. "
   )
 
   df <- data.frame(lat = runif(8000), lon = runif(8000))
@@ -125,7 +125,7 @@ test_that("data is attempted to be downloaded", {
                    lon = c(144.9841, 144.9841))
 
   expect_true(google_elevation(df_locations = df,
-                               key = "abc")$error_message == "The provided API key is invalid.")
+                               key = "abc")$error_message == "The provided API key is invalid. ")
 
 
 })

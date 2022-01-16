@@ -1,6 +1,8 @@
 
 ## Version 2.7.5
 
+* removed `add_fusion()` functions as they are [discontinued by google](https://support.google.com/fusiontables/answer/9551050)
+* fixed failing tests
 * moved drawing controls to TOP_RIGHT to avoid search bar
 * drawing mode not selected by default when initially `add_drawing()` is called (you have to select the drawing layer)
 

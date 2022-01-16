@@ -114,7 +114,7 @@ test_that("component types are valid",{
 test_that("downloaded is attempted", {
 
   expect_true(google_geocode(address = "Flinders Street Station",
-                             key = "abc")$error_message == "The provided API key is invalid.")
+                             key = "abc")$error_message == "The provided API key is invalid. ")
 
 })
 

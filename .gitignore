@@ -10,3 +10,6 @@ src/*.dll
 inst/doc
 .DS_Store
 .googleAPI
+/doc/
+/Meta/
+docs

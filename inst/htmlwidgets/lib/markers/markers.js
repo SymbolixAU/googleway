@@ -81,6 +81,8 @@ function cluster_markers(map_id, layer_id, cluster_options) {
 
 function set_markers(map_id, infoWindow, aMarker, update_map_view, layer_id, use_polyline, timeout) {
 
+    console.log( aMarker );
+
     window.setTimeout(function () {
 
         var j, lon, lat, path, latlon;
