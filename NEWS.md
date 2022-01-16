@@ -1,7 +1,7 @@
 
 ## Version 2.7.5
 
-* `map_type` argument added to `google_map()` to specifiy the base-map type
+* `map_type` argument added to `google_map()` to specifiy the base-map type [issue 240]((https://github.com/SymbolixAU/googleway/issues/240)
 * removed `add_fusion()` functions as they are [discontinued by google](https://support.google.com/fusiontables/answer/9551050)
 * fixed failing tests
 * moved drawing controls to TOP_RIGHT to avoid search bar
