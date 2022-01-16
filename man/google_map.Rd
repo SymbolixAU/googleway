@@ -17,6 +17,7 @@ google_map(
   search_box = FALSE,
   update_map_view = TRUE,
   zoom_control = TRUE,
+  map_type = c("roadmap", "satellite", "hybrid", "terrain"),
   map_type_control = TRUE,
   scale_control = FALSE,
   street_view_control = TRUE,

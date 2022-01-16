@@ -25,7 +25,7 @@
 #' @export
 google_map_url <- function(center = NULL,
                            zoom = 15,
-                           basemap = c("roadmap", "satellite", "terrain"),
+                           basemap = c("roadmap", "satellite", "hybrid", "terrain"),
                            layer = c("none", "transit", "traffic", "bicycling")) {
 
   mapUrl <- "https://www.google.com/maps/@?api=1&map_action=map"

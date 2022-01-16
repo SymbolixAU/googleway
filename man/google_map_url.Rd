@@ -7,7 +7,7 @@
 google_map_url(
   center = NULL,
   zoom = 15,
-  basemap = c("roadmap", "satellite", "terrain"),
+  basemap = c("roadmap", "satellite", "hybrid", "terrain"),
   layer = c("none", "transit", "traffic", "bicycling")
 )
 }

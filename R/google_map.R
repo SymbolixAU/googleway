@@ -109,6 +109,7 @@ google_map <- function(data = NULL,
                        search_box = FALSE,
                        update_map_view = TRUE,
                        zoom_control = TRUE,
+                       map_type = c("roadmap","satellite","hybrid","terrain"),
                        map_type_control = TRUE,
                        scale_control = FALSE,
                        street_view_control = TRUE,
@@ -128,6 +129,7 @@ google_map <- function(data = NULL,
   logicalCheck(fullscreen_control)
   logicalCheck(update_map_view)
   logicalCheck(geolocation)
+  map_type <- match.arg(map_type)
   event_return_type <- match.arg(event_return_type)
 
   split_view_options <- splitViewOptions(split_view_options)
@@ -150,6 +152,7 @@ google_map <- function(data = NULL,
     search_box = search_box,
     update_map_view = update_map_view,
     zoomControl = zoom_control,
+    mapType = map_type,
     mapTypeControl = map_type_control,
     scaleControl = scale_control,
     streetViewControl = street_view_control,
