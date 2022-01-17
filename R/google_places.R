@@ -10,10 +10,10 @@
 #' @note
 #' The Google Places API Web Service enforces a default limit of 1,000 free requests
 #' per 24 hour period, calculated as the sum of client-side and server-side requets.
-#' See \url{https://developers.google.com/places/web-service/usage-and-billing} for details.
+#' See \url{https://developers.google.com/maps/documentation/places/web-service/usage-and-billing} for details.
 #'
 #' Use of the Places Library must be in accordance with the polices described
-#' for the Google Places API Web Service \url{https://developers.google.com/places/web-service/policies}
+#' for the Google Places API Web Service \url{https://developers.google.com/maps/documentation/places/web-service/policies}
 #'
 #'
 #' @param search_string \code{string} A search term representing a place for
@@ -46,7 +46,7 @@
 #' match the search term, but whose associated names do.
 #' @param place_type \code{string} Restricts the results to places matching the
 #' specified type. Only one type may be specified. For a list of valid types,
-#' please visit \url{https://developers.google.com/places/supported_types}.
+#' please visit \url{https://developers.google.com/maps/documentation/places/web-service/supported_types}.
 #' @param price_range \code{numeric} \code{vector} Specifying the minimum and
 #' maximum price ranges. Values range between 0 (most affordable) and 4 (most expensive).
 #' @param open_now \code{logical} Returns only those places that are open for
@@ -231,12 +231,12 @@ google_places <- function(
 #' @details
 #'
 #' Fields correspond to place search results
-#'  \url{https://developers.google.com/places/web-service/search#PlaceSearchResults}
+#'  \url{https://developers.google.com/maps/documentation/places/web-service/search}
 #' and are divided into three billing categories: Basic, Contact and Atmosphere.
 #'
 #' Basic fields are billed at base rate, and incur no additional charges. Contact
 #' and atmosphere fields are billed at a hihger rate. See pricing sheet for more information
-#' \url{https://cloud.google.com/maps-platform/pricing/sheet/?__utma=102347093.1187532699.1510801584.1537138439.1537138439.1&__utmb=102347093.0.10.1537138439&__utmc=102347093&__utmx=-&__utmz=102347093.1537138439.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)&__utmv=-&__utmk=133826830&_ga=2.227832157.1738618203.1537137400-1187532699.1510801584}
+#' \url{https://mapsplatform.google.com/pricing/}
 #'
 #' \itemize{
 #'  \item{Basic - }{formatted_address, geometry, icon, id, name, permanently_closed, photos, place_id, plus_code, types}

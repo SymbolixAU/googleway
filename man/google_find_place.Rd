@@ -56,12 +56,12 @@ The text input can be any kind of Places data, for example, a name, address, or 
 }
 \details{
 Fields correspond to place search results
- \url{https://developers.google.com/places/web-service/search#PlaceSearchResults}
+ \url{https://developers.google.com/maps/documentation/places/web-service/search}
 and are divided into three billing categories: Basic, Contact and Atmosphere.
 
 Basic fields are billed at base rate, and incur no additional charges. Contact
 and atmosphere fields are billed at a hihger rate. See pricing sheet for more information
-\url{https://cloud.google.com/maps-platform/pricing/sheet/?__utma=102347093.1187532699.1510801584.1537138439.1537138439.1&__utmb=102347093.0.10.1537138439&__utmc=102347093&__utmx=-&__utmz=102347093.1537138439.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)&__utmv=-&__utmk=133826830&_ga=2.227832157.1738618203.1537137400-1187532699.1510801584}
+\url{https://mapsplatform.google.com/pricing/}
 
 \itemize{
  \item{Basic - }{formatted_address, geometry, icon, id, name, permanently_closed, photos, place_id, plus_code, types}

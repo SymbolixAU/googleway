@@ -18,12 +18,12 @@ google_map_directions(
 \arguments{
 \item{origin}{string of an address or search term, or vector of lat/lon coordinates}
 
-\item{origin_place_id}{a Google place id (\url{https://developers.google.com/places/web-service/place-id}).
+\item{origin_place_id}{a Google place id (\url{https://developers.google.com/maps/documentation/places/web-service/place-id}).
 If used, you must also specify an \code{origin}}
 
 \item{destination}{string of an address or vector of lat/lon coordinates}
 
-\item{destination_place_id}{a Google place id (\url{https://developers.google.com/places/web-service/place-id}).
+\item{destination_place_id}{a Google place id (\url{https://developers.google.com/maps/documentation/places/web-service/place-id}).
 If used, you must also specify an \code{destination}}
 
 \item{travel_mode}{one of \code{driving}, \code{walking}, \code{bicycling} or

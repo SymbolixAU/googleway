@@ -60,7 +60,7 @@ match the search term, but whose associated names do.}
 
 \item{place_type}{\code{string} Restricts the results to places matching the
 specified type. Only one type may be specified. For a list of valid types,
-please visit \url{https://developers.google.com/places/supported_types}.}
+please visit \url{https://developers.google.com/maps/documentation/places/web-service/supported_types}.}
 
 \item{price_range}{\code{numeric} \code{vector} Specifying the minimum and
 maximum price ranges. Values range between 0 (most affordable) and 4 (most expensive).}
@@ -130,10 +130,10 @@ search radius may be included.
 \note{
 The Google Places API Web Service enforces a default limit of 1,000 free requests
 per 24 hour period, calculated as the sum of client-side and server-side requets.
-See \url{https://developers.google.com/places/web-service/usage-and-billing} for details.
+See \url{https://developers.google.com/maps/documentation/places/web-service/usage-and-billing} for details.
 
 Use of the Places Library must be in accordance with the polices described
-for the Google Places API Web Service \url{https://developers.google.com/places/web-service/policies}
+for the Google Places API Web Service \url{https://developers.google.com/maps/documentation/places/web-service/policies}
 }
 \section{API use and limits}{
 

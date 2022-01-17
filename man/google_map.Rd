@@ -49,7 +49,7 @@ of the various \code{add_} functions. If null, the map will default to Melbourne
 \item{padding}{the padding of the map}
 
 \item{styles}{JSON string representation of a valid Google Maps styles Array.
-See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}}
+See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/cloud-based-map-styling}}
 
 \item{search_box}{\code{boolean} indicating if a search box should be placed on the map}
 
@@ -88,7 +88,7 @@ Generates a google map object
 }
 \details{
 In order to use Google Maps you need a valid Google Maps Web JavaScript API key.
-See the Google Maps API documentation \url{https://cloud.google.com/maps-platform/}
+See the Google Maps API documentation \url{https://mapsplatform.google.com/}
 
 The data argument is only needed if you call other functions to add layers to the map,
 such as \code{add_markers()} or \code{add_polylines}. However, the data argument

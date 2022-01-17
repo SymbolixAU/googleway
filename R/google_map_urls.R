@@ -56,7 +56,7 @@ google_map_url <- function(center = NULL,
 #' @note There is no need for an api key
 #'
 #' @param query string or vector of lat/lon coordinates (in that order)
-#' @param place_id a Google place id (\url{https://developers.google.com/places/web-service/place-id}).
+#' @param place_id a Google place id (\url{https://developers.google.com/maps/documentation/places/web-service/place-id}).
 #'
 #' @details
 #' If both parameters are given, the \code{query} is only used if Google Maps cannot
@@ -122,10 +122,10 @@ validateLocationQuery.default <- function(query) stop("Unknown query type")
 #' will be ignored.
 #'
 #' @param origin string of an address or search term, or vector of lat/lon coordinates
-#' @param origin_place_id a Google place id (\url{https://developers.google.com/places/web-service/place-id}).
+#' @param origin_place_id a Google place id (\url{https://developers.google.com/maps/documentation/places/web-service/place-id}).
 #' If used, you must also specify an \code{origin}
 #' @param destination string of an address or vector of lat/lon coordinates
-#' @param destination_place_id a Google place id (\url{https://developers.google.com/places/web-service/place-id}).
+#' @param destination_place_id a Google place id (\url{https://developers.google.com/maps/documentation/places/web-service/place-id}).
 #' If used, you must also specify an \code{destination}
 #' @param travel_mode one of \code{driving}, \code{walking}, \code{bicycling} or
 #' \code{transit}. If not supplied, the Google Map will show one or more of the

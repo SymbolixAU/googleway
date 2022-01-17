@@ -10,7 +10,7 @@ update_style(map, styles = NULL)
 \item{map}{a googleway map object created from \code{google_map()}}
 
 \item{styles}{JSON string representation of a valid Google Maps styles Array.
-See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/styling}}
+See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/cloud-based-map-styling}}
 }
 \description{
 Updates the map with the given styles

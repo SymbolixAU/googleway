@@ -22,7 +22,7 @@
 #' @param place_type \code{string} Restricts the results to places matching the
 #' specified type. Only one type may be specified (if more than one type is provided,
 #' all types following the first entry are ignored). For a list of valid types,
-#' please visit \url{https://developers.google.com/places/web-service/autocomplete#place_types}
+#' please visit \url{https://developers.google.com/maps/documentation/places/web-service/autocomplete}
 #' @param components \code{string} of length 1 which identifies a grouping of places
 #' to which you would like to restrict your results. Currently, you can use
 #' components to filter by country only. The country must be passed as a two
