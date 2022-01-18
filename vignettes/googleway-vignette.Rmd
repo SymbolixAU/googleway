@@ -62,7 +62,7 @@ Finally, the package includes the helper functions, `encode_pl()` and `decode_pl
 
 ## API Key
 
-To use most of the functions in this package you will need a valid **API KEY** ([follow instructions here to get a key](https://developers.google.com/maps/documentation/javascript/)) for the API you wish to use. The same API key can be used for all the functions, but you need to register it with each API first. 
+To use most of the functions in this package you will need a valid **API KEY** ([follow instructions here to get a key](https://developers.google.com/maps/documentation/javascript/overview)) for the API you wish to use. The same API key can be used for all the functions, but you need to register it with each API first. 
 
 The exceptions to this are the functions that don't return any data
 
@@ -100,7 +100,7 @@ google_keys()
 
 ## API Use
 
-Google's [API pricing and plans](https://cloud.google.com/maps-platform/pricing) contains the most up-to-date information on their use and restrictions. 
+Google's [API pricing and plans](https://mapsplatform.google.com/pricing/) contains the most up-to-date information on their use and restrictions. 
 
 For the free tier this is 2,500 web-service API requests (e.g., geocoding, directions, distances, etc) per day (the places API is slightly different), and 25,000 map loads per day.
 
@@ -171,7 +171,7 @@ If there is a specific data point you would like added to the function, please [
 
 ## Google Directions API
 
-[**Google Maps**](http://www.google.com/maps) allows users to find directions between locations.
+[**Google Maps**](https://www.google.com/maps) allows users to find directions between locations.
 
 The [**Google Maps Directions API**](https://developers.google.com/maps/documentation/directions/overview) is a service available to developers that calculates directions between locations.
 
@@ -462,7 +462,7 @@ df$results$geometry
 
 ## Google Places API
 
-The [**Google Maps Places API**](https://developers.google.com/places/) gets data from the same database used by Google Maps and Google+ Local. Places features more than 100 million businesses and points of interest that are updated frequently through owner-verified listings and user-moderated contributions.
+The [**Google Maps Places API**](https://developers.google.com/maps/) gets data from the same database used by Google Maps and Google+ Local. Places features more than 100 million businesses and points of interest that are updated frequently through owner-verified listings and user-moderated contributions.
 
 There are three types of search you can perform
 
@@ -1047,7 +1047,7 @@ The `add_kml()` function renders KML and GeoRSS elements on a Google Map. All yo
 
 
 ```
-kmlUrl <- 'http://googlemaps.github.io/js-v2-samples/ggeoxml/cta.kml'
+kmlUrl <- 'https://googlemaps.github.io/js-v2-samples/ggeoxml/cta.kml'
 
 google_map(key = "your_api_key") %>%
   add_kml(kml_url = kmlUrl)

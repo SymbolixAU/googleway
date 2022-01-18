@@ -170,10 +170,10 @@ markerColumns <- function() {
 
 df_markerColours <- function() {
   data.frame(colour = c('red', 'blue', 'green', 'lavender'),
-             url = c("http://mt.googleapis.com/vt/icon/name=icons/spotlight/spotlight-poi.png&scale=1",
+             url = c("https://mt.googleapis.com/vt/icon/name=icons/spotlight/spotlight-poi.png&scale=1",
                      "https://mts.googleapis.com/vt/icon/name=icons/spotlight/spotlight-waypoint-blue.png&psize=16&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1",
-                     "http://mt.google.com/vt/icon?psize=30&font=fonts/arialuni_t.ttf&color=ff304C13&name=icons/spotlight/spotlight-waypoint-a.png&ax=43&ay=48&text=%E2%80%A2",
-                     "http://mt.google.com/vt/icon/name=icons/spotlight/spotlight-ad.png"))
+                     "https://mt.google.com/vt/icon?psize=30&font=fonts/arialuni_t.ttf&color=ff304C13&name=icons/spotlight/spotlight-waypoint-a.png&ax=43&ay=48&text=%E2%80%A2",
+                     "https://mt.google.com/vt/icon/name=icons/spotlight/spotlight-ad.png"))
 }
 
 markerDefaults <- function(n) {

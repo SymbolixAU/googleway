@@ -23,11 +23,6 @@ googleKmlDependency <- function() {
 #'
 #' map_key <- 'your_api_key'
 #'
-#' kmlUrl <- "http://googlemaps.github.io/js-v2-samples/ggeoxml/cta.kml"
-#'
-#' google_map(key = map_key) %>%
-#'   add_kml(kml_url = kmlUrl)
-#'
 #' kmlUrl <- paste0('https://developers.google.com/maps/',
 #' 'documentation/javascript/examples/kml/westcampus.kml')
 #'
