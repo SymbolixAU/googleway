@@ -1,4 +1,8 @@
 
+## Version 2.7.6
+
+* bug fix in `google_places()` not returning any data
+
 ## Version 2.7.5
 
 * `map_type` argument added to `google_map()` to specifiy the base-map type [issue 240]((https://github.com/SymbolixAU/googleway/issues/240)
