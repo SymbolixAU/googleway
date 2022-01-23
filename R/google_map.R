@@ -18,7 +18,7 @@
 #' @param height the height of the map
 #' @param padding the padding of the map
 #' @param styles JSON string representation of a valid Google Maps styles Array.
-#' See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/cloud-based-map-styling}
+#' See the Google documentation for details \url{https://developers.google.com/maps/documentation/cloud-customization/cloud-based-map-styling}
 #' @param search_box \code{boolean} indicating if a search box should be placed on the map
 #' @param update_map_view logical indicating if the map should center on the searched location
 #' @param zoom_control logical indicating if the zoom control should be displayed
@@ -253,7 +253,7 @@ clear_search <- function(map){
 #'
 #' @param map a googleway map object created from \code{google_map()}
 #' @param styles JSON string representation of a valid Google Maps styles Array.
-#' See the Google documentation for details \url{https://developers.google.com/maps/documentation/javascript/cloud-based-map-styling}
+#' See the Google documentation for details \url{https://developers.google.com/maps/documentation/cloud-customization/cloud-based-map-styling}
 #'
 #' @export
 update_style <- function(map, styles = NULL){
