@@ -198,10 +198,10 @@ google_places <- function(
         )
     )
 
-  print(map_url)
+  #print(map_url)
 
   return(
-#    downloadData(map_url, simplify, curl_proxy)
+    downloadData(map_url, simplify, curl_proxy)
     )
 }
 
