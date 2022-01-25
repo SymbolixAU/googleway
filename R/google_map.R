@@ -14,6 +14,8 @@
 #' The map will automatically set the location and zoom if data is added through one
 #' of the various \code{add_} functions. If null, the map will default to Melbourne, Australia.
 #' @param zoom \code{integer} representing the zoom level of the map (0 is fully zoomed out)
+#' @param min_zoom The maximum zoom level which will be displayed on the map
+#' @param max_zoom The minimum zoom level which will be displayed on the map
 #' @param width the width of the map
 #' @param height the height of the map
 #' @param padding the padding of the map
@@ -103,6 +105,8 @@ google_map <- function(data = NULL,
                        key = get_api_key("map"),
                        location = NULL,
                        zoom = NULL,
+                       min_zoom = NULL,
+                       max_zoom = NULL,
                        width = NULL,
                        height = NULL,
                        padding = 0,
@@ -149,6 +153,8 @@ google_map <- function(data = NULL,
     lat = location[1],
     lng = location[2],
     zoom = zoom,
+    min_zoom = min_zoom,
+    max_zoom = max_zoom,
     styles = styles,
     search_box = search_box,
     update_map_view = update_map_view,

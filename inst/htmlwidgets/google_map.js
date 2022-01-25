@@ -49,6 +49,8 @@ HTMLWidgets.widget({
                         var map = new google.maps.Map(mapDiv, {
                             center: {lat: x.lat, lng: x.lng},
                             zoom: x.zoom,
+                            minZoom: x.min_zoom,
+                            maxZoom: x.max_zoom,
                             styles: JSON.parse(x.styles),
                             zoomControl: x.zoomControl,
                             mapTypeId: x.mapType,
@@ -63,9 +65,9 @@ HTMLWidgets.widget({
 
                         if(x.split_view !== null) {
 
-                          console.log("split view");
-                          console.log(x.split_view);
-                          console.log(x.split_view_options);
+                          //console.log("split view");
+                          //console.log(x.split_view);
+                          //console.log(x.split_view_options);
 
                             var panorama = new google.maps.StreetViewPanorama(
                                 document.getElementById(x.split_view), {
@@ -104,6 +106,8 @@ HTMLWidgets.widget({
                     var map = new google.maps.Map(mapDiv, {
                         center: {lat: x.lat, lng: x.lng},
                         zoom: x.zoom,
+                        minZoom: x.min_zoom,
+                        maxZoom: x.max_zoom,
                         styles: JSON.parse(x.styles),
                         zoomControl: x.zoomControl,
                         mapTypeId: x.mapType,
