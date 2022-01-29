@@ -51,6 +51,14 @@ HTMLWidgets.widget({
                             zoom: x.zoom,
                             minZoom: x.min_zoom,
                             maxZoom: x.max_zoom,
+                            restriction: {
+                              latLngBounds: {
+                                x.mapBounds.north
+                                x.mapBounds.south
+                                x.mapBounds.east
+                                x.mapBounds.west
+                              }
+                            }
                             styles: JSON.parse(x.styles),
                             zoomControl: x.zoomControl,
                             mapTypeId: x.mapType,
@@ -108,6 +116,14 @@ HTMLWidgets.widget({
                         zoom: x.zoom,
                         minZoom: x.min_zoom,
                         maxZoom: x.max_zoom,
+                            restriction: {
+                              latLngBounds: {
+                                x.mapBounds.north
+                                x.mapBounds.south
+                                x.mapBounds.east
+                                x.mapBounds.west
+                              }
+                            }
                         styles: JSON.parse(x.styles),
                         zoomControl: x.zoomControl,
                         mapTypeId: x.mapType,

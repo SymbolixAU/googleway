@@ -14,8 +14,11 @@
 #' The map will automatically set the location and zoom if data is added through one
 #' of the various \code{add_} functions. If null, the map will default to Melbourne, Australia.
 #' @param zoom \code{integer} representing the zoom level of the map (0 is fully zoomed out)
-#' @param min_zoom The maximum zoom level which will be displayed on the map
-#' @param max_zoom The minimum zoom level which will be displayed on the map
+#' @param min_zoom the maximum zoom level which will be displayed on the map
+#' @param max_zoom the minimum zoom level which will be displayed on the map
+#' @param map_bounds the visible bounds of the map, specified as a vector of four
+#' values of the form (xmin, ymin, xmax, ymax) (i.e., the form of the bounding box
+#' of `{sf}` objects).
 #' @param width the width of the map
 #' @param height the height of the map
 #' @param padding the padding of the map
@@ -107,6 +110,7 @@ google_map <- function(data = NULL,
                        zoom = NULL,
                        min_zoom = NULL,
                        max_zoom = NULL,
+                       map_bounds = c(-180, -90, 180, 90),
                        width = NULL,
                        height = NULL,
                        padding = 0,
@@ -137,6 +141,18 @@ google_map <- function(data = NULL,
   map_type <- match.arg(map_type)
   event_return_type <- match.arg(event_return_type)
 
+  if( length(map_bounds) != 4) {
+    stop("map_bounds must be a vector of 4 values specifying xmin, ymin, xmax, ymax")
+  }
+
+  #names(map_bounds) <- c("west","south","east","north")
+  map_bounds <- data.frame(
+    west = map_bounds[1]
+    , south = map_bounds[2]
+    , east = map_bounds[3]
+    , north = map_bounds[4]
+  )
+
   split_view_options <- splitViewOptions(split_view_options)
 
   if(is.null(libraries))
@@ -155,6 +171,7 @@ google_map <- function(data = NULL,
     zoom = zoom,
     min_zoom = min_zoom,
     max_zoom = max_zoom,
+    mapBounds = map_bounds,
     styles = styles,
     search_box = search_box,
     update_map_view = update_map_view,
