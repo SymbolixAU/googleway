@@ -39,7 +39,11 @@ HTMLWidgets.widget({
                 var mapDiv = document.getElementById(el.id);
                 mapDiv.className = "googlemap";
 
+                console.log( x );
+
                 if (HTMLWidgets.shinyMode) {
+
+
 
                     // use setInterval to check if the map can be loaded
                     // the map is dependant on the Google Maps JS resource
@@ -53,12 +57,12 @@ HTMLWidgets.widget({
                             maxZoom: x.max_zoom,
                             restriction: {
                               latLngBounds: {
-                                x.mapBounds.north
-                                x.mapBounds.south
-                                x.mapBounds.east
-                                x.mapBounds.west
+                                north: x.mapBounds.north,
+                                south: x.mapBounds.south,
+                                east: x.mapBounds.east,
+                                west: x.mapBounds.west
                               }
-                            }
+                            },
                             styles: JSON.parse(x.styles),
                             zoomControl: x.zoomControl,
                             mapTypeId: x.mapType,
@@ -116,14 +120,14 @@ HTMLWidgets.widget({
                         zoom: x.zoom,
                         minZoom: x.min_zoom,
                         maxZoom: x.max_zoom,
-                            restriction: {
-                              latLngBounds: {
-                                x.mapBounds.north
-                                x.mapBounds.south
-                                x.mapBounds.east
-                                x.mapBounds.west
-                              }
-                            }
+                        restriction: {
+                          latLngBounds: {
+                            north: x.mapBounds.north,
+                            south: x.mapBounds.south,
+                            east: x.mapBounds.east,
+                            west: x.mapBounds.west
+                          }
+                        },
                         styles: JSON.parse(x.styles),
                         zoomControl: x.zoomControl,
                         mapTypeId: x.mapType,

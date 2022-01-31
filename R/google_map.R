@@ -145,8 +145,8 @@ google_map <- function(data = NULL,
     stop("map_bounds must be a vector of 4 values specifying xmin, ymin, xmax, ymax")
   }
 
-  #names(map_bounds) <- c("west","south","east","north")
-  map_bounds <- data.frame(
+  map_bounds <- unname(map_bounds) ## to remove the xmin/max labels added by 'sf::st_bbox()'
+  map_bounds <- list(
     west = map_bounds[1]
     , south = map_bounds[2]
     , east = map_bounds[3]
