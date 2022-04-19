@@ -560,3 +560,20 @@ function delay(t, v) {
     setTimeout(resolve.bind(null, v), t);
   });
 }
+
+
+function set_map_position(map_id, location, zoom) {
+
+  var latlon = new google.maps.LatLng(location[0], location[1]);
+  set_map_center(map_id, latlon);
+  set_map_zoom(map_id, zoom);
+}
+
+function set_map_center(map_id, latlon) {
+  window[map_id + 'map'].setCenter(latlon);
+}
+
+function set_map_zoom(map_id, zoom) {
+  window[map_id + 'map'].setZoom(zoom);
+}
+

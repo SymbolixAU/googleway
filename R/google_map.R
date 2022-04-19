@@ -230,6 +230,15 @@ google_map <- function(data = NULL,
   return(googlemap)
 }
 
+#' google map view
+#'
+#' @inheritParams google_map
+#'
+#' @export
+google_map_view <- function(map, location, zoom) {
+  invoke_method(map, "set_map_position", location, zoom)
+}
+
 splitViewOptions <- function(split_view_options) {
   ## add default values for spitViewOptions
   ## heading: 34

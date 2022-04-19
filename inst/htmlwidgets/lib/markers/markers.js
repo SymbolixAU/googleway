@@ -114,7 +114,6 @@ function set_markers(map_id, infoWindow, aMarker, update_map_view, layer_id, use
     }, timeout);
 }
 
-
 function draw_chart(marker) {
 
     var data = new google.visualization.DataTable();
