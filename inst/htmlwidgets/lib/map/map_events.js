@@ -20,6 +20,7 @@ function map_click(map_id, mapObject, mapInfo) {
         centerLat: mapObject.getCenter().lat(),
         centerLon: mapObject.getCenter().lng(),
         zoom: mapObject.getZoom(),
+        pixel: event.pixel,
         randomValue: Math.random()
       },
       mapInfo
@@ -27,6 +28,34 @@ function map_click(map_id, mapObject, mapInfo) {
     event_return_type = window.googleway.params[1].event_return_type;
     eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
     Shiny.onInputChange(map_id + "_map_click", eventInfo);
+  });
+}
+
+function map_right_click(map_id, mapObject, mapInfo) {
+  if (!HTMLWidgets.shinyMode) {
+    return;
+  }
+
+  google.maps.event.addListener(mapObject, 'rightclick', function (event) {
+
+    console.log(event);
+
+    var eventInfo = $.extend(
+      {
+        id: map_id,
+        lat: event.latLng.lat(),
+        lon: event.latLng.lng(),
+        centerLat: mapObject.getCenter().lat(),
+        centerLon: mapObject.getCenter().lng(),
+        zoom: mapObject.getZoom(),
+        pixel: event.pixel,
+        randomValue: Math.random()
+      },
+      mapInfo
+    ),
+    event_return_type = window.googleway.params[1].event_return_type;
+    eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+    Shiny.onInputChange(map_id + "_map_rightclick", eventInfo);
   });
 }
 

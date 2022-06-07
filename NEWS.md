@@ -1,4 +1,10 @@
 
+## Version 2.7.7
+
+* `max_bounds` argument added to `google_map()` to set the maximum scrollable bounds of the map [issue 242](https://github.com/SymbolixAU/googleway/issues/242)
+* `map_rightclick` listener for observing right-click events in shiny
+* `click` events now return pixel values indicating the canvas position of the click event
+
 ## Version 2.7.6
 
 * bug fix in `google_places()` not returning any data
