@@ -67,7 +67,7 @@ function promise_to_add_markers(map_id, data_markers, update_map_view, layer_id,
 function cluster_markers(map_id, layer_id, cluster_options) {
 
     var opts = cluster_options || {};
-    console.log( opts );
+    //console.log( opts );
     Object.assign( opts,
       { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' }
     );
@@ -81,7 +81,7 @@ function cluster_markers(map_id, layer_id, cluster_options) {
 
 function set_markers(map_id, infoWindow, aMarker, update_map_view, layer_id, use_polyline, timeout) {
 
-    console.log( aMarker );
+    //console.log( aMarker );
 
     window.setTimeout(function () {
 
