@@ -159,10 +159,10 @@ google_map <- function(data = NULL,
     libraries <- c("visualization", "geometry", "places", "drawing")
 
   if(is.null(location))
-    location <- c(-37.9, 144.5)  ## Melbourne, Australia
+    location <- c(0, 0)  ## Melbourne, Australia
 
   if(is.null(zoom))
-    zoom <- 8
+    zoom <- 1
 
   # forward options using x
   x = list(
