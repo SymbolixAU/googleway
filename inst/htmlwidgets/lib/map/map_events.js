@@ -38,8 +38,6 @@ function map_right_click(map_id, mapObject, mapInfo) {
 
   google.maps.event.addListener(mapObject, 'rightclick', function (event) {
 
-    console.log(event);
-
     var eventInfo = $.extend(
       {
         id: map_id,

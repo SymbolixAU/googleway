@@ -542,9 +542,13 @@ function clearControl(control, legend_id) {
 */
 function clear_object(map_id, objType, layer_id) {
 
+  console.log(window[map_id + objType + layer_id]);
+  console.log(window[map_id + objType + layer_id].length);
+
   var i = 0;
-  if (window[map_id + objType + layer_id] && window[map_id + objType + layer_id].length) {
+  if (window[map_id + objType + layer_id]) {
     for (i = 0; i < window[map_id + objType + layer_id].length; i++) {
+      console.log(window[map_id + objType + layer_id][i]);
     //https://developers.google.com/maps/documentation/javascript/reference/3/#event
     google.maps.event.clearInstanceListeners(window[map_id + objType + layer_id][i]);
     window[map_id + objType + layer_id][i].setMap(null);
@@ -554,6 +558,8 @@ function clear_object(map_id, objType, layer_id) {
 
   clear_legend(map_id, layer_id);
   }
+
+  console.log(window[map_id + objType + layer_id]);
 }
 
 function delay(t, v) {
