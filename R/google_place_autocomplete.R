@@ -14,6 +14,8 @@
 #' @param radius \code{numeric} The distance (in meters) within which to return
 #' place results. Note that setting a radius biases results to the indicated area,
 #' but may not fully restrict results to the specified area
+#' @param strict_bounds \code{logical} If true, returns only those places that are
+#' strictly within the region defined by \code{location} and \code{radius}
 #' @param language \code{string} The language code, indicating in which language
 #' the results should be returned, if possible. Searches are also biased to the
 #' selected language; results in the selected language may be given a higher ranking.
@@ -49,6 +51,7 @@
 google_place_autocomplete <- function(place_input,
                                       location = NULL,
                                       radius = NULL,
+                                      strict_bounds = FALSE,
                                       language = NULL,
                                       place_type = NULL,
                                       components = NULL,
@@ -63,6 +66,7 @@ google_place_autocomplete <- function(place_input,
   place_input <- gsub(" ", "+", place_input)
 
   logicalCheck(simplify)
+  logicalCheck(strict_bounds)
 
   location <- validateGeocodeLocation(location)
   radius <- validateRadius(radius)
@@ -70,11 +74,13 @@ google_place_autocomplete <- function(place_input,
   place_type <- validatePlaceType(place_type)
   components <- validateComponentsCountries(components)
 
+
   map_url <- "https://maps.googleapis.com/maps/api/place/autocomplete/json?"
 
   map_url <- constructURL(map_url, c("input" = place_input,
                                      "location" = location,
                                      "radius" = radius,
+                                     "strictBounds" = strict_bounds,
                                      "language" = language,
                                      "type" = place_type,
                                      "components" = components,

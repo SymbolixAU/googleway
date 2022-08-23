@@ -8,6 +8,7 @@ google_place_autocomplete(
   place_input,
   location = NULL,
   radius = NULL,
+  strict_bounds = FALSE,
   language = NULL,
   place_type = NULL,
   components = NULL,
@@ -27,6 +28,9 @@ the point around which you wish to retrieve place information}
 \item{radius}{\code{numeric} The distance (in meters) within which to return
 place results. Note that setting a radius biases results to the indicated area,
 but may not fully restrict results to the specified area}
+
+\item{strict_bounds}{\code{logical} If true, returns only those places that are
+strictly within the region defined by \code{location} and \code{radius}}
 
 \item{language}{\code{string} The language code, indicating in which language
 the results should be returned, if possible. Searches are also biased to the
