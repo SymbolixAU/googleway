@@ -417,6 +417,10 @@ function initialise_map(el, x) {
     map_right_click(el.id, window[el.id + 'map'], mapInfo);
     bounds_changed(el.id, window[el.id + 'map'], mapInfo);
     zoom_changed(el.id, window[el.id + 'map'], mapInfo);
+
+    if( HTMLWidgets.shinyMode) {
+      Shiny.setInputValue(el.id + "_initialised", {});
+    }
 }
 
 
