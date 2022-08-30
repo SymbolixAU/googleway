@@ -1,3 +1,6 @@
+
+var googlewayWidget;
+
 HTMLWidgets.widget({
 
     name: 'google_map',
@@ -8,139 +11,10 @@ HTMLWidgets.widget({
         return {
             renderValue: function (x) {
 
-                //console.log( x ) ;
-                window.googleway = [];
-                window.googleway.params = [];
-                window.googleway.params.push({'map_id' : el.id });
-                window.googleway.params.push({'event_return_type' : x.event_return_type});
-                //console.log( window.googleway.params );
-
-                // visualisation layers
-                window[el.id + 'googleTrafficLayer'] = [];
-                window[el.id + 'googleBicyclingLayer'] = [];
-                window[el.id + 'googleTransitLayer'] = [];
-                window[el.id + 'googleSearchBox'] = [];
-                window[el.id + 'googlePlaceMarkers'] = [];
-                window[el.id + 'legendPositions'] = [];     // array for keeping a referene to legend positions
-
-                if (x.search_box === true) {
-                    //console.log("search box");
-                    // create a place DOM element
-                    window[el.id + 'googleSearchBox'] = document.createElement("input");
-                    window[el.id + 'googleSearchBox'].setAttribute('id', el.id+'pac-input');
-                    window[el.id + 'googleSearchBox'].setAttribute('class', 'pac-input');
-                    window[el.id + 'googleSearchBox'].setAttribute('type', 'text');
-                    window[el.id + 'googleSearchBox'].setAttribute('placeholder', 'Search location');
-                    document.body.appendChild(window[el.id + 'googleSearchBox']);
-                }
-
-                window[el.id + 'event_return_type'] = x.event_return_type;
-
-                var mapDiv = document.getElementById(el.id);
-                mapDiv.className = "googlemap";
-
-                console.log( x );
-
-                if (HTMLWidgets.shinyMode) {
-
-
-
-                    // use setInterval to check if the map can be loaded
-                    // the map is dependant on the Google Maps JS resource
-                    // - usually implemented via callback
-                    var checkExists = setInterval(function () {
-
-                        var map = new google.maps.Map(mapDiv, {
-                            center: {lat: x.lat, lng: x.lng},
-                            zoom: x.zoom,
-                            minZoom: x.min_zoom,
-                            maxZoom: x.max_zoom,
-                            restriction: {
-                              latLngBounds: {
-                                north: x.mapBounds.north,
-                                south: x.mapBounds.south,
-                                east: x.mapBounds.east,
-                                west: x.mapBounds.west
-                              }
-                            },
-                            styles: JSON.parse(x.styles),
-                            zoomControl: x.zoomControl,
-                            mapTypeId: x.mapType,
-                            mapTypeControl: x.mapTypeControl,
-                            scaleControl: x.scaleControl,
-                            streetViewControl: x.streetViewControl,
-                            rotateControl: x.rotateControl,
-                            fullscreenControl: x.fullscreenControl
-                        });
-
-                        // split view
-
-                        if(x.split_view !== null) {
-
-                          //console.log("split view");
-                          //console.log(x.split_view);
-                          //console.log(x.split_view_options);
-
-                            var panorama = new google.maps.StreetViewPanorama(
-                                document.getElementById(x.split_view), {
-                                    position: {lat: x.lat, lng: x.lng},
-                                    pov: {
-                                        heading: x.split_view_options.heading,
-                                        pitch: x.split_view_options.pitch
-                                        //heading: 34,
-                                        //pitch: 10
-                                      }
-                                });
-
-                            map.setStreetView( panorama );
-
-                            window[ el.id + x.split_view ] = panorama;
-                        }
-
-
-                        //global map object
-                        window[el.id + 'map'] = map;
-
-                        if (google !== undefined && google.charts !== undefined ) {
-                            //console.log("exists");
-                            clearInterval(checkExists);
-
-                            initialise_map(el, x);
-
-                        } else {
-                            //console.log("does not exist!");
-                        }
-                    }, 100);
-
-                } else {
-                    //console.log("not shiny mode");
-
-                    var map = new google.maps.Map(mapDiv, {
-                        center: {lat: x.lat, lng: x.lng},
-                        zoom: x.zoom,
-                        minZoom: x.min_zoom,
-                        maxZoom: x.max_zoom,
-                        restriction: {
-                          latLngBounds: {
-                            north: x.mapBounds.north,
-                            south: x.mapBounds.south,
-                            east: x.mapBounds.east,
-                            west: x.mapBounds.west
-                          }
-                        },
-                        styles: JSON.parse(x.styles),
-                        zoomControl: x.zoomControl,
-                        mapTypeId: x.mapType,
-                        mapTypeControl: x.mapTypeControl,
-                        scaleControl: x.scaleControl,
-                        streetViewControl: x.streetViewControl,
-                        rotateControl: x.rotateControl,
-                        fullscreenControl: x.fullscreenControl
-                    });
-
-                    window[el.id + 'map'] = map;
-                    initialise_map(el, x);
-                }
+                googlewayWidget = {
+                  element: el,
+                  widget: x
+                };
             },
             resize: function (width, height) {
             // TODO: code to re-render the widget with a new size
@@ -148,6 +22,104 @@ HTMLWidgets.widget({
         };
     }
 });
+
+function googlewayInitialiseMap() {
+
+  var checkExists = setInterval(function() {
+
+    if( googlewayWidget !== undefined ) {
+      clearInterval(checkExists);
+      googlewayWidgetReady();
+    }
+  }, 100);
+
+}
+
+function googlewayWidgetReady() {
+  //console.log(googlewayWidget);
+
+  var el = googlewayWidget.element;
+  var x = googlewayWidget.widget;
+
+  window.googleway = [];
+  window.googleway.params = [];
+  window.googleway.params.push({'map_id' : el.id });
+  window.googleway.params.push({'event_return_type' : x.event_return_type});
+  //console.log( window.googleway.params );
+
+  // visualisation layers
+  window[el.id + 'googleTrafficLayer'] = [];
+  window[el.id + 'googleBicyclingLayer'] = [];
+  window[el.id + 'googleTransitLayer'] = [];
+  window[el.id + 'googleSearchBox'] = [];
+  window[el.id + 'googlePlaceMarkers'] = [];
+  window[el.id + 'legendPositions'] = [];     // array for keeping a referene to legend positions
+
+  if (x.search_box === true) {
+      //console.log("search box");
+      // create a place DOM element
+      window[el.id + 'googleSearchBox'] = document.createElement("input");
+      window[el.id + 'googleSearchBox'].setAttribute('id', el.id+'pac-input');
+      window[el.id + 'googleSearchBox'].setAttribute('class', 'pac-input');
+      window[el.id + 'googleSearchBox'].setAttribute('type', 'text');
+      window[el.id + 'googleSearchBox'].setAttribute('placeholder', 'Search location');
+      document.body.appendChild(window[el.id + 'googleSearchBox']);
+  }
+
+  if( HTMLWidgets.shinyMode && x.split_view !== null) {
+
+      var panorama = new google.maps.StreetViewPanorama(
+          document.getElementById(x.split_view), {
+              position: {lat: x.lat, lng: x.lng},
+              pov: {
+                  heading: x.split_view_options.heading,
+                  pitch: x.split_view_options.pitch
+                }
+          });
+
+      map.setStreetView( panorama );
+
+      window[ el.id + x.split_view ] = panorama;
+  }
+
+  window[el.id + 'event_return_type'] = x.event_return_type;
+
+  var mapDiv = document.getElementById(el.id);
+  mapDiv.className = "googlemap";
+
+  var map = new google.maps.Map(mapDiv, {
+      center: {lat: x.lat, lng: x.lng},
+      zoom: x.zoom,
+      minZoom: x.min_zoom,
+      maxZoom: x.max_zoom,
+      restriction: {
+        latLngBounds: {
+          north: x.mapBounds.north,
+          south: x.mapBounds.south,
+          east: x.mapBounds.east,
+          west: x.mapBounds.west
+        }
+      },
+      styles: JSON.parse(x.styles),
+      zoomControl: x.zoomControl,
+      mapTypeId: x.mapType,
+      mapTypeControl: x.mapTypeControl,
+      scaleControl: x.scaleControl,
+      streetViewControl: x.streetViewControl,
+      rotateControl: x.rotateControl,
+      fullscreenControl: x.fullscreenControl
+  });
+
+  //console.log(map);
+
+  google.maps.event.addListenerOnce(map, 'idle', function() {
+      console.log("addListenerOnce idle");
+
+      window[el.id + 'map'] = map;
+      initialise_map(el, x);
+
+  });
+}
 
 
 function update_pano( map_id, pano, lat, lon ) {
