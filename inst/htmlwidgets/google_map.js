@@ -8,6 +8,8 @@ HTMLWidgets.widget({
 
     factory: function (el, width, height) {
 
+        console.log("render value for el.id " + el.id);
+
         return {
             renderValue: function (x) {
 
@@ -110,15 +112,20 @@ function googlewayWidgetReady() {
       fullscreenControl: x.fullscreenControl
   });
 
-  //console.log(map);
+  console.log("adding listener");
+  console.log(map);
 
-  google.maps.event.addListenerOnce(map, 'idle', function() {
-      console.log("addListenerOnce idle");
+  //google.maps.event.addListenerOnce(map, 'idle', function() {
+  console.log("addListenerOnce idle");
 
-      window[el.id + 'map'] = map;
-      initialise_map(el, x);
+  window[el.id + 'map'] = map;
+  initialise_map(el, x);
 
-  });
+  if( HTMLWidgets.shinyMode) {
+    Shiny.setInputValue(el.id + "_initialised", {});
+  }
+
+  //});
 }
 
 
