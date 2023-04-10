@@ -261,7 +261,7 @@ validateAvoid <- function(avoid){
 validateBounds <- function(bounds){
   if(is.null(bounds)) return(NULL)
 
-  if(!class(bounds) == "list" | !all(sapply(bounds, class) == "numeric") | length(bounds) != 2)
+  if(!is(bounds, "list") | !all(sapply(bounds, inherits, "numeric")) | length(bounds) != 2)
     stop("bounds must be a list of length 2, each item being a vector of lat/lon coordinate pairs")
 
   if(!all(sapply(bounds, length) == 2))
@@ -381,7 +381,7 @@ validateLocationBias <- function( point, circle, rectangle ) {
 validateLanguage <- function(language){
   if(is.null(language)) return(NULL)
 
-  if(class(language) != "character" | length(language) > 1){
+  if(!is(language, "character") | length(language) > 1){
     stop("language must be a single string")
   }
   return(tolower(language))
@@ -614,7 +614,7 @@ validateRankBy <- function(rankby, location, search_string){
 validateRegion <- function(region){
   if(is.null(region)) return(NULL)
 
-  if(class(region) != "character" | length(region) > 1)
+  if(!is(region, "character") | length(region) > 1)
     stop("region must be a two-character string")
 
   return(tolower(region))
@@ -623,7 +623,7 @@ validateRegion <- function(region){
 validateResultType <- function(result_type){
   if(is.null(result_type)) return(NULL)
 
-  if(!class(result_type) == "character")
+  if(!is(result_type, "character") )
     stop("result_type must be a vector of strings")
 
   if(length(result_type) > 1){
@@ -687,7 +687,7 @@ validateWaypoints <- function(waypoints, optimise_waypoints, mode){
   if(!mode %in% c("driving", "walking","bicycling"))
     stop("waypoints are only valid for driving, walking or bicycling modes")
 
-  if(class(waypoints) != "list")
+  if(!is(waypoints, "list"))
     stop("waypoints must be a list")
 
   if(!all(names(waypoints) %in% c("stop", "via")))

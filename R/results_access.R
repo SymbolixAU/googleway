@@ -53,10 +53,10 @@ access_result <- function(res,
 .access_result <- function(res, accessor) UseMethod(".access_result")
 
 #' @export
-.access_result.character <- function(js, accessor) resultJs(js, jsAccessor(accessor))
+.access_result.character <- function(res, accessor) resultJs(res, jsAccessor(accessor))
 
 #' @export
-.access_result.list <- function(lst, accessor) resultLst(lst, lstAccessor(accessor))
+.access_result.list <- function(res, accessor) resultLst(res, lstAccessor(accessor))
 
 #' @export
 .access_result.default <- function(res, accessor) stopMessage(res)

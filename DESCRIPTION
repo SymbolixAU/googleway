@@ -1,8 +1,8 @@
 Package: googleway
 Type: Package
 Title: Accesses Google Maps APIs to Retrieve Data and Plot Maps
-Version: 2.7.6001
-Date: 2022-01-24
+Version: 2.7.7
+Date: 2023-04-11
 Authors@R: c(
     person("David", "Cooley", ,"dcooley@symbolix.com.au", role = c("aut", "cre")),
     person("Paulo", "Barcelos", role = "ctb", comment = "Author of c++ decode_pl"),
@@ -30,7 +30,7 @@ Imports:
     scales,
     grDevices,
     googlePolylines (>= 0.7.1)
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.3
 BugReports: https://github.com/SymbolixAU/googleway/issues
 Suggests:
     knitr,

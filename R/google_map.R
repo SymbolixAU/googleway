@@ -233,6 +233,7 @@ google_map <- function(data = NULL,
 #' google map view
 #'
 #' @inheritParams google_map
+#' @param map a googleway map object created from google_map()
 #'
 #' @export
 google_map_view <- function(map, location, zoom) {
