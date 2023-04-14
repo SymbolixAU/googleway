@@ -7,6 +7,8 @@
 google_map_view(map, location, zoom)
 }
 \arguments{
+\item{map}{a googleway map object created from google_map()}
+
 \item{location}{\code{numeric} vector of latitude/longitude (in that order)
 coordinates for the initial starting position of the map.
 The map will automatically set the location and zoom if data is added through one
