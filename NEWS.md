@@ -1,3 +1,6 @@
+## Version 2.7.8
+
+* supressed `readLines()` warning
 
 ## Version 2.7.7
 
