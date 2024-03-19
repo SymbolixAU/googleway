@@ -83,6 +83,9 @@ See the Google documentation for details \url{https://developers.google.com/maps
 
 \item{libraries}{vector containing the libraries you want to load. See details}
 
+\item{callback}{Use this parameter to specify a function you want to use in the `callback` argument when
+the google api loads.}
+
 \item{split_view}{string giving the name of a UI output element in which to place
 a streetview representation of the map. Will only work in an interactive environment (shiny).}
 

@@ -34,6 +34,8 @@
 #' @param rotate_control logical indicating if the rotate control should be displayed
 #' @param fullscreen_control logical indicating if the full screen control should be displayed
 #' @param libraries vector containing the libraries you want to load. See details
+#' @param callback Use this parameter to specify a function you want to use in the `callback` argument when
+#' the google api loads.
 #' @param split_view string giving the name of a UI output element in which to place
 #' a streetview representation of the map. Will only work in an interactive environment (shiny).
 #' @param split_view_options list of options to pass to the split street view.
@@ -166,6 +168,11 @@ google_map <- function(data = NULL,
 
   if(is.null(zoom)) {
     zoom <- 1
+  }
+
+
+  if(!is.null(callback)) {
+    stopifnot(length(callback) == 1)
   }
 
   # forward options using x
