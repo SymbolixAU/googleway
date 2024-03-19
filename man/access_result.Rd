@@ -96,55 +96,55 @@ Methods for accessing specific elements of a Google API query.
 }
 \section{Functions}{
 \itemize{
-\item \code{direction_instructions}: the instructions from a directions query
+\item \code{direction_instructions()}: the instructions from a directions query
 
-\item \code{direction_routes}: the routes from a directions query
+\item \code{direction_routes()}: the routes from a directions query
 
-\item \code{direction_legs}: the legs from a directions query
+\item \code{direction_legs()}: the legs from a directions query
 
-\item \code{direction_steps}: the steps from a directions query
+\item \code{direction_steps()}: the steps from a directions query
 
-\item \code{direction_points}: the points from a directions query
+\item \code{direction_points()}: the points from a directions query
 
-\item \code{direction_polyline}: the encoded polyline from a direction query
+\item \code{direction_polyline()}: the encoded polyline from a direction query
 
-\item \code{distance_origins}: the origin addresses from a distance query
+\item \code{distance_origins()}: the origin addresses from a distance query
 
-\item \code{distance_destinations}: the destination addresses from a distance query
+\item \code{distance_destinations()}: the destination addresses from a distance query
 
-\item \code{distance_elements}: the element results from a distance query
+\item \code{distance_elements()}: the element results from a distance query
 
-\item \code{elevation}: the elevation from an elevation query
+\item \code{elevation()}: the elevation from an elevation query
 
-\item \code{elevation_location}: the elevation from an elevation query
+\item \code{elevation_location()}: the elevation from an elevation query
 
-\item \code{geocode_coordinates}: the coordinates from a geocode or reverse geocode query
+\item \code{geocode_coordinates()}: the coordinates from a geocode or reverse geocode query
 
-\item \code{geocode_address}: the formatted address from a geocode or reverse geocode query
+\item \code{geocode_address()}: the formatted address from a geocode or reverse geocode query
 
-\item \code{geocode_address_components}: the address components from a geocode or reverse geocode query
+\item \code{geocode_address_components()}: the address components from a geocode or reverse geocode query
 
-\item \code{geocode_place}: the place id from a geocode or reverse geocode query
+\item \code{geocode_place()}: the place id from a geocode or reverse geocode query
 
-\item \code{geocode_type}: the geocoded place types from a geocode or reverse geocode query
+\item \code{geocode_type()}: the geocoded place types from a geocode or reverse geocode query
 
-\item \code{place}: the place_id from a places query
+\item \code{place()}: the place_id from a places query
 
-\item \code{place_next_page}: the next page token from a places query
+\item \code{place_next_page()}: the next page token from a places query
 
-\item \code{place_name}: the place name from a places query
+\item \code{place_name()}: the place name from a places query
 
-\item \code{place_location}: the location from a places query
+\item \code{place_location()}: the location from a places query
 
-\item \code{place_type}: the type of place from a places query
+\item \code{place_type()}: the type of place from a places query
 
-\item \code{place_hours}: the opening hours from a place details query
+\item \code{place_hours()}: the opening hours from a place details query
 
-\item \code{place_open}: the open now result from a place details query
+\item \code{place_open()}: the open now result from a place details query
 
-\item \code{nearest_roads_coordinates}: the coordinates from a nearest roads query
+\item \code{nearest_roads_coordinates()}: the coordinates from a nearest roads query
+
 }}
-
 \examples{
 \dontrun{
 

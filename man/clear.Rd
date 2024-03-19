@@ -65,9 +65,9 @@ clears elements from a map
 }
 \section{Functions}{
 \itemize{
-\item \code{remove_drawing}: removes drawing controls from a map
-}}
+\item \code{remove_drawing()}: removes drawing controls from a map
 
+}}
 \note{
 These operations are intended for use in conjunction with
 \link{google_map_update} in an interactive shiny environment

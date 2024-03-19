@@ -27,6 +27,7 @@ google_map(
   rotate_control = TRUE,
   fullscreen_control = TRUE,
   libraries = NULL,
+  callback = NULL,
   split_view = NULL,
   split_view_options = NULL,
   geolocation = FALSE,

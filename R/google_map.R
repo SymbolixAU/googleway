@@ -125,6 +125,7 @@ google_map <- function(data = NULL,
                        rotate_control = TRUE,
                        fullscreen_control = TRUE,
                        libraries = NULL,
+                       callback = NULL,
                        split_view = NULL,
                        split_view_options = NULL,
                        geolocation = FALSE,
@@ -155,14 +156,17 @@ google_map <- function(data = NULL,
 
   split_view_options <- splitViewOptions(split_view_options)
 
-  if(is.null(libraries))
+  if(is.null(libraries)) {
     libraries <- c("visualization", "geometry", "places", "drawing")
+  }
 
-  if(is.null(location))
-    location <- c(0, 0)  ## Melbourne, Australia
+  if(is.null(location)) {
+    location <- c(0, 0)
+  }
 
-  if(is.null(zoom))
+  if(is.null(zoom)) {
     zoom <- 1
+  }
 
   # forward options using x
   x = list(
@@ -211,7 +215,7 @@ google_map <- function(data = NULL,
 
   ## CHARTS2
   header <- paste0('<script src="https://maps.googleapis.com/maps/api/js?key=',
-                  key, '&libraries=', paste0(libraries, collapse = ","), '"></script>',
+                  key, '&libraries=', paste0(libraries, collapse = ","), if(!is.null(callback)) {paste0("&callback=", callback)}, '"></script>',
                   '<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>')
 
   googlemap$dependencies <- c(
