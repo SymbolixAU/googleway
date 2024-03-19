@@ -1,3 +1,176 @@
+
+async function initMap(el, x) {
+
+  const { Map } = await google.maps.importLibrary("maps");
+  const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+  var map = new Map(document.getElementById(el.id), {
+    mapId: el.id,
+    center: {lat: x.lat, lng: x.lng},
+    zoom: x.zoom,
+    minZoom: x.min_zoom,
+    maxZoom: x.max_zoom,
+    restriction: {
+      latLngBounds: {
+        north: x.mapBounds.north,
+        south: x.mapBounds.south,
+        east: x.mapBounds.east,
+        west: x.mapBounds.west
+      }
+    },
+    styles: JSON.parse(x.styles),
+    zoomControl: x.zoomControl,
+    mapTypeId: x.mapType,
+    mapTypeControl: x.mapTypeControl,
+    scaleControl: x.scaleControl,
+    streetViewControl: x.streetViewControl,
+    rotateControl: x.rotateControl,
+    fullscreenControl: x.fullscreenControl
+  });
+
+  window[el.id + 'map'] = map;
+
+  var mapInfo,
+        input,
+        places,
+        icon,
+        bounds,
+        event_return_type,
+        eventInfo;
+
+    window[el.id + 'mapBounds'] = new google.maps.LatLngBounds();
+
+    // CHARTS2
+    //google.charts.load('current', {'packages': ['corechart']});
+
+    // if places
+    if (x.search_box === true) {
+        input = document.getElementById(el.id+'pac-input');
+
+        window[el.id + 'googleSearchBox'] = new google.maps.places.SearchBox(input);
+        window[el.id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        // Bias the SearchBox results towards current map's viewport.
+        window[el.id + 'map'].addListener('bounds_changed', function () {
+            window[el.id + 'googleSearchBox'].setBounds(window[el.id + 'map'].getBounds());
+        });
+
+        // listen for deleting the search bar
+        input.addEventListener('input', function () {
+            if (input.value.length === 0) {
+                clear_search(el.id);
+            }
+        });
+
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        window[el.id + 'googleSearchBox'].addListener('places_changed', function () {
+            places = window[el.id + 'googleSearchBox'].getPlaces();
+            if (places.length == 0) {
+                return;
+            }
+
+            // Clear out the old markers.
+            window[el.id + 'googlePlaceMarkers'].forEach(function (marker) {
+                marker.setMap(null);
+            });
+
+            window[el.id + 'googlePlaceMarkers'] = [];
+
+            // For each place, get the icon, name and location.
+            bounds = new google.maps.LatLngBounds();
+
+            places.forEach(function (place) {
+                if (!place.geometry) {
+                    //console.log("Returned place contains no geometry");
+                    return;
+                }
+
+                icon = {
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(25, 25)
+                };
+
+                // Create a marker for each place.
+                window[el.id + 'googlePlaceMarkers'].push(new google.maps.Marker({
+                    map: window[el.id + 'map'],
+                    icon: icon,
+                    title: place.name,
+                    position: place.geometry.location
+                }));
+
+                if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+
+                if (HTMLWidgets.shinyMode) {
+
+                    event_return_type = window.googleway.params[1].event_return_type,
+                        eventInfo = {
+                            address_components: place.address_components,
+                            lat: place.geometry.location.lat(),
+                            lon: place.geometry.location.lng(),
+                            name: place.name,
+                            address: place.formatted_address,
+                            place_id: place.place_id,
+                            vicinity: place.vicinity,
+                            randomValue: Math.random()
+                        };
+
+                    eventInfo = event_return_type === "list" ? eventInfo : JSON.stringify(eventInfo);
+
+                    Shiny.onInputChange(el.id + "_place_search", eventInfo);
+                }
+
+            //console.log(places);
+            });
+
+            if(x.update_map_view) {
+              window[el.id + 'map'].fitBounds(bounds);
+            }
+        });
+    }
+
+
+    // call initial layers
+    if (x.calls !== undefined) {
+
+        for (layerCalls = 0; layerCalls < x.calls.length; layerCalls++) {
+
+            //push the map_id into the call.args
+            x.calls[layerCalls].args.unshift(el.id);
+
+            if (window[x.calls[layerCalls].functions]) {
+
+                window[x.calls[layerCalls].functions].apply(window[el.id + 'map'], x.calls[layerCalls].args);
+            } else {
+                //console.log("Unknown function " + x.calls[layerCalls]);
+            }
+        }
+    }
+
+    if( x.geolocation === true) {
+        add_geolocation(el.id, window[el.id + 'map'], mapInfo );
+    }
+
+    // listeners
+    mapInfo = {};
+    map_click(el.id, window[el.id + 'map'], mapInfo);
+    map_right_click(el.id, window[el.id + 'map'], mapInfo);
+    bounds_changed(el.id, window[el.id + 'map'], mapInfo);
+    zoom_changed(el.id, window[el.id + 'map'], mapInfo);
+
+    if( HTMLWidgets.shinyMode) {
+      Shiny.setInputValue(el.id + "_initialised", {});
+    }
+}
+
 HTMLWidgets.widget({
 
     name: 'google_map',
@@ -41,6 +214,8 @@ HTMLWidgets.widget({
 
                 console.log( x );
 
+                initMap(el, x);
+/*
                 if (HTMLWidgets.shinyMode) {
 
 
@@ -77,10 +252,6 @@ HTMLWidgets.widget({
 
                         if(x.split_view !== null) {
 
-                          //console.log("split view");
-                          //console.log(x.split_view);
-                          //console.log(x.split_view_options);
-
                             var panorama = new google.maps.StreetViewPanorama(
                                 document.getElementById(x.split_view), {
                                     position: {lat: x.lat, lng: x.lng},
@@ -113,7 +284,6 @@ HTMLWidgets.widget({
                     }, 100);
 
                 } else {
-                    //console.log("not shiny mode");
 
                     var map = new google.maps.Map(mapDiv, {
                         center: {lat: x.lat, lng: x.lng},
@@ -141,6 +311,7 @@ HTMLWidgets.widget({
                     window[el.id + 'map'] = map;
                     initialise_map(el, x);
                 }
+*/
             },
             resize: function (width, height) {
             // TODO: code to re-render the widget with a new size
@@ -148,41 +319,6 @@ HTMLWidgets.widget({
         };
     }
 });
-
-
-function update_pano( map_id, pano, lat, lon ) {
-
-
-  var pano = window[ map_id + pano];
-  var map = window[ map_id + 'map'];
-  //var center = map.getCenter();
-  var center = {lat: lat, lng: lon};
-
-  //console.log( pano );
-  pano.setPosition( center );
-  //console.log( pano );
-
-  window[ map_id + 'map'].setStreetView( pano );
-
-/*
-  var panorama = new google.maps.StreetViewPanorama(
-      document.getElementById( pano ), {
-          position: {lat: center.lat(), lng: center.lng() },
-          pov: {
-          //    heading: location.heading,
-          //    pitch: location.pitch
-              heading: 34,
-              pitch: 10
-             }
-      });
-*/
-
-
-  //map.setStreetView( panorama );
-  //window[ map_id + 'map'].setStreetView( panorama );
-}
-
-
 
 if (HTMLWidgets.shinyMode) {
 
@@ -221,64 +357,8 @@ if (HTMLWidgets.shinyMode) {
 }
 
 
-/**
- * Updates the google map with a particular style
- * @param map_id
- *          the map to which the style is applied
- * @param style
- *          style to apply (in the form of JSON)
- */
-function update_style(map_id, style) {
-    window[map_id + 'map'].set('styles', JSON.parse(style));
-}
 
-
-/**
-* Creates a window object for a given shape type if it doens't exist
-*
-*/
-function createWindowObject(map_id, objType, layer_id) {
-    if (window[map_id + objType + layer_id] == null) {
-        window[map_id + objType + layer_id] = [];
-    }
-}
-
-/**
- * hex to rgb
- *
- * Converts hex colours to rgb
- */
-function hexToRgb(hex) {
-    var arrBuff = new ArrayBuffer(4),
-        vw = new DataView(arrBuff),
-        arrByte = new Uint8Array(arrBuff);
-
-    vw.setUint32(0, parseInt(hex, 16), false);
-
-    return arrByte[1] + "," + arrByte[2] + "," + arrByte[3];
-}
-
-/**
- * Finds an object by the .id field
- *
- * @param source data object
- * @param id the id to search for
- **/
-function findById(source, id, returnType) {
-    var i = 0;
-    for (i = 0; i < source.length; i++) {
-        if (source[i].id === id) {
-            if (returnType === "object") {
-                return source[i];
-            } else {
-                return i;
-            }
-        }
-    }
-    return;
-}
-
-function initialise_map(el, x) {
+async function initialise_map(el, x) {
 
     var mapInfo,
         input,
@@ -287,9 +367,7 @@ function initialise_map(el, x) {
         bounds,
         event_return_type,
         eventInfo;
-    // map bounds object
-    //console.log("initialising map: el.id: ");
-    //console.log(el.id);
+
     window[el.id + 'mapBounds'] = new google.maps.LatLngBounds();
 
     // CHARTS2
@@ -423,6 +501,96 @@ function initialise_map(el, x) {
     }
 }
 
+function update_pano( map_id, pano, lat, lon ) {
+
+
+  var pano = window[ map_id + pano];
+  var map = window[ map_id + 'map'];
+  //var center = map.getCenter();
+  var center = {lat: lat, lng: lon};
+
+  //console.log( pano );
+  pano.setPosition( center );
+  //console.log( pano );
+
+  window[ map_id + 'map'].setStreetView( pano );
+
+/*
+  var panorama = new google.maps.StreetViewPanorama(
+      document.getElementById( pano ), {
+          position: {lat: center.lat(), lng: center.lng() },
+          pov: {
+          //    heading: location.heading,
+          //    pitch: location.pitch
+              heading: 34,
+              pitch: 10
+             }
+      });
+*/
+
+
+  //map.setStreetView( panorama );
+  //window[ map_id + 'map'].setStreetView( panorama );
+}
+
+
+
+/**
+ * Updates the google map with a particular style
+ * @param map_id
+ *          the map to which the style is applied
+ * @param style
+ *          style to apply (in the form of JSON)
+ */
+function update_style(map_id, style) {
+    window[map_id + 'map'].set('styles', JSON.parse(style));
+}
+
+
+/**
+* Creates a window object for a given shape type if it doens't exist
+*
+*/
+function createWindowObject(map_id, objType, layer_id) {
+    if (window[map_id + objType + layer_id] == null) {
+        window[map_id + objType + layer_id] = [];
+    }
+}
+
+/**
+ * hex to rgb
+ *
+ * Converts hex colours to rgb
+ */
+function hexToRgb(hex) {
+    var arrBuff = new ArrayBuffer(4),
+        vw = new DataView(arrBuff),
+        arrByte = new Uint8Array(arrBuff);
+
+    vw.setUint32(0, parseInt(hex, 16), false);
+
+    return arrByte[1] + "," + arrByte[2] + "," + arrByte[3];
+}
+
+/**
+ * Finds an object by the .id field
+ *
+ * @param source data object
+ * @param id the id to search for
+ **/
+function findById(source, id, returnType) {
+    var i = 0;
+    for (i = 0; i < source.length; i++) {
+        if (source[i].id === id) {
+            if (returnType === "object") {
+                return source[i];
+            } else {
+                return i;
+            }
+        }
+    }
+    return;
+}
 
 function placeControl(map_id, object, position) {
 

@@ -144,22 +144,25 @@ function draw_chart(marker) {
 }
 
 function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, layer_id) {
+
+    const map = window[map_id + "map"];
     var markerInfo,
-        marker = new google.maps.Marker({
+        marker = new google.maps.marker.AdvancedMarkerElement({
+            map,
             id: aMarker.id,
-            icon: aMarker.url,
+            //icon: aMarker.url,
             position: latlon,
             draggable: aMarker.draggable,
-            opacity: aMarker.opacity,
-            opacityHolder: aMarker.opacity,
+            //opacity: aMarker.opacity,
+            //opacityHolder: aMarker.opacity,
             title: aMarker.title,
-            label: aMarker.label,
-            mouseOver: aMarker.mouse_over,
-            mouseOverGroup: aMarker.mouse_over_group,
-            info_window: aMarker.info_window,
-            chart_type: aMarker.chart_type,
-            chart_data: aMarker.chart_data,
-            chart_options: aMarker.chart_options
+            //label: aMarker.label,
+            //mouseOver: aMarker.mouse_over,
+            //mouseOverGroup: aMarker.mouse_over_group,
+            //info_window: aMarker.info_window,
+            //chart_type: aMarker.chart_type,
+            //chart_data: aMarker.chart_data,
+            //chart_options: aMarker.chart_options
         });
 
     if (aMarker.info_window) {
@@ -209,7 +212,8 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
     marker_click(map_id, marker, marker.id, markerInfo);
     marker_dragged(map_id, marker, marker.id, markerInfo);
     window[map_id + 'googleMarkers' + layer_id].push(marker);
-    marker.setMap(window[map_id + 'map']);
+
+    //marker.setMap(window[map_id + 'map']);
 }
 
 /**
