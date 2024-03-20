@@ -198,9 +198,10 @@ HTMLWidgets.widget({
 
     factory: function (el, width, height) {
 
+        console.log("render value for el.id " + el.id);
+
         return {
             renderValue: function (x) {
-
                 //console.log( x ) ;
                 window.googleway = [];
                 window.googleway.params = [];

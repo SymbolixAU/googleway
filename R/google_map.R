@@ -220,15 +220,6 @@ google_map <- function(data = NULL,
     )
   )
 
-  # header <- paste0(
-  #   '<script src="https://maps.googleapis.com/maps/api/js?key='
-  #   , key
-  #   , "&loading=async"
-  #   , '&libraries=', paste0(libraries, collapse = ",")
-  #   , if(!is.null(callback)) { paste0("&callback=", callback) }
-  #   , '"></script>'
-  #   , '<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>'
-  #   )
 
   header <- paste0(
     '<script>'
