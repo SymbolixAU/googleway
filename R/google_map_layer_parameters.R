@@ -133,11 +133,11 @@ markerColourIconCheck <- function(data, objArgs, colour, marker_icon){
     objArgs[['marker_icon']] <- NULL
   }
 
-  if(!is.null(colour)){
-    if(!all((tolower(data[, colour])) %in% c("red","blue","green","lavender"))){
-      stop("colours must be either red, blue, green or lavender")
-    }
-  }
+  # if(!is.null(colour)){
+  #   if(!all((tolower(data[, colour])) %in% c("red","blue","green","lavender"))){
+  #     stop("colours must be either red, blue, green or lavender")
+  #   }
+  # }
 
   return(objArgs)
 }

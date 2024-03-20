@@ -1,6 +1,12 @@
+## Version 3.0.0
+
+* Uses `async` library loads [issue 256](https://github.com/SymbolixAU/googleway/issues/256)
+* Markers updated to use `AdvancedMarkerElement` [issue 270](https://github.com/SymbolixAU/googleway/issues/270)
+  - `colour` argument has changed to be a hex string
+
 ## Version 2.7.8
 
-* supressed `readLines()` warning
+* surpressed `readLines()` warning
 
 ## Version 2.7.7
 

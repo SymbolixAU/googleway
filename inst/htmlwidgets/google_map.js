@@ -2,7 +2,10 @@
 async function initMap(el, x) {
 
   const { Map } = await google.maps.importLibrary("maps");
-  const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+  const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
+  const { Visualization } = await google.maps.importLibrary("visualization");
+  const { Places } = await google.maps.importLibrary("places");
+  const { Drawing } = await google.maps.importLibrary("drawing");
 
   var map = new Map(document.getElementById(el.id), {
     mapId: el.id,
@@ -137,6 +140,23 @@ async function initMap(el, x) {
         });
     }
 
+    if(x.split_view !== null) {
+
+        var panorama = new google.maps.StreetViewPanorama(
+            document.getElementById(x.split_view), {
+                position: {lat: x.lat, lng: x.lng},
+                pov: {
+                    heading: x.split_view_options.heading,
+                    pitch: x.split_view_options.pitch
+                    //heading: 34,
+                    //pitch: 10
+                  }
+            });
+
+        map.setStreetView( panorama );
+
+        window[ el.id + x.split_view ] = panorama;
+    }
 
     // call initial layers
     if (x.calls !== undefined) {

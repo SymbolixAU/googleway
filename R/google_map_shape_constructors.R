@@ -151,7 +151,7 @@ requiredCircleColumns <- function() {
 }
 
 requiredMarkerColumns <- function() {
-  c("opacity", "colour")
+  c("colour")
 }
 
 requiredHeatmapColumns <- function() {
@@ -164,22 +164,24 @@ requiredHeatmapUpdateColumns <- function() {
 
 ## MARKERS ---------------------------------------------------------------------
 markerColumns <- function() {
-  c('id', 'colour', 'lat', 'lng', 'title', 'draggable', 'opacity', 'label',
+  c('id', 'colour', 'border_colour', 'glyph_colour', 'lat', 'lng', 'title', 'draggable', 'label',
     'info_window', 'mouse_over', 'mouse_over_group', 'url')
 }
 
-df_markerColours <- function() {
-  data.frame(colour = c('red', 'blue', 'green', 'lavender'),
-             url = c("https://mt.googleapis.com/vt/icon/name=icons/spotlight/spotlight-poi.png&scale=1",
-                     "https://mts.googleapis.com/vt/icon/name=icons/spotlight/spotlight-waypoint-blue.png&psize=16&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1",
-                     "https://mt.google.com/vt/icon?psize=30&font=fonts/arialuni_t.ttf&color=ff304C13&name=icons/spotlight/spotlight-waypoint-a.png&ax=43&ay=48&text=%E2%80%A2",
-                     "https://mt.google.com/vt/icon/name=icons/spotlight/spotlight-ad.png"))
-}
-
+# df_markerColours <- function() {
+#   data.frame(colour = c('red', 'blue', 'green', 'lavender'),
+#              url = c("https://mt.googleapis.com/vt/icon/name=icons/spotlight/spotlight-poi.png&scale=1",
+#                      "https://mts.googleapis.com/vt/icon/name=icons/spotlight/spotlight-waypoint-blue.png&psize=16&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1",
+#                      "https://mt.google.com/vt/icon?psize=30&font=fonts/arialuni_t.ttf&color=ff304C13&name=icons/spotlight/spotlight-waypoint-a.png&ax=43&ay=48&text=%E2%80%A2",
+#                      "https://mt.google.com/vt/icon/name=icons/spotlight/spotlight-ad.png"))
+# }
+#
 markerDefaults <- function(n) {
-  data.frame("opacity" = rep(1, n),
-             "colour" = rep("red", n),
-             stringsAsFactors = F)
+  data.frame(
+    # "opacity" = rep(1, n),
+    "colour" = rep("#FF0000", n),
+    stringsAsFactors = F
+    )
 }
 
 ## polyline ---------------------------------------------------------------------

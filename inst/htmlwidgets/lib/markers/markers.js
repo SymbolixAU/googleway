@@ -81,8 +81,6 @@ function cluster_markers(map_id, layer_id, cluster_options) {
 
 function set_markers(map_id, infoWindow, aMarker, update_map_view, layer_id, use_polyline, timeout) {
 
-    console.log( aMarker );
-
     window.setTimeout(function () {
 
         var j, lon, lat, path, latlon;
@@ -145,17 +143,24 @@ function draw_chart(marker) {
 
 function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, layer_id) {
 
+    console.log(aMarker);
+
     const map = window[map_id + "map"];
+
     var markerInfo,
         marker = new google.maps.marker.AdvancedMarkerElement({
             map,
             id: aMarker.id,
             //icon: aMarker.url,
             position: latlon,
-            draggable: aMarker.draggable,
-            //opacity: aMarker.opacity,
-            //opacityHolder: aMarker.opacity,
+            gmpDraggable: aMarker.draggable,
             title: aMarker.title,
+            content: new google.maps.marker.PinElement({
+              background: aMarker.colour,
+              borderColor: aMarker.border_colour,
+              glyphColor: aMarker.glyph_colour,
+              glyph: aMarker.title
+            }).element,
             //label: aMarker.label,
             //mouseOver: aMarker.mouse_over,
             //mouseOverGroup: aMarker.mouse_over_group,

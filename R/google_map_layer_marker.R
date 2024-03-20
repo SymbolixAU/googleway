@@ -29,14 +29,17 @@ googleMarkerDependency <- function() {
 #'
 #' @inheritParams add_circles
 #' @param colour string specifying the column containing the 'colour' to use for
-#' the markers. One of 'red', 'blue', 'green' or 'lavender'.
+#' the markers. The colour should be specified as a hex string (e.g. "#FF0000").
+#' @param border_colour string specifying the column containing the 'border colour'
+#' to use for the markers. The colour should be specified as a hex string (e.g. "#FF0000")
+#' @param glyph_colour string specifying the column containing the 'glype colour'
+#' (the center of the marker) to use for the markers.
+#' The colour should be specified as a hex string (e.g. "#FF0000")
 #' @param title string specifying the column of \code{data} containing the 'title'
 #' of the markers. The title is displayed when you hover over a marker. If blank,
 #' no title will be displayed for the markers.
 #' @param draggable string specifying the column of \code{data} defining if the
 #' marker is 'draggable' (either TRUE or FALSE)
-#' @param opacity string specifying the column of \code{data} defining the 'opacity'
-#' of the maker. Values must be between 0 and 1 (inclusive).
 #' @param label string specifying the column of \code{data} defining the character
 #' to appear in the centre of the marker. Values will be coerced to strings, and
 #' only the first character will be used.
@@ -117,6 +120,8 @@ add_markers <- function(map,
                         data = get_map_data(map),
                         id = NULL,
                         colour = NULL,
+                        border_colour = NULL,
+                        glyph_colour = NULL,
                         lat = NULL,
                         lon = NULL,
                         polyline = NULL,
@@ -139,15 +144,21 @@ add_markers <- function(map,
                         ){
 
   #objArgs <- match.call(expand.dots = F)
+  if(!is.null(opacity)) {
+    warning("opacity argument is deprecated in 3.0.0. Specify the opacity using the alpha component of the hex string in the `colour` argument")
+  }
+
   objArgs <- list()
   objArgs[["id"]] <- force( id )
   objArgs[["colour"]] <- force( colour )
+  objArgs[["border_colour"]] <- force( border_colour )
+  objArgs[["glyph_colour"]] <- force( glyph_colour )
   objArgs[["lat"]] <- force( lat )
   objArgs[["lon"]] <- force( lon )
   objArgs[["polyline"]] <- force( polyline )
   objArgs[["title"]] <- force( title )
   objArgs[["draggable"]] <- force( draggable )
-  objArgs[["opacity"]] <- force( opacity )
+  # objArgs[["opacity"]] <- force( opacity )
   objArgs[["label"]] <- force( label )
   objArgs[["info_window"]] <- force( info_window )
   objArgs[["mouse_over"]] <- force( mouse_over )
@@ -222,9 +233,11 @@ add_markers <- function(map,
     shape <- addDefaults(shape, requiredDefaults, "marker")
   }
 
-  if(!is.null(colour)){
-    shape <- merge(shape, df_markerColours(), by.x = "colour", by.y = "colour", all.x = TRUE)
-  }
+  print(shape)
+
+  # if(!is.null(colour)){
+    # shape <- merge(shape, df_markerColours(), by.x = "colour", by.y = "colour", all.x = TRUE)
+  # }
 
   if( usePolyline ) {
     shape <- createPolylineListColumn(shape)

@@ -3,7 +3,7 @@
 ## -- does this impact any other marker layers?
 
 ## MARKER CLUSTER
-# set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
+# set_key(secret::get_secret("GOOGLE"))
 # google_map(data = tram_stops) %>%
 #   add_markers(info_window = "stop_name", cluster = TRUE)
 
@@ -26,7 +26,7 @@
 # )
 #
 # server <- function(input, output) {
-#   set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
+#   set_key(secret::get_secret("GOOGLE"))
 #
 #   df <- data.frame(lat = 51.5074, lon = 0.1277)
 #
@@ -49,12 +49,12 @@
 # }
 #
 # shinyApp(ui, server)
-
-
-## CLEAR MAP BOUNDS
-## method
-## - add objects, clear objects, clear boudns, add new objects. The boudns
-## - should only focus on these new objects, and not include the old ones
+#
+#
+# ## CLEAR MAP BOUNDS
+# ## method
+# ## - add objects, clear objects, clear boudns, add new objects. The boudns
+# ## - should only focus on these new objects, and not include the old ones
 # library(shiny)
 # library(shinydashboard)
 # library(googleway)
@@ -72,7 +72,7 @@
 # )
 #
 # server <- function(input, output) {
-#   set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
+#   set_key(secret::get_secret("GOOGLE"))
 #
 #   df <- data.frame(lat = 51.5074, lon = 0.1277)
 #
@@ -91,9 +91,9 @@
 # }
 #
 # shinyApp(ui, server)
-
-
-## SPLIT VIEW
+#
+#
+# ## SPLIT VIEW
 # library(shiny)
 # library(shinydashboard)
 # library(googleway)
@@ -113,7 +113,7 @@
 # )
 #
 # server <- function(input, output) {
-#   set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
+#   set_key(secret::get_secret("GOOGLE"))
 #
 #   output$map <- renderGoogle_map({
 #     google_map(location = c(-37.817386, 144.967463),
@@ -126,7 +126,7 @@
 #
 # ## heading and pov
 # server <- function(input, output) {
-#   set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
+#   set_key(secret::get_secret("GOOGLE"))
 #
 #   output$map <- renderGoogle_map({
 #     google_map(location = c(-37.817386, 144.967463),
@@ -153,7 +153,7 @@
 # myurl <- "http://eric.clst.org/assets/wiki/uploads/Stuff/gz_2010_us_050_00_500k.json"
 # sf <- geojsonsf::geojson_sf(myurl)
 #
-# set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
+# set_key(secret::get_secret("GOOGLE"))
 #
 # google_map() %>%
 #   add_polygons(sf, fill_colour = "CENSUSAREA")
@@ -161,7 +161,7 @@
 # library(sf)
 # library(googleway)
 # nc <- sf::st_read(system.file("shape/nc.shp", package="sf"))
-# set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
+# set_key(secret::get_secret("GOOGLE"))
 # google_map() %>%
 #   add_polygons(data = nc[1:2,], polyline = "geometry", fill_colour = "#00FF00", fill_opacity = 0.2)
 
@@ -181,7 +181,7 @@
 # server <- function(input, output){
 #
 #   output$map <- renderGoogle_map({
-#     mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#     mapKey <- secret::get_secret("GOOGLE")
 #     google_map(key = mapKey) %>%
 #       add_drawing(delete_on_change = T)
 #   })
@@ -226,6 +226,7 @@
 # ui <- dashboardPage(header1, sidebar1, body1)
 #
 # server <- function(input, output, session) {
+#   set_key(secret::get_secret("GOOGLE"))
 #
 #   df <- tram_stops
 #   df$weight <- 100
@@ -234,9 +235,6 @@
 #   output$colours <- renderUI({
 #     checkboxGroupInput("colours", "Colours (at least 2 required):", choices = cols, selected = cols[1:3])
 #   })
-#
-#   #  map_key <- "your_key"
-#   map_key <- read.dcf("~/Documents/.googleAPI" ,fields = "GOOGLE_MAP_KEY")
 #
 #   opacity <- reactive({
 #     return(input$opacity)
@@ -339,14 +337,13 @@
 # )
 #
 # server <- function(input, output){
+#   set_key(secret::get_secret("GOOGLE"))
 #
-#
-#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
 #   df <- melbourne
 #   df$rand <- as.character(rnorm(nrow(df)))
 #
 #   output$map <- renderGoogle_map({
-#     google_map(key = map_key) %>%
+#     google_map() %>%
 #       add_polygons(data = df, polyline = "polyline",
 #                    info_window = "rand", id = "polygonId")
 #   })
@@ -375,7 +372,7 @@
 #
 # server <- function(input, output){
 #
-#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#   set_key(secret::get_secret("GOOGLE"))
 #   df <- tram_route
 #   df$id <- 1
 #
@@ -387,7 +384,7 @@
 #   chartList <- list(data = polyChart, type = 'column')
 #
 #   output$map <- renderGoogle_map({
-#     google_map(key = map_key) %>%
+#     google_map() %>%
 #       add_polygons(data = df,
 #                    lon = "shape_pt_lon", lat = "shape_pt_lat", id = 'id',
 #                    info_window = chartList)
@@ -415,7 +412,7 @@
 
 
 
-# # place details returned to shiny
+# place details returned to shiny
 # library(shiny)
 #
 # ui <- fluidPage(
@@ -423,10 +420,10 @@
 # )
 # server <- function(input, output){
 #
-#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#   set_key(secret::get_secret("GOOGLE"))
 #
 #   output$map <- renderGoogle_map({
-#     google_map(key = map_key, search_box = T, event_return_type = 'json')
+#     google_map(search_box = T, event_return_type = 'json')
 #   })
 #
 #   observeEvent(input$map_place_search, {
@@ -437,7 +434,7 @@
 # shinyApp(ui, server)
 
 ## KML layer not centred
-# set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
+# set_key(secret::get_secret("GOOGLE"))
 #
 # kmlUrl <- "http://googlemaps.github.io/js-v2-samples/ggeoxml/cta.kml"
 #
@@ -445,7 +442,7 @@
 #   add_kml(kml_url = kmlUrl)
 
 ## Overlays are cleared
-# set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
+# set_key(secret::get_secret("GOOGLE"))
 # google_map() %>%
 #   add_overlay(north = 40.773941
 #               , south = 40.712216
@@ -462,7 +459,7 @@
 # )
 # server <- function(input, output){
 #
-#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#   set_key(secret::get_secret("GOOGLE"))
 #
 #   output$map <- renderGoogle_map({
 #     google_map() %>%
@@ -482,7 +479,7 @@
 # shinyApp(ui, server)
 
 
-## map details returned to shiny
+# ## map details returned to shiny
 # library(shiny)
 # library(googleway)
 #
@@ -491,10 +488,10 @@
 # )
 # server <- function(input, output){
 #
-#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#   set_key(secret::get_secret("GOOGLE"))
 #
 #   output$map <- renderGoogle_map({
-#     google_map(key = map_key, search_box = T, event_return_type = 'json') %>%
+#     google_map(search_box = T, event_return_type = 'json') %>%
 #       add_markers(data = tram_stops, close_info_window = T, info_window = "stop_id")
 #   })
 #
@@ -516,7 +513,7 @@
 #
 # server <- function(input, output){
 #
-#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#   set_key(secret::get_secret("GOOGLE"))
 #
 #   # set.seed(20170417)
 #   df <- tram_route[sample(1:nrow(tram_route), size = 10 * 100, replace = T), ]
@@ -524,7 +521,7 @@
 #   option_gradient <- c('orange', 'blue', 'mediumpurple4', 'snow4', 'thistle1')
 #
 #   output$map <- renderGoogle_map({
-#     google_map(key = map_key) %>%
+#     google_map() %>%
 #       add_heatmap(data = df, weight = "weight", lat = "shape_pt_lat", lon = "shape_pt_lon",
 #                   option_gradient = option_gradient,
 #                   option_radius = 0.001, legend = T)
@@ -549,24 +546,24 @@
 #   google_mapOutput(outputId = "map", height = "800px")
 # )
 # server <- function(input, output){
-#   
-#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
-#   
+#
+#   set_key(secret::get_secret("GOOGLE"))
+#
 #   tram_stops$draggable <- TRUE
-#   
+#
 #   output$map <- renderGoogle_map({
-#       google_map(key = map_key) %>%
+#       google_map() %>%
 #         add_markers(
 #           data = tram_stops, lat = "stop_lat", lon = "stop_lon",
 #           id = "stop_id",
 #           draggable = "draggable")
 #     })
-#   
+#
 #   observeEvent(input$map_marker_click, {
 #       print("marker clicked")
 #       print(input$map_marker_click)
 #     })
-#   
+#
 #   observeEvent(input$map_marker_drag, {
 #       print("marker dragged")
 #       print(input$map_marker_drag)
@@ -580,7 +577,7 @@
 # )
 # server <- function(input, output){
 #
-#   map_key <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#   set_key(secret::get_secret("GOOGLE"))
 #
 #   df <- data.frame(north = -37.8459, south = -37.8508, east = 144.9378,
 #                     west = 144.9236, editable = T, draggable = F)
@@ -594,7 +591,7 @@
 #   tram_stops$draggable <- T
 #
 #   output$map <- renderGoogle_map({
-#     google_map(key = map_key) %>%
+#     google_map() %>%
 #       add_rectangles(data = df, north = 'north', south = 'south',
 #                      east = 'east', west = 'west',
 #                      editable = 'editable', draggable = 'draggable') %>%
@@ -655,7 +652,8 @@
 # df$grp <- c(rep(1, 27), rep(2, 28))
 #
 # library(googleway)
-# google_map(key = read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")) %>%
+# set_key(secret::get_secret("GOOGLE"))
+# google_map() %>%
 #   add_polylines(data = df, lat = "shape_pt_lat", lon = "shape_pt_lon", id = "grp")
 
 ## Circle legend add/remove
