@@ -196,7 +196,8 @@ google_map <- function(data = NULL,
     event_return_type = event_return_type,
     split_view = split_view,
     split_view_options = split_view_options,
-    geolocation = geolocation
+    geolocation = geolocation,
+    libraries = libraries
   )
 
   data <- normaliseData(data)

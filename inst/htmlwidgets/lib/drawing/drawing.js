@@ -62,7 +62,7 @@ function add_drawing (map_id, drawing_modes, marker, circle, rectangle, polyline
         });
 
     window[map_id + 'googleDrawingManager'] = drawingManager;
-    drawingManager.setMap(window[map_id + 'map']);
+    drawingManager.setMap(googlewayMap);
 
     marker_complete(map_id, drawingManager, drawingInfo);
     circle_complete(map_id, drawingManager, drawingInfo);

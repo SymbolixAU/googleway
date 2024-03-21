@@ -97,7 +97,7 @@ function set_polygons(map_id, polygon, infoWindow, update_map_view, layer_id, us
         }
 
         window[map_id + 'googlePolygon' + layer_id].push(Polygon);
-        Polygon.setMap(window[map_id + 'map']);
+        Polygon.setMap(googlewayMap);
 
         if (update_map_view === true) {
 
@@ -109,7 +109,7 @@ function set_polygons(map_id, polygon, infoWindow, update_map_view, layer_id, us
         }
 
         if (update_map_view === true) {
-            window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+            googlewayMap.fitBounds(window[map_id + 'mapBounds']);
         }
     }, timeout);
 }
@@ -147,7 +147,7 @@ function update_polygons(map_id, data_polygon, layer_id, legendValues) {
 
             //if the polygon is currently set to Null, re-put it on the map
             if (window[map_id + 'googlePolygon' + layer_id][i].getMap() === null) {
-                window[map_id + 'googlePolygon' + layer_id][i].setMap(window[map_id + 'map']);
+                window[map_id + 'googlePolygon' + layer_id][i].setMap(googlewayMap);
             }
 
             // the new id exists in the current data set

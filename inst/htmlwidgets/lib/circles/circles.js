@@ -65,7 +65,7 @@ function set_circle(map_id, circle, infoWindow, update_map_view, layer_id, use_p
 
                 if (update_map_view === true) {
                     window[map_id + 'mapBounds'].extend(latlon);
-                    window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+                    googlewayMap.fitBounds(window[map_id + 'mapBounds']);
                 }
             }
         } else {
@@ -95,7 +95,7 @@ function set_circle(map_id, circle, infoWindow, update_map_view, layer_id, use_p
 
             if (update_map_view === true) {
                 window[map_id + 'mapBounds'].extend(latlon);
-                window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+                googlewayMap.fitBounds(window[map_id + 'mapBounds']);
             }
         }
     }, timeout);
@@ -108,7 +108,7 @@ function set_each_circle(Circle, circle, infoWindow, update_map_view, map_id, la
     var shapeInfo;
 
     window[map_id + 'googleCircles' + layer_id].push(Circle);
-    Circle.setMap(window[map_id + 'map']);
+    Circle.setMap(googlewayMap);
 
     if (circle.info_window) {
         add_infoWindow(map_id, Circle, infoWindow, 'info_window', circle.info_window);
@@ -177,7 +177,7 @@ function update_circles(map_id, data_circle, layer_id, legendValues) {
 
             //if the circle is currently set to Null, re-put it on the map
             if (window[map_id + 'googleCircles' + layer_id][i].getMap() === null) {
-                window[map_id + 'googleCircles' + layer_id][i].setMap(window[map_id + 'map']);
+                window[map_id + 'googleCircles' + layer_id][i].setMap(googlewayMap);
             }
 
             // the new id exists in the current data set

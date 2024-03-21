@@ -19,13 +19,13 @@ function add_overlay (map_id, data_overlay, update_map_view, layer_id) {
     );
 
     window[map_id + 'googleOverlay' + layer_id].push(overlayLayer);
-    overlayLayer.setMap(window[map_id + 'map']);
+    overlayLayer.setMap(googlewayMap);
 
     if (update_map_view === true) {
         window[map_id + 'mapBounds'].extend(latlonNorthEast);
         window[map_id + 'mapBounds'].extend(latlonSouthWest);
 
-        window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+        googlewayMap.fitBounds(window[map_id + 'mapBounds']);
     }
 }
 

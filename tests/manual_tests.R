@@ -1,13 +1,13 @@
-## TODO:
-## - marker clusters (add & remove layer)
-## -- does this impact any other marker layers?
-
-## MARKER CLUSTER
+# ## TODO:
+# ## - marker clusters (add & remove layer)
+# ## -- does this impact any other marker layers?
+#
+# ## MARKER CLUSTER
 # set_key(secret::get_secret("GOOGLE"))
 # google_map(data = tram_stops) %>%
 #   add_markers(info_window = "stop_name", cluster = TRUE)
-
-## FOCUS LAYER
+#
+# ## FOCUS LAYER
 # library(shiny)
 # library(shinydashboard)
 # library(googleway)
@@ -66,7 +66,7 @@
 #   dashboardBody(
 #     box(width = 12,
 #         google_mapOutput(outputId = "map"),
-#         actionButton(inputId = "reset", label = "Add circles")
+#         actionButton(inputId = "reset", label = "Add marker")
 #     )
 #   )
 # )
@@ -137,19 +137,20 @@
 # }
 #
 # shinyApp(ui, server)
-
-
-## MOUSE OVER
-## - markers at top of marker
+#
+#
+# ## MOUSE OVER
+# ## - markers at top of marker
 # google_map() %>%
 #   add_markers(data=tram_stops, mouse_over ="stop_id")
 #
-# other shapes at location of cursor
+# # other shapes at location of cursor
 # google_map() %>%
 #   add_polygons(data = melbourne, polyline = "polyline", mouse_over = "SA2_NAME")
-
-
-### creating sf through geojson
+#
+#
+# ### creating sf through geojson
+# library(sf)
 # myurl <- "http://eric.clst.org/assets/wiki/uploads/Stuff/gz_2010_us_050_00_500k.json"
 # sf <- geojsonsf::geojson_sf(myurl)
 #
@@ -157,23 +158,23 @@
 #
 # google_map() %>%
 #   add_polygons(sf, fill_colour = "CENSUSAREA")
-
+#
 # library(sf)
 # library(googleway)
 # nc <- sf::st_read(system.file("shape/nc.shp", package="sf"))
 # set_key(secret::get_secret("GOOGLE"))
 # google_map() %>%
 #   add_polygons(data = nc[1:2,], polyline = "geometry", fill_colour = "#00FF00", fill_opacity = 0.2)
-
-### SF objects
+#
+# ### SF objects
 # library(sf)
 # nc <- sf::st_read(system.file("shape/nc.shp", package="sf"))
-# set_key(read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY"))
+# set_key(secret::get_secret("GOOGLE"))
 #
 # google_map() %>%
 #   add_polygons(nc[1:20,], fill_colour = "AREA")
-
-### Drawing deletes on change
+#
+# ### Drawing deletes on change
 # library(shiny)
 # ui <- fluidPage(
 #   google_mapOutput(outputId = "map")
@@ -187,7 +188,7 @@
 #   })
 # }
 # shinyApp(ui, server)
-
+#
 # ## HEATMAP UPDATE MAP VIEW
 # library(shinydashboard)
 # header1 <- dashboardHeader(
@@ -254,7 +255,7 @@
 #
 #   ## plot the map
 #   output$Map1 <- renderGoogle_map({
-#     google_map(key = map_key, data = df, zoom = 2, search_box = F) %>%
+#     google_map(data = df, zoom = 2, search_box = F) %>%
 #       add_heatmap(weight = "weight",
 #                   option_opacity = 0.5,
 #                   option_radius = ifelse(dissipating(), 0.005 * 1000, 0.005),
@@ -326,9 +327,9 @@
 #
 # }
 # shinyApp(ui, server)
-
+#
 # ## Info windows are updated
-
+#
 # library(shiny)
 #
 # ui <- fluidPage(
@@ -360,9 +361,9 @@
 #
 # }
 # shinyApp(ui, server)
-
-### CHART INFO WINDOW UPDATES
-
+#
+# ### CHART INFO WINDOW UPDATES
+#
 # library(shiny)
 #
 # ui <- fluidPage(
@@ -409,10 +410,10 @@
 #
 # }
 # shinyApp(ui, server)
-
-
-
-# place details returned to shiny
+#
+#
+#
+# # place details returned to shiny
 # library(shiny)
 #
 # ui <- fluidPage(
@@ -432,16 +433,16 @@
 #   })
 # }
 # shinyApp(ui, server)
-
-## KML layer not centred
+#
+# ## KML layer not centred
 # set_key(secret::get_secret("GOOGLE"))
 #
 # kmlUrl <- "http://googlemaps.github.io/js-v2-samples/ggeoxml/cta.kml"
 #
 # google_map() %>%
 #   add_kml(kml_url = kmlUrl)
-
-## Overlays are cleared
+#
+# ## Overlays are cleared
 # set_key(secret::get_secret("GOOGLE"))
 # google_map() %>%
 #   add_overlay(north = 40.773941
@@ -449,8 +450,8 @@
 #               , east = -74.12544
 #               , west = -74.22655
 #               , overlay_url = "https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg")
-
-
+#
+#
 # library(shiny)
 #
 # ui <- fluidPage(
@@ -477,9 +478,9 @@
 #   })
 # }
 # shinyApp(ui, server)
-
-
-# ## map details returned to shiny
+#
+#
+# # ## map details returned to shiny
 # library(shiny)
 # library(googleway)
 #
@@ -501,8 +502,8 @@
 #   })
 # }
 # shinyApp(ui, server)
-
-# updating heatmap legend
+#
+# # updating heatmap legend
 # library(shiny)
 #
 # ui <- fluidPage(
@@ -540,8 +541,8 @@
 # }
 #
 # shinyApp(ui, server)
-
-# OBSERVING MARKER CLICK AND DRAG
+#
+# # OBSERVING MARKER CLICK AND DRAG
 # ui <- fluidPage(
 #   google_mapOutput(outputId = "map", height = "800px")
 # )
@@ -570,8 +571,8 @@
 #     })
 # }
 # shinyApp(ui, server)
-
-# OBSERVING MAP EDITS
+#
+# # OBSERVING MAP EDITS
 # ui <- fluidPage(
 #   google_mapOutput(outputId = "map", height = "800px")
 # )
@@ -645,9 +646,9 @@
 #
 # }
 # shinyApp(ui, server)
-
-
-
+#
+#
+#
 # df <- tram_route
 # df$grp <- c(rep(1, 27), rep(2, 28))
 #
@@ -655,8 +656,8 @@
 # set_key(secret::get_secret("GOOGLE"))
 # google_map() %>%
 #   add_polylines(data = df, lat = "shape_pt_lat", lon = "shape_pt_lon", id = "grp")
-
-## Circle legend add/remove
+#
+# ## Circle legend add/remove
 # library(shiny)
 #
 # ui <- fluidPage(
@@ -665,11 +666,11 @@
 # )
 # server <- function(input, output){
 #
-#   mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#   set_key(secret::get_secret("GOOGLE"))
 #
 #   output$map <- renderGoogle_map({
 #
-#     google_map(key = mapKey)
+#     google_map()
 #
 #   })
 #
@@ -689,10 +690,10 @@
 #   })
 # }
 # shinyApp(ui, server)
-
-
-
-## Multiple legends
+#
+#
+#
+# ## Multiple legends
 # library(shiny)
 #
 # ui <- fluidPage(
@@ -705,12 +706,12 @@
 #
 # server <- function(input, output){
 #
-#   mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#   set_key(secret::get_secret("GOOGLE"))
 #   tram_route <- tram_route
 #   tram_route$id <- 1
 #
 #   output$map <- renderGoogle_map({
-#     google_map(key = mapKey)
+#     google_map()
 #   })
 #
 #
@@ -761,8 +762,8 @@
 #
 # }
 # shinyApp(ui, server)
-
-
+#
+# ## DRAWING CIRCLE
 # library(shiny)
 #
 # ui <- fluidPage(
@@ -771,9 +772,9 @@
 #
 # server <- function(input, output){
 #
-#   mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#   set_key(secret::get_secret("GOOGLE"))
 #   output$map <- renderGoogle_map({
-#     google_map(key = mapKey) %>%
+#     google_map() %>%
 #       add_drawing(drawing_modes = c("circle"))
 #   })
 #
@@ -783,10 +784,11 @@
 #   })
 # }
 # shinyApp(ui, server)
-
-
-# ## shape clicks
+#
+#
+# # ## shape clicks
 # library(shiny)
+# library(googleway)
 #
 # ui <- fluidPage(
 #   google_mapOutput(outputId = "map", height = "800px")
@@ -794,9 +796,9 @@
 #
 # server <- function(input, output){
 #
-#   mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#   set_key(secret::get_secret("GOOGLE"))
 #   output$map <- renderGoogle_map({
-#     google_map(key = mapKey, event_return_type = "json") %>%
+#     google_map(event_return_type = "json") %>%
 #       add_circles(data = tram_stops)
 #   })
 #
@@ -805,9 +807,10 @@
 #   })
 # }
 # shinyApp(ui, server)
-
-# ## circle clicks
+#
+# # ## circle clicks
 # library(shiny)
+# library(googleway)
 #
 # ui <- fluidPage(
 #   google_mapOutput(outputId = "map", height = "800px")
@@ -815,9 +818,9 @@
 #
 # server <- function(input, output){
 #
-#   mapKey <- read.dcf("~/Documents/.googleAPI", fields = "GOOGLE_MAP_KEY")
+#   set_key(secret::get_secret("GOOGLE"))
 #   output$map <- renderGoogle_map({
-#     google_map(key = mapKey, event_return_type = "json") %>%
+#     google_map(event_return_type = "json") %>%
 #       add_circles(data = tram_stops)
 #   })
 #
@@ -826,8 +829,8 @@
 #   })
 # }
 # shinyApp(ui, server)
-
-
-
-
-
+#
+#
+#
+#
+#

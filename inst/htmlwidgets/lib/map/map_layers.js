@@ -2,7 +2,7 @@ function add_traffic(map_id) {
 
   var traffic = new google.maps.TrafficLayer();
   window[map_id + 'googleTrafficLayer'] = traffic;
-  traffic.setMap(window[map_id + 'map']);
+  traffic.setMap(googlewayMap);
 }
 
 function clear_traffic(map_id) {
@@ -13,7 +13,7 @@ function add_bicycling(map_id) {
 
   var bicycle = new google.maps.BicyclingLayer();
   window[map_id + 'googleBicyclingLayer'] = bicycle;
-  bicycle.setMap(window[map_id + 'map']);
+  bicycle.setMap(googlewayMap);
 }
 
 function clear_bicycling(map_id) {
@@ -24,7 +24,7 @@ function add_transit(map_id) {
 
   var transit = new google.maps.TransitLayer();
   window[map_id + 'googleTransitLayer'] = transit;
-  transit.setMap(window[map_id + 'map']);
+  transit.setMap(googlewayMap);
 }
 
 function clear_transit(map_id) {

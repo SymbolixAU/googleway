@@ -1,13 +1,25 @@
 
+let googlewayMap;
+
 async function initMap(el, x) {
 
   const { Map } = await google.maps.importLibrary("maps");
   const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
-  const { Visualization } = await google.maps.importLibrary("visualization");
-  const { Places } = await google.maps.importLibrary("places");
-  const { Drawing } = await google.maps.importLibrary("drawing");
 
-  var map = new Map(document.getElementById(el.id), {
+  if( x.libraries.includes("visualization")) {
+    const { visualization } = await google.maps.importLibrary("visualization");
+  }
+  if( x.libraries.includes("places")) {
+    const { Places } = await google.maps.importLibrary("places");
+  }
+  if( x.libraries.includes("drawing")) {
+    const { drawing } = await google.maps.importLibrary("drawing");
+  }
+  if( x.libraries.includes("geometry")) {
+    const { encoding } = await google.maps.importLibrary("geometry");
+  }
+
+  googlewayMap = new Map(document.getElementById(el.id), {
     mapId: el.id,
     center: {lat: x.lat, lng: x.lng},
     zoom: x.zoom,
@@ -31,7 +43,7 @@ async function initMap(el, x) {
     fullscreenControl: x.fullscreenControl
   });
 
-  window[el.id + 'map'] = map;
+  //googlewayMap = map;
 
   var mapInfo,
         input,
@@ -51,11 +63,11 @@ async function initMap(el, x) {
         input = document.getElementById(el.id+'pac-input');
 
         window[el.id + 'googleSearchBox'] = new google.maps.places.SearchBox(input);
-        window[el.id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+        googlewayMap.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
         // Bias the SearchBox results towards current map's viewport.
-        window[el.id + 'map'].addListener('bounds_changed', function () {
-            window[el.id + 'googleSearchBox'].setBounds(window[el.id + 'map'].getBounds());
+        googlewayMap.addListener('bounds_changed', function () {
+            window[el.id + 'googleSearchBox'].setBounds(googlewayMap.getBounds());
         });
 
         // listen for deleting the search bar
@@ -99,7 +111,7 @@ async function initMap(el, x) {
 
                 // Create a marker for each place.
                 window[el.id + 'googlePlaceMarkers'].push(new google.maps.Marker({
-                    map: window[el.id + 'map'],
+                    map: googlewayMap,
                     icon: icon,
                     title: place.name,
                     position: place.geometry.location
@@ -135,7 +147,7 @@ async function initMap(el, x) {
             });
 
             if(x.update_map_view) {
-              window[el.id + 'map'].fitBounds(bounds);
+              googlewayMap.fitBounds(bounds);
             }
         });
     }
@@ -168,7 +180,7 @@ async function initMap(el, x) {
 
             if (window[x.calls[layerCalls].functions]) {
 
-                window[x.calls[layerCalls].functions].apply(window[el.id + 'map'], x.calls[layerCalls].args);
+                window[x.calls[layerCalls].functions].apply(googlewayMap, x.calls[layerCalls].args);
             } else {
                 //console.log("Unknown function " + x.calls[layerCalls]);
             }
@@ -176,15 +188,15 @@ async function initMap(el, x) {
     }
 
     if( x.geolocation === true) {
-        add_geolocation(el.id, window[el.id + 'map'], mapInfo );
+        add_geolocation(el.id, googlewayMap, mapInfo );
     }
 
     // listeners
     mapInfo = {};
-    map_click(el.id, window[el.id + 'map'], mapInfo);
-    map_right_click(el.id, window[el.id + 'map'], mapInfo);
-    bounds_changed(el.id, window[el.id + 'map'], mapInfo);
-    zoom_changed(el.id, window[el.id + 'map'], mapInfo);
+    map_click(el.id, googlewayMap, mapInfo);
+    map_right_click(el.id, googlewayMap, mapInfo);
+    bounds_changed(el.id, googlewayMap, mapInfo);
+    zoom_changed(el.id, googlewayMap, mapInfo);
 
     if( HTMLWidgets.shinyMode) {
       Shiny.setInputValue(el.id + "_initialised", {});
@@ -291,7 +303,7 @@ HTMLWidgets.widget({
 
 
                         //global map object
-                        window[el.id + 'map'] = map;
+                        googlewayMap = map;
 
                         if (google !== undefined && google.charts !== undefined ) {
                             //console.log("exists");
@@ -329,7 +341,7 @@ HTMLWidgets.widget({
                         fullscreenControl: x.fullscreenControl
                     });
 
-                    window[el.id + 'map'] = map;
+                    googlewayMap = map;
                     initialise_map(el, x);
                 }
 */
@@ -399,11 +411,11 @@ async function initialise_map(el, x) {
         input = document.getElementById(el.id+'pac-input');
 
         window[el.id + 'googleSearchBox'] = new google.maps.places.SearchBox(input);
-        window[el.id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+        googlewayMap.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
         // Bias the SearchBox results towards current map's viewport.
-        window[el.id + 'map'].addListener('bounds_changed', function () {
-            window[el.id + 'googleSearchBox'].setBounds(window[el.id + 'map'].getBounds());
+        googlewayMap.addListener('bounds_changed', function () {
+            window[el.id + 'googleSearchBox'].setBounds(googlewayMap.getBounds());
         });
 
         // listen for deleting the search bar
@@ -447,7 +459,7 @@ async function initialise_map(el, x) {
 
                 // Create a marker for each place.
                 window[el.id + 'googlePlaceMarkers'].push(new google.maps.Marker({
-                    map: window[el.id + 'map'],
+                    map: googlewayMap,
                     icon: icon,
                     title: place.name,
                     position: place.geometry.location
@@ -483,7 +495,7 @@ async function initialise_map(el, x) {
             });
 
             if(x.update_map_view) {
-              window[el.id + 'map'].fitBounds(bounds);
+              googlewayMap.fitBounds(bounds);
             }
         });
     }
@@ -499,7 +511,7 @@ async function initialise_map(el, x) {
 
             if (window[x.calls[layerCalls].functions]) {
 
-                window[x.calls[layerCalls].functions].apply(window[el.id + 'map'], x.calls[layerCalls].args);
+                window[x.calls[layerCalls].functions].apply(googlewayMap, x.calls[layerCalls].args);
             } else {
                 //console.log("Unknown function " + x.calls[layerCalls]);
             }
@@ -507,15 +519,15 @@ async function initialise_map(el, x) {
     }
 
     if( x.geolocation === true) {
-        add_geolocation(el.id, window[el.id + 'map'], mapInfo );
+        add_geolocation(el.id, googlewayMap, mapInfo );
     }
 
     // listeners
     mapInfo = {};
-    map_click(el.id, window[el.id + 'map'], mapInfo);
-    map_right_click(el.id, window[el.id + 'map'], mapInfo);
-    bounds_changed(el.id, window[el.id + 'map'], mapInfo);
-    zoom_changed(el.id, window[el.id + 'map'], mapInfo);
+    map_click(el.id, googlewayMap, mapInfo);
+    map_right_click(el.id, googlewayMap, mapInfo);
+    bounds_changed(el.id, googlewayMap, mapInfo);
+    zoom_changed(el.id, googlewayMap, mapInfo);
 
     if( HTMLWidgets.shinyMode) {
       Shiny.setInputValue(el.id + "_initialised", {});
@@ -526,7 +538,7 @@ function update_pano( map_id, pano, lat, lon ) {
 
 
   var pano = window[ map_id + pano];
-  var map = window[ map_id + 'map'];
+  var map = googlewayMap;
   //var center = map.getCenter();
   var center = {lat: lat, lng: lon};
 
@@ -534,7 +546,7 @@ function update_pano( map_id, pano, lat, lon ) {
   pano.setPosition( center );
   //console.log( pano );
 
-  window[ map_id + 'map'].setStreetView( pano );
+  googlewayMap.setStreetView( pano );
 
 /*
   var panorama = new google.maps.StreetViewPanorama(
@@ -551,7 +563,7 @@ function update_pano( map_id, pano, lat, lon ) {
 
 
   //map.setStreetView( panorama );
-  //window[ map_id + 'map'].setStreetView( panorama );
+  //googlewayMap.setStreetView( panorama );
 }
 
 
@@ -564,7 +576,7 @@ function update_pano( map_id, pano, lat, lon ) {
  *          style to apply (in the form of JSON)
  */
 function update_style(map_id, style) {
-    window[map_id + 'map'].set('styles', JSON.parse(style));
+    googlewayMap.set('styles', JSON.parse(style));
 }
 
 
@@ -619,44 +631,44 @@ function placeControl(map_id, object, position) {
 
     switch (position) {
     case 'RIGHT_BOTTOM':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(object);
+        googlewayMap.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(object);
         break;
     case 'TOP_CENTER':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.TOP_CENTER].push(object);
+        googlewayMap.controls[google.maps.ControlPosition.TOP_CENTER].push(object);
         break;
     case 'TOP_LEFT':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT].push(object);
+        googlewayMap.controls[google.maps.ControlPosition.TOP_LEFT].push(object);
         break;
     case 'LEFT_TOP':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_TOP].push(object);
+        googlewayMap.controls[google.maps.ControlPosition.LEFT_TOP].push(object);
         break;
     case 'TOP_RIGHT':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.TOP_RIGHT].push(object);
+        googlewayMap.controls[google.maps.ControlPosition.TOP_RIGHT].push(object);
         break;
     case 'RIGHT_TOP':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_TOP].push(object);
+        googlewayMap.controls[google.maps.ControlPosition.RIGHT_TOP].push(object);
         break;
     case 'LEFT_CENTER':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_CENTER].push(object);
+        googlewayMap.controls[google.maps.ControlPosition.LEFT_CENTER].push(object);
         break;
     case 'RIGHT_CENTER':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_CENTER].push(object);
+        googlewayMap.controls[google.maps.ControlPosition.RIGHT_CENTER].push(object);
         break;
     case 'LEFT_BOTTOM':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_BOTTOM].push(object);
+        googlewayMap.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(object);
         break;
     case 'BOTTOM_CENTER':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_CENTER].push(object);
+        googlewayMap.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(object);
         break;
     case 'BOTTOM_LEFT':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_LEFT].push(object);
+        googlewayMap.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(object);
         break;
     case 'BOTTOM_RIGHT':
-        window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(object);
+        googlewayMap.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(object);
         break;
     default:
         position = "LEFT_BOTTOM";
-        window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_BOTTOM].push(object);
+        googlewayMap.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(object);
         break;
     }
 
@@ -674,44 +686,44 @@ function removeControl(map_id, legend_id, position) {
 
     switch (position) {
     case 'RIGHT_BOTTOM':
-        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_BOTTOM], legend_id);
+        clearControl(googlewayMap.controls[google.maps.ControlPosition.RIGHT_BOTTOM], legend_id);
         break;
     case 'TOP_CENTER':
-        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.TOP_CENTER], legend_id);
+        clearControl(googlewayMap.controls[google.maps.ControlPosition.TOP_CENTER], legend_id);
         break;
     case 'TOP_LEFT':
-        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.TOP_LEFT], legend_id);
+        clearControl(googlewayMap.controls[google.maps.ControlPosition.TOP_LEFT], legend_id);
         break;
     case 'LEFT_TOP':
-        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_TOP], legend_id);
+        clearControl(googlewayMap.controls[google.maps.ControlPosition.LEFT_TOP], legend_id);
         break;
     case 'TOP_RIGHT':
-        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.TOP_RIGHT], legend_id);
+        clearControl(googlewayMap.controls[google.maps.ControlPosition.TOP_RIGHT], legend_id);
         break;
     case 'RIGHT_TOP':
-        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_TOP], legend_id);
+        clearControl(googlewayMap.controls[google.maps.ControlPosition.RIGHT_TOP], legend_id);
         break;
     case 'LEFT_CENTER':
-        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_CENTER], legend_id);
+        clearControl(googlewayMap.controls[google.maps.ControlPosition.LEFT_CENTER], legend_id);
         break;
     case 'RIGHT_CENTER':
-        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.RIGHT_CENTER], legend_id);
+        clearControl(googlewayMap.controls[google.maps.ControlPosition.RIGHT_CENTER], legend_id);
         break;
     case 'LEFT_BOTTOM':
-        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_BOTTOM], legend_id);
+        clearControl(googlewayMap.controls[google.maps.ControlPosition.LEFT_BOTTOM], legend_id);
         break;
     case 'BOTTOM_CENTER':
-        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_CENTER], legend_id);
+        clearControl(googlewayMap.controls[google.maps.ControlPosition.BOTTOM_CENTER], legend_id);
         break;
     case 'BOTTOM_LEFT':
-        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_LEFT], legend_id);
+        clearControl(googlewayMap.controls[google.maps.ControlPosition.BOTTOM_LEFT], legend_id);
         break;
     case 'BOTTOM_RIGHT':
-        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.BOTTOM_RIGHT], legend_id);
+        clearControl(googlewayMap.controls[google.maps.ControlPosition.BOTTOM_RIGHT], legend_id);
         break;
     default:
         position = "LEFT_BOTTOM";
-        clearControl(window[map_id + 'map'].controls[google.maps.ControlPosition.LEFT_BOTTOM], legend_id);
+        clearControl(googlewayMap.controls[google.maps.ControlPosition.LEFT_BOTTOM], legend_id);
         break;
     }
 }
@@ -770,10 +782,10 @@ function set_map_position(map_id, location, zoom) {
 }
 
 function set_map_center(map_id, latlon) {
-  window[map_id + 'map'].setCenter(latlon);
+  googlewayMap.setCenter(latlon);
 }
 
 function set_map_zoom(map_id, zoom) {
-  window[map_id + 'map'].setZoom(zoom);
+  googlewayMap.setZoom(zoom);
 }
 

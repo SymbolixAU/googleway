@@ -49,13 +49,13 @@ function add_heatmap(map_id, data_heatmap, heatmap_options, update_map_view, lay
     }
 
     if (update_map_view === true) {
-        window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+        googlewayMap.fitBounds(window[map_id + 'mapBounds']);
     }
 
     // fill the heatmap variable with the MVC array of heatmap data
     // when the MVC array is updated, the layer is also updated
     window[map_id + 'googleHeatmap' + layer_id] = heatmap;
-    heatmap.setMap(window[map_id + 'map']);
+    heatmap.setMap(googlewayMap);
 
     if (legendValues !== false) {
         add_legend(map_id, layer_id, legendValues);
@@ -120,7 +120,7 @@ function update_heatmap(map_id, data_heatmap, heatmap_options, layer_id, legendV
         }
 
         if (update_map_view === true) {
-            window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+            googlewayMap.fitBounds(window[map_id + 'mapBounds']);
         }
 
         if (legendValues !== false) {

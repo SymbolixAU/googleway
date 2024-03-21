@@ -45,7 +45,7 @@ function set_rectangle(map_id, rectangle, infoWindow, update_map_view, layer_id,
             });
 
         window[map_id + 'googleRectangles' + layer_id].push(Rectangle);
-        Rectangle.setMap(window[map_id + 'map']);
+        Rectangle.setMap(googlewayMap);
 
         if(rectangle.info_window){
             add_infoWindow(map_id, Rectangle, infoWindow, 'info_window', rectangle.info_window);
@@ -65,7 +65,7 @@ function set_rectangle(map_id, rectangle, infoWindow, update_map_view, layer_id,
         if (update_map_view === true) {
             window[map_id + 'mapBounds'].extend(latlonNorthEast);
             window[map_id + 'mapBounds'].extend(latlonSouthWest);
-            window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+            googlewayMap.fitBounds(window[map_id + 'mapBounds']);
         }
      }, timeout);
 }
@@ -106,7 +106,7 @@ function update_rectangles(map_id, data_rectangles, layer_id, legendValues) {
 
             //if the polygon is currently set to Null, re-put it on the map
             if (window[map_id + 'googleRectangles' + layer_id][i].getMap() === null) {
-                window[map_id + 'googleRectangles' + layer_id][i].setMap(window[map_id + 'map']);
+                window[map_id + 'googleRectangles' + layer_id][i].setMap(googlewayMap);
             }
 
             // the new id exists in the current data set

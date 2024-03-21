@@ -19,9 +19,9 @@ function loadGeoJsonString(geoString) {
     var geojson = JSON.parse(geoString),
         map_id = window.googleway.params[0].map_id;
 
-    window[map_id + 'map'].data.addGeoJson(geojson);
+    googlewayMap.data.addGeoJson(geojson);
 
-    window[map_id + 'map'].data.setStyle(function (feature) {
+    googlewayMap.data.setStyle(function (feature) {
 
         var featureFillColor = feature.getProperty("fillColor"),
             featureFillOpacity = feature.getProperty("fillOpacity"),
@@ -47,7 +47,7 @@ function loadGeoJsonString(geoString) {
     });
 
     // TODO: update map bounds
-    zoomGeo(map_id, window[map_id + 'map'].data);
+    zoomGeo(map_id, googlewayMap.data);
 }
 
 
@@ -155,7 +155,7 @@ function geojson_mouseover(map_id, layer_id) {
 function add_geojson(map_id, geojson, geojson_source, style, update_map_view, mouse_over, layer_id) {
 
     if(window[map_id + 'googleGeojson' + layer_id] == null) {
-        window[map_id + 'googleGeojson' + layer_id] = new google.maps.Data({ map: window[map_id + 'map'] });
+        window[map_id + 'googleGeojson' + layer_id] = new google.maps.Data({ map: googlewayMap });
     }
 
     if (geojson_source === "local") {
@@ -218,7 +218,7 @@ function zoomGeo(map_id, mapObj) {
         });
     });
 
-    window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+    googlewayMap.fitBounds(window[map_id + 'mapBounds']);
 }
 
 

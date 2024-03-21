@@ -108,7 +108,7 @@ function set_each_line(Polyline, polyline, infoWindow, update_map_view, map_id, 
     var n, points, polylineInfo;
 
     window[map_id + 'googlePolyline' + layer_id].push(Polyline);
-    Polyline.setMap(window[map_id + 'map']);
+    Polyline.setMap(googlewayMap);
 
     if (update_map_view === true) {
         // extend the bounds of the map
@@ -117,7 +117,7 @@ function set_each_line(Polyline, polyline, infoWindow, update_map_view, map_id, 
         for (n = 0; n < points.length; n++) {
             window[map_id + 'mapBounds'].extend(points[n]);
         }
-        window[map_id + 'map'].fitBounds(window[map_id + 'mapBounds']);
+        googlewayMap.fitBounds(window[map_id + 'mapBounds']);
     }
 
     if (polyline.info_window) {
@@ -188,7 +188,7 @@ function update_polylines(map_id, data_polyline, layer_id, legendValues) {
 
                 //if the polygon is currently set to Null, re-put it on the map
                 if (window[map_id + 'googlePolyline' + layer_id][i].getMap() === null) {
-                    window[map_id + 'googlePolyline' + layer_id][i].setMap(window[map_id + 'map']);
+                    window[map_id + 'googlePolyline' + layer_id][i].setMap(googlewayMap);
                 }
 
                 // the new id exists in the current data set
