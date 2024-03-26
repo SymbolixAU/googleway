@@ -9,6 +9,8 @@ add_markers(
   data = get_map_data(map),
   id = NULL,
   colour = NULL,
+  border_colour = NULL,
+  glyph_colour = NULL,
   lat = NULL,
   lon = NULL,
   polyline = NULL,
@@ -39,7 +41,14 @@ data passed into \code{google_map()} will be used.}
 \item{id}{string specifying the column containing an identifier for a shape}
 
 \item{colour}{string specifying the column containing the 'colour' to use for
-the markers. One of 'red', 'blue', 'green' or 'lavender'.}
+the markers. The colour should be specified as a hex string (e.g. "#FF0000").}
+
+\item{border_colour}{string specifying the column containing the 'border colour'
+to use for the markers. The colour should be specified as a hex string (e.g. "#FF0000")}
+
+\item{glyph_colour}{string specifying the column containing the 'glype colour'
+(the center of the marker) to use for the markers.
+The colour should be specified as a hex string (e.g. "#FF0000")}
 
 \item{lat}{string specifying the column of \code{data} containing the 'latitude'
 coordinates. If left NULL, a best-guess will be made}
@@ -56,9 +65,6 @@ no title will be displayed for the markers.}
 
 \item{draggable}{string specifying the column of \code{data} defining if the
 marker is 'draggable' (either TRUE or FALSE)}
-
-\item{opacity}{string specifying the column of \code{data} defining the 'opacity'
-of the maker. Values must be between 0 and 1 (inclusive).}
 
 \item{label}{string specifying the column of \code{data} defining the character
 to appear in the centre of the marker. Values will be coerced to strings, and
