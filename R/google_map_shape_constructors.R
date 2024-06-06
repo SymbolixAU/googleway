@@ -164,7 +164,7 @@ requiredHeatmapUpdateColumns <- function() {
 
 ## MARKERS ---------------------------------------------------------------------
 markerColumns <- function() {
-  c('id', 'colour', 'border_colour', 'glyph_colour', 'lat', 'lng', 'title', 'draggable', 'label',
+  c('id', 'colour', 'border_colour', 'glyph_colour', 'scale', 'lat', 'lng', 'title', 'draggable', 'label',
     'info_window', 'mouse_over', 'mouse_over_group', 'url')
 }
 

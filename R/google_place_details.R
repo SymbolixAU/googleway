@@ -36,7 +36,6 @@
 #'
 #' }
 #' @export
-
 google_place_details <- function(place_id,
                                  language = NULL,
                                  simplify = TRUE,

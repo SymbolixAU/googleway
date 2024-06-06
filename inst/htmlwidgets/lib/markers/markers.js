@@ -66,27 +66,23 @@ function promise_to_add_markers(map_id, data_markers, update_map_view, layer_id,
 
 function cluster_markers(map_id, layer_id, cluster_options) {
 
-  /*
-    var opts = cluster_options || {};
-    c
-    console.log( opts );
-    Object.assign( opts,
-      { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' }
-    );
-  */
+  const minPoints = cluster_options.minimumClusterSize || 2.0;
+  const minZoom = cluster_options.minZoom || 0;
+  const maxZoom = cluster_options.maxZoom || 16;
+  const radius = cluster_options.radius || 40;
+  const extent = cluster_options.extent || 512;
+  const nodeSize = cluster_options.nodeSize || 64;
 
   var markers = window[ map_id + 'googleMarkers' + layer_id ];
 
-  const markerCluster = new markerClusterer.MarkerClusterer({ markers: markers, map: googlewayMap });
+  const markerCluster = new markerClusterer.MarkerClusterer({
+    markers: markers,
+    map: googlewayMap,
+    algorithm: new markerClusterer.SuperClusterAlgorithm({
+      minPoints, minZoom, maxZoom, radius, extent, nodeSize
+    })
+  });
   window[ map_id + 'googleMarkerClusterer' + layer_id ] = markerCluster;
-
-  /*
-    window[map_id + 'googleMarkerClusterer' + layer_id] = new MarkerClusterer(
-      googlewayMap,
-      window[map_id + 'googleMarkers' + layer_id],
-      opts
-    );
-    */
 }
 
 function set_markers(map_id, infoWindow, aMarker, update_map_view, layer_id, use_polyline, timeout) {
@@ -156,22 +152,30 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
     //console.log(aMarker);
     //console.log(googlewayMap);
 
-    var markerInfo
+    var content, markerInfo
+
+    if( aMarker.url !== undefined ) {
+      content = document.createElement("img");
+      content.src = aMarker.url;
+
+    } else {
+      content = new google.maps.marker.PinElement({
+        background: aMarker.colour,
+        borderColor: aMarker.border_colour,
+        glyphColor: aMarker.glyph_colour,
+        glyph: aMarker.label,
+        scale: aMarker.scale
+      }).element;
+    }
+
 
     const marker = new google.maps.marker.AdvancedMarkerElement({
         map: googlewayMap,
         id: aMarker.id,
-        //icon: aMarker.url,
         position: latlon,
         gmpDraggable: aMarker.draggable,
         title: aMarker.title,
-        content: new google.maps.marker.PinElement({
-          background: aMarker.colour,
-          borderColor: aMarker.border_colour,
-          glyphColor: aMarker.glyph_colour,
-          glyph: aMarker.title
-        }).element,
-        //label: aMarker.label,
+        content: content,
         //mouseOver: aMarker.mouse_over,
         //mouseOverGroup: aMarker.mouse_over_group,
         //info_window: aMarker.info_window,
@@ -244,7 +248,6 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
  *          the layer to clear
  */
 function clear_markers(map_id, layer_id) {
-
     // the markers know which map they're on
     // http://stackoverflow.com/questions/7961522/removing-a-marker-in-google-maps-api-v3
     clear_object(map_id, 'googleMarkers', layer_id);

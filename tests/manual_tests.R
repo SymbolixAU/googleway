@@ -1,13 +1,103 @@
-# ## TODO:
-# ## - marker clusters (add & remove layer)
-# ## -- does this impact any other marker layers?
+## TODO:
+## - marker clusters (add & remove layer)
+## -- does this impact any other marker layers?
+
+## -----------------------
+## Removing Markers
+## -----------------------
+# library(shiny)
+# library(shinydashboard)
+# library(googleway)
 #
-# ## MARKER CLUSTER
+# ui <- dashboardPage(
+#
+#   dashboardHeader(),
+#   dashboardSidebar(),
+#   dashboardBody(
+#     box(width = 12,
+#         google_mapOutput(outputId = "map"),
+#         actionButton(inputId = "marker", label = "clear stops"),
+#     )
+#   )
+# )
+#
+# server <- function(input, output) {
+#   set_key(secret::get_secret("GOOGLE"))
+#
+#   df1 <- tram_stops
+#   df2 <- data.frame(lon = mean(df1$stop_lon), lat = mean(df1$stop_lat))
+#
+#   output$map <- renderGoogle_map({
+#     google_map() %>%
+#       add_markers(
+#         data = df1
+#         , layer_id = "stops"
+#       ) %>%
+#       add_markers(
+#         data = df2
+#         , layer_id = "mean"
+#       )
+#   })
+#
+#   observeEvent(input$marker, {
+#     google_map_update("map") %>%
+#       clear_markers(layer_id = "stops")
+#   })
+#
+# }
+#
+# shinyApp(ui, server)
+
+## -----------------------
+## MARKER CLUSTER
+## -----------------------
 # set_key(secret::get_secret("GOOGLE"))
 # google_map(data = tram_stops) %>%
 #   add_markers(info_window = "stop_name", cluster = TRUE)
 #
-# ## FOCUS LAYER
+#
+# library(shiny)
+# library(shinydashboard)
+# library(googleway)
+#
+# ui <- dashboardPage(
+#
+#   dashboardHeader(),
+#   dashboardSidebar(),
+#   dashboardBody(
+#     box(width = 12,
+#         google_mapOutput(outputId = "map"),
+#         actionButton(inputId = "marker", label = "clear markers"),
+#     )
+#   )
+# )
+#
+# server <- function(input, output) {
+#   set_key(secret::get_secret("GOOGLE"))
+#
+#   df <- tram_stops
+#
+#   output$map <- renderGoogle_map({
+#     google_map() %>%
+#       add_markers(
+#         data = df
+#         , cluster = TRUE
+#       )
+#   })
+#
+#   observeEvent(input$marker, {
+#     google_map_update("map") %>%
+#       clear_markers()
+#   })
+#
+# }
+#
+# shinyApp(ui, server)
+#
+
+## -----------------------
+## FOCUS LAYER
+## -----------------------
 # library(shiny)
 # library(shinydashboard)
 # library(googleway)
@@ -50,8 +140,9 @@
 #
 # shinyApp(ui, server)
 #
-#
-# ## CLEAR MAP BOUNDS
+## -----------------------
+## CLEAR MAP BOUNDS
+## -----------------------
 # ## method
 # ## - add objects, clear objects, clear boudns, add new objects. The boudns
 # ## - should only focus on these new objects, and not include the old ones

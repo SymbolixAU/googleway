@@ -754,11 +754,11 @@ function clear_object(map_id, objType, layer_id) {
   if (window[map_id + objType + layer_id]) {
     for (i = 0; i < window[map_id + objType + layer_id].length; i++) {
       console.log(window[map_id + objType + layer_id][i]);
-    //https://developers.google.com/maps/documentation/javascript/reference/3/#event
-    google.maps.event.clearInstanceListeners(window[map_id + objType + layer_id][i]);
-    window[map_id + objType + layer_id][i].setMap(null);
-    window[map_id + objType + layer_id][i] = null;
-  }
+      //https://developers.google.com/maps/documentation/javascript/reference/3/#event
+      google.maps.event.clearInstanceListeners(window[map_id + objType + layer_id][i]);
+      window[map_id + objType + layer_id][i].setMap(null);
+      window[map_id + objType + layer_id][i] = null;
+    }
   window[map_id + objType + layer_id] = null;
 
   clear_legend(map_id, layer_id);
