@@ -43,12 +43,14 @@ HTMLWidgets.widget({
 
                 if (HTMLWidgets.shinyMode) {
 
-
-
                     // use setInterval to check if the map can be loaded
                     // the map is dependant on the Google Maps JS resource
                     // - usually implemented via callback
                     var checkExists = setInterval(function () {
+
+                      if(typeof google !== "undefined" && typeof google.maps !== "undefined" && typeof google.charts !== "undefined" ) {
+
+                        clearInterval(checkExists);
 
                         var map = new google.maps.Map(mapDiv, {
                             center: {lat: x.lat, lng: x.lng},
@@ -77,18 +79,12 @@ HTMLWidgets.widget({
 
                         if(x.split_view !== null) {
 
-                          //console.log("split view");
-                          //console.log(x.split_view);
-                          //console.log(x.split_view_options);
-
                             var panorama = new google.maps.StreetViewPanorama(
                                 document.getElementById(x.split_view), {
                                     position: {lat: x.lat, lng: x.lng},
                                     pov: {
                                         heading: x.split_view_options.heading,
                                         pitch: x.split_view_options.pitch
-                                        //heading: 34,
-                                        //pitch: 10
                                       }
                                 });
 
@@ -101,15 +97,17 @@ HTMLWidgets.widget({
                         //global map object
                         window[el.id + 'map'] = map;
 
-                        if (google !== undefined && google.charts !== undefined ) {
-                            //console.log("exists");
-                            clearInterval(checkExists);
+                        initialise_map(el, x);
 
-                            initialise_map(el, x);
-
-                        } else {
-                            //console.log("does not exist!");
-                        }
+                        //if (google !== undefined && google.charts !== undefined ) {
+                        //    //console.log("exists");
+                        //    clearInterval(checkExists);
+                        //
+                        //    initialise_map(el, x);
+                        //} else {
+                        //    //console.log("does not exist!");
+                        //}
+                      }
                     }, 100);
 
                 } else {
