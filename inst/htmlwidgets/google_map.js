@@ -251,8 +251,6 @@ HTMLWidgets.widget({
 /*
                 if (HTMLWidgets.shinyMode) {
 
-
-
                     // use setInterval to check if the map can be loaded
                     // the map is dependant on the Google Maps JS resource
                     // - usually implemented via callback
