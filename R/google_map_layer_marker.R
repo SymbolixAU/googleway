@@ -94,6 +94,36 @@ googleMarkerClustererDependency <- function() {
 #'    , info_window = "stop_name" ## shown when clicking on marker
 #'    )
 #'
+#' ## Display the info_window using mouse_over
+#'
+#'google_map(
+#'   key = map_key
+#'   , data = tram_stops
+#'   ) %>%
+#'  add_markers(
+#'    lat = "stop_lat"
+#'    , lon = "stop_lon"
+#'    , title = "stop_name"  ## shown when hovering
+#'    , label = "stop_id"    ## shown in center of marker
+#'    , mouse_over = "stop_name" ## shown when hovering over a marker
+#'    )
+#'
+#' ## Use mouse_over_group to highlight groups of markers
+#'
+#' df <- tram_stops
+#' df$group <- sample(1:5, size = nrow(df), replace = TRUE)
+#' google_map(
+#'   key = map_key
+#'   , data = df
+#'   ) %>%
+#'  add_markers(
+#'    lat = "stop_lat"
+#'    , lon = "stop_lon"
+#'    , title = "stop_name"  ## shown when hovering
+#'    , label = "stop_id"    ## shown in center of marker
+#'    , mouse_over_group = "group"
+#'    )
+#'
 #' ## Colouring markers
 #' google_map(
 #'   key = map_key

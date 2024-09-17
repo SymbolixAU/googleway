@@ -11,6 +11,7 @@ add_markers(
   colour = NULL,
   border_colour = NULL,
   glyph_colour = NULL,
+  scale = 1,
   lat = NULL,
   lon = NULL,
   polyline = NULL,
@@ -40,15 +41,18 @@ data passed into \code{google_map()} will be used.}
 
 \item{id}{string specifying the column containing an identifier for a shape}
 
-\item{colour}{string specifying the column containing the 'colour' to use for
-the markers. The colour should be specified as a hex string (e.g. "#FF0000").}
+\item{colour}{string (hex string representation) specifying the column of containing the 'colour' to use for
+the markers, or an single hex string to use for all the markers.}
 
-\item{border_colour}{string specifying the column containing the 'border colour'
-to use for the markers. The colour should be specified as a hex string (e.g. "#FF0000")}
+\item{border_colour}{string (hex string representation) specifying the column of containing the'border colour'
+to use for the markers. The colour should be specified as a hex string (e.g. "#FF0000"),
+or an single hex string to use for all the markers.}
 
-\item{glyph_colour}{string specifying the column containing the 'glype colour'
-(the center of the marker) to use for the markers.
+\item{glyph_colour}{string (hex string representation) specifying the column of containing the 'glyph colour'
+(the center of the marker), or an single hex string to use for all the markers.
 The colour should be specified as a hex string (e.g. "#FF0000")}
+
+\item{scale}{number specifying the scale of the marker.}
 
 \item{lat}{string specifying the column of \code{data} containing the 'latitude'
 coordinates. If left NULL, a best-guess will be made}
@@ -111,13 +115,12 @@ Add markers to a google map
 Cluster Options can be supplied as a named list. The available names are
 
 \itemize{
-  \item{gridSize (number) - The grid size of a cluster in pixels}
-  \item{maxZoom (number) - The maximum zoom level that a marker can be part of a cluster}
-  \item{zoomOnClick (logical) - Whether the default behaviour of clicking on a cluster is to
-  zoom into it}
-  \item{averageCenter (logical) - Whether the center of each cluster should be the
-  average of all markers in the cluster}
-  \item{minimumClusterSize (number) - The minimum number of markers required for a cluster}
+  \item{minZoom (number - default 0) - The minimum zoom level at which clusters are generated.}
+  \item{maxZoom (number - defualt 16) - The maximum zoom level at which clusters are generated.}
+  \item{minPoints (number - default 2) - Minimum number of points to form a cluster.}
+  \item{radius (number - default 40) - Cluster radius, in pixels.}
+  \item{extent (number - default 512) - (Tiles) Tile extent. Radius is calculated relative to this value.}
+  \item{nodeSize (number - defualt 64) - Size of the KD-tree leaf node. Affects performance.}
 }
 
 opts <- list(
@@ -136,9 +139,72 @@ google_map(
  add_markers(
    lat = "stop_lat"
    , lon = "stop_lon"
-   , info_window = "stop_name"
+   , title = "stop_name"  ## shown when hovering
+   , label = "stop_id"    ## shown in center of marker
+   , info_window = "stop_name" ## shown when clicking on marker
    )
 
+## Display the info_window using mouse_over
+
+google_map(
+  key = map_key
+  , data = tram_stops
+  ) \%>\%
+ add_markers(
+   lat = "stop_lat"
+   , lon = "stop_lon"
+   , title = "stop_name"  ## shown when hovering
+   , label = "stop_id"    ## shown in center of marker
+   , mouse_over = "stop_name" ## shown when hovering over a marker
+   )
+
+## Use mouse_over_group to highlight groups of markers
+
+df <- tram_stops
+df$group <- sample(1:5, size = nrow(df), replace = TRUE)
+google_map(
+  key = map_key
+  , data = df
+  ) \%>\%
+ add_markers(
+   lat = "stop_lat"
+   , lon = "stop_lon"
+   , title = "stop_name"  ## shown when hovering
+   , label = "stop_id"    ## shown in center of marker
+   , mouse_over_group = "group"
+   )
+
+## Colouring markers
+google_map(
+  key = map_key
+  , data = tram_stops
+  ) \%>\%
+ add_markers(
+   lat = "stop_lat"
+   , lon = "stop_lon"
+   , title = "stop_name"       ## shown when hovering
+   , label = "stop_id"         ## shown in center of marker
+   , info_window = "stop_name" ## shown when clicking on marker
+   , colour = "#0000FF"        ## Blue
+   , glyph_colour = "#00FF00"  ## Green
+   , border_colour = "#000000" ## Black
+   )
+
+## Scale markers
+df <- tram_stops
+df$scale <- sample(1:5, size = nrow(df), replace = TRUE)
+google_map(
+  key = map_key
+  , data = df
+  ) \%>\%
+ add_markers(
+   lat = "stop_lat"
+   , lon = "stop_lon"
+   , colour = "#0000FF"        ## Blue
+   , glyph_colour = "#00FF00"  ## Green
+   , border_colour = "#000000" ## Black
+   , scale = "scale"
+   )
 
 ## using marker icons
 iconUrl <- paste0("https://developers.google.com/maps/documentation/",
@@ -166,7 +232,7 @@ google_map(
    , lon = "stop_lon"
    , info_window = "stop_name"
    , cluster = TRUE
-   , cluster_options = list( minimumClusterSize = 5 )
+   , cluster_options = list( minPoints = 2, radius = 100)
    )
 
 }

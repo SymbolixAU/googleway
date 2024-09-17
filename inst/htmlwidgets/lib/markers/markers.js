@@ -168,7 +168,6 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
       }).element;
     }
 
-
     const marker = new google.maps.marker.AdvancedMarkerElement({
         map: googlewayMap,
         id: aMarker.id,
@@ -176,15 +175,17 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
         gmpDraggable: aMarker.draggable,
         title: aMarker.title,
         content: content,
-        //mouseOver: aMarker.mouse_over,
         //mouseOverGroup: aMarker.mouse_over_group,
-        //info_window: aMarker.info_window,
         //chart_type: aMarker.chart_type,
         //chart_data: aMarker.chart_data,
         //chart_options: aMarker.chart_options
     });
 
-    marker.addListener("click", () => {});
+    marker.setAttribute("mouseOverGroup", aMarker.mouse_over_group);
+    marker.setAttribute("background", aMarker.colour);
+    console.log(marker.getAttribute("mouseOverGroup"));
+
+    marker.addListener("click", () => {}); // setting listener ensures mouseOver works
 
     if (aMarker.info_window) {
 
@@ -222,7 +223,34 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
 
     }
 
-    if (aMarker.mouse_over || aMarker.mouse_over_group) {
+
+    if( aMarker.mouse_over_group ) {
+
+      // TODO: - 'highlight' markers in teh same gorup by setting all the other marker's opacity to
+      // 0.1, and all the groups' to 1.0
+
+
+        marker.content.addEventListener('mouseenter', function() {
+
+          const markers = window[map_id + "googleMarkers" + layer_id];
+          const group = marker.getAttribute("mouseOverGroup");
+
+          for (i = 0; i < markers.length; i++) {
+            const thisMarker = markers[i];
+            console.log(thisMarker);
+            const thisGroup = thisMarker.getAttribute("mouseOverGroup");
+              if(thisGroup == group){
+                console.log("highlight");
+                thisMarker.content.background = "#FF0000"
+              } else {
+                console.log("don't highlight");
+                thisMarker.content.background = "#FFFFFF"
+              }
+          }
+
+        });
+
+    } else if (aMarker.mouse_over) {
         //add_mouseOver(map_id, marker, infoWindow, '_mouse_over', aMarker.mouse_over, layer_id, 'googleMarkers');
 
         var infoWindow = new google.maps.InfoWindow();
@@ -236,7 +264,6 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
         marker.content.addEventListener('mouseleave', function() {
           infoWindow.close();
         });
-
     }
 
     markerInfo = {
@@ -249,6 +276,30 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
 
     //marker.setMap(googlewayMap);
 }
+
+function highlight_marker_groups(group) {
+
+    const markers = window[map_id + "googleMarkers" + layer_id];
+
+    console.log(aMarker.mouseOverGroup);
+
+    for (i = 0; i < markers.length; i++) {
+      const thisMarker = markers[i];
+      console.log(thisMarker);
+
+
+      if(thisMarker.mouseOverGroup == group){
+        console.log("highlight this one");
+          //window[map_id + layerType + layer_id][i].setOptions({Opacity: 1});
+      } else {
+        console.log("don't highlight this one");
+          //window[map_id + layerType + layer_id][i].setOptions({Opacity: 0.01});
+      }
+
+    }
+
+}
+
 
 /**
  * Clear markers
