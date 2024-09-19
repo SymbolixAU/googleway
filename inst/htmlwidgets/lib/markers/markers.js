@@ -149,10 +149,7 @@ function draw_chart(marker) {
 
 function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, layer_id) {
 
-    //console.log(aMarker);
-    //console.log(googlewayMap);
-
-    var content, markerInfo
+    var content, markerInfo;
 
     if( aMarker.url !== undefined ) {
       content = document.createElement("img");
@@ -165,7 +162,9 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
         glyphColor: aMarker.glyph_colour,
         glyph: aMarker.label,
         scale: aMarker.scale
-      }).element;
+      });
+
+
     }
 
     const marker = new google.maps.marker.AdvancedMarkerElement({
@@ -174,16 +173,19 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
         position: latlon,
         gmpDraggable: aMarker.draggable,
         title: aMarker.title,
-        content: content,
+        content: content.element,
         //mouseOverGroup: aMarker.mouse_over_group,
         //chart_type: aMarker.chart_type,
         //chart_data: aMarker.chart_data,
         //chart_options: aMarker.chart_options
     });
 
-    marker.setAttribute("mouseOverGroup", aMarker.mouse_over_group);
-    marker.setAttribute("background", aMarker.colour);
-    console.log(marker.getAttribute("mouseOverGroup"));
+    content.setAttribute("mouseOverGroup", aMarker.mouse_over_group);
+    content.setAttribute("background", aMarker.colour);
+    content.setAttribute("mapId", map_id);
+    content.setAttribute("layerId", layer_id);
+
+    console.log(content.getAttribute("mouseOverGroup"));
 
     marker.addListener("click", () => {}); // setting listener ensures mouseOver works
 
@@ -230,25 +232,44 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
       // 0.1, and all the groups' to 1.0
 
 
+        marker.content.addEventListener('mouseenter', highlight_marker_groups, false);
+
+          /*
         marker.content.addEventListener('mouseenter', function() {
 
+            console.log(content);
+
+            content.background = "blue";
+            marker.content = content.element;
+
+            console.log(content);
+
+
           const markers = window[map_id + "googleMarkers" + layer_id];
+          //const markers = [...document.querySelectorAll('gmp-advanced-marker')];
           const group = marker.getAttribute("mouseOverGroup");
 
           for (i = 0; i < markers.length; i++) {
             const thisMarker = markers[i];
-            console.log(thisMarker);
+            const content = thisMarker.content;
+
+            //console.log(thisMarker.content);
             const thisGroup = thisMarker.getAttribute("mouseOverGroup");
               if(thisGroup == group){
-                console.log("highlight");
-                thisMarker.content.background = "#FF0000"
+                //console.log("highlight");
+                //thisMarker.content.background = "#FF0000"
+
+                thisMarker.pinElement = new google.maps.marker.PinElement({
+                  background: "#00FF00"
+                })
               } else {
-                console.log("don't highlight");
-                thisMarker.content.background = "#FFFFFF"
+                //console.log("don't highlight");
+                //thisMarker.content.background = "#FFFFFF"
               }
           }
 
         });
+          */
 
     } else if (aMarker.mouse_over) {
         //add_mouseOver(map_id, marker, infoWindow, '_mouse_over', aMarker.mouse_over, layer_id, 'googleMarkers');
@@ -277,11 +298,20 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
     //marker.setMap(googlewayMap);
 }
 
-function highlight_marker_groups(group) {
+
+function highlight_marker_groups() {
+
+    // `this` is the marker.content on which the listener was assigned
+    console.log(this);
+    const group = this.getAttribute("mouseOverGroup");
+    const map_id = this.getAttribute("mapId");
+    const layer_id = this.getAttribute("layerId");
+
+    console.log(group);
 
     const markers = window[map_id + "googleMarkers" + layer_id];
+    console.log(markers);
 
-    console.log(aMarker.mouseOverGroup);
 
     for (i = 0; i < markers.length; i++) {
       const thisMarker = markers[i];
