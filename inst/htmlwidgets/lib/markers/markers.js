@@ -164,7 +164,8 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
         scale: aMarker.scale
       });
 
-
+      console.log(content.borderColor);
+      //console.log(content.glyphColor);
     }
 
     const marker = new google.maps.marker.AdvancedMarkerElement({
@@ -180,14 +181,41 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
         //chart_options: aMarker.chart_options
     });
 
-    content.setAttribute("mouseOverGroup", aMarker.mouse_over_group);
-    content.setAttribute("background", aMarker.colour);
-    content.setAttribute("mapId", map_id);
-    content.setAttribute("layerId", layer_id);
 
-    console.log(content.getAttribute("mouseOverGroup"));
+     // TODO:
+    // store a 'fadedPin' element as an attribute, so we can just assign it during mouseOverGroup;
+    // rather than calcualte it each time?
+    //const fadedBackground = changeColourAlpha(aMarker.colour, 0.05);
+    const fadedBackground = changeColourAlpha(content.background, 0.05);
+    const fadedBorder = changeColourAlpha(content.borderColor, 0.05);
+    //const fadedGlyph = changeColourAlpha(content.glyphColor, 0.05);
 
-    marker.addListener("click", () => {}); // setting listener ensures mouseOver works
+
+
+    //const fadedBorder = changeColourAlpha(aMarker.border_colour, 0.1);
+    //const fadedGlyph = changeColourAlpha(aMarker.glyph_colour, 0.1);
+    /*
+    const fadedPin = new google.maps.marker.PinElement({
+      background: fadedBackground,
+      borderColor: aMarker.border_colour,
+      glyphColor: aMarker.glyph_colour,
+      glyph: aMarker.label,
+      scale: aMarker.scale
+    });
+    */
+
+    marker.setAttribute("fadedBackground", fadedBackground);
+    marker.setAttribute("fadedBorder", fadedBorder);
+    //marker.setAttribute("fadedGlyph", fadedGlyph);
+
+    marker.setAttribute("mouseOverGroup", aMarker.mouse_over_group);
+    //marker.setAttribute("background", aMarker.colour);
+    marker.setAttribute("mapId", map_id);
+    marker.setAttribute("layerId", layer_id);
+
+    //console.log(marker.getAttribute("mouseOverGroup"));
+
+    marker.addListener("gmp-click", () => {}); // setting listener ensures mouseOver works
 
     if (aMarker.info_window) {
 
@@ -228,48 +256,7 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
 
     if( aMarker.mouse_over_group ) {
 
-      // TODO: - 'highlight' markers in teh same gorup by setting all the other marker's opacity to
-      // 0.1, and all the groups' to 1.0
-
-
-        marker.content.addEventListener('mouseenter', highlight_marker_groups, false);
-
-          /*
-        marker.content.addEventListener('mouseenter', function() {
-
-            console.log(content);
-
-            content.background = "blue";
-            marker.content = content.element;
-
-            console.log(content);
-
-
-          const markers = window[map_id + "googleMarkers" + layer_id];
-          //const markers = [...document.querySelectorAll('gmp-advanced-marker')];
-          const group = marker.getAttribute("mouseOverGroup");
-
-          for (i = 0; i < markers.length; i++) {
-            const thisMarker = markers[i];
-            const content = thisMarker.content;
-
-            //console.log(thisMarker.content);
-            const thisGroup = thisMarker.getAttribute("mouseOverGroup");
-              if(thisGroup == group){
-                //console.log("highlight");
-                //thisMarker.content.background = "#FF0000"
-
-                thisMarker.pinElement = new google.maps.marker.PinElement({
-                  background: "#00FF00"
-                })
-              } else {
-                //console.log("don't highlight");
-                //thisMarker.content.background = "#FFFFFF"
-              }
-          }
-
-        });
-          */
+        marker.addEventListener('mouseenter', highlight_marker_groups, false);
 
     } else if (aMarker.mouse_over) {
         //add_mouseOver(map_id, marker, infoWindow, '_mouse_over', aMarker.mouse_over, layer_id, 'googleMarkers');
@@ -302,34 +289,107 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
 function highlight_marker_groups() {
 
     // `this` is the marker.content on which the listener was assigned
-    console.log(this);
+    //console.log(this);
     const group = this.getAttribute("mouseOverGroup");
     const map_id = this.getAttribute("mapId");
     const layer_id = this.getAttribute("layerId");
 
-    console.log(group);
+    //console.log(group);
 
     const markers = window[map_id + "googleMarkers" + layer_id];
-    console.log(markers);
+    //console.log(markers);
 
 
     for (i = 0; i < markers.length; i++) {
+
       const thisMarker = markers[i];
-      console.log(thisMarker);
+      const thisGroup = thisMarker.getAttribute("mouseOverGroup");
+      //const originalBackground = thisMarker.getAttribute("background");
 
+      if(thisGroup !== group){
+        console.log("fade this marker");
 
-      if(thisMarker.mouseOverGroup == group){
-        console.log("highlight this one");
-          //window[map_id + layerType + layer_id][i].setOptions({Opacity: 1});
+        thisMarker.content = new google.maps.marker.PinElement({
+            background: thisMarker.getAttribute('fadedBackground'),
+            borderColor: thisMarker.getAttribute('fadedBorder')
+            //glyphColor: thisMarker.getAttribute('fadedGlyph')
+          }).element;
+
       } else {
-        console.log("don't highlight this one");
-          //window[map_id + layerType + layer_id][i].setOptions({Opacity: 0.01});
+        // set to the original colour
+        //console.log(originalBackground);
+        /*
+        thisMarker.content = new google.maps.marker.PinElement({
+            background: originalBackground
+        }).element;
+        */
       }
 
     }
 
 }
 
+/**
+ * TODO:
+ * - extract alpha component of hex string
+ * - find min of (currentAlpha, "20");
+ * - set as the current alpha
+ * -
+ * - on mouseleave:
+ * - get the starting colour and put it back
+ */
+
+function fadedOpacity(colour, maxOpacity) {
+
+  var currentOpacity = 255;
+
+  if(maxOpacity <= 1.0) {
+    maxOpacity = Math.round(maxOpacity * 255);
+  }
+
+  if(colour.length == 5) {
+    const a = colour.substring(4,5);
+    currentOpacity = parseInt(Number("0x"+a+a));
+  }
+
+  if(colour.length == 9) {
+    const a = colour.substring(7,9);
+    currentOpacity = parseInt(Number("0x"+a));
+  }
+
+  const opacity = Math.min(currentOpacity, maxOpacity);
+  let opacityHex = opacity.toString(16).toUpperCase();
+
+  if(opacityHex.length === 1) {
+    opacityHex = '0' + opacityHex;
+  }
+
+  return opacityHex;
+}
+
+function changeColourAlpha(colour, opacity) {
+
+  //console.log(colour);
+  //console.log(opacity);
+
+  const newOpacity = fadedOpacity(colour, opacity);
+  //console.log(newOpacity);
+
+  if (colour.length === 4 || colour.length == 5) {
+    // 3-component colour
+    // make into a 7-length string
+    const r = colour.substring(1,2);
+    const g = colour.substring(2,3);
+    const b = colour.substring(3,4);
+    colour = '#'+r+r+g+g+b+b;
+  }
+
+  //if it has an alpha, remove it
+  if (colour.length === 9) {
+    colour = colour.substring(0, colour.length - 2);
+  }
+  return colour + newOpacity;
+}
 
 /**
  * Clear markers

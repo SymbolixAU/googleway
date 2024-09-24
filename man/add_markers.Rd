@@ -159,7 +159,6 @@ google_map(
    )
 
 ## Use mouse_over_group to highlight groups of markers
-
 df <- tram_stops
 df$group <- sample(1:5, size = nrow(df), replace = TRUE)
 google_map(
