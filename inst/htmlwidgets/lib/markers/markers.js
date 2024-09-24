@@ -204,6 +204,8 @@ function set_each_marker(latlon, aMarker, infoWindow, update_map_view, map_id, l
     });
     */
 
+    marker.setAttribute("background", content.background);
+    marker.setAttribute("borderColor", content.borderColor);
     marker.setAttribute("fadedBackground", fadedBackground);
     marker.setAttribute("fadedBorder", fadedBorder);
     //marker.setAttribute("fadedGlyph", fadedGlyph);
@@ -316,13 +318,11 @@ function highlight_marker_groups() {
           }).element;
 
       } else {
-        // set to the original colour
-        //console.log(originalBackground);
-        /*
         thisMarker.content = new google.maps.marker.PinElement({
-            background: originalBackground
-        }).element;
-        */
+            background: thisMarker.getAttribute('background'),
+            borderColor: thisMarker.getAttribute('borderColor')
+            //glyphColor: thisMarker.getAttribute('fadedGlyph')
+          }).element;
       }
 
     }
